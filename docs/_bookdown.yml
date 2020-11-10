@@ -1,5 +1,6 @@
 book_filename: "RatDCIS-bookdown"
 delete_merged_file: false
+repo: https://github.com/polyak-lab/RatDCISbookdown
 always_allow_html: true
 output_dir: "docs"
 language:

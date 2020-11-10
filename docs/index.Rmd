@@ -7,6 +7,8 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
+github-repo: polyak-lab/RatDCISbookdown
+url: 'https://polyak-lab.github.io/RatDCISbookdown/'
 description: "This is a summary of the code required in the study: 'insert study name' "
 ---
 
