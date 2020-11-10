@@ -1,0 +1,365 @@
+--- 
+title: "Rat DCIS study"
+author: "Anne Trinh"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This is a summary of the code required in the study: 'insert study name' "
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, cache.lazy=F, fig.height =5, fig.width = 7, cache = T, 
+                      warning=F, message=F)
+```
+
+This is a summary of the code required in the study: 'insert study name' 
+
+# Prerequisites
+
+## Packages and Software
+
+The following packages are required to conduct the analyses described below.
+
+In house scripts are deposited in the rscript folder.
+
+```{r, warning=F, message=F, echo=T, results='hide'}
+library(AnnotationHub)
+library(biomaRt)
+library(Biostrings)
+library(colorspace)
+library(DESeq2)
+library(dplyr)
+library(DT)
+library(ensembldb)
+library(EnsDb.Hsapiens.v86)
+library(GenVisR)
+library(GenomicFeatures)
+library(ggplot2)
+library(gplots)
+library(GSEABase)
+library(GSVA)
+library(heatmap.plus)
+library(HTSanalyzeR2)
+library(kableExtra)
+library(limma)
+library(matrixStats)
+library(pamr)
+library(reshape2)
+library(RColorBrewer)
+library(scales)
+library(spatstat)
+library(tcR)
+library(vcfR)
+library(xlsx)
+library(writexl)
+
+DiffCols=hue_pal()(8)
+palette(brewer.pal(9, "Set1"))
+RdBu=brewer.pal(11, "RdBu")
+SetCols=brewer.pal(12, "Set3")
+
+source("../rscript/cnFreq_fn.R") #modified version of GenVisR
+source("../rscript/merge_contig.R")
+source("../rscript/gseaCode.R")
+source("../rscript/ContingencyTable.R")
+source("../rscript/PvalueHeatMap.R")
+source("../rscript/BootstrapShannonIdx.R")
+source("../rscript/CreateRnor87db.R")
+source("../rscript/FindRatAAHomolog.R")
+
+firstup <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
+ColMerge=matrix(c("#FFC82F", "#FFEDBC", "#73FDFE","#D2FFFF", "#FF41FF", "#FECAFF", "#5D5D5D", "#BEBEBE"), ncol=2, byrow = T)
+rownames(ColMerge)=c("LY","PDL1", "PDL1+LY","Vehicle")
+
+Hsedb<-EnsDb.Hsapiens.v86
+```
+
+## External software
+
+The following external software was utilised:  
+
+|Software| Function |
+|--------|-----------------------------------------------------------------------|
+|[bwa](http://bio-bwa.sourceforge.net/)| Alignment of WGS data to reference|
+|[GATK4](https://software.broadinstitute.org/gatk/)| Mutation calling, done by NYGC. Mutation calling from RNA (Haplotype caller) |
+|[strelka](https://github.com/Illumina/strelka)| Mutation calling, done by NYGC |
+|[BICseq](http://compbio.med.harvard.edu/BIC-seq/) | CNV calling |
+|[GEM3](https://sourceforge.net/projects/gemlibrary/files/gem-library/)| create mappability files for CNV calling|
+|[STAR](https://github.com/alexdobin/STAR) | Alignment of RNAseq data|
+|[RSEM](https://github.com/deweylab/RSEM)|Calculate RSEM, TPM, FPKM from RNAseq data|
+|[TRUST4](https://github.com/liulab-dfci/TRUST4) | assignment of T and B cell clonotypes from RNA-seq data |
+|[Oncotator](https://gatkforums.broadinstitute.org/gatk/discussion/4154/howto-install-and-run-oncotator-for-the-first-time) | Annotation of genetic variants|
+|[QuPath](https://qupath.github.io/)| Tool for cell segmentation and extraction of features from IF images |
+|[samtools, bcftools](http://www.htslib.org/)| querying and dispalying information from bam files, extracting allelic depth at specific genomic locations |
+|[CIBERSORT](https://cibersort.stanford.edu/) | inferring immune composition from RNA|
+|[lumpy](https://github.com/arq5x/lumpy-sv) | structural variants|
+|[PAM50](https://genome.unc.edu/pubsup/breastGEO/PAM50.zip) | code from parker et al 2009 to infer PAM50 subtypes|
+
+
+## Annotations
+
+### Genomic properties
+
+Information on chromosome sizes, cytobands and centromere locations were obtained from the [UCSC genome browser](http://hgdownload.soe.ucsc.edu/goldenPath/rn6/database/).
+
+The following annotation data for the hg19/b37/GRCh37 genome is required:
+
+|Data Type| Download link|
+|--------|-----------------|
+|ref. genome| http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz|
+|refSeq annot|http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.refGene.gtf.gz|
+|refSeq annot|http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.ncbiRefSeq.gtf.gz|
+|gff3 file| for TRUST4 (ftp://ftp.ensembl.org/pub/release-100/gff3/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.100.gff3.gz)|
+|gene lengths| Extracted from GRCh37.75.gtf file from [ensembl](ftp://ftp.ensembl.org/pub/grch37/current/gtf/homo_sapiens/)|
+|hg19cytoBand | [ucsc server](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/cytoBand.txt.gz) of all cytoband locations  |
+|chromosome sizes | [uscs genome browser](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/chromInfo.txt.gz) |
+|[biomart](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)| conversion between gene symbol, ensbl and entrez was faciliated using biomart package |
+
+Below is the summary of chromosome sizes and centromere locations:
+
+```{r}
+cytoInfo=read.delim("../anntotations/cytoBand_Rat2.txt", header=F, stringsAsFactors = F)
+colnames(cytoInfo)=c("chrom", "chromStart", "chromEnd", "name", "gieStain")
+GRcytoInfo=GRanges(seqnames=cytoInfo$V1, ranges=IRanges(start = cytoInfo$V2, end=cytoInfo$V3), cytoband=cytoInfo$V4)
+
+head(cytoInfo)
+```
+
+Create a TxDb object from a gtf file and save information: <span style="color:red">Not sure which version to use??</span>
+
+Below is an example of the gene annotation files
+
+```{r, cache=T, message=F, eval=F}
+Rn6TxDb=makeTxDbFromGFF("../dontUpload/rn6_refGene.gtf",
+                        organism="Rattus norvegicus")
+Rn6TxDb2<-genes(Rn6TxDb)
+```
+
+```{r, eval=F}
+txRn6=makeTxDbFromGFF("../anntotations/rn6_refGene.gtf", format="gtf")
+txRn6=genes(txRn6)
+txRn6=sort(txRn6)
+txRn6$gene_width=width(txRn6)
+save(txRn6, file="../anntotations/txRn6_refGene.RData")
+```
+
+```{r}
+load("../anntotations/txRn6_refGene.RData")
+head(txRn6)
+```
+
+### Gene name homologs between organisms
+
+Biomart was used to convert between rat, mouse and human gene symbols and ensembl ids. Below is an example of the human gene names mapped to the rat homolog
+
+<span style="color:red">
+Figure out what is required here for later analysis
+</span>
+```{r, eval=F}
+## save here:
+## human to rat mapping of genes
+## rat ENSEMBL vs symbol conversion
+
+library(biomaRt)
+#library(refGenome)
+TS=read.delim("anntotations//hg38_allsymbols.txt")
+TS=as.character(TS[ ,1])
+human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+rat = useMart("ensembl", dataset = "rnorvegicus_gene_ensembl")
+
+SymHum2Rat = getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values = TS , mart = human, attributesL = c("rgd_symbol", "ensembl_gene_id"), martL = rat, uniqueRows=T)
+
+## need to run this after evaluating the gene names 
+#Rat2Hum = getLDS(attributes = c("rgd_symbol"), filters = "rgd_symbol", values = rownames(allrsemFinal) , mart = rat, attributesL = c("hgnc_symbol"), martL = human, uniqueRows=T)
+
+# Rat2Mouse= getLDS(attributes = c("mmusculus_homolog_associated_gene_name"), filters = "rgd_symbol", values = rownames(allrsemFinal) , mart = rat, attributesL = c("mgi_symbol"), martL = mouse, uniqueRows=T)
+
+Rat2Mouse= getLDS(attributes = c("rgd_symbol"), filters = "rgd_symbol", values = rownames(allrsemFinal) , mart = rat, attributesL = c("mgi_symbol"), martL = mouse, uniqueRows=T)
+
+Mouse2Hum = getLDS(attributes = c("mgi_symbol"), filters = "mgi_symbol", values = rownames(allrsemFinal) , mart = mouse, attributesL = c("hgnc_symbol"), martL = human, uniqueRows=T)
+
+save(SymHum2Rat, Rat2Hum,Mouse2Hum,Rat2Mouse,  file="../anntotations/Rat_biomart_gene_annotations2.RData")
+```
+
+```{r}
+load("../anntotations/Rat_biomart_gene_annotations.RData")
+head(SymHum2Rat)
+```
+
+### Gene signatures and data-bases
+
+Gene sets/signatures were obtained from the following sources:
+
+|Source | Description      |
+|-------|------------------------|
+|[IEDB](https://www.iedb.org/)| database of immune epitopes |
+|[MsigDB](http://software.broadinstitute.org/gsea/msigdb/index.jsp) | c2, c5, hallmark set of curated pathway gene sets |
+|[Metacore]()| Process Networks and Pathway Maps data bases |
+|[COSMIC](https://cancer.sanger.ac.uk/census) |database of concensus oncogenes|
+|[ImmPort](https://www.immport.org/home)| List of immune related genes |
+|[InnateDB](https://www.innatedb.com/) | List of genes associated with innate immune system|
+|[Rosenthal 2019](https://dx.doi.org/10.1038/s41586-019-1032-7) | genes associated with MHC-I presentation |
+|[Thorsson 2018](http://dx.doi.org/10.1016/j.immuni.2018.03.023) | Immune gene signatures curated from studies by Wolf, Calabro, Teschendorff, Beck, Chang |
+|[Pardoll](https://www.ncbi.nlm.nih.gov/pubmed/22437870), [Wykes](https://www.ncbi.nlm.nih.gov/pubmed/28990586) | Immune checkpoint genes| 
+|[gil del alcazar 2017](https://cancerdiscovery.aacrjournals.org/content/early/2017/09/19/2159-8290.CD-17-0222) | Supplementary table 5: list of activation, dysfunction gene signatures |
+|[Bailey 2018](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6029450/)| List of 10 most comon tumor pathways |
+|[Chang 2018](https://pubmed.ncbi.nlm.nih.gov/29247016/)| Common mutation locations in cancer |
+
+The PAM50 signature was implemented using the scripts provided in supplementary from [Parker et al 2010](https://genome.unc.edu/pubsup/breastGEO/PAM50.zip). These gene lists can be found in the annotations folder
+
+
+```{r}
+# These gene signatures are saved in the annotations folder and loaded below:
+#########################
+## cell specific markers
+#######################
+GeneList=read.csv("../anntotations/cell_type_markers.csv")
+cn=colnames(GeneList)
+GeneList=lapply(1:ncol(GeneList), function(x) setdiff(unique(GeneList[ ,x]), ""))
+names(GeneList)=cn
+## map all the names to rat names
+GeneListRat=lapply(GeneList, function(x) SymHum2Rat$RGD.symbol[SymHum2Rat$HGNC.symbol%in%x])
+
+######################
+## cancer genes
+######################
+
+## cosmic cancer genes
+AllCosmic=read.csv("../anntotations/Census_COSMIC_Feb2020.csv")
+RatCosmic=SymHum2Rat$RGD.symbol[match(AllCosmic$Gene.Symbol, SymHum2Rat$HGNC.symbol)]
+tx=AllCosmic$Gene.Symbol[which(is.na(RatCosmic)|RatCosmic=="")]
+tx=tolower(tx)
+tx=firstup(tx)
+RatCosmic[which(is.na(RatCosmic)|RatCosmic=="")]=tx
+RatBreastCosmic=RatCosmic[grep("breast", AllCosmic$Tumour.Types.Somatic.)]
+
+## Bailey List of 10 most common tumor pathways
+PathwayList=read.csv("../anntotations/cancer_pathways_annot_Bailey_cell2018_modified.csv")
+cn=colnames(PathwayList)
+PathwayListA=lapply(seq(1, length(cn), by=2), function(x) setdiff(unique(PathwayList[ ,x]), ""))
+names(PathwayListA)=cn[seq(1, length(cn), by=2)]
+PathwaySign=lapply(seq(2, length(cn), by=2), function(x) PathwayList[ which(PathwayList[ ,x]!=""),x])
+names(PathwaySign)=cn[seq(1, length(cn), by=2)]
+
+PathwayListRata=lapply(PathwayListA, function(x) SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)])
+PathwayListRatb=lapply(PathwayListA, function(x) Rat2Hum$RGD.symbol[match(x, Rat2Hum$HGNC.symbol)])
+PathwayListRat=lapply(1:length(PathwayListRata), function(x) ifelse(is.na(PathwayListRata[[x]]),
+                        PathwayListRatb[[x]], PathwayListRata[[x]]))
+names(PathwayListRat)=names(PathwayListA)
+
+AllCancerPathwayGenes=na.omit(unlist(PathwayListRat))
+
+############################
+## List of immunesignatures
+############################
+## read in all the files
+Exp2=read.csv("../anntotations/Supplementary Table 5.csv")
+Exp2List=lapply(1:ncol(Exp2), function(x) setdiff(unique(Exp2[ ,x]), ""))
+names(Exp2List)=colnames(Exp2)
+
+List2=read.csv("../anntotations/Thorsson_signatures.csv")
+List2b=lapply(1:ncol(List2), function(x) setdiff(unique(List2[ ,x]), ""))
+names(List2b)=colnames(List2)
+Exp2List=c(Exp2List, List2b)
+
+ImmSuppAPC=read.delim("../anntotations/immune_Suppression.csv", header=T, stringsAsFactors = F, sep=",")
+ImmSuppAPC=lapply(1:ncol(ImmSuppAPC), function(x) setdiff(unique(ImmSuppAPC[ ,x]), ""))
+names(ImmSuppAPC)=c("Inh", "Act", "Both")
+Exp2List=c(Exp2List, ImmSuppAPC)
+
+MHCPres=read.delim("../anntotations/MHCloss.csv", header=F, stringsAsFactors = F, sep=",")
+MHCPres=as.character(MHCPres[ ,1])
+MHCPres2Rat=unique(SymHum2Rat$RGD.symbol[SymHum2Rat$HGNC.symbol%in%MHCPres])
+
+## change the names to Rat-specific 
+Exp2RatImm=lapply(Exp2List, function(x) unique(SymHum2Rat$RGD.symbol[SymHum2Rat$HGNC.symbol%in%x]))
+
+## All immune genes
+AllImmGenes1=read.csv("../anntotations/ImmPort_Set.csv")
+AllImmGenes2=read.csv("../anntotations/innatedb_curated_genes.csv")
+AllImmGenes=unique(c(as.character(AllImmGenes1$Symbol), as.character(AllImmGenes2$Gene.Symbol[which(AllImmGenes2$Species==9606)])))
+RatAllImm=na.omit(unique(c(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$HGNC.symbol)], as.character(AllImmGenes2$Gene.Symbol[which(AllImmGenes2$Species!=9606)]))))
+
+## CIBERSORT specific rat genes
+lm22rat=read.delim("../anntotations/LM22_to_rnorvegicus_1.txt", sep="\t")
+```
+
+#### Human gene homologs
+
+Below, lists of common mutations in cancer are loaded and the "homolog" in rat is determined using an in-house script. The steps involved are:
+
+* determine the amino acid context in human (find 5 a.a. prior and after)
+* find the region with most amino acid homology in rat (2 or less differences)
+* check whether the amino acid of interest is present in rat
+
+An example of the output is shown
+
+```{r mut-hum2rat}
+######################
+## Annotation for Mutation Locations
+######################
+BaileyList=read.csv("../anntotations/list_mutations_bailey.csv", stringsAsFactors = F)
+BList=FindRatAAHomolog(BaileyList$Gene, substr(BaileyList$Mutation, 3, 3),  substr(BaileyList$Mutation, 4, nchar(as.character(BaileyList$Mutation))-1), substr(BaileyList$Mutation, nchar(as.character(BaileyList$Mutation)), nchar(as.character(BaileyList$Mutation))))
+
+ChangList=read.delim("../anntotations/hotspots_chang_et_al_2017_cancer_discovery.txt", sep="\t", stringsAsFactors = F)
+ChangList=ChangList[which(ChangList$Type=="single residue"), ]
+ChangList$AA1=substr(ChangList$Residue, 1, 1)
+ChangList$Loc=substr(ChangList$Residue,2, nchar(ChangList$Residue))
+AA2list=sapply(ChangList$Variants, function(x) strsplit(x, ":[0-9]+[\\|]*"))
+AAun=unlist(AA2list)
+C2List=tibble(ChangList[ ,c("Gene", "AA1", "Loc")])
+C2List=C2List %>% slice(rep(1:n(), times=sapply(AA2list, length)))
+C2List$AA2=AAun
+C2List=C2List[-which(C2List$AA2=="sp"| C2List$AA1=="*"), ]
+#C2ListB=C2List[-which(is.na(C2List$Loc)), ]
+
+ChangList2=FindRatAAHomolog(C2List$Gene, C2List$AA1,  C2List$Loc, C2List$AA2)
+
+head(ChangList2)
+```
+
+#### GSEA compendiums
+
+For pathway analysis, the c2 (pathway), Hallmark and c5 (Gene Ontology). In addition, metacore pathways (pathway maps and process networks) were obtained and loaded below. This gives a list of 7 different data-sets to interrogate
+<span style="color:red">
+CHECK: When GSVA is run, which input is required??
+</span>
+
+```{r gsea-load}
+PathInc2=getGmt(con="../anntotations/c2.cp.v7.0.symbols.gmt", geneIdType=SymbolIdentifier(),
+                collectionType=BroadCollection(category="c2"))
+
+c2entrez=mapIdentifiers(PathInc2, EntrezIdentifier('org.Hs.eg.db'))
+c2ListHs=geneIds(c2entrez)
+
+PathInH=getGmt(con="../anntotations/h.all.v7.1.symbols.gmt", geneIdType=SymbolIdentifier(),
+                collectionType=BroadCollection(category="h"))
+
+cHentrez=mapIdentifiers(PathInH, EntrezIdentifier('org.Hs.eg.db'))
+cHListHs=geneIds(cHentrez)
+
+#####################################################
+# also load in the process networks and pathway maps 
+#################
+
+# load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData.RData")
+# 
+# ProcessNetworksAllComp2=list()
+# for (i in 1:(length(ProcessNetworksAllComp)-1)){
+# ProcessNetworksAllComp2[[i]]=GeneSet(ProcessNetworksAllComp[[i]], setName=names(ProcessNetworksAllComp)[i], geneIdType=SymbolIdentifier())
+# }
+# 
+# ProcessPathway=GeneSetCollection(ProcessNetworksAllComp2)
+# ProcessPathway=mapIdentifiers(ProcessPathway, EntrezIdentifier('org.Hs.eg.db'))
+# ProcessPathwayList=geneIds(ProcessPathway)
+
+load("../anntotations/ListofGeneSets2.RData")
+```

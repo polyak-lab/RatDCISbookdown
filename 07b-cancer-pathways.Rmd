@@ -1,0 +1,275 @@
+# Cancer pathways
+
+## ssGSEA
+
+Figure out the signalling pathway expression (e.g using ssGSEA)
+
+```{r}
+gsList=list()
+for (i in 1:length(PathwayListRat)){
+gsList[[i]]=GeneSet(na.omit(PathwayListRat[[i]]), setName = names(PathwayListRat)[i], geneIdType=SymbolIdentifier())
+}
+
+CancerRatSig=GeneSetCollection(gsList)
+# 
+Cancer_counts=gsva(assay(dds)[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+
+Cancer_counts2=gsva(allTPMFinal[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+
+# doesn't seem to matter that we convert to TPM or not. Also try the TPMs from the RSEM package
+#Imm_counts2=gsva(allTPMFinal,ImmRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+
+#pdf(sprintf("rslt/signatureAnalysis/Main_cancer_Pathways_%s.pdf", Sys.Date()), width=6, height=7)
+# palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],   
+heatmap.plus(Cancer_counts2, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(Cancer_counts), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],
+             palette()[as.numeric(infoTableFinal$Growth[match(colnames(Cancer_counts), infoTableFinal$SampleID)])]), scale="row", symkey=T)
+
+
+CCount=Cancer_counts2[ , grep("Ep", colnames(Cancer_counts2))]
+
+heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(CCount), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(CCount), infoTableFinal$SampleID)])],
+             palette()[as.numeric(infoTableFinal$Growth[match(colnames(CCount), infoTableFinal$SampleID)])]), scale="row", symkey=T,
+             main="Ep only samples")
+
+CCount=Cancer_counts2[ , grep("DN", colnames(Cancer_counts2))]
+
+heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(CCount), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(CCount), infoTableFinal$SampleID)])],
+             palette()[as.numeric(infoTableFinal$Growth[match(colnames(CCount), infoTableFinal$SampleID)])]), scale="row", symkey=T,
+             main="DN only samples")
+
+cancerCountsMelt=melt(Cancer_counts)
+cancerCountsMelt$Fraction=infoTableFinal$Fraction[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt$Treatment=infoTableFinal$Treatment[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
+
+ggplot(data=cancerCountsMelt, aes(x=Treatment, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")
+
+
+#dev.off()
+
+```
+
+
+### regression model for covariates
+
+Linear model: Create a linear model to explain the above:
+
+Score ~ Fraction + Treatment + CD8Fraction + Spatial Score + GrowthRate (+Tumor Size?) + PAM50
+
+```{r, eval=F}
+mx1=match(colnames(Cancer_counts2), infoTableFinal$SampleID)
+
+infoTabTemp=infoTableFinal[mx1, ]
+infoTabTemp$Fraction=factor(infoTabTemp$Fraction)
+levels(infoTabTemp$Treatment)=c("Vehicle", "LY", "PDL1", "PDL1+LY")
+#infoTabTemp$PAM50_v2="Basal"
+#infoTabTemp$PAM50_v2[grep("Lum", infoTabTemp$PAM50)]="Lum"
+
+## First do a score based on DN vs Ep
+
+a1=glm(infoTableFinal$Fraction[mx1]~0+t(Cancer_counts2), family="binomial")
+summary(a1)
+
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=11)
+PValsSumm=MatrixSumm
+
+
+for (i in 1:nrow(Cancer_counts2)){
+  a1=glm(Cancer_counts2[i, ]~Fraction+Treatment+CD8Frac+MHcut+GrowthRate+TumSize+SpatialManual+PAM50_v2, data=infoTabTemp)
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts2)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+#pdf(sprintf("rslt/signatureAnalysis/cancer_pathway_variables_%s.pdf", Sys.Date()), height=6, width=6)
+par(oma=c(4, 0,0,0))
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: All variables")
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=9)
+PValsSumm=MatrixSumm
+
+for (i in 1:nrow(Cancer_counts2)){
+  a1=glm(Cancer_counts2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize+PAM50_v2, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts2)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: DN")
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=9)
+PValsSumm=MatrixSumm
+
+for (i in 1:nrow(Cancer_counts2)){
+  a1=glm(Cancer_counts2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize+PAM50_v2, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts2)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: Ep")
+
+#dev.off()
+```
+
+Associations: 
+* notch signalling with LY treatment
+* TGFB with PDL1+LY treatment
+* Ras and Wnt signalling lower CD8Fraction
+* TP53 with CD8 fraction
+
+### TSG vs Oncogenes
+
+Do the same scoring, taking into account oncogenic vs tumor suppressor activity?
+Usually, there is no difference. The pathway is increased either way
+
+```{r}
+gsListUP=list()
+for (i in 1:length(PathwayListRat)){
+gsListUP[[i]]=GeneSet(na.omit(PathwayListRat[[i]][which(PathwaySign[[i]]=="OG")]), setName = paste(names(PathwayListRat)[i], "OG", sep="_"), geneIdType=SymbolIdentifier())
+}
+gsListDOWN=list()
+for (i in 1:length(PathwayListRat)){
+gsListDOWN[[i]]=GeneSet(na.omit(PathwayListRat[[i]][which(PathwaySign[[i]]=="TSG")]), setName = paste(names(PathwayListRat)[i], "TS", sep="_"), geneIdType=SymbolIdentifier())
+}
+AllGS=c(gsListUP, gsListDOWN)
+
+CancerRatSig_Dir=GeneSetCollection(AllGS)
+# 
+Cancer_counts_dir=gsva(assay(dds)[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig_Dir, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+# doesn't seem to matter that we convert to TPM or not. Also try the TPMs from the RSEM package
+#Imm_counts2=gsva(allTPMFinal,ImmRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+
+#pdf(sprintf("rslt/signatureAnalysis/Main_cancer_Pathways_w_direction_%s.pdf", Sys.Date()), width=6, height=7)
+
+
+heatmap.plus(Cancer_counts_dir, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(Cancer_counts), infoTableFinal$SampleID)])+4], palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])], palette()[as.numeric(infoTableFinal$Fraction[match(colnames(Cancer_counts), infoTableFinal$SampleID)])]), scale="row")
+
+cancerCountsMelt_dir=melt(Cancer_counts_dir)
+cancerCountsMelt_dir$Var1=as.character(cancerCountsMelt_dir$Var1)
+cancerCountsMelt_dir$Fraction=infoTableFinal$Fraction[match(cancerCountsMelt_dir$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt_dir$Treatment=infoTableFinal$Treatment[match(cancerCountsMelt_dir$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt_dir$Dir=substr(cancerCountsMelt_dir$Var1,  nchar(cancerCountsMelt_dir$Var1)-1, nchar(cancerCountsMelt_dir$Var1))
+
+ggplot(data=cancerCountsMelt_dir, aes(x=Treatment, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")
+
+#dev.off()
+
+```
+
+Do a regression analysis for TSG vs ONCO signatures in this pathway
+
+
+```{r, eval=F}
+mx1=match(colnames(Cancer_counts_dir), infoTableFinal$SampleID)
+
+infoTabTemp=infoTableFinal[mx1, ]
+infoTabTemp$Fraction=factor(infoTabTemp$Fraction)
+levels(infoTabTemp$Treatment)=c("Vehicle", "LY", "PDL1", "PDL1+LY")
+
+## First do a score based on DN vs Ep
+
+a1=glm(infoTableFinal$Fraction[mx1]~0+t(Cancer_counts_dir), family="binomial")
+summary(a1)
+
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=10)
+PValsSumm=MatrixSumm
+
+
+for (i in 1:nrow(Cancer_counts_dir)){
+  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHcut+GrowthRate+TumSize+SpatialManual, data=infoTabTemp)
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts_dir)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+#pdf(sprintf("rslt/signatureAnalysis/cancer_pathway_variables_withdirection_%s.pdf", Sys.Date()), height=6, width=6)
+par(oma=c(4, 0,0,0))
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: All variables")
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=8)
+PValsSumm=MatrixSumm
+
+for (i in 1:nrow(Cancer_counts_dir)){
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts_dir)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: DN")
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=8)
+PValsSumm=MatrixSumm
+
+for (i in 1:nrow(Cancer_counts_dir)){
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  MatrixSumm[i, ]=coefficients(a1)
+  PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
+}
+
+colnames(PValsSumm)=names(coefficients(a1))
+rownames(PValsSumm)=rownames(Cancer_counts_dir)
+colnames(MatrixSumm)=colnames(PValsSumm)
+rownames(MatrixSumm)=rownames(PValsSumm)
+
+MatrixSumm2=MatrixSumm
+MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
+
+heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: Ep")
+
+#dev.off()
+
+```
+
+Looking at up vs down genes: are they differentially expressed?
+
+```{r, eval=F}
+AllSearch=lapply(AllGS, function(x) geneIds(x))
+AllSearchUn=unlist(AllSearch)
+
+DiffGenes=AllSearchUn[which(AllSearchUn%in%rownames(resDNeprslt2))]
+TypeGenes=sapply(AllSearch, function(x) which(DiffGenes%in%x))
+
+heatmap.2(assay(vsd)[ match(DiffGenes, rownames(assay(vsd))), -grep("CD45", colnames(assay(vsd)))],
+          trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row")
+```
+

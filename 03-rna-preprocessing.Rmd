@@ -1,0 +1,500 @@
+# Expression data
+
+This file looks at loading and pre-processing data for:
+
+* differential gene expression analysis
+* PAM50 subtyping
+* uploading into CIBERSORT/TIMER
+
+## Running alignment
+
+Samples were mapped in star using the following parameters. Note that the first two batches of samples run had shorter read lengths (~75 bp) whereas batch 3 had lengths of ~150bp
+
+```{r, eval=F, echo=T}
+## Not run here
+STAR \
+     --readFilesCommand zcat \
+     --genomeDir /n/scratch2/at268/rn6_v2 \
+     --sjdbGTFfile /n/scratch2/at268/rn6_v2/rn6.refGene.gtf \
+     --runThreadN 10 \
+     --runMode alignReads \
+     --genomeLoad NoSharedMemory\
+     --outSAMattributes	NH HI AS nM NM\
+     --outSAMstrandField intronMotif\
+     --outFilterMultimapNmax 20\
+     --alignSJoverhangMin 8\
+     --readFilesIn $1 $2 \
+     --alignSJDBoverhangMin 1\
+     --outFilterMismatchNmax 999\
+     --outFilterMismatchNoverLmax 0.1\
+     --alignIntronMin 20\
+     --alignIntronMax 1000000\
+     --alignMatesGapMax	1000000\
+     --outFilterType BySJout\
+     --outFilterScoreMinOverLread 0.33 \
+     --outFilterMatchNminOverLread 0.33 \
+     --limitSjdbInsertNsj 1200000 \
+     --outFilterIntronMotifs None \
+     --alignSoftClipAtReferenceEnds Yes\
+     --outSAMattrRGline	ID:$4 SM:$4 \
+     --chimSegmentMin 15 \
+     --chimJunctionOverhangMin 15\
+     --limitBAMsortRAM 0\
+     --outSAMtype BAM SortedByCoordinate\
+     --outSAMunmapped Within \
+     --quantMode GeneCounts transcriptomeSAM \
+     --quantTranscriptomeBan IndelSoftclipSingleend \
+     --outFileNamePrefix $3 \
+     --twopassMode Basic
+```
+
+In addition, RSEM was run to obtain TPM, rsem and FPKM counts.
+Note: [rn6.refGene.gtf.gz](http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.ncbiRefSeq.gtf.gz) was used to generate the RSEM library!(This is the may version)
+
+```{r}
+# Upload infoTable
+
+infoTable=read.csv("../metadata/AllRNA_samples_sept.csv")
+
+####
+# uncomment to update these parameters
+####
+infoTable$TumorID=paste(infoTable$Rat_ID, infoTable$Location, sep="_")
+a1=match(infoTable$TumorID, Cdata$TumorID)
+```
+
+## RNA Initial QC
+
+
+```{r rna-preprocess, cache=T}
+BatchNo="april"
+
+rsemFiles=dir("../data/RNA_expression/rsem/", ".results")
+allrsem=matrix(NA, nrow=17455, ncol=length(rsemFiles)) #31038
+allTPM=matrix(NA, nrow=17455, ncol=length(rsemFiles))
+allFPKM=matrix(NA, nrow=17455, ncol=length(rsemFiles))
+for (i in 1:length(rsemFiles)){
+  a1=read.delim(file.path("../data/RNA_expression/rsem/", rsemFiles[i]))
+  allrsem[ ,i]=a1$expected_count
+  allTPM[ ,i]=a1$TPM
+  allFPKM[ ,i]=a1$FPKM
+}
+
+cNames=unlist(strsplit(rsemFiles, ".genes.results"))
+cNames=unlist(strsplit(cNames, "_0.33_v2"))
+sAnnot=match(cNames, infoTable$starSampleName)
+colnames(allrsem)=paste(infoTable$Rat_ID[sAnnot],infoTable$Location[sAnnot], infoTable$Fraction[sAnnot],  sep="_")
+rownames(allrsem)=a1$gene_id
+
+colnames(allTPM)=colnames(allrsem)
+rownames(allTPM)=rownames(allrsem)
+
+colnames(allFPKM)=colnames(allrsem)
+rownames(allFPKM)=rownames(allrsem)
+
+starFiles=dir("../data/RNA_expression/star_april/", ".tab")
+allstar=matrix(NA, nrow=17455, ncol=length(starFiles))
+allmapp=matrix(NA, nrow=4, ncol=length(starFiles))
+
+
+for (i in 1:length(starFiles)){
+  a1=read.delim(file.path("../data/RNA_expression/star_april/", starFiles[i]), header=F)
+  allstar[ ,i]=a1[ -c(1:4),2]
+  allmapp[ ,i]=a1[ c(1:4),2]
+}
+
+cNames=unlist(strsplit(starFiles, "ReadsPerGene.out.tab"))
+cNames=unlist(strsplit(cNames, "_0.33_v2"))
+sAnnot=match(cNames, infoTable$starSampleName)
+colnames(allstar)=paste(infoTable$Rat_ID[sAnnot], infoTable$Location[sAnnot],infoTable$Fraction[sAnnot], sep="_")
+rownames(allstar)=a1[-c(1:4) ,1]
+
+colnames(allmapp)=colnames(allstar)
+allmapp=rbind(allmapp, colSums(allstar))
+
+rownames(allmapp)=c(as.character(a1[c(1:4), 1]), "UniqueReads")
+
+
+## in all cases, remove the files 
+id=match(cNames, infoTable$starSampleName)
+infoTable=infoTable[ na.omit(id), ]
+id2=which(is.na(id))
+
+if (length(id2)>0){
+
+allmapp=allmapp[ , -grep("NA_NA", colnames(allmapp))]
+
+allTPM=allTPM[ , -id2]
+allFPKM=allFPKM[ , -id2]
+allrsem=allrsem[ , -id2]
+allstar=allstar[, -id2]
+}
+```
+
+
+Default output from R showing the number of unique reads compared to multimapped, unmapped etc. This is shown for each batch.
+Note that batch 3 has differences (high percentage of unmapped) compared to the other batches, possibly due to DNA contamination.
+
+Below we check for three measures:
+
+- mapped million reads (ideally, 10M+ reads)
+- Gene Sparsity: This is a measurement of the number of genes which have non-zero values. Ideally, would be greater than 10K, but values which are too high may also suggest contamination from DNA (unexpressed genes are also counted)
+- Varability: standard deviation of the transcriptomic counts. If this value is too low, would suggest that high DNA contamination, non-representative transcriptome.
+
+
+```{r}
+# number of mapped reads
+UnMappedNorm=t(allmapp)/colSums(allmapp)
+
+mUnMap=melt(UnMappedNorm)
+mUnMap$Batch=infoTable$Batch[match(mUnMap$Var1, infoTable$SampleID)]
+
+# how many genes represented
+Sparsity=colSums(sign(allstar))
+# check how skewed the data is
+
+cSDs=colSds(allstar)
+
+TVals=data.frame(MappedReadsM=allmapp[5, ]/1E6, GeneSparsityK=Sparsity/1E3,Batch=infoTable$Batch, GeneVariabilityCounts=cSDs, Type=as.character(infoTable$Fraction), names=colnames(allstar))
+
+mTV=melt(TVals, measure.vars = c("MappedReadsM", "GeneSparsityK", "GeneVariabilityCounts"))
+
+#pdf(sprintf("../rslt/DESeq/GE_preprocessing_%s_%s.pdf", BatchNo,Sys.Date()), height=5, width=8)
+
+ggplot(mUnMap, aes(x=Var1, y=value, fill=Var2))+geom_bar(stat="identity")+facet_grid(~Batch, space="free", scale="free")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("proportion of reads")+ggtitle("mapping summary")
+
+ggplot(mTV, aes(x=names, y=value,fill=Type))+geom_bar(stat="identity")+
+  facet_grid(variable~Batch, space="free_x", scale="free")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("#Mapped Reads, #Unique Gebes, #Variability")
+
+par(mfrow=c(2,2))
+
+plot(density(TVals$MappedReadsM), main="mapped reads")
+x1=mean(TVals$MappedReadsM)
+sdv=sd(TVals$MappedReadsM)
+abline(v=c(x1, x1-1.5*sdv, x1+1.5*sdv), col="grey", lty=2)
+text( c(x1, x1-1.5*sdv, x1+1.5*sdv), 0.07, c(x1, x1-2*sdv, x1+2*sdv), las=2, cex = 0.75, srt=90)
+
+plot(density(TVals$GeneSparsityK), main="gene sparsity")
+x1=mean(TVals$GeneSparsityK)
+sdv=sd(TVals$GeneSparsityK)
+abline(v=c(x1, x1-1.5*sdv, x1+1.5*sdv), col="grey", lty=2)
+text( c(x1, x1-1.5*sdv, x1+1.5*sdv), 0.07, c(x1, x1-2*sdv, x1+2*sdv), las=2, cex = 0.75, srt=90)
+
+plot(density(TVals$GeneVariabilityCounts), main="Gene Variability")
+x1=mean(TVals$GeneVariabilityCounts)
+sdv=sd(TVals$GeneVariabilityCounts)
+abline(v=c(x1, x1-1.5*sdv, x1+1.5*sdv), col="grey", lty=2)
+text( c(x1, x1-1.5*sdv, x1+1.5*sdv), 0.00015, c(x1, x1-2*sdv, x1+2*sdv), las=2, cex = 0.75, srt=90)
+
+
+#dev.off()
+```
+
+
+Samples to remove from analysis:
+
+The thresholds indicated below are based on the above density plots, and removes cases which are <1.5 SD of the mean
+
+* low total number of mapped reads (under 1.5M)
+* sparsity: less than 8K genes
+* variability : threshold under 500
+
+
+```{r}
+rmSamples=which(TVals$MappedReadsM<1.5 | TVals$GeneSparsityK<8 | TVals$GeneVariabilityCounts<500)
+allstarFinal=allstar[ ,-rmSamples]
+allrsemFinal=allrsem[ ,-rmSamples]
+allTPMFinal=allTPM[ ,-rmSamples]
+allFPKMFinal=allFPKM[ ,-rmSamples]
+infoTableFinal=infoTable[-rmSamples, ]
+```
+
+The omitted samples are:
+
+```{r}
+kable(TVals[rmSamples, ])
+```
+
+
+We are left with `r ncol(allstarFinal)` samples. 
+
+There are `r table(infoTableFinal$Fraction)` samples in the `r unique(infoTableFinal$Fraction)` fractions.
+
+There are `r table(infoTableFinal$Batch)` samples from batches 1, 2 and 3 respectively.
+
+## Normalisation
+
+Run through DESEq and normalise the library. Using all samples, we run the model:
+
+expression ~ Celltype + factor (Batch)
+
+and keep the genes which have a total count of at least half the number of samples. ie.
+$ sum(gene_i) > N_{samples}/2 $
+
+
+```{r deseq-1, cache=T, eval=T}
+# remove rows where counts are low?
+rownames(infoTableFinal)=infoTableFinal$SampleID
+infoTableFinal$Batch=factor(infoTableFinal$Batch)
+dds=DESeqDataSetFromMatrix(allstarFinal, infoTableFinal, design=~Fraction+factor(Batch)) ## change class
+keep=rowSums(counts(dds))>(ncol(dds)/2)
+dds=dds[keep, ]
+dds=DESeq(dds)
+
+vsd <- varianceStabilizingTransformation(dds)
+normalizedTableVSD <- assay(vsd)
+
+# infoTableFinal$Treatment=RNADNAsamples$Treatment[match(infoTableFinal$FqFile, RNADNAsamples$FqFile.CD45)]
+# idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.Ep)
+# infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
+# idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)
+# infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
+
+save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("../dds_normalised_data_newstar_RNAseq%s_%s.RData", BatchNo, Sys.Date()))
+```
+
+### preliminary visualisation (to remove outliers)
+
+Below are PCA plots based on:
+
+* Batch
+* CellType
+
+```{r vsd-transform,eval=T, cache=T, fig.height=4}
+vsd2 <- vst(dds)
+
+#pdf(sprintf("../rslt/DESeq/PCA_preliminary_%s_%s.pdf",BatchNo, Sys.Date() ), width=8, height=6)
+
+#All samples
+plotPCA(vsd2, "Batch")+ggtitle("Batch")
+plotPCA(vsd2, "Fraction")+ggtitle("Fraction")
+plotPCA(vsd2, c("Fraction"))+geom_label(aes(label = name)) 
+
+```
+
+Batches in general separate out well, however, some samples appear to be outliers in comparison to the main group. We look in closer detail the CD45, DN and EpCAM populations.
+
+In the CD45 population, narrow down to only immune related genes to see if there is a difference.
+
+```{r}
+# plotPCA(vsd2, c("Treatment"))+ggtitle("Treatment")
+# plotPCA(vsd2, c("Growth"))+ggtitle("Growth")
+# plotPCA(vsd2, "TumSize")+ggtitle("tumor size")
+# plotPCA(vsd2, "CD8Frac")+ggtitle("CD8 Fraction")
+# plotPCA(vsd2, "SpatialManual")+ggtitle("CD8 distribution")
+# plotPCA(vsd2, "IFEpAntstrRatio")+ggtitle("CD8 distribution")
+# plotPCA(vsd2, "MHSMA")+ggtitle("CD8 distribution")
+# plotPCA(vsd2, "MHEpCAM")+ggtitle("CD8 distribution")
+
+
+#Cd45 specific
+# plotPCA(vsd2[, grep("CD45", colnames(vsd2))], c("Treatment"))+ggtitle("CD45 only Treatment")+geom_label(aes(label = name))
+plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm , grep("CD45", colnames(vsd2))], c("Growth"))+ggtitle("CD45 only Treatment: immune only genes")+geom_label(aes(label = name))
+# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("Growth"))+ggtitle("CD45 only Growth")
+plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "Growth")+geom_label(aes(label = name))+ggtitle("Ep only Growth")
+plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "Growth")+geom_label(aes(label = name))+ggtitle("DN only Growth")
+
+# vsdLimma=vsd2
+# assay(vsdLimma)<- limma::removeBatchEffect(assay(vsdLimma), vsd$Batch)
+# plotPCA(vsdLimma, c("Fraction", "Batch"))
+# plotPCA(vsdLimma, c("Fraction"))
+# plotPCA(vsdLimma, c("Batch"))
+# plotPCA(vsdLimma, c("Growth", "Fraction"))
+
+#dev.off()
+```
+
+Based on the above plots, we remove the following outliers and re-run the normalisation:
+
+* 2R_D_DN
+* 4L_B_CD45
+
+```{r rm-ill-samples, cache=T}
+rmThese=c("2R_D_DN", "4L_B_CD45")
+
+## Note based on the above plots, sample "2R_D_DN" is misclassified as a cd45 sample. Need to remove this sample and re-run the preprocessing:
+allstarFinal=allstarFinal[ ,-match(rmThese, colnames(allstarFinal))]
+infoTableFinal=infoTableFinal[-match(rmThese, rownames(infoTableFinal)), ]
+allrsemFinal=allrsemFinal[ ,-match(rmThese, colnames(allrsemFinal))]
+allTPMFinal=allTPMFinal[ ,-match(rmThese, colnames(allTPMFinal))]
+
+dds=DESeqDataSetFromMatrix(allstarFinal, infoTableFinal, design=~Fraction+factor(Batch)) ## change class
+keep=rowSums(counts(dds))>(ncol(dds)/2)
+dds=dds[keep, ]
+dds=DESeq(dds)
+
+vsd <- varianceStabilizingTransformation(dds)
+normalizedTableVSD <- assay(vsd)
+
+infoTableFinal$MHEpCAM=df.Spatial$MH.EpCAM[match(gsub("_", "", infoTableFinal$TumorID), rownames(df.Spatial))]
+infoTableFinal$IFEpCAM=df.Spatial$IF.EpCAM[match(gsub("_", "", infoTableFinal$TumorID), rownames(df.Spatial))]
+infoTableFinal$knnEpCAM=df.Spatial$knn.EpCAM[match(gsub("_", "", infoTableFinal$TumorID), rownames(df.Spatial))]
+infoTableFinal$CD8Frac=df.Spatial$CD8frac[match(gsub("_", "", infoTableFinal$TumorID),rownames(df.Spatial))]
+
+# infoTableFinal$Treatment=RNADNAsamples$Treatment[match(infoTableFinal$FqFile, RNADNAsamples$FqFile.CD45)]
+# idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.Ep)
+# infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
+# idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)
+# infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
+
+save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("outputs/dds_normalised_data_newstar_RNAseq%s_%s_rm_outliers.RData", BatchNo, Sys.Date()))
+
+```
+
+
+## Processing files for external software
+
+We also process these files for external software:
+
+Software | RNA-data
+---------|---------------
+PAM50 | rsem data after quantile normalised, genes converted to human
+TIMER | TPM values, retain rat ids
+xcell | rsem data, genes converted ti human
+cibersort | tpm?? convert to rat genes and use lm22 rat
+
+
+```{r, cache=T}
+#load("dds_normalised_data_newstar_RNAseqmay_2020-09-16.RData")
+
+p50_annot=read.delim("../rscript/PAM50/bioclassifier_R/pam50_annotation.txt")
+
+# remove counts
+allRSEMrm=allrsemFinal[-which(rowSums(allrsemFinal)<ncol(allrsemFinal)),]
+
+#allRSEMrm=allRSEMrm[ ,which(colnames(allRSEMrm) %in% infoTableFinal$SampleID[infoTableFinal$Cohort!="Progression"])]
+
+# find the quantile: we can either
+# 1. include all genes
+data.quantileAll <- apply(allRSEMrm, 2, function(x){quantile(x, 0.75)});
+# 2. only consider the expressed genes
+data.quantileExpressed <-  apply(allRSEMrm, 2, function(x){quantile(x[x>0], 0.75)});
+
+# normalise data
+allRSEMnorm1 <- t(t(allRSEMrm) / data.quantileAll)
+allRSEMnorm2 <- t(t(allRSEMrm) / data.quantileExpressed)
+
+# compare the colsums of these samples after normalisation
+a1=colSums(allRSEMnorm1)
+b1=colSums(allRSEMnorm2)
+
+# par(mfrow=c(1, 2))
+# hist(a1, main="all genes")
+# hist(b1, main="expressed genes")
+
+# outliers
+which(a1>5E5)
+which(b1>5E4)
+
+# log transform and set infinite values to NA
+
+allRSEMnorm1log=log2(allRSEMnorm1)
+allRSEMnorm2log=log2(allRSEMnorm2)
+
+allRSEMnorm1log[which(allRSEMnorm1log=="-Inf", arr.ind=T)]=NA
+allRSEMnorm2log[which(allRSEMnorm2log=="-Inf", arr.ind=T)]=NA
+
+# Determine the number of NAs in each row
+
+r1NA=sapply(1:nrow(allRSEMnorm1log), function(x) length(which(is.na(allRSEMnorm1log[x, ]))))
+r2NA=sapply(1:nrow(allRSEMnorm2log), function(x) length(which(is.na(allRSEMnorm2log[x, ]))))
+
+r1idx=which(r1NA > ncol(allRSEMnorm1log)*0.4)
+r2idx=which(r2NA > ncol(allRSEMnorm2log)*0.4)
+
+# match ids
+
+lx1=match(p50_annot$GeneName, toupper(rownames(allRSEMnorm1log)))
+
+r1idx=setdiff(r1idx, na.omit(lx1))
+r2idx=setdiff(r2idx, na.omit(lx1))
+
+# remove the genes with NAs
+
+allRSEMnorm1log=allRSEMnorm1log[-r1idx, ]
+allRSEMnorm2log=allRSEMnorm2log[-r2idx, ]
+
+# change the names to human gene names
+mmatcha=SymHum2Rat$HGNC.symbol[match(rownames(allRSEMnorm1log), SymHum2Rat$RGD.symbol)]
+mmatchb=Rat2Hum$HGNC.symbol[match(rownames(allRSEMnorm1log), Rat2Hum$RGD.symbol)]
+mmc=ifelse(is.na(mmatcha)==T, mmatchb, mmatcha)
+
+mmatch2a=SymHum2Rat$HGNC.symbol[match(rownames(allRSEMnorm2log), SymHum2Rat$RGD.symbol)]
+mmatch2b=Rat2Hum$HGNC.symbol[match(rownames(allRSEMnorm2log), Rat2Hum$RGD.symbol)]
+mmc2=ifelse(is.na(mmatch2a)==T, mmatch2b, mmatch2a)
+
+rownames(allRSEMnorm1log)=ifelse(is.na(mmc), rownames(allRSEMnorm1log), mmc)
+rownames(allRSEMnorm2log)=ifelse(is.na(mmc2), rownames(allRSEMnorm2log), mmc2)
+
+# save for non-CD45 samples by batch columns
+write.table(allRSEMnorm1log[ ,which(colnames(allRSEMnorm1log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allgenes_noCD45_characterisationOnly%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm1log[ ,which(colnames(allRSEMnorm1log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allgenes_noCD45_progression%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm1log[ ,which(colnames(allRSEMnorm1log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="Ep"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allgenes_epOnly_progression%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm1log[ ,which(colnames(allRSEMnorm1log)%in%infoTableFinal$SampleID[infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allgenes_noCD45_%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+
+write.table(allRSEMnorm2log[ ,which(colnames(allRSEMnorm2log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allExpressedgenes_noCD45_characterisationOnly%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm2log[ ,which(colnames(allRSEMnorm2log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allExpressedgenes_noCD45_progression%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm2log[ ,which(colnames(allRSEMnorm2log)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="Ep"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allExpressedgenes_epOnly_progression%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+write.table(allRSEMnorm2log[ ,which(colnames(allRSEMnorm2log)%in%infoTableFinal$SampleID[infoTableFinal$Fraction!="CD45"])], sep="\t", file=sprintf("../output4external/RSEM_for_PAM50_allExpressedgenes_noCD45_%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+
+# save specifically for EP samples
+#write.table(allRSEMnorm1log[ ,grep("Ep", colnames(allRSEMnorm1log))], sep="\t", file=sprintf("../output4external/EPonly_RSEM_for_PAM50_allgenes_%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+#write.table(allRSEMnorm2log[ ,grep("Ep", colnames(allRSEMnorm2log))], sep="\t", file=sprintf("../output4external/EPonly_RSEM_for_PAM50_allExpressedgenes_%s_%s.txt", BatchNo, Sys.Date()), col.names = NA)
+```
+
+
+```{r data4immune, cache=T, eval=T}
+Rnames=rownames(allrsemFinal)
+mNames1=SymHum2Rat$HGNC.symbol[match(Rnames, SymHum2Rat$RGD.symbol)]
+mNames2=Rat2Hum$HGNC.symbol[match(Rnames, Rat2Hum$RGD.symbol)]
+
+HumNameFinal=ifelse(is.na(mNames1), mNames2, mNames1)
+x1=which(is.na(HumNameFinal)==T)
+
+## save rsem for xcell
+allrsemSave=allrsemFinal[-x1, ]
+rownames(allrsemSave)=na.omit(HumNameFinal)
+
+write.table(allrsemSave, sep="\t", file=sprintf("../output4external/RSEM_for_xcell%s__%s.txt",BatchNo, Sys.Date()), col.names = NA)
+
+## save row names for cibersort
+alltpmSave=allTPMFinal[-x1, ]
+rownames(alltpmSave)=na.omit(HumNameFinal)
+write.table(alltpmSave, sep="\t", file=sprintf("../output4external/TPM_for_cibersort%s_%s.txt",BatchNo, Sys.Date()), col.names = NA)
+```
+
+Save the mouse names for TIMER cistrome: check that this is actually required for TIMER
+
+```{r, cache=T, eval=F}
+allTPMCD45=allTPMFinal[ , grep("CD45", colnames(allTPMFinal))]
+allTPMCD45_mus_ensmbl=allTPMCD45
+
+# Finf Rat2Mouse
+
+midx=Rat2Mouse$MGI.symbol[match(rownames(allTPMCD45),Rat2Mouse$RGD.symbol)]
+lx1=rownames(allTPMCD45)[which(is.na(midx))]
+# midx2=SymHum2Rat$HGNC.symbol[match(rownames(allTPMCD45), SymHum2Rat$RGD.symbol)]
+# midx2=Rat2Hum$Gene.stable.ID[match(rownames(allTPMCD45), Rat2Hum$RGD.symbol)]
+# midx2=SymHum2Rat$Gene.stable.ID[match(rownames(allTPMCD45), SymHum2Rat$MGI.symbol)]
+# midxAll=ifelse(is.na(midx)==T,midx2, midx)
+
+
+rownames(allTPMCD45_mus_ensmbl)=midx
+t3=sort(unique(midx[which(duplicated(midx)==T)]))
+t3=na.omit(t3)
+
+for (i in t3){
+  x1=which(rownames(allTPMCD45_mus_ensmbl)==i)
+  allTPMCD45_mus_ensmbl[x1[1], ]=colSums(allTPMCD45_mus_ensmbl[x1, ])
+}
+
+allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(duplicated(rownames(allTPMCD45_mus_ensmbl))), ]
+
+allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus_ensmbl))), ]
+write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
+
+write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
+```
+
+
+

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Rat DCIS study</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Rat DCIS study" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Rat DCIS study" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2020-11-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="cohort-summary.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="3.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>3.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="3.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>3.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="3.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>3.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="3.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>3.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="3.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>3.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="3.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>3.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification-treatment-growth"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification, treatment, growth</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome</a></li>
+<li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
+<li class="chapter" data-level="4.1.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#association-between-distance-and-content"><i class="fa fa-check"></i><b>4.1.4</b> Association between distance and content</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="4.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>4.2.2</b> Growth</a></li>
+<li class="chapter" data-level="4.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>4.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>4.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>4.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>4.3.2</b> Growth</a></li>
+<li class="chapter" data-level="4.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>4.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>4.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="4.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#other-cell-types"><i class="fa fa-check"></i><b>4.5</b> Other cell types</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>5</b> Expression data</a><ul>
+<li class="chapter" data-level="5.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>5.1</b> Running alignment</a></li>
+<li class="chapter" data-level="5.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>5.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="5.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>5.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>5.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>5.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>6</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
+<li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis.html"><a href="deseq-analysis.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#set-up-cell-type-specifoc-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specifoc the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis.html"><a href="deseq-analysis.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis.html"><a href="deseq-analysis.html#collating-results-and-running-gsea"><i class="fa fa-check"></i><b>7.5</b> Collating results and running GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html"><i class="fa fa-check"></i><b>8</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="8.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comparisons"><i class="fa fa-check"></i><b>8.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="8.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comaprisons"><i class="fa fa-check"></i><b>8.2</b> Summary of comaprisons</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#epcam-samples"><i class="fa fa-check"></i><b>8.2.1</b> EPCAM samples</a></li>
+<li class="chapter" data-level="8.2.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd45-comparisons"><i class="fa fa-check"></i><b>8.2.2</b> CD45 comparisons</a></li>
+<li class="chapter" data-level="8.2.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-samples"><i class="fa fa-check"></i><b>8.2.3</b> DN samples</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>8.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>9.1</b> In-house classifier</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>9.2</b> PAM50 (Parker) scoring</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>9.3</b> Clustering based on random genes</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>9.4</b> Consolidating the different results</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>10</b> Signature analysis</a><ul>
+<li class="chapter" data-level="10.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>10.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>10.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="10.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>10.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="10.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>10.1.3</b> MHC presentation proteins</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cancer-pathways.html"><a href="cancer-pathways.html"><i class="fa fa-check"></i><b>11</b> Cancer pathways</a><ul>
+<li class="chapter" data-level="11.1" data-path="cancer-pathways.html"><a href="cancer-pathways.html#ssgsea"><i class="fa fa-check"></i><b>11.1</b> ssGSEA</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="cancer-pathways.html"><a href="cancer-pathways.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.1.1</b> regression model for covariates</a></li>
+<li class="chapter" data-level="11.1.2" data-path="cancer-pathways.html"><a href="cancer-pathways.html#tsg-vs-oncogenes"><i class="fa fa-check"></i><b>11.1.2</b> TSG vs Oncogenes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
+<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://test.com" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Rat DCIS study</h1>
+<p class="author"><em>Anne Trinh</em></p>
+<p class="date"><em>2020-11-10</em></p>
+</div>
+<div id="prerequisites" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
+<div id="packages-and-software" class="section level2">
+<h2><span class="header-section-number">1.1</span> Packages and Software</h2>
+<p>The following packages are required to conduct the analyses described below.</p>
+<p>In house scripts are deposited in the rscript folder.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1"></a><span class="kw">library</span>(AnnotationHub)</span>
+<span id="cb1-2"><a href="index.html#cb1-2"></a><span class="kw">library</span>(biomaRt)</span>
+<span id="cb1-3"><a href="index.html#cb1-3"></a><span class="kw">library</span>(Biostrings)</span>
+<span id="cb1-4"><a href="index.html#cb1-4"></a><span class="kw">library</span>(colorspace)</span>
+<span id="cb1-5"><a href="index.html#cb1-5"></a><span class="kw">library</span>(DESeq2)</span>
+<span id="cb1-6"><a href="index.html#cb1-6"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="index.html#cb1-7"></a><span class="kw">library</span>(DT)</span>
+<span id="cb1-8"><a href="index.html#cb1-8"></a><span class="kw">library</span>(ensembldb)</span>
+<span id="cb1-9"><a href="index.html#cb1-9"></a><span class="kw">library</span>(EnsDb.Hsapiens.v86)</span>
+<span id="cb1-10"><a href="index.html#cb1-10"></a><span class="kw">library</span>(GenVisR)</span>
+<span id="cb1-11"><a href="index.html#cb1-11"></a><span class="kw">library</span>(GenomicFeatures)</span>
+<span id="cb1-12"><a href="index.html#cb1-12"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-13"><a href="index.html#cb1-13"></a><span class="kw">library</span>(gplots)</span>
+<span id="cb1-14"><a href="index.html#cb1-14"></a><span class="kw">library</span>(GSEABase)</span>
+<span id="cb1-15"><a href="index.html#cb1-15"></a><span class="kw">library</span>(GSVA)</span>
+<span id="cb1-16"><a href="index.html#cb1-16"></a><span class="kw">library</span>(heatmap.plus)</span>
+<span id="cb1-17"><a href="index.html#cb1-17"></a><span class="kw">library</span>(HTSanalyzeR2)</span>
+<span id="cb1-18"><a href="index.html#cb1-18"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb1-19"><a href="index.html#cb1-19"></a><span class="kw">library</span>(limma)</span>
+<span id="cb1-20"><a href="index.html#cb1-20"></a><span class="kw">library</span>(matrixStats)</span>
+<span id="cb1-21"><a href="index.html#cb1-21"></a><span class="kw">library</span>(pamr)</span>
+<span id="cb1-22"><a href="index.html#cb1-22"></a><span class="kw">library</span>(reshape2)</span>
+<span id="cb1-23"><a href="index.html#cb1-23"></a><span class="kw">library</span>(RColorBrewer)</span>
+<span id="cb1-24"><a href="index.html#cb1-24"></a><span class="kw">library</span>(scales)</span>
+<span id="cb1-25"><a href="index.html#cb1-25"></a><span class="kw">library</span>(spatstat)</span>
+<span id="cb1-26"><a href="index.html#cb1-26"></a><span class="kw">library</span>(tcR)</span>
+<span id="cb1-27"><a href="index.html#cb1-27"></a><span class="kw">library</span>(vcfR)</span>
+<span id="cb1-28"><a href="index.html#cb1-28"></a><span class="kw">library</span>(xlsx)</span>
+<span id="cb1-29"><a href="index.html#cb1-29"></a><span class="kw">library</span>(writexl)</span>
+<span id="cb1-30"><a href="index.html#cb1-30"></a></span>
+<span id="cb1-31"><a href="index.html#cb1-31"></a>DiffCols=<span class="kw">hue_pal</span>()(<span class="dv">8</span>)</span>
+<span id="cb1-32"><a href="index.html#cb1-32"></a><span class="kw">palette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Set1&quot;</span>))</span>
+<span id="cb1-33"><a href="index.html#cb1-33"></a>RdBu=<span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;RdBu&quot;</span>)</span>
+<span id="cb1-34"><a href="index.html#cb1-34"></a>SetCols=<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>)</span>
+<span id="cb1-35"><a href="index.html#cb1-35"></a></span>
+<span id="cb1-36"><a href="index.html#cb1-36"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/cnFreq_fn.R&quot;</span>) <span class="co">#modified version of GenVisR</span></span>
+<span id="cb1-37"><a href="index.html#cb1-37"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/merge_contig.R&quot;</span>)</span>
+<span id="cb1-38"><a href="index.html#cb1-38"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/gseaCode.R&quot;</span>)</span>
+<span id="cb1-39"><a href="index.html#cb1-39"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/ContingencyTable.R&quot;</span>)</span>
+<span id="cb1-40"><a href="index.html#cb1-40"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/PvalueHeatMap.R&quot;</span>)</span>
+<span id="cb1-41"><a href="index.html#cb1-41"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/BootstrapShannonIdx.R&quot;</span>)</span>
+<span id="cb1-42"><a href="index.html#cb1-42"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/CreateRnor87db.R&quot;</span>)</span>
+<span id="cb1-43"><a href="index.html#cb1-43"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindRatAAHomolog.R&quot;</span>)</span>
+<span id="cb1-44"><a href="index.html#cb1-44"></a></span>
+<span id="cb1-45"><a href="index.html#cb1-45"></a>firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb1-46"><a href="index.html#cb1-46"></a>  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb1-47"><a href="index.html#cb1-47"></a>  x</span>
+<span id="cb1-48"><a href="index.html#cb1-48"></a>}</span>
+<span id="cb1-49"><a href="index.html#cb1-49"></a></span>
+<span id="cb1-50"><a href="index.html#cb1-50"></a>ColMerge=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;#FFC82F&quot;</span>, <span class="st">&quot;#FFEDBC&quot;</span>, <span class="st">&quot;#73FDFE&quot;</span>,<span class="st">&quot;#D2FFFF&quot;</span>, <span class="st">&quot;#FF41FF&quot;</span>, <span class="st">&quot;#FECAFF&quot;</span>, <span class="st">&quot;#5D5D5D&quot;</span>, <span class="st">&quot;#BEBEBE&quot;</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> T)</span>
+<span id="cb1-51"><a href="index.html#cb1-51"></a><span class="kw">rownames</span>(ColMerge)=<span class="kw">c</span>(<span class="st">&quot;LY&quot;</span>,<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>,<span class="st">&quot;Vehicle&quot;</span>)</span>
+<span id="cb1-52"><a href="index.html#cb1-52"></a></span>
+<span id="cb1-53"><a href="index.html#cb1-53"></a>Hsedb&lt;-EnsDb.Hsapiens.v86</span></code></pre></div>
+</div>
+<div id="external-software" class="section level2">
+<h2><span class="header-section-number">1.2</span> External software</h2>
+<p>The following external software was utilised:</p>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="89%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Software</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="http://bio-bwa.sourceforge.net/">bwa</a></td>
+<td>Alignment of WGS data to reference</td>
+</tr>
+<tr class="even">
+<td><a href="https://software.broadinstitute.org/gatk/">GATK4</a></td>
+<td>Mutation calling, done by NYGC. Mutation calling from RNA (Haplotype caller)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/Illumina/strelka">strelka</a></td>
+<td>Mutation calling, done by NYGC</td>
+</tr>
+<tr class="even">
+<td><a href="http://compbio.med.harvard.edu/BIC-seq/">BICseq</a></td>
+<td>CNV calling</td>
+</tr>
+<tr class="odd">
+<td><a href="https://sourceforge.net/projects/gemlibrary/files/gem-library/">GEM3</a></td>
+<td>create mappability files for CNV calling</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/alexdobin/STAR">STAR</a></td>
+<td>Alignment of RNAseq data</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/deweylab/RSEM">RSEM</a></td>
+<td>Calculate RSEM, TPM, FPKM from RNAseq data</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/liulab-dfci/TRUST4">TRUST4</a></td>
+<td>assignment of T and B cell clonotypes from RNA-seq data</td>
+</tr>
+<tr class="odd">
+<td><a href="https://gatkforums.broadinstitute.org/gatk/discussion/4154/howto-install-and-run-oncotator-for-the-first-time">Oncotator</a></td>
+<td>Annotation of genetic variants</td>
+</tr>
+<tr class="even">
+<td><a href="https://qupath.github.io/">QuPath</a></td>
+<td>Tool for cell segmentation and extraction of features from IF images</td>
+</tr>
+<tr class="odd">
+<td><a href="http://www.htslib.org/">samtools, bcftools</a></td>
+<td>querying and dispalying information from bam files, extracting allelic depth at specific genomic locations</td>
+</tr>
+<tr class="even">
+<td><a href="https://cibersort.stanford.edu/">CIBERSORT</a></td>
+<td>inferring immune composition from RNA</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/arq5x/lumpy-sv">lumpy</a></td>
+<td>structural variants</td>
+</tr>
+<tr class="even">
+<td><a href="https://genome.unc.edu/pubsup/breastGEO/PAM50.zip">PAM50</a></td>
+<td>code from parker et al 2009 to infer PAM50 subtypes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="annotations" class="section level2">
+<h2><span class="header-section-number">1.3</span> Annotations</h2>
+<div id="genomic-properties" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Genomic properties</h3>
+<p>Information on chromosome sizes, cytobands and centromere locations were obtained from the <a href="http://hgdownload.soe.ucsc.edu/goldenPath/rn6/database/">UCSC genome browser</a>.</p>
+<p>The following annotation data for the hg19/b37/GRCh37 genome is required:</p>
+<table>
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data Type</th>
+<th>Download link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ref. genome</td>
+<td><a href="http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz" class="uri">http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz</a></td>
+</tr>
+<tr class="even">
+<td>refSeq annot</td>
+<td><a href="http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.refGene.gtf.gz" class="uri">http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.refGene.gtf.gz</a></td>
+</tr>
+<tr class="odd">
+<td>refSeq annot</td>
+<td><a href="http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.ncbiRefSeq.gtf.gz" class="uri">http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.ncbiRefSeq.gtf.gz</a></td>
+</tr>
+<tr class="even">
+<td>gff3 file</td>
+<td>for TRUST4 (<a href="ftp://ftp.ensembl.org/pub/release-100/gff3/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.100.gff3.gz" class="uri">ftp://ftp.ensembl.org/pub/release-100/gff3/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.100.gff3.gz</a>)</td>
+</tr>
+<tr class="odd">
+<td>gene lengths</td>
+<td>Extracted from GRCh37.75.gtf file from <a href="ftp://ftp.ensembl.org/pub/grch37/current/gtf/homo_sapiens/">ensembl</a></td>
+</tr>
+<tr class="even">
+<td>hg19cytoBand</td>
+<td><a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/cytoBand.txt.gz">ucsc server</a> of all cytoband locations</td>
+</tr>
+<tr class="odd">
+<td>chromosome sizes</td>
+<td><a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/chromInfo.txt.gz">uscs genome browser</a></td>
+</tr>
+<tr class="even">
+<td><a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">biomart</a></td>
+<td>conversion between gene symbol, ensbl and entrez was faciliated using biomart package</td>
+</tr>
+</tbody>
+</table>
+<p>Below is the summary of chromosome sizes and centromere locations:</p>
+<pre><code>##   chrom chromStart chromEnd name gieStain
+## 1  chr1          0 10704345  p13     gneg
+## 2  chr1   10704345 25618263  p12     gvar
+## 3  chr1   25618263 40652454  p11     gneg
+## 4  chr1   40652454 51356799  q11     gpos
+## 5  chr1   51356799 73607402  q12     gneg
+## 6  chr1   73607402 95016091  q21     gpos</code></pre>
+<p>Create a TxDb object from a gtf file and save information: <span style="color:red">Not sure which version to use??</span></p>
+<p>Below is an example of the gene annotation files</p>
+<pre><code>## GRanges object with 6 ranges and 2 metadata columns:
+##          seqnames          ranges strand |     gene_id gene_width
+##             &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;  &lt;integer&gt;
+##   Vom2r3     chr1   396700-409676      + |      Vom2r3      12977
+##    Lrp11     chr1 1702696-1731210      + |       Lrp11      28515
+##    Nup43     chr1 1771721-1781554      + |       Nup43       9834
+##    Lats1     chr1 1784078-1817310      + |       Lats1      33233
+##   Katna1     chr1 1826170-1867786      + |      Katna1      41617
+##    Ppil4     chr1 1897350-1930311      + |       Ppil4      32962
+##   -------
+##   seqinfo: 22 sequences from an unspecified genome; no seqlengths</code></pre>
+</div>
+<div id="gene-name-homologs-between-organisms" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Gene name homologs between organisms</h3>
+<p>Biomart was used to convert between rat, mouse and human gene symbols and ensembl ids. Below is an example of the human gene names mapped to the rat homolog</p>
+<p><span style="color:red">
+Figure out what is required here for later analysis
+</span></p>
+<pre><code>##   HGNC.symbol RGD.symbol
+## 1        TAB1       Tab1
+## 2        PHF1       Phf1
+## 3       RNF39      Rnf39
+## 4      IGSF10     Igsf10
+## 5     TMEM130    Tmem130
+## 6       EFNB1      Efnb1</code></pre>
+</div>
+<div id="gene-signatures-and-data-bases" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Gene signatures and data-bases</h3>
+<p>Gene sets/signatures were obtained from the following sources:</p>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="77%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.iedb.org/">IEDB</a></td>
+<td>database of immune epitopes</td>
+</tr>
+<tr class="even">
+<td><a href="http://software.broadinstitute.org/gsea/msigdb/index.jsp">MsigDB</a></td>
+<td>c2, c5, hallmark set of curated pathway gene sets</td>
+</tr>
+<tr class="odd">
+<td><a href="">Metacore</a></td>
+<td>Process Networks and Pathway Maps data bases</td>
+</tr>
+<tr class="even">
+<td><a href="https://cancer.sanger.ac.uk/census">COSMIC</a></td>
+<td>database of concensus oncogenes</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.immport.org/home">ImmPort</a></td>
+<td>List of immune related genes</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.innatedb.com/">InnateDB</a></td>
+<td>List of genes associated with innate immune system</td>
+</tr>
+<tr class="odd">
+<td><a href="https://dx.doi.org/10.1038/s41586-019-1032-7">Rosenthal 2019</a></td>
+<td>genes associated with MHC-I presentation</td>
+</tr>
+<tr class="even">
+<td><a href="http://dx.doi.org/10.1016/j.immuni.2018.03.023">Thorsson 2018</a></td>
+<td>Immune gene signatures curated from studies by Wolf, Calabro, Teschendorff, Beck, Chang</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.ncbi.nlm.nih.gov/pubmed/22437870">Pardoll</a>, <a href="https://www.ncbi.nlm.nih.gov/pubmed/28990586">Wykes</a></td>
+<td>Immune checkpoint genes</td>
+</tr>
+<tr class="even">
+<td><a href="https://cancerdiscovery.aacrjournals.org/content/early/2017/09/19/2159-8290.CD-17-0222">gil del alcazar 2017</a></td>
+<td>Supplementary table 5: list of activation, dysfunction gene signatures</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6029450/">Bailey 2018</a></td>
+<td>List of 10 most comon tumor pathways</td>
+</tr>
+<tr class="even">
+<td><a href="https://pubmed.ncbi.nlm.nih.gov/29247016/">Chang 2018</a></td>
+<td>Common mutation locations in cancer</td>
+</tr>
+</tbody>
+</table>
+<p>The PAM50 signature was implemented using the scripts provided in supplementary from <a href="https://genome.unc.edu/pubsup/breastGEO/PAM50.zip">Parker et al 2010</a>. These gene lists can be found in the annotations folder</p>
+<div id="human-gene-homologs" class="section level4">
+<h4><span class="header-section-number">1.3.3.1</span> Human gene homologs</h4>
+<p>Below, lists of common mutations in cancer are loaded and the “homolog” in rat is determined using an in-house script. The steps involved are:</p>
+<ul>
+<li>determine the amino acid context in human (find 5 a.a. prior and after)</li>
+<li>find the region with most amino acid homology in rat (2 or less differences)</li>
+<li>check whether the amino acid of interest is present in rat</li>
+</ul>
+<p>An example of the output is shown</p>
+<pre><code>##   Gene AAno AA1 Variant RatGene    Sequence         HumProt            RatProt
+## 1 NRAS   61   Q       R    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+## 2 NRAS   61   Q       K    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+## 3 NRAS   61   Q       L    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+## 4 NRAS   61   Q       H    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+## 5 NRAS   61   Q       P    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+## 6 NRAS   61   Q       *    Nras LDTAGQEEYSA ENSP00000358548 ENSRNOP00000036381
+##   RatAAno RatSequence
+## 1      61 LDTAGQEEYSA
+## 2      61 LDTAGQEEYSA
+## 3      61 LDTAGQEEYSA
+## 4      61 LDTAGQEEYSA
+## 5      61 LDTAGQEEYSA
+## 6      61 LDTAGQEEYSA</code></pre>
+</div>
+<div id="gsea-compendiums" class="section level4">
+<h4><span class="header-section-number">1.3.3.2</span> GSEA compendiums</h4>
+<p>For pathway analysis, the c2 (pathway), Hallmark and c5 (Gene Ontology). In addition, metacore pathways (pathway maps and process networks) were obtained and loaded below. This gives a list of 7 different data-sets to interrogate
+<span style="color:red">
+CHECK: When GSVA is run, which input is required??
+</span></p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="cohort-summary.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

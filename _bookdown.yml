@@ -1,0 +1,7 @@
+book_filename: "RatDCIS-bookdown"
+delete_merged_file: false
+always_allow_html: true
+output_dir: "docs"
+language:
+  ui:
+    chapter_name: "Chapter "

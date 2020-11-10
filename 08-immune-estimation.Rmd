@@ -1,0 +1,95 @@
+# Immune estimation
+
+In this section, we will look at a number of methods for immune estimation:
+
+1. ssGSEA using known signatures: This includes the Thorsson signatures, as well as signatures for activation and dysfunction as described by Tirosh and in the supplementary tables from Gil del Alcazar.
+2. Deconvolution methods (CIBERSORT, TIMER etc)
+
+## ssGSEA
+
+Below, we use the GSVA package and TPM counts to assess variability in the different signatures. We will compare this to:
+
+* growth
+* CD8 counts 
+* spatial patterns (infiltrating vs restricted, MH index)
+
+```{r}
+table(infoTableFinal$MHcut)
+
+gsList=list()
+for (i in 1:length(Exp2RatImm)){
+gsList[[i]]=GeneSet(Exp2RatImm[[i]], setName = names(Exp2RatImm)[i], geneIdType=SymbolIdentifier())
+}
+
+ImmRatSig=GeneSetCollection(gsList)
+
+Imm_counts=gsva(allTPMFinal[ , grep("CD45", colnames(allTPMFinal))],ImmRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+
+growthDiff=sapply(1:nrow(Imm_counts), function(x) wilcox.test(Imm_counts[x,  ]~infoTableFinal$Growth[match(colnames(Imm_counts), infoTableFinal$SampleID)])$p.value)
+names(growthDiff)=rownames(Imm_counts)
+
+ax1=which(growthDiff<0.05)
+
+SpatDiff=sapply(1:nrow(Imm_counts), function(x) wilcox.test(Imm_counts[x,  ]~infoTableFinal$MHcut[match(colnames(Imm_counts), infoTableFinal$SampleID)])$p.value)
+names(SpatDiff)=rownames(Imm_counts)
+
+bx1=which(SpatDiff<0.05)
+
+CD8Diff=sapply(1:nrow(Imm_counts), function(x) wilcox.test(Imm_counts[x,  ]~infoTableFinal$CD8FracCut[match(colnames(Imm_counts), infoTableFinal$SampleID)])$p.value)
+names(SpatDiff)=rownames(Imm_counts)
+
+cx1=which(SpatDiff<0.05)
+
+ColTable=cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(Imm_counts), infoTableFinal$SampleID)])+4],                             palette()[factor(infoTableFinal$MHcut[match(colnames(Imm_counts), infoTableFinal$SampleID)])],
+palette()[factor(infoTableFinal$Growth[match(colnames(Imm_counts), infoTableFinal$SampleID)])],
+palette()[factor(infoTableFinal$CD8FracCut[match(colnames(Imm_counts), infoTableFinal$SampleID)])])
+colnames(ColTable)=c("Treatment", "Spatial", "Growth", "CD8")
+
+#pdf(sprintf("rslt/signatureAnalysis/Immune_Pathways_%s.pdf", Sys.Date()), width=6, height=7)
+# palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],   
+heatmap.plus(Imm_counts, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="row", symkey=T, main="All CD45 samples")
+
+xidx=which(infoTableFinal$Cohort[grep("CD45", colnames(allTPMFinal))]=="Progression")
+xidx
+
+heatmap.plus(Imm_counts[ ,xidx], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable[ xidx, ], scale="row", symkey=T, main="All Progression CD45 samples")
+```
+
+Based on wilcoxon tests for differences between growth, cd8 content, spatial arrangement, we can also pull out the significantly different signatures and plot these below:
+
+```{r}
+heatmap.plus(Imm_counts[unique(c(ax1, bx1, cx1)), ], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="row", symkey=T,
+             main="significant differences")
+
+AllTables=cbind(ax1, bx1, cx1)
+colnames(AllTables)=c("growth", "cd8", "mh-idx")
+#rownames(AllTables)=rownames(Imm_counts)
+
+dim(AllTables)
+length(rownames(Imm_counts))
+
+heatmap.2(-log10(AllTables+0.001),col=brewer.pal(9, "Blues"), scale="none", trace="none", main="p values of differences" )
+```
+
+## Deconvolution methods
+
+Deconvolution was performed using the TIMER website, which lists the following results
+
+TIMER
+XCELL
+CIBERSORT
+EPIC
+
+For TIDE, we need to:
+* compute log(RPKM+1) values
+* Determine the values of the reference/or compute a sample average
+* Subtract the two
+* We can convert from Rat gene names to Human and exclude all the non mapping gnes.
+
+
+TPM counts were used for this analysis (using mouse gene names)
+
+```{r}
+output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
+colnames(output1)=gsub("X", "", colnames(output1))
+```

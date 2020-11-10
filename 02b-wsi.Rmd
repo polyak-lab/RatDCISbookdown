@@ -1,0 +1,972 @@
+# Spatial statistics
+
+Below, we use three different metrics to compare spatial distributions:
+
+* k-nearest neighbour distances
+* the interacting fraction
+* morisita-horn distances
+
+These are compared to manual inspection of the result
+
+## knn-Distances:
+
+```{r}
+#load("outputs/WSI_raw_data2020-11-05.RData")
+```
+The k-nearest neighbour distances looks at the average distance from a given cell type of class A to a cell type of class B. In this section, the reference class A is the CD8 T cell, and we will look at the mean distance to SMA, Epcam, double positive and unclassified cells in each image.
+
+To account for potential fluctuations due to misclassified cells, or isolated single cells, k values of 1, 3, 5 will be used. I.e. for each cell, we will compute the mean distance from each Cd8Tcell to its 1, 3, and 5 nearest neighbours.
+
+### Comparison to manual classification, treatment, growth
+
+Overall, we see that the differences in infiltrating vs restricted are similar. We see statistical differences (using anova followed by Tukey's test) between: 
+
+* epcam and SMA-epcam in both cases (higher distances to EpCAM on average)
+* SMA-Epcam to SMA (CD8s are closer to SMA+)
+* Unclass to Epcam-SMA (CD8s closer to unclass)
+
+In the infiltrating case: 
+
+* Unclass to Epcam (CD8s closer to unclass, borderline significant)
+
+In the restricted cases, we see:
+
+* Unclass to SMA (higher distance to unclass in the restricted case)
+* SMA to epcam (CD8s are closer to the SMA)
+
+This last result is consistent with what we expect for a CD8+ cell which is stroma-restricted.
+
+```{r, fig.height=5}
+knnMelt=melt(WSIknn, measure.vars=c("KS.pval"))
+
+knnTemp1=knnMelt[knnMelt$CellType=="CD8" & knnMelt$NearestCellType%in%c("EpCAM", "SMA", "EpCAM: SMA", "Unclass"), ]
+knnTemp1$SpatialManual=Cdata$InfiltratingVsRestricted[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+# compute p values?
+ptest=sapply(levels(knnTemp1$knn), function(x) wilcox.test(knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="EpCAM" & knnTemp1$SpatialManual=="Infiltrating")], knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="SMA" & knnTemp1$SpatialManual=="Infiltrating")])$p.value)
+
+fit1=aov(MeanDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="Infiltrating", ])
+#summary(fit1)
+fit2=aov(MeanDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="restricted", ])
+#summary(fit2)
+
+fit1b=aov(MedianDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="Infiltrating", ])
+#summary(fit1b)
+fit2b=aov(MedianDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="restricted", ])
+#summary(fit2b)
+
+#pdf(sprintf("rslt/WSI-analysis/knn_distances_vs_manualspatial_%s.pdf", Sys.Date()), height=7, width=12)
+
+p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=SpatialManual))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=SpatialManual))+facet_grid(~knn+SpatialManual)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#377eb8"),na.value="black")+ggtitle("CD8-CelltypeX spatial distributions: mean values")
+
+print(p)
+par(mfrow=c(1,2), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1, "NearestCellType"), las=2)
+title("Infiltrating Mean Distance from CD8", line=3.3)
+plot(TukeyHSD(fit2, "NearestCellType"), las=2)
+title("Restricted Mean Distance from CD8", line=3.3)
+
+# p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MedianDistance, fill=SpatialManual))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=SpatialManual))+facet_grid(~knn+SpatialManual)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#377eb8"),na.value="black")+ggtitle("CD8-CelltypeX spatial distributions: median values")
+# print(p)
+# 
+# par(mfrow=c(1,2), oma=c(0, 0, 2, 0))
+# plot(TukeyHSD(fit1b, "NearestCellType"), las=2)
+# title("Infiltrating Median Distance from CD8", line=3.3)
+# plot(TukeyHSD(fit2b, "NearestCellType"), las=2)
+# title("Restricted Median Distance from CD8", line=3.3)
+
+#devoff()
+
+```
+
+### Associations with outcome
+
+We can also see if there is an association between these distances with growth and treatment
+
+Treatment:
+
+* CD8 cells in PDL1 sample are further away to SMA+ cells and EpCAM+   (compared to vehicle or double agent)
+* CD8 cells in LY treated samples are further away from unclassified cells  (compared to any of the other treatments)
+
+```{r}
+
+knnTemp1$Treatment=Cdata$Treatment[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+fit1=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM", ])
+fit2=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="SMA", ])
+fit3=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM: SMA", ])
+fit4=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="Unclass", ])
+
+knnTemp1$Growth=Cdata$Growth2[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+fit1b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM", ])
+fit2b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="SMA", ])
+fit3b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM: SMA", ])
+fit4b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="Unclass", ])
+
+#pdf(sprintf("rslt/WSI-analysis/knn_distances_vs_treatment_growth_%s.pdf", Sys.Date()), height=7, width=12)
+
+# p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+Treatment)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
+# print(p)
+p<-ggplot(knnTemp1, aes(fill=Treatment, y=MeanDistance, x=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
+print(p)
+par(mfrow=c(2,2), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1, "Treatment"), las=2)
+title("EpCAM Mean Distance", line=3.3)
+plot(TukeyHSD(fit2, "Treatment"), las=2)
+title("SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit3, "Treatment"), las=2)
+title("EpCAM:SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit4, "Treatment"), las=2)
+title("Unclass Distance", line=3.3)
+```
+
+### Growth
+
+All 95% confidence lines cross 0, but it appears that stable cases have a closer unclass-CD8 interaction distance compared to growing.
+
+```{r}
+# p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+Growth)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
+# print(p)
+p<-ggplot(knnTemp1, aes(fill=Growth, y=MeanDistance, x=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
+print(p)
+par(mfrow=c(2,2), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1b, "Growth"), las=2)
+title("EpCAM Mean Distance", line=3.3)
+plot(TukeyHSD(fit2b, "Growth"), las=2)
+title("SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit3b, "Growth"), las=2)
+title("EpCAM:SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit4b, "Growth"), las=2)
+title("Unclass Distance", line=3.3)
+
+#devoff()
+
+```
+
+
+Based on the above distributions, knn1, knn3, and knn5 analyses give similar results. In the following section, we will make comparisons using knn3 results.
+
+### Association between distance and content
+
+The spatial differences could be influenced by CD8 content. Here, we test if the distances from CD8Tcells to celltype B could be influenced by this. 
+
+We see that there is a correlation between CD8 fraction and the SMA proportion (both SMA and double positive).
+But we don't see an association with epcam+ cells or unclassified stromal cells
+
+
+```{r, fig.height=6}
+A1=knnTemp1[knnTemp1$knn=="knn3" & knnTemp1$CellType=="CD8",  ]
+A1$CD8frac=WSIvalFracs[1, match(A1$L1, colnames(WSIvals))]
+
+#pdf(sprintf("rslt/WSI-analysis/check_knn3-averageDistance_association_withCD8fraction_%s.pdf", Sys.Date()), height=8, width=8)
+par(mfrow=c(2,2))
+for (i in unique(A1$NearestCellType)){
+a1=cor.test(A1$MeanDistance[A1$NearestCellType==i], A1$CD8frac[A1$NearestCellType==i], use="complete")
+plot(A1$MeanDistance[A1$NearestCellType==i], A1$CD8frac[A1$NearestCellType==i], xlab="3nn mean distance", ylab="CD8 fraction", main=sprintf("%s, cor=%s p=%s", i, round(a1$estimate,2), round(a1$p.value,2)), log="x")
+}
+
+```
+
+CD8-Epcam distances are looked at in greater detail below. Here, we look at whether there is an association with CD8 fraction in a growing and stable tumors.
+
+In growing or spatially restricted tumors, there is an association between the CD8-epcam distances with the CD8 fraction, but not in infiltrating or stable tumours.
+
+```{r, fig.height=4}
+knnTempSumm=knnTemp1[which(knnTemp1$knn=="knn3"), ]
+knnreshape=acast(knnTempSumm[ ,c("NearestCellType", "MeanDistance", "L1")], L1~NearestCellType, value.var="MeanDistance" )
+knnreshape=data.frame(knnreshape)
+
+knnreshape$EpMIN=ifelse(knnreshape$EpCAM..SMA<knnreshape$EpCAM, knnreshape$EpCAM..SMA, knnreshape$EpCAM)
+knnreshape$EpMIN[which(is.na(knnreshape$EpMIN))]=knnreshape$EpCAM[which(is.na(knnreshape$EpMIN))]
+knnreshape$EpStrRatio1=knnreshape$EpCAM/rowSums(knnreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+knnreshape$EpStrRatio2=knnreshape$EpCAM/(knnreshape$SMA)
+knnreshape$EpStrRatio3=rowSums(knnreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/rowSums(knnreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+knnreshape$EpStrRatio4=rowSums(knnreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/(knnreshape$SMA)
+knnreshape$Treatment=factor(knnTempSumm$Treatment[match(rownames(knnreshape), knnTempSumm$L1)])
+knnreshape$Growth=factor(knnTempSumm$Growth[match(rownames(knnreshape), knnTempSumm$L1)])
+knnreshape$Infil=factor(knnTempSumm$SpatialManual[match(rownames(knnreshape), knnTempSumm$L1)])
+knnreshape$CD8frac=SummaryData$CD8Frac.WSI[match(rownames(knnreshape), rownames(SummaryData))]
+
+
+par(mfrow=c(1,2))
+a1x=cor.test(knnreshape$CD8frac[knnreshape$Infil=="Infiltrating"], knnreshape$EpCAM[knnreshape$Infil=="Infiltrating"])
+a1y=cor.test(knnreshape$CD8frac[knnreshape$Infil=="restricted"], knnreshape$EpCAM[knnreshape$Infil=="restricted"])
+plot(knnreshape$CD8frac, knnreshape$EpCAM, col=knnreshape$Infil, pch=19, xlab="CD8 fraction", ylab="CD8-EpCAM knn3", main="spatial scoring")
+legend("topright", c(paste("infil p=", round(a1x$p.value,2)), paste("restrict p=", round(a1y$p.value,2))), lwd=2, col=c(1,2))
+
+a1x=cor.test(knnreshape$CD8frac[knnreshape$Growth=="growing"], knnreshape$EpCAM[knnreshape$Growth=="growing"])
+a1y=cor.test(knnreshape$CD8frac[knnreshape$Growth=="stable"], knnreshape$EpCAM[knnreshape$Growth=="stable"])
+
+plot(knnreshape$CD8frac, knnreshape$EpCAM, col=knnreshape$Growth, pch=19, xlab="CD8 fraction", ylab="CD8-EpCAM knn3", main="tumor growth")
+legend("topright", c(paste("growing p=", round(a1x$p.value,2)), paste("stable p=", round(a1y$p.value,2))), lwd=2, col=c(1,2))
+```
+
+Do any of the below metrics correlate with manual scoring:
+
+* We can assess the distances from CD8 cells which come automatically: 
+    * Ep-distance
+    * SMA distance 
+    * Ep:SMA distance
+    * SMA distance.
+* EpMIN: distance to any Epcam expressing cell (includes EP+SMA+)
+* Ratios between Epcam and SMA: There are different values depending on whether the double positive fraction is used or not
+    * (Ratio 1): Ep/any SMA
+    * (Ratio 2): EP/SMA
+    * (Ratio 3): Any Ep / Any SMA
+    * (Ratio 4): Any Ep/ SMA
+    
+Whilst the manual scorings associate strongly with CD8-EPcam distances, there is no association with any other cell type.
+
+```{r, fig.height=7}
+
+#pdf(sprintf("rslt/WSI-analysis/knn_metrics_to_manualScoring_%s.pdf", Sys.Date()), height=12, width=12)
+par(mfrow=c(3,3))
+for (i in 1:9){
+  a1=wilcox.test(knnreshape[ ,i]~knnreshape$Infil)
+  boxplot(knnreshape[ ,i]~knnreshape$Infil, main=paste(colnames(knnreshape)[i]," p=", round(a1$p.value,2), sep=""), ylab="knn distance" )
+}
+# dev.off()
+```
+
+## The interacting fraction
+
+The interacting fraction uses the knn-distances and determines the proportion of CD8 cells which are within a proximity of r um from celltype B.
+
+### Comparison to manual & select optimal r
+
+Below are plots of the proportion of CD8 cells within an "interacting distance" as we increase r. This looks at both the interacting fraction of CD8 cells with Epcam+ and SMA+ cells. Lines are color coded according to the manual spatial-infiltration annotation. 
+
+We notice from the line plots for each single sample that the restricted samples generally have low interacting fractins with EpCAM and SMA compared to the infiltrating samples. In addition, there is a statistical difference in EpCAM measurements compared to SMA.
+
+```{r, fig.height=4}
+IFmelt=melt(WSIIF, measure.vars=c("IF"))
+
+IFmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
+IFmelt$Treatment=Cdata$Treatment[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
+IFmelt$Growth=Cdata$Growth2[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
+IFmelt$Growth2=IFmelt$Growth
+IFmelt$Growth2[grep("no data", IFmelt$Growth2)]="no data"
+
+IFmelt$Dist=(substr(IFmelt$Grid, 6, 7))
+IFmelt$knn=substr(IFmelt$Grid, 1, 4)
+
+IFTempSumm=IFmelt[IFmelt$Grid=="knn3-15" & IFmelt$Reference=="CD8", ]
+IFreshape=acast(IFTempSumm[ ,c("NearestNeighbor", "value", "L1")], L1~NearestNeighbor, value.var="value" )
+IFreshape=data.frame(IFreshape)
+
+IFreshape$EpMIN=ifelse(IFreshape$EpCAM..SMA<IFreshape$EpCAM, IFreshape$EpCAM..SMA, IFreshape$EpCAM)
+IFreshape$EpMIN[which(is.na(IFreshape$EpMIN))]=IFreshape$EpCAM[which(is.na(IFreshape$EpMIN))]
+IFreshape$EpStrRatio1=IFreshape$EpCAM/rowSums(IFreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+IFreshape$EpStrRatio2=IFreshape$EpCAM/(IFreshape$SMA)
+IFreshape$EpStrRatio3=rowSums(IFreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/rowSums(IFreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+IFreshape$EpStrRatio4=rowSums(IFreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/(IFreshape$SMA)
+
+
+IFreshape$Treatment=factor(IFTempSumm$Treatment[match(rownames(IFreshape), IFTempSumm$L1)])
+IFreshape$Growth=factor(IFTempSumm$Growth[match(rownames(IFreshape), IFTempSumm$L1)])
+IFreshape$Infil=factor(IFTempSumm$SpatialManual[match(rownames(IFreshape), IFTempSumm$L1)])
+IFreshape$CD8frac=SummaryData$CD8Frac.WSI[match(rownames(IFreshape), rownames(SummaryData))]
+IFreshape$TumSize=SummaryData$TumSize[match(rownames(IFreshape), rownames(SummaryData))]
+
+####
+# line plots to see the best separation between infiltrating and restricted
+###
+
+#pdf(sprintf("rslt/WSI-analysis/interacting_fraction_compared_manual_%s.pdf", Sys.Date()), height=8, width=14)
+
+IFmelt2=IFmelt[IFmelt$NearestNeighbor=="EpCAM" & IFmelt$Reference=="CD8" , ]
+IFmelt2$label=IFmelt2$L1
+IFmelt2$label[which(IFmelt2$Dist!=30)]=NA
+p<-ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, group=L1, label=label))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM interacting fraction: spatial manual")+geom_label()
+print(p)
+
+#IFmelt2$Dist=as.numeric(IFmelt2$Dist)
+
+p<-ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, label=label))+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+facet_grid(~knn)+ggtitle("CD8-EpCAM knn3")+stat_smooth()
+print(p)
+
+IFmelt2=IFmelt[IFmelt$NearestNeighbor=="SMA" & IFmelt$Reference=="CD8" , ]
+IFmelt2$label=IFmelt2$L1
+IFmelt2$label[which(IFmelt2$Dist!=30)]=NA
+
+p<-ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, group=L1, label=label))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-SMA interacting fraction: spatial manual")+geom_label()
+print(p)
+
+
+p<-ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, label=label))+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+facet_grid(~knn)+ggtitle("CD8-SMA knn3 ")
+print(p)
+
+# ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, linetype=SpatialManual))+geom_point()+stat_smooth()+ggtitle("CD8-EpCAM interacting fraction: spatial manual")+ylab("Interacting Fraction")
+
+# ## Do a dot plot
+ # p<-ggplot(IFmelt2, aes(x=Dist, y=value, col=SpatialManual, label=label))+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+facet_grid(~knn)+ggtitle("CD8-SMA knn3 ")
+ # print(p)
+```
+
+
+Using the boxplots as a guide, we can determine optimal "interacting distances" at which to perform downstream analysis. The best separation between restricted and infiltrating for EpCAM appears at:
+
+* 1-nn: 10-15 um
+* 3-nn: 15 um
+* 5-nn: 20 um
+
+The interacting fraction does not distinguish SMA fractions (all restricted boxplots overlap with the infiltrating boxplots)
+
+
+The following plots use 3NN analysis with an interacting distance of 15um. We can firstly check if there is an association between different "interacting fraction" types and manual scoring, similar to what was performed for knn-analysis. Only CD8-EpCAM interacting distances is associated with manual scoring. All other metrics are not significant.
+
+```{r, fig.height=6}
+## reshape and do a correlation plot like for the knn analysis
+par(mfrow=c(3,3))
+for (i in 1:9){
+  a1=wilcox.test(IFreshape[ ,i]~IFreshape$Infil)
+  boxplot(IFreshape[ ,i]~IFreshape$Infil, main=paste(colnames(IFreshape)[i]," p=", round(a1$p.value,2), sep="" ), xlab="IF: knn3, 15um")
+}
+```
+
+Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases. 
+
+```{r, fig.height=4}
+par(mfrow=c(1,2))
+a1x=cor.test(IFreshape$CD8frac[IFreshape$Infil=="Infiltrating"], IFreshape$EpCAM[IFreshape$Infil=="Infiltrating"])
+a1y=cor.test(IFreshape$CD8frac[IFreshape$Infil=="restricted"], IFreshape$EpCAM[IFreshape$Infil=="restricted"])
+plot(IFreshape$CD8frac, IFreshape$EpCAM, col=IFreshape$Infil, pch=19, xlab="CD8 fraction", ylab="CD8-EpCAM IF (knn3-15um)", main="spatial scoring")
+legend("topright", c(paste("infil p=", round(a1x$p.value,2)), paste("restrict p=", round(a1y$p.value,2))), lwd=2, col=c(1,2))
+
+a1x=cor.test(IFreshape$CD8frac[IFreshape$Growth=="growing"], IFreshape$EpCAM[IFreshape$Growth=="growing"])
+a1y=cor.test(IFreshape$CD8frac[IFreshape$Growth=="stable"], IFreshape$EpCAM[IFreshape$Growth=="stable"])
+
+plot(IFreshape$CD8frac, IFreshape$EpCAM, col=IFreshape$Growth, pch=19, xlab="CD8 fraction", ylab="CD8-EpCAM IF (knn3-15um)", main="tumor growth")
+legend("topright", c(paste("growing p=", round(a1x$p.value,2)), paste("stable p=", round(a1y$p.value,2))), lwd=2, col=c(1,2))
+```
+
+### Growth
+
+Here, we check if there is an association between the spatial pattern and tumor growth.
+
+```{r if-growth}
+
+######
+# compare these metrics with growth
+####
+
+#pdf(sprintf("rslt/WSI-analysis/interacting_fraction_vs_treatment_growth_%s.pdf", Sys.Date()), height=7, width=12)
+ctypes=unique(IFmelt$NearestNeighbor)
+t2=IFmelt[which(IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15) , ]
+
+pval2=sapply(ctypes, function(x) wilcox.test(t2$value[t2$NearestNeighbor==x & t2$Growth2=="growing" ], t2$value[t2$NearestNeighbor==x & t2$Growth2=="stable" ])$p.value)
+
+ann_text=data.frame(Glabel=round(pval2,2), NearestNeighbor=(ctypes ), Growth2="stable", value=0.7)
+
+p<-ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Growth2, y=value, col=Growth2))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")
+p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
+
+
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="EpCAM" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Growth2, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM interacting fraction: growth")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="SMA" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Growth2, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-SMA interacting fraction: growth")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="EpCAM: SMA" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Growth2, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM:SMA interacting fraction: growth")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="Unclass" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Growth2, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-Unclass interacting fraction; spatial manual")
+# print(p)
+```
+
+None of the above metrics associate with growth. (P value by wilcox test shown)
+
+### Treatment
+
+Similarly, compare the distances with treatment: 
+
+```{r}
+
+ctypes=unique(IFmelt$NearestNeighbor)
+t2=IFmelt[which(IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15) , ]
+TreatV=sort(unique(IFmelt$Treatment))
+
+pval2=matrix(NA, nrow=3, ncol=5)
+colnames(pval2)=ctypes
+rownames(pval2)=TreatV[1:3]
+
+for (i in 1:3){
+pval2[i, ]=sapply(ctypes, function(x) wilcox.test(t2$value[t2$NearestNeighbor==x & t2$Treatment==TreatV[i]], t2$value[t2$NearestNeighbor==x & t2$Treatment=="Vehicle"])$p.value)
+}
+
+pmelt=melt(pval2)
+colnames(pmelt)=c("Treatment", "NearestNeighbor", "label")
+pmelt$label=round(pmelt$label, 2)
+pmelt$value=0.8
+
+p<-ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Treatment, y=value, col=Treatment))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")
+p+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.75, label=label, col=Treatment))
+print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="EpCAM" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM interacting fraction: Treatment")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="SMA" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-SMA interacting fraction: Treatment")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="EpCAM: SMA" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM:SMA interacting fraction: Treatment")
+# print(p)
+# p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="Unclass" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-Unclass interacting fraction; spatial manual")
+# print(p)
+#devoff()
+```
+
+There appears to be a difference in CD8-unclass interactions in LY treated samples (LY, PDL1+LY), but not in the other cases
+
+## M-H distances
+
+The M-H distance (or Morisita Horn index) can be considered as a correlation coefficient in spatial distribution between cell type A and cell type B. To calculate this metric, the whole slide image is divided into grids of size 50 to 500um. Within each grid, the total number of cells A and B are determined. 
+
+The M-H index is thus determined as:
+
+$$ \frac{2\sum_{i=1}^n a_ib_i}{(D_a+D_b)AB} $$
+where $a_i$ and $b_i$ are the number of cells in grid $i$, $$A$$ and $$B$$ the total number of cells, and $$D_x$$ is the Simpson's index.
+
+### Comparison to Manual Scoring
+
+Similar to the interacting fraction, we plot the MH index for increasing values of gridsize to determine an optimal metric to compare spatial patterns. Ideally, we would pick a metric has the following properties:
+
+* good separation of the different values
+* a reasonable number of cells within each grid (avoid too small grids which give counts of 0)
+* avoid plateauing of MH values because the grid size is too large
+
+```{r, fig.height=4}
+
+MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
+
+MHmelt=melt(WSIMH, measure.vars="MH.mean")
+MHmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+MHmeltsumm$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
+MHmelt$Treatment=factor(Cdata$Treatment[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))])
+MHmelt$Growth=factor(Cdata$Growth2[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))])
+MHmelt$Growth2=MHmelt$Growth
+#MHmelt$Growth2[grep("no data", MHmelt$Growth2)]="no data"
+
+A1=MHmelt[MHmelt$Var2=="CD8", ]
+A1$label=A1$L1
+A1$label[which(A1$gridsize!=500)]=NA
+
+A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==250 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
+A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==250, ]
+A3$CD8frac=WSIvalFracs[ 1, match(A3$L1, colnames(WSIvals))]
+
+MHTempSumm=A3 #MHmelt[which(MHmelt$gridsize==300 & MHmelt$Var2=="CD8"), ]
+MHreshape=acast(A3[ ,c("Var1", "value", "L1")], L1~Var1, value.var="value" )
+MHreshape=data.frame(MHreshape)
+MHreshape$EpMIN=ifelse(MHreshape$EpCAM..SMA<MHreshape$EpCAM, MHreshape$EpCAM..SMA, MHreshape$EpCAM)
+MHreshape$EpMIN[which(is.na(MHreshape$EpMIN))]=MHreshape$EpCAM[which(is.na(MHreshape$EpMIN))]
+MHreshape$EpStrRatio1=MHreshape$EpCAM/rowSums(MHreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+
+MHreshape$EpStrRatio2=MHreshape$EpCAM/(MHreshape$SMA)
+MHreshape$EpStrRatio3=rowSums(MHreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/rowSums(MHreshape[ ,c("EpCAM..SMA", "SMA")], na.rm=T)
+MHreshape$EpStrRatio4=rowSums(MHreshape[ ,c("EpCAM..SMA", "EpCAM")], na.rm=T)/(MHreshape$SMA)
+MHreshape$Treatment=factor(A3$Treatment[match(rownames(MHreshape), A3$L1)])
+MHreshape$Growth=factor(A3$Growth[match(rownames(MHreshape), A3$L1)])
+MHreshape$Infil=factor(A3$SpatialManual[match(rownames(MHreshape), A3$L1)])
+
+#pdf(sprintf("rslt/WSI-analysis/MHplots_compare_spatial_manual_%s.pdf", Sys.Date()), height=7, width=12)
+
+p<-ggplot(A1, aes(x=gridsize, y=value, col=SpatialManual, label=label))+facet_grid(~Var1)+geom_line(aes(group=L1))+xlab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: spatial manual")+geom_label()
+print(p)
+
+ggplot(A1, aes(x=factor(gridsize), y=value, col=SpatialManual, label=label))+facet_grid(~Var1)+geom_boxplot()+xlab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: spatial manual")
+
+ggplot(MHmeltsumm, aes(x=factor(gridsize), y=value, col=SpatialManual))+facet_wrap(~variable, scale="free_y")+geom_boxplot()+xlab("grid size")+ylab("Morisita Horn index")+ggtitle("expected number of cells in each grid size")+scale_y_log10()
+```
+
+
+With increasing grid size, optimal differences between infiltrating and restricted appear at the following sizes:
+
+* epCAML 100um+
+* epcam:SMA most significant at 350+
+* SMA: 150+
+* Unclass:200+
+
+We probably want to use a metric/gridsize of 250 um as the expected/mean number of cells in each grid is 10 here.
+Other notes:
+
+* double positive cells (EpCAM+SMA+) appear in predominantly the restricted cases?
+* higher SMA- stromal cells in restricted
+
+
+Below, we check whether these metrics can differentiate between infiltrating and restricted tumors:
+
+```{r, fig.height=6}
+# a1=t.test(A2$value[A2$SpatialManual=="Infiltrating" & A2$Var1=="EpCAM"], A2$value[A2$SpatialManual=="Infiltrating" & A2$Var1=="SMA"], paired = T)
+# a2=t.test(A2$value[which(A2$SpatialManual=="restricted" & A2$Var1=="EpCAM" & !A2$L1%in%c("15RD", "5LB"))], A2$value[which(A2$SpatialManual=="restricted" & A2$Var1=="SMA")], paired = T)
+# p<-ggplot(A2, aes(x=Var1, y=value, col=SpatialManual))+facet_grid(~SpatialManual)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 300um")+ggtitle(sprintf("MH index with CD8: Infiltrating p=%s, restricted p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+# print(p)
+# par(mfrow=c(2,2))
+# for (i in unique(A3$Var1)){
+# a1=cor(A3$value[A3$Var1==i], A3$CD8frac[A3$Var1==i], use="complete")
+# plot(A3$value[A3$Var1==i], A3$CD8frac[A3$Var1==i], xlab="MH-index", ylab="CD8 fraction", main=sprintf("%s, cor=%s", i, round(a1,2)), col=A3$Growth2, pch=19)
+# }
+# mtext("association bw CD8frac and MH scores", 3, -2, outer = T)
+
+
+par(mfrow=c(3,3))
+for (i in 1:9){
+  a1=wilcox.test(MHreshape[ ,i]~MHreshape$Infil)
+  boxplot(MHreshape[ ,i]~MHreshape$Infil, main=paste(colnames(MHreshape)[i]," p=", round(a1$p.value,2), sep="" ), xlab="MH: knn3, 15um", ylab=colnames(MHreshape)[i])
+}
+
+
+#devoff()
+
+
+#pdf(sprintf("rslt/WSI-analysis/MHplots_spatial_growth_treatment_zoom_300um_%s.pdf", Sys.Date()), height=7, width=12)
+```
+
+The above analysis shows that the MH-index shows differences in mixing between CD8 cells and mixing with most cell types. However MH-CD8-to-Epcam to MH-CD8-to-stroma ratios do not support this difference.
+
+### Growth
+
+Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing
+
+```{r}
+
+p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth2))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")
+print(p)
+
+pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Growth2=="growing"], 
+                                                      A3$value[A3$Var1==x & A3$Growth2=="stable"])$p.value)
+
+ann_text=data.frame(label=round(pvals,2), Var1=unique(A3$Var1), Growth2="growing")
+
+ggplot(A3, aes(x=Growth2, y=value, col=Growth2))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_text(data=ann_text, mapping = aes(x=2, y=0.75, label=label))
+```
+
+Although the MH values for growing vs stable are not different, we can compare the mixing in epcam vs stroma in matched samples:
+
+```{r}
+A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
+
+ a1=t.test(A2t$value[A2t$Growth=="stable" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="stable" & A2t$Var1=="SMA"], paired=T)
+ a2=t.test(A2t$value[A2t$Growth=="growing" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="growing" & A2t$Var1=="SMA"], paired=T)
+# 
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+# print(p)
+```
+
+### Treatment
+
+```{r}
+
+pval2=matrix(NA, nrow=3, ncol=4)
+colnames(pval2)=unique(A3$Var1)
+rownames(pval2)=TreatV[1:3]
+
+for (i in 1:3){
+pval2[i, ]=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Treatment==TreatV[i]], A3$value[A3$Var1==x & A3$Treatment=="Vehicle"])$p.value)
+}
+
+pmelt=melt(pval2)
+colnames(pmelt)=c("Treatment", "Var1", "label")
+pmelt$label=round(pmelt$label, 2)
+pmelt$value=0.8
+
+p<-ggplot(A1, aes(x=gridsize, y=value, col=Treatment))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")
+print(p)
+
+ggplot(A3, aes(x=Treatment, y=value, col=Treatment))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.8, label=label))
+```
+
+There is no difference between the different spatial metrics compared to the vehicle, however, we can compare for a given treatment if there is a difference between the epcam and the stromal interaction scores. It appears that there is a difference only in the control, where SMA mixing is higher than EPcam mixing:
+
+```{r}
+## pairwise comparison: Epcam vs stroma
+
+## calculate the pairwise p values here
+A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
+
+a1=t.test(A2t$value[A2t$Treatment=="Vehicle" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="Vehicle"& A2t$Var1=="SMA"], paired=T)
+a2=t.test(A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="SMA"], paired=T)
+a3=t.test(A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="SMA"], paired=T)
+a4=t.test(A2t$value[A2t$Treatment=="LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="LY" & A2t$Var1=="SMA"], paired=T)
+
+p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+print(p)
+
+#devoff()
+
+```
+
+
+
+```{r,eval=F}
+
+
+#pdf(sprintf("rslt/WSI-analysis/MH_gridsize300_epstromal_ratios_%s.pdf", Sys.Date()), height=7, width=12)
+par(mfrow=c(1,2))
+hist(log2(MHreshape$EpStrRatio1), main="ratio Epcam:any SMA")
+hist(log2(MHreshape$EpStrRatio2), main="ratio Epcam:SMA", breaks=30)
+a1=wilcox.test(MHreshape$EpStrRatio1~MHreshape$Infil)
+ggplot(MHreshape, aes(x=Infil,y=log2(EpStrRatio1), col=Growth))+geom_boxplot()+ggtitle(sprintf("ratio Epcam:any SMA p = %s", round(a1$p.value, 2)))
+ggplot(MHreshape, aes(x=Infil,y=log2(EpStrRatio1), col=Growth))+geom_point()+ggtitle(sprintf("ratio Epcam:any SMA p = %s", round(a1$p.value, 2)))
+a1=wilcox.test(MHreshape$EpStrRatio2~MHreshape$Infil)
+ggplot(MHreshape, aes(x=Infil,y=log2(EpStrRatio2), col=Growth))+geom_boxplot()+ggtitle(sprintf("ratio Epcam:any SMA p = %s", round(a1$p.value, 2)))
+ggplot(MHreshape, aes(x=Infil,y=log2(EpStrRatio2), col=Growth))+geom_point()+ggtitle(sprintf("ratio Epcam:any SMA p = %s", round(a1$p.value, 2)))
+plot(log2(MHreshape$EpStrRatio2), log2(MHreshape$EpStrRatio1), col=MHreshape$Infil, xlab="any SMA", ylab="ep:sma ratio")
+#devoff()
+
+lx1=match(rownames(knnreshape), gsub("_", "", Cdata$TumorID))
+Cdata$MHEpstrRatio=NA
+Cdata$MHEpstrRatio[lx1]=knnreshape$EpStrRatio1
+Cdata$MHEpAntstrRatio=NA
+Cdata$MHEpAntstrRatio[lx1]=knnreshape$EpStrRatio2
+Cdata$MHEpcam=NA
+Cdata$MHEpcam[lx1]=knnreshape$EpCAM
+Cdata$MHSMA=NA
+Cdata$MHSMA[lx1]=knnreshape$SMA
+```
+
+## Comparison between metrics
+
+After assessing optimal parameters for each metric, in this section we assess which metric could be the best for spatial analysis.
+
+Below is a table of the different metrics and their values for each sample
+
+```{r}
+write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+#write.table(SummaryData, file="../metadata/WSI_compared_other_metrics.csv")
+
+##
+# Combine the data from above into one file
+#
+df.Spatial=cbind(knnreshape[ , 1:9], IFreshape[ ,1:10], MHreshape[ , 1:9] )
+colnames(df.Spatial)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colnames(df.Spatial),sep=".")
+
+df.Spatial=cbind(df.Spatial, knnreshape[ ,10:13])
+df.Spatial$GrowthRate=Cdata$GrowthRate[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$TumSize=Cdata$Tumor.dia..sac..mm.[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+write.csv(df.Spatial, file="../data/WSI-data/summary_scores_spatial.csv")
+df.Spatial$knn.EpCAMcut=cut(df.Spatial$knn.EpCAM, c(-1, median(df.Spatial$knn.EpCAM, na.rm = T), 1.2), c("low", "high"))
+df.Spatial$MH.EpCAMcut=cut(df.Spatial$MH.EpCAM, c(-1, median(df.Spatial$MH.EpCAM, na.rm = T), 1.2), c("low", "high"))
+df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM, na.rm = T), 1.2), c("low", "high"))
+df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
+
+
+df.Spatial[which(df.Spatial=="Inf", arr.ind = T)]=NA
+
+testSig1=sapply(c(1:28, 32), function(x) wilcox.test(df.Spatial[ ,x] ~ df.Spatial$Growth)$p.value)
+knnreshapeB=knnreshape
+knnreshapeB[which(knnreshapeB=="Inf", arr.ind=T)]=NA
+testSig1=sapply(c(1:28, 32), function(x) wilcox.test(df.Spatial[ ,x] ~ knnreshapeB$Infil)$p.value)
+testSig2=sapply(c(1:28, 32), function(x) cor.test(df.Spatial[ ,x] , df.Spatial$GrowthRate, use="complete", method="spearman")$p.value)
+testSig3=sapply(c(1:28, 32), function(x) cor.test(df.Spatial[ ,x] , df.Spatial$TumSize, use="complete", method="spearman")$p.value)
+
+#datatable(df.Spatial[ , c("knn.EpCAM", "IF.EpCAM", "MH.EpCAM", "Treatment", "Growth", #"Infil", "CD8frac", "TumSize")], options = list(
+#  searching = T,
+#  pageLength = 5,
+#  lengthMenu = c(5, 10, 15, 20)
+#))
+
+
+scroll_box(kable(df.Spatial[ , c("knn.EpCAM", "IF.EpCAM", "MH.EpCAM", "Treatment", "Growth", "Infil", "CD8frac", "TumSize")], format="html"),
+         height="300px", width="100%")
+
+```
+
+```{r}
+df.Spatial=read.csv("../data/WSI-data/summary_scores_spatial.csv", row.names = 1)
+```
+
+Firstly, we can compare the different metrics to determine how similar or different they are:
+
+```{r, fig.height=6}
+#pdf(sprintf("rslt/WSI-analysis/similarity_between_spatial_methods_%s.pdf", Sys.Date()), height=7, width=12)
+
+par(mfrow=c(2,2))
+a1=cor.test(df.Spatial$knn.EpCAM, df.Spatial$MH.EpCAM)
+plot(df.Spatial$knn.EpCAM, df.Spatial$MH.EpCAM, xlab="knn", ylab="MH",
+     main=sprintf("cor:%s, p:%s", round(a1$estimate,2), round(a1$p.value, 2)))
+a1=cor.test(df.Spatial$IF.EpCAM, df.Spatial$MH.EpCAM)
+plot(df.Spatial$MH.EpCAM, df.Spatial$IF.EpCAM,  xlab="MH", ylab="IF",
+      main=sprintf("cor:%s, p:%s", round(a1$estimate,2), round(a1$p.value, 2)))
+a1=cor.test(df.Spatial$knn.EpCAM, df.Spatial$MH.EpCAM)
+plot( df.Spatial$IF.EpCAM,df.Spatial$knn.EpCAM,  xlab="IF", ylab="knn",
+       main=sprintf("cor:%s, p:%s", round(a1$estimate,2), round(a1$p.value, 2)))
+
+#devoff()
+```
+
+Do any of these metrics associate with growth or treatments?
+
+```{r, fig.height=6}
+par(mfrow=c(3,3))
+
+cNames=c("knn.EpCAM", "IF.EpCAM", "MH.EpCAM")
+
+for (i in cNames){
+t1=wilcox.test(df.Spatial[, i]~df.Spatial$Growth)$p.value
+boxplot(df.Spatial[, i]~df.Spatial$Growth, ylab=i, xlab="Growth", main=sprintf("p:%s", round(t1,2)))
+
+t2=wilcox.test(df.Spatial[df.Spatial$Treatment%in%c("PDL1+LY", "Vehicle"), i]~df.Spatial$Treatment[df.Spatial$Treatment%in%c("PDL1+LY", "Vehicle")])$p.value
+t1=wilcox.test(df.Spatial[df.Spatial$Treatment%in%c("PDL1", "Vehicle"), i]~df.Spatial$Treatment[df.Spatial$Treatment%in%c("PDL1", "Vehicle")])$p.value
+t3=wilcox.test(df.Spatial[df.Spatial$Treatment%in%c("LY", "Vehicle"), i]~df.Spatial$Treatment[df.Spatial$Treatment%in%c("LY", "Vehicle")])$p.value
+
+boxplot(df.Spatial[, i]~df.Spatial$Treatment, ylab=i, xlab="Treatment",
+         main=sprintf("LY:%s PDL1:%s, P+L:%s", round(t3, 2), round(t1, 2), round(t2, 2)))
+
+t1=wilcox.test(df.Spatial[df.Spatial$Infil%in%c("Infiltrating", "restricted"), i]~df.Spatial$Infil[df.Spatial$Infil%in%c("Infiltrating", "restricted")])$p.value
+boxplot(df.Spatial[, i]~df.Spatial$Infil, ylab=i, xlab="Infil", main=sprintf("p:%s", round(t1, 2)))
+}
+```
+We can also compare this to raw tumor size or growth rate data as well:
+
+```{r}
+par(mfrow=c(2,3))
+
+cNames=c("knn.EpCAM", "IF.EpCAM", "MH.EpCAM")
+
+for (i in cNames){
+t1=cor.test(df.Spatial[, i],df.Spatial$GrowthRate, use="complete")
+plot(df.Spatial[, i]~df.Spatial$GrowthRate, ylab=i, xlab="Growth Rate", main=sprintf("cor:%s p:%s", round(t1$estimate, 2), round(t1$p.value,2)))
+
+t1=cor.test(df.Spatial[ ,i],df.Spatial$TumSize, use="complete")
+plot(df.Spatial[, i]~as.numeric(as.character(df.Spatial$TumSize)), ylab=i, xlab="Tumor size", main=sprintf("cor:%s p:%s", round(t1$estimate, 2), round(t1$p.value, 2)))
+}
+
+```
+
+
+```{r, eval=F}
+cNames=c("IFEpAntstrRatio", "MHEpAntstrRatio", "MHEpstrRatio", "IFEpstrRatio", "MHEpcam", "IFEpcam", "MHSMA", "IFSMA",
+         "knnSMADist", "knnEpDist", "knnEpAntstrRatio", "knnEpstrRatio")
+
+ttestTable=rep(NA, length(cNames))
+
+#pdf(sprintf("rslt/WSI-analysis/compare_Spatial_Manual_vs_Metric_%s.pdf", Sys.Date()), height=7, width=8)
+
+par(mfrow=c(3,4))
+for (i in 1:length(cNames)){
+  xa=which(is.na(Cdata[ ,cNames[i]]) | is.infinite(Cdata[ ,cNames[i]]) | is.nan(Cdata[ ,cNames[i]]))
+  if (length(xa)>0){
+  ttestTable[i]=t.test( Cdata[ -xa,cNames[i]]~Cdata$InfiltratingVsRestricted[-xa])$p.value
+  } else {
+    ttestTable[i]=t.test( Cdata[ ,cNames[i]]~Cdata$InfiltratingVsRestricted)$p.value
+  }
+  boxplot(Cdata[ ,cNames[i]]~Cdata$InfiltratingVsRestricted, main=sprintf("%s p:%s", cNames[i], round(ttestTable[i],2)))
+}
+
+#devoff()
+
+```
+
+
+```{r,eval=F}
+Cdata$IFEpstrRatio[which(Cdata$IFEpstrRatio=="Inf")]=NA
+Cdata$MHEpstrRatio[which(Cdata$MHEpstrRatio=="Inf")]=NA
+Cdata$MHEpstrRatio[which(Cdata$MHEpstrRatio=="Inf")]=NA
+
+Cdata$IFEpAntstrRatio[which(Cdata$IFEpAntstrRatio=="Inf")]=NA
+Cdata$MHEpAntstrRatio[which(Cdata$MHEpAntstrRatio=="Inf")]=NA
+Cdata$MHEpAntstrRatio[which(Cdata$MHEpAntstrRatio=="Inf")]=NA
+
+par(mfrow=c(2,3))
+
+#pdf(sprintf("rslt/WSI-analysis/Compare_knn_IF_MH_index_%s.pdf", Sys.Date()), height=7, width=12)
+a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$MHEpstrRatio+0.01), use="complete", na.rm=T)
+plot(log2(Cdata$IFEpstrRatio), log2(Cdata$MHEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="MH",ylim=c(-3, 3),
+      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$knnEpstrRatio), use="complete", na.rm=T)
+plot(log2(Cdata$IFEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="knn", 
+      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$knnEpstrRatio), use="complete", na.rm=T)
+plot(log2(Cdata$MHEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="MH", ylab="knn", xlim=c(-4, 4),
+      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+
+a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$MHEpAntstrRatio+0.01), use="complete", na.rm=T)
+plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$MHEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="MH",ylim=c(-3, 3),      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$knnEpAntstrRatio), use="complete", na.rm=T)
+plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="knn", 
+      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$knnEpAntstrRatio), use="complete", na.rm=T)
+plot(log2(Cdata$MHEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="MH", ylab="knn", xlim=c(-4, 4),     main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+
+#devoff()
+```
+
+
+## Other cell types
+
+We noted that the proportion of Unclassified cells seemed to be different between the treatments. Assess here whether the MH index for this cell type is associated with growth or treatment here:
+
+```{r}
+varsearch="Unclass"
+
+#MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
+
+MHmelt=melt(WSIMH, measure.vars="MH.mean")
+MHmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+#MHmeltsumm$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
+MHmelt$Treatment=Cdata$Treatment[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+MHmelt$Growth2=Cdata$Growth2[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+#MHmelt$Growth2=Cdata$Tumor.growth.status[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+#MHmelt$Growth2[grep("no data", MHmelt$Growth2)]="no data"
+
+A1=MHmelt[MHmelt$Var2==varsearch| MHmelt$Var1==varsearch, ]
+A1$label=A1$L1
+A1$label[which(A1$gridsize!=500)]=NA
+A1$Var1=ifelse(A1$Var1==varsearch, as.character(A1$Var2), as.character(A1$Var1))
+
+A2=MHmelt[(MHmelt$Var2==varsearch|MHmelt$Var1==varsearch) & MHmelt$gridsize==250 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
+A3=MHmelt[(MHmelt$Var2==varsearch|MHmelt$Var1==varsearch) & MHmelt$gridsize==250, ]
+A3$CD8frac=WSIvalFracs[ 1, match(A3$L1, colnames(WSIvals))]
+
+A3$Var1=ifelse(A3$Var1==varsearch, as.character(A3$Var2), as.character(A3$Var1))
+
+MHTempSumm=A3 #MHmelt[which(MHmelt$gridsize==300 & MHmelt$Var2==varsearch), ]
+MHreshape=acast(A3[ ,c("Var1", "value", "L1")], L1~Var1, value.var="value" )
+MHreshape=data.frame(MHreshape)
+
+MHreshape$Treatment=A3$Treatment[match(rownames(MHreshape), A3$L1)]
+MHreshape$Growth=A3$Growth2[match(rownames(MHreshape), A3$L1)]
+MHreshape$Infil=A3$SpatialManual[match(rownames(MHreshape), A3$L1)]
+
+colnames(MHreshape)=paste(varsearch, colnames(MHreshape), sep=".")
+write.csv(MHreshape, file=sprintf("outputs/%s_MH_comparisons_gridsize250.csv", varsearch))
+
+# pdf(sprintf("rslt/WSI-analysis/MHplots_spatial_growth_treatment_%s_celltype_%s.pdf", varsearch, Sys.Date()), height=7, width=12)
+# 
+ p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth2))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle(sprintf("MH index with %s: growth", varsearch))
+ print(p)
+ 
+pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Growth2=="growing"],A3$value[A3$Var1==x & A3$Growth2=="stable"])$p.value)
+
+ann_text=data.frame(Growth2="stable", y=0.8, label=round(pvals,2), Var1=unique(A3$Var1))
+ 
+ggplot(A3, aes(x=Growth2, y=value, col=Growth2))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle(sprintf("MH index with %s: growth", varsearch))+
+  geom_text(data=ann_text, mapping = aes(x=Growth2 , y=0.75, label=label))
+ 
+
+pval2=matrix(NA, nrow=3, ncol=4)
+colnames(pval2)=unique(A3$Var1)
+rownames(pval2)=TreatV[1:3]
+
+for (i in 1:3){
+pval2[i, ]=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Treatment==TreatV[i]], A3$value[A3$Var1==x & A3$Treatment=="Vehicle"])$p.value)
+}
+
+pmelt=melt(pval2)
+colnames(pmelt)=c("Treatment", "Var1", "label")
+pmelt$label=round(pmelt$label, 2)
+pmelt$value=0.8
+
+p<-ggplot(A1, aes(x=gridsize, y=value, col=Treatment))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle(sprintf("MH index with %s: growth", varsearch))
+print(p)
+
+ggplot(A3, aes(x=Treatment, y=value, col=Treatment))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle(sprintf("MH index with %s: growth", varsearch))+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.8, label=label))
+
+
+#  p<-ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+# # print(p)
+# 
+#  p<-ggplot(A1, aes(x=gridsize, y=value, col=Treatment))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")
+#  print(p)
+# 
+# ggplot(A3, aes(x=Treatment, y=value, col=Growth2))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")
+# 
+# ## pairwise comparison: Epcam vs stroma
+# 
+# ## calculate the pairwise p values here
+# 
+# a1=t.test(A2t$value[A2t$Treatment=="Vehicle" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="Vehicle"& A2t$Var1=="SMA"], paired=T)
+# a2=t.test(A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="SMA"], paired=T)
+# a3=t.test(A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="SMA"], paired=T)
+# a4=t.test(A2t$value[A2t$Treatment=="LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="LY" & A2t$Var1=="SMA"], paired=T)
+# 
+# p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+# print(p)
+
+#dev.off()
+```
+
+
+
+```{r, eval=F}
+#This is epcam- sma- stroma and based on images is restricted:
+
+CelltypeStudy="EpCAM"
+
+knnTemp1=knnMelt[knnMelt$CellType==CelltypeStudy & knnMelt$NearestCellType%in%c("CD8","EpCAM", "SMA", "EpCAM: SMA", "Unclass"), ]
+knnTemp1$SpatialManual=Cdata$InfiltratingVsRestricted[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+# compute p values?
+ptest=sapply(levels(knnTemp1$knn), function(x) wilcox.test(knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="EpCAM" & knnTemp1$SpatialManual=="Infiltrating")], knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="SMA" & knnTemp1$SpatialManual=="Infiltrating")])$p.value)
+
+fit1=aov(MeanDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="Infiltrating", ])
+summary(fit1)
+fit2=aov(MeanDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="restricted", ])
+summary(fit2)
+
+fit1b=aov(MedianDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="Infiltrating", ])
+summary(fit1b)
+fit2b=aov(MedianDistance~NearestCellType+knn, data=knnTemp1[knnTemp1$SpatialManual=="restricted", ])
+summary(fit2b)
+
+#pdf(sprintf("rslt/WSI-analysis/Unclass_cells_knn_distances_vs_manualspatial_%s.pdf", Sys.Date()), height=7, width=12)
+
+p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=SpatialManual))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=SpatialManual))+facet_grid(~knn+SpatialManual)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#377eb8"),na.value="black")
+
+print(p)
+par(mfrow=c(1,2), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1, "NearestCellType"))
+title("Infiltrating Mean Distance", line=3.3)
+plot(TukeyHSD(fit2, "NearestCellType"))
+title("Restricted Mean Distance", line=3.3)
+
+p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MedianDistance, fill=SpatialManual))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=SpatialManual))+facet_grid(~knn+SpatialManual)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#377eb8"),na.value="black")
+print(p)
+
+par(mfrow=c(1,2), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1b, "NearestCellType"))
+title("Infiltrating Median Distance", line=3.3)
+plot(TukeyHSD(fit2b, "NearestCellType"))
+title("Restricted Median Distance", line=3.3)
+
+knnTemp1$Treatment=Cdata$Treatment[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+fit1=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM", ])
+fit2=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="SMA", ])
+fit3=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM: SMA", ])
+
+knnTemp1$Growth=Cdata$Growth2[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+
+fit1b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM", ])
+fit2b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="SMA", ])
+fit3b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM: SMA", ])
+
+
+p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+Treatment)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
+print(p)
+
+p<-ggplot(knnTemp1, aes(fill=Treatment, y=MeanDistance, x=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
+print(p)
+
+par(mfrow=c(1,3), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1, "Treatment"), las=2)
+title("EpCAM Mean Distance", line=3.3)
+plot(TukeyHSD(fit2, "Treatment"), las=2)
+title("SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit3, "Treatment"), las=2)
+title("EpCAM:SMA Mean Distance", line=3.3)
+
+p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+Growth)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
+print(p)
+
+p<-ggplot(knnTemp1, aes(fill=Growth, y=MeanDistance, x=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
+print(p)
+
+par(mfrow=c(1,3), oma=c(0, 0, 2, 0))
+plot(TukeyHSD(fit1b, "Growth"), las=2)
+title("EpCAM Mean Distance", line=3.3)
+plot(TukeyHSD(fit2b, "Growth"), las=2)
+title("SMA Mean Distance", line=3.3)
+plot(TukeyHSD(fit3b, "Growth"), las=2)
+title("EpCAM:SMA Mean Distance", line=3.3)
+
+#dev.off()
+
+```

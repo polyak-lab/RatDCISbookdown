@@ -1,0 +1,131 @@
+# RNA data: preliminary plots
+
+Prior to doing any comparative analysis, we will look at the following plots to get an overview of the data.
+
+```{r}
+# Load any required files:
+load("../anntotations/Rat_biomart_gene_annotations2.RData")
+#load("../dds_normalised_data_newstar_RNAseqapril_2020-11-07_rm_outliers.RData")
+
+```
+
+## PCA plots
+
+We can check the new PCA plots, and overlay parameters of interest including treatment, growth, tumor size, CD8 fraction, spatial distribution.
+
+```{r vsd-corrected,eval=T, cache=T}
+vsd2 <- vst(dds)
+vsd2$MHEpCAMcut=cut(infoTableFinal$MHEpCAM, c(-1, median(infoTableFinal$MHEpCAM, na.rm = T), 1.1), c("low", "high"))
+vsd2$knnEpCAMcut=cut(infoTableFinal$knnEpCAM, c(-1, median(infoTableFinal$knnEpCAM, na.rm = T), 1E7), c("low", "high"))
+vsd2$IFEpCAMcut=cut(infoTableFinal$IFEpCAM, c(-1, median(infoTableFinal$IFEpCAM, na.rm = T), 1.1), c("low", "high"))
+vsd2$CD8FracCut=cut(infoTableFinal$CD8Frac, c(-1, median(infoTableFinal$CD8Frac, na.rm = T), 1.1), c("low", "high"))
+
+# vsd2$MHEpAntstrRatio[which(vsd2$MHEpAntstrRatio>4)]=4
+# vsd2$CD8FracCut=ifelse(vsd2$CD8Frac<0.05, "<0.05", ifelse(vsd2$CD8Frac<0.1, "<0.1", "0.1+"))
+# vsd2$IFcut=ifelse(log2(vsd2$IFEpAntstrRatio)>0, "inf", "res")
+# vsd2$MHcut=ifelse(log2(vsd2$MHEpAntstrRatio)>0, "inf", "res")
+
+#vsd2$IFEpcam=Cdata$IFEpcam[match(vsd2$TumorID, Cdata$TumorID)]
+  
+#pdf(sprintf("rslt/DESeq/PCA_rm_outliers_%s.pdf",Sys.Date() ), width=8, height=6)
+
+#All samples
+#plotPCA(vsd2, "Batch")
+#plotPCA(vsd2, "Fraction")
+#plotPCA(vsd2, "Cohort")
+#plotPCA(vsd2, c("Fraction"))+geom_label(aes(label = name)) 
+plotPCA(vsd2, c("Treatment"))+ggtitle("Treatment")
+plotPCA(vsd2, c("Growth"))+ggtitle("Growth")
+plotPCA(vsd2, "TumSize")+ggtitle("tumor size")
+#plotPCA(vsd2, "CD8Frac")+ggtitle("CD8 Fraction")
+plotPCA(vsd2, "CD8FracCut")+ggtitle("CD8 Fraction")
+plotPCA(vsd2, "SpatialManual")+ggtitle("CD8 distribution")
+plotPCA(vsd2, "MHEpCAMcut")+ggtitle("MH EpCAM")
+plotPCA(vsd2, "IFEpCAMcut")+ggtitle("IF SMA")
+plotPCA(vsd2, "knnEpCAMcut")+ggtitle("knn EpCAM")
+
+#Treatment
+# plotPCA(vsd2[, grep("CD45", colnames(vsd2))], c("Treatment"))+ggtitle("CD45 only Treatment")+geom_label(aes(label = name))
+# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm , grep("CD45", colnames(vsd2))], c("Treatment"))+ggtitle("CD45 only Treatment: immune only genes")+geom_label(aes(label = name))
+# plotPCA(vsd2[, grep("Ep", colnames(vsd2))], c("Treatment"))+ggtitle("Ep only Treatment")
+# plotPCA(vsd2[, grep("DN", colnames(vsd2))], c("Treatment"))+ggtitle("DN only Treatment")
+# # growth
+# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("Growth"))+ggtitle("CD45 only Growth")
+# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "Growth")+ggtitle("Ep only Growth")
+# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "Growth")+ggtitle("DN only Growth")
+# # CD8 content
+# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("CD8FracCut"))+ggtitle("CD45 only CD8 Fraction")
+# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "CD8FracCut")+ggtitle("Ep only CD8 Fraction")
+# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "CD8FracCut")+ggtitle("DN only CD8 Fraction")
+# # CD8 infiltrating
+# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("SpatialManual"))+ggtitle("CD45 only CD8 Infiltrating")
+# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "SpatialManual")+ggtitle("Ep only CD8 Infiltrating")
+# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "SpatialManual")+ggtitle("DN only CD8 Infiltrating")
+```
+
+
+In addition, we can look at the CD45 population and the distributions based on CD8 content and spatial infiltration
+
+```{r}
+# CD8 restricted/infil
+plotPCA(vsd2[ , grep("CD45", colnames(vsd2))], "CD8FracCut")+ggtitle("CD8 content")
+plotPCA(vsd2[ , grep("CD45", colnames(vsd2))], "IFEpCAMcut")+ggtitle("CD8-EpCAM Infiltrating Fraction")
+plotPCA(vsd2[ , grep("CD45", colnames(vsd2))], "knnEpCAMcut")+ggtitle("CD8-EpCAM nearest neighbor distances")
+plotPCA(vsd2[ , grep("CD45", colnames(vsd2))], "MHEpCAMcut")+ggtitle("CD8-EpCAM MH index")
+```
+
+
+## Expression patterns by cell type
+
+Below, we check whether the different fractions are expressing expected markers 
+
+The cell types are:
+
+* Red: Cd45
+* Epcam: green 
+* DN:blue
+
+Reference Genes:
+
+* purple: immune
+* blue: epithelial
+* green: stroma
+* orange: myoepithelial
+* red: endothelial
+
+Below, we see that the CD45 cells separate from the Ep/DN populations have high expression of immune related genes including CD3, CD4, IFNG.
+
+However, the DN/Ep fractions are more intermixed. The DN fraction has expression of keratins, as well as fibroblast markers (Acta1), and myeoepithelial markers (Tp63)
+
+```{r, fig.height=6}
+Agenes=unlist(GeneListRat)
+
+# Use the original desseq data,a nd then the limma data
+x1=match(Agenes, rownames(assay(vsd2)))
+RatExpr2=assay(vsd2)[na.omit(x1), ]
+
+RowSideCol=names(Agenes)[which(!is.na(x1))]
+RowSideCol=substr(RowSideCol, 1, 3)
+
+ColSideCol=sapply(strsplit(colnames(RatExpr2), "_"), function(x) x[length(x)])
+
+#pdf("rslt/DESeq/celltype_markers_RNA.pdf", height = 6, width=10)
+
+a1=heatmap.2(RatExpr2, col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
+             ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol)] )
+
+a1=heatmap.2(RatExpr2[, -grep("CD45", colnames(RatExpr2))], col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
+             ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol[-grep("CD45", colnames(RatExpr2))])] )
+
+
+
+# plot the heatmap col-side bar
+# ColBars=rbind(factor(infoTable$Fraction[a1$colInd]), factor(infoTable$Batch[a1$colInd]))
+# image(t(ColBars), col=c(1:3), main="column index", yaxt="none", xaxt="none")
+# axis(2, at=c(0, 1), labels=c("cell type", "batch"), las=2)
+# par(oma=c(3, 0,0,0))
+# a1=heatmap.2(RatExpr2[ ,grep("2[R|N]", colnames(RatExpr2))], col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row")
+
+#dev.off()
+```
+

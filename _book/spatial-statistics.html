@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Spatial statistics | Rat DCIS study</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Spatial statistics | Rat DCIS study" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Spatial statistics | Rat DCIS study" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2020-11-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="whole-slide-imaging.html"/>
+<link rel="next" href="expression-data.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="3.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>3.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="3.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>3.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="3.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>3.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="3.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>3.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="3.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>3.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="3.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>3.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification-treatment-growth"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification, treatment, growth</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome</a></li>
+<li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
+<li class="chapter" data-level="4.1.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#association-between-distance-and-content"><i class="fa fa-check"></i><b>4.1.4</b> Association between distance and content</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="4.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>4.2.2</b> Growth</a></li>
+<li class="chapter" data-level="4.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>4.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>4.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>4.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>4.3.2</b> Growth</a></li>
+<li class="chapter" data-level="4.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>4.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>4.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="4.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#other-cell-types"><i class="fa fa-check"></i><b>4.5</b> Other cell types</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>5</b> Expression data</a><ul>
+<li class="chapter" data-level="5.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>5.1</b> Running alignment</a></li>
+<li class="chapter" data-level="5.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>5.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="5.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>5.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>5.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>5.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>6</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
+<li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis.html"><a href="deseq-analysis.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#set-up-cell-type-specifoc-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specifoc the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis.html"><a href="deseq-analysis.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis.html"><a href="deseq-analysis.html#collating-results-and-running-gsea"><i class="fa fa-check"></i><b>7.5</b> Collating results and running GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html"><i class="fa fa-check"></i><b>8</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="8.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comparisons"><i class="fa fa-check"></i><b>8.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="8.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comaprisons"><i class="fa fa-check"></i><b>8.2</b> Summary of comaprisons</a><ul>
+<li class="chapter" data-level="8.2.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#epcam-samples"><i class="fa fa-check"></i><b>8.2.1</b> EPCAM samples</a></li>
+<li class="chapter" data-level="8.2.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd45-comparisons"><i class="fa fa-check"></i><b>8.2.2</b> CD45 comparisons</a></li>
+<li class="chapter" data-level="8.2.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-samples"><i class="fa fa-check"></i><b>8.2.3</b> DN samples</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>8.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>9.1</b> In-house classifier</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>9.2</b> PAM50 (Parker) scoring</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>9.3</b> Clustering based on random genes</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>9.4</b> Consolidating the different results</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>10</b> Signature analysis</a><ul>
+<li class="chapter" data-level="10.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>10.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>10.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="10.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>10.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="10.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>10.1.3</b> MHC presentation proteins</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="cancer-pathways.html"><a href="cancer-pathways.html"><i class="fa fa-check"></i><b>11</b> Cancer pathways</a><ul>
+<li class="chapter" data-level="11.1" data-path="cancer-pathways.html"><a href="cancer-pathways.html#ssgsea"><i class="fa fa-check"></i><b>11.1</b> ssGSEA</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="cancer-pathways.html"><a href="cancer-pathways.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.1.1</b> regression model for covariates</a></li>
+<li class="chapter" data-level="11.1.2" data-path="cancer-pathways.html"><a href="cancer-pathways.html#tsg-vs-oncogenes"><i class="fa fa-check"></i><b>11.1.2</b> TSG vs Oncogenes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
+<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://test.com" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="spatial-statistics" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Spatial statistics</h1>
+<p>Below, we use three different metrics to compare spatial distributions:</p>
+<ul>
+<li>k-nearest neighbour distances</li>
+<li>the interacting fraction</li>
+<li>morisita-horn distances</li>
+</ul>
+<p>These are compared to manual inspection of the result</p>
+<div id="knn-distances" class="section level2">
+<h2><span class="header-section-number">4.1</span> knn-Distances:</h2>
+<p>The k-nearest neighbour distances looks at the average distance from a given cell type of class A to a cell type of class B. In this section, the reference class A is the CD8 T cell, and we will look at the mean distance to SMA, Epcam, double positive and unclassified cells in each image.</p>
+<p>To account for potential fluctuations due to misclassified cells, or isolated single cells, k values of 1, 3, 5 will be used. I.e. for each cell, we will compute the mean distance from each Cd8Tcell to its 1, 3, and 5 nearest neighbours.</p>
+<div id="comparison-to-manual-classification-treatment-growth" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Comparison to manual classification, treatment, growth</h3>
+<p>Overall, we see that the differences in infiltrating vs restricted are similar. We see statistical differences (using anova followed by Tukey’s test) between:</p>
+<ul>
+<li>epcam and SMA-epcam in both cases (higher distances to EpCAM on average)</li>
+<li>SMA-Epcam to SMA (CD8s are closer to SMA+)</li>
+<li>Unclass to Epcam-SMA (CD8s closer to unclass)</li>
+</ul>
+<p>In the infiltrating case:</p>
+<ul>
+<li>Unclass to Epcam (CD8s closer to unclass, borderline significant)</li>
+</ul>
+<p>In the restricted cases, we see:</p>
+<ul>
+<li>Unclass to SMA (higher distance to unclass in the restricted case)</li>
+<li>SMA to epcam (CD8s are closer to the SMA)</li>
+</ul>
+<p>This last result is consistent with what we expect for a CD8+ cell which is stroma-restricted.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-38-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-38-2.png" width="672" /></p>
+</div>
+<div id="associations-with-outcome" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Associations with outcome</h3>
+<p>We can also see if there is an association between these distances with growth and treatment</p>
+<p>Treatment:</p>
+<ul>
+<li>CD8 cells in PDL1 sample are further away to SMA+ cells and EpCAM+ (compared to vehicle or double agent)</li>
+<li>CD8 cells in LY treated samples are further away from unclassified cells (compared to any of the other treatments)</li>
+</ul>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-39-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+</div>
+<div id="growth" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Growth</h3>
+<p>All 95% confidence lines cross 0, but it appears that stable cases have a closer unclass-CD8 interaction distance compared to growing.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<p>Based on the above distributions, knn1, knn3, and knn5 analyses give similar results. In the following section, we will make comparisons using knn3 results.</p>
+</div>
+<div id="association-between-distance-and-content" class="section level3">
+<h3><span class="header-section-number">4.1.4</span> Association between distance and content</h3>
+<p>The spatial differences could be influenced by CD8 content. Here, we test if the distances from CD8Tcells to celltype B could be influenced by this.</p>
+<p>We see that there is a correlation between CD8 fraction and the SMA proportion (both SMA and double positive).
+But we don’t see an association with epcam+ cells or unclassified stromal cells</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>CD8-Epcam distances are looked at in greater detail below. Here, we look at whether there is an association with CD8 fraction in a growing and stable tumors.</p>
+<p>In growing or spatially restricted tumors, there is an association between the CD8-epcam distances with the CD8 fraction, but not in infiltrating or stable tumours.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p>Do any of the below metrics correlate with manual scoring:</p>
+<ul>
+<li>We can assess the distances from CD8 cells which come automatically:
+<ul>
+<li>Ep-distance</li>
+<li>SMA distance</li>
+<li>Ep:SMA distance</li>
+<li>SMA distance.</li>
+</ul></li>
+<li>EpMIN: distance to any Epcam expressing cell (includes EP+SMA+)</li>
+<li>Ratios between Epcam and SMA: There are different values depending on whether the double positive fraction is used or not
+<ul>
+<li>(Ratio 1): Ep/any SMA</li>
+<li>(Ratio 2): EP/SMA</li>
+<li>(Ratio 3): Any Ep / Any SMA</li>
+<li>(Ratio 4): Any Ep/ SMA</li>
+</ul></li>
+</ul>
+<p>Whilst the manual scorings associate strongly with CD8-EPcam distances, there is no association with any other cell type.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+</div>
+</div>
+<div id="the-interacting-fraction" class="section level2">
+<h2><span class="header-section-number">4.2</span> The interacting fraction</h2>
+<p>The interacting fraction uses the knn-distances and determines the proportion of CD8 cells which are within a proximity of r um from celltype B.</p>
+<div id="comparison-to-manual-select-optimal-r" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Comparison to manual &amp; select optimal r</h3>
+<p>Below are plots of the proportion of CD8 cells within an “interacting distance” as we increase r. This looks at both the interacting fraction of CD8 cells with Epcam+ and SMA+ cells. Lines are color coded according to the manual spatial-infiltration annotation.</p>
+<p>We notice from the line plots for each single sample that the restricted samples generally have low interacting fractins with EpCAM and SMA compared to the infiltrating samples. In addition, there is a statistical difference in EpCAM measurements compared to SMA.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-4.png" width="672" /></p>
+<p>Using the boxplots as a guide, we can determine optimal “interacting distances” at which to perform downstream analysis. The best separation between restricted and infiltrating for EpCAM appears at:</p>
+<ul>
+<li>1-nn: 10-15 um</li>
+<li>3-nn: 15 um</li>
+<li>5-nn: 20 um</li>
+</ul>
+<p>The interacting fraction does not distinguish SMA fractions (all restricted boxplots overlap with the infiltrating boxplots)</p>
+<p>The following plots use 3NN analysis with an interacting distance of 15um. We can firstly check if there is an association between different “interacting fraction” types and manual scoring, similar to what was performed for knn-analysis. Only CD8-EpCAM interacting distances is associated with manual scoring. All other metrics are not significant.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p>Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+</div>
+<div id="growth-1" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Growth</h3>
+<p>Here, we check if there is an association between the spatial pattern and tumor growth.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/if-growth-1.png" width="672" /></p>
+<p>None of the above metrics associate with growth. (P value by wilcox test shown)</p>
+</div>
+<div id="treatment" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Treatment</h3>
+<p>Similarly, compare the distances with treatment:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-47-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-47-2.png" width="672" /></p>
+<p>There appears to be a difference in CD8-unclass interactions in LY treated samples (LY, PDL1+LY), but not in the other cases</p>
+</div>
+</div>
+<div id="m-h-distances" class="section level2">
+<h2><span class="header-section-number">4.3</span> M-H distances</h2>
+<p>The M-H distance (or Morisita Horn index) can be considered as a correlation coefficient in spatial distribution between cell type A and cell type B. To calculate this metric, the whole slide image is divided into grids of size 50 to 500um. Within each grid, the total number of cells A and B are determined.</p>
+<p>The M-H index is thus determined as:</p>
+<p><span class="math display">\[ \frac{2\sum_{i=1}^n a_ib_i}{(D_a+D_b)AB} \]</span>
+where <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> are the number of cells in grid <span class="math inline">\(i\)</span>, <span class="math display">\[A\]</span> and <span class="math display">\[B\]</span> the total number of cells, and <span class="math display">\[D_x\]</span> is the Simpson’s index.</p>
+<div id="comparison-to-manual-scoring" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Comparison to Manual Scoring</h3>
+<p>Similar to the interacting fraction, we plot the MH index for increasing values of gridsize to determine an optimal metric to compare spatial patterns. Ideally, we would pick a metric has the following properties:</p>
+<ul>
+<li>good separation of the different values</li>
+<li>a reasonable number of cells within each grid (avoid too small grids which give counts of 0)</li>
+<li>avoid plateauing of MH values because the grid size is too large</li>
+</ul>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-3.png" width="672" /></p>
+<p>With increasing grid size, optimal differences between infiltrating and restricted appear at the following sizes:</p>
+<ul>
+<li>epCAML 100um+</li>
+<li>epcam:SMA most significant at 350+</li>
+<li>SMA: 150+</li>
+<li>Unclass:200+</li>
+</ul>
+<p>We probably want to use a metric/gridsize of 250 um as the expected/mean number of cells in each grid is 10 here.
+Other notes:</p>
+<ul>
+<li>double positive cells (EpCAM+SMA+) appear in predominantly the restricted cases?</li>
+<li>higher SMA- stromal cells in restricted</li>
+</ul>
+<p>Below, we check whether these metrics can differentiate between infiltrating and restricted tumors:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>The above analysis shows that the MH-index shows differences in mixing between CD8 cells and mixing with most cell types. However MH-CD8-to-Epcam to MH-CD8-to-stroma ratios do not support this difference.</p>
+</div>
+<div id="growth-2" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Growth</h3>
+<p>Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-2.png" width="672" /></p>
+<p>Although the MH values for growing vs stable are not different, we can compare the mixing in epcam vs stroma in matched samples:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+</div>
+<div id="treatment-1" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Treatment</h3>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
+<p>There is no difference between the different spatial metrics compared to the vehicle, however, we can compare for a given treatment if there is a difference between the epcam and the stromal interaction scores. It appears that there is a difference only in the control, where SMA mixing is higher than EPcam mixing:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+</div>
+</div>
+<div id="comparison-between-metrics" class="section level2">
+<h2><span class="header-section-number">4.4</span> Comparison between metrics</h2>
+<p>After assessing optimal parameters for each metric, in this section we assess which metric could be the best for spatial analysis.</p>
+<p>Below is a table of the different metrics and their values for each sample</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+knn.EpCAM
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+IF.EpCAM
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+MH.EpCAM
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Treatment
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Growth
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Infil
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+CD8frac
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+TumSize
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+10LB
+</td>
+<td style="text-align:right;">
+39.96193
+</td>
+<td style="text-align:right;">
+0.2236555
+</td>
+<td style="text-align:right;">
+0.4598790
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0228977
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10LC
+</td>
+<td style="text-align:right;">
+17.87345
+</td>
+<td style="text-align:right;">
+0.4768745
+</td>
+<td style="text-align:right;">
+0.5432610
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0100341
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10LD
+</td>
+<td style="text-align:right;">
+34.33110
+</td>
+<td style="text-align:right;">
+0.2944373
+</td>
+<td style="text-align:right;">
+0.6867357
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0681088
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10NA
+</td>
+<td style="text-align:right;">
+23.80977
+</td>
+<td style="text-align:right;">
+0.4808547
+</td>
+<td style="text-align:right;">
+0.4764461
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0465627
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10ND
+</td>
+<td style="text-align:right;">
+26.20801
+</td>
+<td style="text-align:right;">
+0.4408878
+</td>
+<td style="text-align:right;">
+0.4181843
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0227195
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10RBL
+</td>
+<td style="text-align:right;">
+44.92703
+</td>
+<td style="text-align:right;">
+0.2213380
+</td>
+<td style="text-align:right;">
+0.5857603
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0202715
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10RBU
+</td>
+<td style="text-align:right;">
+87.12901
+</td>
+<td style="text-align:right;">
+0.0816202
+</td>
+<td style="text-align:right;">
+0.3840030
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0670641
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11LB
+</td>
+<td style="text-align:right;">
+69.10296
+</td>
+<td style="text-align:right;">
+0.2080105
+</td>
+<td style="text-align:right;">
+0.2992537
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.1521777
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11ND
+</td>
+<td style="text-align:right;">
+92.98237
+</td>
+<td style="text-align:right;">
+0.0079816
+</td>
+<td style="text-align:right;">
+0.5643066
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.3800672
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11RC
+</td>
+<td style="text-align:right;">
+153.33513
+</td>
+<td style="text-align:right;">
+0.0386688
+</td>
+<td style="text-align:right;">
+0.0388372
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0504186
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11RD
+</td>
+<td style="text-align:right;">
+73.82461
+</td>
+<td style="text-align:right;">
+0.2323507
+</td>
+<td style="text-align:right;">
+0.3847338
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0224452
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+12LD
+</td>
+<td style="text-align:right;">
+355.94915
+</td>
+<td style="text-align:right;">
+0.0002809
+</td>
+<td style="text-align:right;">
+0.1642608
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0223693
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+13NA
+</td>
+<td style="text-align:right;">
+70.80101
+</td>
+<td style="text-align:right;">
+0.1279338
+</td>
+<td style="text-align:right;">
+0.3039013
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0355811
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14NB
+</td>
+<td style="text-align:right;">
+49.22243
+</td>
+<td style="text-align:right;">
+0.2540062
+</td>
+<td style="text-align:right;">
+0.4353436
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.1061520
+</td>
+<td style="text-align:right;">
+23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14NC
+</td>
+<td style="text-align:right;">
+44.46686
+</td>
+<td style="text-align:right;">
+0.1239597
+</td>
+<td style="text-align:right;">
+0.3670808
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0541298
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+14RD
+</td>
+<td style="text-align:right;">
+31.50346
+</td>
+<td style="text-align:right;">
+0.1681860
+</td>
+<td style="text-align:right;">
+0.6214897
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0103371
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15LB
+</td>
+<td style="text-align:right;">
+32.69579
+</td>
+<td style="text-align:right;">
+0.2226772
+</td>
+<td style="text-align:right;">
+0.4642353
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0129612
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15NC-D
+</td>
+<td style="text-align:right;">
+39.22818
+</td>
+<td style="text-align:right;">
+0.1299775
+</td>
+<td style="text-align:right;">
+0.4756601
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0107875
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15ND
+</td>
+<td style="text-align:right;">
+15.54429
+</td>
+<td style="text-align:right;">
+0.6025030
+</td>
+<td style="text-align:right;">
+0.6063571
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0104721
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+15RD
+</td>
+<td style="text-align:right;">
+91.07517
+</td>
+<td style="text-align:right;">
+0.1578969
+</td>
+<td style="text-align:right;">
+0.3729870
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0328312
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16LA
+</td>
+<td style="text-align:right;">
+31.26867
+</td>
+<td style="text-align:right;">
+0.2750368
+</td>
+<td style="text-align:right;">
+0.3355138
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0171528
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16LC
+</td>
+<td style="text-align:right;">
+71.64542
+</td>
+<td style="text-align:right;">
+0.2411490
+</td>
+<td style="text-align:right;">
+0.0623470
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0476926
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16LD
+</td>
+<td style="text-align:right;">
+38.85862
+</td>
+<td style="text-align:right;">
+0.3001624
+</td>
+<td style="text-align:right;">
+0.5734648
+</td>
+<td style="text-align:left;">
+PDL1+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0316168
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16ND
+</td>
+<td style="text-align:right;">
+29.84045
+</td>
+<td style="text-align:right;">
+0.2842939
+</td>
+<td style="text-align:right;">
+0.5094333
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0753308
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+16RD
+</td>
+<td style="text-align:right;">
+56.31604
+</td>
+<td style="text-align:right;">
+0.2354937
+</td>
+<td style="text-align:right;">
+0.3920871
+</td>
+<td style="text-align:left;">
+PDL1
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0306486
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17NA
+</td>
+<td style="text-align:right;">
+61.86642
+</td>
+<td style="text-align:right;">
+0.0907525
+</td>
+<td style="text-align:right;">
+0.3510232
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0472687
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17ND
+</td>
+<td style="text-align:right;">
+111.85371
+</td>
+<td style="text-align:right;">
+0.0029328
+</td>
+<td style="text-align:right;">
+0.6112631
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.1115267
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+17RB
+</td>
+<td style="text-align:right;">
+16.70828
+</td>
+<td style="text-align:right;">
+0.6275561
+</td>
+<td style="text-align:right;">
+0.4630693
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0411074
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2N
+</td>
+<td style="text-align:right;">
+35.15413
+</td>
+<td style="text-align:right;">
+0.2448721
+</td>
+<td style="text-align:right;">
+0.3766073
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0301041
+</td>
+<td style="text-align:right;">
+47
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2RA
+</td>
+<td style="text-align:right;">
+132.80795
+</td>
+<td style="text-align:right;">
+0.0452766
+</td>
+<td style="text-align:right;">
+0.3252085
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0858192
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2RD
+</td>
+<td style="text-align:right;">
+38.61221
+</td>
+<td style="text-align:right;">
+0.1979009
+</td>
+<td style="text-align:right;">
+0.6791816
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0742195
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3LA
+</td>
+<td style="text-align:right;">
+46.09601
+</td>
+<td style="text-align:right;">
+0.2865240
+</td>
+<td style="text-align:right;">
+0.4162200
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0531246
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3NB
+</td>
+<td style="text-align:right;">
+32.31159
+</td>
+<td style="text-align:right;">
+0.4377911
+</td>
+<td style="text-align:right;">
+0.7061056
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.2768299
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3RB
+</td>
+<td style="text-align:right;">
+42.63162
+</td>
+<td style="text-align:right;">
+0.2910751
+</td>
+<td style="text-align:right;">
+0.4645950
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0266554
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3RC
+</td>
+<td style="text-align:right;">
+32.11938
+</td>
+<td style="text-align:right;">
+0.2962108
+</td>
+<td style="text-align:right;">
+0.4965437
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0232139
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4LB
+</td>
+<td style="text-align:right;">
+30.99117
+</td>
+<td style="text-align:right;">
+0.2903294
+</td>
+<td style="text-align:right;">
+0.5447258
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0244474
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4NC
+</td>
+<td style="text-align:right;">
+15.33106
+</td>
+<td style="text-align:right;">
+0.6851436
+</td>
+<td style="text-align:right;">
+0.0901870
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0081388
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4ND
+</td>
+<td style="text-align:right;">
+20.75556
+</td>
+<td style="text-align:right;">
+0.4768080
+</td>
+<td style="text-align:right;">
+0.5809047
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0076245
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4RB
+</td>
+<td style="text-align:right;">
+53.31478
+</td>
+<td style="text-align:right;">
+0.1765476
+</td>
+<td style="text-align:right;">
+0.3445324
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0280096
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5LA
+</td>
+<td style="text-align:right;">
+41.12871
+</td>
+<td style="text-align:right;">
+0.2471295
+</td>
+<td style="text-align:right;">
+0.3724930
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0453952
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5LB
+</td>
+<td style="text-align:right;">
+41.91177
+</td>
+<td style="text-align:right;">
+0.2807178
+</td>
+<td style="text-align:right;">
+0.4690510
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0257830
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5LC
+</td>
+<td style="text-align:right;">
+82.68448
+</td>
+<td style="text-align:right;">
+0.1168545
+</td>
+<td style="text-align:right;">
+0.1980203
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0515055
+</td>
+<td style="text-align:right;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5LD
+</td>
+<td style="text-align:right;">
+91.41539
+</td>
+<td style="text-align:right;">
+0.0735101
+</td>
+<td style="text-align:right;">
+0.2028472
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0348108
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5RB
+</td>
+<td style="text-align:right;">
+39.00602
+</td>
+<td style="text-align:right;">
+0.1934315
+</td>
+<td style="text-align:right;">
+0.4479302
+</td>
+<td style="text-align:left;">
+Vehicle
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0596672
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6LDU
+</td>
+<td style="text-align:right;">
+111.44785
+</td>
+<td style="text-align:right;">
+0.1092889
+</td>
+<td style="text-align:right;">
+0.2738092
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0556253
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6ND
+</td>
+<td style="text-align:right;">
+28.41556
+</td>
+<td style="text-align:right;">
+0.2756628
+</td>
+<td style="text-align:right;">
+0.4251078
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.0815901
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6RB
+</td>
+<td style="text-align:right;">
+76.37955
+</td>
+<td style="text-align:right;">
+0.1446840
+</td>
+<td style="text-align:right;">
+0.5947703
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.1554804
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6RC
+</td>
+<td style="text-align:right;">
+50.21453
+</td>
+<td style="text-align:right;">
+0.1966022
+</td>
+<td style="text-align:right;">
+0.5496400
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0788010
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7NB
+</td>
+<td style="text-align:right;">
+80.17580
+</td>
+<td style="text-align:right;">
+0.0728176
+</td>
+<td style="text-align:right;">
+0.1877309
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0206734
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7NC
+</td>
+<td style="text-align:right;">
+89.34399
+</td>
+<td style="text-align:right;">
+0.0531233
+</td>
+<td style="text-align:right;">
+0.2103338
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0479457
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7RA
+</td>
+<td style="text-align:right;">
+33.35958
+</td>
+<td style="text-align:right;">
+0.2251296
+</td>
+<td style="text-align:right;">
+0.4269972
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0319310
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7RB
+</td>
+<td style="text-align:right;">
+34.39737
+</td>
+<td style="text-align:right;">
+0.1917334
+</td>
+<td style="text-align:right;">
+0.7110689
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.0169469
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7RD
+</td>
+<td style="text-align:right;">
+44.13770
+</td>
+<td style="text-align:right;">
+0.2386457
+</td>
+<td style="text-align:right;">
+0.4019270
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0321690
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8LD
+</td>
+<td style="text-align:right;">
+16.36623
+</td>
+<td style="text-align:right;">
+0.6508906
+</td>
+<td style="text-align:right;">
+0.7532812
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+stable
+</td>
+<td style="text-align:left;">
+Infiltrating
+</td>
+<td style="text-align:right;">
+0.0562336
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8RCL
+</td>
+<td style="text-align:right;">
+15.12966
+</td>
+<td style="text-align:right;">
+0.6186366
+</td>
+<td style="text-align:right;">
+0.7536385
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0176691
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8RCU
+</td>
+<td style="text-align:right;">
+50.00101
+</td>
+<td style="text-align:right;">
+0.2347423
+</td>
+<td style="text-align:right;">
+0.4676640
+</td>
+<td style="text-align:left;">
+LY
+</td>
+<td style="text-align:left;">
+growing
+</td>
+<td style="text-align:left;">
+restricted
+</td>
+<td style="text-align:right;">
+0.0287668
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Firstly, we can compare the different metrics to determine how similar or different they are:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p>Do any of these metrics associate with growth or treatments?</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-58-1.png" width="672" />
+We can also compare this to raw tumor size or growth rate data as well:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+</div>
+<div id="other-cell-types" class="section level2">
+<h2><span class="header-section-number">4.5</span> Other cell types</h2>
+<p>We noted that the proportion of Unclassified cells seemed to be different between the treatments. Assess here whether the MH index for this cell type is associated with growth or treatment here:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-62-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-62-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-62-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-62-4.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="whole-slide-imaging.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="expression-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

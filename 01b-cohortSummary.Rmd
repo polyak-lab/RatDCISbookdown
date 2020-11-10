@@ -1,0 +1,108 @@
+## Summary Table
+
+Firstly, look at the total number of samples:
+
+```{r}
+#recur variables here
+avtum=table(Cdata$Rat_ID)
+Cchar=Cdata[Cdata$Cohort!="Progression", ]
+Cprog=Cdata[Cdata$Cohort=="Progression", ]
+```
+
+
+Feature | Levels | N
+--------|---------|-----
+Total No Tumors |All | `r nrow(Cdata)`
+- | Characterisation| `r length(which(Cdata$Cohort=="Characterisation"))`
+- | Prevention | `r length(which(Cdata$Cohort=="Prevention"))`
+- | Progression | `r length(which(Cdata$Cohort=="Progression"))`
+Total No Rats | All| `r length(unique(Cdata$Rat_ID))`
+- | Characterisation| `r length(unique(Cdata$Rat_ID[which(Cdata$Cohort=="Characterisation")]))`
+- | Prevention | `r length(unique(Cdata$Rat_ID[which(Cdata$Cohort=="Prevention")]))`
+- | Progression | `r length(unique(Cdata$Rat_ID[which(Cdata$Cohort=="Progression")]))`
+No tumours per rat | | `r round(mean(avtum),2) ` ( `r quantile(avtum, c(0.1, 0.9))`)
+
+### Compare the characterisation vs progression cohort
+
+Feature | Levels | Characterisation | Progression
+--------|---------|-------- |------
+Total No tumours | | `r nrow(Cchar)` | `r nrow(Cprog)`
+Treatments| Vehicle | `r length(which(Cdata$Treatment=="Vehicle"))`| `r length(which(Cprog$Treatment=="Vehicle"))`
+- | Untreated  | `r length(which(Cchar$Treatment=="Untreated"))`|
+-| LY | | `r length(which(Cprog$Treatment=="LY"))`
+-| PDL1| | `r length(which(Cprog$Treatment=="PDL1"))`
+-| PDL1+LY| | `r length(which(Cprog$Treatment=="PDL1+LY"))`
+- | NA | `r length(which(is.na(Cchar$Treatment)))` |`r length(which(is.na(Cprog$Treatment)))`
+Histology |  diff. adenocarcinomas | `r length(which(Cchar$Tumor.Histology=="well differentiated mammary solid adenocarcinoma"))`|`r length(which(Cprog$Tumor.Histology=="well differentiated mammary solid adenocarcinoma"))`
+- | mucinous carcinoma | `r length(which(Cchar$Tumor.Histology=="mucinous carcinoma"))`|`r length(which(Cprog$Tumor.Histology=="mucinous carcinoma"))`
+- | Fibroadenoma | `r length(which(Cchar$Tumor.Histology=="fibroadenoma"))`|`r length(which(Cprog$Tumor.Histology=="fibroadenoma"))`
+- | NA |`r length(which(is.na(Cchar$Tumor.Histology)))` | `r length(which(is.na(Cprog$Tumor.Histology)))`
+Age Injection | 32-36 | `r length(which(Cchar$Age.at.injection=="32-36")) `|`r length(which(Cprog$Age.at.injection=="32-36")) `
+ - | 35 | `r length(which(Cchar$Age.at.injection=="35")) ` | `r length(which(Cprog$Age.at.injection=="35")) `
+  - | 49 | `r length(which(Cchar$Age.at.injection=="49")) `|`r length(which(Cprog$Age.at.injection=="49")) `
+ - | NA | `r length(which(is.na(Cchar$Age.at.injection))) `|`r length(which(is.na(Cprog$Age.at.injection))) `
+Time (days) | NMU 2 Sac| `r round(mean(Cchar$Time.NMU2Sac, na.rm=T),2) ` (`r quantile(Cchar$Time.NMU2Sac, c(0.1, 0.9), na.rm=T)`) | `r round(mean(Cprog$Time.NMU2Sac, na.rm=T), 2) ` (`r quantile(Cprog$Time.NMU2Sac, c(0.1, 0.9), na.rm=T)`)
+ - | Cases with NA| `r length(which(is.na(Cchar$Time.NMU2Sac)))` | `r length(which(is.na(Cprog$Time.NMU2Sac)))` 
+ - | NMU 2 Tumor | | `r round(mean(Cprog$Time.NMU2Tumor, na.rm=T), 2)` (`r  quantile(Cprog$Time.NMU2Tumor, c(0.1, 0.9), na.rm=T)`)
+ - | Cases with NA| `r length(which(is.na(Cchar$Time.NMU2Tumor)))` | `r length(which(is.na(Cprog$Time.NMU2Tumor)))` 
+ - | Tum Spec Surv|  | `r round(mean(Cprog$Time.Tumor2Sac, na.rm=T),2)` (`r quantile(Cprog$Time.Tumor2Sac, c(0.1, 0.9), na.rm=T)`)
+ - | Cases with NA| `r length(which(is.na(Cchar$Time.Tumor2Sac)))` | `r length(which(is.na(Cprog$Time.Tumor2Sac)))`
+Growth Rate/Size (mm) | overall size @ sac | `r round(mean(Cchar$Tumor.dia..sac..mm.,na.rm=T), 2)`  (`r quantile(Cchar$Tumor.dia..sac..mm., c(0.1,  0.9), na.rm=T)`) | `r round(mean(Cprog$Tumor.dia..sac..mm.,na.rm=T), 2)` (`r quantile(Cprog$Tumor.dia..sac..mm., c(0.1, 0.9), na.rm=T)`)
+- | Growing No. | | `r length(grep("growing", Cprog$Growth2))`
+- | Growing size @ sac |  |  `r round(mean(Cprog$Tumor.dia..sac..mm.[grep("growing", Cprog$Growth2)]),2)` `r quantile(Cprog$Tumor.dia..sac..mm.[grep("growing", Cprog$Growth2)], c(0.1, 0.5, 0.9), na.rm=T)`
+- | Stable ||`r length(grep("stable", Cprog$Growth2))`
+- | Stable size @ sac | | `r round(mean(Cprog$Tumor.dia..sac..mm.[grep("stable", Cprog$Growth2)]),2)` (`r quantile(Cprog$Tumor.dia..sac..mm.[grep("stable", Cprog$Growth2)], c(0.1, 0.5, 0.9), na.rm=T)`)
+- | NA |`r length(which(is.na(Cchar$Growth2)))` | `r length(which(is.na(Cprog$Growth2)))`
+Spatial Pattern| | |
+- | Infiltrating| `r length(which(Cchar$InfiltratingVsRestricted=="Infiltrating"))` |  `r length(which(Cprog$InfiltratingVsRestricted=="Infiltrating"))`
+- | Restricted |  `r length(which(Cchar$InfiltratingVsRestricted=="restricted"))` |  `r length(which(Cprog$InfiltratingVsRestricted=="restricted"))`
+- | NA| `r length(which(is.na(Cchar$InfiltratingVsRestricted)))` |  `r length(which(is.na(Cprog$InfiltratingVsRestricted)))`
+RNA samples | any fraction | `r length(which(!is.na(Cchar$RNA.seqSampleID)))`| `r length(which(!is.na(Cprog$RNA.seqSampleID)))`
+- | Ep|`r length(which(!is.na(Cchar$FqFile.Ep)))`|`r length(which(!is.na(Cprog$FqFile.Ep)))`
+- | DN|`r length(which(!is.na(Cchar$FqFile.DN)))`|`r length(which(!is.na(Cprog$FqFile.DN)))`
+- | CD45| `r length(which(!is.na(Cchar$FqFile.CD45)))`| `r length(which(!is.na(Cprog$FqFile.CD45)))`
+Imaging Data | No tumors | | `r length(which(!is.na(Cprog$Image.Name)))`
+- | No tumors with RNA | |`r length(which(!is.na(Cprog$Image.Name)& !is.na(Cprog$RNA.seqSampleID)))`
+FACS data| Comprehensive|  | `r length(which(colnames(Fdata)%in%gsub("_", "", Cprog$TumorID)))`
+- | EpCAM/CD45 | `r length(which(!is.na(Cchar$X..CD45..by.FACS.)))` |  `r length(which(!is.na(Cprog$X..CD45..by.FACS.)))` 
+
+<span style="color:red">
+TO INCLUDE: 
+- trichrome data?
+</span>
+
+### Summary of the RNA data
+
+Below is a table of the samples with RNA information
+
+```{r}
+CRchar=Cchar[which(Cchar$AnyRNAdata=="yes"), ]
+CRprog=Cprog[which(Cprog$AnyRNAdata=="yes"), ]
+```
+
+Feature | Levels | Characterisation | Progression
+--------|---------|-------- |------
+RNA samples | any fraction | `r length(which(!is.na(CRchar$RNA.seqSampleID)))`| `r length(which(!is.na(CRprog$RNA.seqSampleID)))`
+- | Ep|`r length(which(!is.na(CRchar$FqFile.Ep)))`|`r length(which(!is.na(CRprog$FqFile.Ep)))`
+- | DN|`r length(which(!is.na(CRchar$FqFile.DN)))`|`r length(which(!is.na(CRprog$FqFile.DN)))`
+- | CD45| `r length(which(!is.na(CRchar$FqFile.CD45)))`| `r length(which(!is.na(CRprog$FqFile.CD45)))`
+Treatments Char/Prev  | Vehicle | `r length(which(CRchar$Treatment=="Vehicle"))`| `r length(which(CRprog$Treatment=="Vehicle"))`
+- | Untreat (char) | `r length(which(CRchar$Treatment=="Untreated"))` |
+-| LY | | `r length(which(CRprog$Treatment=="LY"))`
+-| PDL1| | `r length(which(CRprog$Treatment=="PDL1"))`
+-| PDL1+LY| | `r length(which(CRprog$Treatment=="PDL1+LY"))`
+- | NA | `r length(which(is.na(CRchar$Treatment) ))` |`r length(which(is.na(CRprog$Treatment)))`
+Time | NMU 2 Sac| `r round(mean(CRchar$Time.NMU2Sac, na.rm=T),2) ` (`r quantile(CRchar$Time.NMU2Sac, c(0.1, 0.9), na.rm=T)`) | `r round(mean(CRprog$Time.NMU2Sac, na.rm=T), 2) ` (`r quantile(CRprog$Time.NMU2Sac, c(0.1, 0.9), na.rm=T)`)
+Growth Rate/Size (mm) | overall size @ sac | `r round(mean(CRchar$Tumor.dia..sac..mm.,na.rm=T), 2)`  (`r quantile(CRchar$Tumor.dia..sac..mm., c(0.1,  0.9), na.rm=T)`) | `r round(mean(CRprog$Tumor.dia..sac..mm.,na.rm=T), 2)` (`r quantile(CRprog$Tumor.dia..sac..mm., c(0.1, 0.9), na.rm=T)`)
+- | Growing No. | | `r length(grep("growing", CRprog$Growth2))`
+- | Growing size @ sac |  |  `r round(mean(CRprog$Tumor.dia..sac..mm.[grep("growing", CRprog$Growth2)]),2)` `r quantile(CRprog$Tumor.dia..sac..mm.[grep("growing", CRprog$Growth2)], c(0.1, 0.5, 0.9), na.rm=T)`
+- | Stable ||`r length(grep("stable", CRprog$Growth2))`
+- | Stable size @ sac | | `r round(mean(CRprog$Tumor.dia..sac..mm.[grep("stable", CRprog$Growth2)]),2)` (`r quantile(CRprog$Tumor.dia..sac..mm.[grep("stable", CRprog$Growth2)], c(0.1, 0.5, 0.9), na.rm=T)`)
+- | NA |`r length(which(is.na(CRchar$Growth2)))` | `r length(which(is.na(CRprog$Growth2)))`
+Growth and Treatment: comparing small/stable vs large/growing | | 
+Vehicle | N s/l |  | `r length(which(CRprog$Treatment=="Vehicle" & CRprog$Growth2=="stable"))`, `r length(which(CRprog$Treatment=="Vehicle" & CRprog$Growth2=="growing"))`
+LY | N s/l |  | `r length(which(CRprog$Treatment=="LY" & CRprog$Growth2=="stable"))`, `r length(which(CRprog$Treatment=="LY" & CRprog$Growth2=="growing"))`
+PDL1 and Treatment | N s/l |  | `r length(which(CRprog$Treatment=="PDL1" & CRprog$Growth2=="stable"))`, `r length(which(CRprog$Treatment=="PDL1" & CRprog$Growth2=="growing"))`
+PDL1+LY | N s/l |  | `r length(which(CRprog$Treatment=="PDL1+LY" & CRprog$Growth2=="stable"))`, `r length(which(CRprog$Treatment=="PDL1+LY" & CRprog$Growth2=="growing"))`
+
+

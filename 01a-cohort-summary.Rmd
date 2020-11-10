@@ -1,0 +1,270 @@
+# Cohort summary
+
+Below we assess summary statistics on clinico-pathological features of this data set. This includes information on:
+
+* treatment
+* tumor size
+* growth rates (mm/week)
+* number of tumors per rat 
+
+```{r}
+Cdata=xlsx::read.xlsx("../metadata/Carlos_samples_list_master_updated_2020-10-05.xlsx", sheetIndex=1)
+
+scroll_box(kable(Cdata, format="html"),
+         height="300px", width="100%")
+```
+
+## Calculating growth rates
+
+In this section, we estimate the growth rates of the samples: Below is a plot of the tumor size per week for each recorded tumor, color-coded according to treatment. Time is measured at the first time point at which a tumor is palpated. Spontaneous large tumors are assumed to have a tumor size of 0 or 1 one week prior to palpating.
+
+```{r}
+GrowthRaw=read.csv("../metadata/growth_rates_0915.csv")
+colnames(GrowthRaw)[-1]=substr(colnames(GrowthRaw)[-1], 2, 10)
+colnames(GrowthRaw)=gsub("\\.", "-", colnames(GrowthRaw))
+
+CTreat=Cdata$Treatment[match(colnames(GrowthRaw), gsub("_", "", Cdata$TumorID))]
+CTreat=ColMerge[match(CTreat, rownames(ColMerge)) ,1]
+Cgrowth=Cdata$Tumor.growth.status[match(colnames(GrowthRaw), gsub("_", "", Cdata$TumorID))]
+
+#pdf(sprintf("rslt/Clinicopath/summary_growth_plots_%s.pdf", Sys.Date()), width=8, height=8)
+
+par(xpd=T)
+plot(NA, xlim=c(0, 27), ylim=c(0, 50), ylab="Tumor Size (mm)", xlab="Time (weeks)", main="Tumor size over time")
+
+for (i in 2:ncol(GrowthRaw)){
+  x1=which(!is.na(GrowthRaw[, i]))
+  lines(GrowthRaw[x1, 1], GrowthRaw[x1, i], col=CTreat[i])
+}
+legend("bottom", inset = c(-0.2, -0.2), rownames(ColMerge), col=ColMerge[ ,1], lwd=2, horiz = T)
+
+ax1=colnames(GrowthRaw)[-1][which(CTreat[-1]=="Unknown")]
+bx1=Cdata$TumorID[!gsub("_", "", Cdata$TumorID)%in%colnames(GrowthRaw)]
+bx1=bx1[which(bx1%in%Cdata$TumorID[Cdata$Tumor.growth.status%in%c("stable", "growing")])]
+
+#Plot the above into quadrants based on different treatments:
+par(mfrow=c(2,2))
+xn=levels(factor(names(CTreat)))
+x2=CTreat[xn]
+for (j in 1:4){
+  indx=which(CTreat==x2[j])
+  indx=setdiff(indx, 1)
+  plot(NA, xlim=c(0, 27), ylim=c(0, 50), ylab="Tumor Size (mm)", xlab="Time (weeks)", main=xn[j])
+for (i in indx){
+  x1=which(!is.na(GrowthRaw[, i]))
+  lines(GrowthRaw[x1, 1], GrowthRaw[x1, i], col=CTreat[i])
+  text(GrowthRaw[x1[length(x1)], 1], GrowthRaw[x1[length(x1)], i], colnames(GrowthRaw)[i], cex=0.6)
+}
+}
+
+#dev.off()
+```
+
+These tumors doesn't have growth rate data: `r bx1`.
+
+We can then compute the growth rate for the above samples by considering the change in size over a given period of time using a linear regression model. Below is the histogram of growth rates:
+
+```{r, fig.height=5}
+GR=sapply(2:ncol(GrowthRaw), function(x) lm(GrowthRaw[, x]~GrowthRaw[, 1])$coefficients[2])
+names(GR)=colnames(GrowthRaw)[-1]
+
+d1=data.frame(growthrate=GR, treatment=names(CTreat[-1]), growth=Cgrowth[-1], color=CTreat[-1])
+
+Nweeks=sapply(2:ncol(GrowthRaw), function(x) max(which(!is.na(GrowthRaw[ , x]))))
+names(Nweeks)=names(GR)
+
+d1$Nweeks=Nweeks[match(rownames(d1), names(Nweeks))]
+d1$Time.Tum2Sac=Cdata$Time.Tumor2Sac[match(rownames(d1), gsub("_", "", Cdata$TumorID))]
+d1$Time.NMU2Sac=Cdata$Time.NMU2Sac[match(rownames(d1), gsub("_", "", Cdata$TumorID))]
+d1$tum.size=Cdata$Tumor.dia..sac..mm.[match(rownames(d1), gsub("_", "", Cdata$TumorID))]
+d1$growthrate_cutoff2=ifelse(d1$growthrate>=2, "growing", "stable")
+
+#pdf(sprintf("rslt/Clinicopath/summary_growth_rates_%s.pdf", Sys.Date()), width=8, height=6)
+hist(GR, breaks=30, main="distribution of growth rates (mm/week)")
+```
+
+Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:
+
+```{r}
+ggplot(d1, aes(x=treatment, y=growthrate, col=treatment))+geom_boxplot()+geom_jitter()+
+  scale_color_manual(values=ColMerge[ ,1])
+```
+
+We can calculate the p.values below, using a  t.test. The growth rates comparing the treatment to the controls are:
+
+```{r}
+print('LY samples')
+wilcox.test(d1$growthrate[d1$treatment=="LY"], d1$growthrate[d1$treatment=="Vehicle"])
+print('PDL1 samples')
+wilcox.test(d1$growthrate[d1$treatment=="PDL1"], d1$growthrate[d1$treatment=="Vehicle"])
+print('PDL1+LY samples')
+wilcox.test(d1$growthrate[d1$treatment=="PDL1+LY"], d1$growthrate[d1$treatment=="Vehicle"])
+```
+
+This shows a smaller growth-rate in PDL1 single and double treated cases compared to the vehicles.
+
+Overall the distribution of growing vs stable tumors is shown below:
+
+```{r}
+table(ifelse(d1$growthrate>=2, "grow", "stable"))
+```
+
+We can replot the previous graphs according to growth, and color code according to whether it is a fast or slow growing tumor
+
+```{r}
+#pdf(sprintf("rslt/Clinicopath/summary_growth_plots_with shadings%s.pdf", Sys.Date()), width=8, height=8)
+
+par(xpd=T)
+
+#Plot the above into quadrants based on different treatments:
+par(mfrow=c(2,2))
+for (j in 1:length(xn)){
+  indx=which(names(CTreat)==xn[j])
+  indx=setdiff(indx, 1)
+#   plot(NA, xlim=c(0, 27), ylim=c(0, 50), ylab="Tumor Size (mm)", xlab="Time (weeks)", main=paste("Original", xn[j]))
+# for (i in indx){
+#   x1=which(!is.na(GrowthRaw[, i]))
+#   lines(GrowthRaw[x1, 1], GrowthRaw[x1, i], col=ifelse(d1$growth[i-1]=="growing", ColMerge[j, 1], ifelse(d1$growth[i-1]=="stable", ColMerge[j, 2], "black")), type="o", pch=19)
+#   text(GrowthRaw[x1[length(x1)], 1], GrowthRaw[x1[length(x1)], i], colnames(GrowthRaw)[i], cex=0.6)
+# }
+  plot(NA, xlim=c(0, 27), ylim=c(0, 50), ylab="Tumor Size (mm)", xlab="Time (weeks)", main=paste("Redone", xn[j]))
+for (i in indx){
+  x1=which(!is.na(GrowthRaw[, i]))
+  lines(GrowthRaw[x1, 1], GrowthRaw[x1, i], col=ifelse(d1$growthrate_cutoff2[i-1]=="growing", ColMerge[j, 1], ifelse(d1$growthrate_cutoff2[i-1]=="stable", ColMerge[j, 2], "black")), type="o", pch=19)
+  text(GrowthRaw[x1[length(x1)], 1], GrowthRaw[x1[length(x1)], i], colnames(GrowthRaw)[i], cex=0.6)
+}
+  
+}
+
+#dev.off()
+
+```
+
+As a sanity check, compare these growth rates with differences in tumour size at different time points:
+
+* comparing the growth rate according to classifications (growing, stable)
+* tumor size at time of sacrifice
+* rate of tumor development from the time of NMU injection
+
+```{r, fig.height=4,warning='hide'}
+par(mfrow=c(1,3))
+# boxplot(d1$growthrate~d1$growth, main="growth rate, original growth", las=2, ylab="rate (mm/week)")
+boxplot(d1$growthrate~d1$growthrate_cutoff2, main="growth rate, new growth", las=2,  ylab="tumor growth rate (mm/week)", xlab="")
+x1=wilcox.test(d1$growthrate~d1$growthrate_cutoff2)$p.value
+text(1.5, 20, paste("wilcox p =", round(x1, 3)))
+
+# boxplot(d1$tum.size~d1$growth, main="tum size at sac, original growth", las=2, ylab="size @ sac (mm)")
+boxplot(d1$tum.size~d1$growthrate_cutoff2, main="tum size at sac, new growth", las=2, ylab="Tumor diameter (mm)", xlab="")
+x1=wilcox.test(d1$tum.size~d1$growthrate_cutoff2)$p.value
+text(1.5, 40, paste("wilcox p =", round(x1, 3)))
+# boxplot(d1$tum.size/d1$Time.NMU2Sac~d1$growth, main="rate NMU2SAC, original growth", las=2, ylab="rate (mm/week)")
+boxplot(d1$tum.size/d1$Time.NMU2Sac~d1$growthrate_cutoff2, main="rate NMU2SAC", las=2, ylab="growth rate from NMU injection (mm/wk)", xlab="")
+x1=wilcox.test(d1$tum.size/d1$Time.NMU2Sac~d1$growthrate_cutoff2)$p.value
+text(1.5, 0.6, paste("wilcox p =", round(x1, 3)))
+
+# boxplot(d1$growthrate~d1$treatment, main="growth rate, original growth", las=2, ylab="rate (mm/week)")
+#boxplot(d1$growthrate~d1$growthrate_cutoff2, main="growth rate, new growth", las=2)
+
+```
+
+Is there an association with treatment? Calculate below using chi-squared test:
+
+```{r, fig.height=3, fig.width=5}
+## Old data
+
+# print('new data outcome')
+ a3=chisq.test(table(factor(d1$treatment), d1$growthrate_cutoff2))
+ a3
+
+#chisq.test(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])))
+#a4
+
+#pdf(sprintf("rslt/summary_growth_plots_contigency%s.pdf", Sys.Date()), width=6, height=4)
+
+ ContTable(table(factor(d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
+
+#ContTable(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])), "old rates", T, "growth", "treatment")
+
+#dev.off()
+
+```
+
+Overall, it appears that there is an association between growth rate and treatment
+
+```{r}
+# Replace the Cdata information with new growth information
+Cdata$Growth2=d1$growthrate_cutoff2[match(gsub("_", "", Cdata$TumorID), rownames(d1))]
+Cdata$GrowthRate=d1$growthrate[match(gsub("_", "", Cdata$TumorID), rownames(d1))]
+
+#write.xlsx(Cdata, file=sprintf("metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+```
+
+## FACS data
+
+The immune (CD45) fractions from a number of samples were collected, and assessed using FACs. The major cell types detected are:
+
+Leukocytes:
+
+* Tregs 
+* CD8 T cells
+* Thelper cells
+* B cells
+* NK T cells
+* gamma delta T cells 
+
+Myeloid cells:
+
+* Macrophages M1
+* Macrophages M2
+* Dendritic cells
+* Monocytes
+* Neutrophils
+
+We can look at the:
+
+* types of cells
+* distributions
+
+Note that in a number of samples the leukocyte population could not be inferred with confidence, and proportions are normalised to the myeloid population
+
+```{r}
+Fdata=read.csv("../data/carlos_facs_tumors.csv", stringsAsFactors = F)
+Fdata[ ,2:ncol(Fdata)]=Fdata[ ,2:ncol(Fdata)]/100
+m1=substr(colnames(Fdata), 2, 5)
+colnames(Fdata)=m1
+colnames(Fdata)[1]="type"
+
+scroll_box(kable(Fdata, format="html"),
+         height="300px", width="100%")
+
+t2=Fdata[-which(Fdata[ ,1]==""),]
+#rownames(t2)=Fdata[-which(Fdata[ ,1]=="") ,1]
+t2=t2[-c(1:2, 14), ]
+t2melt=melt(t2)
+
+ggplot(t2melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('all samples')
+
+```
+
+We can look solely at the myeloid population (and normalise to this total), and color according to growth
+
+```{r}
+t3=t2[7:11, ]
+t3[, 2:ncol(t3)]=t(t(t3[, 2:ncol(t3)])/colSums(t3[, 2:ncol(t3)]))
+t3melt=melt(t3)
+
+t3melt$growth=d1$growthrate_cutoff2[match(t3melt$variable, rownames(d1))]
+
+ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('myeloid specific')
+```
+Similarly, we can look at the leukocyte population. Note that the Treg population in some of these samples is very high.
+
+```{r}
+t3=t2[1:6, ]
+t3[, 2:ncol(t3)]=t(t(t3[, 2:ncol(t3)])/colSums(t3[, 2:ncol(t3)]))
+t3melt=melt(t3)
+
+t3melt$growth=d1$growthrate_cutoff2[match(t3melt$variable, rownames(d1))]
+
+ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('leukocyte specific')
+```
