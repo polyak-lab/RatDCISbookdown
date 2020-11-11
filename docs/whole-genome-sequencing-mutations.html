@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="bcr-clonotype-analysis.html"/>
-
+<link rel="next" href="trichrome-staining.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -269,8 +269,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>13.4</b> Overview of the mutations</a><ul>
 <li class="chapter" data-level="13.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>13.4.1</b> All mutations</a></li>
-<li class="chapter" data-level="13.4.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#cosmic-only"><i class="fa fa-check"></i><b>13.4.2</b> Cosmic only:</a></li>
 </ul></li>
+<li class="chapter" data-level="13.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>13.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>14</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="14.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>14.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="14.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>14.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -600,10 +604,7 @@ ENSP00000388058
 </tbody>
 </table>
 <p>And here, we plot the frequency of these different mutations</p>
-<pre><code>## [1] 377</code></pre>
-<pre><code>## Nx
-## Tert 241 Tert 356 Muc1 173  Atm 915 Prf1 292 Prf1 363 
-##       14       14       12       11       11       11</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
 </div>
 </div>
 <div id="plots" class="section level2">
@@ -612,10 +613,12 @@ ENSP00000388058
 <h3><span class="header-section-number">13.2.1</span> Quick overview</h3>
 <p>WGS all mutations summary: Look at the overall mutation burden, and the tumor mutational burden, defined as # coding mutations per MB.</p>
 <p>The following plot lists tumors in increasing size</p>
-<p>Make plots of:
-* overall types of mutations per sample (ranked by size)
-* correlation between mutation type and size
-* type of mutation?</p>
+<p>Make plots of:</p>
+<ul>
+<li>overall types of mutations per sample (ranked by size)</li>
+<li>correlation between mutation type and size</li>
+<li>type of mutation?</li>
+</ul>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-2.png" width="672" /></p>
 </div>
 <div id="coding-variants-tmb" class="section level3">
@@ -659,18 +662,265 @@ ENSP00000388058
 </ul>
 <p><img src="RatDCIS-bookdown_files/figure-html/pop-gen-plot-1.png" width="672" /></p>
 <pre><code>## [1] 1093</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/pop-gen-plot-2.png" width="672" /></p>
-<pre><code>##      freq.Freq   gene      VariantClass Cosmic   variable      value
-## 140         11   Prf1 Missense_Mutation      1 HarlanFreq 0.45287155
-## 699          3 Rnf213 Missense_Mutation      1 HarlanFreq 0.14028935
-## 700          3 Rnf213 Missense_Mutation      1 HarlanFreq 0.14028935
-## 701          3 Rnf213 Missense_Mutation      1 HarlanFreq 0.14116616
-## 805          3   Tcf3 Missense_Mutation      1 HarlanFreq 0.06795265
-## 953          2 Ptpn13 Missense_Mutation      1 HarlanFreq 0.02718106
-## 1792         3 Rnf213 Missense_Mutation      1     CRFreq 0.52640449
-## 1793         3 Rnf213 Missense_Mutation      1     CRFreq 0.52640449
-## 1794         3 Rnf213 Missense_Mutation      1     CRFreq 0.53651685
-## 1898         3   Tcf3 Missense_Mutation      1     CRFreq 0.14887640</code></pre>
+<img src="RatDCIS-bookdown_files/figure-html/pop-gen-plot-2.png" width="672" />
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+freq.Freq
+</th>
+<th style="text-align:left;">
+gene
+</th>
+<th style="text-align:left;">
+VariantClass
+</th>
+<th style="text-align:right;">
+Cosmic
+</th>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+140
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+Prf1
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.4528715
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+699
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.1402893
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+700
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.1402893
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+701
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.1411662
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+805
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Tcf3
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.0679527
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+953
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Ptpn13
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+HarlanFreq
+</td>
+<td style="text-align:right;">
+0.0271811
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1792
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+CRFreq
+</td>
+<td style="text-align:right;">
+0.5264045
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1793
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+CRFreq
+</td>
+<td style="text-align:right;">
+0.5264045
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1794
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Rnf213
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+CRFreq
+</td>
+<td style="text-align:right;">
+0.5365169
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1898
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Tcf3
+</td>
+<td style="text-align:left;">
+Missense_Mutation
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+CRFreq
+</td>
+<td style="text-align:right;">
+0.1488764
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="overview-of-the-mutations" class="section level2">
@@ -678,54 +928,25 @@ ENSP00000388058
 <div id="all-mutations" class="section level3">
 <h3><span class="header-section-number">13.4.1</span> All mutations</h3>
 <p>SNPs are removed from this analysis: based on frequencies in the harlan cohort</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-3.png" width="672" /></p>
+<p>Color codes:</p>
+<ul>
+<li>black:</li>
+<li>pink:</li>
+<li>green:</li>
+<li>blue:</li>
+</ul>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-5.png" width="672" /></p>
+<p>These are the interesting plots:</p>
 <p>test break here</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-4.png" width="672" /></p>
+</div>
+</div>
+<div id="metacore-analysis-of-commonly-mutated-pathways" class="section level2">
+<h2><span class="header-section-number">13.5</span> Metacore analysis of commonly mutated pathways</h2>
 <p>Save these lists for metacore</p>
 <p>Load the metacore results:</p>
-</div>
-<div id="cosmic-only" class="section level3">
-<h3><span class="header-section-number">13.4.2</span> Cosmic only:</h3>
-<p>Probably don’t need this section?</p>
-<p>Note the cut-offs:</p>
-<table>
-<thead>
-<tr class="header">
-<th>Mut in N samples</th>
-<th>Genes</th>
-<th>NO genes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>27</td>
-<td>Atm Tert</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td>19</td>
-<td>Prf1</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>18</td>
-<td>Muc1 Ncor2 Clip1</td>
-<td>3</td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>Pik3ca, Brca2</td>
-<td>17</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>Braf, Nras, Bcl9l Atr Erbb3 Gata2</td>
-<td>49</td>
-</tr>
-</tbody>
-</table>
-<p>Based on this data, check whether the mutation sites are listed in the above db Sets</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-3.png" width="672" /></p>
 
-</div>
 </div>
 </div>
             </section>
@@ -733,8 +954,8 @@ ENSP00000388058
           </div>
         </div>
       </div>
-<a href="bcr-clonotype-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="bcr-clonotype-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="trichrome-staining.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

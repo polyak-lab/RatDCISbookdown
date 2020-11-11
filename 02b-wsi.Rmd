@@ -640,12 +640,16 @@ colnames(df.Spatial)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colname
 df.Spatial=cbind(df.Spatial, knnreshape[ ,10:13])
 df.Spatial$GrowthRate=Cdata$GrowthRate[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$TumSize=Cdata$Tumor.dia..sac..mm.[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
-write.csv(df.Spatial, file="../data/WSI-data/summary_scores_spatial.csv")
 df.Spatial$knn.EpCAMcut=cut(df.Spatial$knn.EpCAM, c(-1, median(df.Spatial$knn.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$MH.EpCAMcut=cut(df.Spatial$MH.EpCAM, c(-1, median(df.Spatial$MH.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
 
+t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+
+df.Spatial=cbind(df.Spatial, t(t2))
+
+write.csv(df.Spatial, file="outputs/summary_scores_spatial.csv")
 
 df.Spatial[which(df.Spatial=="Inf", arr.ind = T)]=NA
 
@@ -666,6 +670,9 @@ testSig3=sapply(c(1:28, 32), function(x) cor.test(df.Spatial[ ,x] , df.Spatial$T
 scroll_box(kable(df.Spatial[ , c("knn.EpCAM", "IF.EpCAM", "MH.EpCAM", "Treatment", "Growth", "Infil", "CD8frac", "TumSize")], format="html"),
          height="300px", width="100%")
 
+
+scroll_box(kable(df.Spatial, format="html"),
+         height="300px", width="100%")
 ```
 
 ```{r}

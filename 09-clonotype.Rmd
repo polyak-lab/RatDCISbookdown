@@ -69,7 +69,7 @@ TableOut=cbind(NSamples, NSamplesCt2, NSamplesCDR3comp, NSamplesCDR3compCt2)
 
 matchidx=match(rownames(TableOut), infoTableFinal$SampleID)
 ColOut=factor(paste(infoTableFinal$Fraction[matchidx], infoTableFinal$Batch[matchidx]))
-palette(c("#e5f5e0","#a1d99b", "#31a354",  "#fd8d3c","#fa9fb5", "#f03b20", "#005824"))
+#palette(c("#e5f5e0","#a1d99b", "#31a354",  "#fd8d3c","#fa9fb5", "#f03b20", "#005824"))
 
 #pdf(sprintf("rslt/TRUST4/BCR_summary_QC_%s.pdf", Sys.Date()), height=5, width = 7)
 

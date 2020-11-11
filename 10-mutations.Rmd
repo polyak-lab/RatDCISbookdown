@@ -159,6 +159,8 @@ Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BLi
 Xc=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(ChangList2$RatGene, ChangList2$RatAAno))
 x2=c(which(!is.na(Xb)), which(!is.na(Xc)))
 
+#head(MeltCosmic)
+
 Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$AAno))
 Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
 x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
@@ -171,11 +173,11 @@ And here, we plot the frequency of these different mutations
 
 ```{r}
 idx=which(!is.na(MeltCosmic$HumGene))
-length(idx)
+#length(idx)
 Nx=paste(MeltCosmic$Gene[idx], MeltCosmic$AAno[idx])
 T2=sort(table(Nx), decreasing = T)
-head(T2)
-#barplot(T2[1:25], las=2, main="top 20 most frequent coding mutations with human analog")
+#head(T2)
+barplot(T2[1:20], ylim=c(0, 14), main="top 20 most frequent coding mutations with human homolog")
 ```
 
 ## Plots
@@ -472,7 +474,7 @@ WGSplot=WGSplot[-which(is.na(WGSplot$value)), ]
 ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gene))+facet_grid(~variable)+geom_point()+
   geom_text(size=(WGSplot$Cosmic+3), col="black", nudge_y=0.01)+xlab("Cohort frequency")+ylab("Database frequency")+theme_bw()+theme(legend.position="bottom")+ggtitle("all genes compared to Harlan Frequencies")
 
- WGSplot[WGSplot$Cosmic==1, ]
+ kable(WGSplot[WGSplot$Cosmic==1, ])
 
 ```
 
@@ -482,6 +484,13 @@ ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gen
 ### All mutations
 
 SNPs are removed from this analysis: based on frequencies in the harlan cohort
+
+Color codes:
+
+* black:
+* pink: 
+* green:
+* blue:
 
 ```{r}
 Nmut=90
@@ -522,7 +531,8 @@ RowSC=ifelse(colnames(tempx)%in% c(RatCosmic, as.character(AllCancerPathwayGenes
 
 heatmap.2(tempx, Rowv = NA, Colv = NA,scale="none", trace="none", col=c("white", 1:4), ColSideColors=RowSC)
 # check if any of these are hotspot mutations
-Hotspots=MeltCosmic[which(!is.na(MeltCosmic$HumSequence)), ]
+Hotspots=MeltCosmic[which(!is.na(MeltCosmic$HumSequence)==T), ]
+#head(Hotspots)
 
 hotspotLocExtract=function(amat){
 HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
@@ -539,30 +549,24 @@ tempxb=tempx[a2$rowInd, a2$colInd]
 hotspot1b=hotspotLocExtract(tempxb)
 GeneList=unique(Hotspots$Gene_Symbol)
 tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
-head(tempy)
-# a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
-# tempyb=tempy[a2$rowInd, a2$colInd]
-# hotspot2=hotspotLocExtract(tempyb)
-# ## hotspot locations
-# GeneList=unique(Hotspots$Gene_Symbol)
-# tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
-# a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
-# tempyb=tempy[a2$rowInd, a2$colInd]
-# hotspot2=hotspotLocExtract(tempyb)
+a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
+tempyb=tempy[a2$rowInd, a2$colInd]
+hotspot2=hotspotLocExtract(tempyb)
 
 ##cosmic genes
 x1=which(colnames(rGeneOut2)%in%RatCosmic)
 tempz=rGeneOut2[ ,x1]
-head(tempz)
 a2=heatmap.2(sign(tempz), trace="none", col=c("white", 1:4))
 tempzb=tempz[a2$rowInd, a2$colInd]
 hotspotzb=hotspotLocExtract(tempzb)
 
 ```
 
+These are the interesting plots:
+
 test break here
 
-```{r, eval=F}
+```{r}
 
 
 #pdf(sprintf("rslt/WGS/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
@@ -619,30 +623,22 @@ mtext("Cancer related genes: more than 1 sample", side=3, line=-1, outer=T)
 #dev.off()
 ```
 
+## Metacore analysis of commonly mutated pathways
+
 Save these lists for metacore
 
-```{r, eval=F}
+```{r}
 allMut=unique(MeltWGSCodingB$Gene_Symbol)
 write.csv(allMut, file=sprintf("outputs/all_mut_rat_WGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
 
 allMut=unique(MeltCosmic$Gene_Symbol)
 write.csv(allMut, file=sprintf("outputs/all_mut_rat_WES_cosmic_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
 
-## Genomic Locations: not useful since the human variants are assessed
-#write.csv(MeltWGSCodingB[ ,c("Chromosome", "Start_Position", "Reference_Allele", "Tumor_Seq_Allele2")], file=sprintf("rslt/WGS/all_mut_locations_ratWGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
-
-
-# ratAllMut=na.omit(unique(c(SymHum2Rat$HGNC.symbol[match(allMut, SymHum2Rat$RGD.symbol)], Rat2Hum$HGNC.symbol[match(allMut, Rat2Hum$RGD.symbol)])))
-# 
-# lnx1=table(factor(MeltWGSCodingB$Gene_Symbol))
-# allMut2samp=names(lnx1)[which(lnx1>1)]
-# write.csv(allMut2samp, file=sprintf("rslt/WGS/all_mut_rat_WES_coding_metacore_at_least_2_samples_%s.csv", Sys.Date()), row.names = F, quote=F)
-
 ```
 
 Load the metacore results:
 
-```{r, eval=F}
+```{r}
 Process_Networks=read.xlsx("../data/wholegenome_mutations/RatWEScoding_process_networks.xlsx", 1, startRow = 3)
 Pathway_Maps=read.xlsx("../data/wholegenome_mutations/RatWEScoding_pathway_maps.xlsx", 1, startRow = 3)
 
@@ -679,127 +675,12 @@ par(mfrow=c(1,2), mar=c(2,8, 2,2))
 barplot(-log10(as.numeric(Process_Networks$FDR[1:15])), names.arg = Process_Networks$Networks[1:15], las=2, main="Process networks", horiz = T, cex.names = 0.5)
 barplot(-log10(as.numeric(Pathway_Maps$FDR[1:15])), names.arg = Pathway_Maps$Maps[1:15], las=2, main="Pathway Maps", horiz = T, cex.names = 0.5)
 
-par(oma=c(10, 3,3,3))
+par(oma=c(3, 3,3,3))
 heatmap.2(SumTable2, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Process Networks")
 
-par(oma=c(10, 3,3,3))
+par(oma=c(3, 3,3,3))
 heatmap.2(SumTable3, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Pathway Maps")
 
 #dev.off()
 ```
-
-### Cosmic only:
-
-Probably don't need this section?
-
-Note the cut-offs:
-
-Mut in N samples | Genes | NO genes
---------|------|--------
-27 | Atm Tert | 2
-19| Prf1 | 1
-18 | Muc1 Ncor2 Clip1 | 3
-3| Pik3ca, Brca2 |17
-2| Braf, Nras, Bcl9l Atr Erbb3 Gata2 | 49
-
-
-```{r, eval=F}
-Nmut=90
-
-# x1a=which(MeltCosmic$Gene_Symbol%in%rmHarlanSNP$gene &  MeltCosmic$Start_Position%in%rmHarlanSNP$pos)
-# MeltCosmicB=MeltCosmic[-x1a, ]
-
-# rGeneOut=acast(MeltWGSCodingB[ ,c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
-#                value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
-# 
-# mxl=unique(as.vector(rGeneOut))
-# rGeneOut2=rGeneOut
-# rGeneOut2[grep("Nonsense",rGeneOut2)]=3
-# rGeneOut2[grep("Frame_Shift",rGeneOut2)]=2
-# rGeneOut2[grep("Missense_", rGeneOut2)]=1
-# rGeneOut2[grep("Splice_", rGeneOut2)]=4
-# rGeneOut2[which(rGeneOut2=="")]=0
-# 
-# rGeneOut2=apply(rGeneOut2, 2, as.numeric)
-# rownames(rGeneOut2)=rownames(rGeneOut)
-
-rGeneOut3=rGeneOut2[ , which(colnames(rGeneOut2)%in%c(RatCosmic, AllCancerPathwayGenes))]
-GeneList=colSums(sign(rGeneOut2), na.rm=T)
-samp2=rowSums(sign(rGeneOut2), na.rm=T)
-rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
-
-top30=names(sort(GeneList, decreasing=T)[1:Nmut])
-# do a plot of the top 30 most common mutations
-temp=rGeneOut2[ ,top30]
-tempx=temp[grep("^N|C", rownames(temp)), ]
-a1a=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
-tempy=temp[grep("D", rownames(temp)), ]
-a1b=heatmap(tempy, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
-a2=rbind(tempx[a1a$rowInd, a1a$colInd], tempy[a1b$rowInd, a1a$colInd])
-
-l1=as.numeric(RNADNAsamples$Treatment[match(rownames(a2), sapply(strsplit(as.character(RNADNAsamples$WGS), ".final.bam"), function(x) x[1]))])
-colSC=palette()[l1+4]
-
-x1=order(l1)
-
-a2=a2[x1,  ]
-# rsMatrix=acast(CancerMeltCoding[ ,c("GENE", "L1", "ID")], L1~GENE,value.var="ID", fun.aggregate = function(x) length(which(x!=""))) #grep("H", x)
-# rsMatrixSearch=rsMatrix[match(rownames(a2), rownames(rsMatrix)), match( colnames(a2), colnames(rsMatrix)) ]
-# 
-# Listout=which(rsMatrixSearch>0, arr.ind = T)
-
-heatmap.2(a2, Colv = NA, Rowv=NA, scale="none", trace="none", col=c("white", 1:4), RowSideColors=colSC[x1])
-
-# check if any of these are hotspot mutations
-Hotspots=MeltCosmic[which(MeltCosmic$CompSeq!=""), ]
-# 
- hotspotLocExtract=function(amat){
- HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
-                                                  paste(match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))), "0 0"))
- List2=strsplit(HList, " ")
- Xcord=na.omit(as.numeric(sapply(List2, function(x) x[1])))
- Ycord=na.omit(as.numeric(sapply(List2, function(x) x[2])))
- return(list(X=Xcord, Y=Ycord))
- }
- 
-hotspot1=hotspotLocExtract(a2)
-
-par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-image(t(a2), col=c("white", 1:4), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(a2)), colnames(a2), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(a2)), rownames(a2), las=2, cex=0.7)
-text(na.omit(hotspot1$Y-1)/(ncol(a2)-1), na.omit(hotspot1$X-1)/(nrow(a2)-1) , "*")
-legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift","Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
-
-
-```
-
-Based on this data, check whether the mutation sites are listed in the above db Sets
-
-```{r, eval=F}
-rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)| !is.na(WGSList$CRFreq) | !is.na(WGSList$rsID)), ]
-x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
-MeltWGSCodingC=MeltWGSCoding[x1a, ]
-
-tempCos=merge(MeltWGSCodingC, rmHarlanSNP, by.x="Start_Position", by.y="pos", all.x=T)
-
-tempCos$B=ifelse(is.na(tempCos$HarlanFreq)==F, tempCos$HarlanFreq, ifelse(is.na(tempCos$CRFreq)==F, tempCos$CRFreq, 0))
-a3=acast(tempCos[ ,c("Gene_Symbol", "L1", "B")], L1~Gene_Symbol, 
-               value.var="B", fun.aggregate=max)
-a3[which(a3=="-Inf", arr.ind = T)]=-2
-
-a3=a3[order(rownames(a3)) , order(colnames(a3))]
-
-hotspot1=hotspotLocExtract(a3)
-
-#pdf(sprintf("rslt/WGS/harlan_SNP_frequency_%s.pdf", Sys.Date()), width=12, height=6)
-
-image(t(a3), col=c("white", "grey", brewer.pal(5, "Blues")), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(a3)), colnames(a3), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(a3)), rownames(a3), las=2, cex=0.7)
-text(na.omit(hotspot1$Y-1)/(ncol(a3)-1), na.omit(hotspot1$X-1)/(nrow(a3)-1) , "*")
-mtext("common variants and expected frequency")
-#dev.off()
-```
-
 
