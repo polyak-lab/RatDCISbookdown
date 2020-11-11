@@ -7,6 +7,8 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
+github-repo: polyak-lab/RatDCISbookdown
+url: 'https://polyak-lab.github.io/RatDCISbookdown/'
 description: "This is a summary of the code required in the study: 'insert study name' "
 ---
 
@@ -4999,11 +5001,24 @@ heatmap.2(MHCclassSumm2[ ,which(infoTableFinal$Fraction=="DN")], col=RdBu[11:1],
 
 <!--chapter:end:07-signature-analysis.Rmd-->
 
-# Cancer pathways
+## Cancer pathways
 
-## ssGSEA
+In this section, we will assess whether certain fractions (eg. ep or dn) or certain tumors depend on specific cancer signalling axes. We will utilise the following information:
 
-Figure out the signalling pathway expression (e.g using ssGSEA)
+* Common cancer pathways listed by Bailey et al: This includes PIk3CA, cell cycle, Myc, tp53, notch, TGFB
+* manually curated list of breast-specific genes (esr1, gata3, erbb2, pgr, tp53)
+
+### ssGSEA
+
+Figure out the signalling pathway expression (e.g using ssGSEA).
+
+From top to bottom, the color codes are:
+
+* cd8 content
+* infiltration cd8
+* Growht
+* Fraction
+* treatment
 
 ```{r}
 gsList=list()
@@ -5015,96 +5030,127 @@ CancerRatSig=GeneSetCollection(gsList)
 # 
 Cancer_counts=gsva(assay(dds)[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
 
-Cancer_counts2=gsva(allTPMFinal[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
+idx=match(colnames(Cancer_counts), infoTableFinal$SampleID)
+ColTable=cbind(palette()[as.numeric(factor(infoTableFinal$Treatment[idx]))],                             palette()[as.numeric(factor(infoTableFinal$Fraction[idx]))],
+palette()[as.numeric(factor(infoTableFinal$Growth[idx]))],
+palette()[as.numeric(factor(infoTableFinal$MHcut[idx]))],
+palette()[as.numeric(factor(infoTableFinal$CD8FracCut[idx]))])
+
+#Cancer_counts=gsva(allTPMFinal[ ,-grep("CD45", colnames(assay(dds)))], CancerRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
 
 # doesn't seem to matter that we convert to TPM or not. Also try the TPMs from the RSEM package
 #Imm_counts2=gsva(allTPMFinal,ImmRatSig, mx.diff=T, method="ssgsea", verbose=F, parallel.sz=1, kcdf="Poisson", ssgsea.norm=T)
 
-#pdf(sprintf("rslt/signatureAnalysis/Main_cancer_Pathways_%s.pdf", Sys.Date()), width=6, height=7)
-# palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],   
-heatmap.plus(Cancer_counts2, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(Cancer_counts), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],
-             palette()[as.numeric(infoTableFinal$Growth[match(colnames(Cancer_counts), infoTableFinal$SampleID)])]), scale="row", symkey=T)
+heatmap.plus(Cancer_counts, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors=ColTable, scale="row", symkey=T)
 
 
-CCount=Cancer_counts2[ , grep("Ep", colnames(Cancer_counts2))]
+CCount=Cancer_counts[ , grep("Ep", colnames(Cancer_counts))]
 
-heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(CCount), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(CCount), infoTableFinal$SampleID)])],
-             palette()[as.numeric(infoTableFinal$Growth[match(colnames(CCount), infoTableFinal$SampleID)])]), scale="row", symkey=T,
-             main="Ep only samples")
+heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable[grep("Ep", colnames(Cancer_counts)) ,], scale="row", symkey=T, main="Ep only samples")
 
-CCount=Cancer_counts2[ , grep("DN", colnames(Cancer_counts2))]
+CCount=Cancer_counts[ , grep("DN", colnames(Cancer_counts))]
 
-heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =cbind(palette()[as.numeric(infoTableFinal$Treatment[match(colnames(CCount), infoTableFinal$SampleID)])+4],                             palette()[as.numeric(infoTableFinal$Fraction[match(colnames(CCount), infoTableFinal$SampleID)])],
-             palette()[as.numeric(infoTableFinal$Growth[match(colnames(CCount), infoTableFinal$SampleID)])]), scale="row", symkey=T,
-             main="DN only samples")
+heatmap.plus(CCount, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors = ColTable[grep("DN", colnames(Cancer_counts)), ], scale="row", symkey=T,main="DN only samples")
 
-cancerCountsMelt=melt(Cancer_counts)
+cancerCountsMelt=melt(Cancer_counts[, which(colnames(Cancer_counts)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression"])])
+
 cancerCountsMelt$Fraction=infoTableFinal$Fraction[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
 cancerCountsMelt$Treatment=infoTableFinal$Treatment[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt$Growth=infoTableFinal$Growth[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt$MHEpCAM=infoTableFinal$MHcut[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
+cancerCountsMelt$CD8Frac=infoTableFinal$CD8FracCut[match(cancerCountsMelt$Var2, infoTableFinal$SampleID)]
 
-ggplot(data=cancerCountsMelt, aes(x=Treatment, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")
+ggplot(data=cancerCountsMelt, aes(x=Treatment, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")+ggtitle("pathway enrichment: Treatment")
 
+ggplot(data=cancerCountsMelt, aes(x=Growth, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")+ggtitle("pathway enrichment: Growth")
 
-#dev.off()
+ggplot(data=cancerCountsMelt, aes(x=MHEpCAM, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")+ggtitle("pathway enrichment: Infiltration")
 
+ggplot(data=cancerCountsMelt, aes(x=CD8Frac, y=value, col=Fraction))+geom_boxplot()+facet_wrap(~Var1, scales="free_y")+ggtitle("pathway enrichment: CD8 Fraction")
 ```
 
+From the above plots:
+
+* higher Hippom Notch RTK Wnt and TGFB signalling in DN samples
+* LY epithelial samples are enriched in cell cycle genes
 
 ### regression model for covariates
 
-Linear model: Create a linear model to explain the above:
+Linear model: Create a linear model to explain the above, focusing on the Progression cohort.
 
-Score ~ Fraction + Treatment + CD8Fraction + Spatial Score + GrowthRate (+Tumor Size?) + PAM50
+I.e. 
+Signature Score ~ Fraction + Treatment + CD8Fraction + Spatial Score + GrowthRate + Tumour size + PAM50
 
-```{r, eval=F}
-mx1=match(colnames(Cancer_counts2), infoTableFinal$SampleID)
+Note that the reference levels are:
 
-infoTabTemp=infoTableFinal[mx1, ]
+* Fraction: DN 
+* Treatment: Vehicle   
+* PAM50: basal
+
+We see:
+
+* TP53 and Wnt pathways associated with CD8 content (particularly in CD8 low samples)
+* TP53 more associated basal DN, and with treatment in DN samples, infiltrating tumors
+* TGFB signalling higher in ep treated ith PDL1+LY
+
+```{r}
+#mx1=match(colnames(Cancer_counts), infoTableFinal$SampleID)
+
+idx=which(colnames(Cancer_counts)%in%infoTableFinal$SampleID[infoTableFinal$Cohort=="Progression"])
+idx2=colnames(Cancer_counts)[idx]
+infoTabTemp=infoTableFinal[match(idx2, infoTableFinal$SampleID), ]
 infoTabTemp$Fraction=factor(infoTabTemp$Fraction)
 levels(infoTabTemp$Treatment)=c("Vehicle", "LY", "PDL1", "PDL1+LY")
+
+CCount2=Cancer_counts[ ,idx2]
+
 #infoTabTemp$PAM50_v2="Basal"
 #infoTabTemp$PAM50_v2[grep("Lum", infoTabTemp$PAM50)]="Lum"
 
 ## First do a score based on DN vs Ep
+a1=glm(infoTabTemp$Fraction~0+t(CCount2), family="binomial")
+#summary(a1)
 
-a1=glm(infoTableFinal$Fraction[mx1]~0+t(Cancer_counts2), family="binomial")
-summary(a1)
 
-
-MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=11)
+MatrixSumm=matrix(NA, nrow=nrow(CCount2), ncol=10)
 PValsSumm=MatrixSumm
 
 
-for (i in 1:nrow(Cancer_counts2)){
-  a1=glm(Cancer_counts2[i, ]~Fraction+Treatment+CD8Frac+MHcut+GrowthRate+TumSize+SpatialManual+PAM50_v2, data=infoTabTemp)
+for (i in 1:nrow(Cancer_counts)){
+  a1=glm(CCount2[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
 
 colnames(PValsSumm)=names(coefficients(a1))
-rownames(PValsSumm)=rownames(Cancer_counts2)
+rownames(PValsSumm)=rownames(Cancer_counts)
 colnames(MatrixSumm)=colnames(PValsSumm)
 rownames(MatrixSumm)=rownames(PValsSumm)
 
 MatrixSumm2=MatrixSumm
 MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
 
-#pdf(sprintf("rslt/signatureAnalysis/cancer_pathway_variables_%s.pdf", Sys.Date()), height=6, width=6)
-par(oma=c(4, 0,0,0))
+par(oma=c(2, 0,0,0))
 
 heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: All variables")
 
-MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=9)
+```
+
+Focus specifically on the DN and Ep samples separately:
+
+```{r}
+
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
-for (i in 1:nrow(Cancer_counts2)){
-  a1=glm(Cancer_counts2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize+PAM50_v2, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+for (i in 1:nrow(Cancer_counts)){
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
 
 colnames(PValsSumm)=names(coefficients(a1))
-rownames(PValsSumm)=rownames(Cancer_counts2)
+rownames(PValsSumm)=rownames(Cancer_counts)
 colnames(MatrixSumm)=colnames(PValsSumm)
 rownames(MatrixSumm)=rownames(PValsSumm)
 
@@ -5113,17 +5159,17 @@ MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
 
 heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: DN")
 
-MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts2), ncol=9)
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
-for (i in 1:nrow(Cancer_counts2)){
-  a1=glm(Cancer_counts2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize+PAM50_v2, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+for (i in 1:nrow(Cancer_counts)){
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
 
 colnames(PValsSumm)=names(coefficients(a1))
-rownames(PValsSumm)=rownames(Cancer_counts2)
+rownames(PValsSumm)=rownames(Cancer_counts)
 colnames(MatrixSumm)=colnames(PValsSumm)
 rownames(MatrixSumm)=rownames(PValsSumm)
 
@@ -5136,14 +5182,15 @@ heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to
 ```
 
 Associations: 
+
 * notch signalling with LY treatment
 * TGFB with PDL1+LY treatment
 * Ras and Wnt signalling lower CD8Fraction
 * TP53 with CD8 fraction
 
-### TSG vs Oncogenes
+### Taking into account directionality
 
-Do the same scoring, taking into account oncogenic vs tumor suppressor activity?
+Do the same scoring, taking into account oncogenic vs tumor suppressor activity (i.e.)
 Usually, there is no difference. The pathway is increased either way
 
 ```{r}
@@ -5183,7 +5230,7 @@ ggplot(data=cancerCountsMelt_dir, aes(x=Treatment, y=value, col=Fraction))+geom_
 Do a regression analysis for TSG vs ONCO signatures in this pathway
 
 
-```{r, eval=F}
+```{r}
 mx1=match(colnames(Cancer_counts_dir), infoTableFinal$SampleID)
 
 infoTabTemp=infoTableFinal[mx1, ]
@@ -5192,8 +5239,8 @@ levels(infoTabTemp$Treatment)=c("Vehicle", "LY", "PDL1", "PDL1+LY")
 
 ## First do a score based on DN vs Ep
 
-a1=glm(infoTableFinal$Fraction[mx1]~0+t(Cancer_counts_dir), family="binomial")
-summary(a1)
+# a1=glm(infoTableFinal$Fraction[mx1]~0+t(Cancer_counts_dir), family="binomial")
+# summary(a1)
 
 
 MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=10)
@@ -5201,7 +5248,7 @@ PValsSumm=MatrixSumm
 
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHcut+GrowthRate+TumSize+SpatialManual, data=infoTabTemp)
+  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5219,11 +5266,11 @@ par(oma=c(4, 0,0,0))
 
 heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: All variables")
 
-MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=8)
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5238,11 +5285,11 @@ MatrixSumm2[which(PValsSumm>0.1, arr.ind = T)]=0
 
 heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to signalling pathway: DN")
 
-MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=8)
+MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHcut+GrowthRate+TumSize, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5261,9 +5308,9 @@ heatmap.2(MatrixSumm2[ ,-1], col=RdBu[11:1], trace="none", main="Contributors to
 
 ```
 
-Looking at up vs down genes: are they differentially expressed?
+Looking at up vs down genes: are any of these differentially expressed?
 
-```{r, eval=F}
+```{r}
 AllSearch=lapply(AllGS, function(x) geneIds(x))
 AllSearchUn=unlist(AllSearch)
 
@@ -5340,38 +5387,1526 @@ Based on wilcoxon tests for differences between growth, cd8 content, spatial arr
 heatmap.plus(Imm_counts[unique(c(ax1, bx1, cx1)), ], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="row", symkey=T,
              main="significant differences")
 
-AllTables=cbind(ax1, bx1, cx1)
+AllTables=cbind(growthDiff, CD8Diff, SpatDiff)
 colnames(AllTables)=c("growth", "cd8", "mh-idx")
-#rownames(AllTables)=rownames(Imm_counts)
+rownames(AllTables)=rownames(Imm_counts)
 
-dim(AllTables)
-length(rownames(Imm_counts))
+x1=-log10(AllTables)
+x1[which(x1<1, arr.ind = T)]=0
 
-heatmap.2(-log10(AllTables+0.001),col=brewer.pal(9, "Blues"), scale="none", trace="none", main="p values of differences" )
+
+heatmap.2(x1,col=brewer.pal(9, "Blues"), scale="none", trace="none", main="p values of differences" , symmkey = F)
+```
+
+For the MH scores and the CD8 scores, we can do a correlation analysis using the raw values
+
+```{r}
+CD8Diff=sapply(1:nrow(Imm_counts), function(x) cor(Imm_counts[x, ], infoTableFinal$CD8Frac[match(colnames(Imm_counts), infoTableFinal$SampleID)], use="complete"))
+
+MHDiff=sapply(1:nrow(Imm_counts), function(x) cor(Imm_counts[x, ], infoTableFinal$MHEpCAM[match(colnames(Imm_counts), infoTableFinal$SampleID)], use="complete"))
+
+AllTables2=cbind(CD8Diff, MHDiff)
+colnames(AllTables2)=c("CD8cor", "MHcor")
+rownames(AllTables2)=rownames(Imm_counts)
+
+heatmap.2(t(AllTables2),col=RdBu[11:1], scale="none", trace="none", main="correlation analysis" )
 ```
 
 ## Deconvolution methods
 
-Deconvolution was performed using the TIMER website, which lists the following results
-
-TIMER
-XCELL
-CIBERSORT
-EPIC
+Deconvolution was performed using the TIMER website, which lists results from TIMER,
+XCELL,
+CIBERSORT,
+EPIC, MMPCOUNTER
 
 For TIDE, we need to:
+
 * compute log(RPKM+1) values
 * Determine the values of the reference/or compute a sample average
 * Subtract the two
 * We can convert from Rat gene names to Human and exclude all the non mapping gnes.
 
-
-TPM counts were used for this analysis (using mouse gene names)
+TPM counts were used for this analysis (using Rat gene names)
 
 ```{r}
 output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
 colnames(output1)=gsub("X", "", colnames(output1))
 ```
 
+
+### Overview of the cell types
+
+Below, we will look at the enrichment scores of specific cell types compared to others using these different methods. It appears that most methods have scores which skews towards high representation of T cells:
+
+TIMER for example shows an enrichment of dendritic and CD8 T cells.
+EPIC in contrast shows enrichment for CD4+ and to a lesser extend CD8 T cells
+MMPCOUNTER puts an unusually large weighting to T cells and this does not fit our FACS analysis
+XCELL enriches for T cells
+
+```{r, fig.height=8}
+RowNames=c("TIMER", "CIBERSORT$", "CIBERSORT-ABS", "EPIC", "MMCPCOUNTER", "XCELL")
+Type=c("enrichment", "fraction", "enrichment", "fraction", "enrichment", "enrichment")
+
+par(mfrow=c(3, 2))
+
+for (i in 1:length(RowNames)){
+timSamples=output1[grep(RowNames[i], output1$cell_type), ]
+rownames(timSamples)=sapply(strsplit(as.character(timSamples$cell_type), "_"), function(x) x[1])
+boxplot(t(timSamples[ ,-1]), las=2, main=RowNames[i], ylab=Type[i])
+}
+```
+
+### Comparison with FACS data
+
+In this section, we compare how well the estimates from RNAseq deconvolution methods associate with FACS data.
+
+```{r, imm-assoc-facs}
+## annotate the FACS data here
+
+infoTableFinal$Name2=NA
+infoTableFinal$Name2[which(infoTableFinal$Fraction=="CD45")]=paste(infoTableFinal$Rat_ID[which(infoTableFinal$Fraction=="CD45")], infoTableFinal$Location[which(infoTableFinal$Fraction=="CD45")], sep="")
+m2=match(m1, infoTableFinal$Name2)
+
+## get rid of the NA samples
+naom=infoTableFinal$SampleID[m2[which(!is.na(m2))]]
+mid=m1[which(!is.na(m2))]
+
+lx1=Fdata[, c(1, match(mid, m1))]
+out2=output1[, c(1,match(naom, colnames(output1)))]
+colnames(lx1)=colnames(out2)
+
+# Run all the association tests here
+## New Table
+# -cd8
+# Th
+# Tregs
+# B cells
+# Macrophage
+
+# 
+MergedTable=matrix(NA, ncol=21, nrow=1)
+colnames(MergedTable)=colnames(out2)
+
+tx1=sapply(strsplit(as.character(out2$cell_type), "_"), function(x) x[1])
+MethodSumm=sapply(strsplit(as.character(out2$cell_type), "_"), function(x) x[2])
+tabtx1=table(tx1)
+TheseFracs=names(tabtx1)[which(tabtx1>3)]
+
+testSetB=c("B cell", "MHCII-hi", "MHCII-lo", "Monocyte", "Neutrophil", "NK cells", "CD8", "Treg")
+#  "CD8", "Th", "Treg", "B cells", "NK cells", "DC", "Neutrophil", "Monocyte", "gd T", "MHCII-hi", "MHCII-lo")
+testSet=TheseFracs[-2]#c("CD8", "CD4", "Treg", "B cell", "NK", "dendritic", "Neutrophil", "Monocyte", "gamma delta", "M1", "M2")
+ 
+CMat=matrix(NA, nrow=length(testSet), ncol=length(unique(MethodSumm)))
+rownames(CMat)=testSet
+colnames(CMat)=unique(MethodSumm)
+ 
+PMat=CMat
+#testSet="M2"
+#testSetB="MHCII-lo"
+
+for (j in 1:length(testSet)){
+CD8Table=rbind(lx1[grep(testSetB[j], lx1$cell_type), ],
+               out2[which(tx1==testSet[j]), ])
+CD8Table[1,1]=paste(testSetB[j], "facs", sep="_")
+ms=MethodSumm[which(tx1==testSet[j])]
+par(mfrow=c(3,3))
+
+
+cVals=sapply(2:nrow(CD8Table), function(x) cor(t(CD8Table[1, -1]), t(CD8Table[x, -1]), use="complete"))
+cVals2=sapply(2:nrow(CD8Table), function(x) cor.test(t(CD8Table[1, -1]), t(CD8Table[x, -1]), use="complete")$p.value)
+
+CMat[j, match(ms, colnames(CMat))]=cVals
+PMat[j, match(ms, colnames(PMat))]=cVals2
+
+MergedTable=rbind(MergedTable, CD8Table)
+
+#for (i in 2:nrow(CD8Table)){
+  #a1=cor(t(CD8Table[1, -1]), t(CD8Table[i, -1]), use="complete")
+  #plot(t(CD8Table[1, -1]), t(CD8Table[i, -1]), main=CD8Table[i,1], ylab="method", xlab="FACS")
+  #text(min(t(CD8Table[1, -1]), na.rm=T)*2, max(t(CD8Table[i, -1]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+  
+}
+
+
+##for the following, find the terms and calculate the sum
+
+testSetB=c("Macro", "Th", "B cell")
+testSet=c("Macro", "CD4", "B cell")
+rmThese=c("M0", "naive", NULL)
+
+savTemp=matrix(NA, nrow=3, ncol=ncol(CMat))
+rownames(savTemp)=paste("all", testSet, sep="")
+savTempP=savTemp
+
+
+for (j in 1:length(testSetB)){
+  
+  CD8Table=lx1[grep(testSetB[j], lx1$cell_type), ]
+  CD8Table=colSums(CD8Table[, -1])
+  #rownames(CD8Table)="facs"
+  
+  outB=out2[grep(testSet[j], out2$cell_type), ]
+  rm2=grep(rmThese[j], outB$cell_type)
+  
+  if (length(na.omit(rm2))>0){
+    outB=outB[-rm2, ]
+  }
+  
+  namOut=sapply(strsplit(as.character(outB$cell_type), "_"), function(x) x[2])
+  nam2=unique(namOut[which(duplicated(namOut))])
+  
+  outC=sapply(nam2, function(x) colSums(outB[which(namOut==x), -1 ]))
+  outB=outB[-which(namOut%in%nam2), ]
+  rownames(outB)=sapply(strsplit(as.character(outB$cell_type), "_"), function(x) x[2])
+  
+  allD=rbind(CD8Table, outB[, -1], t(outC))
+  rownames(allD)[1]="facs"
+  allD$method=rownames(allD)
+  
+ # allD=data.matrix(allD)
+  
+#pdf(sprintf("rslt/Immune decomposition/correlations_combined_%s.pdf", testSetB[j]), width=10, height=10)
+
+#ggplot(temp8, aes(x=method, y=value, col=variable))+geom_bar(stat="identity")+facet_wrap(~variable, scale="free_y")+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+par(mfrow=c(3,3))
+
+for (i in 2:nrow(allD)){
+  a1=cor(t(allD[1, -ncol(allD)]), t(allD[i, -ncol(allD)]), use="complete")
+  a2=cor.test(t(allD[1, -ncol(allD)]), t(allD[i, -ncol(allD)]), use="complete")$p.value
+  savTemp[j, match(rownames(allD)[i], colnames(CMat))]=a1
+  savTempP[j, match(rownames(allD)[i], colnames(CMat))]=a2
+# plot(t(allD[1, -ncol(allD)]), t(allD[i,-ncol(allD)]), main=allD[i,ncol(allD)], ylab="method", xlab="FACS")
+#  text(min(t(allD[1, -ncol(allD)]), na.rm=T)*2, max(t(allD[i, -ncol(allD)]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+  
+}
+
+cell_type=paste(testSetB[j], allD$method, sep="_all_")
+
+MergedTable=rbind(MergedTable, cbind(cell_type, allD[ ,-21]))
+
+}
+
+CorMatAll=rbind(CMat, savTemp)
+CorMatP=rbind(PMat, savTempP)
+
+par(oma=c(2, 0,0,5))
+heatmap.2(CorMatAll, col=RdBu[11:1], scale="none", trace="none", main="correlation FACS and GE")
+
+```
+
+We can plot associations between the different cell types below, here selecting:
+
+* Bcells
+* CD8 T cells
+* M2 macophage
+* M1 macrophage
+
+```{r, fig.height=7}
+testSetB=c("CD8",  "B cells", "MHCII-hi", "MHCII-lo")
+testSet=c("CD8", "B cell","M1", "M2")
+
+par(mfrow=c(3,3))
+
+for (j in 1:length(testSetB)){ 
+CMat=matrix(NA, ncol=length(testSet), nrow=10) 
+CD8Table=rbind(lx1[grep(testSetB[j], lx1$cell_type), ],
+               out2[grep(testSet[j], out2$cell_type), ])
+
+for (i in 2:nrow(CD8Table)){
+  a1=cor(t(CD8Table[1, -1]), t(CD8Table[i, -1]), use="complete")
+  plot(t(CD8Table[1, -1]), t(CD8Table[i, -1]), main=CD8Table[i,1], ylab="method", xlab="FACS")
+  text(min(t(CD8Table[1, -1]), na.rm=T)*2, max(t(CD8Table[i, -1]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+}
+mtext(testSetB[j], side=3, line=-2, outer=T)
+  
+}
+
+```
+
+### Associate with Treatment
+
+Look at association with treatment, growth and spatial infiltration for each method. 
+
+Associations with treatment:
+
+* higher CD4, CD8 in most treatments 
+* growth: stable associated with higher CD8
+* infiltration: more neutrophils and CD8? maybe CD4 cells
+
+
+```{r, immune-assoc-outcome, cache=T}
+#sizeCutOff=7
+
+MergedTablemelt=melt(MergedTable[-1, ])
+MergedTablemelt$Treatment=infoTableFinal$Treatment[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$Growth=infoTableFinal$Growth[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$InfRes=infoTableFinal$MHcut[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$cell_type2=sapply(strsplit(MergedTablemelt$cell_type, "_"), function(x) x[1])
+MergedTablemelt$method=sapply(strsplit(MergedTablemelt$cell_type, "_"), function(x) x[length(x)])
+
+unValues=unique(MergedTablemelt$cell_type2)
+
+CompTest=list()
+
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=Treatment, y=as.numeric(value), col=Treatment))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Treatment"))
+print(p)
+p<-ggplot(ax, aes(x=Growth, y=as.numeric(value), col=Growth))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Growth"))
+print(p)
+p<-ggplot(ax, aes(x=InfRes, y=as.numeric(value), col=InfRes))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Infiltration"))
+print(p)
+
+unT=sort(unique(ax$Treatment))
+unB=sort(unique(ax$method))
+Outcome1=matrix(NA, nrow=5, ncol=length(unB))
+
+rownames(Outcome1)=c(paste(unT[1:3], "vs.Vehicle", sep=""), "Grow.Stable", "Inf.res")
+colnames(Outcome1)=unB
+
+for (j in 1:nrow(Outcome1)){
+Outcome1[1 , ]=sapply(unB, function(x) wilcox.test(ax$value[which(ax$Treatment=="LY" & ax$method==x)], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[2 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Treatment=="PDL1" & ax$method==x], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[3 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Treatment=="PDL1+LY" & ax$method==x], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[4 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Growth=="growing" & ax$method==x], 
+                  ax$value[ax$Growth=="stable" & ax$method==x])$p.value)
+Outcome1[5 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$InfRes=="inf" & ax$method==x], 
+                  ax$value[ax$InfRes=="res" & ax$method==x])$p.value)
+
+}
+CompTest[[i]]=t(Outcome1)
+o1=Outcome1
+o1[which(o1<0.05, arr.ind=T)]=3
+o1[which(o1<0.1, arr.ind=T)]=2
+o1[which(o1<=1, arr.ind=T)]=0
+#heatmap.2(o1, col=brewer.pal(9, "Blues"), scale="none", trace="none", main=paste("pvalue summary", unValues[i]), Colv = NA, Rowv = NA)
+}
+```
+
+Using wilcox tests for significance, we can make the above comparisons and see if there is an association with outcome:
+
+* There are differences in B-cell content between LY vs V comaprisons using xcell and cibersort
+* Macrophages are different in PDL1+LY
+
+### Association with Growth 
+
+```{r}
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=Growth, y=as.numeric(value), col=Growth))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Growth"))
+print(p)
+}
+
+```
+
+### Association with infiltration 
+
+```{r}
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=InfRes, y=as.numeric(value), col=InfRes))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Infiltration"))
+print(p)
+}
+
+```
+### Summary of the outcome
+
+```{r, fig.width=8}
+CompTest2=do.call(rbind, CompTest)
+ 
+write.csv(CompTest2, file=sprintf("outputs/p_values_differences_treatment_growth_infiltration_%s.csv", Sys.Date()))
+
+scroll_box(kable(CompTest2, format="html"),
+         height="300px", width="100%")
+
+CompTest2=data.frame(CompTest2)
+# CompTest2$Method=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[2])
+# CompTest2$CellType=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[1])
+# 
+# x2=unique(CompTest2$CellType[which(duplicated(CompTest2$CellType))])
+# 
+# CompTest3=CompTest2[which(CompTest2$CellType%in%x2), ]
+# CompTest3melt=melt(CompTest3)
+# 
+# CompTest3melt$P2=ifelse(CompTest3melt$value<0.05, "**", ifelse(CompTest3melt$value<0.1, "*", "ns"))
+# 
+# 
+# 
+# p=ggplot(CompTest3melt, aes(x=CellType, y=Method, fill=P2))+geom_tile()+facet_wrap(~variable)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("No. differential genes")+scale_fill_manual(values=c("#084594", "#2171b5", "#deebf7"))+ggtitle("p values of comparisons")
+# print(p)
+
+#dev.off()
+```
+
+
+
 <!--chapter:end:08-immune-estimation.Rmd-->
+
+# BCR clonotype analysis
+
+## Processing summary
+
+Fastq files have previously been run through TRUST4 using the Rn6 BCR annotations using the following code (not run here). Note that the bcr/tcr .fa files were assembled using the ensembl annotation (these annotations are not present in the UCSC genomic files). Annotation files for the rn6 BCR regions are available at [IMGT](http://www.imgt.org//download/V-QUEST/IMGT_V-QUEST_reference_directory/Rattus_norvegicus/), but TCR regions are not available
+
+```{r, eval=F, echo=T}
+# obtain the gene names for rat:
+library(biomaRt)
+human = useEnsembl("ensembl", mirror="useast", dataset = "hsapiens_gene_ensembl")
+rat = useEnsembl("ensembl", mirror="useast", data="rnorvegicus_gene_ensembl")
+TS = human_igg_trv_list
+Hum2RatProt = getLDS(attributes = c("hgnc_symbol", "ensembl_transcript_id"), filters = "hgnc_symbol",  values = TS , mart = human, attributesL = c("rgd_symbol", "ensembl_transcript_id”, “ensemble_gene_id"), martL = rat, uniqueRows=T)
+write.table(unique(Hum2RatProt$ensemble_gene_id), "ensbl_rat_bcr.txt", quote=F, row.names=F,colnames=F)
+
+# obtain the tcr/bcr.fa file
+#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)
+
+perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_6.0.dna_sm.toplevel.fa Rattus_norvegicus.Rnor_6.0.99.gtf ensbl_rat_bcr.txt > bcrtcr_rat_ens.fa
+
+# Obtain the reference annotation file
+perl BuildImgtAnnot.pl Rattus_norvegicus > Rnor_IMGT+C.fa
+
+# Run TRUST (below is single end)
+./run-trust4 -u 20170125_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_001.fastq.gz -f bcrtcr_rat_ens.fa --ref Rnor_IMGT+C.fa
+```
+
+
+```{r, trust4, cache=T}
+#Annotation file: Load in an annotation file indicating all the samples, batch effects etc 
+
+
+TRUST4path="../data/TRUST4/"
+TRUST4files=dir(TRUST4path,"*.tsv")
+#FileNames=sapply(strsplit(TRUST4files, "_report.tsv"), function(x) x[1])
+matchidx=match(TRUST4files, infoTableFinal$TRUSTName)
+
+#RepNames=paste(infoTableFinal$Rat_ID, tempAnnot$Location, tempAnnot$Fraction, sep="_")[matchidx]
+# load in all the files and save the list to file
+RatTrust=lapply(TRUST4files, function(x) read.delim(paste(TRUST4path, x, sep=""), sep="\t"))
+names(RatTrust)=infoTableFinal$SampleID[matchidx]
+
+
+TRUST4path="../data/TRUST4/matchedNormal/"
+TRUST4files=dir(TRUST4path,"*.tsv")
+#FileNames=sapply(strsplit(TRUST4files, "_report.tsv"), function(x) x[1])
+FileNames=paste(substr(TRUST4files, 10, 12), "matchedNMUCD45", sep="_")
+RatTrustNormal=lapply(TRUST4files, function(x) read.delim(paste(TRUST4path, x, sep=""), sep="\t"))
+names(RatTrustNormal)=FileNames
+
+RatTrust=c(RatTrust, RatTrustNormal)
+
+save(RatTrust, file=sprintf("outputs/Rat_TRUST4_%s.RData", Sys.Date()))
+
+```
+
+## Summary Stats
+
+
+Firstly, look at the number of BCR regions which have been identified by TRUST4. In green are the CD45 populations, which as expected appear to have a higher number of clonotypes compared to the epithelial and the double-negative populations (in read and orange). 
+
+```{r}
+NSamples=sapply(RatTrust, nrow)
+NSamplesCt2=sapply(RatTrust, function(x) length(which(x$X.count>=2)))
+NSamplesCDR3comp=sapply(RatTrust, function(x) length(which(x$CDR3aa!="partial")))
+NSamplesCDR3compCt2=sapply(RatTrust, function(x) length(which(x$CDR3aa!="partial" & x$X.count>=2)))
+
+TableOut=cbind(NSamples, NSamplesCt2, NSamplesCDR3comp, NSamplesCDR3compCt2)
+
+matchidx=match(rownames(TableOut), infoTableFinal$SampleID)
+ColOut=factor(paste(infoTableFinal$Fraction[matchidx], infoTableFinal$Batch[matchidx]))
+palette(c("#e5f5e0","#a1d99b", "#31a354",  "#fd8d3c","#fa9fb5", "#f03b20", "#005824"))
+
+#pdf(sprintf("rslt/TRUST4/BCR_summary_QC_%s.pdf", Sys.Date()), height=5, width = 7)
+
+# plot the clonotype diversity, color-code according to both batch and the sample used
+par(mar = c(4, 4, 4, 2),  xpd = TRUE)
+barplot(NSamplesCt2+1, las=2,log ='y', ylab = "Number of BCR clonotypes", main="Overview of clonotype diversity (2+ reads)", col=ColOut, cex.names = 0.75)
+legend("top", inset = c(-0.5, 0.03),  legend = levels(ColOut),  pch = c(19, 19, 19, 19, 19),  col = c(1:6), horiz = T)
+
+# plot the number of full vs partial clonotypes
+PartialvsFull=rbind(NSamplesCDR3compCt2,NSamplesCt2-NSamplesCDR3compCt2)
+rownames(PartialvsFull)=c("full", "partial")
+
+
+par(mar = c(10, 4, 4, 2),  xpd = TRUE)
+barplot(PartialvsFull+1, las=2,log ='y', ylab = "Number of BCR clonotypes", main="Proportion of full vs partial CDR3a", col=c(1:2), cex.names = 0.75)
+legend("bottom", inset = c(-0.5, -0.5),  legend = c("full", "partial"),  pch = c(19, 19),  col = c(1:2), horiz = T)
+
+par(mar = c(10, 4, 4, 2),  xpd = TRUE)
+barplot(t(TableOut[ which(infoTableFinal$Fraction[matchidx]=="CD45"),]+1), las=2,log ='y', ylab = "Number of BCR clonotypes", main="Clonotype diversity CD45+ samples", col=c(1:4), cex.names = 0.75, beside = T)
+legend("bottom", inset = c(-0.5, -0.5),  legend = c("# clonotypes", "clonotypes >2reads", "complete CDR3", "both"),  pch = c(19, 19, 19),  col = c(1:4), horiz = T)
+
+par(mar = c(10, 4, 4, 2),  xpd = TRUE)
+barplot(NSamplesCDR3compCt2+1, las=2,log ='y', ylab = "Number of BCR clonotypes", main="Filtered Clonotypes based on batch", col=ColOut, cex.names = 0.75, beside = T)
+legend("top", inset = c(-0.5, 0.03),  legend = levels(ColOut),  pch = c(19, 19, 19, 19, 19),  col = c(1:5), horiz = T)
+
+#dev.off()
+
+```
+
+We will refine the above plot to contain only the CD45 population and assess:
+
+* number of clonotypes
+* number of clonotypes with at least 2 reads
+* number of clonotypes which have a complete CDR3a region
+
+Note: although this does not look like a big drop, the data is plotted on a log-scale. For example, in the control 4 (first column) a quarter of the clonotypes have at least 2 counts and about half have a complete CDR3 sequence.
+
+For the following analyses, the clonotypes are filtered to <span style="color:red"> only clonotypes with at least 2 supporting reads and a complete VDJ read </span>. When applying this restriction, we have the following distribution of BCR regions. Almost all the epithelial cases do not have supporting reads, and few of the DN cases have supporting reads too.
+
+```{r}
+RatTrustB=lapply(RatTrust, function(x) x[which(x$CDR3aa!="partial" & x$X.count>=2), ])
+for (i in 1:length(RatTrustB)){
+  RatTrustB[[i]]$frequency=RatTrustB[[i]]$X.count/sum(RatTrustB[[i]]$X.count)
+}
+```
+
+## Diversity metrics
+
+We will assess BCR diversity using the following metrics:
+
+** Shannon index **
+
+The shannon index is computed by:
+
+* filtering through reads of interest
+* recalculate the fraction such that the new list sums to 1
+* compute entropy as the sum of log(freq_x)*freq_x amongst all populations x
+* compute the maximum entropy expected for that case -log(1/N), where N is the number of populations present
+* to determine confidence intervals, bootstrap the population (500 times) and compute the expected entropy
+
+** Gini index **
+
+The Gini index can be considered as an inverse of the Shannon index 
+
+** Top Clonotypes **
+
+We will see the proportion of the BCR repertoire which is computed using the top 10 frequent clones.
+This will give an idea of whether there is a clonal expansion 
+
+```{r, warning=F,message=F}
+# compute values here
+Div1=sapply(RatTrustB, function(x) -sum(x$frequency*log(x$frequency), na.rm=T))
+EDiv=sapply(NSamplesCDR3compCt2, function(x) -log(1/x))
+NormDiv=Div1/EDiv
+
+## Shannon index
+# bootstrap rslt
+BSrslt=sapply(RatTrustB, function(x) tryCatch(BootstrapShannonIdx(x[ ,1], 1000), error=function(e) c(NA, NA)))
+# divide the CI by the maximum possible diversity
+
+BSCI=t(BSrslt)/EDiv
+
+df=data.frame(sample=rownames(BSCI), Val=NormDiv, Lower=BSCI[ , 1], Upper=BSCI[ ,2 ], Type=infoTableFinal$Fraction[matchidx], Batch=infoTableFinal$Batch[matchidx])
+
+## Gini index
+
+Gini=sapply(RatTrustB, function(x) gini(x$frequency))
+
+PGini=sapply(RatTrustB, function(x) tryCatch(PermuteGini(x$X.count, 1000), error=function(e) c(NA, NA)))
+
+df$Calc="shannon"
+
+df2=data.frame(sample=df$sample, Val=Gini, Lower=PGini[1, ], Upper=PGini[2, ], Type=df$Type, Batch=df$Batch,
+               Calc="Gini")
+
+dfAll=rbind(df, df2)
+
+## Top Clonotypes
+
+TopClones=sapply(RatTrustB, function(x) sum(x$frequency[1:5], na.rm = T))
+TopClones[which(NSamplesCDR3compCt2==0)]=0
+df2$Val=TopClones
+df2$Calc="Top10"
+df2$Lower=TopClones
+df2$Upper=TopClones
+
+dfAll=rbind(dfAll, df2)
+
+dfAll$Batch=as.character(dfAll$Batch)
+dfAll$Batch[grep("matchedNMU", rownames(dfAll))]="match"
+dfAll$Type[grep("matchedNMU", rownames(dfAll))]="CD45"
+#ggplot(df[df$Type=="CD45", ], aes(x=sample, y=Val, fill=Type))+geom_bar(stat="identity")+facet_grid(~Batch, scales="free_x", space="free")+geom_errorbar( aes(ymin=Lower, ymax=Upper), width=.2)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("Shannon idx of BCR diversity")
+
+```
+
+The following plot demonstrates the relationship between the above metrics
+
+```{r}
+#pdf(sprintf("rslt/TRUST4/summary_Scores_diversity_%s.pdf", Sys.Date()), width=7, height=5)
+
+ggplot(dfAll[dfAll$Type=="CD45", ], aes(x=sample, y=Val, fill=Type))+geom_bar(stat="identity")+facet_grid(Calc~Batch, scales="free_x", space="free")+geom_errorbar( aes(ymin=Lower, ymax=Upper), width=.2)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("BCR diversity across samples")+ylab("index value")
+
+#dev.off()
+```
+
+Notice that some samples have very few clones. An example is 5RB which is represented by a single clonotype, accounting for the absence of a Gini or shannon index
+
+## Compare the characterisation cohort
+
+In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.
+Is there a difference in the clonotypes between these samples?
+
+```{r}
+CharTemp=dfAll[which(dfAll$Type=="CD45" & dfAll$Batch%in%c("1", "match")), ]
+CharTemp$Batch[grep("Control", CharTemp$sample)]="Normal"
+Nclonotypes=TableOut[which(rownames(TableOut)%in%CharTemp$sample), ]
+Nclonotypes2=melt(Nclonotypes)
+Nclonotypes2$Case="tumor"
+Nclonotypes2$Case[grep("match", Nclonotypes2$Var1)]="mammary"
+Nclonotypes2$Case[grep("Control", Nclonotypes2$Var1)]="control"
+
+#pdf(sprintf("rslt/TRUST4/compare_mammary_vs_tumor_%s.pdf", Sys.Date()), width=8, height=6)
+a1=sapply(unique(CharTemp$Calc), function(x) wilcox.test(CharTemp$Val[CharTemp$Calc==x & CharTemp$Batch==1], CharTemp$Val[CharTemp$Calc==x & CharTemp$Batch=="match"])$p.value)
+p=ggplot(CharTemp, aes(x=Batch, y=Val))+geom_boxplot()+facet_grid(~Calc)+ggtitle(sprintf("wilcox pval: Gini %s, Shannon %s, Top10 = %s", round(a1[2],2), round(a1[1],2), round(a1[3],2)))+geom_jitter(col="grey")+theme_bw()
+print(p)
+
+a1=sapply(unique(Nclonotypes2$Var2), function(x) wilcox.test(Nclonotypes2$value[Nclonotypes2$Var2==x & Nclonotypes2$Case=="tumor"], 
+                                                             Nclonotypes2$value[Nclonotypes2$Var2==x & Nclonotypes2$Case=="mammary"])$p.value)
+
+ann_text2 <- data.frame(lab=paste("p=", round(a1,4),sep=""), Var2=unique(Nclonotypes2$Var2), Case=1, value=2)
+p=ggplot(Nclonotypes2, aes(x=Case, y=value))+geom_boxplot()+facet_grid(~Var2)+ggtitle("Nclonotype with different filters")+geom_jitter(col="grey")+theme_bw()+
+  geom_text(data=ann_text2, aes(label=lab))
+print(p)
+
+#dev.off()
+```
+
+
+## Associate with clinicopathological data
+
+We will associate the following metrics:
+
+* total unique clones
+* diversity
+
+with the following immune data:
+
+* CD45 fraction (from FACS)
+* CD8 fraction (from WSI)
+* MH-mixing indices
+* Tumor Size
+* Growth
+* Treatment
+
+```{r}
+TrustTab=infoTableFinal[matchidx, ]
+TrustTab$TrustNclonotypes=TableOut[match(TrustTab$SampleID, rownames(TableOut)) ,2]
+TrustTab$TrustShannon=dfAll$Val[match(TrustTab$SampleID, dfAll$sample) ]
+TrustTab$TrustTop10=df2$Val[match(TrustTab$SampleID, df2$sample)]
+TrustTab$TrustGini=dfAll$Val[which(dfAll$Calc=="Gini")[match(TrustTab$SampleID, dfAll$sample)] ]
+TrustTab$CD45FACS=as.numeric(as.character(Cdata$X..CD45..by.FACS.[match(TrustTab$TumorID, Cdata$TumorID)]))
+TrustTab$UnclassFrac=as.numeric(as.character(Cdata$UnclassFraction[match(TrustTab$TumorID, Cdata$TumorID)]))
+CD45F=which(TrustTab$Fraction=="CD45")
+#TrustTab=TrustTab[TrustTab$Fraction=="CD45", ]
+
+paramSearch=c("CD8Frac", "TumSize", "CD45FACS", "MHEpCAM", "MHSMA", "IFEpCAM", "IFSMA", "UnclassFrac")
+FeatTrust=c("TrustNclonotypes", "TrustShannon", "TrustGini", "TrustTop10")
+
+Nclon=sapply(paramSearch, function(x) cor.test(TrustTab[CD45F ,x], TrustTab[ CD45F,c("TrustNclonotypes")], use="complete", method="spearman")$p.value)
+SDiv=sapply(paramSearch, function(x) cor.test(TrustTab[CD45F ,x], TrustTab[CD45F ,c("TrustShannon")], use="complete", method="spearman")$p.value)
+GDiv=sapply(paramSearch, function(x) cor.test(TrustTab[ CD45F,x], TrustTab[CD45F ,c("TrustGini")], use="complete", method="spearman")$p.value)
+TDiv=sapply(paramSearch, function(x) cor.test(TrustTab[CD45F ,x], TrustTab[CD45F ,c("TrustTop10")], use="complete", method="spearman")$p.value)
+
+AllSmerge=rbind(Nclon, SDiv, GDiv, TDiv)
+
+#pdf(sprintf("rslt/TRUST4/association_trustmetrics_clinicopathological_%s.pdf", Sys.Date()), width=10, height=8)
+
+heatmap.2(AllSmerge, scale="none", col=RdBu[11:1], trace="none", main="p values of associations")
+
+par(mfrow=c(2,2))
+idx=which(AllSmerge<0.1, arr.ind=T)
+for (i in 1:nrow(idx)){
+  a1=cor.test(TrustTab[CD45F , FeatTrust[idx[i, 1]]]  ,TrustTab[CD45F , paramSearch[idx[i, 2]]], use="complete", method="spearman")
+  plot(TrustTab[CD45F , FeatTrust[idx[i, 1]]]  ,TrustTab[CD45F , paramSearch[idx[i, 2]]], xlab=FeatTrust[idx[i, 1]], ylab=paramSearch[idx[i, 2]],
+       main=sprintf("cor:%s p:%s", round(a1$estimate,2), round(a1$p.value,2)))
+  text(TrustTab[CD45F , FeatTrust[idx[i, 1]]]  ,TrustTab[CD45F , paramSearch[idx[i, 2]]], rownames(TrustTab)[CD45F], cex=0.75)
+}
+
+CD45F2=which(TrustTab$Fraction=="CD45" & TrustTab$Cohort=="Progression")
+## associate with growth and treatment type
+par(mfrow=c(2,2))
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main="BCR # clonotypes")
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main="BCR shannon idx")
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Treatment"], main="BCR Gini idx")
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Treatment"], main="BCR Trust Top 10")
+
+par(mfrow=c(2,2))
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR # clonotypes")
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR shannon idx")
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR Gini idx")
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR Trust Top 10")
+
+par(mfrow=c(2,2))
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR # clonotypes")
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR shannon idx")
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR Gini idx")
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR Trust Top 10")
+
+#dev.off()
+```
+
+
+## Associate with signature scores
+
+Compare to B cell counts and activation status based on RNA-seq
+
+* B cell signature enrichments scores (from RNA data)
+
+```{r}
+bidx=grep("B cell", output1$cell_type)
+idx2=match(TrustTab$SampleID, colnames(output1))
+
+Bsig=output1[bidx, na.omit(idx2)]
+rownames(Bsig)=output1$cell_type[bidx]
+
+
+Bassoc=sapply(FeatTrust, function(y) sapply(1:nrow(Bsig), function(x) cor( t(Bsig[x, ]),(TrustTab[CD45F, y]), use="complete", method="spearman")))
+Bassoc2=sapply(FeatTrust, function(y) sapply(1:nrow(Bsig), function(x) cor.test( t(Bsig[x, ]),(TrustTab[CD45F, y]), use="complete", method="spearman")$p.value))
+rownames(Bassoc)=rownames(Bsig)
+
+BassocM=Bassoc
+BassocM[which(Bassoc2<0.1, arr.ind=T)]=0
+
+
+#pdf(sprintf("rslt/TRUST4/association_Bcell_signatures_%s.pdf", Sys.Date()), width=7, height=6)
+par(oma=c(3, 0,0,5))
+heatmap.2(Bassoc, scale="none", trace="none", col=RdBu[11:1], main="correlation")
+heatmap.2(BassocM, scale="none", trace="none", col=RdBu[11:1], main="significant associations p<0.1 only")
+#dev.off()
+```
+
+* B cell frequencies based on FACS:
+
+```{r}
+lx1=match(colnames(Fdata), gsub("_", "", unlist(strsplit( rownames(TrustTab), "_CD45"))))
+
+#pdf(sprintf("rslt/TRUST4/BCR_association_FACS_%s.pdf", Sys.Date()), width=8, height=8)
+par(mfrow=c(2,2))
+a1=cor.test(as.numeric(t(Fdata[ 9, ])), TrustTab$TrustNclonotypes[lx1], use="complete")
+plot(t(Fdata[ 9, ]), TrustTab$TrustNclonotypes[lx1], xlab="B cell FACS fraction", ylab="# clonotypes", main=paste("cor:", round(a1$estimate, 2), " p:", round(a1$p.value,2) ,sep=""))
+text(t(Fdata[ 9, ]), TrustTab$TrustNclonotypes[lx1], TrustTab$TumorID[lx1])
+a1=cor.test(as.numeric(t(Fdata[ 9, ])), TrustTab$TrustShannon[lx1], use="complete")
+plot(t(Fdata[ 9, ]), TrustTab$TrustShannon[lx1], xlab="B cell FACS fraction", ylab="Shannon Index",  main=paste("cor:", round(a1$estimate, 2), " p:", round(a1$p.value,2),sep=""))
+text(t(Fdata[ 9, ]), TrustTab$TrustShannon[lx1], TrustTab$TumorID[lx1])
+a1=cor.test(as.numeric(t(Fdata[ 9, ])), TrustTab$TrustGini[lx1], use="complete")
+plot(t(Fdata[ 9, ]), TrustTab$TrustGini[lx1], xlab="B cell FACS fraction", ylab="Gini Index",  main=paste("cor:", round(a1$estimate, 2), " p:", round(a1$p.value,2),sep=""))
+text(t(Fdata[ 9, ]), TrustTab$TrustGini[lx1], TrustTab$TumorID[lx1])
+a1=cor.test(as.numeric(t(Fdata[ 9, ])), TrustTab$TrustTop10[lx1], use="complete")
+plot(t(Fdata[ 9, ]), TrustTab$TrustTop10[lx1], xlab="B cell FACS fraction", ylab="Top10",  main=paste("cor:", round(a1$estimate, 2), " p:", round(a1$p.value,2),sep=""))
+text(t(Fdata[ 9, ]), TrustTab$TrustTop10[lx1], TrustTab$TumorID[lx1])
+#dev.off()
+
+```
+
+## Check whether the clonotype percentages match with gsva signatures or CD20 populations
+
+associate with immune signature scores (ssgsea)
+fdr adjust the correlation p values
+
+```{r}
+#s1=dfAll[which(dfAll$Type=="CD45" & dfAll$Calc=="Gini"), ]
+x1=match(TrustTab$SampleID, colnames(Imm_counts))
+SGiniCor=sapply(1:nrow(Imm_counts), function(x) cor(TrustTab[CD45F, "TrustGini"], Imm_counts[ x, na.omit(x1) ], use="complete"))
+SGiniCorP=sapply(1:nrow(Imm_counts), function(x) cor.test(TrustTab[CD45F, "TrustGini"], Imm_counts[ x, na.omit(x1) ], use="complete")$p.value)
+SGiniCorPadj=p.adjust(SGiniCorP, "fdr")
+
+#s1=dfAll[which(dfAll$Type=="CD45" & dfAll$Calc=="shannon"), ]
+#x1=match(s1$sample, infoTableFinal$SampleID)
+SShanCor=sapply(1:nrow(Imm_counts), function(x) cor(TrustTab[CD45F, "TrustShannon"], Imm_counts[ x, na.omit(x1) ], use="complete"))
+SShanCorP=sapply(1:nrow(Imm_counts), function(x) cor.test(TrustTab[CD45F, "TrustShannon"], Imm_counts[ x, na.omit(x1) ], use="complete")$p.value)
+SShanCorPadj=p.adjust(SShanCorP, "fdr")
+
+OutputCorrs=rbind(SGiniCor, SShanCor)
+colnames(OutputCorrs)=rownames(Imm_counts)
+par(oma=c(4, 0,0,0))
+barplot(OutputCorrs, beside=T, las=2, ylab="correlation coefficient")
+text(which(SGiniCorPadj<0.1)*3-1.5, 0.3, "*", col="red")
+text(which(SShanCorPadj<0.1)*3+0.5, 0.3, "*", col="blue")
+legend("topleft", c("gini", "shannon"), col=c("grey35", "grey85"), pch=c(19, 19))
+
+```
+
+
+<!--chapter:end:09-clonotype.Rmd-->
+
+# Whole Genome Sequencing Mutations
+
+Whole genome sequencing was performed on XX samples by the new york genome centre.
+The pipeline involves:
+
+<span style="color:red"> Insert information on the NYGC pipeline here </span>
+
+## Data 
+
+In this section, we load the maf output files and create lists which
+
+* filter out coding mutations
+* Determine mutational signatures by:
+    * Creating bed files with genomic locations of the SNP +- 1 base location
+    * Extracting the nucleotide sequence using bedtools
+    * Convert all mutations to C > N and T > N to obtain 96 mutational signatures
+    * run with single sample SigProfiler to obtain the signature scores
+* Annotate data with common human variants
+
+```{r, load-mutations, cache=T}
+# Load and save for the first time here
+
+mafdir='../data/wholegenome_mutations/maf/'
+x1=dir(mafdir, 'annotated.maf')
+#names2=sapply(strsplit( x1,"--"), function(x) x[1])
+AllMutWGS=lapply(x1, function(x) read.delim(paste(mafdir, x, sep=""), sep="\t", skip = 1))
+names(AllMutWGS)=sapply(strsplit( x1,"--"), function(x) x[1])
+# # ## summary of the number of mutations?
+print('no of mutations')
+TotCount=lapply(AllMutWGS, nrow)
+
+SearchVars=c("Splice_Site", "Nonstop_Mutation", "Nonsense_Mutation", "Missense_Mutation", "Frame_Shift_Ins", "Frame_Shift_Del")
+
+AllMutWGScoding=lapply(AllMutWGS, function(x) x[ x$Variant_Classification%in%SearchVars, ])
+A2=sapply(AllMutWGScoding, nrow)
+
+# Save the combined mutation lists
+save(AllMutWGS, AllMutWGScoding, file=sprintf("outputs/WGS_mutations_coding_%s.RData", Sys.Date()))
+
+#load('data/wholegenome_mutations/WGS_mutations_coding_2020-10-14.RData')
+MeltWGSCoding=melt(AllMutWGScoding, measure.vars=c("Tumor_Sample_Barcode"))
+MeltWGSCoding$Hum_Gene=SymHum2Rat$HGNC.symbol[match(MeltWGSCoding$Gene_Symbol, SymHum2Rat$RGD.symbol)]
+MeltWGSCoding$Hum_Gene[which(is.na(MeltWGSCoding$Hum_Gene))]=toupper(MeltWGSCoding$Gene_Symbol[which(is.na(MeltWGSCoding$Hum_Gene))])
+MutAllCosmic=lapply(AllMutWGScoding, function(x) x[which(x$Gene_Symbol%in%RatCosmic), ])
+MeltCosmic=melt(MutAllCosmic, measure.vars=c("Tumor_Sample_Barcode"))
+```
+
+```{r}
+# Find complete numbers here, so we don't have to go back 
+TotCount=lapply(AllMutWGS, nrow)
+SearchVars=c("Splice_Site", "Nonstop_Mutation", "Nonsense_Mutation", "Missense_Mutation", "Frame_Shift_Ins", "Frame_Shift_Del")
+
+head(TotCount)
+```
+
+### Extract mutation signatures
+
+Annotate the files so that the nucleotide codon can be extracted based on the genome file. 
+See the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
+The output table $fout3 should have 6 columns with the genomic location, the reference and alt allele and codon context.
+
+```{r, eval=F, echo=T}
+TBed=lapply(AllMutWGS, function(x) cbind(as.character(x$Chromosome), x$Start_Position-2, x$End_Position+1, as.character(x$Reference_Allele), as.character(x$Tumor_Seq_Allele2)))
+TBed=lapply(TBed, function(x) x[which(nchar(x[ ,4])==1), ])
+sapply(1:length(TBed), function(x) write.table(TBed[[x]], file=paste(names(TBed)[x], "tricodon.bed", sep="_"),col.names=F, row.names = F, sep="\t", quote = F))
+
+## bedtools command
+bedtools getfasta -fi ../Genomic_Files/rn6.fa -bed $f -tab -fo $fout
+f3() { awk '{print $1, $2, $3, $4 ,$5}' "$1"; }; paste <(f3 $f) <(f3 $fout) > $fout2
+awk '{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}' $fout2 > $fout3
+## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
+```
+
+Following running the above bash script, we can run the following extract the tri-nucleotide sequence
+
+```{r, eval=F, echo=T}
+FFiles=dir("../data/tricodon_mut_sigs/", "*.txt",full.names=T)
+OutputList=sapply(FFiles, function(x) FindTriNucleotideContext(x))
+TableOut=sapply(1:ncol(OutputList), function(x) unlist(OutputList[3, x]))
+a1=basename(FFiles)
+a2=sapply(strsplit(a1, "_"), function(x) x[1])
+TableOut=cbind(as.character(unlist(OutputList[1, 1])), as.character(unlist(OutputList[2, 1])), TableOut)
+colnames(TableOut)=c("MutationType","Nutrinucleotide", paste("BRCA", a2, sep="::"))
+write.csv(TableOut, file="../data/tricodon_mut_sigs/output4SigProfiler.csv", sep = ",", row.names = F)
+```
+
+This is then run in python (sigprofiler) with the following code:
+
+```{r,eval=F, echo=T}
+module load gcc
+module load python/3.7.4
+from SigProfilerExtractor import spss_pcwag (spss uses only vcf files)
+spss_pcwag.single_sample_pcwag("output4SigProfiler.csv", output="example_output")
+```
+
+The results from this analysis are shown below
+
+```{r}
+SBSprof=read.delim("../data/tricodon_mut_sigs/sigpross/sig_activities.txt", sep="\t")
+SBSprofb=SBSprof[ ,-1]/rowSums(SBSprof[ ,-1])
+SBSprofb=SBSprofb[ ,-which(colSums(SBSprofb)==0)]
+rownames(SBSprofb)=SBSprof[ ,1]
+
+
+#pdf(sprintf("rslt/WGS/mutational_signatures_%s.pdf", Sys.Date()), height=9, width=7)
+heatmap.2(data.matrix(SBSprofb[ ,-1]), col=brewer.pal(9, "Blues"), scale="none", trace="none", Colv = NA, Rowv=NA)
+
+SBSmelt=melt(cbind(SBSprofb[ , -1], id=rownames(SBSprofb)))
+SBSsummary <- aggregate(. ~ variable, mean, data=SBSmelt)
+
+ggplot(SBSmelt, aes(x=variable, y=value, col=variable))+geom_jitter()+geom_crossbar(data=SBSsummary , aes(ymin = value, ymax = value),size=0.5,col="black", width = .7)
+
+## Assign with growth data or tumor size?
+tname=substr(SBSprof$Cancer.Types, 7, 20)
+idx=sapply(tname, function(x) grep(x, Cdata$WGS))
+sizeInfo=Cdata$Tumor.dia..sac..mm.[idx]
+
+#par(mfrow=c(2,1))
+cor1=cor.test(SBSprofb$SBS32+SBSprofb$SBS11, sizeInfo, ue="complete")
+plot(SBSprofb$SBS32+SBSprofb$SBS11, sizeInfo, xlab="SBS 32 or 11 score", ylab="tumor size",
+     col=ifelse(SBSprofb$SBS11==0, "red", "blue"), main=sprintf("association between signature score and size, p=%s", round(cor1$p.value, 2)))
+legend("topleft",c("SB11", "SB32"), col=c("red", "blue"), lwd=2, pch=19)
+
+#dev.off()
+```
+
+### Annotate the data with human common variants
+
+Run the following and cache the output
+
+```{r, find-mut-variant, cache=T}
+## Append to MeltCosmic?
+AAout=strsplit(as.character(MeltCosmic$HGVSp_Short), "[0-9]+")
+AAwt=sapply(AAout, function(x) x[1])
+AAmt=sapply(AAout, function(x) x[2])
+AAno=regmatches(MeltCosmic$HGVSp_Short, gregexpr("[[:digit:]]+", MeltCosmic$HGVSp_Short))
+
+MeltCosmic$AAno=NA
+MeltCosmic$AAno[which(sapply(AAno, length)==1)]=as.numeric(as.character(unlist(AAno)))
+
+FindVarTest=FindHumanAAHomolog(MeltCosmic$Gene_Symbol, AAwt, MeltCosmic$AAno, AAmt)
+MeltCosmic=cbind(MeltCosmic, FindVarTest)
+
+Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
+Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
+Xc=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(ChangList2$RatGene, ChangList2$RatAAno))
+x2=c(which(!is.na(Xb)), which(!is.na(Xc)))
+
+Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$AAno))
+Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
+x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
+
+x4=unique(c(x2, x3))
+MeltCosmic[x4, 39:50]
+
+save(MeltCosmic, file=sprintf("outputs/MeltCosmic_coding_genes_WGS_rat_%s.RData", Sys.Date())) #, sep="\t", row.names=F)
+write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_w_human_homolog.csv", row.names = F, quote=F)
+```
+
+Head of the output here
+
+## Plots
+
+### Quick overview
+
+WGS all mutations summary: Look at the overall mutation burden, and the tumor mutational burden, defined as # coding mutations per MB.
+
+The following plot lists tumors in increasing size
+
+Make plots of:
+* overall types of mutations per sample (ranked by size)
+* correlation between mutation type and size
+* type of mutation?
+
+```{r}
+#load("data/wholegenome_mutations/WGS_mutations_coding.RData")
+
+TabSamples=lapply(AllMutWGScoding, function(x) table(factor(x$Variant_Classification, levels=SearchVars)))
+TabSamples2=unlist(TabSamples)
+namidx=sapply(strsplit(names(TabSamples2), "\\."), function(x) x[1])
+namidx2=sapply(strsplit(names(TabSamples2), "\\."), function(x) x[2])
+TotTabl=data.frame(val=TabSamples2, nam=namidx, variant=namidx2)
+
+## remove 0 samples
+# searchNo=stack(by(TotTabl$val, TotTabl$variant, sum))
+# TotTabl=TotTabl[ which(TotTabl$variant %in% searchNo$ind[which(searchNo$values!=0)]), ]
+
+lx1=match(TotTabl$nam, sapply(strsplit(as.character(Cdata$WGS), ".final.bam"), function(x) tryCatch({x[1]}, error=function(e){NA})))
+TotTabl$Size=Cdata$Tumor.dia..sac..mm.[lx1]
+
+TotTabl=TotTabl[order(TotTabl$Size, TotTabl$val), ]
+
+levelNam=unique(TotTabl$nam)
+
+TotTabl$nam=factor(TotTabl$nam, levels=levelNam)
+
+##pdf(sprintf("rslt/WGS/coding_mutation_types_%s.pdf", Sys.Date()), height=6, width=9)
+
+ggplot(TotTabl, aes(x=nam, y=val, fill=variant))+geom_bar(stat="identity")+scale_fill_manual(values=c("black", brewer.pal(9, "Set1")))+theme(axis.text.x=element_text(angle=90))+ylab("Number of coding mutations")+ggtitle("sorted by increasing tumor size at sac, unknown for the C series")
+
+ax1=lapply(sort(SearchVars), function(x) cor.test(TotTabl[TotTabl$variant==x , "val"], TotTabl[TotTabl$variant==x ,  "Size"], use="complete", method="spearman")) 
+pvals=sapply(ax1, function(x) x$p.value)
+cors=sapply(ax1, function(x) x$estimate)
+
+ann_text2 <- data.frame(lab=paste("cor=", round(cors, 2),"p=", round(pvals,2),sep=""), variant=sort(SearchVars),  val=1, Size=5)
+
+ggplot(TotTabl, aes(x=Size, y=val, col=variant))+geom_point()+facet_wrap(~variant, scale="free")+geom_text(data=ann_text2, aes(label=lab))
+
+#dev.off()
+#MeltWGSCoding=melt(AllMutWGScoding, measure.vars=c("Tumor_Sample_Barcode"))
+
+```
+
+### Coding variants & TMB
+
+There are a few ways of figuring out the TMB. We can
+
+* report the number of mutations (missense, insertion/deletion, frameshifts, nonsense)
+* normalise the above value to the known length of coding regions in the rat genome (UCSC exon length 43,423,804)
+* plot of TMB vs objective response rate: there is no true relationship between final tumor size and mutational burden. Could also be confounded by subclonality
+
+```{r}
+searchThese=c("Missense_Mutation", "Nonsense_Mutation", "Frame_Shift_Del", "Frame_Shift_Ins", "Nonstop_Mutation")
+SearchVars
+NVar2=TotTabl[TotTabl$variant%in%SearchVars, ]
+Ntot=by(NVar2$val, NVar2$nam, sum)
+# check this is unique based on the location
+Ntot2=stack(Ntot)
+colnames(Ntot2)[1]="NCodingMut"
+Ntot2$TMB=Ntot2$NCodingMut/43.423804
+TotMut=sapply(AllMutWGS, nrow)
+Ntot2$TotalMut=TotMut[match(Ntot2$ind, names(TotMut))]
+Ntot2$Tum.size=TotTabl$Size[match(Ntot2$ind, TotTabl$nam)]
+Ntot2=Ntot2[order(Ntot2$Tum.size), ]
+#Ntot2$normCov=Ntot2$values/43.423804
+
+Ntot2$NsynFreq=Ntot2$NCodingMut/Ntot2$TotalMut
+Ntot2melt=melt(Ntot2)
+
+#pdf(sprintf("rslt/WGS/frequency_mutational_types#2_%s.pdf", Sys.Date()), height=10, width=6)
+ggplot(Ntot2melt, aes(x=ind, y=value, col=variable))+geom_bar(stat="identity")+facet_grid(variable~., scale="free_y")+
+  theme_bw()+theme(axis.text.x=element_text(angle=90))
+#dev.off()
+## As a metric for TMB, comapre the number of mutations to the covered genome
+```
+
+
+
+```{r, eval=F}
+# To obtain an idea of the coverage:
+Using bedtools and samtools
+here, counting only "propoet pairs" with maping quality greater than 30
+see (https://www.biostars.org/p/11105/)
+samtools view -u -q 30 -f 0x2 aln.bam | coverageBed -abam stdin -b exons.bed > exons.bed.proper.q30.coverage
+```
+
+## Coding variants
+
+### Sites which are commonly mutated?
+
+Could this be a variant (SD strain "rsSNP") or is it actually a mutation? 
+
+Variants were annotated with snpeff. Raw data from this was obtained from https://www.biorxiv.org/content/10.1101/412924v1.full
+
+```{r mod-vcfs, eval=F}
+
+harlanRats=read.vcfR("~/Desktop/carlos_study_files/allChr.allSamps.90DR2.maf01.hweE7.noIBD.HarlanOnly.vcf.gz")
+harlanRats@fix[ ,1]=paste("chr", harlanRats@fix[ ,1], sep="")
+harlanRats@fix[ ,3]=paste("H", harlanRats@fix[ ,3], sep=".")
+harlanRats@meta=harlanRats@meta[-grep("##contig",harlanRats@meta )]
+
+# figure out the genotype distribution
+GT=sapply(1:nrow(harlanRats@gt), function(x) 
+  table(factor(harlanRats@gt[x, -1],levels=c("0/0","0/1","1/1"))))
+GT2=paste(GT[1, ], GT[2, ], GT[3, ], sep=",")
+GT3=paste(GT[1, ]/2281, GT[2, ]/2281, GT[3, ]/2281, sep=",")
+
+GenotypeS=cbind(FORMAT="GT", Annot=c("0/0,0/1,1/1"), GT2, GT3 )
+harlanRats@gt=GenotypeS
+## save this to file or something
+write.vcf(harlanRats, file="~/Desktop/dbSNP_info/harlan_snps_mod_1-5-2020.vcf.gz")
+
+# loading the charles river rat snp sites
+CRRats=read.vcfR("~/Desktop/dbSNP_info/charles_river_200Ksnps.gz")
+CRRats@fix[ ,1]=paste("chr", CRRats@fix[ ,1], sep="")
+CRRats@fix[ ,3]=paste("CR", CRRats@fix[ ,3], sep=".")
+CRRats@meta=CRRats@meta[-grep("##contig",CRRats@meta )]
+
+crGT=sapply(1:nrow(CRRats@gt), function(x) 
+  table(factor(CRRats@gt[x, -1],levels=c("0/0","0/1","1/1"))))
+crGT2=paste(crGT[1, ], crGT[2, ], crGT[3, ], sep=",")
+crGT3=paste(crGT[1, ]/1780, crGT[2, ]/1780, crGT[3, ]/1780, sep=",")
+GenotypeS=cbind(FORMAT="GT", Annot=c("0/0,0/1,1/1"), crGT2, crGT3 )
+CRRats@gt=GenotypeS
+write.vcf(CRRats, file="~/Desktop/dbSNP_info/charlesRiver_snps_mod_1-5-2020.vcf.gz")
+```
+
+Note that the nihRats package may not be required here. We probably just want the harlan snps
+
+```{r, load-snps-database, cache=T}
+# loading known list of rat snp sites
+nihRats=read.vcfR("../anntotations/dbSNP/rat_10116_00-All.wchr.SDsort.vcf.gz")
+#nihRats@fix[ ,1]=paste("chr", nihRats@fix[ ,1], sep="")
+r=regexpr("[a-z]+_[a-z]+",nihRats@fix[ ,8]) #ANN=[A-Z]\\|
+ModType=rep(NA, length(nihRats@fix[ ,8]))
+ModType[r!=-1]=regmatches(nihRats@fix[ ,8], r)
+#ModType=substr(ModType, 7, 25)
+# Harlan samples
+harlanRats=read.vcfR("../anntotations/dbSNP/harlan_snps_mod_1-5-2020.SDsort.vcf.gz")
+
+GT3=crGT3=1-as.numeric(sapply(strsplit(harlanRats@gt[ ,4], ","), function(x) x[1]))
+
+r=regexpr("ANN=[A-Z]\\|[a-z]+_[a-z]+", harlanRats@fix[ ,8])
+HarType=rep(NA, length(harlanRats@fix[ ,8]))
+HarType[r!=-1]=regmatches(harlanRats@fix[ ,8], r)
+HarType=substr(HarType, 7, 25)
+# charles river samples
+CRRats=read.vcfR("../anntotations/dbSNP/charlesRiver_snps_mod_1-5-2020.SDsort.vcf.gz")
+crGT3=1-as.numeric(sapply(strsplit(CRRats@gt[ ,4], ","), function(x) x[1]))
+
+r=regexpr("ANN=[A-Z]\\|[a-z]+_[a-z]+", CRRats@fix[ ,8])
+CRType=rep(NA, length(CRRats@fix[ ,8]))
+CRType[r!=-1]=regmatches(CRRats@fix[ ,8], r)
+
+CRType=substr(CRType, 7, 25)
+```
+
+
+
+```{r}
+# This is just a plot that compares the different databases.
+## Look at the overlap between all the databases:
+NIHr=paste(nihRats@fix[ ,1], nihRats@fix[ ,2])
+harr=paste(harlanRats@fix[ ,1], harlanRats@fix[ ,2])
+crr=paste(CRRats@fix[ ,1], CRRats@fix[ ,2])
+
+# overview of the overlaps
+venn(list(NIH=NIHr, harlan=harr, CR=crr))
+
+## Annotate the above variants for protein coding regions first, then narrow down to known 
+AllLevels=unique(c(HarType, CRType, ModType))
+allTypes=rbind(table(factor(ModType, levels=AllLevels)), table(factor(HarType, levels=AllLevels)),
+               table(factor(CRType, levels = AllLevels)))
+rownames(allTypes)=c("NIH", "harlan", "CR")
+allTypesNorm=allTypes/rowSums(allTypes)
+
+t2=melt(allTypesNorm)
+ggplot(t2[which(t2$value<0.04),  ], aes(x=Var1, y=value, fill=Var2))+geom_bar(stat = "identity")+ylab("frequency snp type")+xlab("dataset")
+```
+
+
+```{r}
+#SearchVars=c("missense_variant","stop_lost", "stop_gained", "initiator_codon", "start_lost", "frameshift_variant")
+NIHr2=NIHr[which(ModType%in%SearchVars)]
+harr2=harr[which(HarType%in%SearchVars)]
+crr2=crr[which(CRType%in%SearchVars)]
+
+venn(list(NIH=NIHr2, harlan=harr2, CR=crr2))
+mtext("any coding variant", side=3)
+
+## Genes affected
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", harlanRats@fix[which(HarType%in%SearchVars),8])
+codhrgrp=rep(NA, length(which(HarType%in%SearchVars)))
+codhrgrp[r!=-1]=regmatches(harlanRats@fix[which(HarType%in%SearchVars),8], r)
+codhrgrp=substr(codhrgrp, 1, nchar(codhrgrp)-8)
+
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", CRRats@fix[which(CRType%in%SearchVars),8])
+codcrgrp=rep(NA, length(which(CRType%in%SearchVars)))
+codcrgrp[r!=-1]=regmatches(CRRats@fix[which(CRType%in%SearchVars),8], r)
+codcrgrp=substr(codhrgrp, 1, nchar(codcrgrp)-8)
+
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", nihRats@fix[which(ModType%in%SearchVars),8])
+codnihgrp=rep(NA, length(which(ModType%in%SearchVars)))
+codnihgrp[r!=-1]=regmatches(nihRats@fix[which(ModType%in%SearchVars),8], r)
+codnihgrp=substr(codnihgrp, 1, nchar(codnihgrp)-8)
+
+venn(list(NIH=codnihgrp, harlan=codhrgrp, CR=codcrgrp))
+mtext("any cosmic coding variant", side=3)
+
+## Look for Cosmic specific genes
+codcrgrp2=codcrgrp[codcrgrp%in%RatCosmic]
+codhrgrp2=codhrgrp[codhrgrp%in%RatCosmic]
+codnihgrp2=codnihgrp[codnihgrp%in%RatCosmic] #c(RatBreastCosmic, codhrgrp2, "Tert", "Atm")]
+```
+
+Look at the distribution of mutations:
+
+Whole genome
+
+* 1188 genes in more than 2 animals (1435 in at least 2)
+* 59 variants were identified as population variant in Harlan 
+* 47 in charles river (6 are novel in this cohort only)
+
+Cosmic genes:
+
+* 42 sites which have mutations in more than 2 animals
+* 50 sites in more than 1 animal
+* 5 sites which have been identified in GWAS studies of harlan rats. On average, the variant is found at a frequency of ~15%. The CR set, these variants appear in 50\% of the population 
+* 4 of the 5 rats from above were identified in 
+* 0 sites in the nih dbSNP database for rats
+
+
+```{r, eval=F}
+# Check TGFBr polymorphisms:
+
+r=grep("Tgfb", harlanRats@fix[,8])
+harlanRatsTgfb=harlanRats[r]
+write.vcf(harlanRatsTgfb, file="~/Desktop/harlanRats_Tgfb.vcf.gz")
+
+r=grep("Tgfb", CRRats@fix[,8])
+CRRatsTgfb=CRRats[r]
+write.vcf(CRRatsTgfb, file="~/Desktop/CRRats_Tgfb.vcf.gz")
+
+r=grep("Tgfb", nihRats@fix[,8])
+nihRatsTgfb=nihRats[r]
+write.vcf(nihRatsTgfb, file="~/Desktop/nih_Tgfb.vcf.gz")
+
+```
+
+Here, compare the frequencies of the most common mutations in our population with those reported in the harlan and charles river data-bases:
+
+* filter out mutatations occuring in 2+ samples
+
+```{r, pop-gen-plot}
+Nsamp=1
+## Firstly whole genome
+lx1=table(paste(MeltWGSCoding$Chromosome, MeltWGSCoding$Start_Position))
+lx1=sort(lx1, decreasing=T)
+hist(lx1)
+length(which(lx1>Nsamp))
+WGSList=names(lx1)[which(lx1>Nsamp)]
+WGSList=strsplit(WGSList, " ")
+WGSList=data.frame(chr=sapply(WGSList, function(x) x[1]), pos=sapply(WGSList, function(x) x[2]), freq=lx1[which(lx1>Nsamp)])
+WGSList$gene=as.character(MeltWGSCoding$Gene_Symbol[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$AA=as.character(MeltWGSCoding$HGVSp_Short[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$VariantClass=as.character(MeltWGSCoding$Variant_Classification[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$Cosmic=ifelse(WGSList$gene%in%RatCosmic, 1, 0)
+
+## Secondly, cosmic specific genes
+
+## WGSList
+midx=match(WGSList$freq.Var1, paste(harlanRats@fix[ ,1], harlanRats@fix[ ,2], sep=" "))
+WGSList$HarlanFreq=GT3[midx]
+midx=match(WGSList$freq.Var1, paste(nihRats@fix[ ,1], nihRats@fix[ ,2], sep=" "))
+WGSList$rsID=nihRats@fix[midx, 3]
+## CR
+midx=match(WGSList$freq.Var1, paste(CRRats@fix[ ,1], CRRats@fix[ ,2], sep=" "))
+WGSList$CRFreq=crGT3[midx]
+
+WGSplot=melt(WGSList[ ,c("freq.Freq", "gene", "VariantClass", "HarlanFreq", "CRFreq", "Cosmic")], measure.vars = c("HarlanFreq", "CRFreq"))
+WGSplot=WGSplot[-which(is.na(WGSplot$value)), ]
+
+ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gene))+facet_grid(~variable)+geom_point()+
+  geom_text(size=(WGSplot$Cosmic+3), col="black", nudge_y=0.01)+xlab("Cohort frequency")+ylab("Database frequency")+theme_bw()+theme(legend.position="bottom")+ggtitle("all genes compared to Harlan Frequencies")
+
+ WGSplot[WGSplot$Cosmic==1, ]
+
+```
+
+
+## Overview of the mutations 
+
+### All mutations
+
+SNPs are removed from this analysis: based on frequencies in the harlan cohort
+
+```{r}
+Nmut=90
+
+rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)), ]
+x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
+MeltWGSCodingB=MeltWGSCoding[-x1a, ]
+
+rGeneOut=acast(MeltWGSCodingB[ ,c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+               value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+
+mxl=unique(as.vector(rGeneOut))
+rGeneOut2=rGeneOut
+rGeneOut2[grep("Nonsense",rGeneOut2)]=3
+rGeneOut2[grep("Frame_Shift",rGeneOut2)]=2
+rGeneOut2[grep("Missense_", rGeneOut2)]=1
+rGeneOut2[grep("Splice_", rGeneOut2)]=4
+rGeneOut2[which(rGeneOut2=="")]=0
+
+rGeneOut2=apply(rGeneOut2, 2, as.numeric)
+rownames(rGeneOut2)=rownames(rGeneOut)
+
+#get rid of genes which are associated with Olfactory receptors, AABR etc mutations
+rmThese=c("^AABR", "^Olr", "^LOC", "^AC[0-9]+", "^RGD", "^Rpl", "^1700", "^RT1", "^ENSRNOG", "^Vom2")
+rmList=unlist(sapply(rmThese, function(x) grep(x, colnames(rGeneOut2))))
+rGeneOut2=rGeneOut2[ ,-rmList]
+
+GeneList=colSums(sign(rGeneOut2), na.rm=T)
+samp2=rowSums(sign(rGeneOut2), na.rm=T)
+rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
+
+top30=names(sort(GeneList, decreasing=T)[1:Nmut])
+
+# do a plot of the top 30 most common mutations
+tempx=rGeneOut2[ ,top30]
+a2=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+RowSC=ifelse(colnames(tempx)%in% c(RatCosmic, as.character(AllCancerPathwayGenes)), "black", "white")
+
+heatmap.2(tempx, Rowv = NA, Colv = NA,scale="none", trace="none", col=c("white", 1:4), ColSideColors=RowSC)
+# check if any of these are hotspot mutations
+Hotspots=MeltCosmic[which(!is.na(MeltCosmic$HumSequence)), ]
+
+hotspotLocExtract=function(amat){
+HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
+                                                 paste(match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))), "0 0"))
+List2=strsplit(HList, " ")
+Xcord=na.omit(as.numeric(sapply(List2, function(x) x[1])))
+Ycord=na.omit(as.numeric(sapply(List2, function(x) x[2])))
+return(list(X=Xcord, Y=Ycord))
+}
+
+## top 90 mutations
+a2=heatmap.2(sign(tempx), trace="none")
+tempxb=tempx[a2$rowInd, a2$colInd]
+hotspot1b=hotspotLocExtract(tempxb)
+
+## hotspot locations
+GeneList=unique(Hotspots$Gene_Symbol)
+tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
+a2=heatmap.2(sign(tempy), trace="none")
+tempyb=tempy[a2$rowInd, a2$colInd]
+hotspot2=hotspotLocExtract(tempyb)
+
+##cosmic genes
+x1=which(colnames(rGeneOut2)%in%RatCosmic)
+tempz=rGeneOut2[ ,x1]
+a2=heatmap.2(sign(tempz), trace="none", col=c("white", 1:4))
+tempzb=tempz[a2$rowInd, a2$colInd]
+hotspotzb=hotspotLocExtract(tempzb)
+
+
+#pdf(sprintf("rslt/WGS/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
+
+# 
+# par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+# image(t(tempx), col=c("white", 1:3), xaxt='n', yaxt='n')
+# axis(1, at=seq(0, 1, length=ncol(tempx)), colnames(tempx), las=2, cex=0.5)
+# axis(2, at=seq(0, 1, length=nrow(tempx)), rownames(tempx), las=2, cex=0.5)
+# text(na.omit(hotspot1$Y-1)/(ncol(tempx)-1), na.omit(hotspot1$X-1)/(nrow(tempx)-1) , "*")
+# legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+# 
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex=0.5)
+text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("top 90 mutations", side=3, line=-1, outer=T)
+
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempyb), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempyb)), colnames(tempyb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempyb)), rownames(tempyb), las=2, cex=0.5)
+text(na.omit(hotspot2$Y-1)/(ncol(tempyb)-1), na.omit(hotspot2$X-1)/(nrow(tempyb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
+
+## Plot by picking out cancer related genes
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2, cex=0.5)
+text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("Cancer related genes", side=3, line=-1, outer=T)
+
+
+x2=which(colSums(sign(tempzb))==1)
+tempz2=tempzb[ , -x2]
+hotspotzb2=hotspotLocExtract(tempz2)
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempz2)), colnames(tempz2), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(tempz2)), rownames(tempz2), las=2, cex=0.7)
+text(na.omit(hotspotzb2$Y-1)/(ncol(tempz2)-1), na.omit(hotspotzb2$X-1)/(nrow(tempz2)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("Cancer related genes: more than 1 sample", side=3, line=-1, outer=T)
+
+#dev.off()
+```
+
+Save these lists for metacore
+
+```{r}
+allMut=unique(MeltWGSCodingB$Gene_Symbol)
+write.csv(allMut, file=sprintf("outputs/all_mut_rat_WGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+allMut=unique(MeltCosmic$Gene_Symbol)
+write.csv(allMut, file=sprintf("outputs/all_mut_rat_WES_cosmic_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+## Genomic Locations: not useful since the human variants are assessed
+#write.csv(MeltWGSCodingB[ ,c("Chromosome", "Start_Position", "Reference_Allele", "Tumor_Seq_Allele2")], file=sprintf("rslt/WGS/all_mut_locations_ratWGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+
+# ratAllMut=na.omit(unique(c(SymHum2Rat$HGNC.symbol[match(allMut, SymHum2Rat$RGD.symbol)], Rat2Hum$HGNC.symbol[match(allMut, Rat2Hum$RGD.symbol)])))
+# 
+# lnx1=table(factor(MeltWGSCodingB$Gene_Symbol))
+# allMut2samp=names(lnx1)[which(lnx1>1)]
+# write.csv(allMut2samp, file=sprintf("rslt/WGS/all_mut_rat_WES_coding_metacore_at_least_2_samples_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+```
+
+Load the metacore results:
+
+```{r}
+Process_Networks=read.xlsx("../data/wholegenome_mutations/RatWEScoding_process_networks.xlsx", 1, startRow = 3)
+Pathway_Maps=read.xlsx("../data/wholegenome_mutations/RatWEScoding_pathway_maps.xlsx", 1, startRow = 3)
+
+Terms_PN=strsplit(Process_Networks$Networks, "_")
+TermsPN1=sapply(Terms_PN, function(x) x[1])
+TermsPN2=sapply(Terms_PN, function(x) x[2])
+
+Terms_PW=strsplit(Pathway_Maps$Maps, "_")
+TermsPW1=sapply(Terms_PW, function(x) x[1])
+TermsPW2=sapply(Terms_PW, function(x) x[2])
+
+
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+m1=match(Process_Networks$Networks[1:15], names(PathwayMapSet))
+
+N2=lapply(m1, function(x) which(MeltWGSCodingB$Hum_Gene %in% PathwayMapSet[[x]]))
+GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
+SumTable2=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
+colnames(SumTable2)=Process_Networks$Networks[1:15]
+#listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+
+load("../anntotations/Metacore_extracted_pathway_maps_nov2020.RData")
+m1=match(Pathway_Maps$Maps[1:15], names(PathwayMapSet))
+
+N2=lapply(m1, function(x) which(MeltWGSCodingB$Hum_Gene %in% PathwayMapSet[[x]]))
+GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
+SumTable3=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
+colnames(SumTable3)=Pathway_Maps$Maps[1:15]
+#listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+
+#pdf("rslt/WGS/Metacore_analysis_coding_mutations.pdf", height=13, width=13)
+
+par(mfrow=c(1,2), mar=c(2,8, 2,2))
+barplot(-log10(as.numeric(Process_Networks$FDR[1:15])), names.arg = Process_Networks$Networks[1:15], las=2, main="Process networks", horiz = T, cex.names = 0.5)
+barplot(-log10(as.numeric(Pathway_Maps$FDR[1:15])), names.arg = Pathway_Maps$Maps[1:15], las=2, main="Pathway Maps", horiz = T, cex.names = 0.5)
+
+par(oma=c(10, 3,3,3))
+heatmap.2(SumTable2, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Process Networks")
+
+par(oma=c(10, 3,3,3))
+heatmap.2(SumTable3, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Pathway Maps")
+
+#dev.off()
+```
+
+### Cosmic only:
+
+Probably don't need this section?
+
+Note the cut-offs:
+
+Mut in N samples | Genes | NO genes
+--------|------|--------
+27 | Atm Tert | 2
+19| Prf1 | 1
+18 | Muc1 Ncor2 Clip1 | 3
+3| Pik3ca, Brca2 |17
+2| Braf, Nras, Bcl9l Atr Erbb3 Gata2 | 49
+
+
+```{r, eval=F}
+Nmut=90
+
+# x1a=which(MeltCosmic$Gene_Symbol%in%rmHarlanSNP$gene &  MeltCosmic$Start_Position%in%rmHarlanSNP$pos)
+# MeltCosmicB=MeltCosmic[-x1a, ]
+
+# rGeneOut=acast(MeltWGSCodingB[ ,c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+#                value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+# 
+# mxl=unique(as.vector(rGeneOut))
+# rGeneOut2=rGeneOut
+# rGeneOut2[grep("Nonsense",rGeneOut2)]=3
+# rGeneOut2[grep("Frame_Shift",rGeneOut2)]=2
+# rGeneOut2[grep("Missense_", rGeneOut2)]=1
+# rGeneOut2[grep("Splice_", rGeneOut2)]=4
+# rGeneOut2[which(rGeneOut2=="")]=0
+# 
+# rGeneOut2=apply(rGeneOut2, 2, as.numeric)
+# rownames(rGeneOut2)=rownames(rGeneOut)
+
+rGeneOut3=rGeneOut2[ , which(colnames(rGeneOut2)%in%c(RatCosmic, AllCancerPathwayGenes))]
+GeneList=colSums(sign(rGeneOut2), na.rm=T)
+samp2=rowSums(sign(rGeneOut2), na.rm=T)
+rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
+
+top30=names(sort(GeneList, decreasing=T)[1:Nmut])
+# do a plot of the top 30 most common mutations
+temp=rGeneOut2[ ,top30]
+tempx=temp[grep("^N|C", rownames(temp)), ]
+a1a=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+tempy=temp[grep("D", rownames(temp)), ]
+a1b=heatmap(tempy, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+a2=rbind(tempx[a1a$rowInd, a1a$colInd], tempy[a1b$rowInd, a1a$colInd])
+
+l1=as.numeric(RNADNAsamples$Treatment[match(rownames(a2), sapply(strsplit(as.character(RNADNAsamples$WGS), ".final.bam"), function(x) x[1]))])
+colSC=palette()[l1+4]
+
+x1=order(l1)
+
+a2=a2[x1,  ]
+# rsMatrix=acast(CancerMeltCoding[ ,c("GENE", "L1", "ID")], L1~GENE,value.var="ID", fun.aggregate = function(x) length(which(x!=""))) #grep("H", x)
+# rsMatrixSearch=rsMatrix[match(rownames(a2), rownames(rsMatrix)), match( colnames(a2), colnames(rsMatrix)) ]
+# 
+# Listout=which(rsMatrixSearch>0, arr.ind = T)
+
+heatmap.2(a2, Colv = NA, Rowv=NA, scale="none", trace="none", col=c("white", 1:4), RowSideColors=colSC[x1])
+
+# check if any of these are hotspot mutations
+Hotspots=MeltCosmic[which(MeltCosmic$CompSeq!=""), ]
+# 
+ hotspotLocExtract=function(amat){
+ HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
+                                                  paste(match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))), "0 0"))
+ List2=strsplit(HList, " ")
+ Xcord=na.omit(as.numeric(sapply(List2, function(x) x[1])))
+ Ycord=na.omit(as.numeric(sapply(List2, function(x) x[2])))
+ return(list(X=Xcord, Y=Ycord))
+ }
+ 
+hotspot1=hotspotLocExtract(a2)
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(a2), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(a2)), colnames(a2), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(a2)), rownames(a2), las=2, cex=0.7)
+text(na.omit(hotspot1$Y-1)/(ncol(a2)-1), na.omit(hotspot1$X-1)/(nrow(a2)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift","Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+
+
+```
+
+Based on this data, check whether the mutation sites are listed in the above db Sets
+
+```{r}
+rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)| !is.na(WGSList$CRFreq) | !is.na(WGSList$rsID)), ]
+x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
+MeltWGSCodingC=MeltWGSCoding[x1a, ]
+
+tempCos=merge(MeltWGSCodingC, rmHarlanSNP, by.x="Start_Position", by.y="pos", all.x=T)
+
+tempCos$B=ifelse(is.na(tempCos$HarlanFreq)==F, tempCos$HarlanFreq, ifelse(is.na(tempCos$CRFreq)==F, tempCos$CRFreq, 0))
+a3=acast(tempCos[ ,c("Gene_Symbol", "L1", "B")], L1~Gene_Symbol, 
+               value.var="B", fun.aggregate=max)
+a3[which(a3=="-Inf", arr.ind = T)]=-2
+
+a3=a3[order(rownames(a3)) , order(colnames(a3))]
+
+hotspot1=hotspotLocExtract(a3)
+
+#pdf(sprintf("rslt/WGS/harlan_SNP_frequency_%s.pdf", Sys.Date()), width=12, height=6)
+
+image(t(a3), col=c("white", "grey", brewer.pal(5, "Blues")), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(a3)), colnames(a3), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(a3)), rownames(a3), las=2, cex=0.7)
+text(na.omit(hotspot1$Y-1)/(ncol(a3)-1), na.omit(hotspot1$X-1)/(nrow(a3)-1) , "*")
+mtext("common variants and expected frequency")
+#dev.off()
+```
+
+
+
+<!--chapter:end:10-mutations.Rmd-->
 

@@ -61,35 +61,359 @@ Based on wilcoxon tests for differences between growth, cd8 content, spatial arr
 heatmap.plus(Imm_counts[unique(c(ax1, bx1, cx1)), ], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="row", symkey=T,
              main="significant differences")
 
-AllTables=cbind(ax1, bx1, cx1)
+AllTables=cbind(growthDiff, CD8Diff, SpatDiff)
 colnames(AllTables)=c("growth", "cd8", "mh-idx")
-#rownames(AllTables)=rownames(Imm_counts)
+rownames(AllTables)=rownames(Imm_counts)
 
-dim(AllTables)
-length(rownames(Imm_counts))
+x1=-log10(AllTables)
+x1[which(x1<1, arr.ind = T)]=0
 
-heatmap.2(-log10(AllTables+0.001),col=brewer.pal(9, "Blues"), scale="none", trace="none", main="p values of differences" )
+
+heatmap.2(x1,col=brewer.pal(9, "Blues"), scale="none", trace="none", main="p values of differences" , symmkey = F)
+```
+
+For the MH scores and the CD8 scores, we can do a correlation analysis using the raw values
+
+```{r}
+CD8Diff=sapply(1:nrow(Imm_counts), function(x) cor(Imm_counts[x, ], infoTableFinal$CD8Frac[match(colnames(Imm_counts), infoTableFinal$SampleID)], use="complete"))
+
+MHDiff=sapply(1:nrow(Imm_counts), function(x) cor(Imm_counts[x, ], infoTableFinal$MHEpCAM[match(colnames(Imm_counts), infoTableFinal$SampleID)], use="complete"))
+
+AllTables2=cbind(CD8Diff, MHDiff)
+colnames(AllTables2)=c("CD8cor", "MHcor")
+rownames(AllTables2)=rownames(Imm_counts)
+
+heatmap.2(t(AllTables2),col=RdBu[11:1], scale="none", trace="none", main="correlation analysis" )
 ```
 
 ## Deconvolution methods
 
-Deconvolution was performed using the TIMER website, which lists the following results
-
-TIMER
-XCELL
-CIBERSORT
-EPIC
+Deconvolution was performed using the TIMER website, which lists results from TIMER,
+XCELL,
+CIBERSORT,
+EPIC, MMPCOUNTER
 
 For TIDE, we need to:
+
 * compute log(RPKM+1) values
 * Determine the values of the reference/or compute a sample average
 * Subtract the two
 * We can convert from Rat gene names to Human and exclude all the non mapping gnes.
 
-
-TPM counts were used for this analysis (using mouse gene names)
+TPM counts were used for this analysis (using Rat gene names)
 
 ```{r}
 output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
 colnames(output1)=gsub("X", "", colnames(output1))
 ```
+
+
+### Overview of the cell types
+
+Below, we will look at the enrichment scores of specific cell types compared to others using these different methods. It appears that most methods have scores which skews towards high representation of T cells:
+
+TIMER for example shows an enrichment of dendritic and CD8 T cells.
+EPIC in contrast shows enrichment for CD4+ and to a lesser extend CD8 T cells
+MMPCOUNTER puts an unusually large weighting to T cells and this does not fit our FACS analysis
+XCELL enriches for T cells
+
+```{r, fig.height=8}
+RowNames=c("TIMER", "CIBERSORT$", "CIBERSORT-ABS", "EPIC", "MMCPCOUNTER", "XCELL")
+Type=c("enrichment", "fraction", "enrichment", "fraction", "enrichment", "enrichment")
+
+par(mfrow=c(3, 2))
+
+for (i in 1:length(RowNames)){
+timSamples=output1[grep(RowNames[i], output1$cell_type), ]
+rownames(timSamples)=sapply(strsplit(as.character(timSamples$cell_type), "_"), function(x) x[1])
+boxplot(t(timSamples[ ,-1]), las=2, main=RowNames[i], ylab=Type[i])
+}
+```
+
+### Comparison with FACS data
+
+In this section, we compare how well the estimates from RNAseq deconvolution methods associate with FACS data.
+
+```{r, imm-assoc-facs}
+## annotate the FACS data here
+
+infoTableFinal$Name2=NA
+infoTableFinal$Name2[which(infoTableFinal$Fraction=="CD45")]=paste(infoTableFinal$Rat_ID[which(infoTableFinal$Fraction=="CD45")], infoTableFinal$Location[which(infoTableFinal$Fraction=="CD45")], sep="")
+m2=match(m1, infoTableFinal$Name2)
+
+## get rid of the NA samples
+naom=infoTableFinal$SampleID[m2[which(!is.na(m2))]]
+mid=m1[which(!is.na(m2))]
+
+lx1=Fdata[, c(1, match(mid, m1))]
+out2=output1[, c(1,match(naom, colnames(output1)))]
+colnames(lx1)=colnames(out2)
+
+# Run all the association tests here
+## New Table
+# -cd8
+# Th
+# Tregs
+# B cells
+# Macrophage
+
+# 
+MergedTable=matrix(NA, ncol=21, nrow=1)
+colnames(MergedTable)=colnames(out2)
+
+tx1=sapply(strsplit(as.character(out2$cell_type), "_"), function(x) x[1])
+MethodSumm=sapply(strsplit(as.character(out2$cell_type), "_"), function(x) x[2])
+tabtx1=table(tx1)
+TheseFracs=names(tabtx1)[which(tabtx1>3)]
+
+testSetB=c("B cell", "MHCII-hi", "MHCII-lo", "Monocyte", "Neutrophil", "NK cells", "CD8", "Treg")
+#  "CD8", "Th", "Treg", "B cells", "NK cells", "DC", "Neutrophil", "Monocyte", "gd T", "MHCII-hi", "MHCII-lo")
+testSet=TheseFracs[-2]#c("CD8", "CD4", "Treg", "B cell", "NK", "dendritic", "Neutrophil", "Monocyte", "gamma delta", "M1", "M2")
+ 
+CMat=matrix(NA, nrow=length(testSet), ncol=length(unique(MethodSumm)))
+rownames(CMat)=testSet
+colnames(CMat)=unique(MethodSumm)
+ 
+PMat=CMat
+#testSet="M2"
+#testSetB="MHCII-lo"
+
+for (j in 1:length(testSet)){
+CD8Table=rbind(lx1[grep(testSetB[j], lx1$cell_type), ],
+               out2[which(tx1==testSet[j]), ])
+CD8Table[1,1]=paste(testSetB[j], "facs", sep="_")
+ms=MethodSumm[which(tx1==testSet[j])]
+par(mfrow=c(3,3))
+
+
+cVals=sapply(2:nrow(CD8Table), function(x) cor(t(CD8Table[1, -1]), t(CD8Table[x, -1]), use="complete"))
+cVals2=sapply(2:nrow(CD8Table), function(x) cor.test(t(CD8Table[1, -1]), t(CD8Table[x, -1]), use="complete")$p.value)
+
+CMat[j, match(ms, colnames(CMat))]=cVals
+PMat[j, match(ms, colnames(PMat))]=cVals2
+
+MergedTable=rbind(MergedTable, CD8Table)
+
+#for (i in 2:nrow(CD8Table)){
+  #a1=cor(t(CD8Table[1, -1]), t(CD8Table[i, -1]), use="complete")
+  #plot(t(CD8Table[1, -1]), t(CD8Table[i, -1]), main=CD8Table[i,1], ylab="method", xlab="FACS")
+  #text(min(t(CD8Table[1, -1]), na.rm=T)*2, max(t(CD8Table[i, -1]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+  
+}
+
+
+##for the following, find the terms and calculate the sum
+
+testSetB=c("Macro", "Th", "B cell")
+testSet=c("Macro", "CD4", "B cell")
+rmThese=c("M0", "naive", NULL)
+
+savTemp=matrix(NA, nrow=3, ncol=ncol(CMat))
+rownames(savTemp)=paste("all", testSet, sep="")
+savTempP=savTemp
+
+
+for (j in 1:length(testSetB)){
+  
+  CD8Table=lx1[grep(testSetB[j], lx1$cell_type), ]
+  CD8Table=colSums(CD8Table[, -1])
+  #rownames(CD8Table)="facs"
+  
+  outB=out2[grep(testSet[j], out2$cell_type), ]
+  rm2=grep(rmThese[j], outB$cell_type)
+  
+  if (length(na.omit(rm2))>0){
+    outB=outB[-rm2, ]
+  }
+  
+  namOut=sapply(strsplit(as.character(outB$cell_type), "_"), function(x) x[2])
+  nam2=unique(namOut[which(duplicated(namOut))])
+  
+  outC=sapply(nam2, function(x) colSums(outB[which(namOut==x), -1 ]))
+  outB=outB[-which(namOut%in%nam2), ]
+  rownames(outB)=sapply(strsplit(as.character(outB$cell_type), "_"), function(x) x[2])
+  
+  allD=rbind(CD8Table, outB[, -1], t(outC))
+  rownames(allD)[1]="facs"
+  allD$method=rownames(allD)
+  
+ # allD=data.matrix(allD)
+  
+#pdf(sprintf("rslt/Immune decomposition/correlations_combined_%s.pdf", testSetB[j]), width=10, height=10)
+
+#ggplot(temp8, aes(x=method, y=value, col=variable))+geom_bar(stat="identity")+facet_wrap(~variable, scale="free_y")+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+par(mfrow=c(3,3))
+
+for (i in 2:nrow(allD)){
+  a1=cor(t(allD[1, -ncol(allD)]), t(allD[i, -ncol(allD)]), use="complete")
+  a2=cor.test(t(allD[1, -ncol(allD)]), t(allD[i, -ncol(allD)]), use="complete")$p.value
+  savTemp[j, match(rownames(allD)[i], colnames(CMat))]=a1
+  savTempP[j, match(rownames(allD)[i], colnames(CMat))]=a2
+# plot(t(allD[1, -ncol(allD)]), t(allD[i,-ncol(allD)]), main=allD[i,ncol(allD)], ylab="method", xlab="FACS")
+#  text(min(t(allD[1, -ncol(allD)]), na.rm=T)*2, max(t(allD[i, -ncol(allD)]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+  
+}
+
+cell_type=paste(testSetB[j], allD$method, sep="_all_")
+
+MergedTable=rbind(MergedTable, cbind(cell_type, allD[ ,-21]))
+
+}
+
+CorMatAll=rbind(CMat, savTemp)
+CorMatP=rbind(PMat, savTempP)
+
+par(oma=c(2, 0,0,5))
+heatmap.2(CorMatAll, col=RdBu[11:1], scale="none", trace="none", main="correlation FACS and GE")
+
+```
+
+We can plot associations between the different cell types below, here selecting:
+
+* Bcells
+* CD8 T cells
+* M2 macophage
+* M1 macrophage
+
+```{r, fig.height=7}
+testSetB=c("CD8",  "B cells", "MHCII-hi", "MHCII-lo")
+testSet=c("CD8", "B cell","M1", "M2")
+
+par(mfrow=c(3,3))
+
+for (j in 1:length(testSetB)){ 
+CMat=matrix(NA, ncol=length(testSet), nrow=10) 
+CD8Table=rbind(lx1[grep(testSetB[j], lx1$cell_type), ],
+               out2[grep(testSet[j], out2$cell_type), ])
+
+for (i in 2:nrow(CD8Table)){
+  a1=cor(t(CD8Table[1, -1]), t(CD8Table[i, -1]), use="complete")
+  plot(t(CD8Table[1, -1]), t(CD8Table[i, -1]), main=CD8Table[i,1], ylab="method", xlab="FACS")
+  text(min(t(CD8Table[1, -1]), na.rm=T)*2, max(t(CD8Table[i, -1]), na.rm=T), paste("r=", round(a1, digits=2), sep=""))
+}
+mtext(testSetB[j], side=3, line=-2, outer=T)
+  
+}
+
+```
+
+### Associate with Treatment
+
+Look at association with treatment, growth and spatial infiltration for each method. 
+
+Associations with treatment:
+
+* higher CD4, CD8 in most treatments 
+* growth: stable associated with higher CD8
+* infiltration: more neutrophils and CD8? maybe CD4 cells
+
+
+```{r, immune-assoc-outcome, cache=T}
+#sizeCutOff=7
+
+MergedTablemelt=melt(MergedTable[-1, ])
+MergedTablemelt$Treatment=infoTableFinal$Treatment[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$Growth=infoTableFinal$Growth[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$InfRes=infoTableFinal$MHcut[match(MergedTablemelt$variable, infoTableFinal$SampleID)]
+MergedTablemelt$cell_type2=sapply(strsplit(MergedTablemelt$cell_type, "_"), function(x) x[1])
+MergedTablemelt$method=sapply(strsplit(MergedTablemelt$cell_type, "_"), function(x) x[length(x)])
+
+unValues=unique(MergedTablemelt$cell_type2)
+
+CompTest=list()
+
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=Treatment, y=as.numeric(value), col=Treatment))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Treatment"))
+print(p)
+p<-ggplot(ax, aes(x=Growth, y=as.numeric(value), col=Growth))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Growth"))
+print(p)
+p<-ggplot(ax, aes(x=InfRes, y=as.numeric(value), col=InfRes))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Infiltration"))
+print(p)
+
+unT=sort(unique(ax$Treatment))
+unB=sort(unique(ax$method))
+Outcome1=matrix(NA, nrow=5, ncol=length(unB))
+
+rownames(Outcome1)=c(paste(unT[1:3], "vs.Vehicle", sep=""), "Grow.Stable", "Inf.res")
+colnames(Outcome1)=unB
+
+for (j in 1:nrow(Outcome1)){
+Outcome1[1 , ]=sapply(unB, function(x) wilcox.test(ax$value[which(ax$Treatment=="LY" & ax$method==x)], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[2 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Treatment=="PDL1" & ax$method==x], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[3 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Treatment=="PDL1+LY" & ax$method==x], 
+                  ax$value[ax$Treatment=="Vehicle" & ax$method==x])$p.value)
+Outcome1[4 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$Growth=="growing" & ax$method==x], 
+                  ax$value[ax$Growth=="stable" & ax$method==x])$p.value)
+Outcome1[5 , ]=sapply(unB, function(x) wilcox.test(ax$value[ax$InfRes=="inf" & ax$method==x], 
+                  ax$value[ax$InfRes=="res" & ax$method==x])$p.value)
+
+}
+CompTest[[i]]=t(Outcome1)
+o1=Outcome1
+o1[which(o1<0.05, arr.ind=T)]=3
+o1[which(o1<0.1, arr.ind=T)]=2
+o1[which(o1<=1, arr.ind=T)]=0
+#heatmap.2(o1, col=brewer.pal(9, "Blues"), scale="none", trace="none", main=paste("pvalue summary", unValues[i]), Colv = NA, Rowv = NA)
+}
+```
+
+Using wilcox tests for significance, we can make the above comparisons and see if there is an association with outcome:
+
+* There are differences in B-cell content between LY vs V comaprisons using xcell and cibersort
+* Macrophages are different in PDL1+LY
+
+### Association with Growth 
+
+```{r}
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=Growth, y=as.numeric(value), col=Growth))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Growth"))
+print(p)
+}
+
+```
+
+### Association with infiltration 
+
+```{r}
+for (i in 1:length(unValues)){
+ax=MergedTablemelt[MergedTablemelt$cell_type2==unValues[i], ]
+p<-ggplot(ax, aes(x=InfRes, y=as.numeric(value), col=InfRes))+geom_boxplot()+facet_wrap(~method, scale="free_y")+ggtitle(paste(unValues[i], "Infiltration"))
+print(p)
+}
+
+```
+### Summary of the outcome
+
+```{r, fig.width=8}
+CompTest2=do.call(rbind, CompTest)
+ 
+write.csv(CompTest2, file=sprintf("outputs/p_values_differences_treatment_growth_infiltration_%s.csv", Sys.Date()))
+
+scroll_box(kable(CompTest2, format="html"),
+         height="300px", width="100%")
+
+CompTest2=data.frame(CompTest2)
+# CompTest2$Method=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[2])
+# CompTest2$CellType=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[1])
+# 
+# x2=unique(CompTest2$CellType[which(duplicated(CompTest2$CellType))])
+# 
+# CompTest3=CompTest2[which(CompTest2$CellType%in%x2), ]
+# CompTest3melt=melt(CompTest3)
+# 
+# CompTest3melt$P2=ifelse(CompTest3melt$value<0.05, "**", ifelse(CompTest3melt$value<0.1, "*", "ns"))
+# 
+# 
+# 
+# p=ggplot(CompTest3melt, aes(x=CellType, y=Method, fill=P2))+geom_tile()+facet_wrap(~variable)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("No. differential genes")+scale_fill_manual(values=c("#084594", "#2171b5", "#deebf7"))+ggtitle("p values of comparisons")
+# print(p)
+
+#dev.off()
+```
+
+

@@ -1,0 +1,774 @@
+# Whole Genome Sequencing Mutations
+
+Whole genome sequencing was performed on XX samples by the new york genome centre.
+The pipeline involves:
+
+<span style="color:red"> Insert information on the NYGC pipeline here </span>
+
+## Data 
+
+In this section, we load the maf output files and create lists which
+
+* filter out coding mutations
+* Determine mutational signatures by:
+    * Creating bed files with genomic locations of the SNP +- 1 base location
+    * Extracting the nucleotide sequence using bedtools
+    * Convert all mutations to C > N and T > N to obtain 96 mutational signatures
+    * run with single sample SigProfiler to obtain the signature scores
+* Annotate data with common human variants
+
+```{r, load-mutations, cache=T}
+# Load and save for the first time here
+
+mafdir='../data/wholegenome_mutations/maf/'
+x1=dir(mafdir, 'annotated.maf')
+#names2=sapply(strsplit( x1,"--"), function(x) x[1])
+AllMutWGS=lapply(x1, function(x) read.delim(paste(mafdir, x, sep=""), sep="\t", skip = 1))
+names(AllMutWGS)=sapply(strsplit( x1,"--"), function(x) x[1])
+# # ## summary of the number of mutations?
+print('no of mutations')
+TotCount=lapply(AllMutWGS, nrow)
+
+SearchVars=c("Splice_Site", "Nonstop_Mutation", "Nonsense_Mutation", "Missense_Mutation", "Frame_Shift_Ins", "Frame_Shift_Del")
+
+AllMutWGScoding=lapply(AllMutWGS, function(x) x[ x$Variant_Classification%in%SearchVars, ])
+A2=sapply(AllMutWGScoding, nrow)
+
+# Save the combined mutation lists
+save(AllMutWGS, AllMutWGScoding, file=sprintf("outputs/WGS_mutations_coding_%s.RData", Sys.Date()))
+
+#load('data/wholegenome_mutations/WGS_mutations_coding_2020-10-14.RData')
+MeltWGSCoding=melt(AllMutWGScoding, measure.vars=c("Tumor_Sample_Barcode"))
+MeltWGSCoding$Hum_Gene=SymHum2Rat$HGNC.symbol[match(MeltWGSCoding$Gene_Symbol, SymHum2Rat$RGD.symbol)]
+MeltWGSCoding$Hum_Gene[which(is.na(MeltWGSCoding$Hum_Gene))]=toupper(MeltWGSCoding$Gene_Symbol[which(is.na(MeltWGSCoding$Hum_Gene))])
+MutAllCosmic=lapply(AllMutWGScoding, function(x) x[which(x$Gene_Symbol%in%RatCosmic), ])
+MeltCosmic=melt(MutAllCosmic, measure.vars=c("Tumor_Sample_Barcode"))
+```
+
+```{r}
+# Find complete numbers here, so we don't have to go back 
+TotCount=lapply(AllMutWGS, nrow)
+SearchVars=c("Splice_Site", "Nonstop_Mutation", "Nonsense_Mutation", "Missense_Mutation", "Frame_Shift_Ins", "Frame_Shift_Del")
+
+head(TotCount)
+```
+
+### Extract mutation signatures
+
+Annotate the files so that the nucleotide codon can be extracted based on the genome file. 
+See the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
+The output table $fout3 should have 6 columns with the genomic location, the reference and alt allele and codon context.
+
+```{r, eval=F, echo=T}
+TBed=lapply(AllMutWGS, function(x) cbind(as.character(x$Chromosome), x$Start_Position-2, x$End_Position+1, as.character(x$Reference_Allele), as.character(x$Tumor_Seq_Allele2)))
+TBed=lapply(TBed, function(x) x[which(nchar(x[ ,4])==1), ])
+sapply(1:length(TBed), function(x) write.table(TBed[[x]], file=paste(names(TBed)[x], "tricodon.bed", sep="_"),col.names=F, row.names = F, sep="\t", quote = F))
+
+## bedtools command
+bedtools getfasta -fi ../Genomic_Files/rn6.fa -bed $f -tab -fo $fout
+f3() { awk '{print $1, $2, $3, $4 ,$5}' "$1"; }; paste <(f3 $f) <(f3 $fout) > $fout2
+awk '{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}' $fout2 > $fout3
+## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
+```
+
+Following running the above bash script, we can run the following extract the tri-nucleotide sequence
+
+```{r, eval=F, echo=T}
+FFiles=dir("../data/tricodon_mut_sigs/", "*.txt",full.names=T)
+OutputList=sapply(FFiles, function(x) FindTriNucleotideContext(x))
+TableOut=sapply(1:ncol(OutputList), function(x) unlist(OutputList[3, x]))
+a1=basename(FFiles)
+a2=sapply(strsplit(a1, "_"), function(x) x[1])
+TableOut=cbind(as.character(unlist(OutputList[1, 1])), as.character(unlist(OutputList[2, 1])), TableOut)
+colnames(TableOut)=c("MutationType","Nutrinucleotide", paste("BRCA", a2, sep="::"))
+write.csv(TableOut, file="../data/tricodon_mut_sigs/output4SigProfiler.csv", sep = ",", row.names = F)
+```
+
+This is then run in python (sigprofiler) with the following code:
+
+```{r,eval=F, echo=T}
+module load gcc
+module load python/3.7.4
+from SigProfilerExtractor import spss_pcwag (spss uses only vcf files)
+spss_pcwag.single_sample_pcwag("output4SigProfiler.csv", output="example_output")
+```
+
+The results from this analysis are shown below
+
+```{r}
+SBSprof=read.delim("../data/tricodon_mut_sigs/sigpross/sig_activities.txt", sep="\t")
+SBSprofb=SBSprof[ ,-1]/rowSums(SBSprof[ ,-1])
+SBSprofb=SBSprofb[ ,-which(colSums(SBSprofb)==0)]
+rownames(SBSprofb)=SBSprof[ ,1]
+
+
+#pdf(sprintf("rslt/WGS/mutational_signatures_%s.pdf", Sys.Date()), height=9, width=7)
+heatmap.2(data.matrix(SBSprofb[ ,-1]), col=brewer.pal(9, "Blues"), scale="none", trace="none", Colv = NA, Rowv=NA)
+
+SBSmelt=melt(cbind(SBSprofb[ , -1], id=rownames(SBSprofb)))
+SBSsummary <- aggregate(. ~ variable, mean, data=SBSmelt)
+
+ggplot(SBSmelt, aes(x=variable, y=value, col=variable))+geom_jitter()+geom_crossbar(data=SBSsummary , aes(ymin = value, ymax = value),size=0.5,col="black", width = .7)
+
+## Assign with growth data or tumor size?
+tname=substr(SBSprof$Cancer.Types, 7, 20)
+idx=sapply(tname, function(x) grep(x, Cdata$WGS))
+sizeInfo=Cdata$Tumor.dia..sac..mm.[idx]
+
+#par(mfrow=c(2,1))
+cor1=cor.test(SBSprofb$SBS32+SBSprofb$SBS11, sizeInfo, ue="complete")
+plot(SBSprofb$SBS32+SBSprofb$SBS11, sizeInfo, xlab="SBS 32 or 11 score", ylab="tumor size",
+     col=ifelse(SBSprofb$SBS11==0, "red", "blue"), main=sprintf("association between signature score and size, p=%s", round(cor1$p.value, 2)))
+legend("topleft",c("SB11", "SB32"), col=c("red", "blue"), lwd=2, pch=19)
+
+#dev.off()
+```
+
+### Annotate the data with human common variants
+
+Run the following and cache the output
+
+```{r, find-mut-variant, cache=T}
+## Append to MeltCosmic?
+AAout=strsplit(as.character(MeltCosmic$HGVSp_Short), "[0-9]+")
+AAwt=sapply(AAout, function(x) x[1])
+AAmt=sapply(AAout, function(x) x[2])
+AAno=regmatches(MeltCosmic$HGVSp_Short, gregexpr("[[:digit:]]+", MeltCosmic$HGVSp_Short))
+
+MeltCosmic$AAno=NA
+MeltCosmic$AAno[which(sapply(AAno, length)==1)]=as.numeric(as.character(unlist(AAno)))
+
+FindVarTest=FindHumanAAHomolog(MeltCosmic$Gene_Symbol, AAwt, MeltCosmic$AAno, AAmt)
+MeltCosmic=cbind(MeltCosmic, FindVarTest)
+
+Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
+Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
+Xc=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(ChangList2$RatGene, ChangList2$RatAAno))
+x2=c(which(!is.na(Xb)), which(!is.na(Xc)))
+
+Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$AAno))
+Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
+x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
+
+x4=unique(c(x2, x3))
+MeltCosmic[x4, 39:50]
+
+save(MeltCosmic, file=sprintf("outputs/MeltCosmic_coding_genes_WGS_rat_%s.RData", Sys.Date())) #, sep="\t", row.names=F)
+write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_w_human_homolog.csv", row.names = F, quote=F)
+```
+
+Head of the output here
+
+## Plots
+
+### Quick overview
+
+WGS all mutations summary: Look at the overall mutation burden, and the tumor mutational burden, defined as # coding mutations per MB.
+
+The following plot lists tumors in increasing size
+
+Make plots of:
+* overall types of mutations per sample (ranked by size)
+* correlation between mutation type and size
+* type of mutation?
+
+```{r}
+#load("data/wholegenome_mutations/WGS_mutations_coding.RData")
+
+TabSamples=lapply(AllMutWGScoding, function(x) table(factor(x$Variant_Classification, levels=SearchVars)))
+TabSamples2=unlist(TabSamples)
+namidx=sapply(strsplit(names(TabSamples2), "\\."), function(x) x[1])
+namidx2=sapply(strsplit(names(TabSamples2), "\\."), function(x) x[2])
+TotTabl=data.frame(val=TabSamples2, nam=namidx, variant=namidx2)
+
+## remove 0 samples
+# searchNo=stack(by(TotTabl$val, TotTabl$variant, sum))
+# TotTabl=TotTabl[ which(TotTabl$variant %in% searchNo$ind[which(searchNo$values!=0)]), ]
+
+lx1=match(TotTabl$nam, sapply(strsplit(as.character(Cdata$WGS), ".final.bam"), function(x) tryCatch({x[1]}, error=function(e){NA})))
+TotTabl$Size=Cdata$Tumor.dia..sac..mm.[lx1]
+
+TotTabl=TotTabl[order(TotTabl$Size, TotTabl$val), ]
+
+levelNam=unique(TotTabl$nam)
+
+TotTabl$nam=factor(TotTabl$nam, levels=levelNam)
+
+##pdf(sprintf("rslt/WGS/coding_mutation_types_%s.pdf", Sys.Date()), height=6, width=9)
+
+ggplot(TotTabl, aes(x=nam, y=val, fill=variant))+geom_bar(stat="identity")+scale_fill_manual(values=c("black", brewer.pal(9, "Set1")))+theme(axis.text.x=element_text(angle=90))+ylab("Number of coding mutations")+ggtitle("sorted by increasing tumor size at sac, unknown for the C series")
+
+ax1=lapply(sort(SearchVars), function(x) cor.test(TotTabl[TotTabl$variant==x , "val"], TotTabl[TotTabl$variant==x ,  "Size"], use="complete", method="spearman")) 
+pvals=sapply(ax1, function(x) x$p.value)
+cors=sapply(ax1, function(x) x$estimate)
+
+ann_text2 <- data.frame(lab=paste("cor=", round(cors, 2),"p=", round(pvals,2),sep=""), variant=sort(SearchVars),  val=1, Size=5)
+
+ggplot(TotTabl, aes(x=Size, y=val, col=variant))+geom_point()+facet_wrap(~variant, scale="free")+geom_text(data=ann_text2, aes(label=lab))
+
+#dev.off()
+#MeltWGSCoding=melt(AllMutWGScoding, measure.vars=c("Tumor_Sample_Barcode"))
+
+```
+
+### Coding variants & TMB
+
+There are a few ways of figuring out the TMB. We can
+
+* report the number of mutations (missense, insertion/deletion, frameshifts, nonsense)
+* normalise the above value to the known length of coding regions in the rat genome (UCSC exon length 43,423,804)
+* plot of TMB vs objective response rate: there is no true relationship between final tumor size and mutational burden. Could also be confounded by subclonality
+
+```{r}
+searchThese=c("Missense_Mutation", "Nonsense_Mutation", "Frame_Shift_Del", "Frame_Shift_Ins", "Nonstop_Mutation")
+SearchVars
+NVar2=TotTabl[TotTabl$variant%in%SearchVars, ]
+Ntot=by(NVar2$val, NVar2$nam, sum)
+# check this is unique based on the location
+Ntot2=stack(Ntot)
+colnames(Ntot2)[1]="NCodingMut"
+Ntot2$TMB=Ntot2$NCodingMut/43.423804
+TotMut=sapply(AllMutWGS, nrow)
+Ntot2$TotalMut=TotMut[match(Ntot2$ind, names(TotMut))]
+Ntot2$Tum.size=TotTabl$Size[match(Ntot2$ind, TotTabl$nam)]
+Ntot2=Ntot2[order(Ntot2$Tum.size), ]
+#Ntot2$normCov=Ntot2$values/43.423804
+
+Ntot2$NsynFreq=Ntot2$NCodingMut/Ntot2$TotalMut
+Ntot2melt=melt(Ntot2)
+
+#pdf(sprintf("rslt/WGS/frequency_mutational_types#2_%s.pdf", Sys.Date()), height=10, width=6)
+ggplot(Ntot2melt, aes(x=ind, y=value, col=variable))+geom_bar(stat="identity")+facet_grid(variable~., scale="free_y")+
+  theme_bw()+theme(axis.text.x=element_text(angle=90))
+#dev.off()
+## As a metric for TMB, comapre the number of mutations to the covered genome
+```
+
+
+
+```{r, eval=F}
+# To obtain an idea of the coverage:
+Using bedtools and samtools
+here, counting only "propoet pairs" with maping quality greater than 30
+see (https://www.biostars.org/p/11105/)
+samtools view -u -q 30 -f 0x2 aln.bam | coverageBed -abam stdin -b exons.bed > exons.bed.proper.q30.coverage
+```
+
+## Coding variants
+
+### Sites which are commonly mutated?
+
+Could this be a variant (SD strain "rsSNP") or is it actually a mutation? 
+
+Variants were annotated with snpeff. Raw data from this was obtained from https://www.biorxiv.org/content/10.1101/412924v1.full
+
+```{r mod-vcfs, eval=F}
+
+harlanRats=read.vcfR("~/Desktop/carlos_study_files/allChr.allSamps.90DR2.maf01.hweE7.noIBD.HarlanOnly.vcf.gz")
+harlanRats@fix[ ,1]=paste("chr", harlanRats@fix[ ,1], sep="")
+harlanRats@fix[ ,3]=paste("H", harlanRats@fix[ ,3], sep=".")
+harlanRats@meta=harlanRats@meta[-grep("##contig",harlanRats@meta )]
+
+# figure out the genotype distribution
+GT=sapply(1:nrow(harlanRats@gt), function(x) 
+  table(factor(harlanRats@gt[x, -1],levels=c("0/0","0/1","1/1"))))
+GT2=paste(GT[1, ], GT[2, ], GT[3, ], sep=",")
+GT3=paste(GT[1, ]/2281, GT[2, ]/2281, GT[3, ]/2281, sep=",")
+
+GenotypeS=cbind(FORMAT="GT", Annot=c("0/0,0/1,1/1"), GT2, GT3 )
+harlanRats@gt=GenotypeS
+## save this to file or something
+write.vcf(harlanRats, file="~/Desktop/dbSNP_info/harlan_snps_mod_1-5-2020.vcf.gz")
+
+# loading the charles river rat snp sites
+CRRats=read.vcfR("~/Desktop/dbSNP_info/charles_river_200Ksnps.gz")
+CRRats@fix[ ,1]=paste("chr", CRRats@fix[ ,1], sep="")
+CRRats@fix[ ,3]=paste("CR", CRRats@fix[ ,3], sep=".")
+CRRats@meta=CRRats@meta[-grep("##contig",CRRats@meta )]
+
+crGT=sapply(1:nrow(CRRats@gt), function(x) 
+  table(factor(CRRats@gt[x, -1],levels=c("0/0","0/1","1/1"))))
+crGT2=paste(crGT[1, ], crGT[2, ], crGT[3, ], sep=",")
+crGT3=paste(crGT[1, ]/1780, crGT[2, ]/1780, crGT[3, ]/1780, sep=",")
+GenotypeS=cbind(FORMAT="GT", Annot=c("0/0,0/1,1/1"), crGT2, crGT3 )
+CRRats@gt=GenotypeS
+write.vcf(CRRats, file="~/Desktop/dbSNP_info/charlesRiver_snps_mod_1-5-2020.vcf.gz")
+```
+
+Note that the nihRats package may not be required here. We probably just want the harlan snps
+
+```{r, load-snps-database, cache=T}
+# loading known list of rat snp sites
+nihRats=read.vcfR("../anntotations/dbSNP/rat_10116_00-All.wchr.SDsort.vcf.gz")
+#nihRats@fix[ ,1]=paste("chr", nihRats@fix[ ,1], sep="")
+r=regexpr("[a-z]+_[a-z]+",nihRats@fix[ ,8]) #ANN=[A-Z]\\|
+ModType=rep(NA, length(nihRats@fix[ ,8]))
+ModType[r!=-1]=regmatches(nihRats@fix[ ,8], r)
+#ModType=substr(ModType, 7, 25)
+# Harlan samples
+harlanRats=read.vcfR("../anntotations/dbSNP/harlan_snps_mod_1-5-2020.SDsort.vcf.gz")
+
+GT3=crGT3=1-as.numeric(sapply(strsplit(harlanRats@gt[ ,4], ","), function(x) x[1]))
+
+r=regexpr("ANN=[A-Z]\\|[a-z]+_[a-z]+", harlanRats@fix[ ,8])
+HarType=rep(NA, length(harlanRats@fix[ ,8]))
+HarType[r!=-1]=regmatches(harlanRats@fix[ ,8], r)
+HarType=substr(HarType, 7, 25)
+# charles river samples
+CRRats=read.vcfR("../anntotations/dbSNP/charlesRiver_snps_mod_1-5-2020.SDsort.vcf.gz")
+crGT3=1-as.numeric(sapply(strsplit(CRRats@gt[ ,4], ","), function(x) x[1]))
+
+r=regexpr("ANN=[A-Z]\\|[a-z]+_[a-z]+", CRRats@fix[ ,8])
+CRType=rep(NA, length(CRRats@fix[ ,8]))
+CRType[r!=-1]=regmatches(CRRats@fix[ ,8], r)
+
+CRType=substr(CRType, 7, 25)
+```
+
+
+
+```{r}
+# This is just a plot that compares the different databases.
+## Look at the overlap between all the databases:
+NIHr=paste(nihRats@fix[ ,1], nihRats@fix[ ,2])
+harr=paste(harlanRats@fix[ ,1], harlanRats@fix[ ,2])
+crr=paste(CRRats@fix[ ,1], CRRats@fix[ ,2])
+
+# overview of the overlaps
+venn(list(NIH=NIHr, harlan=harr, CR=crr))
+
+## Annotate the above variants for protein coding regions first, then narrow down to known 
+AllLevels=unique(c(HarType, CRType, ModType))
+allTypes=rbind(table(factor(ModType, levels=AllLevels)), table(factor(HarType, levels=AllLevels)),
+               table(factor(CRType, levels = AllLevels)))
+rownames(allTypes)=c("NIH", "harlan", "CR")
+allTypesNorm=allTypes/rowSums(allTypes)
+
+t2=melt(allTypesNorm)
+ggplot(t2[which(t2$value<0.04),  ], aes(x=Var1, y=value, fill=Var2))+geom_bar(stat = "identity")+ylab("frequency snp type")+xlab("dataset")
+```
+
+
+```{r}
+#SearchVars=c("missense_variant","stop_lost", "stop_gained", "initiator_codon", "start_lost", "frameshift_variant")
+NIHr2=NIHr[which(ModType%in%SearchVars)]
+harr2=harr[which(HarType%in%SearchVars)]
+crr2=crr[which(CRType%in%SearchVars)]
+
+venn(list(NIH=NIHr2, harlan=harr2, CR=crr2))
+mtext("any coding variant", side=3)
+
+## Genes affected
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", harlanRats@fix[which(HarType%in%SearchVars),8])
+codhrgrp=rep(NA, length(which(HarType%in%SearchVars)))
+codhrgrp[r!=-1]=regmatches(harlanRats@fix[which(HarType%in%SearchVars),8], r)
+codhrgrp=substr(codhrgrp, 1, nchar(codhrgrp)-8)
+
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", CRRats@fix[which(CRType%in%SearchVars),8])
+codcrgrp=rep(NA, length(which(CRType%in%SearchVars)))
+codcrgrp[r!=-1]=regmatches(CRRats@fix[which(CRType%in%SearchVars),8], r)
+codcrgrp=substr(codhrgrp, 1, nchar(codcrgrp)-8)
+
+r=regexpr("[A-Za-z0-9\\.]+\\|ENSRNOG", nihRats@fix[which(ModType%in%SearchVars),8])
+codnihgrp=rep(NA, length(which(ModType%in%SearchVars)))
+codnihgrp[r!=-1]=regmatches(nihRats@fix[which(ModType%in%SearchVars),8], r)
+codnihgrp=substr(codnihgrp, 1, nchar(codnihgrp)-8)
+
+venn(list(NIH=codnihgrp, harlan=codhrgrp, CR=codcrgrp))
+mtext("any cosmic coding variant", side=3)
+
+## Look for Cosmic specific genes
+codcrgrp2=codcrgrp[codcrgrp%in%RatCosmic]
+codhrgrp2=codhrgrp[codhrgrp%in%RatCosmic]
+codnihgrp2=codnihgrp[codnihgrp%in%RatCosmic] #c(RatBreastCosmic, codhrgrp2, "Tert", "Atm")]
+```
+
+Look at the distribution of mutations:
+
+Whole genome
+
+* 1188 genes in more than 2 animals (1435 in at least 2)
+* 59 variants were identified as population variant in Harlan 
+* 47 in charles river (6 are novel in this cohort only)
+
+Cosmic genes:
+
+* 42 sites which have mutations in more than 2 animals
+* 50 sites in more than 1 animal
+* 5 sites which have been identified in GWAS studies of harlan rats. On average, the variant is found at a frequency of ~15%. The CR set, these variants appear in 50\% of the population 
+* 4 of the 5 rats from above were identified in 
+* 0 sites in the nih dbSNP database for rats
+
+
+```{r, eval=F}
+# Check TGFBr polymorphisms:
+
+r=grep("Tgfb", harlanRats@fix[,8])
+harlanRatsTgfb=harlanRats[r]
+write.vcf(harlanRatsTgfb, file="~/Desktop/harlanRats_Tgfb.vcf.gz")
+
+r=grep("Tgfb", CRRats@fix[,8])
+CRRatsTgfb=CRRats[r]
+write.vcf(CRRatsTgfb, file="~/Desktop/CRRats_Tgfb.vcf.gz")
+
+r=grep("Tgfb", nihRats@fix[,8])
+nihRatsTgfb=nihRats[r]
+write.vcf(nihRatsTgfb, file="~/Desktop/nih_Tgfb.vcf.gz")
+
+```
+
+Here, compare the frequencies of the most common mutations in our population with those reported in the harlan and charles river data-bases:
+
+* filter out mutatations occuring in 2+ samples
+
+```{r, pop-gen-plot}
+Nsamp=1
+## Firstly whole genome
+lx1=table(paste(MeltWGSCoding$Chromosome, MeltWGSCoding$Start_Position))
+lx1=sort(lx1, decreasing=T)
+hist(lx1)
+length(which(lx1>Nsamp))
+WGSList=names(lx1)[which(lx1>Nsamp)]
+WGSList=strsplit(WGSList, " ")
+WGSList=data.frame(chr=sapply(WGSList, function(x) x[1]), pos=sapply(WGSList, function(x) x[2]), freq=lx1[which(lx1>Nsamp)])
+WGSList$gene=as.character(MeltWGSCoding$Gene_Symbol[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$AA=as.character(MeltWGSCoding$HGVSp_Short[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$VariantClass=as.character(MeltWGSCoding$Variant_Classification[match(WGSList[ ,2], MeltWGSCoding$Start_Position)])
+WGSList$Cosmic=ifelse(WGSList$gene%in%RatCosmic, 1, 0)
+
+## Secondly, cosmic specific genes
+
+## WGSList
+midx=match(WGSList$freq.Var1, paste(harlanRats@fix[ ,1], harlanRats@fix[ ,2], sep=" "))
+WGSList$HarlanFreq=GT3[midx]
+midx=match(WGSList$freq.Var1, paste(nihRats@fix[ ,1], nihRats@fix[ ,2], sep=" "))
+WGSList$rsID=nihRats@fix[midx, 3]
+## CR
+midx=match(WGSList$freq.Var1, paste(CRRats@fix[ ,1], CRRats@fix[ ,2], sep=" "))
+WGSList$CRFreq=crGT3[midx]
+
+WGSplot=melt(WGSList[ ,c("freq.Freq", "gene", "VariantClass", "HarlanFreq", "CRFreq", "Cosmic")], measure.vars = c("HarlanFreq", "CRFreq"))
+WGSplot=WGSplot[-which(is.na(WGSplot$value)), ]
+
+ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gene))+facet_grid(~variable)+geom_point()+
+  geom_text(size=(WGSplot$Cosmic+3), col="black", nudge_y=0.01)+xlab("Cohort frequency")+ylab("Database frequency")+theme_bw()+theme(legend.position="bottom")+ggtitle("all genes compared to Harlan Frequencies")
+
+ WGSplot[WGSplot$Cosmic==1, ]
+
+```
+
+
+## Overview of the mutations 
+
+### All mutations
+
+SNPs are removed from this analysis: based on frequencies in the harlan cohort
+
+```{r}
+Nmut=90
+
+rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)), ]
+x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
+MeltWGSCodingB=MeltWGSCoding[-x1a, ]
+
+rGeneOut=acast(MeltWGSCodingB[ ,c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+               value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+
+mxl=unique(as.vector(rGeneOut))
+rGeneOut2=rGeneOut
+rGeneOut2[grep("Nonsense",rGeneOut2)]=3
+rGeneOut2[grep("Frame_Shift",rGeneOut2)]=2
+rGeneOut2[grep("Missense_", rGeneOut2)]=1
+rGeneOut2[grep("Splice_", rGeneOut2)]=4
+rGeneOut2[which(rGeneOut2=="")]=0
+
+rGeneOut2=apply(rGeneOut2, 2, as.numeric)
+rownames(rGeneOut2)=rownames(rGeneOut)
+
+#get rid of genes which are associated with Olfactory receptors, AABR etc mutations
+rmThese=c("^AABR", "^Olr", "^LOC", "^AC[0-9]+", "^RGD", "^Rpl", "^1700", "^RT1", "^ENSRNOG", "^Vom2")
+rmList=unlist(sapply(rmThese, function(x) grep(x, colnames(rGeneOut2))))
+rGeneOut2=rGeneOut2[ ,-rmList]
+
+GeneList=colSums(sign(rGeneOut2), na.rm=T)
+samp2=rowSums(sign(rGeneOut2), na.rm=T)
+rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
+
+top30=names(sort(GeneList, decreasing=T)[1:Nmut])
+
+# do a plot of the top 30 most common mutations
+tempx=rGeneOut2[ ,top30]
+a2=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+RowSC=ifelse(colnames(tempx)%in% c(RatCosmic, as.character(AllCancerPathwayGenes)), "black", "white")
+
+heatmap.2(tempx, Rowv = NA, Colv = NA,scale="none", trace="none", col=c("white", 1:4), ColSideColors=RowSC)
+# check if any of these are hotspot mutations
+Hotspots=MeltCosmic[which(!is.na(MeltCosmic$HumSequence)), ]
+
+hotspotLocExtract=function(amat){
+HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
+                                                 paste(match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))), "0 0"))
+List2=strsplit(HList, " ")
+Xcord=na.omit(as.numeric(sapply(List2, function(x) x[1])))
+Ycord=na.omit(as.numeric(sapply(List2, function(x) x[2])))
+return(list(X=Xcord, Y=Ycord))
+}
+
+## top 90 mutations
+a2=heatmap.2(sign(tempx), trace="none")
+tempxb=tempx[a2$rowInd, a2$colInd]
+hotspot1b=hotspotLocExtract(tempxb)
+
+## hotspot locations
+GeneList=unique(Hotspots$Gene_Symbol)
+tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
+a2=heatmap.2(sign(tempy), trace="none")
+tempyb=tempy[a2$rowInd, a2$colInd]
+hotspot2=hotspotLocExtract(tempyb)
+
+##cosmic genes
+x1=which(colnames(rGeneOut2)%in%RatCosmic)
+tempz=rGeneOut2[ ,x1]
+a2=heatmap.2(sign(tempz), trace="none", col=c("white", 1:4))
+tempzb=tempz[a2$rowInd, a2$colInd]
+hotspotzb=hotspotLocExtract(tempzb)
+
+
+#pdf(sprintf("rslt/WGS/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
+
+# 
+# par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+# image(t(tempx), col=c("white", 1:3), xaxt='n', yaxt='n')
+# axis(1, at=seq(0, 1, length=ncol(tempx)), colnames(tempx), las=2, cex=0.5)
+# axis(2, at=seq(0, 1, length=nrow(tempx)), rownames(tempx), las=2, cex=0.5)
+# text(na.omit(hotspot1$Y-1)/(ncol(tempx)-1), na.omit(hotspot1$X-1)/(nrow(tempx)-1) , "*")
+# legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+# 
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex=0.5)
+text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("top 90 mutations", side=3, line=-1, outer=T)
+
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempyb), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempyb)), colnames(tempyb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempyb)), rownames(tempyb), las=2, cex=0.5)
+text(na.omit(hotspot2$Y-1)/(ncol(tempyb)-1), na.omit(hotspot2$X-1)/(nrow(tempyb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
+
+## Plot by picking out cancer related genes
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2, cex=0.5)
+text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("Cancer related genes", side=3, line=-1, outer=T)
+
+
+x2=which(colSums(sign(tempzb))==1)
+tempz2=tempzb[ , -x2]
+hotspotzb2=hotspotLocExtract(tempz2)
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempz2)), colnames(tempz2), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(tempz2)), rownames(tempz2), las=2, cex=0.7)
+text(na.omit(hotspotzb2$Y-1)/(ncol(tempz2)-1), na.omit(hotspotzb2$X-1)/(nrow(tempz2)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
+mtext("Cancer related genes: more than 1 sample", side=3, line=-1, outer=T)
+
+#dev.off()
+```
+
+Save these lists for metacore
+
+```{r}
+allMut=unique(MeltWGSCodingB$Gene_Symbol)
+write.csv(allMut, file=sprintf("outputs/all_mut_rat_WGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+allMut=unique(MeltCosmic$Gene_Symbol)
+write.csv(allMut, file=sprintf("outputs/all_mut_rat_WES_cosmic_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+## Genomic Locations: not useful since the human variants are assessed
+#write.csv(MeltWGSCodingB[ ,c("Chromosome", "Start_Position", "Reference_Allele", "Tumor_Seq_Allele2")], file=sprintf("rslt/WGS/all_mut_locations_ratWGS_coding_metacore_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+
+# ratAllMut=na.omit(unique(c(SymHum2Rat$HGNC.symbol[match(allMut, SymHum2Rat$RGD.symbol)], Rat2Hum$HGNC.symbol[match(allMut, Rat2Hum$RGD.symbol)])))
+# 
+# lnx1=table(factor(MeltWGSCodingB$Gene_Symbol))
+# allMut2samp=names(lnx1)[which(lnx1>1)]
+# write.csv(allMut2samp, file=sprintf("rslt/WGS/all_mut_rat_WES_coding_metacore_at_least_2_samples_%s.csv", Sys.Date()), row.names = F, quote=F)
+
+```
+
+Load the metacore results:
+
+```{r}
+Process_Networks=read.xlsx("../data/wholegenome_mutations/RatWEScoding_process_networks.xlsx", 1, startRow = 3)
+Pathway_Maps=read.xlsx("../data/wholegenome_mutations/RatWEScoding_pathway_maps.xlsx", 1, startRow = 3)
+
+Terms_PN=strsplit(Process_Networks$Networks, "_")
+TermsPN1=sapply(Terms_PN, function(x) x[1])
+TermsPN2=sapply(Terms_PN, function(x) x[2])
+
+Terms_PW=strsplit(Pathway_Maps$Maps, "_")
+TermsPW1=sapply(Terms_PW, function(x) x[1])
+TermsPW2=sapply(Terms_PW, function(x) x[2])
+
+
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+m1=match(Process_Networks$Networks[1:15], names(PathwayMapSet))
+
+N2=lapply(m1, function(x) which(MeltWGSCodingB$Hum_Gene %in% PathwayMapSet[[x]]))
+GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
+SumTable2=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
+colnames(SumTable2)=Process_Networks$Networks[1:15]
+#listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+
+load("../anntotations/Metacore_extracted_pathway_maps_nov2020.RData")
+m1=match(Pathway_Maps$Maps[1:15], names(PathwayMapSet))
+
+N2=lapply(m1, function(x) which(MeltWGSCodingB$Hum_Gene %in% PathwayMapSet[[x]]))
+GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
+SumTable3=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
+colnames(SumTable3)=Pathway_Maps$Maps[1:15]
+#listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+
+#pdf("rslt/WGS/Metacore_analysis_coding_mutations.pdf", height=13, width=13)
+
+par(mfrow=c(1,2), mar=c(2,8, 2,2))
+barplot(-log10(as.numeric(Process_Networks$FDR[1:15])), names.arg = Process_Networks$Networks[1:15], las=2, main="Process networks", horiz = T, cex.names = 0.5)
+barplot(-log10(as.numeric(Pathway_Maps$FDR[1:15])), names.arg = Pathway_Maps$Maps[1:15], las=2, main="Pathway Maps", horiz = T, cex.names = 0.5)
+
+par(oma=c(10, 3,3,3))
+heatmap.2(SumTable2, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Process Networks")
+
+par(oma=c(10, 3,3,3))
+heatmap.2(SumTable3, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Pathway Maps")
+
+#dev.off()
+```
+
+### Cosmic only:
+
+Probably don't need this section?
+
+Note the cut-offs:
+
+Mut in N samples | Genes | NO genes
+--------|------|--------
+27 | Atm Tert | 2
+19| Prf1 | 1
+18 | Muc1 Ncor2 Clip1 | 3
+3| Pik3ca, Brca2 |17
+2| Braf, Nras, Bcl9l Atr Erbb3 Gata2 | 49
+
+
+```{r, eval=F}
+Nmut=90
+
+# x1a=which(MeltCosmic$Gene_Symbol%in%rmHarlanSNP$gene &  MeltCosmic$Start_Position%in%rmHarlanSNP$pos)
+# MeltCosmicB=MeltCosmic[-x1a, ]
+
+# rGeneOut=acast(MeltWGSCodingB[ ,c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+#                value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+# 
+# mxl=unique(as.vector(rGeneOut))
+# rGeneOut2=rGeneOut
+# rGeneOut2[grep("Nonsense",rGeneOut2)]=3
+# rGeneOut2[grep("Frame_Shift",rGeneOut2)]=2
+# rGeneOut2[grep("Missense_", rGeneOut2)]=1
+# rGeneOut2[grep("Splice_", rGeneOut2)]=4
+# rGeneOut2[which(rGeneOut2=="")]=0
+# 
+# rGeneOut2=apply(rGeneOut2, 2, as.numeric)
+# rownames(rGeneOut2)=rownames(rGeneOut)
+
+rGeneOut3=rGeneOut2[ , which(colnames(rGeneOut2)%in%c(RatCosmic, AllCancerPathwayGenes))]
+GeneList=colSums(sign(rGeneOut2), na.rm=T)
+samp2=rowSums(sign(rGeneOut2), na.rm=T)
+rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
+
+top30=names(sort(GeneList, decreasing=T)[1:Nmut])
+# do a plot of the top 30 most common mutations
+temp=rGeneOut2[ ,top30]
+tempx=temp[grep("^N|C", rownames(temp)), ]
+a1a=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+tempy=temp[grep("D", rownames(temp)), ]
+a1b=heatmap(tempy, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
+a2=rbind(tempx[a1a$rowInd, a1a$colInd], tempy[a1b$rowInd, a1a$colInd])
+
+l1=as.numeric(RNADNAsamples$Treatment[match(rownames(a2), sapply(strsplit(as.character(RNADNAsamples$WGS), ".final.bam"), function(x) x[1]))])
+colSC=palette()[l1+4]
+
+x1=order(l1)
+
+a2=a2[x1,  ]
+# rsMatrix=acast(CancerMeltCoding[ ,c("GENE", "L1", "ID")], L1~GENE,value.var="ID", fun.aggregate = function(x) length(which(x!=""))) #grep("H", x)
+# rsMatrixSearch=rsMatrix[match(rownames(a2), rownames(rsMatrix)), match( colnames(a2), colnames(rsMatrix)) ]
+# 
+# Listout=which(rsMatrixSearch>0, arr.ind = T)
+
+heatmap.2(a2, Colv = NA, Rowv=NA, scale="none", trace="none", col=c("white", 1:4), RowSideColors=colSC[x1])
+
+# check if any of these are hotspot mutations
+Hotspots=MeltCosmic[which(MeltCosmic$CompSeq!=""), ]
+# 
+ hotspotLocExtract=function(amat){
+ HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
+                                                  paste(match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))), "0 0"))
+ List2=strsplit(HList, " ")
+ Xcord=na.omit(as.numeric(sapply(List2, function(x) x[1])))
+ Ycord=na.omit(as.numeric(sapply(List2, function(x) x[2])))
+ return(list(X=Xcord, Y=Ycord))
+ }
+ 
+hotspot1=hotspotLocExtract(a2)
+
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(a2), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(a2)), colnames(a2), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(a2)), rownames(a2), las=2, cex=0.7)
+text(na.omit(hotspot1$Y-1)/(ncol(a2)-1), na.omit(hotspot1$X-1)/(nrow(a2)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift","Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+
+
+```
+
+Based on this data, check whether the mutation sites are listed in the above db Sets
+
+```{r}
+rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)| !is.na(WGSList$CRFreq) | !is.na(WGSList$rsID)), ]
+x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
+MeltWGSCodingC=MeltWGSCoding[x1a, ]
+
+tempCos=merge(MeltWGSCodingC, rmHarlanSNP, by.x="Start_Position", by.y="pos", all.x=T)
+
+tempCos$B=ifelse(is.na(tempCos$HarlanFreq)==F, tempCos$HarlanFreq, ifelse(is.na(tempCos$CRFreq)==F, tempCos$CRFreq, 0))
+a3=acast(tempCos[ ,c("Gene_Symbol", "L1", "B")], L1~Gene_Symbol, 
+               value.var="B", fun.aggregate=max)
+a3[which(a3=="-Inf", arr.ind = T)]=-2
+
+a3=a3[order(rownames(a3)) , order(colnames(a3))]
+
+hotspot1=hotspotLocExtract(a3)
+
+#pdf(sprintf("rslt/WGS/harlan_SNP_frequency_%s.pdf", Sys.Date()), width=12, height=6)
+
+image(t(a3), col=c("white", "grey", brewer.pal(5, "Blues")), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(a3)), colnames(a3), las=2, cex=0.7)
+axis(2, at=seq(0, 1, length=nrow(a3)), rownames(a3), las=2, cex=0.7)
+text(na.omit(hotspot1$Y-1)/(ncol(a3)-1), na.omit(hotspot1$X-1)/(nrow(a3)-1) , "*")
+mtext("common variants and expected frequency")
+#dev.off()
+```
+
+
