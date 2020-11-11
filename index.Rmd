@@ -69,7 +69,7 @@ source("../rscript/gseaCode.R")
 source("../rscript/ContingencyTable.R")
 source("../rscript/PvalueHeatMap.R")
 source("../rscript/BootstrapShannonIdx.R")
-source("../rscript/CreateRnor87db.R")
+#source("../rscript/CreateRnor87db.R")
 source("../rscript/FindRatAAHomolog.R")
 
 firstup <- function(x) {
