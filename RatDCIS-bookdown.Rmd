@@ -6674,19 +6674,21 @@ tempxb=tempx[a2$rowInd, a2$colInd]
 hotspot1b=hotspotLocExtract(tempxb)
 GeneList=unique(Hotspots$Gene_Symbol)
 tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
-a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
-tempyb=tempy[a2$rowInd, a2$colInd]
-hotspot2=hotspotLocExtract(tempyb)
-## hotspot locations
-GeneList=unique(Hotspots$Gene_Symbol)
-tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
-a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
-tempyb=tempy[a2$rowInd, a2$colInd]
-hotspot2=hotspotLocExtract(tempyb)
+head(tempy)
+# a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
+# tempyb=tempy[a2$rowInd, a2$colInd]
+# hotspot2=hotspotLocExtract(tempyb)
+# ## hotspot locations
+# GeneList=unique(Hotspots$Gene_Symbol)
+# tempy=rGeneOut2[ ,match(GeneList, colnames(rGeneOut2))]
+# a2=heatmap.2(sign(tempy), trace="none", col=c("white", "grey"))
+# tempyb=tempy[a2$rowInd, a2$colInd]
+# hotspot2=hotspotLocExtract(tempyb)
 
 ##cosmic genes
 x1=which(colnames(rGeneOut2)%in%RatCosmic)
 tempz=rGeneOut2[ ,x1]
+head(tempz)
 a2=heatmap.2(sign(tempz), trace="none", col=c("white", 1:4))
 tempzb=tempz[a2$rowInd, a2$colInd]
 hotspotzb=hotspotLocExtract(tempzb)
