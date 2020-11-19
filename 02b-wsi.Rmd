@@ -676,7 +676,7 @@ scroll_box(kable(df.Spatial, format="html"),
 ```
 
 ```{r}
-df.Spatial=read.csv("../data/WSI-data/summary_scores_spatial.csv", row.names = 1)
+#df.Spatial=read.csv("../data/WSI-data/summary_scores_spatial.csv", row.names = 1)
 ```
 
 Firstly, we can compare the different metrics to determine how similar or different they are:
@@ -719,6 +719,23 @@ boxplot(df.Spatial[, i]~df.Spatial$Treatment, ylab=i, xlab="Treatment",
 t1=wilcox.test(df.Spatial[df.Spatial$Infil%in%c("Infiltrating", "restricted"), i]~df.Spatial$Infil[df.Spatial$Infil%in%c("Infiltrating", "restricted")])$p.value
 boxplot(df.Spatial[, i]~df.Spatial$Infil, ylab=i, xlab="Infil", main=sprintf("p:%s", round(t1, 2)))
 }
+
+boxplot(df.Spatial$MH.EpCAM~df.Spatial$Growth+df.Spatial$CD8Fraccut)
+boxplot(df.Spatial$CD8frac~df.Spatial$Growth)
+wilcox.test(df.Spatial$CD8frac~df.Spatial$Growth)
+
+plot(df.Spatial$CD8frac, df.Spatial$MH.EpCAM, col=factor(df.Spatial$Growth))
+plot(df.Spatial$MH.SMA, df.Spatial$MH.EpCAM, col=factor(df.Spatial$Growth))
+
+plot(df.Spatial$IF.SMA, df.Spatial$IF.EpCAM, col=factor(df.Spatial$Growth))
+text(df.Spatial$IF.SMA+0.025, df.Spatial$IF.EpCAM+0.025,rownames(df.Spatial))
+
+plot(df.Spatial$MH.SMA, df.Spatial$MH.EpCAM, col=factor(df.Spatial$Growth))
+
+plot(log10(df.Spatial$knn.SMA), log10(df.Spatial$knn.EpCAM), col=factor(df.Spatial$Growth), pch=19,
+     ylab="knn.EpCAM", xlab="knn.SMA")
+text(log10(df.Spatial$knn.SMA+0.025), log10(df.Spatial$knn.EpCAM+0.025),rownames(df.Spatial))
+
 ```
 We can also compare this to raw tumor size or growth rate data as well:
 

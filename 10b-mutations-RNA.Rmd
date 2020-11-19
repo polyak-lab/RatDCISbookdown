@@ -1,0 +1,217 @@
+# Mutations in RNA
+
+In this section, we will check RNA data for the common mutations identified in the previous section. Some of these mutations could be uncharacterised polymoprphisms, and if this is the case, we will see in both CD45 and Epithelial fractions
+
+## Haplotype caller
+
+Mutational calling from RNA data was performed using haplotype caller. The key steps are:
+
+1. run haplotype caller
+2. run snpeff to annotate
+3. from snpsift to convert to a text file that can be read
+
+Note that a dbSNP file is needed to filter for polymorphisms. We have used the [harlan variants](https://www.biorxiv.org/content/10.1101/412924v1.full) to perform filtering due to similarity in population frequencies in the previous section
+
+An example of the code is shown here:
+
+```{r, eval=F}
+ # pipeline
+
+# 1. run haplotyper
+# A. Assemble BAM files
+Inputs: 
+  $1 fastq file (if paired end, $2 will be the other)
+  $2 aligned bam
+# fastq to unaligned BAM
+java -jar $PICARD/picard-2.8.0.jar FastqToSam F1=$1 O=$uBAM\
+## for paired end:
+# java -jar $PICARD/picard-2.8.0.jar FastqToSam F1=$1 F2=$2 O=$uBAM \
+
+# change read groups in aligned BAM file to ensure uniqueness
+java -jar $PICARD/picard-2.8.0.jar AddOrReplaceReadGroups \
+     I= $2 \
+     O= "${2/.bam/ARG.bam}" \
+     ID=$baseName2 \
+     LB=library \
+     PL=illumina \
+     PU=hiseq2000 \
+     SM=$baseName2 \
+     CN=MFBC \
+     DT=2018-08-20T00:00:00-0400
+# merge files
+gatk MergeBamAlignment \
+--REFERENCE_SEQUENCE ../Alignment/rn6.fa \
+--UNMAPPED_BAM $uBAM \
+--ALIGNED_BAM "${2/.bam/ARG.bam}" \
+--OUTPUT $mBAM \
+--INCLUDE_SECONDARY_ALIGNMENTS false \
+--PAIRED_RUN true \
+--VALIDATION_STRINGENCY SILENT
+
+#B. Mark duplicates
+gatk MarkDuplicates \
+        --INPUT $mBAM \
+        --OUTPUT $dBAM \
+        --CREATE_INDEX true \
+        --VALIDATION_STRINGENCY SILENT \
+        --METRICS_FILE ${outName}.metrics
+#C. Split sigar reads
+gatk SplitNCigarReads \
+     -R ../Alignment/rn6.fa \
+     -I $dBAM \
+     -O $cBAM \
+
+#D. Base recalibration
+gatk BaseRecalibrator \
+             -R ../Alignment/rn6.fa \
+             -I $cBAM \
+             -O ${outName}_recalibration \
+             -known-sites harlan_snps_mod_1-5-2020.SDsort.vcf.gz 
+
+gatk ApplyBQSR \
+             --add-output-sam-program-record \
+             -R ../Alignment/rn6.fa \
+             -I $cBAM \
+             --use-original-qualities \
+             -O $bBAM \
+             --bqsr-recal-file ${outName}_recalibration
+
+#E. Haplotype calling
+gatk HaplotypeCaller \
+ -R ../Alignment/rn6.fa \
+ -I $bBAM \
+ -L ../Alignment/rn6_refGene_intervals.bed \
+ -O ${outName}HCR.vcf.gz  \
+ --dont-use-soft-clipped-bases true \
+ --standard-min-confidence-threshold-for-calling 20 \
+ --dbsnp all_rat_snps_0504.SD.vcf.gz
+
+# F. Filtering
+gatk VariantFiltration \
+ --R ../Alignment/rn6.fa \
+ --V ${outName}HCR.vcf.gz \
+ --window 35 \
+ --cluster 3 \
+ --filter-name "FS" \
+ --filter "FS > 30.0" \
+ --filter-name "QD" \
+ --filter "QD < 2.0" \
+ -O ${outName}_filt_HCR
+
+# 2. run SnpEff to annotate
+java -jar $SNPEFF/snpEff.jar -v Rnor_6.0.86 /n/scratch2/at268/carlos_data/20191030_Ep_NMU1_CGDA7428_S1_R1_001_filt > /n/scratch2/at268/carlos_data/20191030_Ep_NMU1_CGDA7428_S1_R1_001_filt_ann
+
+# 3. run SnpSift to save as a .txt file that can be easily read
+cat $f | $SNPEFF/scripts/vcfEffOnePerLine.pl | java -jar $SNPEFF/SnpSift.jar extractFields -e "" - CHROM POS ID REF ALT QUAL FILTER AF AC DP MQ  "ANN[*].ANNOTATION" "ANN[*].GENE" "ANN[*].GENEID" "ANN[*].BIOTYPE" "ANN[*].HGVS_C" "ANN[*].HGVS_P" "ANN[*].CDNA_POS" "ANN[*].CDNA_LEN" "ANN[*].CDS_POS" "ANN[*].CDS_LEN" "ANN[*].AA_POS" "ANN[*].AA_LEN" "NMD[*].NUMTR" "NMD[*].PERC" "GEN[*]" > $ofile
+```
+
+
+From processing the mutational information:
+
+Header information - Genotypes:
+GT: genotype
+AD: Allelic depths for the ref and alt alleles in the order listed
+DP: Approximate read depth (reads with MQ=255 or with bad mates are filtered)
+GQ: Genotype Quality
+PL: Normalized, Phred-scaled likelihoods for genotypes
+
+Header info: Info
+AC: Allele count in genotypes, for each ALT allele, in the same order as listed
+AF: Allele Frequency, for each ALT allele, in the same order as listed
+AN: Total number of alleles in called genotypes
+DB: dbSNP Membership
+DP: Approximate read depth; some reads may have been filtered
+ExcessHet: Phred-scaled p-value for exact test of excess heterozygosity
+FS: Phred-scaled p-value using Fisher's exact test to detect strand bias
+MLEAC: Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC)
+MLEAF: Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF)
+MQ: RMS Mapping Quality
+QD:Variant Confidence/Quality by Depth
+SOR: Symmetric Odds Ratio of 2x2 contingency table to detect strand bias
+
+SnpEff Annotations:
+Allele : C
+Annotation: missense_variant
+Annotation_Impact MODERATE
+Gene_Name Raet1l
+Gene_ID ENSRNOG00000040300 
+Feature_Type transcript 
+Feature_ID ENSRNOT00000062027.4
+Transcript_BioType protein_coding 
+HGVS.c c.1017C>G 
+HGVS.p p.Cys339Trp 
+cDNA.pos / cDNA.length 1017/1185 
+CDS.pos / CDS.length 1017/1185 
+AA.pos / AA.length 339/394 
+
+missense_variant|MODERATE|Raet1l|ENSRNOG00000040300|transcript|ENSRNOT00000062027.4|protein_coding|6/7|c.1017C>G|p.Cys339Trp|1017/1185|1017/1185|339/394||
+
+AC=2;AF=1.00;AN=2;DP=49;ExcessHet=3.0103;FS=0.000;MLEAC=2;MLEAF=1.00;MQ=60.00;QD=34.99;SOR=0.874;ANN=GC|frameshift_variant&splice_region_variant|HIGH|Reps1|ENSRNOG00000059224|transcript|ENSRNOT00000089607.1|protein_coding|8/29|c.119dupC|p.Gln41fs|142/2608|120/1842|40/613||INFO_REALIGN_3_PRIME;LOF=(Reps1|ENSRNOG00000059224|2|0.50)
+
+AC=2;AF=1.00;AN=2;BaseQRankSum=1.593;ClippingRankSum=0.000;DP=9;ExcessHet=3.0103;FS=0.000;MLEAC=2;MLEAF=1.00;MQ=60.00;MQRankSum=0.000;QD=33.20;ReadPosRankSum=0.765;SOR=1.609;ANN=AT|frameshift_variant&stop_gained|HIGH|Pacs1|ENSRNOG00000020350|transcript|ENSRNOT00000027632.5|protein_coding|3/24|c.464dupA|p.Tyr155fs|464/2886|464/2886|155/961||;LOF=(Pacs1|ENSRNOG00000020350|1|1.00);NMD=(Pacs1|ENSRNOG00000020350|1|1.00)
+
+## Load files
+
+```{r, cache=T}
+hfiles=dir("../data/haplotypeCaller/output_HaplotypeCaller_May/characterisation/",
+           pattern=".txt", full.names = T)
+
+allHfiles=list()
+allCodingHaplo=list()
+allCosmicHaplo=list()
+
+for (i in 1:length(hfiles)){
+A1=read.delim(hfiles[i], sep="\t", stringsAsFactors = F)
+A1[which(A1==(-1), arr.ind=T)]=""
+
+cNames=sapply(strsplit(colnames(A1)[12:27], "\\.\\.\\.\\."), function(x) x[2])
+cNames[13:16]=paste(c("LOF", "LOF", "NMD", "NMD"), cNames[13:16], sep=".")
+colnames(A1)[12:28]=c(cNames, "GEN")
+
+GEN2=sapply(strsplit(A1$GEN, ":"), function(x) x[2])
+gRef=sapply(strsplit(GEN2, ","), function(x) x[1])
+gAlt=sapply(strsplit(GEN2, ","), function(x) x[length(x)])
+
+A1$n_ref=as.numeric(gRef)
+A1$n_alt=as.numeric(gAlt)
+A1$VAF=A1$n_alt/(A1$n_alt+A1$n_ref)
+
+allHfiles[[i]]=A1[which(A1$n_ref+A1$n_alt>10), ]
+allCodingHaplo[[i]]=A1[which(A1$HGVS_P!="" & A1$n_ref+A1$n_alt>10), ]
+allCosmicHaplo[[i]]=A1[which(A1$GENE%in%RatCosmic & A1$n_ref+A1$n_alt>10), ]
+}
+
+## names of the files
+
+fNam=unlist(strsplit(hfiles, "_filt_HCR_ann_siftB.txt")) #remove HCR where not needed
+fNam=unlist(strsplit(fNam, ".vcf.g"))
+fNam2=paste(fNam, ".fastq.gz", sep="")
+fNam2=sapply(strsplit(fNam2, "/"), function(x) x[length(x)])
+idx1=infoTableFinal$SampleID[match(fNam2, infoTableFinal$FqFile)]
+idx1[which(is.na(idx1))]=fNam2[which(is.na(idx1))]
+
+# sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep="_")
+
+names(allHfiles)=idx1
+names(allCodingHaplo)=idx1
+names(allCosmicHaplo)=idx1
+# remove the samples which do not pass QC
+idx2rm=setdiff(grep("fastq.gz", idx1), grep("CD45plus", idx1))
+
+## write all these lists to file
+allHfiles=allHfiles[-idx2rm]
+allCodingHaplo=allCodingHaplo[-idx2rm]
+allCosmicHaplo=allCosmicHaplo[-idx2rm]
+
+save(allHfiles,allCodingHaplo, allCodingHaplo,  file=sprintf("outputs/HaplotypeVariants_characterisation_all_%s.Rdata", Sys.Date()))
+```
+
+## Identifying polymorphisms
+
+Search for whether mutations in the cosmic set is present in the RNA data
+Search for whether existing COSMIC mutations appear in the RNA data?
+
+```{r}
+
+
+```

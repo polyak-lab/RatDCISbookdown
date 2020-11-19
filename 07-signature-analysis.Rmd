@@ -29,6 +29,7 @@ Firstly, we will look at the progression cohort. Note that the overlap between t
 ```{r}
 Markers=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
 Markers2=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr')
+Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp53' )
 
 #pdf(sprintf("rslt/signatureAnalysis/new_classifer_PAM_%s.pdf", Sys.Date()), height=6, width=7)
 # Progression cohort
@@ -56,27 +57,38 @@ heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale=
 We can perform a similar analysis to the characterisation cohort:
 
 ```{r}
-c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Characterisation")]
-Ax1=assay(vsd)[ match(Markers, rownames(assay(vsd))), match(c2, colnames(vsd))]
+c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
+Ax1=assay(vsd)[ match(Markers3, rownames(assay(vsd))), match(c2, colnames(vsd))]
 Pam3=pam(t(Ax1), 2)
+km3=kmeans(t(Ax1), 2)
 #plot(Pam3, "extended list")
 ColC=Pam3$clustering
-ColC=ifelse(ColC==1, "Basal", "Lum")
-
-
-Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
-Pam4=pam(t(Ax1), 2)
-#plot(Pam4, "narrow list")
-ColD=Pam4$clustering
-ColD=ifelse(ColD==1, "Basal", "Lum")
+ColC=ifelse(ColC==2, "Basal", "Lum")
+ColD=km3$cluster
+ColD=ifelse(ColD==2, "Basal", "Lum")
 
 table(ColC, ColD)
-
 CTable=cbind(ColC, ColD)
 CTable=gsub("Basal", "red", CTable)
 CTable=gsub("Lum", "blue", CTable)
 
-heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="row", main="Char cohort vsd marker list1", trace="none")
+heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list1", trace="none")
+
+
+Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
+Pam4=pam(t(Ax2), 2)
+km4=kmeans(t(Ax2),2)
+#plot(Pam4, "narrow list")
+ColD=km4$cluster
+ColD=ifelse(ColD==2, "Basal", "Lum")
+
+
+
+#Ax1=allTPMFinal[ , which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
+Ax1=assay(vsd)[, match(c2, colnames(vsd))]
+Test2=cor(Ax1)
+ColSideCols=ColD
+heatmap.2(Test2, col=RdBu[11:1], scale="none", trace = "none", ColSideColors = as.character(as.numeric(factor(ColD))))
 ```
 
 DN samples:

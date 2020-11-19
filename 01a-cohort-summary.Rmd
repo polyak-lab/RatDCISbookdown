@@ -80,7 +80,10 @@ d1$tum.size=Cdata$Tumor.dia..sac..mm.[match(rownames(d1), gsub("_", "", Cdata$Tu
 d1$growthrate_cutoff2=ifelse(d1$growthrate>=2, "growing", "stable")
 
 #pdf(sprintf("rslt/Clinicopath/summary_growth_rates_%s.pdf", Sys.Date()), width=8, height=6)
-hist(GR, breaks=30, main="distribution of growth rates (mm/week)")
+#hist(GR, breaks=30, main="distribution of growth rates (mm/week)")
+# redo this plot showing the treatment groups:
+ggplot(d1, aes(x=growthrate, fill=treatment))+geom_histogram(colour="black")+theme_bw()+geom_vline(aes(xintercept=2), colour="grey45", linetype="dashed")+scale_fill_manual(values=ColMerge[ ,1])
+
 ```
 
 Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:
@@ -242,7 +245,7 @@ t2=Fdata[-which(Fdata[ ,1]==""),]
 t2=t2[-c(1:2, 14), ]
 t2melt=melt(t2)
 
-ggplot(t2melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('all samples')
+ggplot(t2melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('all samples')+theme(axis.text.x = element_text(angle = 90))
 
 ```
 
@@ -255,7 +258,7 @@ t3melt=melt(t3)
 
 t3melt$growth=d1$growthrate_cutoff2[match(t3melt$variable, rownames(d1))]
 
-ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('myeloid specific')
+ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('myeloid specific')+theme(axis.text.x = element_text(angle = 90))
 ```
 Similarly, we can look at the leukocyte population. Note that the Treg population in some of these samples is very high.
 
@@ -266,5 +269,5 @@ t3melt=melt(t3)
 
 t3melt$growth=d1$growthrate_cutoff2[match(t3melt$variable, rownames(d1))]
 
-ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('leukocyte specific')
+ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xlab("sample")+ylab("proportion")+ggtitle('leukocyte specific')+theme(axis.text.x = element_text(angle = 90))
 ```
