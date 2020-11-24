@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 Whole Genome Sequencing Mutations | Rat DCIS study</title>
+  <title>Chapter 14 Whole Genome Sequencing Mutations | Rat DCIS study</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 13 Whole Genome Sequencing Mutations | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 14 Whole Genome Sequencing Mutations | Rat DCIS study" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 Whole Genome Sequencing Mutations | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 14 Whole Genome Sequencing Mutations | Rat DCIS study" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="bcr-clonotype-analysis.html"/>
-<link rel="next" href="trichrome-staining.html"/>
+<link rel="next" href="mutations-in-rna.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -218,63 +218,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
-<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>9.1</b> In-house classifier</a></li>
-<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>9.2</b> PAM50 (Parker) scoring</a></li>
-<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>9.3</b> Clustering based on random genes</a></li>
-<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>9.4</b> Consolidating the different results</a></li>
+<li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>10</b> Signature analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>10.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>10.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="10.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>10.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="10.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>10.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
+<li class="chapter" data-level="10.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>10.2</b> PAM50 (Parker) scoring</a></li>
+<li class="chapter" data-level="10.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>10.3</b> Clustering based on random genes</a></li>
+<li class="chapter" data-level="10.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>10.4</b> Consolidating the different results</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>10.2</b> Cancer pathways</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>10.2.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="10.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>10.2.2</b> regression model for covariates</a></li>
-<li class="chapter" data-level="10.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>10.2.3</b> Taking into account directionality</a></li>
+<li class="chapter" data-level="11" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>11</b> Signature analysis</a><ul>
+<li class="chapter" data-level="11.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>11.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>11.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="11.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>11.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="11.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>11.1.3</b> MHC presentation proteins</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>11</b> Immune estimation</a><ul>
-<li class="chapter" data-level="11.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>11.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="11.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>11.2</b> Deconvolution methods</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>11.2.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="11.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>11.2.2</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="11.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>11.2.3</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="11.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>11.2.4</b> Association with Growth</a></li>
-<li class="chapter" data-level="11.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>11.2.5</b> Association with infiltration</a></li>
+<li class="chapter" data-level="11.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>11.2</b> Cancer pathways</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>11.2.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="11.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.2.2</b> regression model for covariates</a></li>
+<li class="chapter" data-level="11.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>11.2.3</b> Taking into account directionality</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>12</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="12.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>12.1</b> Processing summary</a></li>
-<li class="chapter" data-level="12.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>12.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="12.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>12.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="12.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>12.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="12.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>12.5</b> Associate with clinicopathological data</a></li>
-<li class="chapter" data-level="12.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>12.6</b> Associate with signature scores</a></li>
-<li class="chapter" data-level="12.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>12.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
+<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
+<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#temp-comparison-of-running-char-and-prog-cohorts-separately"><i class="fa fa-check"></i><b>12.2.2</b> TEMP: comparison of running Char and Prog cohorts separately?</a></li>
+<li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>13</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="13.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>13.1</b> Data</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>13.1.1</b> Extract mutation signatures</a></li>
-<li class="chapter" data-level="13.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>13.1.2</b> Annotate the data with human common variants</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>13.2</b> Plots</a><ul>
-<li class="chapter" data-level="13.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>13.2.1</b> Quick overview</a></li>
-<li class="chapter" data-level="13.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>13.2.2</b> Coding variants &amp; TMB</a></li>
+<li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="13.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>13.1</b> Processing summary</a></li>
+<li class="chapter" data-level="13.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>13.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="13.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>13.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="13.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>13.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="13.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>13.5</b> Associate with clinicopathological data</a></li>
+<li class="chapter" data-level="13.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>13.6</b> Associate with signature scores</a></li>
+<li class="chapter" data-level="13.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>13.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>13.3</b> Coding variants</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>13.3.1</b> Sites which are commonly mutated?</a></li>
+<li class="chapter" data-level="14" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>14</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="14.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>14.1</b> Data</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>14.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="14.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>14.1.2</b> Annotate the data with human common variants</a></li>
 </ul></li>
-<li class="chapter" data-level="13.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>13.4</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="13.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>13.4.1</b> All mutations</a></li>
+<li class="chapter" data-level="14.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>14.2</b> Plots</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>14.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="14.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>14.2.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>13.5</b> Metacore analysis of commonly mutated pathways</a></li>
+<li class="chapter" data-level="14.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>14.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>14.3.1</b> Sites which are commonly mutated?</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>14</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="14.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>14.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="14.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>14.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="14.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>14.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>14.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>14.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>15</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="15.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>15.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
+<li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
+<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -297,12 +319,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="whole-genome-sequencing-mutations" class="section level1">
-<h1><span class="header-section-number">Chapter 13</span> Whole Genome Sequencing Mutations</h1>
+<h1><span class="header-section-number">Chapter 14</span> Whole Genome Sequencing Mutations</h1>
 <p>Whole genome sequencing was performed on XX samples by the new york genome centre.
 The pipeline involves:</p>
 <p><span style="color:red"> Insert information on the NYGC pipeline here </span></p>
 <div id="data" class="section level2">
-<h2><span class="header-section-number">13.1</span> Data</h2>
+<h2><span class="header-section-number">14.1</span> Data</h2>
 <p>In this section, we load the maf output files and create lists which</p>
 <ul>
 <li>filter out coding mutations</li>
@@ -319,38 +341,38 @@ The pipeline involves:</p>
 <pre><code>##  C1R-tumor  C2N-tumor C2R1-tumor C2R2-tumor C2R3-tumor  C4P-tumor 
 ##     240153     262425     235677     222717     238324     258677</code></pre>
 <div id="extract-mutation-signatures" class="section level3">
-<h3><span class="header-section-number">13.1.1</span> Extract mutation signatures</h3>
+<h3><span class="header-section-number">14.1.1</span> Extract mutation signatures</h3>
 <p>Annotate the files so that the nucleotide codon can be extracted based on the genome file.
 See the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
 The output table $fout3 should have 6 columns with the genomic location, the reference and alt allele and codon context.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="whole-genome-sequencing-mutations.html#cb45-1"></a>TBed=<span class="kw">lapply</span>(AllMutWGS, <span class="cf">function</span>(x) <span class="kw">cbind</span>(<span class="kw">as.character</span>(x<span class="op">$</span>Chromosome), x<span class="op">$</span>Start_Position<span class="dv">-2</span>, x<span class="op">$</span>End_Position<span class="op">+</span><span class="dv">1</span>, <span class="kw">as.character</span>(x<span class="op">$</span>Reference_Allele), <span class="kw">as.character</span>(x<span class="op">$</span>Tumor_Seq_Allele2)))</span>
-<span id="cb45-2"><a href="whole-genome-sequencing-mutations.html#cb45-2"></a>TBed=<span class="kw">lapply</span>(TBed, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">nchar</span>(x[ ,<span class="dv">4</span>])<span class="op">==</span><span class="dv">1</span>), ])</span>
-<span id="cb45-3"><a href="whole-genome-sequencing-mutations.html#cb45-3"></a><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(TBed), <span class="cf">function</span>(x) <span class="kw">write.table</span>(TBed[[x]], <span class="dt">file=</span><span class="kw">paste</span>(<span class="kw">names</span>(TBed)[x], <span class="st">&quot;tricodon.bed&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>),<span class="dt">col.names=</span>F, <span class="dt">row.names =</span> F, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> F))</span>
-<span id="cb45-4"><a href="whole-genome-sequencing-mutations.html#cb45-4"></a></span>
-<span id="cb45-5"><a href="whole-genome-sequencing-mutations.html#cb45-5"></a><span class="co">## bedtools command</span></span>
-<span id="cb45-6"><a href="whole-genome-sequencing-mutations.html#cb45-6"></a>bedtools getfasta <span class="op">-</span>fi ..<span class="op">/</span>Genomic_Files<span class="op">/</span>rn6.fa <span class="op">-</span>bed <span class="op">$</span>f <span class="op">-</span>tab <span class="op">-</span>fo <span class="op">$</span>fout</span>
-<span id="cb45-7"><a href="whole-genome-sequencing-mutations.html#cb45-7"></a><span class="kw">f3</span>() { awk <span class="st">&#39;{print $1, $2, $3, $4 ,$5}&#39;</span> <span class="st">&quot;$1&quot;</span>; }; paste <span class="op">&lt;</span>(f3 <span class="op">$</span>f) <span class="op">&lt;</span>(f3 <span class="op">$</span>fout) <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout2</span>
-<span id="cb45-8"><a href="whole-genome-sequencing-mutations.html#cb45-8"></a>awk <span class="st">&#39;{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}&#39;</span> <span class="op">$</span>fout2 <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout3</span>
-<span id="cb45-9"><a href="whole-genome-sequencing-mutations.html#cb45-9"></a><span class="co">## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="whole-genome-sequencing-mutations.html#cb48-1"></a>TBed=<span class="kw">lapply</span>(AllMutWGS, <span class="cf">function</span>(x) <span class="kw">cbind</span>(<span class="kw">as.character</span>(x<span class="op">$</span>Chromosome), x<span class="op">$</span>Start_Position<span class="dv">-2</span>, x<span class="op">$</span>End_Position<span class="op">+</span><span class="dv">1</span>, <span class="kw">as.character</span>(x<span class="op">$</span>Reference_Allele), <span class="kw">as.character</span>(x<span class="op">$</span>Tumor_Seq_Allele2)))</span>
+<span id="cb48-2"><a href="whole-genome-sequencing-mutations.html#cb48-2"></a>TBed=<span class="kw">lapply</span>(TBed, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">nchar</span>(x[ ,<span class="dv">4</span>])<span class="op">==</span><span class="dv">1</span>), ])</span>
+<span id="cb48-3"><a href="whole-genome-sequencing-mutations.html#cb48-3"></a><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(TBed), <span class="cf">function</span>(x) <span class="kw">write.table</span>(TBed[[x]], <span class="dt">file=</span><span class="kw">paste</span>(<span class="kw">names</span>(TBed)[x], <span class="st">&quot;tricodon.bed&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>),<span class="dt">col.names=</span>F, <span class="dt">row.names =</span> F, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> F))</span>
+<span id="cb48-4"><a href="whole-genome-sequencing-mutations.html#cb48-4"></a></span>
+<span id="cb48-5"><a href="whole-genome-sequencing-mutations.html#cb48-5"></a><span class="co">## bedtools command</span></span>
+<span id="cb48-6"><a href="whole-genome-sequencing-mutations.html#cb48-6"></a>bedtools getfasta <span class="op">-</span>fi ..<span class="op">/</span>Genomic_Files<span class="op">/</span>rn6.fa <span class="op">-</span>bed <span class="op">$</span>f <span class="op">-</span>tab <span class="op">-</span>fo <span class="op">$</span>fout</span>
+<span id="cb48-7"><a href="whole-genome-sequencing-mutations.html#cb48-7"></a><span class="kw">f3</span>() { awk <span class="st">&#39;{print $1, $2, $3, $4 ,$5}&#39;</span> <span class="st">&quot;$1&quot;</span>; }; paste <span class="op">&lt;</span>(f3 <span class="op">$</span>f) <span class="op">&lt;</span>(f3 <span class="op">$</span>fout) <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout2</span>
+<span id="cb48-8"><a href="whole-genome-sequencing-mutations.html#cb48-8"></a>awk <span class="st">&#39;{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}&#39;</span> <span class="op">$</span>fout2 <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout3</span>
+<span id="cb48-9"><a href="whole-genome-sequencing-mutations.html#cb48-9"></a><span class="co">## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.</span></span></code></pre></div>
 <p>Following running the above bash script, we can run the following extract the tri-nucleotide sequence</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="whole-genome-sequencing-mutations.html#cb46-1"></a>FFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/tricodon_mut_sigs/&quot;</span>, <span class="st">&quot;*.txt&quot;</span>,<span class="dt">full.names=</span>T)</span>
-<span id="cb46-2"><a href="whole-genome-sequencing-mutations.html#cb46-2"></a>OutputList=<span class="kw">sapply</span>(FFiles, <span class="cf">function</span>(x) <span class="kw">FindTriNucleotideContext</span>(x))</span>
-<span id="cb46-3"><a href="whole-genome-sequencing-mutations.html#cb46-3"></a>TableOut=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(OutputList), <span class="cf">function</span>(x) <span class="kw">unlist</span>(OutputList[<span class="dv">3</span>, x]))</span>
-<span id="cb46-4"><a href="whole-genome-sequencing-mutations.html#cb46-4"></a>a1=<span class="kw">basename</span>(FFiles)</span>
-<span id="cb46-5"><a href="whole-genome-sequencing-mutations.html#cb46-5"></a>a2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(a1, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb46-6"><a href="whole-genome-sequencing-mutations.html#cb46-6"></a>TableOut=<span class="kw">cbind</span>(<span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">1</span>, <span class="dv">1</span>])), <span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">2</span>, <span class="dv">1</span>])), TableOut)</span>
-<span id="cb46-7"><a href="whole-genome-sequencing-mutations.html#cb46-7"></a><span class="kw">colnames</span>(TableOut)=<span class="kw">c</span>(<span class="st">&quot;MutationType&quot;</span>,<span class="st">&quot;Nutrinucleotide&quot;</span>, <span class="kw">paste</span>(<span class="st">&quot;BRCA&quot;</span>, a2, <span class="dt">sep=</span><span class="st">&quot;::&quot;</span>))</span>
-<span id="cb46-8"><a href="whole-genome-sequencing-mutations.html#cb46-8"></a><span class="kw">write.csv</span>(TableOut, <span class="dt">file=</span><span class="st">&quot;../data/tricodon_mut_sigs/output4SigProfiler.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">row.names =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="whole-genome-sequencing-mutations.html#cb49-1"></a>FFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/tricodon_mut_sigs/&quot;</span>, <span class="st">&quot;*.txt&quot;</span>,<span class="dt">full.names=</span>T)</span>
+<span id="cb49-2"><a href="whole-genome-sequencing-mutations.html#cb49-2"></a>OutputList=<span class="kw">sapply</span>(FFiles, <span class="cf">function</span>(x) <span class="kw">FindTriNucleotideContext</span>(x))</span>
+<span id="cb49-3"><a href="whole-genome-sequencing-mutations.html#cb49-3"></a>TableOut=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(OutputList), <span class="cf">function</span>(x) <span class="kw">unlist</span>(OutputList[<span class="dv">3</span>, x]))</span>
+<span id="cb49-4"><a href="whole-genome-sequencing-mutations.html#cb49-4"></a>a1=<span class="kw">basename</span>(FFiles)</span>
+<span id="cb49-5"><a href="whole-genome-sequencing-mutations.html#cb49-5"></a>a2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(a1, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb49-6"><a href="whole-genome-sequencing-mutations.html#cb49-6"></a>TableOut=<span class="kw">cbind</span>(<span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">1</span>, <span class="dv">1</span>])), <span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">2</span>, <span class="dv">1</span>])), TableOut)</span>
+<span id="cb49-7"><a href="whole-genome-sequencing-mutations.html#cb49-7"></a><span class="kw">colnames</span>(TableOut)=<span class="kw">c</span>(<span class="st">&quot;MutationType&quot;</span>,<span class="st">&quot;Nutrinucleotide&quot;</span>, <span class="kw">paste</span>(<span class="st">&quot;BRCA&quot;</span>, a2, <span class="dt">sep=</span><span class="st">&quot;::&quot;</span>))</span>
+<span id="cb49-8"><a href="whole-genome-sequencing-mutations.html#cb49-8"></a><span class="kw">write.csv</span>(TableOut, <span class="dt">file=</span><span class="st">&quot;../data/tricodon_mut_sigs/output4SigProfiler.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">row.names =</span> F)</span></code></pre></div>
 <p>This is then run in python (sigprofiler) with the following code:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="whole-genome-sequencing-mutations.html#cb47-1"></a>module load gcc</span>
-<span id="cb47-2"><a href="whole-genome-sequencing-mutations.html#cb47-2"></a>module load python<span class="op">/</span><span class="dv">3</span>.<span class="fl">7.4</span></span>
-<span id="cb47-3"><a href="whole-genome-sequencing-mutations.html#cb47-3"></a>from SigProfilerExtractor import <span class="kw">spss_pcwag</span> (spss uses only vcf files)</span>
-<span id="cb47-4"><a href="whole-genome-sequencing-mutations.html#cb47-4"></a><span class="kw">spss_pcwag.single_sample_pcwag</span>(<span class="st">&quot;output4SigProfiler.csv&quot;</span>, <span class="dt">output=</span><span class="st">&quot;example_output&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="whole-genome-sequencing-mutations.html#cb50-1"></a>module load gcc</span>
+<span id="cb50-2"><a href="whole-genome-sequencing-mutations.html#cb50-2"></a>module load python<span class="op">/</span><span class="dv">3</span>.<span class="fl">7.4</span></span>
+<span id="cb50-3"><a href="whole-genome-sequencing-mutations.html#cb50-3"></a>from SigProfilerExtractor import <span class="kw">spss_pcwag</span> (spss uses only vcf files)</span>
+<span id="cb50-4"><a href="whole-genome-sequencing-mutations.html#cb50-4"></a><span class="kw">spss_pcwag.single_sample_pcwag</span>(<span class="st">&quot;output4SigProfiler.csv&quot;</span>, <span class="dt">output=</span><span class="st">&quot;example_output&quot;</span>)</span></code></pre></div>
 <p>The results from this analysis are shown below</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-144-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-144-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-144-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-3.png" width="672" /></p>
 </div>
 <div id="annotate-the-data-with-human-common-variants" class="section level3">
-<h3><span class="header-section-number">13.1.2</span> Annotate the data with human common variants</h3>
+<h3><span class="header-section-number">14.1.2</span> Annotate the data with human common variants</h3>
 <p>From this analysis, below are the genes with mutations in known human hotpot mutations in common genes</p>
 <table>
 <thead>
@@ -604,13 +626,13 @@ ENSP00000388058
 </tbody>
 </table>
 <p>And here, we plot the frequency of these different mutations</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-146-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
 </div>
 </div>
 <div id="plots" class="section level2">
-<h2><span class="header-section-number">13.2</span> Plots</h2>
+<h2><span class="header-section-number">14.2</span> Plots</h2>
 <div id="quick-overview" class="section level3">
-<h3><span class="header-section-number">13.2.1</span> Quick overview</h3>
+<h3><span class="header-section-number">14.2.1</span> Quick overview</h3>
 <p>WGS all mutations summary: Look at the overall mutation burden, and the tumor mutational burden, defined as # coding mutations per MB.</p>
 <p>The following plot lists tumors in increasing size</p>
 <p>Make plots of:</p>
@@ -619,28 +641,28 @@ ENSP00000388058
 <li>correlation between mutation type and size</li>
 <li>type of mutation?</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-2.png" width="672" /></p>
 </div>
 <div id="coding-variants-tmb" class="section level3">
-<h3><span class="header-section-number">13.2.2</span> Coding variants &amp; TMB</h3>
+<h3><span class="header-section-number">14.2.2</span> Coding variants &amp; TMB</h3>
 <p>There are a few ways of figuring out the TMB. We can</p>
 <ul>
 <li>report the number of mutations (missense, insertion/deletion, frameshifts, nonsense)</li>
 <li>normalise the above value to the known length of coding regions in the rat genome (UCSC exon length 43,423,804)</li>
 <li>plot of TMB vs objective response rate: there is no true relationship between final tumor size and mutational burden. Could also be confounded by subclonality</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-151-1.png" width="672" /></p>
 </div>
 </div>
 <div id="coding-variants" class="section level2">
-<h2><span class="header-section-number">13.3</span> Coding variants</h2>
+<h2><span class="header-section-number">14.3</span> Coding variants</h2>
 <div id="sites-which-are-commonly-mutated" class="section level3">
-<h3><span class="header-section-number">13.3.1</span> Sites which are commonly mutated?</h3>
+<h3><span class="header-section-number">14.3.1</span> Sites which are commonly mutated?</h3>
 <p>Could this be a variant (SD strain “rsSNP”) or is it actually a mutation?</p>
 <p>Variants were annotated with snpeff. Raw data from this was obtained from <a href="https://www.biorxiv.org/content/10.1101/412924v1.full" class="uri">https://www.biorxiv.org/content/10.1101/412924v1.full</a></p>
 <p>Note that the nihRats package may not be required here. We probably just want the harlan snps</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-2.png" width="672" /></p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-151-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-151-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-2.png" width="672" /></p>
 <p>Look at the distribution of mutations:</p>
 <p>Whole genome</p>
 <ul>
@@ -924,9 +946,9 @@ CRFreq
 </div>
 </div>
 <div id="overview-of-the-mutations" class="section level2">
-<h2><span class="header-section-number">13.4</span> Overview of the mutations</h2>
+<h2><span class="header-section-number">14.4</span> Overview of the mutations</h2>
 <div id="all-mutations" class="section level3">
-<h3><span class="header-section-number">13.4.1</span> All mutations</h3>
+<h3><span class="header-section-number">14.4.1</span> All mutations</h3>
 <p>SNPs are removed from this analysis: based on frequencies in the harlan cohort</p>
 <p>Color codes:</p>
 <ul>
@@ -935,17 +957,533 @@ CRFreq
 <li>green:</li>
 <li>blue:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-5.png" width="672" /></p>
-<p>These are the interesting plots:</p>
-<p>test break here</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-5.png" width="672" /></p>
+<p>Note that in this table, the distribution of samples with mutations is as follows:</p>
+<p>2042, 342, 196, 222, 65, 43, 30, 25, 23, 23, 15, 14, 10, 11, 7, 7, 1, 1, 1, 1, 1</p>
+<p>The number of genes which have shared mutations in 10 or more samples is:</p>
+<p>92, which is why we have use these values here.</p>
+<p>The number of genes which are cosmic associated are:</p>
+<p>162 and the number which appear in more than 1 sample is 44.</p>
+<p>These genes are tabulated below:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-4.png" width="672" /></p>
 </div>
 </div>
 <div id="metacore-analysis-of-commonly-mutated-pathways" class="section level2">
-<h2><span class="header-section-number">13.5</span> Metacore analysis of commonly mutated pathways</h2>
+<h2><span class="header-section-number">14.5</span> Metacore analysis of commonly mutated pathways</h2>
 <p>Save these lists for metacore</p>
 <p>Load the metacore results:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-3.png" width="672" /></p>
+<pre><code>##            Inflammation_IL-2 signaling Signal transduction_ESR1-nuclear pathway
+## C1R-tumor                            2                                        8
+## C2N-tumor                            0                                        0
+## C2R1-tumor                           2                                        1
+## C2R2-tumor                           2                                        2
+## C2R3-tumor                           2                                        2
+## C4P-tumor                            0                                        4
+##            Signal Transduction_Cholecystokinin signaling
+## C1R-tumor                                              2
+## C2N-tumor                                              0
+## C2R1-tumor                                             2
+## C2R2-tumor                                             0
+## C2R3-tumor                                             2
+## C4P-tumor                                              0
+##            Signal transduction_NOTCH signaling
+## C1R-tumor                                    9
+## C2N-tumor                                    4
+## C2R1-tumor                                   4
+## C2R2-tumor                                   4
+## C2R3-tumor                                   2
+## C4P-tumor                                    4
+##            Signal transduction_ESR1-membrane pathway
+## C1R-tumor                                          1
+## C2N-tumor                                          0
+## C2R1-tumor                                         3
+## C2R2-tumor                                         0
+## C2R3-tumor                                         2
+## C4P-tumor                                          1
+##            Cell adhesion_Integrin priming Inflammation_IL-6 signaling
+## C1R-tumor                               8                           1
+## C2N-tumor                               0                           4
+## C2R1-tumor                              6                           2
+## C2R2-tumor                              1                           4
+## C2R3-tumor                              3                           1
+## C4P-tumor                               3                           2
+##            Cell adhesion_Cadherins DNA damage_MMR repair
+## C1R-tumor                        4                     4
+## C2N-tumor                        3                     0
+## C2R1-tumor                       7                     2
+## C2R2-tumor                       4                     1
+## C2R3-tumor                       6                     2
+## C4P-tumor                        6                     3
+##            Cell adhesion_Integrin-mediated cell-matrix adhesion
+## C1R-tumor                                                     6
+## C2N-tumor                                                     0
+## C2R1-tumor                                                    5
+## C2R2-tumor                                                    2
+## C2R3-tumor                                                    2
+## C4P-tumor                                                     2
+##            Development_EMT_Regulation of epithelial-to-mesenchymal transition
+## C1R-tumor                                                                   7
+## C2N-tumor                                                                   4
+## C2R1-tumor                                                                  6
+## C2R2-tumor                                                                  4
+## C2R3-tumor                                                                  5
+## C4P-tumor                                                                   4
+##            Reproduction_Feeding and Neurohormone signaling
+## C1R-tumor                                                0
+## C2N-tumor                                                0
+## C2R1-tumor                                               0
+## C2R2-tumor                                               0
+## C2R3-tumor                                               0
+## C4P-tumor                                                0
+##            Cell cycle_G1-S Growth factor regulation
+## C1R-tumor                                         4
+## C2N-tumor                                         0
+## C2R1-tumor                                        2
+## C2R2-tumor                                        2
+## C2R3-tumor                                        0
+## C4P-tumor                                         1
+##            Development_Blood vessel morphogenesis
+## C1R-tumor                                       5
+## C2N-tumor                                       5
+## C2R1-tumor                                      8
+## C2R2-tumor                                      6
+## C2R3-tumor                                      5
+## C4P-tumor                                       7
+##            Cell adhesion_Platelet aggregation
+## C1R-tumor                                   4
+## C2N-tumor                                   0
+## C2R1-tumor                                  2
+## C2R2-tumor                                  0
+## C2R3-tumor                                  1
+## C4P-tumor                                   1
+##            Cell adhesion_Attractive and repulsive receptors
+## C1R-tumor                                                 1
+## C2N-tumor                                                 1
+## C2R1-tumor                                                5
+## C2R2-tumor                                                1
+## C2R3-tumor                                                3
+## C4P-tumor                                                 2
+##            Signal transduction_ERBB-family signaling
+## C1R-tumor                                          5
+## C2N-tumor                                          0
+## C2R1-tumor                                         1
+## C2R2-tumor                                         2
+## C2R3-tumor                                         0
+## C4P-tumor                                          1
+##            Development_Neurogenesis_Axonal guidance
+## C1R-tumor                                         2
+## C2N-tumor                                         0
+## C2R1-tumor                                        6
+## C2R2-tumor                                        1
+## C2R3-tumor                                        4
+## C4P-tumor                                         1
+##            Cell adhesion_Cell-matrix interactions
+## C1R-tumor                                      12
+## C2N-tumor                                       6
+## C2R1-tumor                                      3
+## C2R2-tumor                                      2
+## C2R3-tumor                                      2
+## C4P-tumor                                       4
+##            Development_Regulation of angiogenesis
+## C1R-tumor                                      12
+## C2N-tumor                                       3
+## C2R1-tumor                                      8
+## C2R2-tumor                                      6
+## C2R3-tumor                                      4
+## C4P-tumor                                       3
+##            Reproduction_Progesterone signaling Muscle contraction
+## C1R-tumor                                    3                  6
+## C2N-tumor                                    1                  3
+## C2R1-tumor                                   3                  1
+## C2R2-tumor                                   2                  0
+## C2R3-tumor                                   2                  0
+## C4P-tumor                                    3                  2
+##            Cytoskeleton_Cytoplasmic microtubules
+## C1R-tumor                                      6
+## C2N-tumor                                      0
+## C2R1-tumor                                     2
+## C2R2-tumor                                     0
+## C2R3-tumor                                     2
+## C4P-tumor                                      5
+##            Development_Neurogenesis in general
+## C1R-tumor                                    9
+## C2N-tumor                                    1
+## C2R1-tumor                                   6
+## C2R2-tumor                                   3
+## C2R3-tumor                                   3
+## C4P-tumor                                    8
+##            Reproduction_Male sex differentiation Cell cycle_Meiosis
+## C1R-tumor                                      6                  6
+## C2N-tumor                                      0                  1
+## C2R1-tumor                                     4                  2
+## C2R2-tumor                                     3                  1
+## C2R3-tumor                                     3                  2
+## C4P-tumor                                      0                  1
+##            Development_ERK5 in cell proliferation and neuronal survival
+## C1R-tumor                                                             1
+## C2N-tumor                                                             0
+## C2R1-tumor                                                            0
+## C2R2-tumor                                                            1
+## C2R3-tumor                                                            1
+## C4P-tumor                                                             1
+##            Development_Hedgehog signaling
+## C1R-tumor                               7
+## C2N-tumor                               2
+## C2R1-tumor                              2
+## C2R2-tumor                              1
+## C2R3-tumor                              1
+## C4P-tumor                               4
+##            Cardiac development_Wnt_beta-catenin, Notch, VEGF, IP3 and integrin signaling
+## C1R-tumor                                                                             10
+## C2N-tumor                                                                              1
+## C2R1-tumor                                                                             3
+## C2R2-tumor                                                                             1
+## C2R3-tumor                                                                             2
+## C4P-tumor                                                                              1
+##            Development_Neuromuscular junction
+## C1R-tumor                                   6
+## C2N-tumor                                   0
+## C2R1-tumor                                  2
+## C2R2-tumor                                  0
+## C2R3-tumor                                  0
+## C4P-tumor                                   3
+##            Inflammation_Kallikrein-kinin system
+## C1R-tumor                                     6
+## C2N-tumor                                     8
+## C2R1-tumor                                    4
+## C2R2-tumor                                    4
+## C2R3-tumor                                    2
+## C4P-tumor                                     4
+##            Proteolysis_Connective tissue degradation Cell cycle_S phase
+## C1R-tumor                                          9                  5
+## C2N-tumor                                         15                  2
+## C2R1-tumor                                         3                  5
+## C2R2-tumor                                         2                  3
+## C2R3-tumor                                         3                  5
+## C4P-tumor                                         14                  4
+##            Cell adhesion_Platelet-endothelium-leucocyte interactions
+## C1R-tumor                                                          5
+## C2N-tumor                                                          5
+## C2R1-tumor                                                         5
+## C2R2-tumor                                                         5
+## C2R3-tumor                                                         4
+## C4P-tumor                                                          6</code></pre>
+<pre><code>##            Immune response_IL-3 signaling via ERK and PI3K
+## C1R-tumor                                                2
+## C2N-tumor                                                3
+## C2R1-tumor                                               4
+## C2R2-tumor                                               2
+## C2R3-tumor                                               3
+## C4P-tumor                                                2
+##            NF-AT signaling in cardiac hypertrophy
+## C1R-tumor                                       4
+## C2N-tumor                                       1
+## C2R1-tumor                                      0
+## C2R2-tumor                                      0
+## C2R3-tumor                                      0
+## C4P-tumor                                       4
+##            Development_Prolactin receptor signaling
+## C1R-tumor                                         0
+## C2N-tumor                                         0
+## C2R1-tumor                                        0
+## C2R2-tumor                                        1
+## C2R3-tumor                                        0
+## C4P-tumor                                         1
+##            Immune response_M-CSF-receptor signaling pathway
+## C1R-tumor                                                 1
+## C2N-tumor                                                 0
+## C2R1-tumor                                                0
+## C2R2-tumor                                                1
+## C2R3-tumor                                                0
+## C4P-tumor                                                 1
+##            Development_Negative regulation of WNT/Beta-catenin signaling in the cytoplasm
+## C1R-tumor                                                                               0
+## C2N-tumor                                                                               3
+## C2R1-tumor                                                                              3
+## C2R2-tumor                                                                              2
+## C2R3-tumor                                                                              4
+## C4P-tumor                                                                               2
+##            CHDI_DEGs from Replication data_Causal network
+## C1R-tumor                                               3
+## C2N-tumor                                               2
+## C2R1-tumor                                              0
+## C2R2-tumor                                              3
+## C2R3-tumor                                              0
+## C4P-tumor                                               0
+##            IGF family, invasion and metastasis in colorectal cancer
+## C1R-tumor                                                         0
+## C2N-tumor                                                         0
+## C2R1-tumor                                                        0
+## C2R2-tumor                                                        0
+## C2R3-tumor                                                        1
+## C4P-tumor                                                         1
+##            Development_Positive regulation of WNT/Beta-catenin signaling in the cytoplasm
+## C1R-tumor                                                                               1
+## C2N-tumor                                                                               2
+## C2R1-tumor                                                                              2
+## C2R2-tumor                                                                              3
+## C2R3-tumor                                                                              5
+## C4P-tumor                                                                               3
+##            PI3K signaling in gastric cancer
+## C1R-tumor                                 0
+## C2N-tumor                                 0
+## C2R1-tumor                                1
+## C2R2-tumor                                1
+## C2R3-tumor                                0
+## C4P-tumor                                 1
+##            Immune response_IL-4 signaling pathway
+## C1R-tumor                                       3
+## C2N-tumor                                       0
+## C2R1-tumor                                      1
+## C2R2-tumor                                      1
+## C2R3-tumor                                      0
+## C4P-tumor                                       1
+##            Development_Role of HDAC and calcium/calmodulin-dependent kinase (CaMK) in control of skeletal myogenesis
+## C1R-tumor                                                                                                          2
+## C2N-tumor                                                                                                          1
+## C2R1-tumor                                                                                                         0
+## C2R2-tumor                                                                                                         1
+## C2R3-tumor                                                                                                         0
+## C4P-tumor                                                                                                          2
+##            CHDI_Correlations from Discovery data_Causal network
+## C1R-tumor                                                     1
+## C2N-tumor                                                     1
+## C2R1-tumor                                                    0
+## C2R2-tumor                                                    0
+## C2R3-tumor                                                    0
+## C4P-tumor                                                     0
+##            Immune response_Function of MEF2 in T lymphocytes
+## C1R-tumor                                                  2
+## C2N-tumor                                                  2
+## C2R1-tumor                                                 0
+## C2R2-tumor                                                 1
+## C2R3-tumor                                                 0
+## C4P-tumor                                                  1
+##            Signal transduction_Angiotensin II/ AGTR1 signaling via p38, ERK and PI3K
+## C1R-tumor                                                                          3
+## C2N-tumor                                                                          0
+## C2R1-tumor                                                                         1
+## C2R2-tumor                                                                         0
+## C2R3-tumor                                                                         0
+## C4P-tumor                                                                          2
+##            CHDI_Correlations from Replication data_Causal network (positive correlations)
+## C1R-tumor                                                                               3
+## C2N-tumor                                                                               0
+## C2R1-tumor                                                                              0
+## C2R2-tumor                                                                              1
+## C2R3-tumor                                                                              0
+## C4P-tumor                                                                               1
+##            Signal transduction_Angiotensin II/ AGTR1 signaling via JAK/STAT
+## C1R-tumor                                                                 3
+## C2N-tumor                                                                 1
+## C2R1-tumor                                                                0
+## C2R2-tumor                                                                1
+## C2R3-tumor                                                                0
+## C4P-tumor                                                                 3
+##            Development_Fetal brown fat cell differentiation
+## C1R-tumor                                                 1
+## C2N-tumor                                                 0
+## C2R1-tumor                                                2
+## C2R2-tumor                                                2
+## C2R3-tumor                                                2
+## C4P-tumor                                                 2
+##            Signal transduction_Angiotensin II/AGTR1 signaling via Notch, Beta-catenin and NF-kB pathways
+## C1R-tumor                                                                                              4
+## C2N-tumor                                                                                              1
+## C2R1-tumor                                                                                             1
+## C2R2-tumor                                                                                             1
+## C2R3-tumor                                                                                             2
+## C4P-tumor                                                                                              3
+##            Cytoskeleton remodeling_FAK signaling
+## C1R-tumor                                      1
+## C2N-tumor                                      0
+## C2R1-tumor                                     2
+## C2R2-tumor                                     0
+## C2R3-tumor                                     0
+## C4P-tumor                                      0
+##            WNT signaling in proliferative-type melanoma cells
+## C1R-tumor                                                   1
+## C2N-tumor                                                   0
+## C2R1-tumor                                                  2
+## C2R2-tumor                                                  0
+## C2R3-tumor                                                  1
+## C4P-tumor                                                   0
+##            Cytoskeleton remodeling_Hyaluronic acid/ CD44 signaling pathways
+## C1R-tumor                                                                 1
+## C2N-tumor                                                                 0
+## C2R1-tumor                                                                0
+## C2R2-tumor                                                                0
+## C2R3-tumor                                                                1
+## C4P-tumor                                                                 0
+##            EGF- and HGF-dependent stimulation of metastasis in gastric cancer
+## C1R-tumor                                                                   0
+## C2N-tumor                                                                   0
+## C2R1-tumor                                                                  1
+## C2R2-tumor                                                                  0
+## C2R3-tumor                                                                  0
+## C4P-tumor                                                                   0
+##            CHDI_Correlations from Replication data_Cytoskeleton and adhesion module
+## C1R-tumor                                                                         2
+## C2N-tumor                                                                         0
+## C2R1-tumor                                                                        1
+## C2R2-tumor                                                                        0
+## C2R3-tumor                                                                        1
+## C4P-tumor                                                                         1
+##            Role of adhesion of SCLC cells in tumor progression
+## C1R-tumor                                                    1
+## C2N-tumor                                                    0
+## C2R1-tumor                                                   0
+## C2R2-tumor                                                   1
+## C2R3-tumor                                                   0
+## C4P-tumor                                                    1
+##            Mechanisms of CAM-DR in multiple myeloma
+## C1R-tumor                                         2
+## C2N-tumor                                         0
+## C2R1-tumor                                        0
+## C2R2-tumor                                        0
+## C2R3-tumor                                        0
+## C4P-tumor                                         1
+##            CHDI_Correlations from Replication data_Causal network (negative correlations)
+## C1R-tumor                                                                               1
+## C2N-tumor                                                                               0
+## C2R1-tumor                                                                              0
+## C2R2-tumor                                                                              1
+## C2R3-tumor                                                                              1
+## C4P-tumor                                                                               0
+##            Aberrant B-Raf signaling in melanoma progression
+## C1R-tumor                                                 1
+## C2N-tumor                                                 2
+## C2R1-tumor                                                2
+## C2R2-tumor                                                1
+## C2R3-tumor                                                2
+## C4P-tumor                                                 1
+##            Development_Thromboxane A2 signaling pathway
+## C1R-tumor                                             0
+## C2N-tumor                                             0
+## C2R1-tumor                                            1
+## C2R2-tumor                                            0
+## C2R3-tumor                                            1
+## C4P-tumor                                             0
+##            IGF-1 signaling in multiple myeloma
+## C1R-tumor                                    0
+## C2N-tumor                                    0
+## C2R1-tumor                                   1
+## C2R2-tumor                                   0
+## C2R3-tumor                                   0
+## C4P-tumor                                    1
+##            Chemotaxis_Lysophosphatidic acid signaling via GPCRs
+## C1R-tumor                                                     3
+## C2N-tumor                                                     1
+## C2R1-tumor                                                    2
+## C2R2-tumor                                                    2
+## C2R3-tumor                                                    3
+## C4P-tumor                                                     1
+##            Cell cycle_Role of Nek in cell cycle regulation
+## C1R-tumor                                                1
+## C2N-tumor                                                0
+## C2R1-tumor                                               0
+## C2R2-tumor                                               0
+## C2R3-tumor                                               1
+## C4P-tumor                                                1
+##            High shear stress-induced platelet activation
+## C1R-tumor                                              2
+## C2N-tumor                                              0
+## C2R1-tumor                                             1
+## C2R2-tumor                                             0
+## C2R3-tumor                                             1
+## C4P-tumor                                              0
+##            Development_Negative regulation of WNT/Beta-catenin signaling in the nucleus
+## C1R-tumor                                                                             3
+## C2N-tumor                                                                             0
+## C2R1-tumor                                                                            0
+## C2R2-tumor                                                                            0
+## C2R3-tumor                                                                            1
+## C4P-tumor                                                                             0
+##            wtCFTR and deltaF508-CFTR traffic / Clathrin coated vesicles formation (normal and CF)
+## C1R-tumor                                                                                       0
+## C2N-tumor                                                                                       1
+## C2R1-tumor                                                                                      0
+## C2R2-tumor                                                                                      0
+## C2R3-tumor                                                                                      0
+## C4P-tumor                                                                                       0
+##            Development_The role of GDNF ligand family/ RET receptor in cell survival, growth and proliferation
+## C1R-tumor                                                                                                    1
+## C2N-tumor                                                                                                    0
+## C2R1-tumor                                                                                                   2
+## C2R2-tumor                                                                                                   1
+## C2R3-tumor                                                                                                   0
+## C4P-tumor                                                                                                    1
+##            Chemotaxis_SDF-1/ CXCR4-induced chemotaxis of immune cells
+## C1R-tumor                                                           2
+## C2N-tumor                                                           0
+## C2R1-tumor                                                          1
+## C2R2-tumor                                                          0
+## C2R3-tumor                                                          0
+## C4P-tumor                                                           1
+##            Proliferative action of Gastrin in gastric cancer
+## C1R-tumor                                                  1
+## C2N-tumor                                                  0
+## C2R1-tumor                                                 0
+## C2R2-tumor                                                 0
+## C2R3-tumor                                                 0
+## C4P-tumor                                                  1
+##            Development_Positive regulation of WNT/Beta-catenin signaling at the receptor level
+## C1R-tumor                                                                                    2
+## C2N-tumor                                                                                    1
+## C2R1-tumor                                                                                   1
+## C2R2-tumor                                                                                   0
+## C2R3-tumor                                                                                   0
+## C4P-tumor                                                                                    0
+##            Development_Regulation of cytoskeleton proteins in oligodendrocyte differentiation and myelination
+## C1R-tumor                                                                                                   2
+## C2N-tumor                                                                                                   1
+## C2R1-tumor                                                                                                  1
+## C2R2-tumor                                                                                                  0
+## C2R3-tumor                                                                                                  0
+## C4P-tumor                                                                                                   2
+##            Neurogenesis_NGF/ TrkA MAPK-mediated signaling
+## C1R-tumor                                               3
+## C2N-tumor                                               1
+## C2R1-tumor                                              1
+## C2R2-tumor                                              2
+## C2R3-tumor                                              1
+## C4P-tumor                                               1
+##            Muscle contraction_S1P2 receptor-mediated smooth muscle contraction
+## C1R-tumor                                                                    0
+## C2N-tumor                                                                    0
+## C2R1-tumor                                                                   0
+## C2R2-tumor                                                                   0
+## C2R3-tumor                                                                   1
+## C4P-tumor                                                                    0
+##            EGFR signaling pathway in colorectal cancer
+## C1R-tumor                                            1
+## C2N-tumor                                            0
+## C2R1-tumor                                           1
+## C2R2-tumor                                           1
+## C2R3-tumor                                           0
+## C4P-tumor                                            0
+##            Langerhans cell migration to lymph nodes in allergic contact dermatitis
+## C1R-tumor                                                                        2
+## C2N-tumor                                                                        0
+## C2R1-tumor                                                                       0
+## C2R2-tumor                                                                       0
+## C2R3-tumor                                                                       0
+## C4P-tumor                                                                        1
+##            Stem cells_Pancreatic cancer stem cells in tumor metastasis
+## C1R-tumor                                                            1
+## C2N-tumor                                                            0
+## C2R1-tumor                                                           0
+## C2R2-tumor                                                           0
+## C2R3-tumor                                                           1
+## C4P-tumor                                                            0
+##            Role of cell adhesion molecules in progression of pancreatic cancer
+## C1R-tumor                                                                    0
+## C2N-tumor                                                                    0
+## C2R1-tumor                                                                   0
+## C2R2-tumor                                                                   0
+## C2R3-tumor                                                                   0
+## C4P-tumor                                                                    0</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-2.png" width="672" /></p>
 
 </div>
 </div>
@@ -955,7 +1493,7 @@ CRFreq
         </div>
       </div>
 <a href="bcr-clonotype-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="trichrome-staining.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="mutations-in-rna.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -18,7 +18,7 @@ A snippet of the qupath script is shown below:
 
 ## Associations with cellular fraction (wsi)
 
-```{r, height=6}
+```{r, height=6, eval=F}
 # load the data
 TrichromeData=read.csv("../data/quantification_trichrome_staining_2020-10-28.csv")
 midx=match(TrichromeData$X, gsub("_", "", Cdata$TumorID))
@@ -49,7 +49,7 @@ for (i in n2){
 
 ## Associations with growth and spatial patterns
 
-```{r, fig.height=6}
+```{r, fig.height=6, eval=F}
 # plot associations with growth
 n2=c("GrowthRate", "MH.EpCAM", "IF.EpCAM", "knn.EpCAM")
 

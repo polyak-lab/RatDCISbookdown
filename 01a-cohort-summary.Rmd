@@ -10,8 +10,26 @@ Below we assess summary statistics on clinico-pathological features of this data
 ```{r}
 Cdata=xlsx::read.xlsx("../metadata/Carlos_samples_list_master_updated_2020-10-05.xlsx", sheetIndex=1)
 
+## temp only
+## add in info on size for the CXX samples
+#ax1=which(is.na(infoTableFinal$TumSize))
+#infoTableFinal$TumSize[ax1]=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID[ax1], Cdata$TumorID)]
+
 scroll_box(kable(Cdata, format="html"),
          height="300px", width="100%")
+```
+
+We have two cohorts, the characterisation and progression cohorts. Below is a plot of the size distribution in these two cohorts:
+
+```{r}
+par(mfrow=c(1,2))
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], breaks=15,
+     main="characterisation sizes")
+X1a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], na.rm = T)
+
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], breaks=15,
+     main="progression sizes")
+X2a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], na.rm=T)
 ```
 
 ## Calculating growth rates

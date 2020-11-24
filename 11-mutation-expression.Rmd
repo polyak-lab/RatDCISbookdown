@@ -21,6 +21,48 @@ lxMatch2=which(midx %in% cnames2)
 
 The following samples have matching WGX data: `r colnames(allTPMchar)[lxMatch]` from samples `r midx[lxMatch2]`
 
+## Expression of genes in common
+
+```{r}
+RNames=c("Ccn2", sapply(strsplit(rownames(Wtemp), " "), function(x) x[1]))
+
+ExprVSD=nVSDchar[na.omit(match(RNames, rownames(nVSDchar))), na.omit(match(colnames(Ttemp), colnames(nVSDchar)))]
+
+par(oma=c(2,2,2,5))
+heatmap.2(t(ExprVSD), trace="none", scale="none", Rowv = NA, Colv = NA, col=RdBu[11:1],
+          main="gene expression, vst transformed")
+heatmap.2(t(ExprVSD), trace="none", scale="col", Rowv = NA, Colv = NA, col=RdBu[11:1],
+          main="gene expression, col scaled")
+
+```
+
+Compare RNA mut freq & expression values
+
+```{r}
+par(oma=c(2,2,2,2))
+heatmap.2(t(ExprVSD), trace="none", scale="none", Rowv = NA, Colv = NA, col=RdBu[11:1],
+          main="gene expression, vst transformed")
+heatmap.2(t(ExprVSD), trace="none", scale="col", Rowv = NA, Colv = NA, col=RdBu[11:1],
+          main="gene expression, col scaled")
+
+# calculate the correlation between mutation and expression
+
+mvals=rep(NA, nrow(ExprVSD))
+names(mvals)=rownames(ExprVSD)
+mvalsP=mvals
+
+x1=match(colnames(ExprVSD), colnames(Ttemp))
+for (i in 1:length(mvals)){
+  ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
+  mvals[i]=coefficients(ax1)[2]
+  mvalsP[i]=summary(ax1)$coefficients[2,4]
+}
+
+barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
+```
+
+## Expression of genes with key mutations
+
 We can still look at expression of genes of interest.
 Eg. C2N may be enriched in kalikrein systen, connective tissue degradation
 NMU12_LA in endothelium_leukocyte interactions, IL6 signalling
@@ -78,42 +120,23 @@ dev.off()
 
 ## Expression of common mutations?
 
-Run the following to plot this for both the cd45 fraction as well as the epithelial fraction
+Run the following to plot this for both the cd45 fraction as well as the epithelial fraction:
+
 
 ```{r}
 
-
-OutputplotFun=function(t2, scaleR="row", main="expression:scaled CD"){
-ax1=heatmap.2(t2, scale = scaleR, col=RdBu[11:1], trace="none", main=main, Rowv = NA)
-amat=matrix(0, nrow=ncol(t2), ncol=nrow(t2))
-rownames(amat)=rownames(ax1$carpet)
-colnames(amat)=colnames(ax1$carpet)
-
-midx2=Cdata$TumorID[match( rownames(tempz2), sapply(strsplit(Cdata$WGS, ".final.bam"), function(x) x[1]))]
-sidx2=sapply(sapply(midx2, function(x) grep(x, rownames(amat))), length)
-sidx=unlist(sapply(midx2, function(x) grep(x, rownames(amat))))
-amat[sidx, ]=tempz2[which(sidx2!=0), match(colnames(amat), colnames(tempz2)) ]
-hs_ax1=which(amat>0, arr.ind = T)
-image(ax1$carpet, col=RdBu[11:1], xaxt="none", yaxt="none", main=main)
-axis(1, at=seq(0, 1, length=ncol(t2)), rownames(amat), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(t2)), colnames(amat), las=2, cex=0.7)
-text((hs_ax1[ ,1]-1)/(nrow(amat)-1), na.omit(hs_ax1[ ,2]-1)/(ncol(amat)-1) , "*")
-}
-
 fgenes=colnames(tempz2)
-pdf("outputs/1Ja_gene-expression-common-mutations.pdf", height=8, width=5.6)
+#pdf("outputs/1Ja_gene-expression-common-mutations.pdf", height=8, width=5.6)
 
 t2=nVSDchar[ na.omit(match(fgenes,rownames(nVSDchar))) ,grep("CD45", colnames(nVSDchar))]
-OutputplotFun(t2, "row", "Scaled CD")
-OutputplotFun(t2, "none", "non-Scaled CD")
+OutputplotFun(t2, "row", "Scaled CD", "wgs")
+OutputplotFun(t2, "none", "non-Scaled CD", "wgs")
   
 t2=nVSDchar[ na.omit(match(fgenes,rownames(nVSDchar))) ,grep("Ep", colnames(nVSDchar))]
-OutputplotFun(t2, "row", "Scaled Ep")
-OutputplotFun(t2, "none", "non-Scaled Ep")
+OutputplotFun(t2, "row", "Scaled Ep", "wgs")
+OutputplotFun(t2, "none", "non-Scaled Ep", "wgs")
 
-
-dev.off()
-
+#dev.off()
 
 ```
 
@@ -140,76 +163,38 @@ dev.off()
 ```
 
 
-OLD STUFF STARTS HERE
-
-### Immune specific expression?
-
-```{r}
-
-Midx=match(rownames(a2), unlist(strsplit(as.character(RNADNAsamples$WGS), ".final.bam")))
-MatchSample=paste(RNADNAsamples$Rat_ID[Midx], RNADNAsamples$Location.x[Midx], "Ep", sep="_")
-MatchSampleDN=paste(RNADNAsamples$Rat_ID[Midx], RNADNAsamples$Location.x[Midx], "DN", sep="_")
-
-#mEpsamples=match(MatchSample, colnames(allTPMFinal))
-mEpsamples=match(MatchSample, colnames(assay(vsd)))
-
-#tempVSD=matrix(NA, ncol=ncol(a2), nrow=nrow(a2))
-# not all of these match
-idx1=match(colnames(a2),rownames(assay(vsd)))
-tempVSD=t(assay(vsd)[ na.omit(idx1),na.omit(mEpsamples)])
-rownames(tempVSD)=rownames(a2)[which(!is.na(mEpsamples))]
-a1=setdiff(colnames(a2), colnames(tempVSD))
-mat2=matrix(NA, ncol=length(a1), nrow=nrow(tempVSD))
-colnames(mat2)=a1
-tempVSD=cbind(tempVSD, mat2)
-mat3=matrix(NA, nrow=length(which(is.na(mEpsamples))), ncol=ncol(tempVSD))
-rownames(mat3)=rownames(a2)[which(is.na(mEpsamples))]
-tempVSD=rbind(tempVSD, mat3)
-tempVSD=tempVSD[match(rownames(a2), rownames(tempVSD)), match(colnames(a2), colnames(tempVSD))]
-#tempVSDb=matrix(NA, ncol=ncol(a2), nrow=nrow(a2))
-#tempVSDb[match(rownames(tempVSD), rownames(a2)), ]
-
-#tempVSD=scale(tempVSD)
-rownames(tempVSD)=paste(rownames(a2), "epcam", sep="-")
-tempVSDscale=scale(tempVSD)
-
-par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-image(t(tempVSDscale), col=RdBu[11:1], xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(a2)), colnames(a2), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(a2)), rownames(a2), las=2, cex=0.7)
-text(na.omit(hotspot1$Y-1)/(ncol(a2)-1), na.omit(hotspot1$X-1)/(nrow(a2)-1) , "*")
-legend("top", inset = c(-0.5, -0.15),    legend = c("Nonsense","frameshift", "missense","splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
-
-```
-
-Redo the above two plots, omitting the cases which do not have RNA data
-
-```{r}
-x1=rowSums(tempVSD, na.rm=T)
-
-tempVSD3=tempVSDscale[which(x1!=0), ]
-MutB=a2[which(x1!=0), ]
-
-List2=which(MutB>0, arr.ind=T)
-hotspotB=hotspotLocExtract(MutB)
-
-par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-image(t(tempVSD3), col=RdBu[11:1], xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(tempVSD3)), colnames(tempVSD3), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(tempVSD3)), rownames(tempVSD3), las=2, cex=0.7)
-text(na.omit(List2[ ,2]-1)/(ncol(tempVSD3)-1), na.omit(List2[ ,1]-1)/(nrow(tempVSD3)-1) , "*")
-
-image(t(MutB), col=c("white", 1:4), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(MutB)), colnames(MutB), las=2, cex=0.7)
-axis(2, at=seq(0, 1, length=nrow(MutB)), rownames(MutB), las=2, cex=0.7)
-text(na.omit(hotspotB$Y-1)/(ncol(MutB)-1), na.omit(hotspotB$X-1)/(nrow(MutB)-1) , "*")
-```
-
-### Expression of immune related genes in the CD45 population
+## Expression of immune related genes in the CD45 population
 
 Initially do a search for the mutations shown before, also can do immune specific mutations
 
-```{r}
+```{r, eval=F}
+xa=colnames(nVSDchar)[grep("CD45", colnames(nVSDchar))]
+lx2=ColC
+names(lx2)=gsub("Ep", "CD45", names(ColC))
+m1=match(xa, names(lx2))
+CD45PAM=lx2[m1]
+CD45PAMcol=ifelse(CD45PAM=="Lum", "blue", ifelse(CD45PAM=="Basal", "red", "grey"))
+# correlation plots based on all genes
+
+pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/figure_panels_generated_R.pdf", height=6, width=6)
+
+Ax1=cor(nVSDchar[, xa])
+heatmap.2(Ax1, ColSideColors = CD45PAMcol, trace="none", scale="none", col=RdBu[11:1],
+          main="All genes")
+
+# correlation based on RatCosmic genes
+Ax2=cor(nVSDchar[na.omit(match(RatCosmic, rownames(nVSDchar))), xa])
+heatmap.2(Ax2, ColSideColors = CD45PAMcol, trace="none", scale="none", col=RdBu[11:1],
+          main="immune related genes")
+
+plotPCA(vsd[, which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")],
+        "Treatment")+geom_label(aes(label = name)) 
+
+dev.off()
+
+# correlation plot based on immune related genes
+
+
 # x1=which(colnames(rGeneOut2)%in%RatAllImm)
 # 
 # temp=rGeneOut2[ ,x1]
@@ -272,7 +257,7 @@ text(na.omit(hotspotB$Y-1)/(ncol(MutB)-1), na.omit(hotspotB$X-1)/(nrow(MutB)-1) 
 
 Immune specific mutations
 
-```{r}
+```{r, eval=F}
 # x1=which(colnames(rGeneOut2)%in%RatAllImm)
 # 
 # temp=rGeneOut2[ ,x1]
@@ -375,7 +360,7 @@ legend("top", inset = c(-0.5, -0.15),    legend = c("Nonsense","frameshift", "mi
 
 #### Combine the two fractions together
 
-```{r}
+```{r, eval=F}
 # getidx=rbind(mEpsamples, mCDsamples)
 # colnames(getidx)=rownames(a2)
 tempV2=rbind(tempVSD, tempVSDcd45)
@@ -405,7 +390,7 @@ text(na.omit(List2[ ,2]-1)/(ncol(tempV2scale)-1), na.omit(List2[ ,1]-1)/(nrow(te
 
 ## Cancer Specific Pathways
 
-```{r}
+```{r, eval=F}
 CancerMeltCoding=MeltWGSCoding[which(MeltWGSCoding$Gene_Symbol%in%AllCancerPathwayGenes & MeltWGSCoding$Variant_Classification%in%searchThese), ]
 
 
@@ -460,7 +445,7 @@ heatmap.2(t(AllMat3[ ,x2]), col=brewer.pal(9, "Blues"), trace="none", scale="non
 
 Also separate out the TS and OG: change the first two lines of this to list this informaiton
 
-```{r}
+```{r, eval=F}
 names(AllCancerPathwayOG)=c(names(PathwayListRat), "Breast")
 AllCancerPathwayTSlist=unlist(AllCancerPathwayOG)
 
@@ -507,7 +492,7 @@ Use all genes in WGS coding
 Firstly by genomic location: pull out the top mutations occurring in at least 5 samples: this gives approximately 7000 loci.
 
 
-```{r}
+```{r, eval=F}
 
 ## run the analysis
 
@@ -545,7 +530,7 @@ save(matrixSumOR, matrixSumP_padj, file="rslt/WXS_co-occurrence_rslt.RData")
 ```
 
 
-```{r}
+```{r, eval=F}
 load("rslt/WXS_co-occurrence_rslt.RData")
 
 # image the data

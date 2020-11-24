@@ -494,6 +494,12 @@ allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus
 write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
 
 write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
+
+
+# Write files for CIBERSORT using rgd. Use cohort specific values
+allTPMCD45=allTPMFinal[ , which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")]
+
+write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names_char_%s.csv", Sys.Date()))
 ```
 
 

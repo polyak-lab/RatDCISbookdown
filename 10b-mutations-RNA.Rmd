@@ -189,7 +189,7 @@ fNam2=paste(fNam, ".fastq.gz", sep="")
 fNam2=sapply(strsplit(fNam2, "/"), function(x) x[length(x)])
 idx1=infoTableFinal$SampleID[match(fNam2, infoTableFinal$FqFile)]
 idx1[which(is.na(idx1))]=fNam2[which(is.na(idx1))]
-
+idx1[grep("CD45plus", idx1)]=substr(idx1[grep("CD45plus", idx1)],10, 21) 
 # sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep="_")
 
 names(allHfiles)=idx1
@@ -206,12 +206,178 @@ allCosmicHaplo=allCosmicHaplo[-idx2rm]
 save(allHfiles,allCodingHaplo, allCodingHaplo,  file=sprintf("outputs/HaplotypeVariants_characterisation_all_%s.Rdata", Sys.Date()))
 ```
 
-## Identifying polymorphisms
+## Identifying polymorphisms: compare frequencies in CD45 and Ep data
 
-Search for whether mutations in the cosmic set is present in the RNA data
-Search for whether existing COSMIC mutations appear in the RNA data?
+Search for whether mutations in the cosmic set is present in the RNA data. We will firstly look at the 90 most common genes, and then repeat the same for the top cosmic genes.
 
 ```{r}
+# replace topN with topCOSMIC
+# templace tempxb with tempz2
 
+MeltWGSCoding$mutPos=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+MallCodingHaplo=melt(allCodingHaplo,  measure.var="POS")
+MallCodingHaplo$mutPos=paste(MallCodingHaplo$GENE, MallCodingHaplo$value)
+```
+
+
+```{r}
+xb=sort(table(MeltWGSCoding$mutPos[MeltWGSCoding$Gene_Symbol%in%topCOSMIC]), decreasing = T)
+
+allCoding_top90=lapply(allCodingHaplo, function(x) x[which(paste(x$GENE, x$POS)%in%names(xb)), ])
+
+mallCoding90=melt(allCoding_top90, measure.var="POS")
+mallCoding90$mutUnique=paste(mallCoding90$GENE, mallCoding90$value)
+
+x1=table(mallCoding90$mutUnique)
+
+tabN=acast(mallCoding90[ , c("L1", "GENE")],L1~GENE)
+#heatmap.2(tabN, Colv = NA, trace="none", scale="none", col=c("white", brewer.pal(5, "Blues")))
+cNamesMatch=match(colnames(tabN), colnames(tempz2))
+
+tabN2=matrix(0, nrow=nrow(tabN), ncol=ncol(tempz2))
+tabN2[ ,cNamesMatch]=tabN
+colnames(tabN2)=colnames(tempz2)
+rownames(tabN2)=rownames(tabN)
+id2=grep("Ep", rownames(tabN))
+id3=grep("CD45$", rownames(tabN))
+id4=grep("CD45plus", rownames(tabN))
+tabN2[id2, ]=sign(tabN2[id2, ])
+tabN2[id3, ]=sign(tabN2[id3, ])*2
+tabN2[id4, ]=sign(tabN2[id4, ])*3
+tabN2=tabN2[c(id2, id3, id4), ]
+
+
+#heatmap.2(tabN2, Colv = NA, Rowv = NA, trace="none", scale="none", col=c("white", brewer.pal(5, "Blues")))
+
+image(t((tabN2)), col=c("white", 1:3), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempz2)), colnames(tempz2), las=2, cex.axis=0.7)
+axis(2, at=seq(0, 1, length=nrow(tabN2)), rownames(tabN2), las=2, cex.axis=0.7)
+
+lx2=sapply(allCoding_top90, nrow)
+
+barplot(lx2, ylab="no# mutations in top 90 genes", las=2)
 
 ```
+
+## Find coding mutations which are specific to ep cells
+
+Here, look for mutations from RNA which are present in the epithelial cells specific
+
+```{r}
+VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained")
+n2=unique(unlist(sapply(VarTypes, function(x) grep(x, MallCodingHaplo$ANNOTATION))))
+MallCodingHaploFunc=MallCodingHaplo[ n2, ]
+## Look at epithealial samples
+
+xa=grep("Ep", MallCodingHaploFunc$L1)
+MallEpi=MallCodingHaploFunc[xa, ]
+EpVarList=table(MallCodingHaploFunc$GENE[xa])
+EpVarNames=names(EpVarList)
+EpVarN2=names(EpVarList[which(EpVarList>1)])
+EpVarListB=table(MallCodingHaploFunc$mutPos[xa])
+EpLoc=names(EpVarListB)[which(EpVarListB>1)]
+
+## Look at CD45 samples
+xa=grep("CD45$", MallCodingHaploFunc$L1)
+CDVarList=table(MallCodingHaploFunc$GENE[xa])
+CDVarNames=names(CDVarList)
+CDVarN2=names(CDVarList[which(CDVarList>1)])
+CDVarListB=table(MallCodingHaploFunc$mutPos[xa])
+CDLoc=names(CDVarListB)[which(CDVarListB>1)]
+
+
+## Look at CD45 normal
+xa=grep("CD45plus", MallCodingHaploFunc$L1)
+nCD45VarList=table(MallCodingHaploFunc$GENE[xa])
+nCD45VarNames=names(nCD45VarList)
+nCD45VarN2=names(nCD45VarList[which(nCD45VarList>1)])
+nCD45VarListB=table(MallCodingHaploFunc$mutPos[xa])
+nCDLoc=names(nCD45VarListB)[which(nCD45VarListB>1)]
+
+## List of ep-spec variants
+eplist1=setdiff(setdiff(EpVarN2, CDVarN2), nCD45VarN2)
+## Obtain the list of Ep-specific variants and cross-reference with genomic data
+WGSListgenes=table(MeltWGSCoding$Gene_Symbol)
+WGSListgenes=names(WGSListgenes)[which(WGSListgenes>1)]
+
+RList=MallEpi[which(MallEpi$GENE%in%eplist1), ]
+Rlist2=table(RList$mutPos)
+Rlist2=names(Rlist2)[which(Rlist2>1)]
+
+WGSList=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+t2=table(WGSList)
+WGSList=names(t2)[which(t2>1)]
+mutlist=intersect(Rlist2, WGSList)
+
+##pdf("~/Desktop/RNA-specific-mutations-gene-level.pdf", height=6, width=6)
+
+venn(list(Ep=EpVarNames, CD45=CDVarNames, nCD45=nCD45VarNames))
+mtext("no genes w mutations overlapping in different fractions")
+
+venn(list(Ep=EpVarN2, CD45=CDVarN2, nCD45=nCD45VarN2))
+mtext("no genes with overlapping variants in 2+ samples")
+
+venn(list(Ep_RNA=eplist1, Ep_WGS=WGSListgenes))
+mtext("No genes with overlaps in 2+ samples")
+##dev.off()
+```
+
+Location specific mutations:
+
+```{r}
+#pdf("~/Desktop/RNA-specific-mutations-location-level.pdf", height=7, width=10)
+
+venn(list(Ep=EpLoc, CD45=CDLoc, nCD45=nCDLoc))
+mtext("no locations with overlapping variants in 2+ samples")
+
+venn(list(Ep_RNA=Rlist2, Ep_WGS=WGSList))
+mtext("No ep. specifc locations with overlaps in 2+ samples")
+
+
+# plots of mutational frequencies of the locations in A1
+Ttemp=acast(MallCodingHaploFunc[which(MallCodingHaploFunc$mutPos%in%mutlist), c("L1", "mutPos")], mutPos~L1)
+Ttemp=cbind(Ttemp, 0)
+colnames(Ttemp)[ncol(Ttemp)]="NMU13_LAU_Ep"
+
+ax2=setdiff(unique(MallEpi$L1), colnames(Ttemp))
+
+Wtemp=acast(MeltWGSCoding[which(MeltWGSCoding$mutPos%in%mutlist), c("L1", "mutPos", "Start_Position")],mutPos~L1)
+Wtemp[which(is.na(Wtemp), arr.ind = T)]=0
+
+par(oma=c(5, 5, 1, 1))
+image(sign((Ttemp)), col=c("white","darkblue"), xaxt="none", yaxt="none")
+axis(1, at=seq(0, 1, length=nrow(Ttemp)),rownames(Ttemp), las=2)
+axis(2, at=seq(0, 1, length=ncol(Ttemp)),colnames(Ttemp), las=2)
+mtext("Mutations in RNA data")
+
+par(oma=c(5, 5, 1, 1))
+image(sign(Wtemp), col=c("white","darkblue"), xaxt="none", yaxt="none")
+axis(1, at=seq(0, 1, length=nrow(Wtemp)),rownames(Wtemp), las=2)
+axis(2, at=seq(0, 1, length=ncol(Wtemp)),colnames(Wtemp), las=2)
+
+# mtext("Mutations in WGS data")
+# par(oma=c(2,2,2,5))
+# heatmap.2(t(ExprVSD), trace="none", scale="none", Rowv = NA, Colv = NA, col=RdBu[11:1],
+#           main="gene expression, vst transformed")
+# heatmap.2(t(ExprVSD), trace="none", scale="col", Rowv = NA, Colv = NA, col=RdBu[11:1],
+#           main="gene expression, col scaled")
+# 
+# # calculate the correlation between mutation and expression
+# 
+# mvals=rep(NA, nrow(ExprVSD))
+# names(mvals)=rownames(ExprVSD)
+# mvalsP=mvals
+# 
+# x1=match(colnames(ExprVSD), colnames(Ttemp))
+# for (i in 1:length(mvals)){
+#   ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
+#   mvals[i]=coefficients(ax1)[2]
+#   mvalsP[i]=summary(ax1)$coefficients[2,4]
+# }
+# 
+# barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
+
+#dev.off()
+```
+
+There are `r length(ax1)` mutations which are found in both the RNA and WGS data (2+ samples, not found in RNAseq)

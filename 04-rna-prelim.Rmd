@@ -20,20 +20,6 @@ vsd2$knnEpCAMcut=cut(infoTableFinal$knnEpCAM, c(-1, median(infoTableFinal$knnEpC
 vsd2$IFEpCAMcut=cut(infoTableFinal$IFEpCAM, c(-1, median(infoTableFinal$IFEpCAM, na.rm = T), 1.1), c("low", "high"))
 vsd2$CD8FracCut=cut(infoTableFinal$CD8Frac, c(-1, median(infoTableFinal$CD8Frac, na.rm = T), 1.1), c("low", "high"))
 
-# vsd2$MHEpAntstrRatio[which(vsd2$MHEpAntstrRatio>4)]=4
-# vsd2$CD8FracCut=ifelse(vsd2$CD8Frac<0.05, "<0.05", ifelse(vsd2$CD8Frac<0.1, "<0.1", "0.1+"))
-# vsd2$IFcut=ifelse(log2(vsd2$IFEpAntstrRatio)>0, "inf", "res")
-# vsd2$MHcut=ifelse(log2(vsd2$MHEpAntstrRatio)>0, "inf", "res")
-
-#vsd2$IFEpcam=Cdata$IFEpcam[match(vsd2$TumorID, Cdata$TumorID)]
-  
-#pdf(sprintf("rslt/DESeq/PCA_rm_outliers_%s.pdf",Sys.Date() ), width=8, height=6)
-
-#All samples
-#plotPCA(vsd2, "Batch")
-#plotPCA(vsd2, "Fraction")
-#plotPCA(vsd2, "Cohort")
-#plotPCA(vsd2, c("Fraction"))+geom_label(aes(label = name)) 
 plotPCA(vsd2, c("Treatment"))+ggtitle("Treatment")
 plotPCA(vsd2, c("Growth"))+ggtitle("Growth")
 plotPCA(vsd2, "TumSize")+ggtitle("tumor size")
@@ -44,23 +30,6 @@ plotPCA(vsd2, "MHEpCAMcut")+ggtitle("MH EpCAM")
 plotPCA(vsd2, "IFEpCAMcut")+ggtitle("IF SMA")
 plotPCA(vsd2, "knnEpCAMcut")+ggtitle("knn EpCAM")
 
-#Treatment
-# plotPCA(vsd2[, grep("CD45", colnames(vsd2))], c("Treatment"))+ggtitle("CD45 only Treatment")+geom_label(aes(label = name))
-# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm , grep("CD45", colnames(vsd2))], c("Treatment"))+ggtitle("CD45 only Treatment: immune only genes")+geom_label(aes(label = name))
-# plotPCA(vsd2[, grep("Ep", colnames(vsd2))], c("Treatment"))+ggtitle("Ep only Treatment")
-# plotPCA(vsd2[, grep("DN", colnames(vsd2))], c("Treatment"))+ggtitle("DN only Treatment")
-# # growth
-# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("Growth"))+ggtitle("CD45 only Growth")
-# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "Growth")+ggtitle("Ep only Growth")
-# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "Growth")+ggtitle("DN only Growth")
-# # CD8 content
-# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("CD8FracCut"))+ggtitle("CD45 only CD8 Fraction")
-# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "CD8FracCut")+ggtitle("Ep only CD8 Fraction")
-# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "CD8FracCut")+ggtitle("DN only CD8 Fraction")
-# # CD8 infiltrating
-# plotPCA(vsd2[rownames(assay(vsd2))%in%RatAllImm  , grep("CD45", colnames(vsd2))], c("SpatialManual"))+ggtitle("CD45 only CD8 Infiltrating")
-# plotPCA(vsd2[ , grep("Ep", colnames(vsd2))], "SpatialManual")+ggtitle("Ep only CD8 Infiltrating")
-# plotPCA(vsd2[ , grep("DN", colnames(vsd2))], "SpatialManual")+ggtitle("DN only CD8 Infiltrating")
 ```
 
 

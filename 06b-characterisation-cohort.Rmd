@@ -1,0 +1,69 @@
+# DESeq analysis
+
+This document sets up DESeq runs to compare:
+
+* CD45 samples
+* Ep samples
+
+according to size of the cohort samples
+
+## CD45 samples
+
+In section 6.2, we have noticed that some DN samples had expression of epithelial markers. Here, we perform a differential gene expression analysis to find genes which are different between these two fractions. 
+
+Below is a summary of the number of differential genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
+
+```{r cd45-char-bigsmall, cache=T}
+
+infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$SizeCat))])
+CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~factor(SizeCat)) ## change class
+
+a1x=rowSums(counts(CD45ddsChar))
+a1b=apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))
+ # par(mfrow=c(1,2))
+ # hist(log10(a1x+1), main="log10 total counts")
+ # hist((a1b+1), main="Non-zero entries")
+sd1vals=mean(log10(a1x+1))-sd(log10(a1x+1))
+keep=which(rowSums(counts(CD45ddsChar))>10^sd1vals)
+keep2=which(apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))> (ncol(CD45ddsChar)/2))
+CD45ddsChar=CD45ddsChar[intersect(keep, keep2), ]
+CD45ddsChar=DESeq(CD45ddsChar)
+
+print('significant differential genes')
+CD45res=results(CD45ddsChar)
+CD45res2=CD45res[which(CD45res$padj<0.05 & abs(CD45res$log2FoldChange)>1.5 &
+                             CD45res$baseMean>100), ]
+#resDNeprslt2$CellMarker=ifelse(rownames(CD45ddsChar)%in%unlist(GeneListRat), 1, 0)
+#resDNeprslt2=resDNeprslt2[order(resDNeprslt2$CellMarker, abs(resDNeprslt2$log2FoldChange), decreasing = T), ]
+
+scroll_box(kable(CD45res2, format="html"),
+         height="300px", width="100%")
+
+#pdf("~/Desktop/DESeq-small-vs-largeCD45-characterisation.pdf", height=6, width=6)
+
+
+plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
+     main="small (-ve) vs large (+ve)")
+text(CD45res2$log2FoldChange, -log10(CD45res2$padj), rownames(CD45res2), col="red")
+
+
+#HighExprGenes=rownames(CD45res2)[which(CD45res2$baseMean>100 & CD45res2$log2FoldChange<0) ]
+
+colSide=CD45ddsChar$SizeCat
+
+t2=assay(vsd)[which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(CD45res2)), match(colnames(CD45ddsChar), colnames(vsd))]
+heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="immune genes DEG")
+
+
+t2=assay(vsd)[which( rownames(vsd)%in%rownames(CD45res2)), match(colnames(CD45ddsChar), colnames(vsd))]
+a1=heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="all DEG")
+#heatmap.2(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide2], scale="row", main="Enriched in Ep genes")
+
+boxplot(assay(vsd)["Havcr2", match(colnames(CD45ddsChar), colnames(vsd))]~CD45ddsChar$SizeCat,
+        main="Havcr2 gene small vs big vst expression")
+#dev.off()
+
+write.csv(CD45res2, file=sprintf("outputs/DESeq/difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
+```
+

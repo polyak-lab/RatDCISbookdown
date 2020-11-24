@@ -105,6 +105,8 @@ TPM counts were used for this analysis (using Rat gene names)
 ```{r}
 output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
 colnames(output1)=gsub("X", "", colnames(output1))
+CharSpecCD45=read.csv("../data/RNA_expression/CD45-tpm-rgdnames-char-2020-11-22-estimation_matrix.csv")
+colnames(CharSpecCD45)=gsub("X", "", colnames(CharSpecCD45))
 ```
 
 
@@ -129,6 +131,79 @@ rownames(timSamples)=sapply(strsplit(as.character(timSamples$cell_type), "_"), f
 boxplot(t(timSamples[ ,-1]), las=2, main=RowNames[i], ylab=Type[i])
 }
 ```
+
+### TEMP: comparison of running Char and Prog cohorts separately?
+
+```{r}
+lx1=match(colnames(CharSpecCD45), colnames(output1))
+T2=output1[ ,lx1]
+
+## Rank all the samples according to increasing size
+
+sizeInfo=infoTableFinal$TumSize[match(colnames(T2)[-1], rownames(infoTableFinal))]
+x2=c(colnames(T2)[order(sizeInfo)+1])
+
+
+##pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/2F_Char_cell_types.pdf",width=12, height=8)
+
+ax1=grep("TIMER", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+T2melt=melt(T2[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+T2melt$variable=factor(T2melt$variable, x2)
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("TIMER:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
+ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("TIMER:char with prog")+theme(axis.text.x = element_text(angle = 90))
+
+ax1=grep("CIBERSORT$", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+T2melt=melt(T2[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+T2melt$variable=factor(T2melt$variable, x2)
+
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
+ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("CIBERSRT:char with prog")+theme(axis.text.x = element_text(angle = 90))
+#dev.off()
+
+```
+
+Associations with size? Perform a correlation test between all of the information above and tumor size
+
+```{r}
+
+CorVals=rep(NA, nrow(CharSpecCD45))
+names(CorVals)=CharSpecCD45$cell_type
+CorValsP=CorVals
+
+CorVals=sapply(1:nrow(CharSpecCD45), function(x) cor(t(CharSpecCD45[x, -1]), sizeInfo, use="complete"))
+CorValsP=sapply(1:nrow(CharSpecCD45), function(x) cor.test(t(CharSpecCD45[x, -1]), sizeInfo, use="complete")$p.value)
+
+naidx=which(CorValsP<0.05)
+
+RNames1=sapply(strsplit(CharSpecCD45$cell_type, "_"), function(x) x[1])
+RNamesMethod=sapply(strsplit(CharSpecCD45$cell_type, "_"), function(x) x[2])
+
+
+df2=data.frame(cell=RNames1, method=RNamesMethod, cor=CorVals)
+ax1=acast(df2, RNames1~RNamesMethod)
+
+df2=data.frame(cell=RNames1, method=RNamesMethod, cor=CorValsP)
+ax2=acast(df2, RNames1~RNamesMethod)
+ax2[which(ax2>0.1, arr.ind=T)]=0
+ax2[which(is.na(ax2), arr.ind = T)]=0
+
+par(oma=c(3, 5, 2, 2))
+OutputplotFun(ax1, scaleR="none", main="cell type correlation", classN="no", sigMat=ax2)
+
+```
+
 
 ### Comparison with FACS data
 
@@ -413,7 +488,7 @@ CompTest2=data.frame(CompTest2)
 # p=ggplot(CompTest3melt, aes(x=CellType, y=Method, fill=P2))+geom_tile()+facet_wrap(~variable)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("No. differential genes")+scale_fill_manual(values=c("#084594", "#2171b5", "#deebf7"))+ggtitle("p values of comparisons")
 # print(p)
 
-#dev.off()
+##dev.off()
 ```
 
 

@@ -314,7 +314,9 @@ AllSearchUn=unlist(AllSearch)
 DiffGenes=AllSearchUn[which(AllSearchUn%in%rownames(resDNeprslt2))]
 TypeGenes=sapply(AllSearch, function(x) which(DiffGenes%in%x))
 
+colSide
+
 heatmap.2(assay(vsd)[ match(DiffGenes, rownames(assay(vsd))), -grep("CD45", colnames(assay(vsd)))],
-          trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row")
+          trace="none", col=RdBu[11:1], scale="row") # ColSideColors = palette()[colSide],
 ```
 

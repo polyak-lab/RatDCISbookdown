@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 ER/Pgr Subtyping | Rat DCIS study</title>
+  <title>Chapter 10 ER/Pgr Subtyping | Rat DCIS study</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 ER/Pgr Subtyping | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 10 ER/Pgr Subtyping | Rat DCIS study" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 ER/Pgr Subtyping | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 10 ER/Pgr Subtyping | Rat DCIS study" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
   
@@ -24,14 +24,14 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-11" />
+<meta name="date" content="2020-11-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="deseq-analysis-1.html"/>
+<link rel="prev" href="deseq-analysis-2.html"/>
 <link rel="next" href="signature-analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,63 +218,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
-<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>9.1</b> In-house classifier</a></li>
-<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>9.2</b> PAM50 (Parker) scoring</a></li>
-<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>9.3</b> Clustering based on random genes</a></li>
-<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>9.4</b> Consolidating the different results</a></li>
+<li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>10</b> Signature analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>10.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>10.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="10.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>10.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="10.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>10.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
+<li class="chapter" data-level="10.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>10.2</b> PAM50 (Parker) scoring</a></li>
+<li class="chapter" data-level="10.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>10.3</b> Clustering based on random genes</a></li>
+<li class="chapter" data-level="10.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>10.4</b> Consolidating the different results</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>10.2</b> Cancer pathways</a><ul>
-<li class="chapter" data-level="10.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>10.2.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="10.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>10.2.2</b> regression model for covariates</a></li>
-<li class="chapter" data-level="10.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>10.2.3</b> Taking into account directionality</a></li>
+<li class="chapter" data-level="11" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>11</b> Signature analysis</a><ul>
+<li class="chapter" data-level="11.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>11.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="11.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>11.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="11.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>11.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="11.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>11.1.3</b> MHC presentation proteins</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>11</b> Immune estimation</a><ul>
-<li class="chapter" data-level="11.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>11.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="11.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>11.2</b> Deconvolution methods</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>11.2.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="11.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>11.2.2</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="11.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>11.2.3</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="11.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>11.2.4</b> Association with Growth</a></li>
-<li class="chapter" data-level="11.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>11.2.5</b> Association with infiltration</a></li>
+<li class="chapter" data-level="11.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>11.2</b> Cancer pathways</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>11.2.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="11.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.2.2</b> regression model for covariates</a></li>
+<li class="chapter" data-level="11.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>11.2.3</b> Taking into account directionality</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>12</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="12.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>12.1</b> Processing summary</a></li>
-<li class="chapter" data-level="12.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>12.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="12.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>12.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="12.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>12.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="12.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>12.5</b> Associate with clinicopathological data</a></li>
-<li class="chapter" data-level="12.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>12.6</b> Associate with signature scores</a></li>
-<li class="chapter" data-level="12.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>12.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
+<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
+<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
+<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#temp-comparison-of-running-char-and-prog-cohorts-separately"><i class="fa fa-check"></i><b>12.2.2</b> TEMP: comparison of running Char and Prog cohorts separately?</a></li>
+<li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>13</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="13.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>13.1</b> Data</a><ul>
-<li class="chapter" data-level="13.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>13.1.1</b> Extract mutation signatures</a></li>
-<li class="chapter" data-level="13.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>13.1.2</b> Annotate the data with human common variants</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>13.2</b> Plots</a><ul>
-<li class="chapter" data-level="13.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>13.2.1</b> Quick overview</a></li>
-<li class="chapter" data-level="13.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>13.2.2</b> Coding variants &amp; TMB</a></li>
+<li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="13.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>13.1</b> Processing summary</a></li>
+<li class="chapter" data-level="13.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>13.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="13.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>13.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="13.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>13.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="13.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>13.5</b> Associate with clinicopathological data</a></li>
+<li class="chapter" data-level="13.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>13.6</b> Associate with signature scores</a></li>
+<li class="chapter" data-level="13.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>13.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
 </ul></li>
-<li class="chapter" data-level="13.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>13.3</b> Coding variants</a><ul>
-<li class="chapter" data-level="13.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>13.3.1</b> Sites which are commonly mutated?</a></li>
+<li class="chapter" data-level="14" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>14</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="14.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>14.1</b> Data</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>14.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="14.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>14.1.2</b> Annotate the data with human common variants</a></li>
 </ul></li>
-<li class="chapter" data-level="13.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>13.4</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="13.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>13.4.1</b> All mutations</a></li>
+<li class="chapter" data-level="14.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>14.2</b> Plots</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>14.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="14.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>14.2.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>13.5</b> Metacore analysis of commonly mutated pathways</a></li>
+<li class="chapter" data-level="14.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>14.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>14.3.1</b> Sites which are commonly mutated?</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>14</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="14.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>14.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="14.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>14.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="14.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>14.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>14.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>14.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>15</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="15.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>15.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
+<li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
+<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -297,7 +319,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="erpgr-subtyping" class="section level1">
-<h1><span class="header-section-number">Chapter 9</span> ER/Pgr Subtyping</h1>
+<h1><span class="header-section-number">Chapter 10</span> ER/Pgr Subtyping</h1>
 <p>In this section, we will look at whether there are differences in rat subtype using the following approaches:</p>
 <ul>
 <li>Creating our own subtyping approach using specific markers of interest (e.g. using PAM clustering)
@@ -315,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>dn specific cohort (progression)</li>
 </ul>
 <div id="in-house-classifier" class="section level2">
-<h2><span class="header-section-number">9.1</span> In-house classifier</h2>
+<h2><span class="header-section-number">10.1</span> In-house classifier</h2>
 <p>The selected gene list includes three lists: A. is a mroe comprehensive list containing epithelial, mesenchymal markers and proliferation markers, B. has a more narrow list of subtype specific markers</p>
 <ol style="list-style-type: lower-alpha">
 <li>‘Ar’, ‘Cd24’, ‘Cdh1’, ‘Foxa1’, ‘Gata3’, ‘Krt8’, ‘Krt18’, ‘Krt5’, ‘Vim’, ‘Erbb2’, ‘Esr1’, ‘Pgr’, ‘Mki67’, ‘Pcna’</li>
@@ -323,27 +345,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>We will be using variance stabilised counts in this section.</p>
 <p>Firstly, we will look at the progression cohort. Note that the overlap between the two gene-sets are similar, and the heatmap is row-scaled.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-4.png" width="672" /></p>
 <pre><code>##        ColB
 ## ColA    Basal Lum
 ##   Basal    10   3
 ##   Lum       0   7</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-5.png" width="672" /></p>
 <p>We can perform a similar analysis to the characterisation cohort:</p>
 <pre><code>##        ColD
 ## ColC    Basal Lum
-##   Basal     3   0
-##   Lum       0   4</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+##   Basal     3   1
+##   Lum       1   5</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
 <p>DN samples:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-4.png" width="672" /></p>
 <pre><code>##        ColF
 ## ColE    Basal Lum
 ##   Basal     9   7
 ##   Lum      11   3</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-5.png" width="672" /></p>
 <p>We can collate these different scores and assess whether there are similarities with PgR and ER staining:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
 <p>Finally, look at whether any of the above samples have similar DN and Ep calls: it appears that this call is random, and the subtype does not dictate growth rate</p>
 <pre><code>## [1] &quot;extended list&quot;</code></pre>
 <pre><code>## , ,  = growing
@@ -375,11 +397,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##   Lum       1   2</code></pre>
 </div>
 <div id="pam50-parker-scoring" class="section level2">
-<h2><span class="header-section-number">9.2</span> PAM50 (Parker) scoring</h2>
+<h2><span class="header-section-number">10.2</span> PAM50 (Parker) scoring</h2>
 <p>Here, we have used rsem counts in PAM50 subtyping.</p>
 <p>Plot all samples together and compare the confidence and scores in different subtypes:
 There is overlap between the LumB and Her2 scores, similarly Normal and LumA scores are similar</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-104-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
 <p>We can pull out the main markers of interest: ER, PGR, Erbb2 and Ki67 (or PCNA).
 We also compare these expression distribution of these markers to CD45, DN and Ep overall:</p>
 <p>Notes:</p>
@@ -389,37 +411,37 @@ We also compare these expression distribution of these markers to CD45, DN and E
 <li>Ar is higher in basal samples</li>
 <li>Pcna is higher in Basal</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-4.png" width="672" /></p>
 <p>heatmap based on the previous markers:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-6.png" width="672" /></p>
 <p>Based on the above calls, we can condense the calls:</p>
 <ul>
 <li>Her2, LumB are sumilar and can be combined with LumA</li>
 <li>Normal and Basal are most likely most similar</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-2.png" width="672" /></p>
 </div>
 <div id="clustering-based-on-random-genes" class="section level2">
-<h2><span class="header-section-number">9.3</span> Clustering based on random genes</h2>
+<h2><span class="header-section-number">10.3</span> Clustering based on random genes</h2>
 <p>In this section we randomly select the most variable 50, 100, 200, 500 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.</p>
 <p>Below is a correlation plot which visualises the concordance between the different methods.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
 </div>
 <div id="consolidating-the-different-results" class="section level2">
-<h2><span class="header-section-number">9.4</span> Consolidating the different results</h2>
+<h2><span class="header-section-number">10.4</span> Consolidating the different results</h2>
 <p>Below is a concordance map of the similarity between the different metrics calculated as</p>
 <p><span class="math display">\[ \frac{N_{b,b}+N_{l,l}}{N_{total}} \]</span></p>
 <p>where <span class="math inline">\(N_{b,b}\)</span> is the number of cases which are basal in two comparisons and <span class="math inline">\(N_{l,l}\)</span> the number of cases which are luminal in both comparisons.</p>
 <p>Note that the values extend from 0.5 to 1, which indicates that any two methods overlap more than just by chance.</p>
 <p>There is good overlap between the in-house specific list characterisation, and some overlap between pam50 calling and in-house short list.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
 <p>Below is a summary of the average expression values of the classes defined by the different methods:</p>
 <ul>
 <li>The targeted lists show differences in esr1, pgr, erbb2, pcna</li>
 <li>Ar has differing directions for the pam classifications</li>
 <li>Random genes selected show differences in pgr, erbb2, Ar and perhaps Mki67</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-5.png" width="672" /></p>
 <p>We can summarise the outputs for each sample below</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table>
@@ -875,7 +897,7 @@ Basal
           </div>
         </div>
       </div>
-<a href="deseq-analysis-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="deseq-analysis-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="signature-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

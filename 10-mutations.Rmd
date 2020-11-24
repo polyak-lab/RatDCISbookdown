@@ -497,7 +497,7 @@ Color codes:
 * blue:
 
 ```{r}
-Nmut=90
+Nmut=92
 
 rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)), ]
 x1a=which(MeltWGSCoding$Gene_Symbol%in%rmHarlanSNP$gene &  MeltWGSCoding$Start_Position%in%rmHarlanSNP$pos)
@@ -526,10 +526,10 @@ GeneList=colSums(sign(rGeneOut2), na.rm=T)
 samp2=rowSums(sign(rGeneOut2), na.rm=T)
 rGeneOut2=rGeneOut2[ order(samp2, decreasing=T),]
 
-top30=names(sort(GeneList, decreasing=T)[1:Nmut])
+topN=names(sort(GeneList, decreasing=T)[1:Nmut])
 
 # do a plot of the top 30 most common mutations
-tempx=rGeneOut2[ ,top30]
+tempx=rGeneOut2[ ,topN]
 a2=heatmap(tempx, col=c("white", 1:9), scale="none", main="all mutations in cosmic")
 RowSC=ifelse(colnames(tempx)%in% c(RatCosmic, as.character(AllCancerPathwayGenes)), "black", "white")
 
@@ -564,14 +564,34 @@ a2=heatmap.2(sign(tempz), trace="none", col=c("white", 1:4))
 tempzb=tempz[a2$rowInd, a2$colInd]
 hotspotzb=hotspotLocExtract(tempzb)
 
+x2=which(colSums(sign(tempzb))==1)
+tempz2=tempzb[ , -x2]
+
+topCOSMIC=colnames(tempz2)
+
+save(topN, topCOSMIC, file="outputs/genes-selected-common-WGX-mutations.RData")
+
+x3=table(colSums(rGeneOut2))
 ```
 
-These are the interesting plots:
+Note that in this table, the distribution of samples with mutations is as follows:
 
-test break here
+`r table(colSums(rGeneOut2))`
+
+The number of genes which have shared mutations in 10 or more samples is:
+
+`r sum(x3[10:length(x3)])`, which is why we have use these values here.
+
+The number of genes which are cosmic associated are:
+
+`r length(x1)` and the number which appear in more than 1 sample is `r length(x1)-length(x2)`.
+
+These genes are tabulated below:
+
 
 ```{r}
-
+### keep these values
+top90genes=colnames(rGeneOut2)
 
 #pdf(sprintf("rslt/WGS/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
 
@@ -586,8 +606,8 @@ test break here
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex=0.5)
-axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex=0.5)
+axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex.axis=0.7)
+axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex.axis=0.7)
 text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("top 90 mutations", side=3, line=-1, outer=T)
@@ -605,15 +625,14 @@ mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex=0.5)
+axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex=0.5, cex.lab=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2, cex=0.5)
 text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
 
 
-x2=which(colSums(sign(tempzb))==1)
-tempz2=tempzb[ , -x2]
+
 hotspotzb2=hotspotLocExtract(tempz2)
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
@@ -622,7 +641,6 @@ axis(1, at=seq(0, 1, length=ncol(tempz2)), colnames(tempz2), las=2, cex=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempz2)), rownames(tempz2), las=2, cex=0.7)
 text(na.omit(hotspotzb2$Y-1)/(ncol(tempz2)-1), na.omit(hotspotzb2$X-1)/(nrow(tempz2)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
-mtext("Cancer related genes: more than 1 sample", side=3, line=-1, outer=T)
 
 #dev.off()
 ```
@@ -666,6 +684,7 @@ GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
 SumTable2=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
 colnames(SumTable2)=Process_Networks$Networks[n2]
 #listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+head(SumTable2)
 
 load("../anntotations/Metacore_extracted_pathway_maps_nov2020.RData")
 n2=which(Pathway_Maps$FDR...7<0.001)
@@ -677,17 +696,18 @@ GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
 SumTable3=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
 colnames(SumTable3)=Pathway_Maps$Maps[n2]
 #listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
+head(SumTable3)
 
 #pdf("rslt/WGS/Metacore_analysis_coding_mutations.pdf", height=13, width=13)
 
-par(mfrow=c(1,2), mar=c(2,8, 2,2))
+par(mfrow=c(1,2), mar=c(2,2, 2,2))
 n2=order(Process_Networks$`FDR...7`)
 barplot(-log10(as.numeric(Process_Networks$FDR...7[n2[1:15]])), names.arg = Process_Networks$Networks[n2[1:15]], las=2, main="Process networks all coding", horiz = T, cex.names = 0.5)
 n2=order(Process_Networks$FDR...11)
-barplot(-log10(as.numeric(Process_Networks$FDR...11[n2[1:15]])), names.arg = Process_Networks$Networks[n2[1:15]], las=2, main="Process networks cosmic only", horiz = T, cex.names = 0.5)
-barplot(-log10(as.numeric(Pathway_Maps$FDR[1:15])), names.arg = Pathway_Maps$Maps[1:15], las=2, main="Pathway Maps", horiz = T, cex.names = 0.5)
-
-par(oma=c(7, 0,0,3))
+# barplot(-log10(as.numeric(Process_Networks$FDR...11[n2[1:15]])), names.arg = Process_Networks$Networks[n2[1:15]], las=2, main="Process networks cosmic only", horiz = T, cex.names = 0.5)
+# barplot(-log10(as.numeric(Pathway_Maps$FDR[1:15])), names.arg = Pathway_Maps$Maps[1:15], las=2, main="Pathway Maps", horiz = T, cex.names = 0.5)
+# 
+par(oma=c(2, 0,0,3))
 rNames=strsplit(colnames(SumTable2), "_")
 rNames2=sapply(rNames, function(x) x[1])
 cCols=brewer.pal(12,"Set3")[factor(rNames2)]
@@ -695,14 +715,14 @@ lx=order(cCols)
 heatmap.2(SumTable2[, lx], scale="col", trace="none", col=brewer.pal(11, "Blues"), main="Process Networks: scaled No mutations affecting each pathway",
           ColSideColors = cCols[lx], Colv = NA)
 
-par(oma=c(7, 0,0,3))
-# rNames=strsplit(colnames(SumTable3), "_")
-# rNames2=sapply(rNames, function(x) x[1])
-# cCols=brewer.pal(12,"Set3")[factor(rNames2)]
-# lx=order(cCols)
-heatmap.2(SumTable3, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Pathway Maps")
-write.csv(SumTable3, file="outputs/no mutations pathway maps all coding.csv")
-write.csv(SumTable2, file="outputs/no mutations process networks all coding.csv")
+# par(oma=c(2, 0,0,3))
+# # rNames=strsplit(colnames(SumTable3), "_")
+# # rNames2=sapply(rNames, function(x) x[1])
+# # cCols=brewer.pal(12,"Set3")[factor(rNames2)]
+# # lx=order(cCols)
+# heatmap.2(SumTable3, scale="col", trace="none", col=brewer.pal(9, "Blues"), main="Pathway Maps")
+# write.csv(SumTable3, file="outputs/no mutations pathway maps all coding.csv")
+# write.csv(SumTable2, file="outputs/no mutations process networks all coding.csv")
 #dev.off()
 ```
 
