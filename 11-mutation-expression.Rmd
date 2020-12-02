@@ -26,7 +26,9 @@ The following samples have matching WGX data: `r colnames(allTPMchar)[lxMatch]` 
 ```{r}
 RNames=c("Ccn2", sapply(strsplit(rownames(Wtemp), " "), function(x) x[1]))
 
-ExprVSD=nVSDchar[na.omit(match(RNames, rownames(nVSDchar))), na.omit(match(colnames(Ttemp), colnames(nVSDchar)))]
+TtempNames=sapply(strsplit(colnames(Ttemp), " "), function(x) x[1])
+
+ExprVSD=nVSDchar[na.omit(match(RNames, rownames(nVSDchar))), na.omit(match(TtempNames, colnames(nVSDchar)))]
 
 par(oma=c(2,2,2,5))
 heatmap.2(t(ExprVSD), trace="none", scale="none", Rowv = NA, Colv = NA, col=RdBu[11:1],
@@ -51,14 +53,16 @@ mvals=rep(NA, nrow(ExprVSD))
 names(mvals)=rownames(ExprVSD)
 mvalsP=mvals
 
-x1=match(colnames(ExprVSD), colnames(Ttemp))
-for (i in 1:length(mvals)){
-  ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
-  mvals[i]=coefficients(ax1)[2]
-  mvalsP[i]=summary(ax1)$coefficients[2,4]
-}
+head(Ttemp)
 
-barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
+# x1=match(colnames(ExprVSD), TtempNames)
+# for (i in 1:length(mvals)){
+#   ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
+#   mvals[i]=coefficients(ax1)[2]
+#   mvalsP[i]=summary(ax1)$coefficients[2,4]
+# }
+# 
+# barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
 ```
 
 ## Expression of genes with key mutations
@@ -176,7 +180,7 @@ CD45PAM=lx2[m1]
 CD45PAMcol=ifelse(CD45PAM=="Lum", "blue", ifelse(CD45PAM=="Basal", "red", "grey"))
 # correlation plots based on all genes
 
-pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/figure_panels_generated_R.pdf", height=6, width=6)
+pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/figure_panels_generated_R/Figure1/test.pdf", height=6, width=6)
 
 Ax1=cor(nVSDchar[, xa])
 heatmap.2(Ax1, ColSideColors = CD45PAMcol, trace="none", scale="none", col=RdBu[11:1],

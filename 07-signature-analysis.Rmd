@@ -29,17 +29,19 @@ Firstly, we will look at the progression cohort. Note that the overlap between t
 ```{r}
 Markers=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
 Markers2=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr')
-Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp53' )
+Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63' )
+Markers4=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63', 'Lalba', 
+           'Kit', 'Prlr', 'Spdef', 'Xbp1', 'Krt14', 'Krt17', 'Acta2')
 
 #pdf(sprintf("rslt/signatureAnalysis/new_classifer_PAM_%s.pdf", Sys.Date()), height=6, width=7)
 # Progression cohort
-Ax1=assay(vstEp)[ match(Markers, rownames(assay(vstEp))),]
+Ax1=assay(vstEp)[ match(Markers4, rownames(assay(vstEp))),]
 Pam1=pam(t(Ax1), 2)
 plot(Pam1, main="extended list")
 ColA=Pam1$clustering
 ColA=ifelse(ColA==1, "Basal", "Lum")
 
-Ax2=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
+Ax2=assay(vstEp)[ match(Markers3, rownames(assay(vstEp))),]
 Pam2=pam(t(Ax2), 2)
 plot(Pam2, main="narrow list")
 ColB=Pam2$clustering
@@ -58,21 +60,24 @@ We can perform a similar analysis to the characterisation cohort:
 
 ```{r}
 c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
-Ax1=assay(vsd)[ match(Markers3, rownames(assay(vsd))), match(c2, colnames(vsd))]
-Pam3=pam(t(Ax1), 2)
-km3=kmeans(t(Ax1), 2)
+Ax1=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
+Ax1b=scale(t(Ax1))
+Pam3=pam((Ax1b), 2)
+km3=kmeans((Ax1b), 2)
 #plot(Pam3, "extended list")
 ColC=Pam3$clustering
 ColC=ifelse(ColC==2, "Basal", "Lum")
 ColD=km3$cluster
 ColD=ifelse(ColD==2, "Basal", "Lum")
 
-table(ColC, ColD)
+#table(ColC, ColD)
 CTable=cbind(ColC, ColD)
 CTable=gsub("Basal", "red", CTable)
 CTable=gsub("Lum", "blue", CTable)
 
-heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list1", trace="none")
+#pdf("~/Desktop/PAM50-characterisation-different-list2.pdf", width=8, height=8)
+
+heatmap.plus(t(Ax1b), col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list2", trace="none")
 
 
 Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
@@ -310,13 +315,13 @@ heatmap.2(Ax4b, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, trace=
 
 ## Clustering based on random genes
 
-In this section we randomly select the most variable 50, 100, 200, 500 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.
+In this section we randomly select the most variable 200, 500, 1000, 2000 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.
 
 Below is a correlation plot which visualises the concordance between the different methods.
 
 ```{r}
 ProgCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Progression")]
-CharCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Characterisation")]
+CharCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
 
 GeneVar1=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ]))
 GeneVar2=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ])/mean(ProgCoh[x, ]))
@@ -325,7 +330,7 @@ names(GeneVar1)=rownames(ProgCoh)
 OrdGene1=sort(GeneVar1, decreasing = T)
 OrdGene2=sort(GeneVar2, decreasing = T)
 
-xsearch=c(50, 100, 200, 500)
+xsearch=c(200, 500, 1000, 2000)
 
 CallsTableProg=matrix(NA, ncol=ncol(ProgCoh), nrow=11)
 colnames(CallsTableProg)=colnames(ProgCoh)
@@ -397,11 +402,12 @@ Below is a summary of the average expression values of the classes defined by th
 ```{r}
 par(mfrow=c(2,3))
 
-compv=c("PAM50", "pamlong", "pamshort", "top50cov", "top50sd")
+compv=c("PAM50", "pamlong", "pamshort", "top200sd", "top500sd", "top1000sd", "top2000sd")
+gList=c(gList, "Foxa1", "Gata3", "Vim")
 
 for (j in gList){
-for (i in 1:5){
-  boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=compv[i], ylab=j, xlab="")
+for (i in c(1:3,5, 7, 9, 11)){
+  boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=rownames(ConcordanceMat2)[i], ylab=j, xlab="")
 }}
 mtext("ESR1", side=2, outer=T, line=-2)
 
@@ -410,8 +416,8 @@ mtext("ESR1", side=2, outer=T, line=-2)
 We can summarise the outputs for each sample below
 
 ```{r}
-CallsTableProg2=CallsTableProg[1:5, ]
-rownames(CallsTableProg2)=c("PAM50", "pamlong", "pamshort", "top50cov", "top50sd")
+CallsTableProg2=CallsTableProg[c(1:3,5, 7, 9, 11), ]
+rownames(CallsTableProg2)=compv
 
 scroll_box(kable(t(CallsTableProg2), format="html"),
          height="300px", width="100%")

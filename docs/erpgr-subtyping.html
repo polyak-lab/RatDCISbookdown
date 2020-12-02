@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
 <li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -281,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
 <li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
 <li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
@@ -345,27 +347,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>We will be using variance stabilised counts in this section.</p>
 <p>Firstly, we will look at the progression cohort. Note that the overlap between the two gene-sets are similar, and the heatmap is row-scaled.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-4.png" width="672" /></p>
 <pre><code>##        ColB
 ## ColA    Basal Lum
-##   Basal    10   3
-##   Lum       0   7</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-5.png" width="672" /></p>
+##   Basal    11   0
+##   Lum       1   8</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-5.png" width="672" /></p>
 <p>We can perform a similar analysis to the characterisation cohort:</p>
-<pre><code>##        ColD
-## ColC    Basal Lum
-##   Basal     3   1
-##   Lum       1   5</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
 <p>DN samples:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-4.png" width="672" /></p>
 <pre><code>##        ColF
 ## ColE    Basal Lum
 ##   Basal     9   7
 ##   Lum      11   3</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-5.png" width="672" /></p>
 <p>We can collate these different scores and assess whether there are similarities with PgR and ER staining:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-103-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-103-2.png" width="672" /></p>
 <p>Finally, look at whether any of the above samples have similar DN and Ep calls: it appears that this call is random, and the subtype does not dictate growth rate</p>
 <pre><code>## [1] &quot;extended list&quot;</code></pre>
 <pre><code>## , ,  = growing
@@ -379,15 +377,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##        
 ##         Basal Lum
-##   Basal     2   2
-##   Lum       1   1</code></pre>
+##   Basal     1   2
+##   Lum       2   1</code></pre>
 <pre><code>## [1] &quot;narrow list&quot;</code></pre>
 <pre><code>## , ,  = growing
 ## 
 ##        
 ##         Basal Lum
-##   Basal     3   1
-##   Lum       3   3
+##   Basal     3   2
+##   Lum       3   2
 ## 
 ## , ,  = stable
 ## 
@@ -401,7 +399,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here, we have used rsem counts in PAM50 subtyping.</p>
 <p>Plot all samples together and compare the confidence and scores in different subtypes:
 There is overlap between the LumB and Her2 scores, similarly Normal and LumA scores are similar</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-105-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
 <p>We can pull out the main markers of interest: ER, PGR, Erbb2 and Ki67 (or PCNA).
 We also compare these expression distribution of these markers to CD45, DN and Ep overall:</p>
 <p>Notes:</p>
@@ -411,21 +409,21 @@ We also compare these expression distribution of these markers to CD45, DN and E
 <li>Ar is higher in basal samples</li>
 <li>Pcna is higher in Basal</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-4.png" width="672" /></p>
 <p>heatmap based on the previous markers:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-6.png" width="672" /></p>
 <p>Based on the above calls, we can condense the calls:</p>
 <ul>
 <li>Her2, LumB are sumilar and can be combined with LumA</li>
 <li>Normal and Basal are most likely most similar</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-2.png" width="672" /></p>
 </div>
 <div id="clustering-based-on-random-genes" class="section level2">
 <h2><span class="header-section-number">10.3</span> Clustering based on random genes</h2>
-<p>In this section we randomly select the most variable 50, 100, 200, 500 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.</p>
+<p>In this section we randomly select the most variable 200, 500, 1000, 2000 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.</p>
 <p>Below is a correlation plot which visualises the concordance between the different methods.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
 </div>
 <div id="consolidating-the-different-results" class="section level2">
 <h2><span class="header-section-number">10.4</span> Consolidating the different results</h2>
@@ -434,14 +432,14 @@ We also compare these expression distribution of these markers to CD45, DN and E
 <p>where <span class="math inline">\(N_{b,b}\)</span> is the number of cases which are basal in two comparisons and <span class="math inline">\(N_{l,l}\)</span> the number of cases which are luminal in both comparisons.</p>
 <p>Note that the values extend from 0.5 to 1, which indicates that any two methods overlap more than just by chance.</p>
 <p>There is good overlap between the in-house specific list characterisation, and some overlap between pam50 calling and in-house short list.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-2.png" width="672" /></p>
 <p>Below is a summary of the average expression values of the classes defined by the different methods:</p>
 <ul>
 <li>The targeted lists show differences in esr1, pgr, erbb2, pcna</li>
 <li>Ar has differing directions for the pam classifications</li>
 <li>Random genes selected show differences in pgr, erbb2, Ar and perhaps Mki67</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-11.png" width="672" /></p>
 <p>We can summarise the outputs for each sample below</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table>
@@ -459,10 +457,16 @@ pamlong
 pamshort
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-top50cov
+top200sd
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-top50sd
+top500sd
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+top1000sd
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+top2000sd
 </th>
 </tr>
 </thead>
@@ -486,6 +490,12 @@ Basal
 <td style="text-align:left;">
 1
 </td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -501,10 +511,16 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -519,6 +535,12 @@ NA
 </td>
 <td style="text-align:left;">
 NA
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 <td style="text-align:left;">
 2
@@ -546,6 +568,12 @@ Lum
 <td style="text-align:left;">
 2
 </td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -555,16 +583,22 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-Basal
-</td>
-<td style="text-align:left;">
 Lum
 </td>
 <td style="text-align:left;">
+Basal
+</td>
+<td style="text-align:left;">
 1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -581,10 +615,16 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -599,6 +639,12 @@ Lum
 </td>
 <td style="text-align:left;">
 Lum
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 <td style="text-align:left;">
 2
@@ -621,10 +667,16 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -635,16 +687,22 @@ Basal
 Lum
 </td>
 <td style="text-align:left;">
-Basal
+Lum
 </td>
 <td style="text-align:left;">
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -661,10 +719,16 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -678,13 +742,19 @@ Lum
 Basal
 </td>
 <td style="text-align:left;">
-Lum
+Basal
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 2
 </td>
 <td style="text-align:left;">
-1
+2
 </td>
 </tr>
 <tr>
@@ -701,10 +771,16 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -721,10 +797,16 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -741,10 +823,16 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -761,7 +849,13 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
 </td>
 <td style="text-align:left;">
 1
@@ -786,6 +880,12 @@ Basal
 <td style="text-align:left;">
 1
 </td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -801,10 +901,16 @@ Lum
 Lum
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -826,6 +932,12 @@ Basal
 <td style="text-align:left;">
 1
 </td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -841,10 +953,16 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 <tr>
@@ -866,6 +984,12 @@ Basal
 <td style="text-align:left;">
 1
 </td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -881,10 +1005,16 @@ Basal
 Basal
 </td>
 <td style="text-align:left;">
-2
+1
 </td>
 <td style="text-align:left;">
 1
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+2
 </td>
 </tr>
 </tbody>

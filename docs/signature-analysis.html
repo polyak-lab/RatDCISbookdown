@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
 <li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -281,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
 <li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
 <li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
@@ -336,15 +338,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="mhc-i" class="section level3">
 <h3><span class="header-section-number">11.1.1</span> MHC-I</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-3.png" width="672" /></p>
 </div>
 <div id="mhc-ii" class="section level3">
 <h3><span class="header-section-number">11.1.2</span> MHC-II</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-3.png" width="672" /></p>
 </div>
 <div id="mhc-presentation-proteins" class="section level3">
 <h3><span class="header-section-number">11.1.3</span> MHC presentation proteins</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-3.png" width="672" /></p>
 
 </div>
 </div>
@@ -366,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Fraction</li>
 <li>treatment</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-7.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-7.png" width="672" /></p>
 <p>From the above plots:</p>
 <ul>
 <li>higher Hippom Notch RTK Wnt and TGFB signalling in DN samples</li>
@@ -391,9 +393,9 @@ Signature Score ~ Fraction + Treatment + CD8Fraction + Spatial Score + GrowthRat
 <li>TP53 more associated basal DN, and with treatment in DN samples, infiltrating tumors</li>
 <li>TGFB signalling higher in ep treated ith PDL1+LY</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 <p>Focus specifically on the DN and Ep samples separately:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-2.png" width="672" /></p>
 <p>Associations:</p>
 <ul>
 <li>notch signalling with LY treatment</li>
@@ -406,13 +408,13 @@ Signature Score ~ Fraction + Treatment + CD8Fraction + Spatial Score + GrowthRat
 <h3><span class="header-section-number">11.2.3</span> Taking into account directionality</h3>
 <p>Do the same scoring, taking into account oncogenic vs tumor suppressor activity (i.e.)
 Usually, there is no difference. The pathway is increased either way</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-2.png" width="672" /></p>
 <p>Do a regression analysis for TSG vs ONCO signatures in this pathway</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-3.png" width="672" /></p>
 <p>Looking at up vs down genes: are any of these differentially expressed?</p>
-<pre><code>## [1] small big   big   small big   small small
+<pre><code>## [1] small small big   big   small small small
 ## Levels: big small</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-1.png" width="672" /></p>
 
 </div>
 </div>

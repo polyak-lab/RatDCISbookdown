@@ -215,13 +215,14 @@ Search for whether mutations in the cosmic set is present in the RNA data. We wi
 # templace tempxb with tempz2
 
 MeltWGSCoding$mutPos=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+MeltWGSCodingB$mutPos=paste(MeltWGSCodingB$Gene_Symbol, MeltWGSCodingB$Start_Position)
 MallCodingHaplo=melt(allCodingHaplo,  measure.var="POS")
 MallCodingHaplo$mutPos=paste(MallCodingHaplo$GENE, MallCodingHaplo$value)
 ```
 
 
 ```{r}
-xb=sort(table(MeltWGSCoding$mutPos[MeltWGSCoding$Gene_Symbol%in%topCOSMIC]), decreasing = T)
+xb=sort(table(MeltWGSCodingB$mutPos[MeltWGSCodingB$Gene_Symbol%in%topCOSMIC]), decreasing = T)
 
 allCoding_top90=lapply(allCodingHaplo, function(x) x[which(paste(x$GENE, x$POS)%in%names(xb)), ])
 
@@ -281,35 +282,35 @@ EpLoc=names(EpVarListB)[which(EpVarListB>1)]
 xa=grep("CD45$", MallCodingHaploFunc$L1)
 CDVarList=table(MallCodingHaploFunc$GENE[xa])
 CDVarNames=names(CDVarList)
-CDVarN2=names(CDVarList[which(CDVarList>1)])
+CDVarN2=names(CDVarList[which(CDVarList>=1)])
 CDVarListB=table(MallCodingHaploFunc$mutPos[xa])
-CDLoc=names(CDVarListB)[which(CDVarListB>1)]
+CDLoc=names(CDVarListB)[which(CDVarListB>=1)]
 
 
 ## Look at CD45 normal
 xa=grep("CD45plus", MallCodingHaploFunc$L1)
 nCD45VarList=table(MallCodingHaploFunc$GENE[xa])
 nCD45VarNames=names(nCD45VarList)
-nCD45VarN2=names(nCD45VarList[which(nCD45VarList>1)])
+nCD45VarN2=names(nCD45VarList[which(nCD45VarList>=1)])
 nCD45VarListB=table(MallCodingHaploFunc$mutPos[xa])
-nCDLoc=names(nCD45VarListB)[which(nCD45VarListB>1)]
+nCDLoc=names(nCD45VarListB)[which(nCD45VarListB>=1)]
 
 ## List of ep-spec variants
 eplist1=setdiff(setdiff(EpVarN2, CDVarN2), nCD45VarN2)
 ## Obtain the list of Ep-specific variants and cross-reference with genomic data
-WGSListgenes=table(MeltWGSCoding$Gene_Symbol)
+WGSListgenes=table(MeltWGSCodingB$Gene_Symbol)
 WGSListgenes=names(WGSListgenes)[which(WGSListgenes>1)]
 
 RList=MallEpi[which(MallEpi$GENE%in%eplist1), ]
 Rlist2=table(RList$mutPos)
 Rlist2=names(Rlist2)[which(Rlist2>1)]
 
-WGSList=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+WGSList=paste(MeltWGSCodingB$Gene_Symbol, MeltWGSCodingB$Start_Position)
 t2=table(WGSList)
 WGSList=names(t2)[which(t2>1)]
 mutlist=intersect(Rlist2, WGSList)
 
-##pdf("~/Desktop/RNA-specific-mutations-gene-level.pdf", height=6, width=6)
+pdf("~/Desktop/RNA-specific-mutations-gene-level.pdf", height=6, width=6)
 
 venn(list(Ep=EpVarNames, CD45=CDVarNames, nCD45=nCD45VarNames))
 mtext("no genes w mutations overlapping in different fractions")
@@ -319,7 +320,7 @@ mtext("no genes with overlapping variants in 2+ samples")
 
 venn(list(Ep_RNA=eplist1, Ep_WGS=WGSListgenes))
 mtext("No genes with overlaps in 2+ samples")
-##dev.off()
+dev.off()
 ```
 
 Location specific mutations:
@@ -333,7 +334,6 @@ mtext("no locations with overlapping variants in 2+ samples")
 venn(list(Ep_RNA=Rlist2, Ep_WGS=WGSList))
 mtext("No ep. specifc locations with overlaps in 2+ samples")
 
-
 # plots of mutational frequencies of the locations in A1
 Ttemp=acast(MallCodingHaploFunc[which(MallCodingHaploFunc$mutPos%in%mutlist), c("L1", "mutPos")], mutPos~L1)
 Ttemp=cbind(Ttemp, 0)
@@ -341,14 +341,14 @@ colnames(Ttemp)[ncol(Ttemp)]="NMU13_LAU_Ep"
 
 ax2=setdiff(unique(MallEpi$L1), colnames(Ttemp))
 
-Wtemp=acast(MeltWGSCoding[which(MeltWGSCoding$mutPos%in%mutlist), c("L1", "mutPos", "Start_Position")],mutPos~L1)
+Wtemp=acast(MeltWGSCoding[which(MeltWGSCodingB$mutPos%in%mutlist), c("L1", "mutPos", "Start_Position")],mutPos~L1)
 Wtemp[which(is.na(Wtemp), arr.ind = T)]=0
 
 par(oma=c(5, 5, 1, 1))
 image(sign((Ttemp)), col=c("white","darkblue"), xaxt="none", yaxt="none")
 axis(1, at=seq(0, 1, length=nrow(Ttemp)),rownames(Ttemp), las=2)
 axis(2, at=seq(0, 1, length=ncol(Ttemp)),colnames(Ttemp), las=2)
-mtext("Mutations in RNA data")
+mtext("Mutations in RNA & in WGS data")
 
 par(oma=c(5, 5, 1, 1))
 image(sign(Wtemp), col=c("white","darkblue"), xaxt="none", yaxt="none")
@@ -381,3 +381,83 @@ axis(2, at=seq(0, 1, length=ncol(Wtemp)),colnames(Wtemp), las=2)
 ```
 
 There are `r length(ax1)` mutations which are found in both the RNA and WGS data (2+ samples, not found in RNAseq)
+
+## Filtering WGS data based on CD45 data
+
+* Use the entire list for WGS
+* Find mutations in CD45 (either) and remove
+
+```{r}
+#head(MeltWGSCoding)
+#head(MallCodingHaploFunc)
+
+lx1=grep("CD45", MallCodingHaploFunc$L1)
+
+mutDiff=setdiff(MeltWGSCodingB$mutPos, MallCodingHaploFunc$mutPos[lx1])
+
+NUnique=table(MeltWGSCodingB$mutPos[MeltWGSCodingB$mutPos%in%mutDiff])
+NUniqueB=table(MeltWGSCodingB$Gene_Symbol[MeltWGSCodingB$mutPos%in%mutDiff])
+
+
+rGeneOut=acast(MeltWGSCodingB[ MeltWGSCodingB$mutPos%in%names(NUnique),c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+               value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+
+mxl=unique(as.vector(rGeneOut))
+rGeneOut2b=rGeneOut
+rGeneOut2b[grep("Nonsense",rGeneOut2b)]=3
+rGeneOut2b[grep("Frame_Shift",rGeneOut2b)]=2
+rGeneOut2b[grep("Missense_", rGeneOut2b)]=1
+rGeneOut2b[grep("Splice_", rGeneOut2b)]=4
+rGeneOut2b[which(rGeneOut2b=="")]=0
+
+rGeneOut2b=apply(rGeneOut2b, 2, as.numeric)
+rownames(rGeneOut2b)=rownames(rGeneOut)
+
+rmThese=c("^AABR", "^Olr", "^LOC", "^AC[0-9]+", "^RGD", "^Rpl", "^1700", "^RT1", "^ENSRNOG", "^Vom2")
+rmList=unlist(sapply(rmThese, function(x) grep(x, colnames(rGeneOut2b))))
+rGeneOut2b=rGeneOut2b[ ,-rmList]
+
+
+NtopA=names(NUnique)[which(NUnique>6)]
+NtopAb=unique(sapply(strsplit(NtopA, " "), function(x) x[1]))
+tempAnew=rGeneOut2b[, na.omit(match(NtopAb, colnames(rGeneOut2b)))]
+
+tempA=heatmap.2(sign(tempAnew))
+tempA=tempAnew[tempA$rowInd, tempA$colInd]
+
+HSAnew=hotspotLocExtract(tempA)
+
+
+## NtopB=which(NUnique>10)
+NtopB=names(NUniqueB)[which(NUniqueB>1)]
+NtopB2=NtopB[NtopB%in%RatCosmic]
+
+tempBnew=rGeneOut2b[, na.omit(match(NtopB2, colnames(rGeneOut2b)))]
+
+tempB=heatmap.2(sign(tempBnew))
+tempB=tempBnew[tempB$rowInd, tempB$colInd]
+
+HSBnew=hotspotLocExtract(tempB)
+
+pdf("~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
+## Commonly mutated Genes:
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempA), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempA)), colnames(tempA), las=2, cex.axis=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempA)), rownames(tempA), las=2, cex.axis=0.5)
+text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+mtext("top 118 mutations", side=3, line=-1, outer=T)
+dev.off()
+
+pdf("~/Desktop/WGS-COSMIC-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
+## Commonly mutated Genes:
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempB), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempB)), colnames(tempB), las=2, cex.axis=0.7)
+axis(2, at=seq(0, 1, length=nrow(tempB)), rownames(tempB), las=2, cex.axis=0.7)
+text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+mtext("Common COSMIC mutations", side=3, line=-1, outer=T)
+dev.off()
+```

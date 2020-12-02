@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
 <li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -281,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
 <li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
 <li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
@@ -324,9 +326,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The following samples have matching WGX data: C2N__CD45, C2N__Ep, NMU12_RL_Ep, NMU12_LA_Ep, NMU14__Ep, NMU12_LA_CD45, NMU13_RAU_CD45, NMU14__CD45 from samples C2N_, NMU12_LA, NMU12_RL, NMU13_RAU, NMU14_</p>
 <div id="expression-of-genes-in-common" class="section level2">
 <h2><span class="header-section-number">16.1</span> Expression of genes in common</h2>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-2.png" width="672" /></p>
 <p>Compare RNA mut freq &amp; expression values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-2.png" width="672" /></p>
+<pre><code>##                 C2N__Ep C2R__Ep C5R__Ep NMU10_LL_Ep NMU12_LA_Ep NMU12_RL_Ep
+## Ctgf 21854360         2       2       0           0           0           0
+## Dsc2 11829313         0       0       2           0           0           0
+## Enpep 233713639       1       1       1           0           0           0
+## Hps4 50293000         0       0       0           0           0           2
+## Igsf3 203832077       0       0       0           0           0           0
+## Klhl22 87693945       0       0       0           0           0           0
+##                 NMU13_LLU_Ep NMU14__Ep NMU7_RLU_Ep NMU13_LAU_Ep
+## Ctgf 21854360              0         0           0            0
+## Dsc2 11829313              0         0           0            0
+## Enpep 233713639            0         0           0            0
+## Hps4 50293000              0         0           0            0
+## Igsf3 203832077            2         0           0            0
+## Klhl22 87693945            2         0           2            0</code></pre>
 </div>
 <div id="expression-of-genes-with-key-mutations" class="section level2">
 <h2><span class="header-section-number">16.2</span> Expression of genes with key mutations</h2>
@@ -334,7 +350,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Eg. C2N may be enriched in kalikrein systen, connective tissue degradation
 NMU12_LA in endothelium_leukocyte interactions, IL6 signalling
 NMU12 RL in NOTCH signalling?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
 <pre><code>## quartz_off_screen 
@@ -343,7 +359,7 @@ NMU12 RL in NOTCH signalling?</p>
 <div id="expression-of-common-mutations" class="section level2">
 <h2><span class="header-section-number">16.3</span> Expression of common mutations?</h2>
 <p>Run the following to plot this for both the cd45 fraction as well as the epithelial fraction:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-8.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-8.png" width="672" /></p>
 <div id="look-at-cancer-specific-pathways" class="section level3">
 <h3><span class="header-section-number">16.3.1</span> Look at cancer specific pathways</h3>
 <pre><code>## quartz_off_screen 

@@ -337,10 +337,8 @@ infoTableFinal$CD8Frac=df.Spatial$CD8frac[match(gsub("_", "", infoTableFinal$Tum
 # idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)
 # infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
 
-save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("outputs/dds_normalised_data_newstar_RNAseq%s_%s_rm_outliers.RData", BatchNo, Sys.Date()))
-
+save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("outputs/dds_normalised_data_newstar_RNAseq_%s_rm_outliers.RData", Sys.Date()))
 ```
-
 
 ## Processing files for external software
 

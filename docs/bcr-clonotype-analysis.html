@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
 <li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -281,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
 <li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
 <li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
@@ -345,7 +347,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="summary-stats" class="section level2">
 <h2><span class="header-section-number">13.2</span> Summary Stats</h2>
 <p>Firstly, look at the number of BCR regions which have been identified by TRUST4. In green are the CD45 populations, which as expected appear to have a higher number of clonotypes compared to the epithelial and the double-negative populations (in read and orange).</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-134-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-134-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-134-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-134-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-4.png" width="672" /></p>
 <p>We will refine the above plot to contain only the CD45 population and assess:</p>
 <ul>
 <li>number of clonotypes</li>
@@ -373,14 +375,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will see the proportion of the BCR repertoire which is computed using the top 10 frequent clones.
 This will give an idea of whether there is a clonal expansion</p>
 <p>The following plot demonstrates the relationship between the above metrics</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
 <p>Notice that some samples have very few clones. An example is 5RB which is represented by a single clonotype, accounting for the absence of a Gini or shannon index</p>
 </div>
 <div id="compare-the-characterisation-cohort" class="section level2">
 <h2><span class="header-section-number">13.4</span> Compare the characterisation cohort</h2>
 <p>In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.
 Is there a difference in the clonotypes between these samples?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-2.png" width="672" /></p>
 </div>
 <div id="associate-with-clinicopathological-data" class="section level2">
 <h2><span class="header-section-number">13.5</span> Associate with clinicopathological data</h2>
@@ -398,7 +400,7 @@ Is there a difference in the clonotypes between these samples?</p>
 <li>Growth</li>
 <li>Treatment</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-6.png" width="672" /></p>
 </div>
 <div id="associate-with-signature-scores" class="section level2">
 <h2><span class="header-section-number">13.6</span> Associate with signature scores</h2>
@@ -406,17 +408,17 @@ Is there a difference in the clonotypes between these samples?</p>
 <ul>
 <li>B cell signature enrichments scores (from RNA data)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-141-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-141-2.png" width="672" /></p>
 <ul>
 <li>B cell frequencies based on FACS:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-141-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
 </div>
 <div id="check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations" class="section level2">
 <h2><span class="header-section-number">13.7</span> Check whether the clonotype percentages match with gsva signatures or CD20 populations</h2>
 <p>associate with immune signature scores (ssgsea)
 fdr adjust the correlation p values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
 
 </div>
 </div>

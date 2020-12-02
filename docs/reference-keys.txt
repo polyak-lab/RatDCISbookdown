@@ -70,6 +70,7 @@ cd45-samples
 epithelial-samples
 deseq-analysis-2
 cd45-samples-1
+epithelial-samples-1
 erpgr-subtyping
 in-house-classifier
 pam50-parker-scoring
@@ -118,6 +119,7 @@ haplotype-caller
 load-files
 identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data
 find-coding-mutations-which-are-specific-to-ep-cells
+filtering-wgs-data-based-on-cd45-data
 associating-expression-with-mutations
 expression-of-genes-in-common
 expression-of-genes-with-key-mutations

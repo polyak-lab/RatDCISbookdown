@@ -2543,10 +2543,8 @@ infoTableFinal$CD8Frac=df.Spatial$CD8frac[match(gsub("_", "", infoTableFinal$Tum
 # idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)
 # infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]
 
-save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("outputs/dds_normalised_data_newstar_RNAseq%s_%s_rm_outliers.RData", BatchNo, Sys.Date()))
-
+save(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  file=sprintf("outputs/dds_normalised_data_newstar_RNAseq_%s_rm_outliers.RData", Sys.Date()))
 ```
-
 
 ## Processing files for external software
 
@@ -4564,13 +4562,13 @@ according to size of the cohort samples
 
 In section 6.2, we have noticed that some DN samples had expression of epithelial markers. Here, we perform a differential gene expression analysis to find genes which are different between these two fractions. 
 
-Below is a summary of the number of differential genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
+Below is a summary of the number of differentisal genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
 
 ```{r cd45-char-bigsmall, cache=T}
-
+#infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
 infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$SizeCat))])
-CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~factor(SizeCat)) ## change class
+CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
 
 a1x=rowSums(counts(CD45ddsChar))
 a1b=apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))
@@ -4584,28 +4582,35 @@ CD45ddsChar=CD45ddsChar[intersect(keep, keep2), ]
 CD45ddsChar=DESeq(CD45ddsChar)
 
 print('significant differential genes')
-CD45res=results(CD45ddsChar)
+CD45res=results(CD45ddsChar, contrast=c("SizeCat", "big", "small"))
 CD45res2=CD45res[which(CD45res$padj<0.05 & abs(CD45res$log2FoldChange)>1.5 &
                              CD45res$baseMean>100), ]
 #resDNeprslt2$CellMarker=ifelse(rownames(CD45ddsChar)%in%unlist(GeneListRat), 1, 0)
 #resDNeprslt2=resDNeprslt2[order(resDNeprslt2$CellMarker, abs(resDNeprslt2$log2FoldChange), decreasing = T), ]
 
-scroll_box(kable(CD45res2, format="html"),
-         height="300px", width="100%")
+#scroll_box(kable(CD45res2, format="html"),
+#         height="300px", width="100%")
 
 #pdf("~/Desktop/DESeq-small-vs-largeCD45-characterisation.pdf", height=6, width=6)
-
+namId=which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(CD45res2))
+namIdN=rownames(vsd)[namId]
 
 plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
      main="small (-ve) vs large (+ve)")
 text(CD45res2$log2FoldChange, -log10(CD45res2$padj), rownames(CD45res2), col="red")
+
+CD45res3=CD45res[match(namIdN, rownames(CD45res)), ]
+
+plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
+     main="small (-ve) vs large (+ve)")
+text(CD45res3$log2FoldChange, -log10(CD45res3$padj), rownames(CD45res3), col="red")
 
 
 #HighExprGenes=rownames(CD45res2)[which(CD45res2$baseMean>100 & CD45res2$log2FoldChange<0) ]
 
 colSide=CD45ddsChar$SizeCat
 
-t2=assay(vsd)[which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(CD45res2)), match(colnames(CD45ddsChar), colnames(vsd))]
+t2=assay(vsd)[namId, match(colnames(CD45ddsChar), colnames(vsd))]
 heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="immune genes DEG")
 
 
@@ -4615,11 +4620,70 @@ a1=heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide
 
 boxplot(assay(vsd)["Havcr2", match(colnames(CD45ddsChar), colnames(vsd))]~CD45ddsChar$SizeCat,
         main="Havcr2 gene small vs big vst expression")
+boxplot(assay(vsd)["Krt17", match(colnames(CD45ddsChar), colnames(vsd))]~CD45ddsChar$SizeCat,
+        main="Krt17 gene small vs big vst expression")
+
 #dev.off()
 
 write.csv(CD45res2, file=sprintf("outputs/DESeq/difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
 ```
 
+## Epithelial samples
+
+```{r}
+#infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
+#infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$SizeCat))])
+EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
+
+a1x=rowSums(counts(EpddsChar))
+a1b=apply(counts(EpddsChar), 1, function(c) sum(c!=0))
+ # par(mfrow=c(1,2))
+ # hist(log10(a1x+1), main="log10 total counts")
+ # hist((a1b+1), main="Non-zero entries")
+sd1vals=mean(log10(a1x+1))-sd(log10(a1x+1))
+keep=which(rowSums(counts(EpddsChar))>10^sd1vals)
+keep2=which(apply(counts(EpddsChar), 1, function(c) sum(c!=0))> (ncol(EpddsChar)/2))
+EpddsChar=EpddsChar[intersect(keep, keep2), ]
+EpddsChar=DESeq(EpddsChar)
+
+print('significant differential genes')
+Epres=results(EpddsChar, contrast=c("SizeCat", "big", "small"))
+Epres2=Epres[which(Epres$padj<0.05 & abs(Epres$log2FoldChange)>1.5 &
+                             Epres$baseMean>100), ]
+#resDNeprslt2$CellMarker=ifelse(rownames(EpddsChar)%in%unlist(GeneListRat), 1, 0)
+#resDNeprslt2=resDNeprslt2[order(resDNeprslt2$CellMarker, abs(resDNeprslt2$log2FoldChange), decreasing = T), ]
+
+#scroll_box(kable(Epres2, format="html"),height="300px", width="100%")
+
+#pdf("~/Desktop/DESeq-small-vs-largeEp-characterisation.pdf", height=6, width=6)
+
+
+plot(Epres$log2FoldChange, -log10(Epres$padj), pch=20, col="black",
+     main="small (-ve) vs large (+ve)")
+text(Epres2$log2FoldChange, -log10(Epres2$padj), rownames(Epres2), col="red")
+
+
+#HighExprGenes=rownames(Epres2)[which(Epres2$baseMean>100 & Epres2$log2FoldChange<0) ]
+
+colSide=EpddsChar$SizeCat
+
+# t2=assay(vsd)[which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(Epres2)), match(colnames(EpddsChar), colnames(vsd))]
+# heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="immune genes DEG")
+
+
+t2=assay(vsd)[which( rownames(vsd)%in%rownames(Epres2)), match(colnames(EpddsChar), colnames(vsd))]
+a1=heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="all DEG")
+#heatmap.2(t2[ ,-grep("Ep", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide2], scale="row", main="Enriched in Ep genes")
+
+boxplot(assay(vsd)["Creb1", match(colnames(EpddsChar), colnames(vsd))]~EpddsChar$SizeCat,
+        main="Creb1 gene small vs big vst expression")
+#dev.off()
+
+write.csv(Epres2, file=sprintf("outputs/DESeq/difference_between_Epcharacterisation-big-small%s.csv", Sys.Date()))
+
+
+```
 
 <!--chapter:end:06b-characterisation-cohort.Rmd-->
 
@@ -4654,17 +4718,19 @@ Firstly, we will look at the progression cohort. Note that the overlap between t
 ```{r}
 Markers=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
 Markers2=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr')
-Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp53' )
+Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63' )
+Markers4=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63', 'Lalba', 
+           'Kit', 'Prlr', 'Spdef', 'Xbp1', 'Krt14', 'Krt17', 'Acta2')
 
 #pdf(sprintf("rslt/signatureAnalysis/new_classifer_PAM_%s.pdf", Sys.Date()), height=6, width=7)
 # Progression cohort
-Ax1=assay(vstEp)[ match(Markers, rownames(assay(vstEp))),]
+Ax1=assay(vstEp)[ match(Markers4, rownames(assay(vstEp))),]
 Pam1=pam(t(Ax1), 2)
 plot(Pam1, main="extended list")
 ColA=Pam1$clustering
 ColA=ifelse(ColA==1, "Basal", "Lum")
 
-Ax2=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
+Ax2=assay(vstEp)[ match(Markers3, rownames(assay(vstEp))),]
 Pam2=pam(t(Ax2), 2)
 plot(Pam2, main="narrow list")
 ColB=Pam2$clustering
@@ -4683,21 +4749,24 @@ We can perform a similar analysis to the characterisation cohort:
 
 ```{r}
 c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
-Ax1=assay(vsd)[ match(Markers3, rownames(assay(vsd))), match(c2, colnames(vsd))]
-Pam3=pam(t(Ax1), 2)
-km3=kmeans(t(Ax1), 2)
+Ax1=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
+Ax1b=scale(t(Ax1))
+Pam3=pam((Ax1b), 2)
+km3=kmeans((Ax1b), 2)
 #plot(Pam3, "extended list")
 ColC=Pam3$clustering
 ColC=ifelse(ColC==2, "Basal", "Lum")
 ColD=km3$cluster
 ColD=ifelse(ColD==2, "Basal", "Lum")
 
-table(ColC, ColD)
+#table(ColC, ColD)
 CTable=cbind(ColC, ColD)
 CTable=gsub("Basal", "red", CTable)
 CTable=gsub("Lum", "blue", CTable)
 
-heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list1", trace="none")
+#pdf("~/Desktop/PAM50-characterisation-different-list2.pdf", width=8, height=8)
+
+heatmap.plus(t(Ax1b), col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list2", trace="none")
 
 
 Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
@@ -4935,13 +5004,13 @@ heatmap.2(Ax4b, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, trace=
 
 ## Clustering based on random genes
 
-In this section we randomly select the most variable 50, 100, 200, 500 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.
+In this section we randomly select the most variable 200, 500, 1000, 2000 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.
 
 Below is a correlation plot which visualises the concordance between the different methods.
 
 ```{r}
 ProgCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Progression")]
-CharCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Characterisation")]
+CharCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
 
 GeneVar1=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ]))
 GeneVar2=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ])/mean(ProgCoh[x, ]))
@@ -4950,7 +5019,7 @@ names(GeneVar1)=rownames(ProgCoh)
 OrdGene1=sort(GeneVar1, decreasing = T)
 OrdGene2=sort(GeneVar2, decreasing = T)
 
-xsearch=c(50, 100, 200, 500)
+xsearch=c(200, 500, 1000, 2000)
 
 CallsTableProg=matrix(NA, ncol=ncol(ProgCoh), nrow=11)
 colnames(CallsTableProg)=colnames(ProgCoh)
@@ -5022,11 +5091,12 @@ Below is a summary of the average expression values of the classes defined by th
 ```{r}
 par(mfrow=c(2,3))
 
-compv=c("PAM50", "pamlong", "pamshort", "top50cov", "top50sd")
+compv=c("PAM50", "pamlong", "pamshort", "top200sd", "top500sd", "top1000sd", "top2000sd")
+gList=c(gList, "Foxa1", "Gata3", "Vim")
 
 for (j in gList){
-for (i in 1:5){
-  boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=compv[i], ylab=j, xlab="")
+for (i in c(1:3,5, 7, 9, 11)){
+  boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=rownames(ConcordanceMat2)[i], ylab=j, xlab="")
 }}
 mtext("ESR1", side=2, outer=T, line=-2)
 
@@ -5035,8 +5105,8 @@ mtext("ESR1", side=2, outer=T, line=-2)
 We can summarise the outputs for each sample below
 
 ```{r}
-CallsTableProg2=CallsTableProg[1:5, ]
-rownames(CallsTableProg2)=c("PAM50", "pamlong", "pamshort", "top50cov", "top50sd")
+CallsTableProg2=CallsTableProg[c(1:3,5, 7, 9, 11), ]
+rownames(CallsTableProg2)=compv
 
 scroll_box(kable(t(CallsTableProg2), format="html"),
          height="300px", width="100%")
@@ -7263,13 +7333,14 @@ Search for whether mutations in the cosmic set is present in the RNA data. We wi
 # templace tempxb with tempz2
 
 MeltWGSCoding$mutPos=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+MeltWGSCodingB$mutPos=paste(MeltWGSCodingB$Gene_Symbol, MeltWGSCodingB$Start_Position)
 MallCodingHaplo=melt(allCodingHaplo,  measure.var="POS")
 MallCodingHaplo$mutPos=paste(MallCodingHaplo$GENE, MallCodingHaplo$value)
 ```
 
 
 ```{r}
-xb=sort(table(MeltWGSCoding$mutPos[MeltWGSCoding$Gene_Symbol%in%topCOSMIC]), decreasing = T)
+xb=sort(table(MeltWGSCodingB$mutPos[MeltWGSCodingB$Gene_Symbol%in%topCOSMIC]), decreasing = T)
 
 allCoding_top90=lapply(allCodingHaplo, function(x) x[which(paste(x$GENE, x$POS)%in%names(xb)), ])
 
@@ -7329,35 +7400,35 @@ EpLoc=names(EpVarListB)[which(EpVarListB>1)]
 xa=grep("CD45$", MallCodingHaploFunc$L1)
 CDVarList=table(MallCodingHaploFunc$GENE[xa])
 CDVarNames=names(CDVarList)
-CDVarN2=names(CDVarList[which(CDVarList>1)])
+CDVarN2=names(CDVarList[which(CDVarList>=1)])
 CDVarListB=table(MallCodingHaploFunc$mutPos[xa])
-CDLoc=names(CDVarListB)[which(CDVarListB>1)]
+CDLoc=names(CDVarListB)[which(CDVarListB>=1)]
 
 
 ## Look at CD45 normal
 xa=grep("CD45plus", MallCodingHaploFunc$L1)
 nCD45VarList=table(MallCodingHaploFunc$GENE[xa])
 nCD45VarNames=names(nCD45VarList)
-nCD45VarN2=names(nCD45VarList[which(nCD45VarList>1)])
+nCD45VarN2=names(nCD45VarList[which(nCD45VarList>=1)])
 nCD45VarListB=table(MallCodingHaploFunc$mutPos[xa])
-nCDLoc=names(nCD45VarListB)[which(nCD45VarListB>1)]
+nCDLoc=names(nCD45VarListB)[which(nCD45VarListB>=1)]
 
 ## List of ep-spec variants
 eplist1=setdiff(setdiff(EpVarN2, CDVarN2), nCD45VarN2)
 ## Obtain the list of Ep-specific variants and cross-reference with genomic data
-WGSListgenes=table(MeltWGSCoding$Gene_Symbol)
+WGSListgenes=table(MeltWGSCodingB$Gene_Symbol)
 WGSListgenes=names(WGSListgenes)[which(WGSListgenes>1)]
 
 RList=MallEpi[which(MallEpi$GENE%in%eplist1), ]
 Rlist2=table(RList$mutPos)
 Rlist2=names(Rlist2)[which(Rlist2>1)]
 
-WGSList=paste(MeltWGSCoding$Gene_Symbol, MeltWGSCoding$Start_Position)
+WGSList=paste(MeltWGSCodingB$Gene_Symbol, MeltWGSCodingB$Start_Position)
 t2=table(WGSList)
 WGSList=names(t2)[which(t2>1)]
 mutlist=intersect(Rlist2, WGSList)
 
-##pdf("~/Desktop/RNA-specific-mutations-gene-level.pdf", height=6, width=6)
+pdf("~/Desktop/RNA-specific-mutations-gene-level.pdf", height=6, width=6)
 
 venn(list(Ep=EpVarNames, CD45=CDVarNames, nCD45=nCD45VarNames))
 mtext("no genes w mutations overlapping in different fractions")
@@ -7367,7 +7438,7 @@ mtext("no genes with overlapping variants in 2+ samples")
 
 venn(list(Ep_RNA=eplist1, Ep_WGS=WGSListgenes))
 mtext("No genes with overlaps in 2+ samples")
-##dev.off()
+dev.off()
 ```
 
 Location specific mutations:
@@ -7381,7 +7452,6 @@ mtext("no locations with overlapping variants in 2+ samples")
 venn(list(Ep_RNA=Rlist2, Ep_WGS=WGSList))
 mtext("No ep. specifc locations with overlaps in 2+ samples")
 
-
 # plots of mutational frequencies of the locations in A1
 Ttemp=acast(MallCodingHaploFunc[which(MallCodingHaploFunc$mutPos%in%mutlist), c("L1", "mutPos")], mutPos~L1)
 Ttemp=cbind(Ttemp, 0)
@@ -7389,14 +7459,14 @@ colnames(Ttemp)[ncol(Ttemp)]="NMU13_LAU_Ep"
 
 ax2=setdiff(unique(MallEpi$L1), colnames(Ttemp))
 
-Wtemp=acast(MeltWGSCoding[which(MeltWGSCoding$mutPos%in%mutlist), c("L1", "mutPos", "Start_Position")],mutPos~L1)
+Wtemp=acast(MeltWGSCoding[which(MeltWGSCodingB$mutPos%in%mutlist), c("L1", "mutPos", "Start_Position")],mutPos~L1)
 Wtemp[which(is.na(Wtemp), arr.ind = T)]=0
 
 par(oma=c(5, 5, 1, 1))
 image(sign((Ttemp)), col=c("white","darkblue"), xaxt="none", yaxt="none")
 axis(1, at=seq(0, 1, length=nrow(Ttemp)),rownames(Ttemp), las=2)
 axis(2, at=seq(0, 1, length=ncol(Ttemp)),colnames(Ttemp), las=2)
-mtext("Mutations in RNA data")
+mtext("Mutations in RNA & in WGS data")
 
 par(oma=c(5, 5, 1, 1))
 image(sign(Wtemp), col=c("white","darkblue"), xaxt="none", yaxt="none")
@@ -7430,6 +7500,86 @@ axis(2, at=seq(0, 1, length=ncol(Wtemp)),colnames(Wtemp), las=2)
 
 There are `r length(ax1)` mutations which are found in both the RNA and WGS data (2+ samples, not found in RNAseq)
 
+## Filtering WGS data based on CD45 data
+
+* Use the entire list for WGS
+* Find mutations in CD45 (either) and remove
+
+```{r}
+#head(MeltWGSCoding)
+#head(MallCodingHaploFunc)
+
+lx1=grep("CD45", MallCodingHaploFunc$L1)
+
+mutDiff=setdiff(MeltWGSCodingB$mutPos, MallCodingHaploFunc$mutPos[lx1])
+
+NUnique=table(MeltWGSCodingB$mutPos[MeltWGSCodingB$mutPos%in%mutDiff])
+NUniqueB=table(MeltWGSCodingB$Gene_Symbol[MeltWGSCodingB$mutPos%in%mutDiff])
+
+
+rGeneOut=acast(MeltWGSCodingB[ MeltWGSCodingB$mutPos%in%names(NUnique),c("Gene_Symbol", "L1", "Variant_Classification")], L1~Gene_Symbol, 
+               value.var="Variant_Classification", fun.aggregate=function(x) paste(x, collapse = ", "))
+
+mxl=unique(as.vector(rGeneOut))
+rGeneOut2b=rGeneOut
+rGeneOut2b[grep("Nonsense",rGeneOut2b)]=3
+rGeneOut2b[grep("Frame_Shift",rGeneOut2b)]=2
+rGeneOut2b[grep("Missense_", rGeneOut2b)]=1
+rGeneOut2b[grep("Splice_", rGeneOut2b)]=4
+rGeneOut2b[which(rGeneOut2b=="")]=0
+
+rGeneOut2b=apply(rGeneOut2b, 2, as.numeric)
+rownames(rGeneOut2b)=rownames(rGeneOut)
+
+rmThese=c("^AABR", "^Olr", "^LOC", "^AC[0-9]+", "^RGD", "^Rpl", "^1700", "^RT1", "^ENSRNOG", "^Vom2")
+rmList=unlist(sapply(rmThese, function(x) grep(x, colnames(rGeneOut2b))))
+rGeneOut2b=rGeneOut2b[ ,-rmList]
+
+
+NtopA=names(NUnique)[which(NUnique>6)]
+NtopAb=unique(sapply(strsplit(NtopA, " "), function(x) x[1]))
+tempAnew=rGeneOut2b[, na.omit(match(NtopAb, colnames(rGeneOut2b)))]
+
+tempA=heatmap.2(sign(tempAnew))
+tempA=tempAnew[tempA$rowInd, tempA$colInd]
+
+HSAnew=hotspotLocExtract(tempA)
+
+
+## NtopB=which(NUnique>10)
+NtopB=names(NUniqueB)[which(NUniqueB>1)]
+NtopB2=NtopB[NtopB%in%RatCosmic]
+
+tempBnew=rGeneOut2b[, na.omit(match(NtopB2, colnames(rGeneOut2b)))]
+
+tempB=heatmap.2(sign(tempBnew))
+tempB=tempBnew[tempB$rowInd, tempB$colInd]
+
+HSBnew=hotspotLocExtract(tempB)
+
+pdf("~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
+## Commonly mutated Genes:
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempA), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempA)), colnames(tempA), las=2, cex.axis=0.5)
+axis(2, at=seq(0, 1, length=nrow(tempA)), rownames(tempA), las=2, cex.axis=0.5)
+text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+mtext("top 118 mutations", side=3, line=-1, outer=T)
+dev.off()
+
+pdf("~/Desktop/WGS-COSMIC-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
+## Commonly mutated Genes:
+par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+image(t(tempB), col=c("white", 1:4), xaxt='n', yaxt='n')
+axis(1, at=seq(0, 1, length=ncol(tempB)), colnames(tempB), las=2, cex.axis=0.7)
+axis(2, at=seq(0, 1, length=nrow(tempB)), rownames(tempB), las=2, cex.axis=0.7)
+text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
+legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+mtext("Common COSMIC mutations", side=3, line=-1, outer=T)
+dev.off()
+```
+
 <!--chapter:end:10b-mutations-RNA.Rmd-->
 
 # Associating expression with Mutations
@@ -7460,7 +7610,9 @@ The following samples have matching WGX data: `r colnames(allTPMchar)[lxMatch]` 
 ```{r}
 RNames=c("Ccn2", sapply(strsplit(rownames(Wtemp), " "), function(x) x[1]))
 
-ExprVSD=nVSDchar[na.omit(match(RNames, rownames(nVSDchar))), na.omit(match(colnames(Ttemp), colnames(nVSDchar)))]
+TtempNames=sapply(strsplit(colnames(Ttemp), " "), function(x) x[1])
+
+ExprVSD=nVSDchar[na.omit(match(RNames, rownames(nVSDchar))), na.omit(match(TtempNames, colnames(nVSDchar)))]
 
 par(oma=c(2,2,2,5))
 heatmap.2(t(ExprVSD), trace="none", scale="none", Rowv = NA, Colv = NA, col=RdBu[11:1],
@@ -7485,14 +7637,16 @@ mvals=rep(NA, nrow(ExprVSD))
 names(mvals)=rownames(ExprVSD)
 mvalsP=mvals
 
-x1=match(colnames(ExprVSD), colnames(Ttemp))
-for (i in 1:length(mvals)){
-  ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
-  mvals[i]=coefficients(ax1)[2]
-  mvalsP[i]=summary(ax1)$coefficients[2,4]
-}
+head(Ttemp)
 
-barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
+# x1=match(colnames(ExprVSD), TtempNames)
+# for (i in 1:length(mvals)){
+#   ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link="logit"))
+#   mvals[i]=coefficients(ax1)[2]
+#   mvalsP[i]=summary(ax1)$coefficients[2,4]
+# }
+# 
+# barplot(mvalsP,las=2, ylab = "P value of association bw mutation and expression")
 ```
 
 ## Expression of genes with key mutations
@@ -7610,7 +7764,7 @@ CD45PAM=lx2[m1]
 CD45PAMcol=ifelse(CD45PAM=="Lum", "blue", ifelse(CD45PAM=="Basal", "red", "grey"))
 # correlation plots based on all genes
 
-pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/figure_panels_generated_R.pdf", height=6, width=6)
+pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/figure_panels_generated_R/Figure1/test.pdf", height=6, width=6)
 
 Ax1=cor(nVSDchar[, xa])
 heatmap.2(Ax1, ColSideColors = CD45PAMcol, trace="none", scale="none", col=RdBu[11:1],

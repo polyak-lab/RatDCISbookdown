@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-11-24" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -220,6 +220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
 <li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -281,6 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
 <li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
 <li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
@@ -375,15 +377,28 @@ AA.pos / AA.length 339/394</p>
 <div id="identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data" class="section level2">
 <h2><span class="header-section-number">15.3</span> Identifying polymorphisms: compare frequencies in CD45 and Ep data</h2>
 <p>Search for whether mutations in the cosmic set is present in the RNA data. We will firstly look at the 90 most common genes, and then repeat the same for the top cosmic genes.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-2.png" width="672" /></p>
 </div>
 <div id="find-coding-mutations-which-are-specific-to-ep-cells" class="section level2">
 <h2><span class="header-section-number">15.4</span> Find coding mutations which are specific to ep cells</h2>
 <p>Here, look for mutations from RNA which are present in the epithelial cells specific</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-3.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 <p>Location specific mutations:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-165-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-165-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-165-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-165-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-4.png" width="672" /></p>
 <p>There are 6 mutations which are found in both the RNA and WGS data (2+ samples, not found in RNAseq)</p>
+</div>
+<div id="filtering-wgs-data-based-on-cd45-data" class="section level2">
+<h2><span class="header-section-number">15.5</span> Filtering WGS data based on CD45 data</h2>
+<ul>
+<li>Use the entire list for WGS</li>
+<li>Find mutations in CD45 (either) and remove</li>
+</ul>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 
 </div>
 </div>
