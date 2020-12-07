@@ -4749,7 +4749,7 @@ Lx1$Group[grep("ymphocyte", Lx1$Process)]="NImmune response"
 
 TestGrp=c("NInflammation", "NCell adhesion", "NImmune response", "NTranscription")
 
-#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
 
 par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
 
@@ -4759,7 +4759,7 @@ for (i in TestGrp){
                 main=i)
 }
 
-#dev.off()
+dev.off()
 
 TermsA=sapply(strsplit(rownames(gscacd@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
 TermsA[which(is.na(TermsA))]=substr(rownames(gscacd@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
@@ -4901,7 +4901,7 @@ Lx1$Group[which(Lx1$Group=="NImmune response")]="NInflammation"
 
 TestGrp=c("NCell adhesion", "NDevelopment", "NTranscription", "NInflammation")
 
-#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+pdf("~/Desktop/1E-process-networks-significant-pathways_ep.pdf", width=6, height=6)
 
 par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
 
@@ -4911,7 +4911,7 @@ for (i in TestGrp){
                 main=i)
 }
 
-#dev.off()
+dev.off()
 
 TermsA=sapply(strsplit(rownames(gscaep@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
 TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)

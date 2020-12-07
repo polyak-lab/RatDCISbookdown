@@ -8,6 +8,7 @@ gene-signatures-and-data-bases
 human-gene-homologs
 gsea-compendiums
 cohort-summary
+size-information
 calculating-growth-rates
 facs-data
 summary-table
@@ -70,7 +71,11 @@ cd45-samples
 epithelial-samples
 deseq-analysis-2
 cd45-samples-1
+pca-plot
+differential-gene-expression
 epithelial-samples-1
+pca-plot-1
+gsea
 erpgr-subtyping
 in-house-classifier
 pam50-parker-scoring

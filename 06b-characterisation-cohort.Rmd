@@ -155,7 +155,7 @@ Lx1$Group[grep("ymphocyte", Lx1$Process)]="NImmune response"
 
 TestGrp=c("NInflammation", "NCell adhesion", "NImmune response", "NTranscription")
 
-#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
 
 par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
 
@@ -165,7 +165,7 @@ for (i in TestGrp){
                 main=i)
 }
 
-#dev.off()
+dev.off()
 
 TermsA=sapply(strsplit(rownames(gscacd@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
 TermsA[which(is.na(TermsA))]=substr(rownames(gscacd@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
@@ -307,7 +307,7 @@ Lx1$Group[which(Lx1$Group=="NImmune response")]="NInflammation"
 
 TestGrp=c("NCell adhesion", "NDevelopment", "NTranscription", "NInflammation")
 
-#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+pdf("~/Desktop/1E-process-networks-significant-pathways_ep.pdf", width=6, height=6)
 
 par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
 
@@ -317,7 +317,7 @@ for (i in TestGrp){
                 main=i)
 }
 
-#dev.off()
+dev.off()
 
 TermsA=sapply(strsplit(rownames(gscaep@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
 TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
@@ -326,5 +326,28 @@ TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessN
 gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term")
+
+# match the genes in the Tgfb pathway
+Genes1=PathwayMapAllComp$`Cell adhesion_Leucocyte chemotaxis`
+mid=match(Genes1, toupper(rownames(vst1)))
+
+heatmap.2(assay(vst1)[na.omit(mid), ], col=RdBu[11:1], ColSideColors = ColSize[vst1$SizeCat], 
+          trace="none", scale="row")
+
+```
+
+Double check the above result by running a ssGSEA and checking the directionality
+
+```{r}
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+
+Mx1=assay(vst1)
+rownames(Mx1)=toupper(rownames(Mx1))
+
+library(GSVA)
+
+testOut=gsva(Mx1, PathwayMapAllComp,method="ssgsea", kcdf="Gaussian", ssgsea.norm=T)
+boxplot(testOut["Cell cycle_S phase", ]~vst1$SizeCat)
+boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 
 ```
