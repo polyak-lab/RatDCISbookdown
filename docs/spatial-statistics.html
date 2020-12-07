@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -351,7 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>SMA to epcam (CD8s are closer to the SMA)</li>
 </ul>
 <p>This last result is consistent with what we expect for a CD8+ cell which is stroma-restricted.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-39-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-39-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
 </div>
 <div id="associations-with-outcome" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Associations with outcome</h3>
@@ -361,12 +376,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>CD8 cells in PDL1 sample are further away to SMA+ cells and EpCAM+ (compared to vehicle or double agent)</li>
 <li>CD8 cells in LY treated samples are further away from unclassified cells (compared to any of the other treatments)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-2.png" width="672" /></p>
 </div>
 <div id="growth" class="section level3">
 <h3><span class="header-section-number">4.1.3</span> Growth</h3>
 <p>All 95% confidence lines cross 0, but it appears that stable cases have a closer unclass-CD8 interaction distance compared to growing.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-2.png" width="672" /></p>
 <p>Based on the above distributions, knn1, knn3, and knn5 analyses give similar results. In the following section, we will make comparisons using knn3 results.</p>
 </div>
 <div id="association-between-distance-and-content" class="section level3">
@@ -374,10 +389,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The spatial differences could be influenced by CD8 content. Here, we test if the distances from CD8Tcells to celltype B could be influenced by this.</p>
 <p>We see that there is a correlation between CD8 fraction and the SMA proportion (both SMA and double positive).
 But we don’t see an association with epcam+ cells or unclassified stromal cells</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 <p>CD8-Epcam distances are looked at in greater detail below. Here, we look at whether there is an association with CD8 fraction in a growing and stable tumors.</p>
 <p>In growing or spatially restricted tumors, there is an association between the CD8-epcam distances with the CD8 fraction, but not in infiltrating or stable tumours.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 <p>Do any of the below metrics correlate with manual scoring:</p>
 <ul>
 <li>We can assess the distances from CD8 cells which come automatically:
@@ -397,7 +412,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 </ul></li>
 </ul>
 <p>Whilst the manual scorings associate strongly with CD8-EPcam distances, there is no association with any other cell type.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
 </div>
 </div>
 <div id="the-interacting-fraction" class="section level2">
@@ -407,7 +422,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 <h3><span class="header-section-number">4.2.1</span> Comparison to manual &amp; select optimal r</h3>
 <p>Below are plots of the proportion of CD8 cells within an “interacting distance” as we increase r. This looks at both the interacting fraction of CD8 cells with Epcam+ and SMA+ cells. Lines are color coded according to the manual spatial-infiltration annotation.</p>
 <p>We notice from the line plots for each single sample that the restricted samples generally have low interacting fractins with EpCAM and SMA compared to the infiltrating samples. In addition, there is a statistical difference in EpCAM measurements compared to SMA.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-4.png" width="672" /></p>
 <p>Using the boxplots as a guide, we can determine optimal “interacting distances” at which to perform downstream analysis. The best separation between restricted and infiltrating for EpCAM appears at:</p>
 <ul>
 <li>1-nn: 10-15 um</li>
@@ -416,9 +431,9 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 </ul>
 <p>The interacting fraction does not distinguish SMA fractions (all restricted boxplots overlap with the infiltrating boxplots)</p>
 <p>The following plots use 3NN analysis with an interacting distance of 15um. We can firstly check if there is an association between different “interacting fraction” types and manual scoring, similar to what was performed for knn-analysis. Only CD8-EpCAM interacting distances is associated with manual scoring. All other metrics are not significant.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
-<p>Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases.</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
 </div>
 <div id="growth-1" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Growth</h3>
@@ -429,7 +444,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 <div id="treatment" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Treatment</h3>
 <p>Similarly, compare the distances with treatment:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-2.png" width="672" /></p>
 <p>There appears to be a difference in CD8-unclass interactions in LY treated samples (LY, PDL1+LY), but not in the other cases</p>
 </div>
 </div>
@@ -447,7 +462,7 @@ where <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b
 <li>a reasonable number of cells within each grid (avoid too small grids which give counts of 0)</li>
 <li>avoid plateauing of MH values because the grid size is too large</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-3.png" width="672" /></p>
 <p>With increasing grid size, optimal differences between infiltrating and restricted appear at the following sizes:</p>
 <ul>
 <li>epCAML 100um+</li>
@@ -462,21 +477,21 @@ Other notes:</p>
 <li>higher SMA- stromal cells in restricted</li>
 </ul>
 <p>Below, we check whether these metrics can differentiate between infiltrating and restricted tumors:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <p>The above analysis shows that the MH-index shows differences in mixing between CD8 cells and mixing with most cell types. However MH-CD8-to-Epcam to MH-CD8-to-stroma ratios do not support this difference.</p>
 </div>
 <div id="growth-2" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Growth</h3>
 <p>Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
 <p>Although the MH values for growing vs stable are not different, we can compare the mixing in epcam vs stroma in matched samples:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 </div>
 <div id="treatment-1" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Treatment</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-2.png" width="672" /></p>
 <p>There is no difference between the different spatial metrics compared to the vehicle, however, we can compare for a given treatment if there is a difference between the epcam and the stromal interaction scores. It appears that there is a difference only in the control, where SMA mixing is higher than EPcam mixing:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
 </div>
 </div>
 <div id="comparison-between-metrics" class="section level2">
@@ -9789,23 +9804,23 @@ low
 </table>
 </div>
 <p>Firstly, we can compare the different metrics to determine how similar or different they are:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
-<p>Do any of these metrics associate with growth or treatments?</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p>Do any of these metrics associate with growth or treatments?</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 <pre><code>## 
 ##  Wilcoxon rank sum exact test
 ## 
 ## data:  df.Spatial$CD8frac by df.Spatial$Growth
 ## W = 258, p-value = 0.2917
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-59-2.png" width="672" />
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-60-2.png" width="672" />
 We can also compare this to raw tumor size or growth rate data as well:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 </div>
 <div id="other-cell-types" class="section level2">
 <h2><span class="header-section-number">4.5</span> Other cell types</h2>
 <p>We noted that the proportion of Unclassified cells seemed to be different between the treatments. Assess here whether the MH index for this cell type is associated with growth or treatment here:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-4.png" width="672" /></p>
 
 </div>
 </div>

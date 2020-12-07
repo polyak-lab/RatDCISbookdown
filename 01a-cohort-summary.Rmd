@@ -19,18 +19,50 @@ scroll_box(kable(Cdata, format="html"),
          height="300px", width="100%")
 ```
 
+## Size information
+
 We have two cohorts, the characterisation and progression cohorts. Below is a plot of the size distribution in these two cohorts:
 
 ```{r}
 par(mfrow=c(1,2))
-hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], breaks=15,
-     main="characterisation sizes")
 X1a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], na.rm = T)
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], breaks=15,
+     main=sprintf("characterisation sizes Median %s", X1a), 
+     xlab="size at sac")
 
-hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], breaks=15,
-     main="progression sizes")
+
+
 X2a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], na.rm=T)
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], breaks=15,
+     main=sprintf("progression sizes Median %s", X2a),
+     xlab="size at sac")
 ```
+
+Note that in the characterisation cohort, samples are selected for SAC at different time points:
+
+```{r}
+
+#pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
+
+am1=lm(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]~
+         Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")])
+
+plot(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")]),
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]),
+     xlab="Time from NMU to sac (days)", ylab="Tumor diameter (mm)", 
+     col=ifelse(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]<X1a, ColSize[1], ColSize[2]), pch=19, main="characterisation: size over time")
+abline(am1)
+
+plot(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")]),
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]),
+     xlab="Time from NMU to sac (days)", ylab="Tumor diameter (mm)", 
+     col=ifelse(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]<X1a, ColSize[1], ColSize[2]), pch=19, main="characterisation: size over time")
+text(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")])+5,
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")])+1,
+     Cdata$TumorID[which(Cdata$Cohort!="Progression")], cex=0.7)
+#dev.off()
+```
+
 
 ## Calculating growth rates
 
@@ -88,6 +120,8 @@ names(GR)=colnames(GrowthRaw)[-1]
 
 d1=data.frame(growthrate=GR, treatment=names(CTreat[-1]), growth=Cgrowth[-1], color=CTreat[-1])
 
+d1$treatment=factor(d1$treatment, levels=c( "PDL1+LY", "PDL1", "LY", "Vehicle"))
+
 Nweeks=sapply(2:ncol(GrowthRaw), function(x) max(which(!is.na(GrowthRaw[ , x]))))
 names(Nweeks)=names(GR)
 
@@ -107,8 +141,14 @@ ggplot(d1, aes(x=growthrate, fill=treatment))+geom_histogram(colour="black")+the
 Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:
 
 ```{r}
+pv1=sapply(levels(d1$treatment)[1:3], function(x)
+  wilcox.test(d1$growthrate[which(d1$treatment==x)], d1$growthrate[which(d1$treatment=="Vehicle")])$p.value)
+
+d1$treatment=factor(d1$treatment, levels=c("Vehicle", "PDL1", "LY","PDL1+LY"))
+
+
 ggplot(d1, aes(x=treatment, y=growthrate, col=treatment))+geom_boxplot()+geom_jitter()+
-  scale_color_manual(values=ColMerge[ ,1])
+  scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
 ```
 
 We can calculate the p.values below, using a  t.test. The growth rates comparing the treatment to the controls are:

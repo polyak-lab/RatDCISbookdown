@@ -63,6 +63,7 @@ palette(brewer.pal(9, "Set1"))
 RdBu=brewer.pal(11, "RdBu")
 SetCols=brewer.pal(12, "Set3")
 
+
 source("../rscript/cnFreq_fn.R") #modified version of GenVisR
 source("../rscript/merge_contig.R")
 source("../rscript/gseaCode.R")
@@ -80,6 +81,8 @@ firstup <- function(x) {
 
 ColMerge=matrix(c("#FFC82F", "#FFEDBC", "#73FDFE","#D2FFFF", "#FF41FF", "#FECAFF", "#5D5D5D", "#BEBEBE"), ncol=2, byrow = T)
 rownames(ColMerge)=c("LY","PDL1", "PDL1+LY","Vehicle")
+ColSize=c("#008E00", "#FF9300")
+names(ColSize)=c("small", "big")
 
 Hsedb<-EnsDb.Hsapiens.v86
 ```

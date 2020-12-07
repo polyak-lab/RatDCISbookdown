@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -347,23 +362,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>We will be using variance stabilised counts in this section.</p>
 <p>Firstly, we will look at the progression cohort. Note that the overlap between the two gene-sets are similar, and the heatmap is row-scaled.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-4.png" width="672" /></p>
 <pre><code>##        ColB
 ## ColA    Basal Lum
 ##   Basal    11   0
 ##   Lum       1   8</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-5.png" width="672" /></p>
 <p>We can perform a similar analysis to the characterisation cohort:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-2.png" width="672" /></p>
 <p>DN samples:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-4.png" width="672" /></p>
 <pre><code>##        ColF
 ## ColE    Basal Lum
 ##   Basal     9   7
 ##   Lum      11   3</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-102-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-5.png" width="672" /></p>
 <p>We can collate these different scores and assess whether there are similarities with PgR and ER staining:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-103-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-103-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-2.png" width="672" /></p>
 <p>Finally, look at whether any of the above samples have similar DN and Ep calls: it appears that this call is random, and the subtype does not dictate growth rate</p>
 <pre><code>## [1] &quot;extended list&quot;</code></pre>
 <pre><code>## , ,  = growing
@@ -399,7 +414,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here, we have used rsem counts in PAM50 subtyping.</p>
 <p>Plot all samples together and compare the confidence and scores in different subtypes:
 There is overlap between the LumB and Her2 scores, similarly Normal and LumA scores are similar</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-1.png" width="672" /></p>
 <p>We can pull out the main markers of interest: ER, PGR, Erbb2 and Ki67 (or PCNA).
 We also compare these expression distribution of these markers to CD45, DN and Ep overall:</p>
 <p>Notes:</p>
@@ -409,21 +424,21 @@ We also compare these expression distribution of these markers to CD45, DN and E
 <li>Ar is higher in basal samples</li>
 <li>Pcna is higher in Basal</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-4.png" width="672" /></p>
 <p>heatmap based on the previous markers:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-108-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-115-6.png" width="672" /></p>
 <p>Based on the above calls, we can condense the calls:</p>
 <ul>
 <li>Her2, LumB are sumilar and can be combined with LumA</li>
 <li>Normal and Basal are most likely most similar</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-116-2.png" width="672" /></p>
 </div>
 <div id="clustering-based-on-random-genes" class="section level2">
 <h2><span class="header-section-number">10.3</span> Clustering based on random genes</h2>
 <p>In this section we randomly select the most variable 200, 500, 1000, 2000 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.</p>
 <p>Below is a correlation plot which visualises the concordance between the different methods.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-117-1.png" width="672" /></p>
 </div>
 <div id="consolidating-the-different-results" class="section level2">
 <h2><span class="header-section-number">10.4</span> Consolidating the different results</h2>
@@ -432,14 +447,14 @@ We also compare these expression distribution of these markers to CD45, DN and E
 <p>where <span class="math inline">\(N_{b,b}\)</span> is the number of cases which are basal in two comparisons and <span class="math inline">\(N_{l,l}\)</span> the number of cases which are luminal in both comparisons.</p>
 <p>Note that the values extend from 0.5 to 1, which indicates that any two methods overlap more than just by chance.</p>
 <p>There is good overlap between the in-house specific list characterisation, and some overlap between pam50 calling and in-house short list.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-111-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-2.png" width="672" /></p>
 <p>Below is a summary of the average expression values of the classes defined by the different methods:</p>
 <ul>
 <li>The targeted lists show differences in esr1, pgr, erbb2, pcna</li>
 <li>Ar has differing directions for the pam classifications</li>
 <li>Random genes selected show differences in pgr, erbb2, Ar and perhaps Mki67</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-11.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-119-11.png" width="672" /></p>
 <p>We can summarise the outputs for each sample below</p>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table>

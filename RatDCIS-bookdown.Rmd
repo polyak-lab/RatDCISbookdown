@@ -63,6 +63,7 @@ palette(brewer.pal(9, "Set1"))
 RdBu=brewer.pal(11, "RdBu")
 SetCols=brewer.pal(12, "Set3")
 
+
 source("../rscript/cnFreq_fn.R") #modified version of GenVisR
 source("../rscript/merge_contig.R")
 source("../rscript/gseaCode.R")
@@ -80,6 +81,8 @@ firstup <- function(x) {
 
 ColMerge=matrix(c("#FFC82F", "#FFEDBC", "#73FDFE","#D2FFFF", "#FF41FF", "#FECAFF", "#5D5D5D", "#BEBEBE"), ncol=2, byrow = T)
 rownames(ColMerge)=c("LY","PDL1", "PDL1+LY","Vehicle")
+ColSize=c("#008E00", "#FF9300")
+names(ColSize)=c("small", "big")
 
 Hsedb<-EnsDb.Hsapiens.v86
 ```
@@ -390,18 +393,50 @@ scroll_box(kable(Cdata, format="html"),
          height="300px", width="100%")
 ```
 
+## Size information
+
 We have two cohorts, the characterisation and progression cohorts. Below is a plot of the size distribution in these two cohorts:
 
 ```{r}
 par(mfrow=c(1,2))
-hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], breaks=15,
-     main="characterisation sizes")
 X1a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], na.rm = T)
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")], breaks=15,
+     main=sprintf("characterisation sizes Median %s", X1a), 
+     xlab="size at sac")
 
-hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], breaks=15,
-     main="progression sizes")
+
+
 X2a=median(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], na.rm=T)
+hist(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort=="Progression")], breaks=15,
+     main=sprintf("progression sizes Median %s", X2a),
+     xlab="size at sac")
 ```
+
+Note that in the characterisation cohort, samples are selected for SAC at different time points:
+
+```{r}
+
+#pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
+
+am1=lm(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]~
+         Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")])
+
+plot(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")]),
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]),
+     xlab="Time from NMU to sac (days)", ylab="Tumor diameter (mm)", 
+     col=ifelse(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]<X1a, ColSize[1], ColSize[2]), pch=19, main="characterisation: size over time")
+abline(am1)
+
+plot(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")]),
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]),
+     xlab="Time from NMU to sac (days)", ylab="Tumor diameter (mm)", 
+     col=ifelse(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")]<X1a, ColSize[1], ColSize[2]), pch=19, main="characterisation: size over time")
+text(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort!="Progression")])+5,
+     jitter(Cdata$Tumor.dia..sac..mm.[which(Cdata$Cohort!="Progression")])+1,
+     Cdata$TumorID[which(Cdata$Cohort!="Progression")], cex=0.7)
+#dev.off()
+```
+
 
 ## Calculating growth rates
 
@@ -459,6 +494,8 @@ names(GR)=colnames(GrowthRaw)[-1]
 
 d1=data.frame(growthrate=GR, treatment=names(CTreat[-1]), growth=Cgrowth[-1], color=CTreat[-1])
 
+d1$treatment=factor(d1$treatment, levels=c( "PDL1+LY", "PDL1", "LY", "Vehicle"))
+
 Nweeks=sapply(2:ncol(GrowthRaw), function(x) max(which(!is.na(GrowthRaw[ , x]))))
 names(Nweeks)=names(GR)
 
@@ -478,8 +515,14 @@ ggplot(d1, aes(x=growthrate, fill=treatment))+geom_histogram(colour="black")+the
 Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:
 
 ```{r}
+pv1=sapply(levels(d1$treatment)[1:3], function(x)
+  wilcox.test(d1$growthrate[which(d1$treatment==x)], d1$growthrate[which(d1$treatment=="Vehicle")])$p.value)
+
+d1$treatment=factor(d1$treatment, levels=c("Vehicle", "PDL1", "LY","PDL1+LY"))
+
+
 ggplot(d1, aes(x=treatment, y=growthrate, col=treatment))+geom_boxplot()+geom_jitter()+
-  scale_color_manual(values=ColMerge[ ,1])
+  scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
 ```
 
 We can calculate the p.values below, using a  t.test. The growth rates comparing the treatment to the controls are:
@@ -4562,10 +4605,11 @@ according to size of the cohort samples
 
 In section 6.2, we have noticed that some DN samples had expression of epithelial markers. Here, we perform a differential gene expression analysis to find genes which are different between these two fractions. 
 
-Below is a summary of the number of differentisal genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
+
+Below is a summary of the number of differential genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
 
 ```{r cd45-char-bigsmall, cache=T}
-#infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
+infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
 infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$SizeCat))])
 CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
@@ -4580,6 +4624,38 @@ keep=which(rowSums(counts(CD45ddsChar))>10^sd1vals)
 keep2=which(apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))> (ncol(CD45ddsChar)/2))
 CD45ddsChar=CD45ddsChar[intersect(keep, keep2), ]
 CD45ddsChar=DESeq(CD45ddsChar)
+```
+
+### PCA plot
+
+First, have a look at the samples in a PCA plot: do they separate based on size:
+
+```{r}
+
+#pdf("~/Desktop/S2C-CD45-characterisation-PCA-outcome.pdf", width=6, height=6)
+
+vst1=vst(CD45ddsChar)
+
+plotPCA(vst1, "SizeCat")+theme_bw()+geom_text(aes(label=colnames(vst1)))+ggtitle("CD45 cells")+scale_color_manual(values=ColSize)
+
+# nclude the control CD45 sample
+vst1=vsd[, which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")]
+vst1$SizeCat=infoTableFinal$SizeCat[match(colnames(vst1), infoTableFinal$SampleID)]
+
+ax1=heatmap.2(cor((assay(vst1))), col=RdBu[11:1], trace="none", ColSideColors = ColSize[(vst1$SizeCat)])
+
+t1=ax1$carpet
+t1r=c(1:ncol(t1))
+t1r[10:11]=c(11:10)
+heatmap.2(t1, Colv = t1r, Rowv = t1r, trace="none", col=RdBu[11:1])
+
+#dev.off()
+```
+
+### Differential Gene Expression
+
+```{r}
+
 
 print('significant differential genes')
 CD45res=results(CD45ddsChar, contrast=c("SizeCat", "big", "small"))
@@ -4627,12 +4703,80 @@ boxplot(assay(vsd)["Krt17", match(colnames(CD45ddsChar), colnames(vsd))]~CD45dds
 
 write.csv(CD45res2, file=sprintf("outputs/DESeq/difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
 ```
+### GSEA
+
+Run GSEA. Here, we will look specifically at the Process Network pathways which are enriched
+
+```{r}
+cd45Genes=rownames(CD45res)
+
+l1=SymHum2Rat$HGNC.symbol[match(cd45Genes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(cd45Genes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(cd45Genes, Mouse2Hum$MGI.symbol)]
+cd45GenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, cd45Genes)))
+
+
+hits=cd45GenesConv[match(rownames(CD45res2), cd45Genes)]
+#hits=epGenesConv[match(hits, rownames(Epdds))]
+fcTab=CD45res$log2FoldChange
+names(fcTab)=cd45GenesConv
+
+
+  gscacd=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscacd <- preprocess(gscacd, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscacd <- analyze(gscacd, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+
+A1=summarize(gscacd)  
+
+PNresults=gscacd@result$GSEA.results$ProcessNetworks
+
+Ax1=which(PNresults$Adjusted.Pvalue<0.1)
+
+Lx1=PNresults[Ax1, 1:2]
+Lx1$Group=sapply(strsplit(rownames(Lx1), "_"), function(x) x[1])
+Lx1$Process=sapply(strsplit(rownames(Lx1), "_"), function(x) x[2])
+
+## replace certain groups
+Lx1$Group[grep("ymphocyte", Lx1$Process)]="NImmune response"
+
+# plot for inflammation, immune response, cell adhesion, transcription?
+
+TestGrp=c("NInflammation", "NCell adhesion", "NImmune response", "NTranscription")
+
+#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+
+par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
+
+for (i in TestGrp){
+        x1=which(Lx1$Group==i)
+        barplot(Lx1$Observed.score[x1], names.arg = Lx1$Process[x1], horiz = T, las=2,
+                main=i)
+}
+
+#dev.off()
+
+TermsA=sapply(strsplit(rownames(gscacd@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscacd@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+## check whether this runs:
+gscacd@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscacd, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term")
+
+```
 
 ## Epithelial samples
 
 ```{r}
-#infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
+infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
 #infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
+
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$SizeCat))])
 EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
 
@@ -4646,7 +4790,31 @@ keep=which(rowSums(counts(EpddsChar))>10^sd1vals)
 keep2=which(apply(counts(EpddsChar), 1, function(c) sum(c!=0))> (ncol(EpddsChar)/2))
 EpddsChar=EpddsChar[intersect(keep, keep2), ]
 EpddsChar=DESeq(EpddsChar)
+```
 
+### PCA plot
+
+First, have a look at the samples in a PCA plot: do they separate based on size:
+
+```{r}
+
+#pdf("~/Desktop/S1CD-Ep-characterisation-PCA-outcome.pdf", width=6, height=6)
+
+vst1=vst(EpddsChar)
+
+plotPCA(vst1, "SizeCat")+theme_bw()+geom_text(aes(label=colnames(vst1)))+ggtitle("Ep cells")+scale_color_manual(values=ColSize)
+
+# nclude the control CD45 sample
+#vst1=vsd[, which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
+#vst1$SizeCat=infoTableFinal$SizeCat[match(colnames(vst1), infoTableFinal$SampleID)]
+
+ax1=heatmap.2(cor((assay(vst1))), col=RdBu[11:1], trace="none", ColSideColors = ColSize[(vst1$SizeCat)])
+
+#dev.off()
+```
+
+
+```{r}
 print('significant differential genes')
 Epres=results(EpddsChar, contrast=c("SizeCat", "big", "small"))
 Epres2=Epres[which(Epres$padj<0.05 & abs(Epres$log2FoldChange)>1.5 &
@@ -4682,6 +4850,76 @@ boxplot(assay(vsd)["Creb1", match(colnames(EpddsChar), colnames(vsd))]~EpddsChar
 
 write.csv(Epres2, file=sprintf("outputs/DESeq/difference_between_Epcharacterisation-big-small%s.csv", Sys.Date()))
 
+
+```
+
+
+### GSEA
+
+Run GSEA. Here, we will look specifically at the Process Network pathways which are enriched
+
+```{r}
+EpGenes=rownames(Epres)
+
+l1=SymHum2Rat$HGNC.symbol[match(EpGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(EpGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(EpGenes, Mouse2Hum$MGI.symbol)]
+EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, EpGenes)))
+
+
+hits=EpGenesConv[match(rownames(Epres2), EpGenes)]
+#hits=epGenesConv[match(hits, rownames(Epdds))]
+fcTab=Epres$log2FoldChange
+names(fcTab)=EpGenesConv
+
+
+  gscaep=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscaep <- preprocess(gscaep, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscaep <- analyze(gscaep, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+
+A1=summarize(gscaep)  
+
+PNresultse=gscaep@result$GSEA.results$ProcessNetworks
+
+Ax1=which(PNresultse$Adjusted.Pvalue<0.1)
+
+Lx1=PNresultse[Ax1, 1:2]
+Lx1$Group=sapply(strsplit(rownames(Lx1), "_"), function(x) x[1])
+Lx1$Process=sapply(strsplit(rownames(Lx1), "_"), function(x) x[2])
+
+## replace certain groups
+Lx1$Group[grep("ymphocyte", Lx1$Process)]="NInflammation"
+Lx1$Group[which(Lx1$Group=="NImmune response")]="NInflammation"
+
+# plot for inflammation, immune response, cell adhesion, transcription?
+
+TestGrp=c("NCell adhesion", "NDevelopment", "NTranscription", "NInflammation")
+
+#pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
+
+par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
+
+for (i in TestGrp){
+        x1=which(Lx1$Group==i)
+        barplot(Lx1$Observed.score[x1], names.arg = Lx1$Process[x1], horiz = T, las=2,
+                main=i)
+}
+
+#dev.off()
+
+TermsA=sapply(strsplit(rownames(gscaep@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+## check whether this runs:
+gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term")
 
 ```
 

@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -352,7 +367,7 @@ UPDATE THE CIBERSORT INFORMATION. </span></p>
 <li>Manual scoring (Fig 4) of CD8 cells</li>
 <li>Some CD8 gene signature scores (mainly in EPC, TIMER)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-26-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-27-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
 </div>
 <div id="cellular-composition" class="section level2">
 <h2><span class="header-section-number">3.2</span> Cellular composition</h2>
@@ -365,41 +380,41 @@ UPDATE THE CIBERSORT INFORMATION. </span></p>
 <li>stromal restricted or infiltrating</li>
 </ul>
 <p>Below are the total cell counts:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-28-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-28-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-28-3.png" width="672" /></p>
-<p>Here, the same data is shown and normalised according to total cell count:</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-3.png" width="672" /></p>
+<p>Here, the same data is shown and normalised according to total cell count:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-3.png" width="672" /></p>
 </div>
 <div id="associate-composition-with-other-covariates" class="section level2">
 <h2><span class="header-section-number">3.3</span> Associate composition with other covariates</h2>
 <p>We can collapse the above data into boxplots to see if there is an association with treatments, performed using non-parametric wilcoxon test.</p>
 <p>Compared to the vehicle, LY treated samples have a lower “stromal” fraction (unclassed DAPI+ cells) and PDL1 treated samples are more likely to have a EpCAM+SMA+ double positive fraction</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p>When comparing these fractions to growth, there is no association:</p>
 <pre><code>## Warning in wilcox.test.default(Cdata[Cdata$Growth2 == &quot;growing&quot;, i],
 ## Cdata[Cdata$Growth2 == : cannot compute exact p-value with ties
 
 ## Warning in wilcox.test.default(Cdata[Cdata$Growth2 == &quot;growing&quot;, i],
 ## Cdata[Cdata$Growth2 == : cannot compute exact p-value with ties</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Nor is there any association with whether a sample is “immune infiltrated” or not (by manual inspection)</p>
 <pre><code>## Warning in wilcox.test.default(Cdata[Cdata$InfiltratingVsRestricted ==
 ## &quot;Infiltrating&quot;, : cannot compute exact p-value with ties
 
 ## Warning in wilcox.test.default(Cdata[Cdata$InfiltratingVsRestricted ==
 ## &quot;Infiltrating&quot;, : cannot compute exact p-value with ties</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>We can also use linear regression models to assess:</p>
 <ul>
 <li>correlation between growth rate and cell fractions (no associations)</li>
 <li>correlation between final tumor size and cell fractions (no association)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
 </div>
 <div id="estimate-tumor-size" class="section level2">
 <h2><span class="header-section-number">3.4</span> Estimate tumor size</h2>
 <p>Using WSI data, we can estimate a tumor size for each tissue sample and compare to the final tumor sizes. This will be based on the distribution of EpCAM+ cells.
 This estimate is also used to normalise CD8 counts earlier on.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -420,7 +435,7 @@ This estimate is also used to normalise CD8 counts earlier on.</p>
 <li>epcam and SMA</li>
 <li>SMA+ and Unclass</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-35-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
 <pre><code>##                   CD8      EpCAM EpCAM: SMA        SMA    Unclass
 ## CD8         1.0000000 -0.1780975 -0.1268947 -0.0344095 -0.1107879
 ## EpCAM      -0.1780975  1.0000000 -0.1595219 -0.5597908 -0.1898428
@@ -442,7 +457,7 @@ This estimate is also used to normalise CD8 counts earlier on.</p>
 <li>growth</li>
 <li>spatial pattern</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p>Note that CD8 normalised by tumor size is associated with growth (but this could a reflection of the size of the tumor), and there is a borderline difference once normalised by epithelial content. In addition the CD8 total count is associated with pdl1+ly treatment.</p>
 <p>Note that p=0.05 is designated by a value of 1.3</p>
 

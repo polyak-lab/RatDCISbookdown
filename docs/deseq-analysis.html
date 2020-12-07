@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -14138,7 +14153,7 @@ Pam
 <p>The first one is enriched for canonical tumour progression pathways: eg. expression of wnt, fox1a etc.
 The second one doesn’t seem to have as high expression of these genes, but have high immune related signalling pathways.</p>
 <p>We can append this information into the overall data file and determine whether there is an association with growth or treatment</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <pre><code>##   C2N__Ep   C2R__Ep   C5R__Ep  10L_D_Ep 10R_BL_Ep 10R_BU_Ep 
 ##         1         2         2         1         2         2</code></pre>
 <pre><code>##    
@@ -14167,7 +14182,7 @@ The second one doesn’t seem to have as high expression of these genes, but hav
 <li>Growing vs stable (in each subgroup)</li>
 </ol>
 <p>Below, we check the number of samples in each subgroup:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <pre><code>## , ,  = inf
 ## 
 ##       
@@ -14208,7 +14223,7 @@ The second one doesn’t seem to have as high expression of these genes, but hav
 <li>MH index + CD8 frac (Epddscd8MH)</li>
 </ol>
 <p>We remove genes which have 0 counts in more than half the samples, and genes which have a row sum less than <span class="math inline">\(10^{(log10(mean(rowsums))-log10(sd(rowsums)))}\)</span>.</p>
-<p>These comparisons are saved in the temporary outputfile outputs/subfraction_analysis_2020-12-02.RData. In each comparison, there are
+<p>These comparisons are saved in the temporary outputfile outputs/subfraction_analysis_2020-12-07.RData. In each comparison, there are
 13134 genes compared.</p>
 </div>
 <div id="pca-plots-1" class="section level2">
@@ -14217,15 +14232,15 @@ The second one doesn’t seem to have as high expression of these genes, but hav
 <p>These are separated based on cell type</p>
 <div id="epcam" class="section level3">
 <h3><span class="header-section-number">7.4.1</span> EpCAM</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-78-7.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-7.png" width="672" /></p>
 </div>
 <div id="cd45" class="section level3">
 <h3><span class="header-section-number">7.4.2</span> CD45</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-79-7.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-7.png" width="672" /></p>
 </div>
 <div id="dn" class="section level3">
 <h3><span class="header-section-number">7.4.3</span> DN</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-80-7.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-81-7.png" width="672" /></p>
 </div>
 </div>
 <div id="collating-results-and-running-gsea" class="section level2">

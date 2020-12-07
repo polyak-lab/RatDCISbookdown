@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -325,29 +340,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="processing-summary" class="section level2">
 <h2><span class="header-section-number">13.1</span> Processing summary</h2>
 <p>Fastq files have previously been run through TRUST4 using the Rn6 BCR annotations using the following code (not run here). Note that the bcr/tcr .fa files were assembled using the ensembl annotation (these annotations are not present in the UCSC genomic files). Annotation files for the rn6 BCR regions are available at <a href="http://www.imgt.org//download/V-QUEST/IMGT_V-QUEST_reference_directory/Rattus_norvegicus/">IMGT</a>, but TCR regions are not available</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="bcr-clonotype-analysis.html#cb45-1"></a><span class="co"># obtain the gene names for rat:</span></span>
-<span id="cb45-2"><a href="bcr-clonotype-analysis.html#cb45-2"></a><span class="kw">library</span>(biomaRt)</span>
-<span id="cb45-3"><a href="bcr-clonotype-analysis.html#cb45-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
-<span id="cb45-4"><a href="bcr-clonotype-analysis.html#cb45-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
-<span id="cb45-5"><a href="bcr-clonotype-analysis.html#cb45-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
-<span id="cb45-6"><a href="bcr-clonotype-analysis.html#cb45-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
-<span id="cb45-7"><a href="bcr-clonotype-analysis.html#cb45-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
-<span id="cb45-8"><a href="bcr-clonotype-analysis.html#cb45-8"></a></span>
-<span id="cb45-9"><a href="bcr-clonotype-analysis.html#cb45-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
-<span id="cb45-10"><a href="bcr-clonotype-analysis.html#cb45-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
-<span id="cb45-11"><a href="bcr-clonotype-analysis.html#cb45-11"></a></span>
-<span id="cb45-12"><a href="bcr-clonotype-analysis.html#cb45-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
-<span id="cb45-13"><a href="bcr-clonotype-analysis.html#cb45-13"></a></span>
-<span id="cb45-14"><a href="bcr-clonotype-analysis.html#cb45-14"></a><span class="co"># Obtain the reference annotation file</span></span>
-<span id="cb45-15"><a href="bcr-clonotype-analysis.html#cb45-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
-<span id="cb45-16"><a href="bcr-clonotype-analysis.html#cb45-16"></a></span>
-<span id="cb45-17"><a href="bcr-clonotype-analysis.html#cb45-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
-<span id="cb45-18"><a href="bcr-clonotype-analysis.html#cb45-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bcr-clonotype-analysis.html#cb51-1"></a><span class="co"># obtain the gene names for rat:</span></span>
+<span id="cb51-2"><a href="bcr-clonotype-analysis.html#cb51-2"></a><span class="kw">library</span>(biomaRt)</span>
+<span id="cb51-3"><a href="bcr-clonotype-analysis.html#cb51-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
+<span id="cb51-4"><a href="bcr-clonotype-analysis.html#cb51-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
+<span id="cb51-5"><a href="bcr-clonotype-analysis.html#cb51-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
+<span id="cb51-6"><a href="bcr-clonotype-analysis.html#cb51-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
+<span id="cb51-7"><a href="bcr-clonotype-analysis.html#cb51-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
+<span id="cb51-8"><a href="bcr-clonotype-analysis.html#cb51-8"></a></span>
+<span id="cb51-9"><a href="bcr-clonotype-analysis.html#cb51-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
+<span id="cb51-10"><a href="bcr-clonotype-analysis.html#cb51-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
+<span id="cb51-11"><a href="bcr-clonotype-analysis.html#cb51-11"></a></span>
+<span id="cb51-12"><a href="bcr-clonotype-analysis.html#cb51-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
+<span id="cb51-13"><a href="bcr-clonotype-analysis.html#cb51-13"></a></span>
+<span id="cb51-14"><a href="bcr-clonotype-analysis.html#cb51-14"></a><span class="co"># Obtain the reference annotation file</span></span>
+<span id="cb51-15"><a href="bcr-clonotype-analysis.html#cb51-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
+<span id="cb51-16"><a href="bcr-clonotype-analysis.html#cb51-16"></a></span>
+<span id="cb51-17"><a href="bcr-clonotype-analysis.html#cb51-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
+<span id="cb51-18"><a href="bcr-clonotype-analysis.html#cb51-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
 </div>
 <div id="summary-stats" class="section level2">
 <h2><span class="header-section-number">13.2</span> Summary Stats</h2>
 <p>Firstly, look at the number of BCR regions which have been identified by TRUST4. In green are the CD45 populations, which as expected appear to have a higher number of clonotypes compared to the epithelial and the double-negative populations (in read and orange).</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-4.png" width="672" /></p>
 <p>We will refine the above plot to contain only the CD45 population and assess:</p>
 <ul>
 <li>number of clonotypes</li>
@@ -375,14 +390,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will see the proportion of the BCR repertoire which is computed using the top 10 frequent clones.
 This will give an idea of whether there is a clonal expansion</p>
 <p>The following plot demonstrates the relationship between the above metrics</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-145-1.png" width="672" /></p>
 <p>Notice that some samples have very few clones. An example is 5RB which is represented by a single clonotype, accounting for the absence of a Gini or shannon index</p>
 </div>
 <div id="compare-the-characterisation-cohort" class="section level2">
 <h2><span class="header-section-number">13.4</span> Compare the characterisation cohort</h2>
 <p>In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.
 Is there a difference in the clonotypes between these samples?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-139-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-146-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-146-2.png" width="672" /></p>
 </div>
 <div id="associate-with-clinicopathological-data" class="section level2">
 <h2><span class="header-section-number">13.5</span> Associate with clinicopathological data</h2>
@@ -400,7 +415,7 @@ Is there a difference in the clonotypes between these samples?</p>
 <li>Growth</li>
 <li>Treatment</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-140-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-147-6.png" width="672" /></p>
 </div>
 <div id="associate-with-signature-scores" class="section level2">
 <h2><span class="header-section-number">13.6</span> Associate with signature scores</h2>
@@ -408,17 +423,17 @@ Is there a difference in the clonotypes between these samples?</p>
 <ul>
 <li>B cell signature enrichments scores (from RNA data)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-141-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-141-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-2.png" width="672" /></p>
 <ul>
 <li>B cell frequencies based on FACS:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-142-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
 </div>
 <div id="check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations" class="section level2">
 <h2><span class="header-section-number">13.7</span> Check whether the clonotype percentages match with gsva signatures or CD20 populations</h2>
 <p>associate with immune signature scores (ssgsea)
 fdr adjust the correlation p values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-143-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
 
 </div>
 </div>

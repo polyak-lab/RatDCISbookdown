@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -35185,17 +35200,22 @@ NA
 </tbody>
 </table>
 </div>
+<div id="size-information" class="section level2">
+<h2><span class="header-section-number">2.1</span> Size information</h2>
 <p>We have two cohorts, the characterisation and progression cohorts. Below is a plot of the size distribution in these two cohorts:</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div id="calculating-growth-rates" class="section level2">
-<h2><span class="header-section-number">2.1</span> Calculating growth rates</h2>
-<p>In this section, we estimate the growth rates of the samples: Below is a plot of the tumor size per week for each recorded tumor, color-coded according to treatment. Time is measured at the first time point at which a tumor is palpated. Spontaneous large tumors are assumed to have a tumor size of 0 or 1 one week prior to palpating.</p>
+<p>Note that in the characterisation cohort, samples are selected for SAC at different time points:</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-11-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+</div>
+<div id="calculating-growth-rates" class="section level2">
+<h2><span class="header-section-number">2.2</span> Calculating growth rates</h2>
+<p>In this section, we estimate the growth rates of the samples: Below is a plot of the tumor size per week for each recorded tumor, color-coded according to treatment. Time is measured at the first time point at which a tumor is palpated. Spontaneous large tumors are assumed to have a tumor size of 0 or 1 one week prior to palpating.</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <p>These tumors doesn’t have growth rate data: 17N_B.</p>
 <p>We can then compute the growth rate for the above samples by considering the change in size over a given period of time using a linear regression model. Below is the histogram of growth rates:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Based on the above distribution, a cut-off of 2mm/week may be an optimal cut-off to separate growing and stable tumors. Below are growth rates of tumors under different treatments:</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>We can calculate the p.values below, using a t.test. The growth rates comparing the treatment to the controls are:</p>
 <pre><code>## [1] &quot;LY samples&quot;</code></pre>
 <pre><code>## 
@@ -35224,7 +35244,7 @@ NA
 ##   grow stable 
 ##     47     31</code></pre>
 <p>We can replot the previous graphs according to growth, and color code according to whether it is a fast or slow growing tumor</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>As a sanity check, compare these growth rates with differences in tumour size at different time points:</p>
 <ul>
 <li>comparing the growth rate according to classifications (growing, stable)</li>
@@ -35237,18 +35257,18 @@ NA
 ## compute exact p-value with ties</code></pre>
 <pre><code>## Warning in wilcox.test.default(x = c(0.238095238095238, 0.178571428571429, :
 ## cannot compute exact p-value with ties</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Is there an association with treatment? Calculate below using chi-squared test:</p>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  table(factor(d1$treatment), d1$growthrate_cutoff2)
 ## X-squared = 6.8181, df = 3, p-value = 0.07793</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-18-1.png" width="480" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-19-1.png" width="480" /></p>
 <p>Overall, it appears that there is an association between growth rate and treatment</p>
 </div>
 <div id="facs-data" class="section level2">
-<h2><span class="header-section-number">2.2</span> FACS data</h2>
+<h2><span class="header-section-number">2.3</span> FACS data</h2>
 <p>The immune (CD45) fractions from a number of samples were collected, and assessed using FACs. The major cell types detected are:</p>
 <p>Leukocytes:</p>
 <ul>
@@ -36684,15 +36704,15 @@ Lin-
 </tbody>
 </table>
 </div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>We can look solely at the myeloid population (and normalise to this total), and color according to growth</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 Similarly, we can look at the leukocyte population. Note that the Treg population in some of these samples is very high.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 
 </div>
 <div id="summary-table" class="section level2">
-<h2><span class="header-section-number">2.3</span> Summary Table</h2>
+<h2><span class="header-section-number">2.4</span> Summary Table</h2>
 <p>Firstly, look at the total number of samples:</p>
 <table>
 <thead>
@@ -36751,7 +36771,7 @@ Similarly, we can look at the leukocyte population. Note that the Treg populatio
 </tbody>
 </table>
 <div id="compare-the-characterisation-vs-progression-cohort" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> Compare the characterisation vs progression cohort</h3>
+<h3><span class="header-section-number">2.4.1</span> Compare the characterisation vs progression cohort</h3>
 <table>
 <thead>
 <tr class="header">
@@ -37004,7 +37024,7 @@ TO INCLUDE:
 </span></p>
 </div>
 <div id="summary-of-the-rna-data" class="section level3">
-<h3><span class="header-section-number">2.3.2</span> Summary of the RNA data</h3>
+<h3><span class="header-section-number">2.4.2</span> Summary of the RNA data</h3>
 <p>Below is a table of the samples with RNA information</p>
 <table>
 <thead>

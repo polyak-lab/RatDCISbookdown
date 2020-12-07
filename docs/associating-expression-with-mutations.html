@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -326,9 +341,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The following samples have matching WGX data: C2N__CD45, C2N__Ep, NMU12_RL_Ep, NMU12_LA_Ep, NMU14__Ep, NMU12_LA_CD45, NMU13_RAU_CD45, NMU14__CD45 from samples C2N_, NMU12_LA, NMU12_RL, NMU13_RAU, NMU14_</p>
 <div id="expression-of-genes-in-common" class="section level2">
 <h2><span class="header-section-number">16.1</span> Expression of genes in common</h2>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-176-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-176-2.png" width="672" /></p>
 <p>Compare RNA mut freq &amp; expression values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-177-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-177-2.png" width="672" /></p>
 <pre><code>##                 C2N__Ep C2R__Ep C5R__Ep NMU10_LL_Ep NMU12_LA_Ep NMU12_RL_Ep
 ## Ctgf 21854360         2       2       0           0           0           0
 ## Dsc2 11829313         0       0       2           0           0           0
@@ -350,7 +365,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Eg. C2N may be enriched in kalikrein systen, connective tissue degradation
 NMU12_LA in endothelium_leukocyte interactions, IL6 signalling
 NMU12 RL in NOTCH signalling?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-178-1.png" width="672" /></p>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
 <pre><code>## quartz_off_screen 
@@ -359,7 +374,7 @@ NMU12 RL in NOTCH signalling?</p>
 <div id="expression-of-common-mutations" class="section level2">
 <h2><span class="header-section-number">16.3</span> Expression of common mutations?</h2>
 <p>Run the following to plot this for both the cd45 fraction as well as the epithelial fraction:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-8.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-8.png" width="672" /></p>
 <div id="look-at-cancer-specific-pathways" class="section level3">
 <h3><span class="header-section-number">16.3.1</span> Look at cancer specific pathways</h3>
 <pre><code>## quartz_off_screen 

@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,6 +53,14 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
 
 
 <style type="text/css">
@@ -146,11 +154,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
-<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.1</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.2</b> FACS data</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.3</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.3.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.3.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.3.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -219,8 +228,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a></li>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-2.html"><a href="deseq-analysis-2.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
 <li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a></li>
@@ -323,7 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Rat DCIS study</h1>
 <p class="author"><em>Anne Trinh</em></p>
-<p class="date"><em>2020-12-02</em></p>
+<p class="date"><em>2020-12-07</em></p>
 </div>
 <div id="prerequisites" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
@@ -366,25 +381,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-33"><a href="index.html#cb1-33"></a>RdBu=<span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;RdBu&quot;</span>)</span>
 <span id="cb1-34"><a href="index.html#cb1-34"></a>SetCols=<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>)</span>
 <span id="cb1-35"><a href="index.html#cb1-35"></a></span>
-<span id="cb1-36"><a href="index.html#cb1-36"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/cnFreq_fn.R&quot;</span>) <span class="co">#modified version of GenVisR</span></span>
-<span id="cb1-37"><a href="index.html#cb1-37"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/merge_contig.R&quot;</span>)</span>
-<span id="cb1-38"><a href="index.html#cb1-38"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/gseaCode.R&quot;</span>)</span>
-<span id="cb1-39"><a href="index.html#cb1-39"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/ContingencyTable.R&quot;</span>)</span>
-<span id="cb1-40"><a href="index.html#cb1-40"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/PvalueHeatMap.R&quot;</span>)</span>
-<span id="cb1-41"><a href="index.html#cb1-41"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/BootstrapShannonIdx.R&quot;</span>)</span>
-<span id="cb1-42"><a href="index.html#cb1-42"></a><span class="co">#source(&quot;../rscript/CreateRnor87db.R&quot;)</span></span>
-<span id="cb1-43"><a href="index.html#cb1-43"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindRatAAHomolog.R&quot;</span>)</span>
-<span id="cb1-44"><a href="index.html#cb1-44"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/OutputplotFun.R&quot;</span>)</span>
-<span id="cb1-45"><a href="index.html#cb1-45"></a></span>
-<span id="cb1-46"><a href="index.html#cb1-46"></a>firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb1-47"><a href="index.html#cb1-47"></a>  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb1-48"><a href="index.html#cb1-48"></a>  x</span>
-<span id="cb1-49"><a href="index.html#cb1-49"></a>}</span>
-<span id="cb1-50"><a href="index.html#cb1-50"></a></span>
-<span id="cb1-51"><a href="index.html#cb1-51"></a>ColMerge=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;#FFC82F&quot;</span>, <span class="st">&quot;#FFEDBC&quot;</span>, <span class="st">&quot;#73FDFE&quot;</span>,<span class="st">&quot;#D2FFFF&quot;</span>, <span class="st">&quot;#FF41FF&quot;</span>, <span class="st">&quot;#FECAFF&quot;</span>, <span class="st">&quot;#5D5D5D&quot;</span>, <span class="st">&quot;#BEBEBE&quot;</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> T)</span>
-<span id="cb1-52"><a href="index.html#cb1-52"></a><span class="kw">rownames</span>(ColMerge)=<span class="kw">c</span>(<span class="st">&quot;LY&quot;</span>,<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>,<span class="st">&quot;Vehicle&quot;</span>)</span>
-<span id="cb1-53"><a href="index.html#cb1-53"></a></span>
-<span id="cb1-54"><a href="index.html#cb1-54"></a>Hsedb&lt;-EnsDb.Hsapiens.v86</span></code></pre></div>
+<span id="cb1-36"><a href="index.html#cb1-36"></a></span>
+<span id="cb1-37"><a href="index.html#cb1-37"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/cnFreq_fn.R&quot;</span>) <span class="co">#modified version of GenVisR</span></span>
+<span id="cb1-38"><a href="index.html#cb1-38"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/merge_contig.R&quot;</span>)</span>
+<span id="cb1-39"><a href="index.html#cb1-39"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/gseaCode.R&quot;</span>)</span>
+<span id="cb1-40"><a href="index.html#cb1-40"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/ContingencyTable.R&quot;</span>)</span>
+<span id="cb1-41"><a href="index.html#cb1-41"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/PvalueHeatMap.R&quot;</span>)</span>
+<span id="cb1-42"><a href="index.html#cb1-42"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/BootstrapShannonIdx.R&quot;</span>)</span>
+<span id="cb1-43"><a href="index.html#cb1-43"></a><span class="co">#source(&quot;../rscript/CreateRnor87db.R&quot;)</span></span>
+<span id="cb1-44"><a href="index.html#cb1-44"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindRatAAHomolog.R&quot;</span>)</span>
+<span id="cb1-45"><a href="index.html#cb1-45"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/OutputplotFun.R&quot;</span>)</span>
+<span id="cb1-46"><a href="index.html#cb1-46"></a></span>
+<span id="cb1-47"><a href="index.html#cb1-47"></a>firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb1-48"><a href="index.html#cb1-48"></a>  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb1-49"><a href="index.html#cb1-49"></a>  x</span>
+<span id="cb1-50"><a href="index.html#cb1-50"></a>}</span>
+<span id="cb1-51"><a href="index.html#cb1-51"></a></span>
+<span id="cb1-52"><a href="index.html#cb1-52"></a>ColMerge=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;#FFC82F&quot;</span>, <span class="st">&quot;#FFEDBC&quot;</span>, <span class="st">&quot;#73FDFE&quot;</span>,<span class="st">&quot;#D2FFFF&quot;</span>, <span class="st">&quot;#FF41FF&quot;</span>, <span class="st">&quot;#FECAFF&quot;</span>, <span class="st">&quot;#5D5D5D&quot;</span>, <span class="st">&quot;#BEBEBE&quot;</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> T)</span>
+<span id="cb1-53"><a href="index.html#cb1-53"></a><span class="kw">rownames</span>(ColMerge)=<span class="kw">c</span>(<span class="st">&quot;LY&quot;</span>,<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>,<span class="st">&quot;Vehicle&quot;</span>)</span>
+<span id="cb1-54"><a href="index.html#cb1-54"></a>ColSize=<span class="kw">c</span>(<span class="st">&quot;#008E00&quot;</span>, <span class="st">&quot;#FF9300&quot;</span>)</span>
+<span id="cb1-55"><a href="index.html#cb1-55"></a><span class="kw">names</span>(ColSize)=<span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;big&quot;</span>)</span>
+<span id="cb1-56"><a href="index.html#cb1-56"></a></span>
+<span id="cb1-57"><a href="index.html#cb1-57"></a>Hsedb&lt;-EnsDb.Hsapiens.v86</span></code></pre></div>
 </div>
 <div id="external-software" class="section level2">
 <h2><span class="header-section-number">1.2</span> External software</h2>
