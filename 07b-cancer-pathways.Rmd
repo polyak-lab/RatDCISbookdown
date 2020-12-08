@@ -114,7 +114,7 @@ PValsSumm=MatrixSumm
 
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
+  a1=glm(CCount2[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -141,7 +141,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -160,7 +160,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -245,7 +245,7 @@ PValsSumm=MatrixSumm
 
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
+  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -267,7 +267,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -286,7 +286,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }

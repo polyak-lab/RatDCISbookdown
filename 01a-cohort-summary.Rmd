@@ -173,7 +173,7 @@ table(ifelse(d1$growthrate>=2, "grow", "stable"))
 We can replot the previous graphs according to growth, and color code according to whether it is a fast or slow growing tumor
 
 ```{r}
-#pdf(sprintf("rslt/Clinicopath/summary_growth_plots_with shadings%s.pdf", Sys.Date()), width=8, height=8)
+pdf("~/Desktop/Figure3_ummary_growth_plots_with shadings_again.pdf", width=8, height=8)
 
 par(xpd=T)
 
@@ -197,7 +197,7 @@ for (i in indx){
   
 }
 
-#dev.off()
+dev.off()
 
 ```
 
@@ -240,13 +240,26 @@ Is there an association with treatment? Calculate below using chi-squared test:
 #chisq.test(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])))
 #a4
 
-#pdf(sprintf("rslt/summary_growth_plots_contigency%s.pdf", Sys.Date()), width=6, height=4)
+pdf(sprintf("~/Desktop/Figure3_summary_growth_plots_contigency%s.pdf", Sys.Date()), width=6, height=5)
 
- ContTable(table(factor(d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
+ContTable(table(factor(d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
 
+ ## Do any treatment
+
+par(mfrow=c(2,2))
+  
+ContTable(table((d1$treatment!="Vehicle"), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
+
+for (i in levels(d1$treatment)[2:4]){
+  ContTable(table(factor(d1$treatment[d1$treatment%in%c("Vehicle", i)]), 
+                  d1$growthrate_cutoff2[d1$treatment%in%c("Vehicle", i)]), "new rates", T, "growth", "treatment")
+
+  
+}
+ 
 #ContTable(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])), "old rates", T, "growth", "treatment")
 
-#dev.off()
+dev.off()
 
 ```
 

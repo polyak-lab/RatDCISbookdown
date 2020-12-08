@@ -103,10 +103,15 @@ For TIDE, we need to:
 TPM counts were used for this analysis (using Rat gene names)
 
 ```{r}
-output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
-colnames(output1)=gsub("X", "", colnames(output1))
+ProgSpecCD45=read.csv("../data/RNA_expression/CD45_TPM_rgd_names_prog_12-08_estimation_matrix.csv")
+colnames(ProgSpecCD45)=gsub("X", "", colnames(ProgSpecCD45))
 CharSpecCD45=read.csv("../data/RNA_expression/CD45-tpm-rgdnames-char-2020-11-22-estimation_matrix.csv")
 colnames(CharSpecCD45)=gsub("X", "", colnames(CharSpecCD45))
+
+## merge the two together
+
+output1=merge(ProgSpecCD45, CharSpecCD45, by.x="cell_type", by.y="cell_type", all=T)
+
 ```
 
 
@@ -132,51 +137,24 @@ boxplot(t(timSamples[ ,-1]), las=2, main=RowNames[i], ylab=Type[i])
 }
 ```
 
-### TEMP: comparison of running Char and Prog cohorts separately?
+### Association between characterisation cohort and size
 
-```{r}
+```{r, eval=F}
 lx1=match(colnames(CharSpecCD45), colnames(output1))
 T2=output1[ ,lx1]
 
 ## Rank all the samples according to increasing size
 
 sizeInfo=infoTableFinal$TumSize[match(colnames(T2)[-1], rownames(infoTableFinal))]
-x2=c(colnames(T2)[order(sizeInfo)+1])
-
 
 ##pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/2F_Char_cell_types.pdf",width=12, height=8)
-
-ax1=grep("TIMER", CharSpecCD45$cell_type)
-T1melt=melt(CharSpecCD45[ax1, ])
-T2melt=melt(T2[ax1, ])
-
-T1melt$variable=factor(T1melt$variable, x2)
-T2melt$variable=factor(T2melt$variable, x2)
-
-ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("TIMER:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
-ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("TIMER:char with prog")+theme(axis.text.x = element_text(angle = 90))
-
-ax1=grep("CIBERSORT$", CharSpecCD45$cell_type)
-T1melt=melt(CharSpecCD45[ax1, ])
-T2melt=melt(T2[ax1, ])
-
-T1melt$variable=factor(T1melt$variable, x2)
-T2melt$variable=factor(T2melt$variable, x2)
-
-
-ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
-ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("CIBERSRT:char with prog")+theme(axis.text.x = element_text(angle = 90))
-#dev.off()
 
 ```
 
 Associations with size? Perform a correlation test between all of the information above and tumor size
 
 ```{r}
+sizeInfo=infoTableFinal$TumSize[match(colnames(CharSpecCD45)[-1], rownames(infoTableFinal))]
 
 CorVals=rep(NA, nrow(CharSpecCD45))
 names(CorVals)=CharSpecCD45$cell_type
@@ -201,6 +179,92 @@ ax2[which(is.na(ax2), arr.ind = T)]=0
 
 par(oma=c(3, 5, 2, 2))
 OutputplotFun(ax1, scaleR="none", main="cell type correlation", classN="no", sigMat=ax2)
+
+## Also plot these all separately
+sizeInfoCut=infoTableFinal$SizeCat[match(colnames(CharSpecCD45)[-1], rownames(infoTableFinal))]
+
+ttestVal=sapply(1:nrow(CharSpecCD45), function(x) wilcox.test(t(CharSpecCD45[x, -1])~sizeInfoCut)$p.value)
+df3=data.frame(cell=RNames1, method=RNamesMethod, cor=ttestVal)
+ax3=acast(df3, RNames1~RNamesMethod)
+ax3[which(ax3>0.1, arr.ind=T)]=0
+ax3[which(is.na(ax3), arr.ind = T)]=0
+
+pdf("~/Desktop/2F_characterisation_association_size_immune_types.pdf", width=8, height=3)
+
+for (i in 1:ncol(ax1)){
+  t1=ax1[, i]
+  t2=which(!is.na(t1))
+  image(cbind(ax1[t2, i],ax1[t2, i]), col=RdBu[11:1], xaxt="none", yaxt="none",
+        main=sprintf("correlation %s (* sig p<0.1)", colnames(ax1)[i]))
+  axis(1, at=seq(0, 1, length=length(t2)), names(t1)[t2], las=2, cex=0.7)
+  axis(2, at=c(0,1),c("cor p", "wilcox p"), las=2, cex=0.7)
+  mx=which(ax2[ t2,i]>0)
+  text((mx-1)/(length(t2)-1), 0 , "*")
+  mx=which(ax3[ t2,i]>0)
+  text((mx-1)/(length(t2)-1), 1 , "*")
+ }
+
+dev.off()
+```
+
+Make the plots with individual samples:
+
+
+```{r}
+
+pdf("~/Desktop/2F-sample-celltypes.pdf", height=6, width=7)
+
+x2=c(colnames(CharSpecCD45)[order(sizeInfo)+1])
+
+ax1=grep("TIMER", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("TIMER:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+
+   scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+
+ax1=grep("CIBERSORT$", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
+
+# Also do a version where the Bcells, Macrophages,NK, Mast Cells, CD4, CD8 Cells are merged together, NK
+
+T1melt$cell_type2=substr(T1melt$cell_type, 1, 4)
+T1melt$cell_type2[grep("CD8", T1melt$cell_type)]="T CD8"
+T1melt$cell_type2[grep("CD4", T1melt$cell_type)]="T CD4"
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type2))+geom_bar(stat="identity")+
+  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+
+  scale_fill_manual(values=c("#66C2A5", "#E6F598", "#FED976", "#FC4E2A", "#bdbdbd", "#FEEBE2" ,"#AE017E", "#5E4FA2", "#2171B5", "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+
+T1melt$sdat=paste(T1melt$variable, T1melt$cell_type2, sep=".")
+T2=by(T1melt$value, T1melt$sdat, sum)
+T2m=stack(T2)
+T2m$ind1=sapply(strsplit(as.character(T2m$ind), "\\."), function(x) x[1])
+T2m$ind2=sapply(strsplit(as.character(T2m$ind), "\\."), function(x) x[2])
+
+T2mTab=acast(T2m[ ,c(1, 3:4)], ind2~ind1, value.var="values")
+CorV=sapply(1:nrow(T2mTab), function(x) cor(T2mTab[x, ], sizeInfo, use="complete"))
+CorVP=sapply(1:nrow(T2mTab), function(x) cor.test(T2mTab[x, ], sizeInfo, use="complete")$p.value)
+wilP=sapply(1:nrow(T2mTab), function(x) wilcox.test(T2mTab[x, ]~ sizeInfoCut)$p.value)
+
+image(cbind(CorV,CorV), col=RdBu[11:1], xaxt="none", yaxt="none",
+        main="correlation CIBERSORT collapsed (* sig p<0.1)")
+  axis(1, at=seq(0, 1, length=length(CorV)), rownames(T2mTab), las=2, cex=0.7)
+  axis(2, at=c(0,1),c("cor p", "wilcox p"), las=2, cex=0.7)
+  mx=which(CorVP<0.1)
+  text((mx-1)/(CorVP-1), 0 , "*")
+  mx=which(wilP<0.1)
+  text((mx-1)/(wilP-1), 1 , "*")
+
+  dev.off()
 
 ```
 

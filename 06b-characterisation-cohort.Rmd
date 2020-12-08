@@ -1,4 +1,4 @@
-# DESeq analysis
+# DESeq analysis: Characterisation cohort (big vs small)
 
 This document sets up DESeq runs to compare:
 
@@ -327,6 +327,9 @@ gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term")
 
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+
+
 # match the genes in the Tgfb pathway
 Genes1=PathwayMapAllComp$`Cell adhesion_Leucocyte chemotaxis`
 mid=match(Genes1, toupper(rownames(vst1)))
@@ -339,8 +342,6 @@ heatmap.2(assay(vst1)[na.omit(mid), ], col=RdBu[11:1], ColSideColors = ColSize[v
 Double check the above result by running a ssGSEA and checking the directionality
 
 ```{r}
-load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
-
 Mx1=assay(vst1)
 rownames(Mx1)=toupper(rownames(Mx1))
 

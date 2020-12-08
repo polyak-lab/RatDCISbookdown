@@ -464,37 +464,38 @@ write.table(alltpmSave, sep="\t", file=sprintf("../output4external/TPM_for_ciber
 Save the mouse names for TIMER cistrome: check that this is actually required for TIMER
 
 ```{r, cache=T, eval=F}
-allTPMCD45=allTPMFinal[ , grep("CD45", colnames(allTPMFinal))]
-allTPMCD45_mus_ensmbl=allTPMCD45
-
-# Finf Rat2Mouse
-
-midx=Rat2Mouse$MGI.symbol[match(rownames(allTPMCD45),Rat2Mouse$RGD.symbol)]
-lx1=rownames(allTPMCD45)[which(is.na(midx))]
-# midx2=SymHum2Rat$HGNC.symbol[match(rownames(allTPMCD45), SymHum2Rat$RGD.symbol)]
-# midx2=Rat2Hum$Gene.stable.ID[match(rownames(allTPMCD45), Rat2Hum$RGD.symbol)]
-# midx2=SymHum2Rat$Gene.stable.ID[match(rownames(allTPMCD45), SymHum2Rat$MGI.symbol)]
-# midxAll=ifelse(is.na(midx)==T,midx2, midx)
-
-
-rownames(allTPMCD45_mus_ensmbl)=midx
-t3=sort(unique(midx[which(duplicated(midx)==T)]))
-t3=na.omit(t3)
-
-for (i in t3){
-  x1=which(rownames(allTPMCD45_mus_ensmbl)==i)
-  allTPMCD45_mus_ensmbl[x1[1], ]=colSums(allTPMCD45_mus_ensmbl[x1, ])
-}
-
-allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(duplicated(rownames(allTPMCD45_mus_ensmbl))), ]
-
-allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus_ensmbl))), ]
-write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
-
-write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
+# allTPMCD45=allTPMFinal[ , grep("CD45", colnames(allTPMFinal))]
+# allTPMCD45_mus_ensmbl=allTPMCD45
+# 
+# # Finf Rat2Mouse
+# 
+# midx=Rat2Mouse$MGI.symbol[match(rownames(allTPMCD45),Rat2Mouse$RGD.symbol)]
+# lx1=rownames(allTPMCD45)[which(is.na(midx))]
+# # midxAll=ifelse(is.na(midx)==T,midx2, midx)
+# 
+# 
+# rownames(allTPMCD45_mus_ensmbl)=midx
+# t3=sort(unique(midx[which(duplicated(midx)==T)]))
+# t3=na.omit(t3)
+# 
+# for (i in t3){
+#   x1=which(rownames(allTPMCD45_mus_ensmbl)==i)
+#   allTPMCD45_mus_ensmbl[x1[1], ]=colSums(allTPMCD45_mus_ensmbl[x1, ])
+# }
+# 
+# allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(duplicated(rownames(allTPMCD45_mus_ensmbl))), ]
+# 
+# allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus_ensmbl))), ]
+# write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
+# 
+# write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
 
 
 # Write files for CIBERSORT using rgd. Use cohort specific values
+allTPMCD45=allTPMFinal[ , which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort=="Progression")]
+
+write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names_prog_%s.csv", Sys.Date()))
+
 allTPMCD45=allTPMFinal[ , which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")]
 
 write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names_char_%s.csv", Sys.Date()))

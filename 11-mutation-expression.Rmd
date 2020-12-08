@@ -151,7 +151,7 @@ OutputplotFun(t2, "none", "non-Scaled Ep", "wgs")
 
 colCols=rep("red", ncol(nVSDchar))
 colCols[grep("CD45", colnames(nVSDchar))]="green"
-colCols[match(names(which(km4$cluster==2)), colnames(nVSDchar))]="blue"
+colCols[match(names(which(Pam3$clustering==2)), colnames(nVSDchar))]="blue"
 
 Cancer_pways=gsva(nVSDchar, PathwayListRat,
                     method="ssgsea", kcdf="Poisson", ssgsea.norm=T, verbose=F, min.sz=1)

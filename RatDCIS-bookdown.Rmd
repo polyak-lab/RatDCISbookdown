@@ -547,7 +547,7 @@ table(ifelse(d1$growthrate>=2, "grow", "stable"))
 We can replot the previous graphs according to growth, and color code according to whether it is a fast or slow growing tumor
 
 ```{r}
-#pdf(sprintf("rslt/Clinicopath/summary_growth_plots_with shadings%s.pdf", Sys.Date()), width=8, height=8)
+pdf("~/Desktop/Figure3_ummary_growth_plots_with shadings_again.pdf", width=8, height=8)
 
 par(xpd=T)
 
@@ -571,7 +571,7 @@ for (i in indx){
   
 }
 
-#dev.off()
+dev.off()
 
 ```
 
@@ -614,13 +614,26 @@ Is there an association with treatment? Calculate below using chi-squared test:
 #chisq.test(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])))
 #a4
 
-#pdf(sprintf("rslt/summary_growth_plots_contigency%s.pdf", Sys.Date()), width=6, height=4)
+pdf(sprintf("~/Desktop/Figure3_summary_growth_plots_contigency%s.pdf", Sys.Date()), width=6, height=5)
 
- ContTable(table(factor(d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
+ContTable(table(factor(d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
 
+ ## Do any treatment
+
+par(mfrow=c(2,2))
+  
+ContTable(table((d1$treatment!="Vehicle"), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
+
+for (i in levels(d1$treatment)[2:4]){
+  ContTable(table(factor(d1$treatment[d1$treatment%in%c("Vehicle", i)]), 
+                  d1$growthrate_cutoff2[d1$treatment%in%c("Vehicle", i)]), "new rates", T, "growth", "treatment")
+
+  
+}
+ 
 #ContTable(table(factor(d1$treatment[d1$growth%in%c("growing", "stable")]), factor(d1$growth[d1$growth%in%c("growing", "stable")])), "old rates", T, "growth", "treatment")
 
-#dev.off()
+dev.off()
 
 ```
 
@@ -2713,37 +2726,38 @@ write.table(alltpmSave, sep="\t", file=sprintf("../output4external/TPM_for_ciber
 Save the mouse names for TIMER cistrome: check that this is actually required for TIMER
 
 ```{r, cache=T, eval=F}
-allTPMCD45=allTPMFinal[ , grep("CD45", colnames(allTPMFinal))]
-allTPMCD45_mus_ensmbl=allTPMCD45
-
-# Finf Rat2Mouse
-
-midx=Rat2Mouse$MGI.symbol[match(rownames(allTPMCD45),Rat2Mouse$RGD.symbol)]
-lx1=rownames(allTPMCD45)[which(is.na(midx))]
-# midx2=SymHum2Rat$HGNC.symbol[match(rownames(allTPMCD45), SymHum2Rat$RGD.symbol)]
-# midx2=Rat2Hum$Gene.stable.ID[match(rownames(allTPMCD45), Rat2Hum$RGD.symbol)]
-# midx2=SymHum2Rat$Gene.stable.ID[match(rownames(allTPMCD45), SymHum2Rat$MGI.symbol)]
-# midxAll=ifelse(is.na(midx)==T,midx2, midx)
-
-
-rownames(allTPMCD45_mus_ensmbl)=midx
-t3=sort(unique(midx[which(duplicated(midx)==T)]))
-t3=na.omit(t3)
-
-for (i in t3){
-  x1=which(rownames(allTPMCD45_mus_ensmbl)==i)
-  allTPMCD45_mus_ensmbl[x1[1], ]=colSums(allTPMCD45_mus_ensmbl[x1, ])
-}
-
-allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(duplicated(rownames(allTPMCD45_mus_ensmbl))), ]
-
-allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus_ensmbl))), ]
-write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
-
-write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
+# allTPMCD45=allTPMFinal[ , grep("CD45", colnames(allTPMFinal))]
+# allTPMCD45_mus_ensmbl=allTPMCD45
+# 
+# # Finf Rat2Mouse
+# 
+# midx=Rat2Mouse$MGI.symbol[match(rownames(allTPMCD45),Rat2Mouse$RGD.symbol)]
+# lx1=rownames(allTPMCD45)[which(is.na(midx))]
+# # midxAll=ifelse(is.na(midx)==T,midx2, midx)
+# 
+# 
+# rownames(allTPMCD45_mus_ensmbl)=midx
+# t3=sort(unique(midx[which(duplicated(midx)==T)]))
+# t3=na.omit(t3)
+# 
+# for (i in t3){
+#   x1=which(rownames(allTPMCD45_mus_ensmbl)==i)
+#   allTPMCD45_mus_ensmbl[x1[1], ]=colSums(allTPMCD45_mus_ensmbl[x1, ])
+# }
+# 
+# allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(duplicated(rownames(allTPMCD45_mus_ensmbl))), ]
+# 
+# allTPMCD45_mus_ensmbl=allTPMCD45_mus_ensmbl[-which(is.na(rownames(allTPMCD45_mus_ensmbl))), ]
+# write.csv(allTPMCD45_mus_ensmbl, file=sprintf("../output4external/CD45_TPM_mm_mgi_names%s_%s.csv", BatchNo, Sys.Date()))
+# 
+# write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names%s_%s.csv", BatchNo, Sys.Date()))
 
 
 # Write files for CIBERSORT using rgd. Use cohort specific values
+allTPMCD45=allTPMFinal[ , which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort=="Progression")]
+
+write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names_prog_%s.csv", Sys.Date()))
+
 allTPMCD45=allTPMFinal[ , which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")]
 
 write.csv(allTPMCD45, file=sprintf("../output4external/CD45_TPM_rgd_names_char_%s.csv", Sys.Date()))
@@ -4592,7 +4606,7 @@ x1=rownames(DNresP50)[which(abs(DNresP50$log2FoldChange)>2 & DNresP50$padj<0.05)
 
 <!--chapter:end:06-deseqoutputs.Rmd-->
 
-# DESeq analysis
+# DESeq analysis: Characterisation cohort (big vs small)
 
 This document sets up DESeq runs to compare:
 
@@ -4921,6 +4935,30 @@ gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term")
 
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+
+
+# match the genes in the Tgfb pathway
+Genes1=PathwayMapAllComp$`Cell adhesion_Leucocyte chemotaxis`
+mid=match(Genes1, toupper(rownames(vst1)))
+
+heatmap.2(assay(vst1)[na.omit(mid), ], col=RdBu[11:1], ColSideColors = ColSize[vst1$SizeCat], 
+          trace="none", scale="row")
+
+```
+
+Double check the above result by running a ssGSEA and checking the directionality
+
+```{r}
+Mx1=assay(vst1)
+rownames(Mx1)=toupper(rownames(Mx1))
+
+library(GSVA)
+
+testOut=gsva(Mx1, PathwayMapAllComp,method="ssgsea", kcdf="Gaussian", ssgsea.norm=T)
+boxplot(testOut["Cell cycle_S phase", ]~vst1$SizeCat)
+boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
+
 ```
 
 <!--chapter:end:06b-characterisation-cohort.Rmd-->
@@ -4954,36 +4992,38 @@ We will be using variance stabilised counts in this section.
 Firstly, we will look at the progression cohort. Note that the overlap between the two gene-sets are similar, and the heatmap is row-scaled. 
 
 ```{r}
-Markers=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
+#Markers=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
 Markers2=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr')
-Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63' )
-Markers4=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63', 'Lalba', 
-           'Kit', 'Prlr', 'Spdef', 'Xbp1', 'Krt14', 'Krt17', 'Acta2')
+#Markers3=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63' )
+#Markers4=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr', 'Krt5', 'Krt18', 'Vim', 'Tp63', 'Lalba', 
+#           'Kit', 'Prlr', 'Spdef', 'Xbp1', 'Krt14', 'Krt17', 'Acta2')
 
 #pdf(sprintf("rslt/signatureAnalysis/new_classifer_PAM_%s.pdf", Sys.Date()), height=6, width=7)
 # Progression cohort
-Ax1=assay(vstEp)[ match(Markers4, rownames(assay(vstEp))),]
+Ax1=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
 Pam1=pam(t(Ax1), 2)
-plot(Pam1, main="extended list")
+plot(Pam1, main="narrow list, progression cohort")
 ColA=Pam1$clustering
 ColA=ifelse(ColA==1, "Basal", "Lum")
 
-Ax2=assay(vstEp)[ match(Markers3, rownames(assay(vstEp))),]
-Pam2=pam(t(Ax2), 2)
-plot(Pam2, main="narrow list")
-ColB=Pam2$clustering
+#Ax2=assay(vstEp)[ match(Markers3, rownames(assay(vstEp))),]
+km1=kmeans(t(Ax1), 2)
+clusplot(t(Ax1),km1$cluster, main="narrow list, progression cohort")
+ColB=km1$cluster
 ColB=ifelse(ColB==1, "Basal", "Lum")
 
 table(ColA, ColB)
 
-CTable=cbind(ColA, ColB)
-CTable=gsub("Basal", "red", CTable)
+CTablea=cbind(ColA, ColB)
+CTable=gsub("Basal", "red", CTablea)
 CTable=gsub("Lum", "blue", CTable)
 
+pdf("~/Desktop/Fig3X-progression-cohort-hormone-receptor-status.pdf", height=5, width=6)
 heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="row", main="Progression cohort vsd marker list1", trace="none")
+dev.off()
 ```
 
-We can perform a similar analysis to the characterisation cohort:
+We can perform a similar analysis to the characterisation cohort: (and save to file)
 
 ```{r}
 c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
@@ -4998,8 +5038,8 @@ ColD=km3$cluster
 ColD=ifelse(ColD==2, "Basal", "Lum")
 
 #table(ColC, ColD)
-CTable=cbind(ColC, ColD)
-CTable=gsub("Basal", "red", CTable)
+CTableb=cbind(ColC, ColD)
+CTable=gsub("Basal", "red", CTableb)
 CTable=gsub("Lum", "blue", CTable)
 
 #pdf("~/Desktop/PAM50-characterisation-different-list2.pdf", width=8, height=8)
@@ -5007,94 +5047,136 @@ CTable=gsub("Lum", "blue", CTable)
 heatmap.plus(t(Ax1b), col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list2", trace="none")
 
 
-Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
-Pam4=pam(t(Ax2), 2)
-km4=kmeans(t(Ax2),2)
-#plot(Pam4, "narrow list")
-ColD=km4$cluster
-ColD=ifelse(ColD==2, "Basal", "Lum")
+# Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
+# Pam4=pam(t(Ax2), 2)
+# km4=kmeans(t(Ax2),2)
+# #plot(Pam4, "narrow list")
+# ColD=km4$cluster
+# ColD=ifelse(ColD==2, "Basal", "Lum")
 
+# Ax1=assay(vsd)[, match(c2, colnames(vsd))]
+# Test2=cor(Ax1)
+# ColSideCols=ColD
+# heatmap.2(Test2, col=RdBu[11:1], scale="none", trace = "none", ColSideColors = as.character(as.numeric(factor(ColD))))
 
+Cdata$HR_status=NA
+Cdata$HR_status[match(substr(names(ColA), 1, nchar(names(ColA))-3), Cdata$TumorID)]=ColA
+Cdata$HR_status[match(substr(names(ColC), 1, nchar(names(ColC))-3), Cdata$TumorID)]=ColC
 
-#Ax1=allTPMFinal[ , which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
-Ax1=assay(vsd)[, match(c2, colnames(vsd))]
-Test2=cor(Ax1)
-ColSideCols=ColD
-heatmap.2(Test2, col=RdBu[11:1], scale="none", trace = "none", ColSideColors = as.character(as.numeric(factor(ColD))))
 ```
 
-DN samples:
+
+### DN samples?
+
+DN samples: note there is variability in DN expression of PR, Foxa1, Esr1, Ar,
+Erbb2 and Gata3 shows fairly stable expression values
 
 ```{r}
-Ax1=assay(vstDN)[ match(Markers, rownames(assay(vstDN))),]
+Ax1=assay(vstDN)[ match(Markers2, rownames(assay(vstDN))),]
 Pam5=pam(t(Ax1), 2)
 plot(Pam5, main="extended list DN")
 ColE=Pam5$clustering
 ColE=ifelse(ColE==1, "Basal", "Lum")
 
-Ax2=assay(vstDN)[ match(Markers2, rownames(assay(vstDN))),]
-Pam6=pam(t(Ax2), 2)
-plot(Pam6, main="narrow list")
-ColF=Pam6$clustering
+km5=pam(t(Ax1), 2)
+clusplot(t(Ax1),km5$cluster, main="narrow list, progression cohort")
+ColF=km5$cluster
 ColF=ifelse(ColF==1, "Basal", "Lum")
 
-table(ColE, ColF)
 
-CTable=cbind(ColE, ColF)
-CTable=gsub("Basal", "red", CTable)
+CTabled=cbind(ColE, ColF)
+CTable=gsub("Basal", "red", CTabled)
 CTable=gsub("Lum", "blue", CTable)
 
-heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="row", main="DN samples vsd marker list1", trace="none")
+pdf("~/Desktop/5X-DN-samples-HR-status.pdf", width=6, height=5)
+
+heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="DN samples vsd marker list1", trace="none")
+
+nrm=which(colnames(Ax1)=="3L_D_DN")
+heatmap.plus(Ax1[ ,-nrm], col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable[-nrm,],scale="row", main="DN samples vsd marker list1", trace="none")
+
+dev.off()
 
 ```
+
+Do a heatmap with the Epithelial samples
+
+```{r}
+
+vsdProg=vsd[, which(infoTableFinal$Fraction!="CD45" & infoTableFinal$Cohort=="Progression")]
+
+CNamesList=rep(NA, ncol(vsdProg))
+CNamesList[match(rownames(CTablea), colnames(vsdProg))]=CTablea[ ,1]
+CNamesList[match(rownames(CTabled), colnames(vsdProg))]=CTabled[ ,1]
+CNamesList2=ifelse(CNamesList=="Lum", "blue", "red")
+
+X2=rep("darkgreen", ncol(vsdProg))
+X2[grep("Ep", colnames(vsdProg))]="pink"
+
+X3=vsdProg$Growth
+X3=gsub("growing", "orange", X3)
+X3=gsub("stable", "forestgreen", X3)
+
+pdf("~/Desktop/5X-DN+Ep-HR-status.pdf", width=6, height=5)
+
+Ax1=assay(vsdProg)[match(Markers2, rownames(assay(vsdProg))), ]
+heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =cbind(CNamesList2, X2, X3),scale="none", main="DN samples vsd marker list1", trace="none")
+
+heatmap.2(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CNamesList2,scale="row", main="Ep+DN markers", trace="none")
+
+par(mfrow=c(2,2))
+boxplot(Ax1["Pgr", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Pgr")
+boxplot(Ax1["Foxa1", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Foxa1")
+boxplot(Ax1["Gata3", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Gata3")
+boxplot(Ax1["Esr1", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Esr1")
+
+Mx1=table(vsdProg$Growth, CNamesList2, vsdProg$Fraction)
+
+ContTable(Mx1[ , , 3], "HR-status-growth-Epithelial", T,  "Hr-status","growth")
+
+dev.off()
+```
+
+
 
 We can collate these different scores and assess whether there are similarities with PgR and ER staining:
 
 ```{r}
 ## match to infoTable here
-infoTableFinal$Subtype_extendedList=NA
-infoTableFinal$Subtype_compressedList=NA
+infoTableFinal$HR_pam=NA
 
 id=match(names(ColA), infoTableFinal$Sample)
-infoTableFinal$Subtype_extendedList[id]=ColA
-infoTableFinal$Subtype_compressedList[id]=ColB
+infoTableFinal$HR_pam[id]=ColA
+#infoTableFinal$Subtype_compressedList[id]=ColB
 
 id2=match(names(ColE), infoTableFinal$Sample)
-infoTableFinal$Subtype_extendedList[id2]=ColE
-infoTableFinal$Subtype_compressedList[id2]=ColF
+infoTableFinal$HR_pam[id2]=ColE
+#infoTableFinal$Subtype_compressedList[id2]=ColF
 
 id3=match(names(ColC), infoTableFinal$Sample)
-infoTableFinal$Subtype_extendedList[id3]=ColC
-infoTableFinal$Subtype_compressedList[id3]=ColD
+infoTableFinal$HR_pam[id3]=ColC
+#infoTableFinal$Subtype_compressedList[id3]=ColD
 
 
 # Contingency Tables
 par(mfrow=c(2,2))
-a1=table(infoTableFinal$Subtype_compressedList, Cdata$PgR..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
+a1=table(infoTableFinal$HR_pam, Cdata$PgR..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
 ContTable(a1[ ,-2], "Pgr Expr", T, "Pgr IF", "compressed subtype")
-a1=table(infoTableFinal$Subtype_extendedList, Cdata$PgR..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
-ContTable(a1[ ,-2], "Pgr Expr", T, "Pgr IF", "Extended subtype")
 
 # remove all the DN samples
 x1=which(infoTableFinal$Fraction=="Ep")
-a1=table(infoTableFinal$Subtype_compressedList[x1], Cdata$PgR..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
+a1=table(infoTableFinal$HR_pam[x1], Cdata$PgR..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
 ContTable(a1[ ,-2], "Pgr Expr", T, "Pgr IF", "compressed subtype")
-a1=table(infoTableFinal$Subtype_extendedList[x1], Cdata$PgR..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
-ContTable(a1[ ,-2], "Pgr Expr", T, "Pgr IF", "Extended subtype")
 
 # Contingency Tables
 par(mfrow=c(2,2))
-a1=table(infoTableFinal$Subtype_compressedList, Cdata$ER..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
+a1=table(infoTableFinal$HR_pam, Cdata$ER..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
 ContTable(a1[ ,-2], "ER Expr", T, "ER IF", "compressed subtype")
-a1=table(infoTableFinal$Subtype_extendedList, Cdata$ER..IF.[match(infoTableFinal$TumorID, Cdata$TumorID)])
-ContTable(a1[ ,-2], "ER Expr", T, "ER IF", "Extended subtype")
 
 # remove all the DN samples
 x1=which(infoTableFinal$Fraction=="Ep")
-a1=table(infoTableFinal$Subtype_compressedList[x1], Cdata$ER..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
+a1=table(infoTableFinal$HR_pam[x1], Cdata$ER..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
 ContTable(a1[ ,-2], "ER Expr", T, "ER IF", "compressed subtype no DN")
-a1=table(infoTableFinal$Subtype_extendedList[x1], Cdata$ER..IF.[match(infoTableFinal$TumorID[x1], Cdata$TumorID)])
-ContTable(a1[ ,-2], "ER Expr", T, "ER IF", "Extended subtype no DN")
 
 ```
 
@@ -5135,8 +5217,8 @@ Pall$Call[match(ExpressedaprilProg2$X, Pall$X)]=ExpressedaprilProg2$Call
 
 # add to pamcalls
 
-Pall$PamCallLong=infoTableFinal$Subtype_extendedList[match(Pall$X, infoTableFinal$SampleID)]
-Pall$PamCallshort=infoTableFinal$Subtype_compressedList[match(Pall$X, infoTableFinal$SampleID)]
+#Pall$PamCallLong=infoTableFinal$Subtype_extendedList[match(Pall$X, infoTableFinal$SampleID)]
+Pall$PamCallshort=infoTableFinal$HR_pam[match(Pall$X, infoTableFinal$SampleID)]
 
 
 ```
@@ -5190,14 +5272,14 @@ boxplot(allTPMFinal[i, ]~infoTableFinal$Fraction, main=i,  names=paste(names(sum
 heatmap based on the previous markers:
 
 ```{r}
-Ax1=assay(vsd)[ match(Markers, rownames(assay(vsd))),na.omit(midx)]
-Ax1b=allRSEMnorm2log[na.omit(match(toupper(Markers), rownames(allRSEMnorm2log))), na.omit(midx)]
+Ax1=assay(vsd)[ match(Markers2, rownames(assay(vsd))),na.omit(midx)]
+Ax1b=allRSEMnorm2log[na.omit(match(toupper(Markers2), rownames(allRSEMnorm2log))), na.omit(midx)]
 
-Ax2=assay(vsd)[ match(Markers, rownames(assay(vsd))),na.omit(midx2)]
-Ax2b=allRSEMnorm2log[na.omit(match(toupper(Markers), rownames(allRSEMnorm2log))), na.omit(midx2)]
+Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))),na.omit(midx2)]
+Ax2b=allRSEMnorm2log[na.omit(match(toupper(Markers2), rownames(allRSEMnorm2log))), na.omit(midx2)]
 
-Ax3=assay(vsd)[match(Markers, rownames(assay(vsd))),na.omit(midx3)]
-Ax3b=allRSEMnorm2log[na.omit(match(toupper(Markers), rownames(allRSEMnorm2log))), na.omit(midx3)]
+Ax3=assay(vsd)[match(Markers2, rownames(assay(vsd))),na.omit(midx3)]
+Ax3b=allRSEMnorm2log[na.omit(match(toupper(Markers2), rownames(allRSEMnorm2log))), na.omit(midx3)]
 
 BLcall=as.character(Pall$Call)
 BLcall[grep("Lum", BLcall)]="blue"
@@ -5231,8 +5313,8 @@ Pall$Call3[grep("Lum", Pall$Call2)]="Lum"
 BLcall=ifelse(Pall$Call3=="Basal", "blue", "red")
 
 midx4=match(Pall$X, colnames(allTPMFinal))
-Ax4=assay(vsd)[match(Markers, rownames(assay(vsd))),na.omit(midx4)]
-Ax4b=allRSEMnorm2log[na.omit(match(toupper(Markers), rownames(allRSEMnorm2log))), na.omit(midx4)]
+Ax4=assay(vsd)[match(Markers2, rownames(assay(vsd))),na.omit(midx4)]
+Ax4b=allRSEMnorm2log[na.omit(match(toupper(Markers2), rownames(allRSEMnorm2log))), na.omit(midx4)]
 
 heatmap.2(Ax4, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, scale="row", main="vsd marker list3", trace="none")
 heatmap.2(Ax4b, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, trace="none", scale="row", main="RSEM marker3")
@@ -5259,14 +5341,14 @@ OrdGene2=sort(GeneVar2, decreasing = T)
 
 xsearch=c(200, 500, 1000, 2000)
 
-CallsTableProg=matrix(NA, ncol=ncol(ProgCoh), nrow=11)
+CallsTableProg=matrix(NA, ncol=ncol(ProgCoh), nrow=10)
 colnames(CallsTableProg)=colnames(ProgCoh)
 CallsTableProg[1, ]=Pall$Call3[match(colnames(CallsTableProg), Pall$X)]
 #CallsTableProg[2, ]=Pall$Call2[match(colnames(CallsTableProg), Pall$X)]
-CallsTableProg[2, ]=Pall$PamCallLong[match(colnames(CallsTableProg), Pall$X)]
-CallsTableProg[3, ]=Pall$PamCallshort[match(colnames(CallsTableProg), Pall$X)]
+#CallsTableProg[2, ]=Pall$PamCallLong[match(colnames(CallsTableProg), Pall$X)]
+CallsTableProg[2, ]=Pall$PamCallshort[match(colnames(CallsTableProg), Pall$X)]
 
-count=4
+count=3
 
 par(mfrow=c(2,2))
 
@@ -5287,13 +5369,13 @@ for (i in 1:nrow(CallsTableProg)){
   }
 }
 
-colnames(ConcordanceMat)=c("P50", "PamLong","PamShort", paste(rep(c("sd", "cov"), 4), rep(xsearch, each=2), sep="."))
+colnames(ConcordanceMat)=c("P50", "PamShort", paste(rep(c("sd", "cov"), 4), rep(xsearch, each=2), sep="."))
 rownames(ConcordanceMat)=colnames(ConcordanceMat)
 ConcordanceMat2=ConcordanceMat
 ConcordanceMat2[which(ConcordanceMat2<0.5, arr.ind=T)]=1-ConcordanceMat2[which(ConcordanceMat2<0.5, arr.ind=T)]
 
 # Example heatmap
-Ax1=assay(vstEp)[ match(Markers, rownames(assay(vstEp))),]
+Ax1=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
 
 TabOutput=cbind(ifelse(CallsTableProg[4, ]==1, "blue", "red"),ifelse(CallsTableProg[5, ]==1, "blue", "red"))
 x1=match(colnames(Ax1), colnames(CallsTableProg))
@@ -5329,11 +5411,11 @@ Below is a summary of the average expression values of the classes defined by th
 ```{r}
 par(mfrow=c(2,3))
 
-compv=c("PAM50", "pamlong", "pamshort", "top200sd", "top500sd", "top1000sd", "top2000sd")
+compv=c("PAM50",  "pamshort", "top200sd", "top500sd", "top1000sd", "top2000sd")
 gList=c(gList, "Foxa1", "Gata3", "Vim")
 
 for (j in gList){
-for (i in c(1:3,5, 7, 9, 11)){
+for (i in c(1:3,5, 7, 9)){
   boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=rownames(ConcordanceMat2)[i], ylab=j, xlab="")
 }}
 mtext("ESR1", side=2, outer=T, line=-2)
@@ -5343,7 +5425,7 @@ mtext("ESR1", side=2, outer=T, line=-2)
 We can summarise the outputs for each sample below
 
 ```{r}
-CallsTableProg2=CallsTableProg[c(1:3,5, 7, 9, 11), ]
+CallsTableProg2=CallsTableProg[c(1:3,5, 7, 9), ]
 rownames(CallsTableProg2)=compv
 
 scroll_box(kable(t(CallsTableProg2), format="html"),
@@ -5530,7 +5612,7 @@ PValsSumm=MatrixSumm
 
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
+  a1=glm(CCount2[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5557,7 +5639,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5576,7 +5658,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts)){
-  a1=glm(CCount2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  a1=glm(CCount2[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5661,7 +5743,7 @@ PValsSumm=MatrixSumm
 
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp)
+  a1=glm(Cancer_counts_dir[i, ]~Fraction+Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp)
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5683,7 +5765,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="DN"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="DN", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5702,7 +5784,7 @@ MatrixSumm=matrix(NA, nrow=nrow(Cancer_counts_dir), ncol=9)
 PValsSumm=MatrixSumm
 
 for (i in 1:nrow(Cancer_counts_dir)){
-  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+Subtype_compressedList, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
+  a1=glm(Cancer_counts_dir[i, infoTabTemp$Fraction=="Ep"]~Treatment+CD8Frac+MHEpCAM+GrowthRate+TumSize+HR_pam, data=infoTabTemp[infoTabTemp$Fraction=="Ep", ])
   MatrixSumm[i, ]=coefficients(a1)
   PValsSumm[i, ]=summary(a1)$coefficients[ ,4]
 }
@@ -5844,10 +5926,15 @@ For TIDE, we need to:
 TPM counts were used for this analysis (using Rat gene names)
 
 ```{r}
-output1=read.csv("../data/RNA_expression/CD45_rgd_10-02-20-estimation_matrix.csv")
-colnames(output1)=gsub("X", "", colnames(output1))
+ProgSpecCD45=read.csv("../data/RNA_expression/CD45_TPM_rgd_names_prog_12-08_estimation_matrix.csv")
+colnames(ProgSpecCD45)=gsub("X", "", colnames(ProgSpecCD45))
 CharSpecCD45=read.csv("../data/RNA_expression/CD45-tpm-rgdnames-char-2020-11-22-estimation_matrix.csv")
 colnames(CharSpecCD45)=gsub("X", "", colnames(CharSpecCD45))
+
+## merge the two together
+
+output1=merge(ProgSpecCD45, CharSpecCD45, by.x="cell_type", by.y="cell_type", all=T)
+
 ```
 
 
@@ -5873,51 +5960,24 @@ boxplot(t(timSamples[ ,-1]), las=2, main=RowNames[i], ylab=Type[i])
 }
 ```
 
-### TEMP: comparison of running Char and Prog cohorts separately?
+### Association between characterisation cohort and size
 
-```{r}
+```{r, eval=F}
 lx1=match(colnames(CharSpecCD45), colnames(output1))
 T2=output1[ ,lx1]
 
 ## Rank all the samples according to increasing size
 
 sizeInfo=infoTableFinal$TumSize[match(colnames(T2)[-1], rownames(infoTableFinal))]
-x2=c(colnames(T2)[order(sizeInfo)+1])
-
 
 ##pdf("~/Dropbox (Partners HealthCare)/Carlos' leukocyte project/Manuscript/2F_Char_cell_types.pdf",width=12, height=8)
-
-ax1=grep("TIMER", CharSpecCD45$cell_type)
-T1melt=melt(CharSpecCD45[ax1, ])
-T2melt=melt(T2[ax1, ])
-
-T1melt$variable=factor(T1melt$variable, x2)
-T2melt$variable=factor(T2melt$variable, x2)
-
-ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("TIMER:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
-ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("TIMER:char with prog")+theme(axis.text.x = element_text(angle = 90))
-
-ax1=grep("CIBERSORT$", CharSpecCD45$cell_type)
-T1melt=melt(CharSpecCD45[ax1, ])
-T2melt=melt(T2[ax1, ])
-
-T1melt$variable=factor(T1melt$variable, x2)
-T2melt$variable=factor(T2melt$variable, x2)
-
-
-ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))
-ggplot(T2melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
-  ggtitle("CIBERSRT:char with prog")+theme(axis.text.x = element_text(angle = 90))
-#dev.off()
 
 ```
 
 Associations with size? Perform a correlation test between all of the information above and tumor size
 
 ```{r}
+sizeInfo=infoTableFinal$TumSize[match(colnames(CharSpecCD45)[-1], rownames(infoTableFinal))]
 
 CorVals=rep(NA, nrow(CharSpecCD45))
 names(CorVals)=CharSpecCD45$cell_type
@@ -5942,6 +6002,92 @@ ax2[which(is.na(ax2), arr.ind = T)]=0
 
 par(oma=c(3, 5, 2, 2))
 OutputplotFun(ax1, scaleR="none", main="cell type correlation", classN="no", sigMat=ax2)
+
+## Also plot these all separately
+sizeInfoCut=infoTableFinal$SizeCat[match(colnames(CharSpecCD45)[-1], rownames(infoTableFinal))]
+
+ttestVal=sapply(1:nrow(CharSpecCD45), function(x) wilcox.test(t(CharSpecCD45[x, -1])~sizeInfoCut)$p.value)
+df3=data.frame(cell=RNames1, method=RNamesMethod, cor=ttestVal)
+ax3=acast(df3, RNames1~RNamesMethod)
+ax3[which(ax3>0.1, arr.ind=T)]=0
+ax3[which(is.na(ax3), arr.ind = T)]=0
+
+pdf("~/Desktop/2F_characterisation_association_size_immune_types.pdf", width=8, height=3)
+
+for (i in 1:ncol(ax1)){
+  t1=ax1[, i]
+  t2=which(!is.na(t1))
+  image(cbind(ax1[t2, i],ax1[t2, i]), col=RdBu[11:1], xaxt="none", yaxt="none",
+        main=sprintf("correlation %s (* sig p<0.1)", colnames(ax1)[i]))
+  axis(1, at=seq(0, 1, length=length(t2)), names(t1)[t2], las=2, cex=0.7)
+  axis(2, at=c(0,1),c("cor p", "wilcox p"), las=2, cex=0.7)
+  mx=which(ax2[ t2,i]>0)
+  text((mx-1)/(length(t2)-1), 0 , "*")
+  mx=which(ax3[ t2,i]>0)
+  text((mx-1)/(length(t2)-1), 1 , "*")
+ }
+
+dev.off()
+```
+
+Make the plots with individual samples:
+
+
+```{r}
+
+pdf("~/Desktop/2F-sample-celltypes.pdf", height=6, width=7)
+
+x2=c(colnames(CharSpecCD45)[order(sizeInfo)+1])
+
+ax1=grep("TIMER", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("TIMER:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+
+   scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+
+ax1=grep("CIBERSORT$", CharSpecCD45$cell_type)
+T1melt=melt(CharSpecCD45[ax1, ])
+
+T1melt$variable=factor(T1melt$variable, x2)
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+
+  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+theme_bw()+
+  theme(axis.text.x = element_text(angle = 90))
+
+# Also do a version where the Bcells, Macrophages,NK, Mast Cells, CD4, CD8 Cells are merged together, NK
+
+T1melt$cell_type2=substr(T1melt$cell_type, 1, 4)
+T1melt$cell_type2[grep("CD8", T1melt$cell_type)]="T CD8"
+T1melt$cell_type2[grep("CD4", T1melt$cell_type)]="T CD4"
+
+ggplot(T1melt, aes(x=variable, y=value, fill=cell_type2))+geom_bar(stat="identity")+
+  ggtitle("CIBSERT:char cohort separately")+theme(axis.text.x = element_text(angle = 90))+
+  scale_fill_manual(values=c("#66C2A5", "#E6F598", "#FED976", "#FC4E2A", "#bdbdbd", "#FEEBE2" ,"#AE017E", "#5E4FA2", "#2171B5", "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+
+T1melt$sdat=paste(T1melt$variable, T1melt$cell_type2, sep=".")
+T2=by(T1melt$value, T1melt$sdat, sum)
+T2m=stack(T2)
+T2m$ind1=sapply(strsplit(as.character(T2m$ind), "\\."), function(x) x[1])
+T2m$ind2=sapply(strsplit(as.character(T2m$ind), "\\."), function(x) x[2])
+
+T2mTab=acast(T2m[ ,c(1, 3:4)], ind2~ind1, value.var="values")
+CorV=sapply(1:nrow(T2mTab), function(x) cor(T2mTab[x, ], sizeInfo, use="complete"))
+CorVP=sapply(1:nrow(T2mTab), function(x) cor.test(T2mTab[x, ], sizeInfo, use="complete")$p.value)
+wilP=sapply(1:nrow(T2mTab), function(x) wilcox.test(T2mTab[x, ]~ sizeInfoCut)$p.value)
+
+image(cbind(CorV,CorV), col=RdBu[11:1], xaxt="none", yaxt="none",
+        main="correlation CIBERSORT collapsed (* sig p<0.1)")
+  axis(1, at=seq(0, 1, length=length(CorV)), rownames(T2mTab), las=2, cex=0.7)
+  axis(2, at=c(0,1),c("cor p", "wilcox p"), las=2, cex=0.7)
+  mx=which(CorVP<0.1)
+  text((mx-1)/(CorVP-1), 0 , "*")
+  mx=which(wilP<0.1)
+  text((mx-1)/(wilP-1), 1 , "*")
+
+  dev.off()
 
 ```
 
@@ -7973,7 +8119,7 @@ OutputplotFun(t2, "none", "non-Scaled Ep", "wgs")
 
 colCols=rep("red", ncol(nVSDchar))
 colCols[grep("CD45", colnames(nVSDchar))]="green"
-colCols[match(names(which(km4$cluster==2)), colnames(nVSDchar))]="blue"
+colCols[match(names(which(Pam3$clustering==2)), colnames(nVSDchar))]="blue"
 
 Cancer_pways=gsva(nVSDchar, PathwayListRat,
                     method="ssgsea", kcdf="Poisson", ssgsea.norm=T, verbose=F, min.sz=1)
@@ -8428,17 +8574,19 @@ A snippet of the qupath script is shown below:
 ```{r, eval=F, echo=F}
 # insert some text here
 
+
+
 ```
 
 ## Associations with cellular fraction (wsi)
 
-```{r, height=6, eval=F}
+```{r, height=6, eval=T}
 # load the data
-TrichromeData=read.csv("../data/quantification_trichrome_staining_2020-10-28.csv")
-midx=match(TrichromeData$X, gsub("_", "", Cdata$TumorID))
+TrichromeData=read.xlsx("../data/trichrome-staining-result.xls", 1)
+midx=match(TrichromeData$SampleID, gsub("_", "", Cdata$TumorID))
 
 Cdata$Trichrome=NA
-Cdata$Trichrome[na.omit(midx)]=TrichromeData$Frac[which(!is.na(midx))]
+Cdata$Trichrome[na.omit(midx)]=TrichromeData$Percentage.Stroma[which(!is.na(midx))]
 
 t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
 
@@ -8447,33 +8595,58 @@ df.Spatial=cbind(df.Spatial, t(t2))
 #head(df.Spatial)
 
 df.Spatial$Trichrome=NA
-midx=match(TrichromeData$X, rownames(df.Spatial))
-df.Spatial$Trichrome[na.omit(midx)]=TrichromeData$Frac[-which(is.na(midx))]
+midx=match(TrichromeData$SampleID, rownames(df.Spatial))
+df.Spatial$Trichrome[na.omit(midx)]=TrichromeData$Percentage.Stroma[-which(is.na(midx))]
 # plot associations
 
 n2=c("CD8", "EpCAM", "SMA", "Unclass", "EpCAM: SMA")
 
+write.csv(df.Spatial, file="outputs/summary_spatial_information.csv")
+
+head(df.Spatial)
+
+pdf("~/Desktop/richrome-association-WSI-data-Calc2.pdf", width=6, height=5)
+
 par(mfrow=c(2,3))
 for (i in n2){
-  a1=cor.test(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], use="complete")
-  n1=paste(i, "cor:", round(a1$estimate,1), "p:", round(a1$p.value,2))
-  plot(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], main=n1, xlab="Trichrome", ylab=i)
+   a1=cor.test(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], use="complete")
+   n1=paste(i, "cor:", round(a1$estimate,1), "p:", round(a1$p.value,2))
+   plot(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], main=n1, xlab="Trichrome", ylab=i)
 }
+
+dev.off()
 ```
 
 ## Associations with growth and spatial patterns
 
-```{r, fig.height=6, eval=F}
+```{r, fig.height=6}
 # plot associations with growth
-n2=c("GrowthRate", "MH.EpCAM", "IF.EpCAM", "knn.EpCAM")
+##
+##
 
+pdf("~/Desktop/Trichrome-association-clinicopathological-Calc2.pdf", width=8, height=8)
+
+n2=c("GrowthRate", "MH.EpCAM", "IF.EpCAM", "knn.EpCAM")
+n2
 par(mfrow=c(2,2))
 for (i in n2){
   a1=cor.test(df.Spatial$Trichrome, df.Spatial[ ,i], use="complete")
   n1=paste(i, "cor:", round(a1$estimate,1), "p:", round(a1$p.value,2))
   plot(df.Spatial$Trichrome, df.Spatial[ ,i], main=n1, xlab="Trichrome", ylab=i)
+  text(df.Spatial$Trichrome, df.Spatial[ ,i], rownames(df.Spatial))
 }
+
+a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$Growth)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$Growth, main=sprintf("Growth vs Trichrome p=%s", round(a1,2)))
+boxplot(df.Spatial$Trichrome~df.Spatial$Treatment, main="Treatment vs Trichrome")
+
+a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut, main=sprintf("Ep int. fraction %s", round(a1,2)))
+a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$CD8Fraccut)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$CD8Fraccut, main=sprintf("CD8 fraction vs Trichrome %s", round(a1,2)))
+
+dev.off()
 ```
 
-<!--chapter:end:13-trichrome-staining.Rmd-->
+<!--chapter:end:14-trichrome-staining.Rmd-->
 

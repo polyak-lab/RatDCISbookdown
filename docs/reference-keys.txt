@@ -69,7 +69,7 @@ specific-pathways
 dn-samples-1
 cd45-samples
 epithelial-samples
-deseq-analysis-2
+deseq-analysis-characterisation-cohort-big-vs-small
 cd45-samples-1
 pca-plot
 differential-gene-expression
@@ -78,6 +78,7 @@ pca-plot-1
 gsea
 erpgr-subtyping
 in-house-classifier
+dn-samples-2
 pam50-parker-scoring
 clustering-based-on-random-genes
 consolidating-the-different-results
@@ -94,7 +95,7 @@ immune-estimation
 ssgsea-1
 deconvolution-methods
 overview-of-the-cell-types
-temp-comparison-of-running-char-and-prog-cohorts-separately
+association-between-characterisation-cohort-and-size
 comparison-with-facs-data
 associate-with-treatment
 association-with-growth
