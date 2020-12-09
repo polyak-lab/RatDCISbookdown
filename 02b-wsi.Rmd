@@ -90,6 +90,8 @@ Treatment:
 
 ```{r}
 
+pdf("~/Desktop/4C-knn-summary-treatment.pdf", height=5, width=7)
+
 knnTemp1$Treatment=Cdata$Treatment[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
 
 fit1=aov(MeanDistance~Treatment+knn, data=knnTemp1[knnTemp1$NearestCellType=="EpCAM", ])
@@ -108,7 +110,7 @@ fit4b=aov(MeanDistance~Growth+knn, data=knnTemp1[knnTemp1$NearestCellType=="Uncl
 
 # p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+Treatment)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
 # print(p)
-p<-ggplot(knnTemp1, aes(fill=Treatment, y=MeanDistance, x=Treatment))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Treatment))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c", "#4daf4a","#377eb8",  "#984ea3"),na.value="black")
+p<-ggplot(knnTemp1, aes(col=Treatment, y=MeanDistance, x=Treatment))+geom_boxplot(outlier.shape=NA)+geom_point(position=position_jitterdodge(),alpha=0.3)+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = ColMerge[ ,1],na.value="black")+theme_bw()
 print(p)
 par(mfrow=c(2,2), oma=c(0, 0, 2, 0))
 plot(TukeyHSD(fit1, "Treatment"), las=2)
@@ -119,6 +121,7 @@ plot(TukeyHSD(fit3, "Treatment"), las=2)
 title("EpCAM:SMA Mean Distance", line=3.3)
 plot(TukeyHSD(fit4, "Treatment"), las=2)
 title("Unclass Distance", line=3.3)
+dev.off()
 ```
 
 ### Growth
@@ -126,9 +129,10 @@ title("Unclass Distance", line=3.3)
 All 95% confidence lines cross 0, but it appears that stable cases have a closer unclass-CD8 interaction distance compared to growing.
 
 ```{r}
+pdf("~/Desktop/4C-knn-summary-growth.pdf", height=5, width=7)
 # p<-ggplot(knnTemp1, aes(x=NearestCellType, y=MeanDistance, fill=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+Growth)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
 # print(p)
-p<-ggplot(knnTemp1, aes(fill=Growth, y=MeanDistance, x=Growth))+geom_boxplot(outlier.shape=NA)+geom_jitter(aes(col=Growth))+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c("#e41a1c","#ff7f00", "#4daf4a","#377eb8",  "#984ea3", "purple"),na.value="black")
+p<-ggplot(knnTemp1, aes(col=Growth, y=MeanDistance, x=Growth))+geom_boxplot(outlier.shape=NA)+geom_point(position=position_jitterdodge(),alpha=0.3)+facet_grid(~knn+NearestCellType)+scale_y_continuous(trans='log10')+theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_color_manual(values = c(ColSize, "black"),na.value="black")+theme_bw()
 print(p)
 par(mfrow=c(2,2), oma=c(0, 0, 2, 0))
 plot(TukeyHSD(fit1b, "Growth"), las=2)
@@ -140,10 +144,39 @@ title("EpCAM:SMA Mean Distance", line=3.3)
 plot(TukeyHSD(fit4b, "Growth"), las=2)
 title("Unclass Distance", line=3.3)
 
-#devoff()
+dev.off()
 
 ```
 
+Combine the Epithelial samples, and SMA/unclassified samples together: Is there a difference here?
+
+```{r}
+knnTemp1b=knnTemp1[which(knnTemp1$knn=="knn1"), ]
+knnTemp1b$CD8=WSIvalFracs[1, match(knnTemp1b$L1, colnames(WSIvalFracs))]
+knnTemp1b$CD8frac=ifelse(knnTemp1b$CD8>0.1, "high", "low")
+knnTemp1b$Ep=WSIvalFracs[2, match(knnTemp1b$L1, colnames(WSIvalFracs))]
+knnTemp1b$Epfrac=ifelse(knnTemp1b$CD8>0.1, "high", "low")
+
+
+knnTemp1c=knnTemp1b[knnTemp1b$NearestCellType%in%c("EpCAM"),  ]
+knnTemp1d=knnTemp1b[knnTemp1b$NearestCellType%in%c("EpCAM: SMA"),  ]
+
+knnEpMerge=merge(knnTemp1c, knnTemp1d[ ,c("MeanDistance", "MedianDistance", "variable", 
+                                          "value","L1")], by.x="L1", by.y="L1", all=T)
+knnEpMerge$EpDist2=ifelse(knnEpMerge$MedianDistance.x<knnEpMerge$MedianDistance.y, 
+                          knnEpMerge$MedianDistance.x, knnEpMerge$MedianDistance.y)
+knnEpMerge$EpDist2[which(is.na(knnEpMerge$EpDist2))]=knnEpMerge$MedianDistance.x[which(is.na(knnEpMerge$EpDist2))]
+
+ggplot(knnEpMerge, aes(x=Growth , y=EpDist2, col=Growth))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+ylim(c(0, 200))+facet_grid(~CD8frac)
+
+ggplot(knnEpMerge, aes(x=Treatment, y=EpDist2, col=Treatment))+facet_grid(~CD8frac)+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+ylim(c(0, 200))
+
+plot(knnEpMerge$CD8, knnEpMerge$EpDist2, col=factor(knnEpMerge$Growth))
+text(knnEpMerge$CD8, knnEpMerge$EpDist2, knnEpMerge$L1)
+plot(knnEpMerge$Ep, knnEpMerge$EpDist2, col=factor(knnEpMerge$Growth))
+text(knnEpMerge$Ep, knnEpMerge$EpDist2, knnEpMerge$L1)
+
+```
 
 Based on the above distributions, knn1, knn3, and knn5 analyses give similar results. In the following section, we will make comparisons using knn3 results.
 
@@ -157,7 +190,7 @@ But we don't see an association with epcam+ cells or unclassified stromal cells
 
 ```{r, fig.height=6}
 A1=knnTemp1[knnTemp1$knn=="knn3" & knnTemp1$CellType=="CD8",  ]
-A1$CD8frac=WSIvalFracs[1, match(A1$L1, colnames(WSIvals))]
+A1$CD8frac=WSIvalFracs[1, match(A1$L1, colnames(WSIvalFracs))]
 
 #pdf(sprintf("rslt/WSI-analysis/check_knn3-averageDistance_association_withCD8fraction_%s.pdf", Sys.Date()), height=8, width=8)
 par(mfrow=c(2,2))
@@ -350,6 +383,7 @@ Here, we check if there is an association between the spatial pattern and tumor 
 ######
 # compare these metrics with growth
 ####
+pdf("~/Desktop/4D-IF-summary-growth.pdf", height=5, width=7)
 
 #pdf(sprintf("rslt/WSI-analysis/interacting_fraction_vs_treatment_growth_%s.pdf", Sys.Date()), height=7, width=12)
 ctypes=unique(IFmelt$NearestNeighbor)
@@ -359,7 +393,7 @@ pval2=sapply(ctypes, function(x) wilcox.test(t2$value[t2$NearestNeighbor==x & t2
 
 ann_text=data.frame(Glabel=round(pval2,2), NearestNeighbor=(ctypes ), Growth2="stable", value=0.7)
 
-p<-ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Growth2, y=value, col=Growth2))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")
+p=ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Growth2, y=value, col=Growth2))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")+theme_bw()+geom_point(position=position_jitterdodge(),alpha=0.3)+scale_color_manual(values=c(ColSize, "black"))
 p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
 
 
@@ -371,6 +405,8 @@ p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
 # print(p)
 # p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="Unclass" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Growth2, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-Unclass interacting fraction; spatial manual")
 # print(p)
+
+dev.off()
 ```
 
 None of the above metrics associate with growth. (P value by wilcox test shown)
@@ -380,6 +416,7 @@ None of the above metrics associate with growth. (P value by wilcox test shown)
 Similarly, compare the distances with treatment: 
 
 ```{r}
+pdf("~/Desktop/4D-IF-summary-treatment.pdf", height=5, width=7)
 
 ctypes=unique(IFmelt$NearestNeighbor)
 t2=IFmelt[which(IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15) , ]
@@ -398,7 +435,7 @@ colnames(pmelt)=c("Treatment", "NearestNeighbor", "label")
 pmelt$label=round(pmelt$label, 2)
 pmelt$value=0.8
 
-p<-ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Treatment, y=value, col=Treatment))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")
+p<-ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Treatment, y=value, col=Treatment))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")+geom_point(position=position_jitterdodge(),alpha=0.3)+scale_color_manual(values=c(ColMerge[,1]))
 p+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.75, label=label, col=Treatment))
 print(p)
 # p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="EpCAM" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-EpCAM interacting fraction: Treatment")
@@ -409,7 +446,7 @@ print(p)
 # print(p)
 # p<-ggplot(IFmelt[IFmelt$NearestNeighbor=="Unclass" & IFmelt$Reference=="CD8" , ], aes(x=Dist, y=value, col=Treatment, group=L1))+facet_grid(~knn)+geom_line(aes(group=L1))+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("CD8-Unclass interacting fraction; spatial manual")
 # print(p)
-#devoff()
+dev.off()
 ```
 
 There appears to be a difference in CD8-unclass interactions in LY treated samples (LY, PDL1+LY), but not in the other cases
@@ -421,7 +458,7 @@ The M-H distance (or Morisita Horn index) can be considered as a correlation coe
 The M-H index is thus determined as:
 
 $$ \frac{2\sum_{i=1}^n a_ib_i}{(D_a+D_b)AB} $$
-where $a_i$ and $b_i$ are the number of cells in grid $i$, $$A$$ and $$B$$ the total number of cells, and $$D_x$$ is the Simpson's index.
+where $a_i$ and $b_i$ are the number of cells in grid $i$, $A$ and $B$ the total number of cells, and $D_x$ is the Simpson's index.
 
 ### Comparison to Manual Scoring
 
@@ -447,8 +484,8 @@ A1=MHmelt[MHmelt$Var2=="CD8", ]
 A1$label=A1$L1
 A1$label[which(A1$gridsize!=500)]=NA
 
-A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==250 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
-A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==250, ]
+A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
+A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200, ]
 A3$CD8frac=WSIvalFracs[ 1, match(A3$L1, colnames(WSIvals))]
 
 MHTempSumm=A3 #MHmelt[which(MHmelt$gridsize==300 & MHmelt$Var2=="CD8"), ]
@@ -525,8 +562,9 @@ The above analysis shows that the MH-index shows differences in mixing between C
 Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing
 
 ```{r}
+pdf("~/Desktop/4E-MH-summary-growth.pdf", height=5, width=7)
 
-p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth2))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")
+p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth2))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
 
 pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Growth2=="growing"], 
@@ -534,24 +572,40 @@ pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$G
 
 ann_text=data.frame(label=round(pvals,2), Var1=unique(A3$Var1), Growth2="growing")
 
-ggplot(A3, aes(x=Growth2, y=value, col=Growth2))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_text(data=ann_text, mapping = aes(x=2, y=0.75, label=label))
+ggplot(A3, aes(x=Growth2, y=value, col=Growth2))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_text(data=ann_text, mapping = aes(x=2, y=0.75, label=label))+scale_color_manual(values=c(ColSize, "black"))
+
+dev.off()
 ```
 
 Although the MH values for growing vs stable are not different, we can compare the mixing in epcam vs stroma in matched samples:
 
 ```{r}
+pdf("~/Desktop/4E-MH-summary-matched-samples-growing-stable.pdf", height=5, width=7)
+
+
 A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
 
  a1=t.test(A2t$value[A2t$Growth=="stable" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="stable" & A2t$Var1=="SMA"], paired=T)
  a2=t.test(A2t$value[A2t$Growth=="growing" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="growing" & A2t$Var1=="SMA"], paired=T)
 # 
 ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
-# print(p)
+
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+
+A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])
+
+boxplot(A4~A2t$Growth[seq(1, nrow(A2t), by=2)], main="EpCAM MH/ SMA MH")
+
+t.test(A4~A2t$Growth[seq(1, nrow(A2t), by=2)])
+dev.off()
 ```
 
 ### Treatment
 
 ```{r}
+
+pdf("~/Desktop/4E-MH-summary-treatment.pdf", height=5, width=7)
+
 
 pval2=matrix(NA, nrow=3, ncol=4)
 colnames(pval2)=unique(A3$Var1)
@@ -566,16 +620,20 @@ colnames(pmelt)=c("Treatment", "Var1", "label")
 pmelt$label=round(pmelt$label, 2)
 pmelt$value=0.8
 
-p<-ggplot(A1, aes(x=gridsize, y=value, col=Treatment))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")
+p<-ggplot(A1, aes(x=gridsize, y=value, col=Treatment))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
 
-ggplot(A3, aes(x=Treatment, y=value, col=Treatment))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.8, label=label))
+ggplot(A3, aes(x=Treatment, y=value, col=Treatment))+facet_grid(~Var1)+geom_boxplot()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: Treatment")+geom_text(data=pmelt, mapping=aes(x=Treatment, y=0.8, label=label))+geom_point(position=position_jitterdodge(),alpha=0.3)+theme_bw()+scale_color_manual(values=ColMerge[ ,1])
+
+
+dev.off()
 ```
 
 There is no difference between the different spatial metrics compared to the vehicle, however, we can compare for a given treatment if there is a difference between the epcam and the stromal interaction scores. It appears that there is a difference only in the control, where SMA mixing is higher than EPcam mixing:
 
 ```{r}
 ## pairwise comparison: Epcam vs stroma
+pdf("~/Desktop/4E-MH-summary-matched-samples-treatment.pdf", height=5, width=7)
 
 ## calculate the pairwise p values here
 A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
@@ -588,7 +646,13 @@ a4=t.test(A2t$value[A2t$Treatment=="LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Trea
 p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 print(p)
 
-#devoff()
+A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])
+
+boxplot(A4~A2t$Treatment[seq(1, nrow(A2t), by=2)], main="EpCAM MH/ SMA MH")
+
+#t.test(A4~A2t$Treatment[seq(1, nrow(A2t), by=2)])
+
+dev.off()
 
 ```
 
@@ -628,7 +692,6 @@ After assessing optimal parameters for each metric, in this section we assess wh
 Below is a table of the different metrics and their values for each sample
 
 ```{r}
-write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
 #write.table(SummaryData, file="../metadata/WSI_compared_other_metrics.csv")
 
 ##
@@ -696,6 +759,8 @@ plot( df.Spatial$IF.EpCAM,df.Spatial$knn.EpCAM,  xlab="IF", ylab="knn",
        main=sprintf("cor:%s, p:%s", round(a1$estimate,2), round(a1$p.value, 2)))
 
 #devoff()
+
+
 ```
 
 Do any of these metrics associate with growth or treatments?

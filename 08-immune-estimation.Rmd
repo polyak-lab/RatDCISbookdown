@@ -46,13 +46,20 @@ palette()[factor(infoTableFinal$CD8FracCut[match(colnames(Imm_counts), infoTable
 colnames(ColTable)=c("Treatment", "Spatial", "Growth", "CD8")
 
 #pdf(sprintf("rslt/signatureAnalysis/Immune_Pathways_%s.pdf", Sys.Date()), width=6, height=7)
-# palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])],   
-heatmap.plus(Imm_counts, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="row", symkey=T, main="All CD45 samples")
+# palette()[as.numeric(infoTableFinal$Batch[match(colnames(Cancer_counts), infoTableFinal$SampleID)])], 
+cols.cor <- cor(Imm_counts, use = "pairwise.complete.obs", method = "pearson")
+rows.cor <- cor(t(Imm_counts), use = "pairwise.complete.obs", method = "pearson")
+hclust.col <- hclust(as.dist(1-cols.cor)) 
+hclust.row <- hclust(as.dist(1-rows.cor))
+
+
+heatmap.plus(Imm_counts, col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable, scale="none", symkey=T, main="All CD45 samples", Colv = as.dendrogram(hclust.col),
+          Rowv = as.dendrogram(hclust.row))
 
 xidx=which(infoTableFinal$Cohort[grep("CD45", colnames(allTPMFinal))]=="Progression")
 xidx
 
-heatmap.plus(Imm_counts[ ,xidx], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable[ xidx, ], scale="row", symkey=T, main="All Progression CD45 samples")
+heatmap.plus(Imm_counts[ ,xidx], col=brewer.pal(11, "RdBu")[11:1], trace="none", ColSideColors =ColTable[ xidx, ], scale="none", symkey=T, main="All Progression CD45 samples")
 ```
 
 Based on wilcoxon tests for differences between growth, cd8 content, spatial arrangement, we can also pull out the significantly different signatures and plot these below:

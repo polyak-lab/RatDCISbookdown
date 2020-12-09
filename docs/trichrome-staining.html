@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-08" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -420,8 +420,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="associations-with-growth-and-spatial-patterns" class="section level2">
 <h2><span class="header-section-number">18.2</span> Associations with growth and spatial patterns</h2>
 <pre><code>## [1] &quot;GrowthRate&quot; &quot;MH.EpCAM&quot;   &quot;IF.EpCAM&quot;   &quot;knn.EpCAM&quot;</code></pre>
+<pre><code>##       PDL1         LY    PDL1+LY 
+## 0.50800711 0.96795666 0.03089095</code></pre>
+<pre><code>##       knn.EpCAM knn.EpCAM..SMA  knn.SMA knn.Unclass knn.EpMIN knn.EpStrRatio1
+## 10LB   39.96193       52.72253 16.94935    28.07623  39.96193       0.5735732
+## 10LC   17.87345       34.57734 32.12258    24.28626  17.87345       0.2679682
+## 10LD   34.33110       30.18133 15.97086    35.99495  30.18133       0.7438671
+## 10NA   23.80977             NA 27.49276    48.19205  23.80977       0.8660376
+## 10ND   26.20801             NA 30.06210    40.01762  26.20801       0.8717958
+## 10RBL  44.92703       67.36295 18.22774    26.07893  44.92703       0.5249056
+##       knn.EpStrRatio2 knn.EpStrRatio3 knn.EpStrRatio4     IF.CD8  IF.EpCAM
+## 10LB        2.3577258       1.3302993       5.4683183 0.20538263 0.2236555
+## 10LC        0.5564141       0.7863697       1.6328326 0.07842574 0.4768745
+## 10LD        2.1496080       1.3978193       4.0393825 0.28162217 0.2944373
+## 10NA        0.8660376       0.8660376       0.8660376 0.35915415 0.4808547
+## 10ND        0.8717958       0.8717958       0.8717958 0.30086657 0.4408878
+## 10RBL       2.4647619       1.3119416       6.1603904 0.12791040 0.2213380
+##       IF.EpCAM..SMA    IF.SMA IF.Unclass   IF.EpMIN IF.EpStrRatio1
+## 10LB     0.08038836 0.5905018  0.3010823 0.08038836      0.3333713
+## 10LC     0.23757541 0.3168630  0.3714450 0.23757541      0.8601036
+## 10LD     0.25637789 0.5786730  0.1450209 0.25637789      0.3525981
+## 10NA             NA 0.3207166  0.1112743 0.48085466      1.4993132
+## 10ND             NA 0.1738438  0.1426298 0.44088779      2.5361139
+## 10RBL    0.20394931 0.5758915  0.4544651 0.20394931      0.2838246
+##       IF.EpStrRatio2 IF.EpStrRatio3 IF.EpStrRatio4  MH.EpCAM MH.EpCAM..SMA
+## 10LB       0.3787550      0.4531947      0.5148906 0.4598790     0.4523963
+## 10LC       1.5049864      1.2886010      2.2547597 0.5432610     0.5212001
+## 10LD       0.5088147      0.6596187      0.9518592 0.6867357     0.6212434
+## 10NA       1.4993132      1.4993132      1.4993132 0.4764461            NA
+## 10ND       2.5361139      2.5361139      2.5361139 0.4181843            NA
+## 10RBL      0.3843398      0.5453515      0.7384852 0.5857603     0.5360503
+##          MH.SMA MH.Unclass  MH.EpMIN MH.EpStrRatio1 MH.EpStrRatio2
+## 10LB  0.6129639  0.5544075 0.4523963      0.4316653      0.7502546
+## 10LC  0.4755447  0.5727582 0.5212001      0.5450352      1.1423973
+## 10LD  0.7215931  0.6164435 0.6212434      0.5114068      0.9516938
+## 10NA  0.5082689  0.4033893 0.4764461      0.9373898      0.9373898
+## 10ND  0.3506799  0.3206394 0.4181843      1.1924959      1.1924959
+## 10RBL 0.6881028  0.5917978 0.5360503      0.4785025      0.8512686
+##       MH.EpStrRatio3 MH.EpStrRatio4 Treatment  Growth        Infil    CD8frac
+## 10LB       0.8563069      1.4883019      PDL1 growing Infiltrating 0.02289774
+## 10LC       1.0679374      2.2384038      PDL1 growing Infiltrating 0.01003407
+## 10LD       0.9740419      1.8126268      PDL1  stable Infiltrating 0.06810877
+## 10NA       0.9373898      0.9373898      PDL1    &lt;NA&gt;   restricted 0.04656271
+## 10ND       1.1924959      1.1924959      PDL1  stable   restricted 0.02271949
+## 10RBL      0.9163973      1.6302950      PDL1 growing   restricted 0.02027148
+##       GrowthRate TumSize knn.EpCAMcut MH.EpCAMcut IF.EpCAMcut CD8Fraccut
+## 10LB   6.2285714      35         high        high         low        low
+## 10LC   5.3571429      25         high        high        high        low
+## 10LD   1.9729730      10         high        high        high       high
+## 10NA          NA      12         high        high        high       high
+## 10ND   0.3930533      15         high         low        high        low
+## 10RBL  4.9761905      40         &lt;NA&gt;        high         low        low
+##              CD8     EpCAM EpCAM: SMA       SMA   Unclass        CD8     EpCAM
+## 10LB  0.02289774 0.2663149  0.1200304 0.3936498 0.1971072 0.02289774 0.2663149
+## 10LC  0.01003407 0.3081967  0.1672355 0.2960411 0.2184926 0.01003407 0.3081967
+## 10LD  0.06810877 0.1948931  0.2063845 0.4066703 0.1239434 0.06810877 0.1948931
+## 10NA  0.04656271 0.5554448  0.0000000 0.2855199 0.1124726 0.04656271 0.5554448
+## 10ND  0.02271949 0.4651478  0.0000000 0.2837204 0.2284123 0.02271949 0.4651478
+## 10RBL 0.02027148 0.3478534  0.1505455 0.2547647 0.2265650 0.02027148 0.3478534
+##       EpCAM: SMA       SMA   Unclass Trichrome
+## 10LB   0.1200304 0.3936498 0.1971072 0.1266438
+## 10LC   0.1672355 0.2960411 0.2184926 0.1500257
+## 10LD   0.2063845 0.4066703 0.1239434 0.1766188
+## 10NA   0.0000000 0.2855199 0.1124726        NA
+## 10ND   0.0000000 0.2837204 0.2284123        NA
+## 10RBL  0.1505455 0.2547647 0.2265650        NA</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
+<p>Update the metadata file</p>
 
 </div>
 </div>

@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-08" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -348,41 +348,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="running-alignment" class="section level2">
 <h2><span class="header-section-number">5.1</span> Running alignment</h2>
 <p>Samples were mapped in star using the following parameters. Note that the first two batches of samples run had shorter read lengths (~75 bp) whereas batch 3 had lengths of ~150bp</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="expression-data.html#cb25-1"></a><span class="co">## Not run here</span></span>
-<span id="cb25-2"><a href="expression-data.html#cb25-2"></a>STAR \</span>
-<span id="cb25-3"><a href="expression-data.html#cb25-3"></a>     <span class="op">--</span>readFilesCommand zcat \</span>
-<span id="cb25-4"><a href="expression-data.html#cb25-4"></a>     <span class="op">--</span>genomeDir <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2 \</span>
-<span id="cb25-5"><a href="expression-data.html#cb25-5"></a>     <span class="op">--</span>sjdbGTFfile <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2<span class="op">/</span>rn6.refGene.gtf \</span>
-<span id="cb25-6"><a href="expression-data.html#cb25-6"></a>     <span class="op">--</span>runThreadN <span class="dv">10</span> \</span>
-<span id="cb25-7"><a href="expression-data.html#cb25-7"></a>     <span class="op">--</span>runMode alignReads \</span>
-<span id="cb25-8"><a href="expression-data.html#cb25-8"></a>     <span class="op">--</span>genomeLoad NoSharedMemory\</span>
-<span id="cb25-9"><a href="expression-data.html#cb25-9"></a>     <span class="op">--</span>outSAMattributes NH HI AS nM NM\</span>
-<span id="cb25-10"><a href="expression-data.html#cb25-10"></a>     <span class="op">--</span>outSAMstrandField intronMotif\</span>
-<span id="cb25-11"><a href="expression-data.html#cb25-11"></a>     <span class="op">--</span>outFilterMultimapNmax <span class="dv">20</span>\</span>
-<span id="cb25-12"><a href="expression-data.html#cb25-12"></a>     <span class="op">--</span>alignSJoverhangMin <span class="dv">8</span>\</span>
-<span id="cb25-13"><a href="expression-data.html#cb25-13"></a>     <span class="op">--</span>readFilesIn <span class="op">$</span><span class="dv">1</span> <span class="op">$</span><span class="dv">2</span> \</span>
-<span id="cb25-14"><a href="expression-data.html#cb25-14"></a>     <span class="op">--</span>alignSJDBoverhangMin <span class="dv">1</span>\</span>
-<span id="cb25-15"><a href="expression-data.html#cb25-15"></a>     <span class="op">--</span>outFilterMismatchNmax <span class="dv">999</span>\</span>
-<span id="cb25-16"><a href="expression-data.html#cb25-16"></a>     <span class="op">--</span>outFilterMismatchNoverLmax <span class="fl">0.1</span>\</span>
-<span id="cb25-17"><a href="expression-data.html#cb25-17"></a>     <span class="op">--</span>alignIntronMin <span class="dv">20</span>\</span>
-<span id="cb25-18"><a href="expression-data.html#cb25-18"></a>     <span class="op">--</span>alignIntronMax <span class="dv">1000000</span>\</span>
-<span id="cb25-19"><a href="expression-data.html#cb25-19"></a>     <span class="op">--</span>alignMatesGapMax <span class="dv">1000000</span>\</span>
-<span id="cb25-20"><a href="expression-data.html#cb25-20"></a>     <span class="op">--</span>outFilterType BySJout\</span>
-<span id="cb25-21"><a href="expression-data.html#cb25-21"></a>     <span class="op">--</span>outFilterScoreMinOverLread <span class="fl">0.33</span> \</span>
-<span id="cb25-22"><a href="expression-data.html#cb25-22"></a>     <span class="op">--</span>outFilterMatchNminOverLread <span class="fl">0.33</span> \</span>
-<span id="cb25-23"><a href="expression-data.html#cb25-23"></a>     <span class="op">--</span>limitSjdbInsertNsj <span class="dv">1200000</span> \</span>
-<span id="cb25-24"><a href="expression-data.html#cb25-24"></a>     <span class="op">--</span>outFilterIntronMotifs None \</span>
-<span id="cb25-25"><a href="expression-data.html#cb25-25"></a>     <span class="op">--</span>alignSoftClipAtReferenceEnds Yes\</span>
-<span id="cb25-26"><a href="expression-data.html#cb25-26"></a>     <span class="op">--</span>outSAMattrRGline ID<span class="op">:</span><span class="er">$</span><span class="dv">4</span> SM<span class="op">:</span><span class="er">$</span><span class="dv">4</span> \</span>
-<span id="cb25-27"><a href="expression-data.html#cb25-27"></a>     <span class="op">--</span>chimSegmentMin <span class="dv">15</span> \</span>
-<span id="cb25-28"><a href="expression-data.html#cb25-28"></a>     <span class="op">--</span>chimJunctionOverhangMin <span class="dv">15</span>\</span>
-<span id="cb25-29"><a href="expression-data.html#cb25-29"></a>     <span class="op">--</span>limitBAMsortRAM <span class="dv">0</span>\</span>
-<span id="cb25-30"><a href="expression-data.html#cb25-30"></a>     <span class="op">--</span>outSAMtype BAM SortedByCoordinate\</span>
-<span id="cb25-31"><a href="expression-data.html#cb25-31"></a>     <span class="op">--</span>outSAMunmapped Within \</span>
-<span id="cb25-32"><a href="expression-data.html#cb25-32"></a>     <span class="op">--</span>quantMode GeneCounts transcriptomeSAM \</span>
-<span id="cb25-33"><a href="expression-data.html#cb25-33"></a>     <span class="op">--</span>quantTranscriptomeBan IndelSoftclipSingleend \</span>
-<span id="cb25-34"><a href="expression-data.html#cb25-34"></a>     <span class="op">--</span>outFileNamePrefix <span class="op">$</span><span class="dv">3</span> \</span>
-<span id="cb25-35"><a href="expression-data.html#cb25-35"></a>     <span class="op">--</span>twopassMode Basic</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="expression-data.html#cb37-1"></a><span class="co">## Not run here</span></span>
+<span id="cb37-2"><a href="expression-data.html#cb37-2"></a>STAR \</span>
+<span id="cb37-3"><a href="expression-data.html#cb37-3"></a>     <span class="op">--</span>readFilesCommand zcat \</span>
+<span id="cb37-4"><a href="expression-data.html#cb37-4"></a>     <span class="op">--</span>genomeDir <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2 \</span>
+<span id="cb37-5"><a href="expression-data.html#cb37-5"></a>     <span class="op">--</span>sjdbGTFfile <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2<span class="op">/</span>rn6.refGene.gtf \</span>
+<span id="cb37-6"><a href="expression-data.html#cb37-6"></a>     <span class="op">--</span>runThreadN <span class="dv">10</span> \</span>
+<span id="cb37-7"><a href="expression-data.html#cb37-7"></a>     <span class="op">--</span>runMode alignReads \</span>
+<span id="cb37-8"><a href="expression-data.html#cb37-8"></a>     <span class="op">--</span>genomeLoad NoSharedMemory\</span>
+<span id="cb37-9"><a href="expression-data.html#cb37-9"></a>     <span class="op">--</span>outSAMattributes NH HI AS nM NM\</span>
+<span id="cb37-10"><a href="expression-data.html#cb37-10"></a>     <span class="op">--</span>outSAMstrandField intronMotif\</span>
+<span id="cb37-11"><a href="expression-data.html#cb37-11"></a>     <span class="op">--</span>outFilterMultimapNmax <span class="dv">20</span>\</span>
+<span id="cb37-12"><a href="expression-data.html#cb37-12"></a>     <span class="op">--</span>alignSJoverhangMin <span class="dv">8</span>\</span>
+<span id="cb37-13"><a href="expression-data.html#cb37-13"></a>     <span class="op">--</span>readFilesIn <span class="op">$</span><span class="dv">1</span> <span class="op">$</span><span class="dv">2</span> \</span>
+<span id="cb37-14"><a href="expression-data.html#cb37-14"></a>     <span class="op">--</span>alignSJDBoverhangMin <span class="dv">1</span>\</span>
+<span id="cb37-15"><a href="expression-data.html#cb37-15"></a>     <span class="op">--</span>outFilterMismatchNmax <span class="dv">999</span>\</span>
+<span id="cb37-16"><a href="expression-data.html#cb37-16"></a>     <span class="op">--</span>outFilterMismatchNoverLmax <span class="fl">0.1</span>\</span>
+<span id="cb37-17"><a href="expression-data.html#cb37-17"></a>     <span class="op">--</span>alignIntronMin <span class="dv">20</span>\</span>
+<span id="cb37-18"><a href="expression-data.html#cb37-18"></a>     <span class="op">--</span>alignIntronMax <span class="dv">1000000</span>\</span>
+<span id="cb37-19"><a href="expression-data.html#cb37-19"></a>     <span class="op">--</span>alignMatesGapMax <span class="dv">1000000</span>\</span>
+<span id="cb37-20"><a href="expression-data.html#cb37-20"></a>     <span class="op">--</span>outFilterType BySJout\</span>
+<span id="cb37-21"><a href="expression-data.html#cb37-21"></a>     <span class="op">--</span>outFilterScoreMinOverLread <span class="fl">0.33</span> \</span>
+<span id="cb37-22"><a href="expression-data.html#cb37-22"></a>     <span class="op">--</span>outFilterMatchNminOverLread <span class="fl">0.33</span> \</span>
+<span id="cb37-23"><a href="expression-data.html#cb37-23"></a>     <span class="op">--</span>limitSjdbInsertNsj <span class="dv">1200000</span> \</span>
+<span id="cb37-24"><a href="expression-data.html#cb37-24"></a>     <span class="op">--</span>outFilterIntronMotifs None \</span>
+<span id="cb37-25"><a href="expression-data.html#cb37-25"></a>     <span class="op">--</span>alignSoftClipAtReferenceEnds Yes\</span>
+<span id="cb37-26"><a href="expression-data.html#cb37-26"></a>     <span class="op">--</span>outSAMattrRGline ID<span class="op">:</span><span class="er">$</span><span class="dv">4</span> SM<span class="op">:</span><span class="er">$</span><span class="dv">4</span> \</span>
+<span id="cb37-27"><a href="expression-data.html#cb37-27"></a>     <span class="op">--</span>chimSegmentMin <span class="dv">15</span> \</span>
+<span id="cb37-28"><a href="expression-data.html#cb37-28"></a>     <span class="op">--</span>chimJunctionOverhangMin <span class="dv">15</span>\</span>
+<span id="cb37-29"><a href="expression-data.html#cb37-29"></a>     <span class="op">--</span>limitBAMsortRAM <span class="dv">0</span>\</span>
+<span id="cb37-30"><a href="expression-data.html#cb37-30"></a>     <span class="op">--</span>outSAMtype BAM SortedByCoordinate\</span>
+<span id="cb37-31"><a href="expression-data.html#cb37-31"></a>     <span class="op">--</span>outSAMunmapped Within \</span>
+<span id="cb37-32"><a href="expression-data.html#cb37-32"></a>     <span class="op">--</span>quantMode GeneCounts transcriptomeSAM \</span>
+<span id="cb37-33"><a href="expression-data.html#cb37-33"></a>     <span class="op">--</span>quantTranscriptomeBan IndelSoftclipSingleend \</span>
+<span id="cb37-34"><a href="expression-data.html#cb37-34"></a>     <span class="op">--</span>outFileNamePrefix <span class="op">$</span><span class="dv">3</span> \</span>
+<span id="cb37-35"><a href="expression-data.html#cb37-35"></a>     <span class="op">--</span>twopassMode Basic</span></code></pre></div>
 <p>In addition, RSEM was run to obtain TPM, rsem and FPKM counts.
 Note: <a href="http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.ncbiRefSeq.gtf.gz">rn6.refGene.gtf.gz</a> was used to generate the RSEM library!(This is the may version)</p>
 </div>
@@ -396,7 +396,7 @@ Note that batch 3 has differences (high percentage of unmapped) compared to the 
 <li>Gene Sparsity: This is a measurement of the number of genes which have non-zero values. Ideally, would be greater than 10K, but values which are too high may also suggest contamination from DNA (unexpressed genes are also counted)</li>
 <li>Varability: standard deviation of the transcriptomic counts. If this value is too low, would suggest that high DNA contamination, non-representative transcriptome.</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-68-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-68-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-68-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-3.png" width="672" /></p>
 <p>Samples to remove from analysis:</p>
 <p>The thresholds indicated below are based on the above density plots, and removes cases which are &lt;1.5 SD of the mean</p>
 <ul>
@@ -591,7 +591,7 @@ $ sum(gene_i) &gt; N_{samples}/2 $</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-3.png" width="672" /></p>
 <p>Batches in general separate out well, however, some samples appear to be outliers in comparison to the main group. We look in closer detail the CD45, DN and EpCAM populations.</p>
 <p>In the CD45 population, narrow down to only immune related genes to see if there is a difference.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-71-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-74-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-74-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-74-3.png" width="672" /></p>
 <p>Based on the above plots, we remove the following outliers and re-run the normalisation:</p>
 <ul>
 <li>2R_D_DN</li>

@@ -76,8 +76,8 @@ for (i in n2){
   text(df.Spatial$Trichrome, df.Spatial[ ,i], rownames(df.Spatial))
 }
 
-a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$Growth)$p.val
-boxplot(df.Spatial$Trichrome~df.Spatial$Growth, main=sprintf("Growth vs Trichrome p=%s", round(a1,2)))
+a1a=wilcox.test(df.Spatial$Trichrome~df.Spatial$Growth)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$Growth, main=sprintf("Growth vs Trichrome p=%s", round(a1a,2)))
 boxplot(df.Spatial$Trichrome~df.Spatial$Treatment, main="Treatment vs Trichrome")
 
 a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut)$p.val
@@ -85,5 +85,37 @@ boxplot(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut, main=sprintf("Ep int. fract
 a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$CD8Fraccut)$p.val
 boxplot(df.Spatial$Trichrome~df.Spatial$CD8Fraccut, main=sprintf("CD8 fraction vs Trichrome %s", round(a1,2)))
 
+
+pv1=sapply(c("PDL1", "LY", "PDL1+LY"), function(x) wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Treatment%in%c("Vehicle", x))]~
+           df.Spatial$Treatment[which(df.Spatial$Treatment%in%c("Vehicle", x))])$p.value)
+names(pv1)=c("PDL1", "LY", "PDL1+LY")
+
+pv1
+
+head(df.Spatial)
+
+#pdf("~/Desktop/testoutput.pdf", height=6, width=6)
+ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, col=Treatment))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+
+ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
+ scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth", round(a1a, 2)))
+print(p)
+
+
 dev.off()
+#print(p)
+
+#dev.off()
+
+
+
+```
+
+
+Update the metadata file
+
+```{r}
+write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+
 ```

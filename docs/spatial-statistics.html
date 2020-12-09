@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-08" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -368,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>SMA to epcam (CD8s are closer to the SMA)</li>
 </ul>
 <p>This last result is consistent with what we expect for a CD8+ cell which is stroma-restricted.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-40-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-2.png" width="672" /></p>
 </div>
 <div id="associations-with-outcome" class="section level3">
 <h3><span class="header-section-number">4.1.2</span> Associations with outcome</h3>
@@ -378,12 +378,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>CD8 cells in PDL1 sample are further away to SMA+ cells and EpCAM+ (compared to vehicle or double agent)</li>
 <li>CD8 cells in LY treated samples are further away from unclassified cells (compared to any of the other treatments)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-41-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="growth" class="section level3">
 <h3><span class="header-section-number">4.1.3</span> Growth</h3>
 <p>All 95% confidence lines cross 0, but it appears that stable cases have a closer unclass-CD8 interaction distance compared to growing.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-42-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>Combine the Epithelial samples, and SMA/unclassified samples together: Is there a difference here?</p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-4.png" width="672" /></p>
 <p>Based on the above distributions, knn1, knn3, and knn5 analyses give similar results. In the following section, we will make comparisons using knn3 results.</p>
 </div>
 <div id="association-between-distance-and-content" class="section level3">
@@ -391,10 +395,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The spatial differences could be influenced by CD8 content. Here, we test if the distances from CD8Tcells to celltype B could be influenced by this.</p>
 <p>We see that there is a correlation between CD8 fraction and the SMA proportion (both SMA and double positive).
 But we don’t see an association with epcam+ cells or unclassified stromal cells</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
 <p>CD8-Epcam distances are looked at in greater detail below. Here, we look at whether there is an association with CD8 fraction in a growing and stable tumors.</p>
 <p>In growing or spatially restricted tumors, there is an association between the CD8-epcam distances with the CD8 fraction, but not in infiltrating or stable tumours.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 <p>Do any of the below metrics correlate with manual scoring:</p>
 <ul>
 <li>We can assess the distances from CD8 cells which come automatically:
@@ -414,7 +418,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 </ul></li>
 </ul>
 <p>Whilst the manual scorings associate strongly with CD8-EPcam distances, there is no association with any other cell type.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
 </div>
 </div>
 <div id="the-interacting-fraction" class="section level2">
@@ -424,7 +428,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 <h3><span class="header-section-number">4.2.1</span> Comparison to manual &amp; select optimal r</h3>
 <p>Below are plots of the proportion of CD8 cells within an “interacting distance” as we increase r. This looks at both the interacting fraction of CD8 cells with Epcam+ and SMA+ cells. Lines are color coded according to the manual spatial-infiltration annotation.</p>
 <p>We notice from the line plots for each single sample that the restricted samples generally have low interacting fractins with EpCAM and SMA compared to the infiltrating samples. In addition, there is a statistical difference in EpCAM measurements compared to SMA.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-46-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-4.png" width="672" /></p>
 <p>Using the boxplots as a guide, we can determine optimal “interacting distances” at which to perform downstream analysis. The best separation between restricted and infiltrating for EpCAM appears at:</p>
 <ul>
 <li>1-nn: 10-15 um</li>
@@ -433,20 +437,22 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 </ul>
 <p>The interacting fraction does not distinguish SMA fractions (all restricted boxplots overlap with the infiltrating boxplots)</p>
 <p>The following plots use 3NN analysis with an interacting distance of 15um. We can firstly check if there is an association between different “interacting fraction” types and manual scoring, similar to what was performed for knn-analysis. Only CD8-EpCAM interacting distances is associated with manual scoring. All other metrics are not significant.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 <p>Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 </div>
 <div id="growth-1" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Growth</h3>
 <p>Here, we check if there is an association between the spatial pattern and tumor growth.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/if-growth-1.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 <p>None of the above metrics associate with growth. (P value by wilcox test shown)</p>
 </div>
 <div id="treatment" class="section level3">
 <h3><span class="header-section-number">4.2.3</span> Treatment</h3>
 <p>Similarly, compare the distances with treatment:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-49-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 <p>There appears to be a difference in CD8-unclass interactions in LY treated samples (LY, PDL1+LY), but not in the other cases</p>
 </div>
 </div>
@@ -455,7 +461,7 @@ But we don’t see an association with epcam+ cells or unclassified stromal cell
 <p>The M-H distance (or Morisita Horn index) can be considered as a correlation coefficient in spatial distribution between cell type A and cell type B. To calculate this metric, the whole slide image is divided into grids of size 50 to 500um. Within each grid, the total number of cells A and B are determined.</p>
 <p>The M-H index is thus determined as:</p>
 <p><span class="math display">\[ \frac{2\sum_{i=1}^n a_ib_i}{(D_a+D_b)AB} \]</span>
-where <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> are the number of cells in grid <span class="math inline">\(i\)</span>, <span class="math display">\[A\]</span> and <span class="math display">\[B\]</span> the total number of cells, and <span class="math display">\[D_x\]</span> is the Simpson’s index.</p>
+where <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> are the number of cells in grid <span class="math inline">\(i\)</span>, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> the total number of cells, and <span class="math inline">\(D_x\)</span> is the Simpson’s index.</p>
 <div id="comparison-to-manual-scoring" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Comparison to Manual Scoring</h3>
 <p>Similar to the interacting fraction, we plot the MH index for increasing values of gridsize to determine an optimal metric to compare spatial patterns. Ideally, we would pick a metric has the following properties:</p>
@@ -464,7 +470,7 @@ where <span class="math inline">\(a_i\)</span> and <span class="math inline">\(b
 <li>a reasonable number of cells within each grid (avoid too small grids which give counts of 0)</li>
 <li>avoid plateauing of MH values because the grid size is too large</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-50-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-3.png" width="672" /></p>
 <p>With increasing grid size, optimal differences between infiltrating and restricted appear at the following sizes:</p>
 <ul>
 <li>epCAML 100um+</li>
@@ -479,21 +485,36 @@ Other notes:</p>
 <li>higher SMA- stromal cells in restricted</li>
 </ul>
 <p>Below, we check whether these metrics can differentiate between infiltrating and restricted tumors:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
 <p>The above analysis shows that the MH-index shows differences in mixing between CD8 cells and mixing with most cell types. However MH-CD8-to-Epcam to MH-CD8-to-stroma ratios do not support this difference.</p>
 </div>
 <div id="growth-2" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> Growth</h3>
 <p>Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 <p>Although the MH values for growing vs stable are not different, we can compare the mixing in epcam vs stroma in matched samples:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  A4 by A2t$Growth[seq(1, nrow(A2t), by = 2)]
+## t = 0.63346, df = 48.462, p-value = 0.5294
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.4772926  0.9165271
+## sample estimates:
+## mean in group growing  mean in group stable 
+##            0.01433179           -0.20528550</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="treatment-1" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Treatment</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-54-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 <p>There is no difference between the different spatial metrics compared to the vehicle, however, we can compare for a given treatment if there is a difference between the epcam and the stromal interaction scores. It appears that there is a difference only in the control, where SMA mixing is higher than EPcam mixing:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 </div>
 <div id="comparison-between-metrics" class="section level2">
@@ -544,7 +565,7 @@ TumSize
 0.2236555
 </td>
 <td style="text-align:right;">
-0.4598790
+0.4189067
 </td>
 <td style="text-align:left;">
 PDL1
@@ -573,7 +594,7 @@ Infiltrating
 0.4768745
 </td>
 <td style="text-align:right;">
-0.5432610
+0.4707042
 </td>
 <td style="text-align:left;">
 PDL1
@@ -602,7 +623,7 @@ Infiltrating
 0.2944373
 </td>
 <td style="text-align:right;">
-0.6867357
+0.6622844
 </td>
 <td style="text-align:left;">
 PDL1
@@ -631,7 +652,7 @@ Infiltrating
 0.4808547
 </td>
 <td style="text-align:right;">
-0.4764461
+0.4314681
 </td>
 <td style="text-align:left;">
 PDL1
@@ -660,7 +681,7 @@ restricted
 0.4408878
 </td>
 <td style="text-align:right;">
-0.4181843
+0.3700572
 </td>
 <td style="text-align:left;">
 PDL1
@@ -689,7 +710,7 @@ restricted
 0.2213380
 </td>
 <td style="text-align:right;">
-0.5857603
+0.5503682
 </td>
 <td style="text-align:left;">
 PDL1
@@ -718,7 +739,7 @@ restricted
 0.0816202
 </td>
 <td style="text-align:right;">
-0.3840030
+0.3462214
 </td>
 <td style="text-align:left;">
 PDL1
@@ -747,7 +768,7 @@ restricted
 0.2080105
 </td>
 <td style="text-align:right;">
-0.2992537
+0.2744403
 </td>
 <td style="text-align:left;">
 PDL1
@@ -776,7 +797,7 @@ NA
 0.0079816
 </td>
 <td style="text-align:right;">
-0.5643066
+0.5128564
 </td>
 <td style="text-align:left;">
 PDL1
@@ -805,7 +826,7 @@ Infiltrating
 0.0386688
 </td>
 <td style="text-align:right;">
-0.0388372
+0.0322613
 </td>
 <td style="text-align:left;">
 PDL1
@@ -834,7 +855,7 @@ restricted
 0.2323507
 </td>
 <td style="text-align:right;">
-0.3847338
+0.3205903
 </td>
 <td style="text-align:left;">
 PDL1
@@ -863,7 +884,7 @@ restricted
 0.0002809
 </td>
 <td style="text-align:right;">
-0.1642608
+0.1570713
 </td>
 <td style="text-align:left;">
 PDL1
@@ -892,7 +913,7 @@ Infiltrating
 0.1279338
 </td>
 <td style="text-align:right;">
-0.3039013
+0.2665830
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -921,7 +942,7 @@ restricted
 0.2540062
 </td>
 <td style="text-align:right;">
-0.4353436
+0.4080962
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -950,7 +971,7 @@ restricted
 0.1239597
 </td>
 <td style="text-align:right;">
-0.3670808
+0.3503812
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -979,7 +1000,7 @@ restricted
 0.1681860
 </td>
 <td style="text-align:right;">
-0.6214897
+0.5450124
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1008,7 +1029,7 @@ Infiltrating
 0.2226772
 </td>
 <td style="text-align:right;">
-0.4642353
+0.3289970
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1037,7 +1058,7 @@ restricted
 0.1299775
 </td>
 <td style="text-align:right;">
-0.4756601
+0.4076448
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1066,7 +1087,7 @@ restricted
 0.6025030
 </td>
 <td style="text-align:right;">
-0.6063571
+0.5347432
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1095,7 +1116,7 @@ Infiltrating
 0.1578969
 </td>
 <td style="text-align:right;">
-0.3729870
+0.3596139
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1124,7 +1145,7 @@ restricted
 0.2750368
 </td>
 <td style="text-align:right;">
-0.3355138
+0.2893526
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1153,7 +1174,7 @@ Infiltrating
 0.2411490
 </td>
 <td style="text-align:right;">
-0.0623470
+0.0605610
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1182,7 +1203,7 @@ Infiltrating
 0.3001624
 </td>
 <td style="text-align:right;">
-0.5734648
+0.5251390
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -1211,7 +1232,7 @@ Infiltrating
 0.2842939
 </td>
 <td style="text-align:right;">
-0.5094333
+0.4721488
 </td>
 <td style="text-align:left;">
 PDL1
@@ -1240,7 +1261,7 @@ Infiltrating
 0.2354937
 </td>
 <td style="text-align:right;">
-0.3920871
+0.3546068
 </td>
 <td style="text-align:left;">
 PDL1
@@ -1269,7 +1290,7 @@ Infiltrating
 0.0907525
 </td>
 <td style="text-align:right;">
-0.3510232
+0.3039443
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1298,7 +1319,7 @@ restricted
 0.0029328
 </td>
 <td style="text-align:right;">
-0.6112631
+0.5551542
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1327,7 +1348,7 @@ Infiltrating
 0.6275561
 </td>
 <td style="text-align:right;">
-0.4630693
+0.4328760
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1356,7 +1377,7 @@ Infiltrating
 0.2448721
 </td>
 <td style="text-align:right;">
-0.3766073
+0.3478152
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1385,7 +1406,7 @@ restricted
 0.0452766
 </td>
 <td style="text-align:right;">
-0.3252085
+0.2966200
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1414,7 +1435,7 @@ restricted
 0.1979009
 </td>
 <td style="text-align:right;">
-0.6791816
+0.6231933
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1443,7 +1464,7 @@ restricted
 0.2865240
 </td>
 <td style="text-align:right;">
-0.4162200
+0.3758729
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1472,7 +1493,7 @@ restricted
 0.4377911
 </td>
 <td style="text-align:right;">
-0.7061056
+0.6822122
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1501,7 +1522,7 @@ Infiltrating
 0.2910751
 </td>
 <td style="text-align:right;">
-0.4645950
+0.4183820
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1530,7 +1551,7 @@ restricted
 0.2962108
 </td>
 <td style="text-align:right;">
-0.4965437
+0.4551995
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1559,7 +1580,7 @@ Infiltrating
 0.2903294
 </td>
 <td style="text-align:right;">
-0.5447258
+0.4966275
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1588,7 +1609,7 @@ Infiltrating
 0.6851436
 </td>
 <td style="text-align:right;">
-0.0901870
+0.0923787
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1617,7 +1638,7 @@ restricted
 0.4768080
 </td>
 <td style="text-align:right;">
-0.5809047
+0.5107429
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1646,7 +1667,7 @@ Infiltrating
 0.1765476
 </td>
 <td style="text-align:right;">
-0.3445324
+0.3034436
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1675,7 +1696,7 @@ restricted
 0.2471295
 </td>
 <td style="text-align:right;">
-0.3724930
+0.3461071
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1704,7 +1725,7 @@ Infiltrating
 0.2807178
 </td>
 <td style="text-align:right;">
-0.4690510
+0.4172856
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1733,7 +1754,7 @@ restricted
 0.1168545
 </td>
 <td style="text-align:right;">
-0.1980203
+0.1727796
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1762,7 +1783,7 @@ restricted
 0.0735101
 </td>
 <td style="text-align:right;">
-0.2028472
+0.1716812
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1791,7 +1812,7 @@ restricted
 0.1934315
 </td>
 <td style="text-align:right;">
-0.4479302
+0.4100757
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -1820,7 +1841,7 @@ restricted
 0.1092889
 </td>
 <td style="text-align:right;">
-0.2738092
+0.2378287
 </td>
 <td style="text-align:left;">
 LY
@@ -1849,7 +1870,7 @@ restricted
 0.2756628
 </td>
 <td style="text-align:right;">
-0.4251078
+0.3822474
 </td>
 <td style="text-align:left;">
 LY
@@ -1878,7 +1899,7 @@ NA
 0.1446840
 </td>
 <td style="text-align:right;">
-0.5947703
+0.5471652
 </td>
 <td style="text-align:left;">
 LY
@@ -1907,7 +1928,7 @@ Infiltrating
 0.1966022
 </td>
 <td style="text-align:right;">
-0.5496400
+0.5204855
 </td>
 <td style="text-align:left;">
 LY
@@ -1936,7 +1957,7 @@ restricted
 0.0728176
 </td>
 <td style="text-align:right;">
-0.1877309
+0.1585330
 </td>
 <td style="text-align:left;">
 LY
@@ -1965,7 +1986,7 @@ restricted
 0.0531233
 </td>
 <td style="text-align:right;">
-0.2103338
+0.1828468
 </td>
 <td style="text-align:left;">
 LY
@@ -1994,7 +2015,7 @@ restricted
 0.2251296
 </td>
 <td style="text-align:right;">
-0.4269972
+0.3989243
 </td>
 <td style="text-align:left;">
 LY
@@ -2023,7 +2044,7 @@ restricted
 0.1917334
 </td>
 <td style="text-align:right;">
-0.7110689
+0.6536704
 </td>
 <td style="text-align:left;">
 LY
@@ -2052,7 +2073,7 @@ NA
 0.2386457
 </td>
 <td style="text-align:right;">
-0.4019270
+0.3585417
 </td>
 <td style="text-align:left;">
 LY
@@ -2081,7 +2102,7 @@ Infiltrating
 0.6508906
 </td>
 <td style="text-align:right;">
-0.7532812
+0.7091721
 </td>
 <td style="text-align:left;">
 LY
@@ -2110,7 +2131,7 @@ Infiltrating
 0.6186366
 </td>
 <td style="text-align:right;">
-0.7536385
+0.6783535
 </td>
 <td style="text-align:left;">
 LY
@@ -2139,7 +2160,7 @@ restricted
 0.2347423
 </td>
 <td style="text-align:right;">
-0.4676640
+0.4272626
 </td>
 <td style="text-align:left;">
 LY
@@ -2360,31 +2381,31 @@ Unclass
 5.148906e-01
 </td>
 <td style="text-align:right;">
-0.4598790
+0.4189067
 </td>
 <td style="text-align:right;">
-0.4523963
+0.4131540
 </td>
 <td style="text-align:right;">
-0.6129639
+0.5718496
 </td>
 <td style="text-align:right;">
-0.5544075
+0.5168234
 </td>
 <td style="text-align:right;">
-0.4523963
+0.4131540
 </td>
 <td style="text-align:right;">
-0.4316653
+0.4252844
 </td>
 <td style="text-align:right;">
-0.7502546
+0.7325470
 </td>
 <td style="text-align:right;">
-0.8563069
+0.8447286
 </td>
 <td style="text-align:right;">
-1.4883019
+1.4550342
 </td>
 <td style="text-align:left;">
 PDL1
@@ -2494,31 +2515,31 @@ low
 2.254760e+00
 </td>
 <td style="text-align:right;">
-0.5432610
+0.4707042
 </td>
 <td style="text-align:right;">
-0.5212001
+0.4528022
 </td>
 <td style="text-align:right;">
-0.4755447
+0.4110442
 </td>
 <td style="text-align:right;">
-0.5727582
+0.5066458
 </td>
 <td style="text-align:right;">
-0.5212001
+0.4528022
 </td>
 <td style="text-align:right;">
-0.5450352
+0.5448934
 </td>
 <td style="text-align:right;">
-1.1423973
+1.1451425
 </td>
 <td style="text-align:right;">
-1.0679374
+1.0690632
 </td>
 <td style="text-align:right;">
-2.2384038
+2.2467326
 </td>
 <td style="text-align:left;">
 PDL1
@@ -2628,31 +2649,31 @@ low
 9.518592e-01
 </td>
 <td style="text-align:right;">
-0.6867357
+0.6622844
 </td>
 <td style="text-align:right;">
-0.6212434
+0.5987199
 </td>
 <td style="text-align:right;">
-0.7215931
+0.6967903
 </td>
 <td style="text-align:right;">
-0.6164435
+0.5894954
 </td>
 <td style="text-align:right;">
-0.6212434
+0.5987199
 </td>
 <td style="text-align:right;">
-0.5114068
+0.5112151
 </td>
 <td style="text-align:right;">
-0.9516938
+0.9504787
 </td>
 <td style="text-align:right;">
-0.9740419
+0.9733650
 </td>
 <td style="text-align:right;">
-1.8126268
+1.8097328
 </td>
 <td style="text-align:left;">
 PDL1
@@ -2762,31 +2783,31 @@ NA
 1.499313e+00
 </td>
 <td style="text-align:right;">
-0.4764461
+0.4314681
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5082689
+0.4720285
 </td>
 <td style="text-align:right;">
-0.4033893
+0.3768075
 </td>
 <td style="text-align:right;">
-0.4764461
+0.4314681
 </td>
 <td style="text-align:right;">
-0.9373898
+0.9140722
 </td>
 <td style="text-align:right;">
-0.9373898
+0.9140722
 </td>
 <td style="text-align:right;">
-0.9373898
+0.9140722
 </td>
 <td style="text-align:right;">
-0.9373898
+0.9140722
 </td>
 <td style="text-align:left;">
 PDL1
@@ -2896,31 +2917,31 @@ NA
 2.536114e+00
 </td>
 <td style="text-align:right;">
-0.4181843
+0.3700572
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3506799
+0.3088513
 </td>
 <td style="text-align:right;">
-0.3206394
+0.2854604
 </td>
 <td style="text-align:right;">
-0.4181843
+0.3700572
 </td>
 <td style="text-align:right;">
-1.1924959
+1.1981728
 </td>
 <td style="text-align:right;">
-1.1924959
+1.1981728
 </td>
 <td style="text-align:right;">
-1.1924959
+1.1981728
 </td>
 <td style="text-align:right;">
-1.1924959
+1.1981728
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3030,31 +3051,31 @@ low
 7.384852e-01
 </td>
 <td style="text-align:right;">
-0.5857603
+0.5503682
 </td>
 <td style="text-align:right;">
-0.5360503
+0.4903183
 </td>
 <td style="text-align:right;">
-0.6881028
+0.6513715
 </td>
 <td style="text-align:right;">
-0.5917978
+0.5568501
 </td>
 <td style="text-align:right;">
-0.5360503
+0.4903183
 </td>
 <td style="text-align:right;">
-0.4785025
+0.4820645
 </td>
 <td style="text-align:right;">
-0.8512686
+0.8449375
 </td>
 <td style="text-align:right;">
-0.9163973
+0.9115317
 </td>
 <td style="text-align:right;">
-1.6302950
+1.5976850
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3164,31 +3185,31 @@ low
 8.332287e-01
 </td>
 <td style="text-align:right;">
-0.3840030
+0.3462214
 </td>
 <td style="text-align:right;">
-0.4336137
+0.4031007
 </td>
 <td style="text-align:right;">
-0.6001987
+0.5682643
 </td>
 <td style="text-align:right;">
-0.5692091
+0.5408522
 </td>
 <td style="text-align:right;">
-0.3840030
+0.3462214
 </td>
 <td style="text-align:right;">
-0.3714435
+0.3564277
 </td>
 <td style="text-align:right;">
-0.6397930
+0.6092612
 </td>
 <td style="text-align:right;">
-0.7908753
+0.7714114
 </td>
 <td style="text-align:right;">
-1.3622433
+1.3186154
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3298,31 +3319,31 @@ high
 2.041550e+04
 </td>
 <td style="text-align:right;">
-0.2992537
+0.2744403
 </td>
 <td style="text-align:right;">
-0.0009305
+0.0004057
 </td>
 <td style="text-align:right;">
-0.0014195
+0.0005077
 </td>
 <td style="text-align:right;">
-0.6153063
+0.5992535
 </td>
 <td style="text-align:right;">
-0.0009305
+0.0004057
 </td>
 <td style="text-align:right;">
-127.3411644
+300.4479496
 </td>
 <td style="text-align:right;">
-210.8113890
+540.5386932
 </td>
 <td style="text-align:right;">
-127.7371118
+300.8921190
 </td>
 <td style="text-align:right;">
-211.4668740
+541.3378024
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3432,31 +3453,31 @@ high
 5.232810e-02
 </td>
 <td style="text-align:right;">
-0.5643066
+0.5128564
 </td>
 <td style="text-align:right;">
-0.4637951
+0.4390237
 </td>
 <td style="text-align:right;">
-0.7401398
+0.7162334
 </td>
 <td style="text-align:right;">
-0.7604776
+0.7282685
 </td>
 <td style="text-align:right;">
-0.4637951
+0.4390237
 </td>
 <td style="text-align:right;">
-0.4687186
+0.4439327
 </td>
 <td style="text-align:right;">
-0.7624325
+0.7160465
 </td>
 <td style="text-align:right;">
-0.8539513
+0.8239552
 </td>
 <td style="text-align:right;">
-1.3890643
+1.3290083
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3566,31 +3587,31 @@ high
 1.143325e+00
 </td>
 <td style="text-align:right;">
-0.0388372
+0.0322613
 </td>
 <td style="text-align:right;">
-0.0400059
+0.0348857
 </td>
 <td style="text-align:right;">
-0.0547144
+0.0474261
 </td>
 <td style="text-align:right;">
-0.2349901
+0.2139332
 </td>
 <td style="text-align:right;">
-0.0388372
+0.0322613
 </td>
 <td style="text-align:right;">
-0.4100202
+0.3919399
 </td>
 <td style="text-align:right;">
-0.7098171
+0.6802430
 </td>
 <td style="text-align:right;">
-0.8323782
+0.8157636
 </td>
 <td style="text-align:right;">
-1.4409931
+1.4158227
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3700,31 +3721,31 @@ high
 1.036868e+00
 </td>
 <td style="text-align:right;">
-0.3847338
+0.3205903
 </td>
 <td style="text-align:right;">
-0.3672279
+0.3051097
 </td>
 <td style="text-align:right;">
-0.4221137
+0.3583134
 </td>
 <td style="text-align:right;">
-0.5481637
+0.4727397
 </td>
 <td style="text-align:right;">
-0.3672279
+0.3051097
 </td>
 <td style="text-align:right;">
-0.4874111
+0.4832365
 </td>
 <td style="text-align:right;">
-0.9114460
+0.8947204
 </td>
 <td style="text-align:right;">
-0.9526443
+0.9431387
 </td>
 <td style="text-align:right;">
-1.7814199
+1.7462367
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3834,31 +3855,31 @@ low
 2.788040e-02
 </td>
 <td style="text-align:right;">
-0.1642608
+0.1570713
 </td>
 <td style="text-align:right;">
-0.1721016
+0.1667638
 </td>
 <td style="text-align:right;">
-0.8136763
+0.7429204
 </td>
 <td style="text-align:right;">
-0.7564140
+0.6980829
 </td>
 <td style="text-align:right;">
-0.1642608
+0.1570713
 </td>
 <td style="text-align:right;">
-0.1666306
+0.1726657
 </td>
 <td style="text-align:right;">
-0.2018748
+0.2114241
 </td>
 <td style="text-align:right;">
-0.3412152
+0.3559863
 </td>
 <td style="text-align:right;">
-0.4133860
+0.4358948
 </td>
 <td style="text-align:left;">
 PDL1
@@ -3968,31 +3989,31 @@ NA
 2.637897e-01
 </td>
 <td style="text-align:right;">
-0.3039013
+0.2665830
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.4030033
+0.3741890
 </td>
 <td style="text-align:right;">
-0.2985239
+0.2782626
 </td>
 <td style="text-align:right;">
-0.3039013
+0.2665830
 </td>
 <td style="text-align:right;">
-0.7540913
+0.7124287
 </td>
 <td style="text-align:right;">
-0.7540913
+0.7124287
 </td>
 <td style="text-align:right;">
-0.7540913
+0.7124287
 </td>
 <td style="text-align:right;">
-0.7540913
+0.7124287
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -4102,31 +4123,31 @@ high
 1.173205e+00
 </td>
 <td style="text-align:right;">
-0.4353436
+0.4080962
 </td>
 <td style="text-align:right;">
-0.3003687
+0.2805678
 </td>
 <td style="text-align:right;">
-0.4807218
+0.4662048
 </td>
 <td style="text-align:right;">
-0.6659649
+0.6460109
 </td>
 <td style="text-align:right;">
-0.3003687
+0.2805678
 </td>
 <td style="text-align:right;">
-0.5573537
+0.5464799
 </td>
 <td style="text-align:right;">
-0.9056041
+0.8753583
 </td>
 <td style="text-align:right;">
-0.9419041
+0.9221871
 </td>
 <td style="text-align:right;">
-1.5304326
+1.4771706
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4150,7 +4171,7 @@ restricted
 NA
 </td>
 <td style="text-align:left;">
-low
+high
 </td>
 <td style="text-align:left;">
 high
@@ -4236,31 +4257,31 @@ high
 6.164292e-01
 </td>
 <td style="text-align:right;">
-0.3670808
+0.3503812
 </td>
 <td style="text-align:right;">
-0.2510773
+0.2344355
 </td>
 <td style="text-align:right;">
-0.3189692
+0.2942081
 </td>
 <td style="text-align:right;">
-0.6342029
+0.6112769
 </td>
 <td style="text-align:right;">
-0.2510773
+0.2344355
 </td>
 <td style="text-align:right;">
-0.6439488
+0.6627929
 </td>
 <td style="text-align:right;">
-1.1508345
+1.1909300
 </td>
 <td style="text-align:right;">
-1.0843994
+1.1062590
 </td>
 <td style="text-align:right;">
-1.9379867
+1.9877657
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4370,31 +4391,31 @@ high
 7.219690e-01
 </td>
 <td style="text-align:right;">
-0.6214897
+0.5450124
 </td>
 <td style="text-align:right;">
-0.5437266
+0.4760585
 </td>
 <td style="text-align:right;">
-0.6250649
+0.5409055
 </td>
 <td style="text-align:right;">
-0.6154319
+0.5575474
 </td>
 <td style="text-align:right;">
-0.5437266
+0.4760585
 </td>
 <td style="text-align:right;">
-0.5317370
+0.5359210
 </td>
 <td style="text-align:right;">
-0.9942802
+1.0075925
 </td>
 <td style="text-align:right;">
-0.9969411
+1.0040383
 </td>
 <td style="text-align:right;">
-1.8641523
+1.8877063
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4504,31 +4525,31 @@ low
 5.544183e-01
 </td>
 <td style="text-align:right;">
-0.4642353
+0.3289970
 </td>
 <td style="text-align:right;">
-0.4020065
+0.2931188
 </td>
 <td style="text-align:right;">
-0.5474241
+0.3878113
 </td>
 <td style="text-align:right;">
-0.5488986
+0.3817708
 </td>
 <td style="text-align:right;">
-0.4020065
+0.2931188
 </td>
 <td style="text-align:right;">
-0.4889618
+0.4831583
 </td>
 <td style="text-align:right;">
-0.8480358
+0.8483429
 </td>
 <td style="text-align:right;">
-0.9123802
+0.9136265
 </td>
 <td style="text-align:right;">
-1.5823959
+1.6041712
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4552,7 +4573,7 @@ restricted
 high
 </td>
 <td style="text-align:left;">
-high
+low
 </td>
 <td style="text-align:left;">
 low
@@ -4638,31 +4659,31 @@ NA
 3.528212e-01
 </td>
 <td style="text-align:right;">
-0.4756601
+0.4076448
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5696919
+0.4918426
 </td>
 <td style="text-align:right;">
-0.4691125
+0.3958551
 </td>
 <td style="text-align:right;">
-0.4756601
+0.4076448
 </td>
 <td style="text-align:right;">
-0.8349427
+0.8288115
 </td>
 <td style="text-align:right;">
-0.8349427
+0.8288115
 </td>
 <td style="text-align:right;">
-0.8349427
+0.8288115
 </td>
 <td style="text-align:right;">
-0.8349427
+0.8288115
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4772,31 +4793,31 @@ low
 3.552381e+00
 </td>
 <td style="text-align:right;">
-0.6063571
+0.5347432
 </td>
 <td style="text-align:right;">
-0.6982168
+0.6408288
 </td>
 <td style="text-align:right;">
-0.6574648
+0.5953938
 </td>
 <td style="text-align:right;">
-0.5594791
+0.4876943
 </td>
 <td style="text-align:right;">
-0.6063571
+0.5347432
 </td>
 <td style="text-align:right;">
-0.4472710
+0.4325622
 </td>
 <td style="text-align:right;">
-0.9222654
+0.8981336
 </td>
 <td style="text-align:right;">
-0.9623011
+0.9509388
 </td>
 <td style="text-align:right;">
-1.9842489
+1.9744444
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -4906,7 +4927,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-0.3729870
+0.3596139
 </td>
 <td style="text-align:right;">
 NA
@@ -4915,10 +4936,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-0.5004661
+0.4852310
 </td>
 <td style="text-align:right;">
-0.3729870
+0.3596139
 </td>
 <td style="text-align:right;">
 NA
@@ -5040,31 +5061,31 @@ NA
 6.138560e-01
 </td>
 <td style="text-align:right;">
-0.3355138
+0.2893526
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3365390
+0.3032338
 </td>
 <td style="text-align:right;">
-0.5012026
+0.4666952
 </td>
 <td style="text-align:right;">
-0.3355138
+0.2893526
 </td>
 <td style="text-align:right;">
-0.9969537
+0.9542226
 </td>
 <td style="text-align:right;">
-0.9969537
+0.9542226
 </td>
 <td style="text-align:right;">
-0.9969537
+0.9542226
 </td>
 <td style="text-align:right;">
-0.9969537
+0.9542226
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -5174,31 +5195,31 @@ NA
 1.864327e+00
 </td>
 <td style="text-align:right;">
-0.0623470
+0.0605610
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.0566396
+0.0549540
 </td>
 <td style="text-align:right;">
-0.1755563
+0.1696059
 </td>
 <td style="text-align:right;">
-0.0623470
+0.0605610
 </td>
 <td style="text-align:right;">
-1.1007664
+1.1020311
 </td>
 <td style="text-align:right;">
-1.1007664
+1.1020311
 </td>
 <td style="text-align:right;">
-1.1007664
+1.1020311
 </td>
 <td style="text-align:right;">
-1.1007664
+1.1020311
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -5308,31 +5329,31 @@ NA
 6.100274e-01
 </td>
 <td style="text-align:right;">
-0.5734648
+0.5251390
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5863769
+0.5469426
 </td>
 <td style="text-align:right;">
-0.7224551
+0.6761430
 </td>
 <td style="text-align:right;">
-0.5734648
+0.5251390
 </td>
 <td style="text-align:right;">
-0.9779799
+0.9601356
 </td>
 <td style="text-align:right;">
-0.9779799
+0.9601356
 </td>
 <td style="text-align:right;">
-0.9779799
+0.9601356
 </td>
 <td style="text-align:right;">
-0.9779799
+0.9601356
 </td>
 <td style="text-align:left;">
 PDL1+LY
@@ -5442,31 +5463,31 @@ low
 1.082035e+00
 </td>
 <td style="text-align:right;">
-0.5094333
+0.4721488
 </td>
 <td style="text-align:right;">
-0.5063105
+0.4676963
 </td>
 <td style="text-align:right;">
-0.5696619
+0.5315248
 </td>
 <td style="text-align:right;">
-0.4611237
+0.4264074
 </td>
 <td style="text-align:right;">
-0.5063105
+0.4676963
 </td>
 <td style="text-align:right;">
-0.4734632
+0.4725168
 </td>
 <td style="text-align:right;">
-0.8942731
+0.8882912
 </td>
 <td style="text-align:right;">
-0.9440241
+0.9405777
 </td>
 <td style="text-align:right;">
-1.7830645
+1.7682055
 </td>
 <td style="text-align:left;">
 PDL1
@@ -5576,31 +5597,31 @@ NA
 3.851142e-01
 </td>
 <td style="text-align:right;">
-0.3920871
+0.3546068
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5091869
+0.4669043
 </td>
 <td style="text-align:right;">
-0.5001361
+0.4610184
 </td>
 <td style="text-align:right;">
-0.3920871
+0.3546068
 </td>
 <td style="text-align:right;">
-0.7700258
+0.7594851
 </td>
 <td style="text-align:right;">
-0.7700258
+0.7594851
 </td>
 <td style="text-align:right;">
-0.7700258
+0.7594851
 </td>
 <td style="text-align:right;">
-0.7700258
+0.7594851
 </td>
 <td style="text-align:left;">
 PDL1
@@ -5710,31 +5731,31 @@ NA
 2.349907e-01
 </td>
 <td style="text-align:right;">
-0.3510232
+0.3039443
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3711945
+0.3286626
 </td>
 <td style="text-align:right;">
-0.6450455
+0.6139185
 </td>
 <td style="text-align:right;">
-0.3510232
+0.3039443
 </td>
 <td style="text-align:right;">
-0.9456584
+0.9247911
 </td>
 <td style="text-align:right;">
-0.9456584
+0.9247911
 </td>
 <td style="text-align:right;">
-0.9456584
+0.9247911
 </td>
 <td style="text-align:right;">
-0.9456584
+0.9247911
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -5844,31 +5865,31 @@ high
 4.852200e-03
 </td>
 <td style="text-align:right;">
-0.6112631
+0.5551542
 </td>
 <td style="text-align:right;">
-0.3687613
+0.2981954
 </td>
 <td style="text-align:right;">
-0.8549621
+0.8321012
 </td>
 <td style="text-align:right;">
-0.8295674
+0.8033055
 </td>
 <td style="text-align:right;">
-0.3687613
+0.2981954
 </td>
 <td style="text-align:right;">
-0.4995108
+0.4911580
 </td>
 <td style="text-align:right;">
-0.7149593
+0.6671715
 </td>
 <td style="text-align:right;">
-0.8008545
+0.7549785
 </td>
 <td style="text-align:right;">
-1.1462782
+1.0255359
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -5978,31 +5999,31 @@ high
 1.703317e+01
 </td>
 <td style="text-align:right;">
-0.4630693
+0.4328760
 </td>
 <td style="text-align:right;">
-0.3330522
+0.3073275
 </td>
 <td style="text-align:right;">
-0.2863570
+0.2630260
 </td>
 <td style="text-align:right;">
-0.5250959
+0.4958643
 </td>
 <td style="text-align:right;">
-0.3330522
+0.3073275
 </td>
 <td style="text-align:right;">
-0.7475982
+0.7589609
 </td>
 <td style="text-align:right;">
-1.6171046
+1.6457535
 </td>
 <td style="text-align:right;">
-1.2852916
+1.2977977
 </td>
 <td style="text-align:right;">
-2.7801709
+2.8141834
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6112,31 +6133,31 @@ high
 1.152432e+00
 </td>
 <td style="text-align:right;">
-0.3766073
+0.3478152
 </td>
 <td style="text-align:right;">
-0.2983787
+0.2712000
 </td>
 <td style="text-align:right;">
-0.4403993
+0.4027120
 </td>
 <td style="text-align:right;">
-0.5295795
+0.4981709
 </td>
 <td style="text-align:right;">
-0.2983787
+0.2712000
 </td>
 <td style="text-align:right;">
-0.5097705
+0.5161136
 </td>
 <td style="text-align:right;">
-0.8551496
+0.8636821
 </td>
 <td style="text-align:right;">
-0.9136520
+0.9185400
 </td>
 <td style="text-align:right;">
-1.5326682
+1.5371163
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6246,31 +6267,31 @@ low
 1.057747e-01
 </td>
 <td style="text-align:right;">
-0.3252085
+0.2966200
 </td>
 <td style="text-align:right;">
-0.0428215
+0.0312192
 </td>
 <td style="text-align:right;">
-0.6315026
+0.6102634
 </td>
 <td style="text-align:right;">
-0.7958075
+0.7721551
 </td>
 <td style="text-align:right;">
-0.0428215
+0.0312192
 </td>
 <td style="text-align:right;">
-0.4822734
+0.4623976
 </td>
 <td style="text-align:right;">
-0.5149758
+0.4860524
 </td>
 <td style="text-align:right;">
-0.5457762
+0.5110648
 </td>
 <td style="text-align:right;">
-0.5827846
+0.5372093
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6380,31 +6401,31 @@ high
 1.492314e+00
 </td>
 <td style="text-align:right;">
-0.6791816
+0.6231933
 </td>
 <td style="text-align:right;">
-0.5025059
+0.4778614
 </td>
 <td style="text-align:right;">
-0.6306731
+0.5903445
 </td>
 <td style="text-align:right;">
-0.6470092
+0.6193173
 </td>
 <td style="text-align:right;">
-0.5025059
+0.4778614
 </td>
 <td style="text-align:right;">
-0.5993594
+0.5834018
 </td>
 <td style="text-align:right;">
-1.0769154
+1.0556433
 </td>
 <td style="text-align:right;">
-1.0428074
+1.0307513
 </td>
 <td style="text-align:right;">
-1.8736925
+1.8651052
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6514,31 +6535,31 @@ high
 7.947526e+00
 </td>
 <td style="text-align:right;">
-0.4162200
+0.3758729
 </td>
 <td style="text-align:right;">
-0.3804293
+0.3427403
 </td>
 <td style="text-align:right;">
-0.3760026
+0.3388976
 </td>
 <td style="text-align:right;">
-0.3828019
+0.3530573
 </td>
 <td style="text-align:right;">
-0.3804293
+0.3427403
 </td>
 <td style="text-align:right;">
-0.5502412
+0.5514261
 </td>
 <td style="text-align:right;">
-1.1069606
+1.1091046
 </td>
 <td style="text-align:right;">
-1.0531673
+1.0542448
 </td>
 <td style="text-align:right;">
-2.1187337
+2.1204434
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6648,31 +6669,31 @@ NA
 1.590545e+01
 </td>
 <td style="text-align:right;">
-0.7061056
+0.6822122
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.6013878
+0.5543399
 </td>
 <td style="text-align:right;">
-0.6956147
+0.6640324
 </td>
 <td style="text-align:right;">
-0.7061056
+0.6822122
 </td>
 <td style="text-align:right;">
-1.1741270
+1.2306750
 </td>
 <td style="text-align:right;">
-1.1741270
+1.2306750
 </td>
 <td style="text-align:right;">
-1.1741270
+1.2306750
 </td>
 <td style="text-align:right;">
-1.1741270
+1.2306750
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6782,31 +6803,31 @@ NA
 8.102681e-01
 </td>
 <td style="text-align:right;">
-0.4645950
+0.4183820
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5255821
+0.4778455
 </td>
 <td style="text-align:right;">
-0.5058014
+0.4582325
 </td>
 <td style="text-align:right;">
-0.4645950
+0.4183820
 </td>
 <td style="text-align:right;">
-0.8839629
+0.8755592
 </td>
 <td style="text-align:right;">
-0.8839629
+0.8755592
 </td>
 <td style="text-align:right;">
-0.8839629
+0.8755592
 </td>
 <td style="text-align:right;">
-0.8839629
+0.8755592
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -6916,31 +6937,31 @@ low
 1.915956e+00
 </td>
 <td style="text-align:right;">
-0.4965437
+0.4551995
 </td>
 <td style="text-align:right;">
-0.4931253
+0.4518587
 </td>
 <td style="text-align:right;">
-0.5659050
+0.5103199
 </td>
 <td style="text-align:right;">
-0.4892378
+0.4469473
 </td>
 <td style="text-align:right;">
-0.4931253
+0.4518587
 </td>
 <td style="text-align:right;">
-0.4688663
+0.4730925
 </td>
 <td style="text-align:right;">
-0.8774329
+0.8919884
 </td>
 <td style="text-align:right;">
-0.9345049
+0.9427129
 </td>
 <td style="text-align:right;">
-1.7488254
+1.7774304
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7050,31 +7071,31 @@ low
 1.732824e+00
 </td>
 <td style="text-align:right;">
-0.5447258
+0.4966275
 </td>
 <td style="text-align:right;">
-0.4889290
+0.4568203
 </td>
 <td style="text-align:right;">
-0.6094964
+0.5712444
 </td>
 <td style="text-align:right;">
-0.6457394
+0.6012689
 </td>
 <td style="text-align:right;">
-0.4889290
+0.4568203
 </td>
 <td style="text-align:right;">
-0.4959152
+0.4830702
 </td>
 <td style="text-align:right;">
-0.8937309
+0.8693783
 </td>
 <td style="text-align:right;">
-0.9410332
+0.9274200
 </td>
 <td style="text-align:right;">
-1.6959161
+1.6690717
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7184,31 +7205,31 @@ NA
 3.131282e+00
 </td>
 <td style="text-align:right;">
-0.0901870
+0.0923787
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.0833893
+0.0873791
 </td>
 <td style="text-align:right;">
-0.0617270
+0.0627897
 </td>
 <td style="text-align:right;">
-0.0901870
+0.0923787
 </td>
 <td style="text-align:right;">
-1.0815175
+1.0572175
 </td>
 <td style="text-align:right;">
-1.0815175
+1.0572175
 </td>
 <td style="text-align:right;">
-1.0815175
+1.0572175
 </td>
 <td style="text-align:right;">
-1.0815175
+1.0572175
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7318,31 +7339,31 @@ NA
 6.650435e-01
 </td>
 <td style="text-align:right;">
-0.5809047
+0.5107429
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.6145949
+0.5367429
 </td>
 <td style="text-align:right;">
-0.4747809
+0.4200067
 </td>
 <td style="text-align:right;">
-0.5809047
+0.5107429
 </td>
 <td style="text-align:right;">
-0.9451830
+0.9515596
 </td>
 <td style="text-align:right;">
-0.9451830
+0.9515596
 </td>
 <td style="text-align:right;">
-0.9451830
+0.9515596
 </td>
 <td style="text-align:right;">
-0.9451830
+0.9515596
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7452,31 +7473,31 @@ low
 8.810323e-01
 </td>
 <td style="text-align:right;">
-0.3445324
+0.3034436
 </td>
 <td style="text-align:right;">
-0.2962686
+0.2661024
 </td>
 <td style="text-align:right;">
-0.4664550
+0.4238812
 </td>
 <td style="text-align:right;">
-0.4612347
+0.4178718
 </td>
 <td style="text-align:right;">
-0.2962686
+0.2661024
 </td>
 <td style="text-align:right;">
-0.4517134
+0.4397839
 </td>
 <td style="text-align:right;">
-0.7386188
+0.7158696
 </td>
 <td style="text-align:right;">
-0.8401484
+0.8254487
 </td>
 <td style="text-align:right;">
-1.3737682
+1.3436454
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7586,31 +7607,31 @@ NA
 4.242987e-01
 </td>
 <td style="text-align:right;">
-0.3724930
+0.3461071
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.4774657
+0.4612223
 </td>
 <td style="text-align:right;">
-0.5347450
+0.5172468
 </td>
 <td style="text-align:right;">
-0.3724930
+0.3461071
 </td>
 <td style="text-align:right;">
-0.7801461
+0.7504127
 </td>
 <td style="text-align:right;">
-0.7801461
+0.7504127
 </td>
 <td style="text-align:right;">
-0.7801461
+0.7504127
 </td>
 <td style="text-align:right;">
-0.7801461
+0.7504127
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7720,7 +7741,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-0.4690510
+0.4172856
 </td>
 <td style="text-align:right;">
 NA
@@ -7729,10 +7750,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-0.5768777
+0.5278871
 </td>
 <td style="text-align:right;">
-0.4690510
+0.4172856
 </td>
 <td style="text-align:right;">
 NA
@@ -7854,31 +7875,31 @@ NA
 2.587257e-01
 </td>
 <td style="text-align:right;">
-0.1980203
+0.1727796
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3895202
+0.3463809
 </td>
 <td style="text-align:right;">
-0.2387265
+0.2105786
 </td>
 <td style="text-align:right;">
-0.1980203
+0.1727796
 </td>
 <td style="text-align:right;">
-0.5083697
+0.4988138
 </td>
 <td style="text-align:right;">
-0.5083697
+0.4988138
 </td>
 <td style="text-align:right;">
-0.5083697
+0.4988138
 </td>
 <td style="text-align:right;">
-0.5083697
+0.4988138
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -7988,31 +8009,31 @@ high
 5.446035e-01
 </td>
 <td style="text-align:right;">
-0.2028472
+0.1716812
 </td>
 <td style="text-align:right;">
-0.2788666
+0.2319618
 </td>
 <td style="text-align:right;">
-0.4802003
+0.4372015
 </td>
 <td style="text-align:right;">
-0.2621711
+0.2273376
 </td>
 <td style="text-align:right;">
-0.2028472
+0.1716812
 </td>
 <td style="text-align:right;">
-0.2672323
+0.2565611
 </td>
 <td style="text-align:right;">
-0.4224220
+0.3926822
 </td>
 <td style="text-align:right;">
-0.6346131
+0.6032056
 </td>
 <td style="text-align:right;">
-1.0031517
+0.9232426
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -8122,31 +8143,31 @@ NA
 3.710503e-01
 </td>
 <td style="text-align:right;">
-0.4479302
+0.4100757
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5374927
+0.5059737
 </td>
 <td style="text-align:right;">
-0.6768886
+0.6487728
 </td>
 <td style="text-align:right;">
-0.4479302
+0.4100757
 </td>
 <td style="text-align:right;">
-0.8333697
+0.8104684
 </td>
 <td style="text-align:right;">
-0.8333697
+0.8104684
 </td>
 <td style="text-align:right;">
-0.8333697
+0.8104684
 </td>
 <td style="text-align:right;">
-0.8333697
+0.8104684
 </td>
 <td style="text-align:left;">
 Vehicle
@@ -8256,31 +8277,31 @@ NA
 1.756363e-01
 </td>
 <td style="text-align:right;">
-0.2738092
+0.2378287
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5283543
+0.4852504
 </td>
 <td style="text-align:right;">
-0.1477985
+0.1358399
 </td>
 <td style="text-align:right;">
-0.2738092
+0.2378287
 </td>
 <td style="text-align:right;">
-0.5182302
+0.4901153
 </td>
 <td style="text-align:right;">
-0.5182302
+0.4901153
 </td>
 <td style="text-align:right;">
-0.5182302
+0.4901153
 </td>
 <td style="text-align:right;">
-0.5182302
+0.4901153
 </td>
 <td style="text-align:left;">
 LY
@@ -8390,31 +8411,31 @@ high
 1.438195e+00
 </td>
 <td style="text-align:right;">
-0.4251078
+0.3822474
 </td>
 <td style="text-align:right;">
-0.4268267
+0.3853507
 </td>
 <td style="text-align:right;">
-0.4635154
+0.4248926
 </td>
 <td style="text-align:right;">
-0.3522267
+0.3268783
 </td>
 <td style="text-align:right;">
-0.4251078
+0.3822474
 </td>
 <td style="text-align:right;">
-0.4774657
+0.4717687
 </td>
 <td style="text-align:right;">
-0.9171386
+0.8996331
 </td>
 <td style="text-align:right;">
-0.9568620
+0.9473675
 </td>
 <td style="text-align:right;">
-1.8379855
+1.8065698
 </td>
 <td style="text-align:left;">
 LY
@@ -8524,31 +8545,31 @@ NA
 2.155435e-01
 </td>
 <td style="text-align:right;">
-0.5947703
+0.5471652
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.7777489
+0.7513399
 </td>
 <td style="text-align:right;">
-0.5992406
+0.5827747
 </td>
 <td style="text-align:right;">
-0.5947703
+0.5471652
 </td>
 <td style="text-align:right;">
-0.7647331
+0.7282526
 </td>
 <td style="text-align:right;">
-0.7647331
+0.7282526
 </td>
 <td style="text-align:right;">
-0.7647331
+0.7282526
 </td>
 <td style="text-align:right;">
-0.7647331
+0.7282526
 </td>
 <td style="text-align:left;">
 LY
@@ -8658,31 +8679,31 @@ high
 4.867181e-01
 </td>
 <td style="text-align:right;">
-0.5496400
+0.5204855
 </td>
 <td style="text-align:right;">
-0.5658702
+0.5362458
 </td>
 <td style="text-align:right;">
-0.7159182
+0.6880840
 </td>
 <td style="text-align:right;">
-0.5999896
+0.5730793
 </td>
 <td style="text-align:right;">
-0.5496400
+0.5204855
 </td>
 <td style="text-align:right;">
-0.4288071
+0.4251187
 </td>
 <td style="text-align:right;">
-0.7677413
+0.7564273
 </td>
 <td style="text-align:right;">
-0.8702764
+0.8631100
 </td>
 <td style="text-align:right;">
-1.5581531
+1.5357592
 </td>
 <td style="text-align:left;">
 LY
@@ -8792,31 +8813,31 @@ NA
 1.892955e-01
 </td>
 <td style="text-align:right;">
-0.1877309
+0.1585330
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3301680
+0.2914050
 </td>
 <td style="text-align:right;">
-0.3085962
+0.2682998
 </td>
 <td style="text-align:right;">
-0.1877309
+0.1585330
 </td>
 <td style="text-align:right;">
-0.5685921
+0.5440298
 </td>
 <td style="text-align:right;">
-0.5685921
+0.5440298
 </td>
 <td style="text-align:right;">
-0.5685921
+0.5440298
 </td>
 <td style="text-align:right;">
-0.5685921
+0.5440298
 </td>
 <td style="text-align:left;">
 LY
@@ -8926,31 +8947,31 @@ NA
 1.015004e-01
 </td>
 <td style="text-align:right;">
-0.2103338
+0.1828468
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.3281735
+0.2878357
 </td>
 <td style="text-align:right;">
-0.3093273
+0.2738925
 </td>
 <td style="text-align:right;">
-0.2103338
+0.1828468
 </td>
 <td style="text-align:right;">
-0.6409224
+0.6352469
 </td>
 <td style="text-align:right;">
-0.6409224
+0.6352469
 </td>
 <td style="text-align:right;">
-0.6409224
+0.6352469
 </td>
 <td style="text-align:right;">
-0.6409224
+0.6352469
 </td>
 <td style="text-align:left;">
 LY
@@ -9060,31 +9081,31 @@ high
 8.248997e-01
 </td>
 <td style="text-align:right;">
-0.4269972
+0.3989243
 </td>
 <td style="text-align:right;">
-0.4450687
+0.4158760
 </td>
 <td style="text-align:right;">
-0.4880454
+0.4598109
 </td>
 <td style="text-align:right;">
-0.4605433
+0.4293819
 </td>
 <td style="text-align:right;">
-0.4269972
+0.3989243
 </td>
 <td style="text-align:right;">
-0.4576045
+0.4555559
 </td>
 <td style="text-align:right;">
-0.8749129
+0.8675835
 </td>
 <td style="text-align:right;">
-0.9345759
+0.9304700
 </td>
 <td style="text-align:right;">
-1.7868541
+1.7720336
 </td>
 <td style="text-align:left;">
 LY
@@ -9194,31 +9215,31 @@ low
 7.532482e+00
 </td>
 <td style="text-align:right;">
-0.7110689
+0.6536704
 </td>
 <td style="text-align:right;">
-0.7542676
+0.6958696
 </td>
 <td style="text-align:right;">
-0.7243839
+0.6701924
 </td>
 <td style="text-align:right;">
-0.6983881
+0.6387453
 </td>
 <td style="text-align:right;">
-0.7110689
+0.6536704
 </td>
 <td style="text-align:right;">
-0.4808902
+0.4785071
 </td>
 <td style="text-align:right;">
-0.9816189
+0.9753474
 </td>
 <td style="text-align:right;">
-0.9909952
+0.9879054
 </td>
 <td style="text-align:right;">
-2.0228729
+2.0136605
 </td>
 <td style="text-align:left;">
 LY
@@ -9328,31 +9349,31 @@ NA
 3.487731e-01
 </td>
 <td style="text-align:right;">
-0.4019270
+0.3585417
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.5112804
+0.4674119
 </td>
 <td style="text-align:right;">
-0.4716179
+0.4316864
 </td>
 <td style="text-align:right;">
-0.4019270
+0.3585417
 </td>
 <td style="text-align:right;">
-0.7861186
+0.7670787
 </td>
 <td style="text-align:right;">
-0.7861186
+0.7670787
 </td>
 <td style="text-align:right;">
-0.7861186
+0.7670787
 </td>
 <td style="text-align:right;">
-0.7861186
+0.7670787
 </td>
 <td style="text-align:left;">
 LY
@@ -9462,31 +9483,31 @@ low
 1.829643e+02
 </td>
 <td style="text-align:right;">
-0.7532812
+0.7091721
 </td>
 <td style="text-align:right;">
-0.2276701
+0.1873649
 </td>
 <td style="text-align:right;">
-0.2459080
+0.1961749
 </td>
 <td style="text-align:right;">
-0.6704011
+0.6375282
 </td>
 <td style="text-align:right;">
-0.2276701
+0.1873649
 </td>
 <td style="text-align:right;">
-1.5906168
+1.8490182
 </td>
 <td style="text-align:right;">
-3.0632648
+3.6149985
 </td>
 <td style="text-align:right;">
-2.0713614
+2.3375330
 </td>
 <td style="text-align:right;">
-3.9890994
+4.5700894
 </td>
 <td style="text-align:left;">
 LY
@@ -9596,31 +9617,31 @@ NA
 1.685766e+00
 </td>
 <td style="text-align:right;">
-0.7536385
+0.6783535
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.6632300
+0.6126969
 </td>
 <td style="text-align:right;">
-0.5347990
+0.4886030
 </td>
 <td style="text-align:right;">
-0.7536385
+0.6783535
 </td>
 <td style="text-align:right;">
-1.1363156
+1.1071599
 </td>
 <td style="text-align:right;">
-1.1363156
+1.1071599
 </td>
 <td style="text-align:right;">
-1.1363156
+1.1071599
 </td>
 <td style="text-align:right;">
-1.1363156
+1.1071599
 </td>
 <td style="text-align:left;">
 LY
@@ -9730,31 +9751,31 @@ NA
 4.997329e-01
 </td>
 <td style="text-align:right;">
-0.4676640
+0.4272626
 </td>
 <td style="text-align:right;">
 NA
 </td>
 <td style="text-align:right;">
-0.4583922
+0.4219108
 </td>
 <td style="text-align:right;">
-0.5419777
+0.5098793
 </td>
 <td style="text-align:right;">
-0.4676640
+0.4272626
 </td>
 <td style="text-align:right;">
-1.0202267
+1.0126846
 </td>
 <td style="text-align:right;">
-1.0202267
+1.0126846
 </td>
 <td style="text-align:right;">
-1.0202267
+1.0126846
 </td>
 <td style="text-align:right;">
-1.0202267
+1.0126846
 </td>
 <td style="text-align:left;">
 LY
@@ -9806,23 +9827,23 @@ low
 </table>
 </div>
 <p>Firstly, we can compare the different metrics to determine how similar or different they are:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
 <p>Do any of these metrics associate with growth or treatments?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 <pre><code>## 
 ##  Wilcoxon rank sum exact test
 ## 
 ## data:  df.Spatial$CD8frac by df.Spatial$Growth
 ## W = 258, p-value = 0.2917
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-60-2.png" width="672" />
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-63-2.png" width="672" />
 We can also compare this to raw tumor size or growth rate data as well:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
 </div>
 <div id="other-cell-types" class="section level2">
 <h2><span class="header-section-number">4.5</span> Other cell types</h2>
 <p>We noted that the proportion of Unclassified cells seemed to be different between the treatments. Assess here whether the MH index for this cell type is associated with growth or treatment here:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-64-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-67-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-67-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-67-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-67-4.png" width="672" /></p>
 
 </div>
 </div>

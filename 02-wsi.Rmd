@@ -25,7 +25,7 @@ The following markers have been used:
 Note that in some images a double positive EpCAM+/SMA+ population exists. Some CD8 cells have Epcam+ or SMA+ staining, however, we consider all of these to be simply CD8+
 
 
-```{r load-wsi}
+```{r load-wsi, cache=T}
 WSIpath="../data/WSI-data/locationData/"
 WSIfiles=dir(WSIpath, "*.csv")
 WSIsummary=lapply(WSIfiles, function(x) read.csv(paste(WSIpath, x, sep="")))
@@ -201,13 +201,93 @@ ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet
 Here, the same data is shown and normalised according to total cell count:
 
 ```{r, fig.hright=5}
+pdf("~/Desktop/Fig2-WSI-summary-allsamples.pdf", height=5, width=7)
 ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
 ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
 ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
-#devoff()
+dev.off()
+```
+## Associate composition with other covariates
+
+
+Boxplots of the above data:
+
+```{r}
+pdf("~/Desktop/Fig4B-summary-WSI-growth-treatment.pdf", height=7, width=7)
+
+nx1=levels(WSIfracMelt$Var1)
+
+nOut=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$growth=="growing" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$growth=="stable" & WSIfracMelt$Var1==x])$p.value)
+
+ggplot(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], aes(x=Var1, y=value, col=factor(growth)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
+  scale_color_manual(values=c(ColSize, "black"))+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+ggtitle(paste(names(nOut), round(nOut,2), collapse=" ;"))
+
+
+nOutA=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$treatment=="Vehicle" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$treatment=="LY" & WSIfracMelt$Var1==x])$p.value)
+
+nOutB=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$treatment=="Vehicle" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$treatment=="PDL1" & WSIfracMelt$Var1==x])$p.value)
+
+nOutC=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$treatment=="Vehicle" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$treatment=="PDL1+LY" & WSIfracMelt$Var1==x])$p.value)
+
+
+ggplot(WSIfracMelt, aes(x=Var1, y=value, col=(treatment)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
+  scale_color_manual(values=ColMerge[ ,1])+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+
+  ggtitle(paste(paste(names(nOutA), round(nOutA,2), collapse=" ;"),paste(names(nOutB), round(nOutB,2), collapse=" ;"),paste(names(nOutC), round(nOutC,2), collapse=" ;") ) )
+
+dev.off()
+
 ```
 
-## Associate composition with other covariates
+P values when comparing to the vehicle for each comparison:
+
+Treatment | values
+----------|---------
+LY | `r nOutA`
+PDL1 | `r nOutB`
+PDL1+LY | `r nOutC`
+
+Is there a difference if we normalise to tumor size:
+
+```{r}
+WSIvalsTS=t(t(WSIvals)/Cdata$Tumor.dia..sac..mm.[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))])
+WSIvalsTSmelt=melt(WSIvalsTS)
+
+WSIvalsTSmelt$treatment=WSImelt$treatment
+WSIvalsTSmelt$growth=WSImelt$growth
+
+pdf("~/Desktop/Fig4B-summary-WSI-growth-treatment-norm-tumor-size.pdf", height=7, width=7)
+
+nx1=levels(WSIvalsTSmelt$Var1)
+
+nOut=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$growth=="growing" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$growth=="stable" & WSIvalsTSmelt$Var1==x])$p.value)
+
+ggplot(WSIvalsTSmelt[-which(is.na(WSIvalsTSmelt$growth)), ], aes(x=Var1, y=value, col=factor(growth)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
+  scale_color_manual(values=c(ColSize, "black"))+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+ggtitle(paste(names(nOut), round(nOut,2), collapse=" ;"))
+
+
+nOutA=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="LY" & WSIvalsTSmelt$Var1==x])$p.value)
+
+nOutB=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="PDL1" & WSIvalsTSmelt$Var1==x])$p.value)
+
+nOutC=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="PDL1+LY" & WSIvalsTSmelt$Var1==x])$p.value)
+
+
+ggplot(WSIvalsTSmelt, aes(x=Var1, y=value, col=(treatment)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
+  scale_color_manual(values=ColMerge[ ,1])+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+
+  ggtitle(paste(paste(names(nOutA), round(nOutA,2), collapse=" ;"),paste(names(nOutB), round(nOutB,2), collapse=" ;"),paste(names(nOutC), round(nOutC,2), collapse=" ;") ) )
+
+dev.off()
+
+```
+
+P values when comparing to the vehicle for each comparison:
+
+Treatment | values
+----------|---------
+LY | `r nOutA`
+PDL1 | `r nOutB`
+PDL1+LY | `r nOutC`
+
 
 We can collapse the above data into boxplots to see if there is an association with treatments, performed using non-parametric wilcoxon test. 
 

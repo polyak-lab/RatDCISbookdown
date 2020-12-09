@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-08" />
+<meta name="date" content="2020-12-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -384,39 +384,92 @@ UPDATE THE CIBERSORT INFORMATION. </span></p>
 <p>Below are the total cell counts:</p>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-29-3.png" width="672" /></p>
 <p>Here, the same data is shown and normalised according to total cell count:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-30-3.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="associate-composition-with-other-covariates" class="section level2">
 <h2><span class="header-section-number">3.3</span> Associate composition with other covariates</h2>
+<p>Boxplots of the above data:</p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>P values when comparing to the vehicle for each comparison:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Treatment</th>
+<th>values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LY</td>
+<td>0.8630663, 0.2717785, 0.9495167, 0.1695161, 0.04824</td>
+</tr>
+<tr class="even">
+<td>PDL1</td>
+<td>0.8225033, 0.3063955, 0.0244159, 0.5922926, 0.1584107</td>
+</tr>
+<tr class="odd">
+<td>PDL1+LY</td>
+<td>0.2307253, 0.5588475, 1, 0.7917844, 0.4479729</td>
+</tr>
+</tbody>
+</table>
+<p>Is there a difference if we normalise to tumor size:</p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>P values when comparing to the vehicle for each comparison:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Treatment</th>
+<th>values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LY</td>
+<td>0.7737063, 0.3455904, 0.9495167, 0.1953413, 0.209251</td>
+</tr>
+<tr class="even">
+<td>PDL1</td>
+<td>0.6410236, 0.6913073, 0.0807407, 0.3586566, 0.4783409</td>
+</tr>
+<tr class="odd">
+<td>PDL1+LY</td>
+<td>0.4479729, 0.6811192, 0.8692811, 0.5673305, 0.2307253</td>
+</tr>
+</tbody>
+</table>
 <p>We can collapse the above data into boxplots to see if there is an association with treatments, performed using non-parametric wilcoxon test.</p>
 <p>Compared to the vehicle, LY treated samples have a lower “stromal” fraction (unclassed DAPI+ cells) and PDL1 treated samples are more likely to have a EpCAM+SMA+ double positive fraction</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>When comparing these fractions to growth, there is no association:</p>
 <pre><code>## Warning in wilcox.test.default(Cdata[Cdata$Growth2 == &quot;growing&quot;, i],
 ## Cdata[Cdata$Growth2 == : cannot compute exact p-value with ties
 
 ## Warning in wilcox.test.default(Cdata[Cdata$Growth2 == &quot;growing&quot;, i],
 ## Cdata[Cdata$Growth2 == : cannot compute exact p-value with ties</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <p>Nor is there any association with whether a sample is “immune infiltrated” or not (by manual inspection)</p>
 <pre><code>## Warning in wilcox.test.default(Cdata[Cdata$InfiltratingVsRestricted ==
 ## &quot;Infiltrating&quot;, : cannot compute exact p-value with ties
 
 ## Warning in wilcox.test.default(Cdata[Cdata$InfiltratingVsRestricted ==
 ## &quot;Infiltrating&quot;, : cannot compute exact p-value with ties</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 <p>We can also use linear regression models to assess:</p>
 <ul>
 <li>correlation between growth rate and cell fractions (no associations)</li>
 <li>correlation between final tumor size and cell fractions (no association)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
 </div>
 <div id="estimate-tumor-size" class="section level2">
 <h2><span class="header-section-number">3.4</span> Estimate tumor size</h2>
 <p>Using WSI data, we can estimate a tumor size for each tissue sample and compare to the final tumor sizes. This will be based on the distribution of EpCAM+ cells.
 This estimate is also used to normalise CD8 counts earlier on.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -437,7 +490,7 @@ This estimate is also used to normalise CD8 counts earlier on.</p>
 <li>epcam and SMA</li>
 <li>SMA+ and Unclass</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-36-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-38-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-38-2.png" width="672" /></p>
 <pre><code>##                   CD8      EpCAM EpCAM: SMA        SMA    Unclass
 ## CD8         1.0000000 -0.1780975 -0.1268947 -0.0344095 -0.1107879
 ## EpCAM      -0.1780975  1.0000000 -0.1595219 -0.5597908 -0.1898428
@@ -459,7 +512,7 @@ This estimate is also used to normalise CD8 counts earlier on.</p>
 <li>growth</li>
 <li>spatial pattern</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <p>Note that CD8 normalised by tumor size is associated with growth (but this could a reflection of the size of the tumor), and there is a borderline difference once normalised by epithelial content. In addition the CD8 total count is associated with pdl1+ly treatment.</p>
 <p>Note that p=0.05 is designated by a value of 1.3</p>
 
