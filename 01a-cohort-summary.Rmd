@@ -109,6 +109,27 @@ for (i in indx){
 
 #dev.off()
 ```
+Plot the growth of tumours which u-turn:
+
+```{r}
+UturnSamp=c("6RB","11ND", "8LD", "10LD", "3NB" )
+
+mx=match(UturnSamp, colnames(GrowthRaw))
+
+pdf("~/Desktop/S5-inflammatory-samples-growth.pdf", height=5, width = 5)
+
+plot(NA, xlim=c(0, 10), ylim=c(0, 30), ylab="Tumor Size (mm)", xlab="Time (weeks)", main="Inflammatory  samples")
+for (i in 1:length(mx)){
+    x1=which(!is.na(GrowthRaw[, mx[i]]))
+ lines(GrowthRaw[x1, 1], GrowthRaw[x1, mx[i]], col=CTreat[mx[i]])
+  text(GrowthRaw[x1[length(x1)], 1], GrowthRaw[x1[length(x1)], mx[i]], 
+       colnames(GrowthRaw)[mx[i]], cex=0.6)
+
+}
+
+dev.off()
+```
+
 
 These tumors doesn't have growth rate data: `r bx1`.
 

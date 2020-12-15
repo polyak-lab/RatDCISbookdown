@@ -83,6 +83,7 @@ ColMerge=matrix(c("#FFC82F", "#FFEDBC", "#73FDFE","#D2FFFF", "#FF41FF", "#FECAFF
 rownames(ColMerge)=c("LY","PDL1", "PDL1+LY","Vehicle")
 ColSize=c("#008E00", "#FF9300")
 names(ColSize)=c("small", "big")
+ColSizeb=ColSize[2:1]
 
 Hsedb<-EnsDb.Hsapiens.v86
 ```

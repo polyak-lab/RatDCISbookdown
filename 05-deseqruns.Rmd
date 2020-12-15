@@ -17,8 +17,13 @@ In section 6.2, we have noticed that some DN samples had expression of epithelia
 Below is a summary of the number of differential genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
 
 ```{r ep-v-dn, cache=T}
-resDNep=results(dds, contrast=c("Fraction", "DN", "Ep"))
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction!="CD45")])
+DNEpdds=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~Fraction) ## 
+DNEpdds=DESeq(DNEpdds)
+resDNep=results(DNEpdds, contrast=c("Fraction", "DN", "Ep"))
 summary(resDNep)
+
+vsdDNep=vst(DNEpdds)
 
 print('significant differential genes')
 
@@ -33,27 +38,27 @@ scroll_box(kable(resDNeprslt2, format="html"),
 
 HighExprGenes=rownames(resDNeprslt2)[which(resDNeprslt2$baseMean>100 & resDNeprslt2$log2FoldChange<0) ]
 
-colSide=factor(infoTableFinal$Fraction[ which(infoTableFinal$Fraction!="CD45")])
-colSide2=factor(infoTableFinal$Growth[ which(infoTableFinal$Fraction!="CD45")])
-colSide3=factor(infoTableFinal$Treatment[ which(infoTableFinal$Fraction!="CD45")])
-colSide4=cut(infoTableFinal$CD8Frac[ which(infoTableFinal$Fraction!="CD45")], c(-1, 0.025, 0.05, 0.1, 1), brewer.pal(4, "Greens"))
-colSide5=cut(infoTableFinal$IFEpCAM[which(infoTableFinal$Fraction!="CD45")], c(-1, 0.05, 0.1, 0.15, 1), brewer.pal(4, "Greens"))
+colSide=factor(infoTableFinal$Fraction[ which(infoTableFinal$Fraction!="CD45" & infoTableFinal$Cohort=="Progression")])
+colSide2=factor(infoTableFinal$Growth[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")])
+colSide3=factor(infoTableFinal$Treatment[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")])
+colSide4=cut(infoTableFinal$CD8Frac[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")], c(-1, 0.025, 0.05, 0.1, 1), brewer.pal(4, "Greens"))
+colSide5=cut(infoTableFinal$IFEpCAM[which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")], c(-1, 0.05, 0.1, 0.15, 1), brewer.pal(4, "Greens"))
 
 TableCols=rbind(palette()[colSide], palette()[colSide2], palette()[colSide3], as.character(colSide4), as.character(colSide5))
 rownames(TableCols)=c("Fraction", "growth", "treatment", "cd8 fraction", "cd8 int. fraction")
-colnames(TableCols)=colnames(assay(vsd2))[which(infoTableFinal$Fraction!="CD45")]
+colnames(TableCols)=colnames(assay(vsdDNep))
 
 #pdf(sprintf("rslt/DESeq/difference_between_DN_ep_samples_%s.pdf", Sys.Date()), height=7, width=8)
 
-t1=assay(vsd2)[rownames(vsd2)%in%unlist(GeneListRat), ]
+t1=assay(vsdDNep)[rownames(vsdDNep)%in%unlist(GeneListRat), ]
 
-heatmap.2(t1[ ,-grep("CD45", colnames(t1))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="cell type specific markers")
+heatmap.2(t1, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="cell type specific markers")
 
-t2=assay(vsd2)[which(rownames(vsd2)%in%RatCosmic & rownames(vsd2)%in%rownames(resDNeprslt2)), ]
-heatmap.2(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="DEG cosmic genes")
+t2=assay(vsdDNep)[which(rownames(vsdDNep)%in%RatCosmic & rownames(vsdDNep)%in%rownames(resDNeprslt2)), ]
+heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="DEG cosmic genes")
 
-t2=assay(vsd2)[which( rownames(vsd2)%in%HighExprGenes), ]
-a1=heatmap.2(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="Enriched in Ep genes")
+t2=assay(vsdDNep)[which( rownames(vsdDNep)%in%HighExprGenes), ]
+a1=heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="Enriched in Ep genes")
 #heatmap.2(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide2], scale="row", main="Enriched in Ep genes")
 
 TableCols2=TableCols[ ,a1$colInd]
@@ -61,7 +66,7 @@ TableCols2=TableCols[ ,a1$colInd]
 colOutput=melt(TableCols2)
 colOutput$Var2=factor(colOutput$Var2, levels=unique(colOutput$Var2))
 
-heatmap.plus::heatmap.plus(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = t(TableCols), scale="row", main="Enriched in Ep genes")
+heatmap.plus::heatmap.plus(t2, trace="none", col=RdBu[11:1], ColSideColors = t(TableCols), scale="row", main="Enriched in Ep genes")
 
 write.csv(resDNeprslt2, file=sprintf("outputs/DESeq/difference_between_DN_Ep(ref)_samples_%s.csv", Sys.Date()))
 ```
@@ -74,7 +79,7 @@ The second one doesn't seem to have as high expression of these genes, but have 
 We can append this information into the overall data file and determine whether there is an association with growth or treatment
 
 ```{r}
-a2=heatmap.2(t2[ ,grep("Ep", colnames(t2))], trace="none", col=RdBu[11:1], scale="row", main="Enriched in Ep genes")
+a2=heatmap.2(t2[ ,grep("Ep", colnames(t2))], trace="none", col=RdBu[11:1], scale="row", main="Enriched in Ep genes", ColSideColors = TableCols[2, grep("Ep", colnames(t2))])
 ac=as.hclust(a2$colDendrogram)
 ad=cutree(ac, 3)
 #table(ad)
@@ -450,12 +455,21 @@ Epdds$cd8MH=paste(Epdds$CD8FracCut, Epdds$MHcut)
 
 vstEp=vst(Epdds, blind=T)
 plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
+plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
 plotPCA(vstEp, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment + growth")
 plotPCA(vstEp, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep treatment (immune vs control) + growth")
-plotPCA(vstEp, intgroup=c("Growth"))+geom_text(aes(label=Epdds$TumSize),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")
 plotPCA(vstEp, intgroup=c("MHcut"))+geom_text(aes(label=Epdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: MH ep to stroma index")
 plotPCA(vstEp, intgroup=c("IFcut"))+geom_text(aes(label=Epdds$IFEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: IF ep to stroma index")
 plotPCA(vstEp, intgroup=c("cd8MH"))+geom_text(aes(label=Epdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
+
+pdf("~/Desktop/FigS1-ep-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstEp, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstEp))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstEp$Growth], trace="none")
+
+dev.off()
 ```
 
 ### CD45
@@ -471,6 +485,16 @@ plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=CDdds$TumSize),vjust=2,
 plotPCA(vstCD, intgroup=c("MHcut"))+geom_text(aes(label=CDdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 treatment MH value")
 plotPCA(vstCD, intgroup=c("IFcut"))+geom_text(aes(label=CDdds$IFEpCAM),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: IF value")
 plotPCA(vstCD, intgroup=c("cd8MH"))+geom_text(aes(label=CDdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
+
+
+pdf("~/Desktop/FigS2-cd45-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstCD))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstCD$Growth], trace="none")
+
+dev.off()
 ```
 
 ### DN
@@ -487,6 +511,16 @@ plotPCA(vstDN, intgroup=c("MHcut"))+geom_text(aes(label=DNdds$MHEpCAM),vjust=1,c
 plotPCA(vstDN, intgroup=c("IFcut"))+geom_text(aes(label=DNdds$IFEpCAM),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("DN population: growth: kinetics vs final tum size")
 plotPCA(vstDN, intgroup=c("cd8MH"))+geom_text(aes(label=DNdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
 #dev.off()
+
+
+pdf("~/Desktop/FigS3-dn-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstDN, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstDN))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstDN$Growth], trace="none")
+
+dev.off()
 
 ```
 

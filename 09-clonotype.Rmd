@@ -278,27 +278,57 @@ for (i in 1:nrow(idx)){
   text(TrustTab[CD45F , FeatTrust[idx[i, 1]]]  ,TrustTab[CD45F , paramSearch[idx[i, 2]]], rownames(TrustTab)[CD45F], cex=0.75)
 }
 
+pdf("~/Desktop/4L-TRUST-rslt-associate-outcome-progression.pdf", height=8, width=8)
+
 CD45F2=which(TrustTab$Fraction=="CD45" & TrustTab$Cohort=="Progression")
+
+yvals=c("TrustNclonotypes", "TrustShannon", "TrustGini", "TrustTop10")
 ## associate with growth and treatment type
 par(mfrow=c(2,2))
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main="BCR # clonotypes")
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main="BCR shannon idx")
-boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Treatment"], main="BCR Gini idx")
-boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Treatment"], main="BCR Trust Top 10")
+CD45F2a=which(TrustTab$Fraction=="CD45" & TrustTab$Cohort=="Progression" & 
+                TrustTab$Treatment%in%c("Vehicle", "PDL1"))
+a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2a ,x]~TrustTab[CD45F2a, "Treatment"])$p.value)
+CD45F2a=which(TrustTab$Fraction=="CD45" & TrustTab$Cohort=="Progression" & 
+                TrustTab$Treatment%in%c("Vehicle", "LY"))
+b1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2a ,x]~TrustTab[CD45F2a, "Treatment"])$p.value)
+CD45F2a=which(TrustTab$Fraction=="CD45" & TrustTab$Cohort=="Progression" & 
+                TrustTab$Treatment%in%c("Vehicle", "PDL1+LY"))
+c1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2a ,x]~TrustTab[CD45F2a, "Treatment"])$p.value)
+
+
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[1],2), "LY", round(b1[1],2), "PDL1+LY", round(c1[1], 2)), xlab="treat", ylab="no clonotypes",
+        col=ColMerge[ ,1])
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[2],2), "LY", round(b1[2],2), "PDL1+LY", round(c1[2], 2)), 
+        xlab="growth", ylab="shannon",col=ColMerge[ ,1])
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Treatment"],main=paste("PDL1", round(a1[3],2), "LY", round(b1[3],2), "PDL1+LY", round(c1[3], 2)),   ylab="gini", xlab="growth",col=ColMerge[ ,1])
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[4],2), "LY", round(b1[4],2), "PDL1+LY", round(c1[4], 2)),   ylab="top10 clonotypes", xlab="growth", col=ColMerge[ ,1])
 
 par(mfrow=c(2,2))
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR # clonotypes")
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR shannon idx")
-boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR Gini idx")
-boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"], main="Growth: BCR Trust Top 10")
+a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "Growth"])$p.value)
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # clonotypes %s", round(a1[1], 2)), xlab="growth", ylab="no clonotypes", col=ColSizeb)
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # shan %s", round(a1[2], 2)), xlab="growth", ylab="shannon", col=ColSizeb)
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: Gini %s", round(a1[3], 2)),
+          ylab="gini", xlab="growth", col=ColSizeb)
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"],  main=sprintf("Growth: Top10", round(a1[4], 2)),
+         ylab="top10 clonotypes", xlab="growth", col=ColSizeb)
 
 par(mfrow=c(2,2))
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR # clonotypes")
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR shannon idx")
-boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR Gini idx")
-boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "SpatialManual"], main="Spatial Manual: BCR Trust Top 10")
+a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "SpatialManual"])$p.value)
+boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "SpatialManual"], main=sprintf("Spatial: BCR # clonotypes %s", round(a1[1], 2)), xlab="spatialMan", ylab="no clonotypes")
+boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "SpatialManual"], main=sprintf("SpatMan: BCR # shan %s", round(a1[2], 2)), xlab="spatialMan", ylab="shannon")
+boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "SpatialManual"], main=sprintf("SpatMan: BCR # gini %s", round(a1[3], 2)),   ylab="gini", xlab="spatialMan")
+boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "SpatialManual"], main=sprintf("SpatMan: BCR # top 10  %s", round(a1[4], 2)),  ylab="top10 clonotypes", xlab="spatialMan")
 
-#dev.off()
+par(mfrow=c(2,2))
+TrustTab$MHEpCAMcut=ifelse(TrustTab$MHEpCAM> median(unique(TrustTab$MHEpCAM)), "high", "low")
+table(TrustTab$MHEpCAMcut)
+# a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "MHEpCAMcut"])$p.value)
+# boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "MHEpCAMcut"], main=sprintf("MHepcam: BCR # clonotypes %s", round(a1[1], 2)), xlab="MHepcam", ylab="no clonotypes")
+# boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "MHEpCAMcut"], main=sprintf("MHepcam: BCR # shan %s", round(a1[2], 2)), xlab="MHepcam", ylab="shannon")
+# boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "MHEpCAMcut"], main=sprintf("MHepcam: BCR # gini %s", round(a1[3], 2)),   ylab="gini", xlab="spatialMan")
+# boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "MHEpCAMcut"], main=sprintf("MHepcam: BCR # top 10  %s", round(a1[4], 2)),  ylab="top10 clonotypes", xlab="MHepcam")
+
+dev.off()
 ```
 
 

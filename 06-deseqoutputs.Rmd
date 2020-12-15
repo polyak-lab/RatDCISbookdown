@@ -486,6 +486,8 @@ heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = 
 ### CD fraction
 
 ```{r}
+
+pdf("~/Desktop/Figure4G_CD_stable_growing.pdf", height=12, width=12)
 CDa1=CDComp4$stable_vs_growing
 CDa=CDComp4$stable_vs_growing[ which(CDComp4$stable_vs_growing$padj<0.05 & CDComp4$stable_vs_growing$baseMean>100 & abs(CDComp4$stable_vs_growing$log2FoldChange)>2), ]
 with(CDa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
@@ -493,6 +495,16 @@ with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -l
 with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
 
 heatmap.2(assay(vstCD)[ CDa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstCD$Growth)), col=RdBu[11:1], main="CD genes")
+
+## growing specific
+CDg=CDa$Gene[which(CDa$log2FoldChange<0)]
+heatmap.2(assay(vstCD)[CDg, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstCD$Growth)), col=RdBu[11:1], main="CD genes")
+
+## stable specific
+CDs=CDa$Gene[which(CDa$log2FoldChange>0)]
+heatmap.2(assay(vstCD)[CDs, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstCD$Growth)), col=RdBu[11:1], main="CD genes")
+
+dev.off()
 ```
 
 ### Ep Fraction
@@ -510,6 +522,436 @@ heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = 
 #dev.off()
 
 ```
+### Summary of GSEA runs
+
+```{r}
+d1=DNismr3$ProcessNetworks[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+e1=Epismr3$ProcessNetworks[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+c1=CDismr3$ProcessNetworks[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+#
+ds=which(d1[ ,2]<0.05)
+es=which(e1[ ,2]<0.05)
+cs=which(c1[ ,2]<0.05)
+
+AUnique=c(rownames(d1)[ds], rownames(e1)[es], rownames(c1)[cs])
+xalist=unique(AUnique)
+
+tx=cbind(as.numeric(d1[match(xalist, rownames(d1)), 1]),as.numeric(e1[match(xalist, rownames(e1)), 1]),
+         as.numeric(c1[match(xalist, rownames(c1)), 1]))
+tx2=cbind(as.numeric(d1[match(xalist, rownames(d1)), 2]),as.numeric(e1[match(xalist, rownames(e1)), 2]),
+         as.numeric(c1[match(xalist, rownames(c1)), 2]))
+tx[which(tx2>0.1, arr.ind = T)]=0
+rownames(tx)=substr(xalist, 2, 100)
+txb=sapply(strsplit(rownames(tx), "_"), function(x) x[1])
+rCol=c(brewer.pal(12, "Set3"), brewer.pal(8, "Set2"))[factor(txb)]
+colnames(tx)=c("DN", "Ep", "CD")
+
+
+pdf("~/Desktop/5A-summary-pathways-process-networks.pdf", height=9, width=4)
+par(oma=c(1, 1, 1, 5))
+ax=heatmap.2(tx, col=RdBu[11:1], trace = "none", scale = "none", RowSideColors = rCol)
+## re-order this?
+axb=ax$carpet
+an2=c(brewer.pal(12, "Set3"), brewer.pal(8, "Set2"))[factor(sapply(strsplit(colnames(axb), "_"), function(x) x[1]))]
+colnames(axb)=sapply(strsplit(colnames(axb), "_"), function(x) x[length(x)])
+rOrd=order(an2)
+
+par(oma=c(1, 1, 1, 5))
+heatmap.2(t(axb[, rOrd]), col=RdBu[11:1], trace = "none", scale = "none", RowSideColors = an2[rOrd],
+             Rowv = NA, main="stable red, growing blue")
+dev.off()
+```
+
+Plot of the network maps for each cell type
+
+
+```{r}
+termA=c1[cs, ]
+
+TermsA=sapply(strsplit(rownames(termA), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50)
+
+sigTerms=TermsA
+TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
+
+## check whether this runs:
+
+TermType[which(TermType=="Apoptosis")]="Transcription"
+TermType[which(TermType=="Proliferation")]="Transcription"
+TermType[which(TermType=="Translation")]="Transcription"
+
+
+testType=c("Inflammation", "Immune response", "Transcription")
+
+pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf", height=8, width=8)
+par(oma=c(2, 5, 0,0), mfrow=c(2,2))
+for (i in testType){
+  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
+          xlab="NES", main=testType)
+}
+```
+
+
+### Pathways of Interest 2
+
+Focus on:
+
+* JAK-STAT signalling
+* interferon-gamma signalling
+* IL-6 signalling
+* BCR pathway
+* TCR pathway
+* antigen presentation
+* KRAS signalling?
+* T helper differentiation
+
+In DN samples:
+
+* androgen receptor signalling?
+* esr1 signalling?
+* myc targets
+* EMT
+
+Perform GSVA on these pathways
+
+```{r}
+load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
+
+
+sList=PathwayMapAllComp[match(substr(rownames(e1)[es], 2, 100), names(PathwayMapAllComp))]
+
+rNames2=SymHum2Rat$HGNC.symbol[match(rownames(allTPMFinal), SymHum2Rat$RGD.symbol)]
+rNames2[which(is.na(rNames2))]=toupper(rownames(allTPMFinal)[which(is.na(rNames2))])
+
+
+tpmTemp=allTPMFinal[ , match(vstEp$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva1=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva1), function(x) sd(gsva1[x, ]))
+a1=which(nx2>0.03)
+
+sList=PathwayMapAllComp[match(substr(rownames(d1)[ds], 2, 100), names(PathwayMapAllComp))]
+
+tpmTemp=allTPMFinal[ , match(vstDN$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva2=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva2), function(x) sd(gsva2[x, ]))
+a2=which(nx2>0.03)
+
+sList=PathwayMapAllComp[match(substr(rownames(c1)[cs], 2, 100), names(PathwayMapAllComp))]
+
+tpmTemp=allTPMFinal[ , match(vstCD$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva3=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva3), function(x) sd(gsva3[x, ]))
+a3=which(nx2>0.03)
+
+pdf("~/Desktop/5B-ssgsea-scores.pdf", height=5, width=5)
+
+par(oma=c(1, 1, 1, 5))
+heatmap.2(gsva1[a1, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstEp$Growth],
+          main="Ep")
+
+heatmap.2(gsva2[a2, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstDN$Growth],
+          main="DN")
+
+heatmap.2(gsva3[a3, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstCD$Growth],
+          main="CD")
+
+dev.off()
+
+```
+
+Also on the hallmark genes:
+
+```{r}
+d1=DNismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+e1=Epismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+c1=CDismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+#
+ds=which(d1[ ,2]<0.05)
+es=which(e1[ ,2]<0.05)
+cs=which(c1[ ,2]<0.05)
+
+AUnique=c(rownames(d1)[ds], rownames(e1)[es], rownames(c1)[cs])
+xalist=unique(AUnique)
+
+sList=PathInH[match((rownames(e1)[es]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstEp$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva1=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva1), function(x) sd(gsva1[x, ]))
+a1=which(nx2>0.03)
+
+sList=PathInH[match((rownames(d1)[ds]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstDN$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva2=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva2), function(x) sd(gsva2[x, ]))
+a2=which(nx2>0.03)
+
+sList=PathInH[match((rownames(c1)[cs]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstCD$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva3=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva3), function(x) sd(gsva3[x, ]))
+a3=which(nx2>0.03)
+
+pdf("~/Desktop/5B-ssgsea-scores-hallmark-pathways.pdf", height=5, width=5)
+
+par(oma=c(1, 1, 1, 5))
+heatmap.2(gsva1[a1, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstEp$Growth],
+          main="Ep")
+
+heatmap.2(gsva2[a2, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstDN$Growth],
+          main="DN")
+
+heatmap.2(gsva3[a3, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstCD$Growth],
+          main="CD")
+
+dev.off()
+
+```
+
+### Inflammatory vs non-inflammatory samples
+
+Remove inflammatory samples
+Also remove samples which are basal-like
+
+```{r}
+
+Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep")#,
+        #  "2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
+
+EpddsInflam=EpddsGrowth
+EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
+
+EpddsInflam=DESeq(EpddsInflam)
+
+ResA=results(EpddsInflam, contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>80), ]
+
+
+pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm.pdf", width=8, height=12)
+
+plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
+     main="growing (-ve) vs stable (+ve)")
+
+text(ResAb$log2FoldChange, -log10(ResAb$padj), rownames(ResAb), col="red")
+
+vst2=vst(EpddsInflam)
+
+heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
+          ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
+# heatmap.2(assay(vstEp)[match(rownames(ResAb), rownames(vstEp)), ], col=RdBu[11:1], 
+#           ColSideColors = ColSizeb[vstEp$Growth], trace="none", scale="row")
+
+dev.off()
+
+write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep.csv")
+```
+
+Quickly run gsea for these samples:
+
+```{r}
+EpGenes=rownames(ResA)
+
+l1=SymHum2Rat$HGNC.symbol[match(EpGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(EpGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(EpGenes, Mouse2Hum$MGI.symbol)]
+EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, EpGenes)))
+
+
+hits=EpGenesConv[match(rownames(ResAb), EpGenes)]
+#hits=epGenesConv[match(hits, rownames(Epdds))]
+fcTab=ResA$log2FoldChange
+names(fcTab)=EpGenesConv
+
+
+  gscaepInf=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscaepInf <- preprocess(gscaepInf, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscaepInf <- analyze(gscaepInf, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+
+A1=summarize(gscaepInf)  
+
+PNresultsef=gscaepInf@result$GSEA.results$ProcessNetworks
+
+TermsA=sapply(strsplit(rownames(gscaepInf@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscaepInf@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+## check whether this runs:
+gscaepInf@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscaepInf, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term")
+
+
+```
+
+Associate the signature with outcome in TCGA.
+
+Note that the stable and growing signatures appear correlated
+
+```{r}
+TCGArsem=read.delim("../data/TCGA/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt", sep="\t")
+rownames(TCGArsem)=TCGArsem[ ,1]
+TCGArsem=TCGArsem[, grep("01A", colnames(TCGArsem))]
+colnames(TCGArsem)=substr(colnames(TCGArsem), 1, 12)
+colnames(TCGArsem)=gsub("\\.", "-", colnames(TCGArsem))
+TCGArsem=TCGArsem[-1, ]
+
+TCGArsem2=apply(TCGArsem, 2, as.numeric)
+#TCGArsem2=t(TCGArsem2)
+#colnames(TCGArsem2)=colnames(TCGArsem)
+#TCGArsem2=data.frame(TCGArsem2)
+rownames(TCGArsem2)=rownames(TCGArsem)
+rownames(TCGArsem2)=sapply(strsplit(rownames(TCGArsem2), "\\|"), function(x) x[1])
+TCGArsem2=TCGArsem2[-which(rownames(TCGArsem2)=="?"), ]
+
+load("../data/TCGA/BrClin_clinical_Nov2017.RData")
+
+ax1=match(BrClin$Patient.ID, colnames(TCGArsem))
+
+BrClin=BrClin[-which(is.na(ax1)), ]
+TCGArsem=TCGArsem[ , na.omit(ax1)]
+
+GlistGrowing=rownames(ResAb)[which(sign(ResAb$log2FoldChange)<0)]
+Glistnon=rownames(ResAb)[which(sign(ResAb$log2FoldChange)>0)]
+
+
+HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
+HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
+
+TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+
+par(mfrow=c(1,2))
+hist(TCGAssgsea[1, ], main="growing")
+hist(TCGAssgsea[2, ], main="stable")
+plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="growing", ylab="stable")
+```
+
+Construct survival curves, segment based on score#1 based on subtype
+
+```{r}
+#TCGAssGrow1=cut(TCGAssgsea[1, ], c(0.1, quantile(TCGAssgsea[1, ], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+
+pdf("~/Desktop/Fig5_survival_analysis_nobasal.pdf", height=8, width = 8)
+
+BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=120)]=120
+BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=120)]="LIVING"
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+```
+
+
+### Samples with matching cases
+
+```{r}
+Ax1=table(infoTableFinal$Fraction[which(infoTableFinal$Cohort=="Progression")], 
+          infoTableFinal$TumorID[which(infoTableFinal$Cohort=="Progression")])
+tx1=Ax1[, which(Ax1[3, ]==1)]
+
+tx1=rbind(tx1, infoTableFinal$Growth[match(colnames(Ax1), infoTableFinal$TumorID)])
+rownames(tx1)[4]="Growth"
+image(tx1, col=c("white", "orange", "forestgreen"), xaxt="none", yaxt="none")
+axis(1, at=seq(0,1, length=4), rownames(tx1))
+axis(2, at=seq(0,1, length=ncol(tx1)), colnames(tx1), las=2)
+```
+
+Do growing vs stable comparisons in the samples which do not have inflammatory ep fractions: done below for both the DN and CD fractions
+
+```{r}
+omitSamp=c("11N_D", "6R_B", "8L_D", "10L_D", "3N_B")
+STerms=setdiff(colnames(tx1), omitSamp)
+
+DNgrowth2=DNddsGrowth
+DNgrowth2=DNgrowth2[ , DNgrowth2$TumorID%in%STerms]
+DNgrowth2=DESeq(DNgrowth2)
+
+ResA=results(DNgrowth2, contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>80), ]
+
+vst2=vst(DNgrowth2)
+
+pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-DN-only.pdf", width=8, height=8)
+
+plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
+     main="growing (-ve) vs stable (+ve)")
+
+text(ResAb$log2FoldChange, -log10(ResAb$padj), rownames(ResAb), col="red")
+
+vst2=vst(DNgrowth2)
+
+heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
+          ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
+#heatmap.2(assay(vsd)[match(rownames(ResAb), rownames(vstEp)), ], col=RdBu[11:1], 
+#          ColSideColors = ColSizeb[vstEp$Growth], trace="none", scale="row")
+
+dev.off()
+
+
+```
+
 
 ### Specific pathways
 
@@ -606,7 +1048,6 @@ heatmap.2(assay(vstEp)[na.omit(match(RatGeneNamesCheckpoint, rownames(vstEp))), 
 
 heatmap.2(assay(vstEp)[na.omit(match(MHCPres2Rat, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC proteins")
 ```
-
 
 
 ```{r, eval=F}
