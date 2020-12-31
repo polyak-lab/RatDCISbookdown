@@ -1510,6 +1510,11 @@ title("Unclass Distance", line=3.3)
 
 dev.off()
 
+summary(fit1b)
+summary(fit2b)
+summary(fit3b)
+summary(fit4b)
+
 ```
 
 Combine the Epithelial samples, and SMA/unclassified samples together: Is there a difference here?
@@ -1833,6 +1838,7 @@ Similar to the interacting fraction, we plot the MH index for increasing values 
 * avoid plateauing of MH values because the grid size is too large
 
 ```{r, fig.height=4}
+MHgridsize=150
 
 MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
 
@@ -1848,8 +1854,8 @@ A1=MHmelt[MHmelt$Var2=="CD8", ]
 A1$label=A1$L1
 A1$label[which(A1$gridsize!=500)]=NA
 
-A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
-A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200, ]
+A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==MHgridsize & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
+A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==MHgridsize, ]
 A3$CD8frac=WSIvalFracs[ 1, match(A3$L1, colnames(WSIvals))]
 
 MHTempSumm=A3 #MHmelt[which(MHmelt$gridsize==300 & MHmelt$Var2=="CD8"), ]
@@ -1952,9 +1958,9 @@ A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
  a1=t.test(A2t$value[A2t$Growth=="stable" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="stable" & A2t$Var1=="SMA"], paired=T)
  a2=t.test(A2t$value[A2t$Growth=="growing" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="growing" & A2t$Var1=="SMA"], paired=T)
 # 
-ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 
-ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 
 A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])
 
@@ -2007,7 +2013,7 @@ a2=t.test(A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="EpCAM"], A2t$value[A2t$Tr
 a3=t.test(A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="SMA"], paired=T)
 a4=t.test(A2t$value[A2t$Treatment=="LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="LY" & A2t$Var1=="SMA"], paired=T)
 
-p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 print(p)
 
 A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])
@@ -3002,26 +3008,28 @@ Below, we see that the CD45 cells separate from the Ep/DN populations have high 
 
 However, the DN/Ep fractions are more intermixed. The DN fraction has expression of keratins, as well as fibroblast markers (Acta1), and myeoepithelial markers (Tp63)
 
-```{r, fig.height=6}
+```{r}
+## why doesnt this work???
 Agenes=unlist(GeneListRat)
 
 # Use the original desseq data,a nd then the limma data
-x1=match(Agenes, rownames(assay(vsd2)))
-RatExpr2=assay(vsd2)[na.omit(x1), ]
+x1=match(Agenes, rownames(assay(vsd)))
+RatExpr2=assay(vsd)[na.omit(x1), which(vsd$Cohort=="Progression")]
 
 RowSideCol=names(Agenes)[which(!is.na(x1))]
 RowSideCol=substr(RowSideCol, 1, 3)
 
 ColSideCol=sapply(strsplit(colnames(RatExpr2), "_"), function(x) x[length(x)])
 
-#pdf("rslt/DESeq/celltype_markers_RNA.pdf", height = 6, width=10)
+#pdf("~/Desktop/FiguS3_celltype_markers_RNA.pdf", height = 10, width=14)
 
-a1=heatmap.2(RatExpr2, col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
-             ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol)] )
+ a1=heatmap.2(RatExpr2, col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
+              ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol)] )
+ 
+ a1=heatmap.2(RatExpr2[, -grep("CD45", colnames(RatExpr2))], col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
+              ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol[-grep("CD45", colnames(RatExpr2))])] )
 
-a1=heatmap.2(RatExpr2[, -grep("CD45", colnames(RatExpr2))], col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
-             ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol[-grep("CD45", colnames(RatExpr2))])] )
-
+#dev.off()
 
 
 # plot the heatmap col-side bar
@@ -4376,6 +4384,8 @@ heatmap.2(FCvalues, trace="none", scale="row", col=RdBu[11:1],
 Below, we visualise the enrichment scores using different gene sets and 
 
 ```{r}
+pdf("~/Desktop/Fig5Gene_set_enrichment.pdf", height=10, width=10)
+
 #Epismr3=ismr4
 
 #pdf(sprintf("rslt/DESeq/GSEA_signature_comparisons_%s.pdf", SampleFrac), width=10, height=12)
@@ -4414,6 +4424,8 @@ for (i in 1:length(Epismr3)){
 # boxplot(assay(vstEp)["Cd8a", ]~EpddsTreatG$Treatment)
 # boxplot(assay(vstEp)["Ctla4", ]~EpddsTreatG$Treatment)
 # boxplot(assay(vstEp)["Tgfbr1", ]~EpddsTreatG$Comp8)
+
+dev.off()
 ```
 
 ### CD45 comparisons
@@ -4916,8 +4928,7 @@ Also remove samples which are basal-like
 
 ```{r}
 
-Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep")#,
-        #  "2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
+Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep","2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
 
 EpddsInflam=EpddsGrowth
 EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
@@ -4925,10 +4936,10 @@ EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
 EpddsInflam=DESeq(EpddsInflam)
 
 ResA=results(EpddsInflam, contrast = c("Growth", "stable", "growing"))
-ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>80), ]
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5), ]
 
 
-pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm.pdf", width=8, height=12)
+pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
 
 plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
      main="growing (-ve) vs stable (+ve)")
@@ -4944,7 +4955,7 @@ heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1],
 
 dev.off()
 
-write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep.csv")
+write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
 ```
 
 Quickly run gsea for these samples:
@@ -5015,6 +5026,80 @@ ax1=match(BrClin$Patient.ID, colnames(TCGArsem))
 
 BrClin=BrClin[-which(is.na(ax1)), ]
 TCGArsem=TCGArsem[ , na.omit(ax1)]
+```
+
+Load the old file
+
+```{r}
+Nickold=read.csv("outputs/EpCAM_IFNg_low_growing_vs_stable.filtered.csv", row.names = 1)
+
+GlistGrowing=rownames(Nickold)[which(sign(Nickold$log2FoldChange)<0 & Nickold$baseMean>100)]
+Glistnon=rownames(Nickold)[which(sign(Nickold$log2FoldChange)>0 & Nickold$baseMean>100)]
+
+
+HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
+HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
+
+TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+
+par(mfrow=c(1,2))
+hist(TCGAssgsea[1, ], main="growing")
+hist(TCGAssgsea[2, ], main="stable")
+plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="growing", ylab="stable")
+
+
+pdf("~/Desktop/Fig5_survival_analysis_Nicksamples_baseMean_greater100.pdf", height=8, width = 8)
+
+BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=120)]=120
+BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=120)]="LIVING"
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+
+```
+
+New list
+
+```{r}
 
 GlistGrowing=rownames(ResAb)[which(sign(ResAb$log2FoldChange)<0)]
 Glistnon=rownames(ResAb)[which(sign(ResAb$log2FoldChange)>0)]
@@ -5037,7 +5122,7 @@ Construct survival curves, segment based on score#1 based on subtype
 ```{r}
 #TCGAssGrow1=cut(TCGAssgsea[1, ], c(0.1, quantile(TCGAssgsea[1, ], c(0.33, 0.67)), 0.6), c("L","M", "P"))
 
-pdf("~/Desktop/Fig5_survival_analysis_nobasal.pdf", height=8, width = 8)
+pdf("~/Desktop/Fig5_survival_analysis_lowexpressing-included.pdf", height=8, width = 8)
 
 BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=120)]=120
 BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=120)]="LIVING"
@@ -5892,7 +5977,8 @@ summ1=table(ExpressedaprilChar$Call)
 summ2=table(ExpressedaprilProg2$Call)
 summ3=table(Pall$Call[grep("DN",Pall$X)])
 
-gList=c("Esr1", "Pgr", "Erbb2", "Ar", "Pcna", "Mki67")
+
+gList=c("Esr1", "Pgr", "Erbb2", "Ar", "Pcna", "Mki67", "Acta2", "Epcam", "Krt18")
 
 par(mfrow=c(2,3))
 
@@ -5904,10 +5990,14 @@ boxplot(allTPMFinal[i, midx3 ]~Pall$Call[grep("DN",Pall$X)], main="DN",  names=p
 
 summ4=table(infoTableFinal$Fraction)
 
+pdf("~/Desktop/FigS3-plot-gene-of-interest-average-expression.pdf", height=8, width=8)
+
+
 for (i in gList){
 boxplot(allTPMFinal[i, ]~infoTableFinal$Fraction, main=i,  names=paste(names(summ4)," N=",summ4, sep=""), las=2, ylab=i, xlab="")
 }
 
+dev.off()
 ```
 
 heatmap based on the previous markers:
@@ -7613,6 +7703,7 @@ In this section, we load the maf output files and create lists which
 
 ```{r, load-mutations, cache=T}
 # Load and save for the first time here
+# redo
 
 mafdir='../data/wholegenome_mutations/maf/'
 x1=dir(mafdir, 'annotated.maf')
@@ -7748,7 +7839,7 @@ write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
 
 ```{r}
-load("outputs/MeltCosmic_coding_genes_WGS_rat_2020-11-11.RData")
+#load("outputs/MeltCosmic_coding_genes_WGS_rat_2020-11-11.RData")
 
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
 Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
@@ -8926,9 +9017,13 @@ AcastTab[grep("CD45", rownames(AcastTab)), ]=sign(AcastTab[grep("CD45", rownames
 AcastTab[grep("DN", rownames(AcastTab)), ]=sign(AcastTab[grep("DN", rownames(AcastTab)), ])*2
 AcastTab[grep("Ep", rownames(AcastTab)), ]=sign(AcastTab[grep("Ep", rownames(AcastTab)), ])*3
 
+pdf("~/Desktop/FigureS3_biphasic_mutations_again.pdf", height=12, width=15)
+
 image(AcastTab[n2, ], xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
 axis(1, at=seq(0, 1, length=nrow(AcastTab[n2, ])), rownames(AcastTab[n2, ]), las=2)
 axis(2, at=seq(0, 1, length=ncol(AcastTab)), colnames(AcastTab), las=2)
+
+dev.off()
 ```
 
 ## Also look at the top RNA-mutations with are Ep/DN specific

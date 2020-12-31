@@ -146,6 +146,11 @@ title("Unclass Distance", line=3.3)
 
 dev.off()
 
+summary(fit1b)
+summary(fit2b)
+summary(fit3b)
+summary(fit4b)
+
 ```
 
 Combine the Epithelial samples, and SMA/unclassified samples together: Is there a difference here?
@@ -469,6 +474,7 @@ Similar to the interacting fraction, we plot the MH index for increasing values 
 * avoid plateauing of MH values because the grid size is too large
 
 ```{r, fig.height=4}
+MHgridsize=150
 
 MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
 
@@ -484,8 +490,8 @@ A1=MHmelt[MHmelt$Var2=="CD8", ]
 A1$label=A1$L1
 A1$label[which(A1$gridsize!=500)]=NA
 
-A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200 & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
-A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==200, ]
+A2=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==MHgridsize & MHmelt$Var1%in%c("EpCAM", "SMA"), ]
+A3=MHmelt[MHmelt$Var2=="CD8" & MHmelt$gridsize==MHgridsize, ]
 A3$CD8frac=WSIvalFracs[ 1, match(A3$L1, colnames(WSIvals))]
 
 MHTempSumm=A3 #MHmelt[which(MHmelt$gridsize==300 & MHmelt$Var2=="CD8"), ]
@@ -588,9 +594,9 @@ A2t=A2[-which(A2$L1%in%c("15RD", "5LB")), ]
  a1=t.test(A2t$value[A2t$Growth=="stable" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="stable" & A2t$Var1=="SMA"], paired=T)
  a2=t.test(A2t$value[A2t$Growth=="growing" & A2t$Var1=="EpCAM"], A2t$value[A2t$Growth=="growing" & A2t$Var1=="SMA"], paired=T)
 # 
-ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 
-ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+ggplot(A2, aes(x=Var1, y=value, col=Growth2))+facet_grid(~Growth2)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: stable p=%s, growing p=%s", round(a1$p.value, 2), round(a2$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 
 A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])
 
@@ -643,7 +649,7 @@ a2=t.test(A2t$value[A2t$Treatment=="PDL1" & A2t$Var1=="EpCAM"], A2t$value[A2t$Tr
 a3=t.test(A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="PDL1+LY" & A2t$Var1=="SMA"], paired=T)
 a4=t.test(A2t$value[A2t$Treatment=="LY" & A2t$Var1=="EpCAM"], A2t$value[A2t$Treatment=="LY" & A2t$Var1=="SMA"], paired=T)
 
-p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index @ 250um")+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
+p<-ggplot(A2, aes(x=Var1, y=value, col=Treatment))+facet_grid(~Treatment)+geom_line(aes(group=L1))+ylab("grid size")+ylab(sprintf("Morisita Horn index @ %s", MHgridsize))+ggtitle(sprintf("MH index with CD8: Cntl p=%s, PDL1 p=%s LY p=%s P+L p=%s", round(a1$p.value, 2), round(a2$p.value, 2), round(a3$p.value,2), round(a4$p.value, 2)))+geom_errorbar(aes(ymin=MH.lower, ymax=MH.upper), width=.2)+geom_point()
 print(p)
 
 A4=log2(A2t$value[seq(1, nrow(A2t), by=2)]/A2t$value[seq(2, nrow(A2t), by=2)])

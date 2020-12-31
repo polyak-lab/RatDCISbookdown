@@ -286,7 +286,8 @@ summ1=table(ExpressedaprilChar$Call)
 summ2=table(ExpressedaprilProg2$Call)
 summ3=table(Pall$Call[grep("DN",Pall$X)])
 
-gList=c("Esr1", "Pgr", "Erbb2", "Ar", "Pcna", "Mki67")
+
+gList=c("Esr1", "Pgr", "Erbb2", "Ar", "Pcna", "Mki67", "Acta2", "Epcam", "Krt18")
 
 par(mfrow=c(2,3))
 
@@ -298,10 +299,14 @@ boxplot(allTPMFinal[i, midx3 ]~Pall$Call[grep("DN",Pall$X)], main="DN",  names=p
 
 summ4=table(infoTableFinal$Fraction)
 
+pdf("~/Desktop/FigS3-plot-gene-of-interest-average-expression.pdf", height=8, width=8)
+
+
 for (i in gList){
 boxplot(allTPMFinal[i, ]~infoTableFinal$Fraction, main=i,  names=paste(names(summ4)," N=",summ4, sep=""), las=2, ylab=i, xlab="")
 }
 
+dev.off()
 ```
 
 heatmap based on the previous markers:

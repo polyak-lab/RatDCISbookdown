@@ -135,9 +135,13 @@ AcastTab[grep("CD45", rownames(AcastTab)), ]=sign(AcastTab[grep("CD45", rownames
 AcastTab[grep("DN", rownames(AcastTab)), ]=sign(AcastTab[grep("DN", rownames(AcastTab)), ])*2
 AcastTab[grep("Ep", rownames(AcastTab)), ]=sign(AcastTab[grep("Ep", rownames(AcastTab)), ])*3
 
+pdf("~/Desktop/FigureS3_biphasic_mutations_again.pdf", height=12, width=15)
+
 image(AcastTab[n2, ], xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
 axis(1, at=seq(0, 1, length=nrow(AcastTab[n2, ])), rownames(AcastTab[n2, ]), las=2)
 axis(2, at=seq(0, 1, length=ncol(AcastTab)), colnames(AcastTab), las=2)
+
+dev.off()
 ```
 
 ## Also look at the top RNA-mutations with are Ep/DN specific

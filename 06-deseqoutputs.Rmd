@@ -195,6 +195,8 @@ heatmap.2(FCvalues, trace="none", scale="row", col=RdBu[11:1],
 Below, we visualise the enrichment scores using different gene sets and 
 
 ```{r}
+pdf("~/Desktop/Fig5Gene_set_enrichment.pdf", height=10, width=10)
+
 #Epismr3=ismr4
 
 #pdf(sprintf("rslt/DESeq/GSEA_signature_comparisons_%s.pdf", SampleFrac), width=10, height=12)
@@ -233,6 +235,8 @@ for (i in 1:length(Epismr3)){
 # boxplot(assay(vstEp)["Cd8a", ]~EpddsTreatG$Treatment)
 # boxplot(assay(vstEp)["Ctla4", ]~EpddsTreatG$Treatment)
 # boxplot(assay(vstEp)["Tgfbr1", ]~EpddsTreatG$Comp8)
+
+dev.off()
 ```
 
 ### CD45 comparisons
@@ -735,8 +739,7 @@ Also remove samples which are basal-like
 
 ```{r}
 
-Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep")#,
-        #  "2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
+Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep","2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
 
 EpddsInflam=EpddsGrowth
 EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
@@ -744,10 +747,10 @@ EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
 EpddsInflam=DESeq(EpddsInflam)
 
 ResA=results(EpddsInflam, contrast = c("Growth", "stable", "growing"))
-ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>80), ]
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5), ]
 
 
-pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm.pdf", width=8, height=12)
+pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
 
 plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
      main="growing (-ve) vs stable (+ve)")
@@ -763,7 +766,7 @@ heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1],
 
 dev.off()
 
-write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep.csv")
+write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
 ```
 
 Quickly run gsea for these samples:
@@ -834,6 +837,80 @@ ax1=match(BrClin$Patient.ID, colnames(TCGArsem))
 
 BrClin=BrClin[-which(is.na(ax1)), ]
 TCGArsem=TCGArsem[ , na.omit(ax1)]
+```
+
+Load the old file
+
+```{r}
+Nickold=read.csv("outputs/EpCAM_IFNg_low_growing_vs_stable.filtered.csv", row.names = 1)
+
+GlistGrowing=rownames(Nickold)[which(sign(Nickold$log2FoldChange)<0 & Nickold$baseMean>100)]
+Glistnon=rownames(Nickold)[which(sign(Nickold$log2FoldChange)>0 & Nickold$baseMean>100)]
+
+
+HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
+HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
+
+TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+
+par(mfrow=c(1,2))
+hist(TCGAssgsea[1, ], main="growing")
+hist(TCGAssgsea[2, ], main="stable")
+plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="growing", ylab="stable")
+
+
+pdf("~/Desktop/Fig5_survival_analysis_Nicksamples_baseMean_greater100.pdf", height=8, width = 8)
+
+BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=120)]=120
+BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=120)]="LIVING"
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[1, l1], c(0.1, quantile(TCGAssgsea[1, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(TCGAssgsea[2, l1], c(0.1, quantile(TCGAssgsea[2, l1], c(0.33, 0.67)), 0.6), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+}
+
+
+```
+
+New list
+
+```{r}
 
 GlistGrowing=rownames(ResAb)[which(sign(ResAb$log2FoldChange)<0)]
 Glistnon=rownames(ResAb)[which(sign(ResAb$log2FoldChange)>0)]
@@ -856,7 +933,7 @@ Construct survival curves, segment based on score#1 based on subtype
 ```{r}
 #TCGAssGrow1=cut(TCGAssgsea[1, ], c(0.1, quantile(TCGAssgsea[1, ], c(0.33, 0.67)), 0.6), c("L","M", "P"))
 
-pdf("~/Desktop/Fig5_survival_analysis_nobasal.pdf", height=8, width = 8)
+pdf("~/Desktop/Fig5_survival_analysis_lowexpressing-included.pdf", height=8, width = 8)
 
 BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=120)]=120
 BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=120)]="LIVING"

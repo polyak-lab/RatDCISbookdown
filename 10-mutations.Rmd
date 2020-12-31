@@ -19,6 +19,7 @@ In this section, we load the maf output files and create lists which
 
 ```{r, load-mutations, cache=T}
 # Load and save for the first time here
+# redo
 
 mafdir='../data/wholegenome_mutations/maf/'
 x1=dir(mafdir, 'annotated.maf')
@@ -154,7 +155,7 @@ write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
 
 ```{r}
-load("outputs/MeltCosmic_coding_genes_WGS_rat_2020-11-11.RData")
+#load("outputs/MeltCosmic_coding_genes_WGS_rat_2020-11-11.RData")
 
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
 Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
