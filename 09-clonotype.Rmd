@@ -227,6 +227,17 @@ print(p)
 #dev.off()
 ```
 
+What about association with size?
+
+```{r}
+CharTemp2=CharTemp[which(CharTemp$Batch=="1"), ]
+midx=Cdata$Tumor.diameter.sac.mm[match(substr(as.character(CharTemp2$sample), 1, nchar(as.character(CharTemp2$sample))-5), Cdata$TumorID)]
+CharTemp2$size=midx
+
+
+ggplot(CharTemp2, aes(x=size, y=Val))+geom_point()+facet_grid(~Calc)+theme_bw()
+```
+
 
 ## Associate with clinicopathological data
 

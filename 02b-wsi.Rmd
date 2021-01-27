@@ -40,7 +40,7 @@ This last result is consistent with what we expect for a CD8+ cell which is stro
 knnMelt=melt(WSIknn, measure.vars=c("KS.pval"))
 
 knnTemp1=knnMelt[knnMelt$CellType=="CD8" & knnMelt$NearestCellType%in%c("EpCAM", "SMA", "EpCAM: SMA", "Unclass"), ]
-knnTemp1$SpatialManual=Cdata$InfiltratingVsRestricted[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+knnTemp1$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
 
 # compute p values?
 ptest=sapply(levels(knnTemp1$knn), function(x) wilcox.test(knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="EpCAM" & knnTemp1$SpatialManual=="Infiltrating")], knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="SMA" & knnTemp1$SpatialManual=="Infiltrating")])$p.value)
@@ -280,7 +280,7 @@ We notice from the line plots for each single sample that the restricted samples
 ```{r, fig.height=4}
 IFmelt=melt(WSIIF, measure.vars=c("IF"))
 
-IFmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
+IFmelt$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
 IFmelt$Treatment=Cdata$Treatment[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
 IFmelt$Growth=Cdata$Growth2[match(IFmelt$L1, gsub("_", "", Cdata$TumorID))]
 IFmelt$Growth2=IFmelt$Growth
@@ -479,8 +479,8 @@ MHgridsize=150
 MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
 
 MHmelt=melt(WSIMH, measure.vars="MH.mean")
-MHmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
-MHmeltsumm$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
+MHmelt$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+MHmeltsumm$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
 MHmelt$Treatment=factor(Cdata$Treatment[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))])
 MHmelt$Growth=factor(Cdata$Growth2[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))])
 MHmelt$Growth2=MHmelt$Growth
@@ -708,7 +708,7 @@ colnames(df.Spatial)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colname
 
 df.Spatial=cbind(df.Spatial, knnreshape[ ,10:13])
 df.Spatial$GrowthRate=Cdata$GrowthRate[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
-df.Spatial$TumSize=Cdata$Tumor.dia..sac..mm.[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$TumSize=Cdata$Tumor.diameter.sac.mm[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$knn.EpCAMcut=cut(df.Spatial$knn.EpCAM, c(-1, median(df.Spatial$knn.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$MH.EpCAMcut=cut(df.Spatial$MH.EpCAM, c(-1, median(df.Spatial$MH.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM, na.rm = T), 1.2), c("low", "high"))
@@ -838,11 +838,11 @@ par(mfrow=c(3,4))
 for (i in 1:length(cNames)){
   xa=which(is.na(Cdata[ ,cNames[i]]) | is.infinite(Cdata[ ,cNames[i]]) | is.nan(Cdata[ ,cNames[i]]))
   if (length(xa)>0){
-  ttestTable[i]=t.test( Cdata[ -xa,cNames[i]]~Cdata$InfiltratingVsRestricted[-xa])$p.value
+  ttestTable[i]=t.test( Cdata[ -xa,cNames[i]]~Cdata$Pathologist.CD8.Spatial[-xa])$p.value
   } else {
-    ttestTable[i]=t.test( Cdata[ ,cNames[i]]~Cdata$InfiltratingVsRestricted)$p.value
+    ttestTable[i]=t.test( Cdata[ ,cNames[i]]~Cdata$Pathologist.CD8.Spatial)$p.value
   }
-  boxplot(Cdata[ ,cNames[i]]~Cdata$InfiltratingVsRestricted, main=sprintf("%s p:%s", cNames[i], round(ttestTable[i],2)))
+  boxplot(Cdata[ ,cNames[i]]~Cdata$Pathologist.CD8.Spatial, main=sprintf("%s p:%s", cNames[i], round(ttestTable[i],2)))
 }
 
 #devoff()
@@ -863,22 +863,22 @@ par(mfrow=c(2,3))
 
 #pdf(sprintf("rslt/WSI-analysis/Compare_knn_IF_MH_index_%s.pdf", Sys.Date()), height=7, width=12)
 a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$MHEpstrRatio+0.01), use="complete", na.rm=T)
-plot(log2(Cdata$IFEpstrRatio), log2(Cdata$MHEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="MH",ylim=c(-3, 3),
+plot(log2(Cdata$IFEpstrRatio), log2(Cdata$MHEpstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="IF", ylab="MH",ylim=c(-3, 3),
       main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$knnEpstrRatio), use="complete", na.rm=T)
-plot(log2(Cdata$IFEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="knn", 
+plot(log2(Cdata$IFEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="IF", ylab="knn", 
       main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 a1=cor.test(log2(Cdata$IFEpstrRatio+0.01), log2(Cdata$knnEpstrRatio), use="complete", na.rm=T)
-plot(log2(Cdata$MHEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="MH", ylab="knn", xlim=c(-4, 4),
+plot(log2(Cdata$MHEpstrRatio), log2(Cdata$knnEpstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="MH", ylab="knn", xlim=c(-4, 4),
       main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 
 a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$MHEpAntstrRatio+0.01), use="complete", na.rm=T)
-plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$MHEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="MH",ylim=c(-3, 3),      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$MHEpAntstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="IF", ylab="MH",ylim=c(-3, 3),      main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$knnEpAntstrRatio), use="complete", na.rm=T)
-plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="IF", ylab="knn", 
+plot(log2(Cdata$IFEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="IF", ylab="knn", 
       main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 a1=cor.test(log2(Cdata$IFEpAntstrRatio+0.01), log2(Cdata$knnEpAntstrRatio), use="complete", na.rm=T)
-plot(log2(Cdata$MHEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$InfiltratingVsRestricted, xlab="MH", ylab="knn", xlim=c(-4, 4),     main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
+plot(log2(Cdata$MHEpAntstrRatio), log2(Cdata$knnEpAntstrRatio), col=Cdata$Pathologist.CD8.Spatial, xlab="MH", ylab="knn", xlim=c(-4, 4),     main=sprintf("ep to SMA fraction cor=%s p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 
 #devoff()
 ```
@@ -894,8 +894,8 @@ varsearch="Unclass"
 #MHmeltsumm=melt(WSIMHsetup, id.vars=c("gridsize", "Ntiles"))
 
 MHmelt=melt(WSIMH, measure.vars="MH.mean")
-MHmelt$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
-#MHmeltsumm$SpatialManual=Cdata$InfiltratingVsRestricted[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
+MHmelt$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
+#MHmeltsumm$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(MHmeltsumm$L1, gsub("_", "", Cdata$TumorID))]
 MHmelt$Treatment=Cdata$Treatment[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
 MHmelt$Growth2=Cdata$Growth2[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
 #MHmelt$Growth2=Cdata$Tumor.growth.status[match(MHmelt$L1, gsub("_", "", Cdata$TumorID))]
@@ -986,7 +986,7 @@ ggplot(A3, aes(x=Treatment, y=value, col=Treatment))+facet_grid(~Var1)+geom_boxp
 CelltypeStudy="EpCAM"
 
 knnTemp1=knnMelt[knnMelt$CellType==CelltypeStudy & knnMelt$NearestCellType%in%c("CD8","EpCAM", "SMA", "EpCAM: SMA", "Unclass"), ]
-knnTemp1$SpatialManual=Cdata$InfiltratingVsRestricted[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
+knnTemp1$SpatialManual=Cdata$Pathologist.CD8.Spatial[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
 
 # compute p values?
 ptest=sapply(levels(knnTemp1$knn), function(x) wilcox.test(knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="EpCAM" & knnTemp1$SpatialManual=="Infiltrating")], knnTemp1$MeanDistance[which(knnTemp1$knn==x & knnTemp1$NearestCellType=="SMA" & knnTemp1$SpatialManual=="Infiltrating")])$p.value)

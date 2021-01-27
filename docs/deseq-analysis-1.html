@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
 <li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
 <li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
+<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
+<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
+<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -263,9 +266,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
 <li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
 <li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
@@ -301,21 +305,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
 <li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
-<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
+<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -342,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="summary-of-comparisons" class="section level2">
 <h2><span class="header-section-number">8.1</span> Summary of comparisons</h2>
 <p>Quick plot of the differences in number of differential genes:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-89-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-89-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-2.png" width="672" /></p>
 <p>Notes:</p>
 <table>
 <thead>
@@ -397,19 +407,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">8.2.1</span> EPCAM samples</h3>
 <p>Note that there are a subset of samples different from the other based on CD8, growth and MH index (6RB, 3NB, 10LD, 8LD, 11ND) but these parameters don’t group the other samples well</p>
 <p>There is a small subset of samples which have high expression of CCls and based on the top variable genes, there seems to be three types of epithelial cases.</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-91-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-91-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-91-3.png" width="672" /></p>
 <p>We can also view this in the form of what is highly expressed in each comparison. Below is a heatmap of the fold changes:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 <p>Below, we visualise the enrichment scores using different gene sets and</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-7.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="cd45-comparisons" class="section level3">
 <h3><span class="header-section-number">8.2.2</span> CD45 comparisons</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-12.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-12.png" width="672" /></p>
 </div>
 <div id="dn-samples" class="section level3">
 <h3><span class="header-section-number">8.2.3</span> DN samples</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-94-12.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-12.png" width="672" /></p>
 </div>
 </div>
 <div id="growing-vs-stable-emphasis" class="section level2">
@@ -418,18 +429,1177 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Here, we look at the 3 different fractions in greater depth and look at volcano plots of DEG and heatmaps of differential genes. Samples are colored according to whether they are growing or stable</p>
 <div id="dn-fraction" class="section level3">
 <h3><span class="header-section-number">8.3.1</span> DN fraction</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-95-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-96-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-96-2.png" width="672" /></p>
 </div>
 <div id="cd-fraction" class="section level3">
 <h3><span class="header-section-number">8.3.2</span> CD fraction</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-96-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-96-2.png" width="672" /></p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="ep-fraction" class="section level3">
 <h3><span class="header-section-number">8.3.3</span> Ep Fraction</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-97-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-97-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-2.png" width="672" />
+### Summary of GSEA runs</p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>Plot of the network maps for each cell type</p>
+</div>
+<div id="pathways-of-interest-2" class="section level3">
+<h3><span class="header-section-number">8.3.4</span> Pathways of Interest 2</h3>
+<p>Focus on:</p>
+<ul>
+<li>JAK-STAT signalling</li>
+<li>interferon-gamma signalling</li>
+<li>IL-6 signalling</li>
+<li>BCR pathway</li>
+<li>TCR pathway</li>
+<li>antigen presentation</li>
+<li>KRAS signalling?</li>
+<li>T helper differentiation</li>
+</ul>
+<p>In DN samples:</p>
+<ul>
+<li>androgen receptor signalling?</li>
+<li>esr1 signalling?</li>
+<li>myc targets</li>
+<li>EMT</li>
+</ul>
+<p>Perform GSVA on these pathways</p>
+<pre><code>## Estimating ssGSEA scores for 37 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## Estimating ssGSEA scores for 36 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## Estimating ssGSEA scores for 30 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |===================================================                   |  74%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>Also on the hallmark genes:</p>
+<pre><code>## Estimating ssGSEA scores for 13 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## Estimating ssGSEA scores for 23 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## Estimating ssGSEA scores for 12 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |===================================================                   |  74%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+</div>
+<div id="inflammatory-vs-non-inflammatory-samples" class="section level3">
+<h3><span class="header-section-number">8.3.5</span> Inflammatory vs non-inflammatory samples</h3>
+<p>Remove inflammatory samples
+Also remove samples which are basal-like</p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
+<p>Quickly run gsea for these samples:</p>
+<pre><code>## -Preprocessing for input gene list and hit list ...
+## --Removing genes without values in geneList ...
+## --Removing duplicated genes ...
+## --Converting annotations ...
+## -- 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data. 
+## -- 9 genes (out of 88) could not be mapped to any identifier, and were removed from the data. 
+## --Ordering Gene List decreasingly ...
+## -Preprocessing complete!</code></pre>
+<pre><code>## --146 gene sets don&#39;t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!
+## --848 gene sets don&#39;t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!
+## --269 gene sets don&#39;t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!
+## --110 gene sets don&#39;t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!
+## --377 gene sets don&#39;t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!
+## -Performing hypergeometric analysis ...
+## -Hypergeometric analysis complete
+## 
+## -Performing gene set enrichment analysis using HTSanalyzeR2... 
+## --Calculating the permutations ... 
+## -Gene set enrichment analysis using HTSanalyzeR2 complete 
+## ==============================================</code></pre>
+<pre><code>## 
+## -No of genes in Gene set collections: 
+##                 input above min size
+## c2List           2199           2053
+## c5BP             7530           6682
+## c5MF             1663           1394
+## c5CC              999            889
+## ProcessNetworks   158            158
+## MetPathway       1480           1103
+## Hallmark           50             50
+## 
+## 
+## -No of genes in Gene List: 
+##           input valid duplicate removed converted to entrez
+## Gene List 12449 12449             12341               11814
+## 
+## 
+## -No of hits: 
+##      input preprocessed
+## Hits    88           79
+## 
+## 
+## -Parameters for analysis: 
+##               minGeneSetSize pValueCutoff pAdjustMethod
+## HyperGeo Test 5              0.05         BH           
+## 
+##      minGeneSetSize pValueCutoff pAdjustMethod nPermutations exponent
+## GSEA 5              0.05         BH            100           1       
+## 
+## 
+## -Significant gene sets (adjusted p-value&lt; 0.05 ): 
+##          c2List c5BP c5MF c5CC ProcessNetworks MetPathway Hallmark
+## HyperGeo      4    2    0    2               0          0        1
+## GSEA        185  598   99  109              17          6       20
+## Both          1    2    0    2               0          0        1</code></pre>
+<div id="htmlwidget-c1116a1619c9f15ba8d9" style="width:672px;height:480px;" class="forceGraph html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c1116a1619c9f15ba8d9">{"x":{"nodes":{"id":["ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis"],"size":[3,7.29292929292929,7.46464646464647,10.2121212121212,11.2424242424242,11.7575757575758,11.9292929292929,12.4444444444444,13.4747474747475,14.1616161616162,14.6767676767677,15.1919191919192,15.5353535353535,15.7070707070707,16.0505050505051,16.3939393939394,20],"color":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"scheme":["neg","pos","neg","neg","pos","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","pos"],"label":["Visual perception","Endoplasmic reticulum stress pathway","Th17-derived cytokines","Chemotaxis","Kallikrein-kinin system","Skeletal muscle development","Potassium transport","Platelet aggregation","Muscle contraction","Ossification and bone remodeling","Glycoconjugates","Neurogenesis","Neurogenesis in general","Calcium transport","Histamine signaling","Cell-matrix interactions","Ubiquitin-proteasomal proteolysis"],"label_id":["NNeurophysiological process_Visual perception","NApoptosis_Endoplasmic reticulum stress pathway","NImmune response_Th17-derived cytokines","NChemotaxis","NInflammation_Kallikrein-kinin system","NDevelopment_Skeletal muscle development","NTransport_Potassium transport","NCell adhesion_Platelet aggregation","NMuscle contraction","NDevelopment_Ossification and bone remodeling","NCell adhesion_Glycoconjugates","NDevelopment_Neurogenesis_Synaptogenesis","NDevelopment_Neurogenesis in general","NTransport_Calcium transport","NInflammation_Histamine signaling","NCell adhesion_Cell-matrix interactions","NProteolysis_Ubiquitin-proteasomal proteolysis"],"label_term":["Visual perception","Endoplasmic reticulum stress pathway","Th17-derived cytokines","Chemotaxis","Kallikrein-kinin system","Skeletal muscle development","Potassium transport","Platelet aggregation","Muscle contraction","Ossification and bone remodeling","Glycoconjugates","Neurogenesis","Neurogenesis in general","Calcium transport","Histamine signaling","Cell-matrix interactions","Ubiquitin-proteasomal proteolysis"]},"links":{"source":["ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NTransport_Calcium transport"],"target":["ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Platelet aggregation","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Ossification and bone remodeling","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NDevelopment_Neurogenesis in general","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NInflammation_Histamine signaling","ProcessNetworks.NCell adhesion_Cell-matrix interactions"],"weight":[0.00961538461538462,0.0078740157480315,0.0155038759689922,0.0153846153846154,0.0227272727272727,0.0291970802919708,0.00680272108843537,0.0134228187919463,0.0335570469798658,0.0263157894736842,0.0564516129032258,0.0137931034482759,0.0408163265306122,0.00645161290322581,0.00628930817610063,0.00591715976331361,0.0236686390532544,0.0170454545454545,0.0584795321637427,0.00492610837438424,0.129770992366412,0.124087591240876,0.00641025641025641,0.0254777070063694,0.0426829268292683,0.0235294117647059,0.0112994350282486,0.00558659217877095,0.130434782608696,0.0222222222222222,0.0897435897435897,0.0176470588235294,0.0473372781065089,0.00549450549450549,0.016304347826087,0.0674157303370786,0.00520833333333333,0.015625,0.1,0.0204081632653061,0.0112994350282486,0.158227848101266,0.0216216216216216,0.0104712041884817,0.0315789473684211,0.00505050505050505,0.0203045685279188,0.0202020202020202,0.236363636363636,0.0391061452513966,0.215189873417722,0.0261780104712042,0.0310880829015544,0.0466321243523316,0.02,0.0199004975124378,0.0247524752475248,0.0663265306122449,0.00537634408602151,0.0604395604395604,0.00490196078431373,0.0673575129533679,0.00478468899521531,0.0769230769230769,0.0204081632653061,0.068421052631579,0.0198019801980198,0.0246305418719212,0.0398009950248756,0.165745856353591,0.0289855072463768,0.0295566502463054,0.0495049504950495,0.014218009478673,0.0913705583756345,0.0382775119617225,0.0428571428571429,0.0142857142857143,0.023696682464455,0.058252427184466,0.00921658986175115,0.00454545454545455,0.0136363636363636,0.0478468899521531,0.00454545454545455,0.00909090909090909,0.087378640776699,0.13,0.0135746606334842,0.0514018691588785,0.0271493212669683,0.0132743362831858,0.00806451612903226,0.0177777777777778,0.0131578947368421,0.031390134529148,0.00432900432900433]},"options":{"title":"Enrichment Map of GSEA on ProcessNetworks","legendTitle":"-Log10(Adjusted p-values)","type":"GSEA","nodeScheme":"dual","label":{"text":"term"},"colorScaler":"log10","nPermutations":100,"colorDomain":{"neg":[0,0.05],"pos":[0,0.05]}}},"evals":[],"jsHooks":[]}</script>
+<p>Associate the signature with outcome in TCGA.</p>
+<p>Note that the stable and growing signatures appear correlated</p>
+<p>Load the old file</p>
+<pre><code>## Estimating ssGSEA scores for 2 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |==                                                                    |   4%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=======                                                               |  11%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |=========                                                             |  14%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |=======================                                               |  34%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |============================                                          |  41%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |==============================                                        |  44%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |=================================                                     |  48%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |===================================                                   |  51%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=====================================                                 |  54%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |========================================                              |  58%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==========================================                            |  61%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |============================================                          |  64%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |===================================================                   |  74%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |========================================================              |  81%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |==========================================================            |  84%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |=============================================================         |  88%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |===============================================================       |  91%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |=================================================================     |  94%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |====================================================================  |  98%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-106-1.png" width="672" /></p>
+<p>New list</p>
+<pre><code>## Estimating ssGSEA scores for 2 gene sets.
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |==                                                                    |   4%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=======                                                               |  11%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |=========                                                             |  14%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |=======================                                               |  34%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |============================                                          |  41%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |==============================                                        |  44%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |=================================                                     |  48%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |===================================                                   |  51%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=====================================                                 |  54%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |========================================                              |  58%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==========================================                            |  61%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |============================================                          |  64%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |===================================================                   |  74%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |========================================================              |  81%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |==========================================================            |  84%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |=============================================================         |  88%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |===============================================================       |  91%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |=================================================================     |  94%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |====================================================================  |  98%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-107-2.png" width="672" /></p>
+<p>Construct survival curves, segment based on score#1 based on subtype</p>
+</div>
+<div id="samples-with-matching-cases" class="section level3">
+<h3><span class="header-section-number">8.3.6</span> Samples with matching cases</h3>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png" width="672" /></p>
+<p>Do growing vs stable comparisons in the samples which do not have inflammatory ep fractions: done below for both the DN and CD fractions</p>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="specific-pathways" class="section level3">
-<h3><span class="header-section-number">8.3.4</span> Specific pathways</h3>
+<h3><span class="header-section-number">8.3.7</span> Specific pathways</h3>
 <p>The above plots suggest that there could be a different in growing and stable based on :</p>
 <ul>
 <li>inflammation</li>
@@ -440,18 +1610,18 @@ Here, we look at the 3 different fractions in greater depth and look at volcano 
 <p>We can pull out the genes in these sets and visualise the relative expression in a heatmap in the DN, CD45 and Ep samples:</p>
 <p>Note that red is growing and green is stable</p>
 <div id="dn-samples-1" class="section level4">
-<h4><span class="header-section-number">8.3.4.1</span> DN samples:</h4>
+<h4><span class="header-section-number">8.3.7.1</span> DN samples:</h4>
 <p>Note the distribution of growing/stable in DN is: 21, 9</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-112-5.png" width="672" /></p>
 </div>
 <div id="cd45-samples" class="section level4">
-<h4><span class="header-section-number">8.3.4.2</span> CD45 samples:</h4>
+<h4><span class="header-section-number">8.3.7.2</span> CD45 samples:</h4>
 <p>Note the distribution of growing/stable in CD is: 26, 8</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-113-5.png" width="672" /></p>
 </div>
 <div id="epithelial-samples" class="section level4">
-<h4><span class="header-section-number">8.3.4.3</span> Epithelial samples:</h4>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-101-5.png" width="672" /></p>
+<h4><span class="header-section-number">8.3.7.3</span> Epithelial samples:</h4>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-114-5.png" width="672" /></p>
 
 </div>
 </div>

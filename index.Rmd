@@ -73,6 +73,7 @@ source("../rscript/BootstrapShannonIdx.R")
 #source("../rscript/CreateRnor87db.R")
 source("../rscript/FindRatAAHomolog.R")
 source("../rscript/OutputplotFun.R")
+source("../rscript/FindTriNucleotideContext.R")
 
 firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))

@@ -54,13 +54,20 @@ Note: [rn6.refGene.gtf.gz](http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips
 ```{r}
 # Upload infoTable
 
-infoTable=read.csv("../metadata/AllRNA_samples_sept.csv")
+infoTable=read.csv("../metadata/AllRNA_samples_jan.csv")
+
+
 
 ####
 # uncomment to update these parameters
 ####
-infoTable$TumorID=paste(infoTable$Rat_ID, infoTable$Location, sep="_")
-a1=match(infoTable$TumorID, Cdata$TumorID)
+
+
+#infoTable$TumorID=paste(infoTable$Rat_ID, infoTable$Location, sep="_")
+#infoTable$TumorIDnew=Cdata$NewID[match(infoTable$TumorID, Cdata$TumorID)]
+#a1=match(infoTable$TumorID, Cdata$TumorID)
+
+#infoTableFinal$TumorIDnew=Cdata$NewID[match(infoTableFinal$TumorID, Cdata$TumorID)]
 ```
 
 ## RNA Initial QC

@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
 <li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
 <li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
+<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
+<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
+<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -263,9 +266,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
 <li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
 <li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
@@ -301,21 +305,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
 <li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
-<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
+<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -364,31 +374,31 @@ The pipeline involves:</p>
 <p>Annotate the files so that the nucleotide codon can be extracted based on the genome file.
 See the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.
 The output table $fout3 should have 6 columns with the genomic location, the reference and alt allele and codon context.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="whole-genome-sequencing-mutations.html#cb75-1"></a>TBed=<span class="kw">lapply</span>(AllMutWGS, <span class="cf">function</span>(x) <span class="kw">cbind</span>(<span class="kw">as.character</span>(x<span class="op">$</span>Chromosome), x<span class="op">$</span>Start_Position<span class="dv">-2</span>, x<span class="op">$</span>End_Position<span class="op">+</span><span class="dv">1</span>, <span class="kw">as.character</span>(x<span class="op">$</span>Reference_Allele), <span class="kw">as.character</span>(x<span class="op">$</span>Tumor_Seq_Allele2)))</span>
-<span id="cb75-2"><a href="whole-genome-sequencing-mutations.html#cb75-2"></a>TBed=<span class="kw">lapply</span>(TBed, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">nchar</span>(x[ ,<span class="dv">4</span>])<span class="op">==</span><span class="dv">1</span>), ])</span>
-<span id="cb75-3"><a href="whole-genome-sequencing-mutations.html#cb75-3"></a><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(TBed), <span class="cf">function</span>(x) <span class="kw">write.table</span>(TBed[[x]], <span class="dt">file=</span><span class="kw">paste</span>(<span class="kw">names</span>(TBed)[x], <span class="st">&quot;tricodon.bed&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>),<span class="dt">col.names=</span>F, <span class="dt">row.names =</span> F, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> F))</span>
-<span id="cb75-4"><a href="whole-genome-sequencing-mutations.html#cb75-4"></a></span>
-<span id="cb75-5"><a href="whole-genome-sequencing-mutations.html#cb75-5"></a><span class="co">## bedtools command</span></span>
-<span id="cb75-6"><a href="whole-genome-sequencing-mutations.html#cb75-6"></a>bedtools getfasta <span class="op">-</span>fi ..<span class="op">/</span>Genomic_Files<span class="op">/</span>rn6.fa <span class="op">-</span>bed <span class="op">$</span>f <span class="op">-</span>tab <span class="op">-</span>fo <span class="op">$</span>fout</span>
-<span id="cb75-7"><a href="whole-genome-sequencing-mutations.html#cb75-7"></a><span class="kw">f3</span>() { awk <span class="st">&#39;{print $1, $2, $3, $4 ,$5}&#39;</span> <span class="st">&quot;$1&quot;</span>; }; paste <span class="op">&lt;</span>(f3 <span class="op">$</span>f) <span class="op">&lt;</span>(f3 <span class="op">$</span>fout) <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout2</span>
-<span id="cb75-8"><a href="whole-genome-sequencing-mutations.html#cb75-8"></a>awk <span class="st">&#39;{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}&#39;</span> <span class="op">$</span>fout2 <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout3</span>
-<span id="cb75-9"><a href="whole-genome-sequencing-mutations.html#cb75-9"></a><span class="co">## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.</span></span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="whole-genome-sequencing-mutations.html#cb106-1"></a>TBed=<span class="kw">lapply</span>(AllMutWGS, <span class="cf">function</span>(x) <span class="kw">cbind</span>(<span class="kw">as.character</span>(x<span class="op">$</span>Chromosome), x<span class="op">$</span>Start_Position<span class="dv">-2</span>, x<span class="op">$</span>End_Position<span class="op">+</span><span class="dv">1</span>, <span class="kw">as.character</span>(x<span class="op">$</span>Reference_Allele), <span class="kw">as.character</span>(x<span class="op">$</span>Tumor_Seq_Allele2)))</span>
+<span id="cb106-2"><a href="whole-genome-sequencing-mutations.html#cb106-2"></a>TBed=<span class="kw">lapply</span>(TBed, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">nchar</span>(x[ ,<span class="dv">4</span>])<span class="op">==</span><span class="dv">1</span>), ])</span>
+<span id="cb106-3"><a href="whole-genome-sequencing-mutations.html#cb106-3"></a><span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(TBed), <span class="cf">function</span>(x) <span class="kw">write.table</span>(TBed[[x]], <span class="dt">file=</span><span class="kw">paste</span>(<span class="kw">names</span>(TBed)[x], <span class="st">&quot;tricodon.bed&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>),<span class="dt">col.names=</span>F, <span class="dt">row.names =</span> F, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> F))</span>
+<span id="cb106-4"><a href="whole-genome-sequencing-mutations.html#cb106-4"></a></span>
+<span id="cb106-5"><a href="whole-genome-sequencing-mutations.html#cb106-5"></a><span class="co">## bedtools command</span></span>
+<span id="cb106-6"><a href="whole-genome-sequencing-mutations.html#cb106-6"></a>bedtools getfasta <span class="op">-</span>fi ..<span class="op">/</span>Genomic_Files<span class="op">/</span>rn6.fa <span class="op">-</span>bed <span class="op">$</span>f <span class="op">-</span>tab <span class="op">-</span>fo <span class="op">$</span>fout</span>
+<span id="cb106-7"><a href="whole-genome-sequencing-mutations.html#cb106-7"></a><span class="kw">f3</span>() { awk <span class="st">&#39;{print $1, $2, $3, $4 ,$5}&#39;</span> <span class="st">&quot;$1&quot;</span>; }; paste <span class="op">&lt;</span>(f3 <span class="op">$</span>f) <span class="op">&lt;</span>(f3 <span class="op">$</span>fout) <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout2</span>
+<span id="cb106-8"><a href="whole-genome-sequencing-mutations.html#cb106-8"></a>awk <span class="st">&#39;{if (length($7)==3) print $1, $2, $3, $4, $5, toupper($7)}&#39;</span> <span class="op">$</span>fout2 <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>fout3</span>
+<span id="cb106-9"><a href="whole-genome-sequencing-mutations.html#cb106-9"></a><span class="co">## see the bash file extract-trinucleotide-forSigProfiler.sh to see the output of this.</span></span></code></pre></div>
 <p>Following running the above bash script, we can run the following extract the tri-nucleotide sequence</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="whole-genome-sequencing-mutations.html#cb76-1"></a>FFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/tricodon_mut_sigs/&quot;</span>, <span class="st">&quot;*.txt&quot;</span>,<span class="dt">full.names=</span>T)</span>
-<span id="cb76-2"><a href="whole-genome-sequencing-mutations.html#cb76-2"></a>OutputList=<span class="kw">sapply</span>(FFiles, <span class="cf">function</span>(x) <span class="kw">FindTriNucleotideContext</span>(x))</span>
-<span id="cb76-3"><a href="whole-genome-sequencing-mutations.html#cb76-3"></a>TableOut=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(OutputList), <span class="cf">function</span>(x) <span class="kw">unlist</span>(OutputList[<span class="dv">3</span>, x]))</span>
-<span id="cb76-4"><a href="whole-genome-sequencing-mutations.html#cb76-4"></a>a1=<span class="kw">basename</span>(FFiles)</span>
-<span id="cb76-5"><a href="whole-genome-sequencing-mutations.html#cb76-5"></a>a2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(a1, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb76-6"><a href="whole-genome-sequencing-mutations.html#cb76-6"></a>TableOut=<span class="kw">cbind</span>(<span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">1</span>, <span class="dv">1</span>])), <span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">2</span>, <span class="dv">1</span>])), TableOut)</span>
-<span id="cb76-7"><a href="whole-genome-sequencing-mutations.html#cb76-7"></a><span class="kw">colnames</span>(TableOut)=<span class="kw">c</span>(<span class="st">&quot;MutationType&quot;</span>,<span class="st">&quot;Nutrinucleotide&quot;</span>, <span class="kw">paste</span>(<span class="st">&quot;BRCA&quot;</span>, a2, <span class="dt">sep=</span><span class="st">&quot;::&quot;</span>))</span>
-<span id="cb76-8"><a href="whole-genome-sequencing-mutations.html#cb76-8"></a><span class="kw">write.csv</span>(TableOut, <span class="dt">file=</span><span class="st">&quot;../data/tricodon_mut_sigs/output4SigProfiler.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">row.names =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="whole-genome-sequencing-mutations.html#cb107-1"></a>FFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/tricodon_mut_sigs/&quot;</span>, <span class="st">&quot;*.txt&quot;</span>,<span class="dt">full.names=</span>T)</span>
+<span id="cb107-2"><a href="whole-genome-sequencing-mutations.html#cb107-2"></a>OutputList=<span class="kw">sapply</span>(FFiles, <span class="cf">function</span>(x) <span class="kw">FindTriNucleotideContext</span>(x))</span>
+<span id="cb107-3"><a href="whole-genome-sequencing-mutations.html#cb107-3"></a>TableOut=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(OutputList), <span class="cf">function</span>(x) <span class="kw">unlist</span>(OutputList[<span class="dv">3</span>, x]))</span>
+<span id="cb107-4"><a href="whole-genome-sequencing-mutations.html#cb107-4"></a>a1=<span class="kw">basename</span>(FFiles)</span>
+<span id="cb107-5"><a href="whole-genome-sequencing-mutations.html#cb107-5"></a>a2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(a1, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb107-6"><a href="whole-genome-sequencing-mutations.html#cb107-6"></a>TableOut=<span class="kw">cbind</span>(<span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">1</span>, <span class="dv">1</span>])), <span class="kw">as.character</span>(<span class="kw">unlist</span>(OutputList[<span class="dv">2</span>, <span class="dv">1</span>])), TableOut)</span>
+<span id="cb107-7"><a href="whole-genome-sequencing-mutations.html#cb107-7"></a><span class="kw">colnames</span>(TableOut)=<span class="kw">c</span>(<span class="st">&quot;MutationType&quot;</span>,<span class="st">&quot;Nutrinucleotide&quot;</span>, <span class="kw">paste</span>(<span class="st">&quot;BRCA&quot;</span>, a2, <span class="dt">sep=</span><span class="st">&quot;::&quot;</span>))</span>
+<span id="cb107-8"><a href="whole-genome-sequencing-mutations.html#cb107-8"></a><span class="kw">write.csv</span>(TableOut, <span class="dt">file=</span><span class="st">&quot;../data/tricodon_mut_sigs/output4SigProfiler.csv&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">row.names =</span> F)</span></code></pre></div>
 <p>This is then run in python (sigprofiler) with the following code:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="whole-genome-sequencing-mutations.html#cb77-1"></a>module load gcc</span>
-<span id="cb77-2"><a href="whole-genome-sequencing-mutations.html#cb77-2"></a>module load python<span class="op">/</span><span class="dv">3</span>.<span class="fl">7.4</span></span>
-<span id="cb77-3"><a href="whole-genome-sequencing-mutations.html#cb77-3"></a>from SigProfilerExtractor import <span class="kw">spss_pcwag</span> (spss uses only vcf files)</span>
-<span id="cb77-4"><a href="whole-genome-sequencing-mutations.html#cb77-4"></a><span class="kw">spss_pcwag.single_sample_pcwag</span>(<span class="st">&quot;output4SigProfiler.csv&quot;</span>, <span class="dt">output=</span><span class="st">&quot;example_output&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="whole-genome-sequencing-mutations.html#cb108-1"></a>module load gcc</span>
+<span id="cb108-2"><a href="whole-genome-sequencing-mutations.html#cb108-2"></a>module load python<span class="op">/</span><span class="dv">3</span>.<span class="fl">7.4</span></span>
+<span id="cb108-3"><a href="whole-genome-sequencing-mutations.html#cb108-3"></a>from SigProfilerExtractor import <span class="kw">spss_pcwag</span> (spss uses only vcf files)</span>
+<span id="cb108-4"><a href="whole-genome-sequencing-mutations.html#cb108-4"></a><span class="kw">spss_pcwag.single_sample_pcwag</span>(<span class="st">&quot;output4SigProfiler.csv&quot;</span>, <span class="dt">output=</span><span class="st">&quot;example_output&quot;</span>)</span></code></pre></div>
 <p>The results from this analysis are shown below</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-3.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-176-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-176-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-176-3.png" width="672" /></p>
 </div>
 <div id="annotate-the-data-with-human-common-variants" class="section level3">
 <h3><span class="header-section-number">14.1.2</span> Annotate the data with human common variants</h3>
@@ -645,7 +655,7 @@ ENSP00000388058
 </tbody>
 </table>
 <p>And here, we plot the frequency of these different mutations</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-178-1.png" width="672" /></p>
 </div>
 </div>
 <div id="plots" class="section level2">
@@ -660,7 +670,7 @@ ENSP00000388058
 <li>correlation between mutation type and size</li>
 <li>type of mutation?</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-179-2.png" width="672" /></p>
 </div>
 <div id="coding-variants-tmb" class="section level3">
 <h3><span class="header-section-number">14.2.2</span> Coding variants &amp; TMB</h3>
@@ -670,7 +680,7 @@ ENSP00000388058
 <li>normalise the above value to the known length of coding regions in the rat genome (UCSC exon length 43,423,804)</li>
 <li>plot of TMB vs objective response rate: there is no true relationship between final tumor size and mutational burden. Could also be confounded by subclonality</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-165-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-180-1.png" width="672" /></p>
 </div>
 </div>
 <div id="coding-variants" class="section level2">
@@ -680,8 +690,8 @@ ENSP00000388058
 <p>Could this be a variant (SD strain “rsSNP”) or is it actually a mutation?</p>
 <p>Variants were annotated with snpeff. Raw data from this was obtained from <a href="https://www.biorxiv.org/content/10.1101/412924v1.full" class="uri">https://www.biorxiv.org/content/10.1101/412924v1.full</a></p>
 <p>Note that the nihRats package may not be required here. We probably just want the harlan snps</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-2.png" width="672" /></p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-182-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-182-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-183-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-183-2.png" width="672" /></p>
 <p>Look at the distribution of mutations:</p>
 <p>Whole genome</p>
 <ul>
@@ -976,7 +986,7 @@ CRFreq
 <li>green:</li>
 <li>blue:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-5.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-185-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-185-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-185-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-185-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-185-5.png" width="672" /></p>
 <p>Note that in this table, the distribution of samples with mutations is as follows:</p>
 <p>2042, 342, 196, 222, 65, 43, 30, 25, 23, 23, 15, 14, 10, 11, 7, 7, 1, 1, 1, 1, 1</p>
 <p>The number of genes which have shared mutations in 10 or more samples is:</p>
@@ -984,7 +994,7 @@ CRFreq
 <p>The number of genes which are cosmic associated are:</p>
 <p>162 and the number which appear in more than 1 sample is 44.</p>
 <p>These genes are tabulated below:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-186-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-186-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-186-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-186-4.png" width="672" /></p>
 </div>
 </div>
 <div id="metacore-analysis-of-commonly-mutated-pathways" class="section level2">
@@ -1502,7 +1512,7 @@ CRFreq
 ## C2R2-tumor                                                                   0
 ## C2R3-tumor                                                                   0
 ## C4P-tumor                                                                    0</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-173-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-173-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-188-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-188-2.png" width="672" /></p>
 
 </div>
 </div>

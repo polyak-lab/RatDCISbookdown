@@ -249,7 +249,7 @@ PDL1+LY | `r nOutC`
 Is there a difference if we normalise to tumor size:
 
 ```{r}
-WSIvalsTS=t(t(WSIvals)/Cdata$Tumor.dia..sac..mm.[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))])
+WSIvalsTS=t(t(WSIvals)/Cdata$Tumor.diameter.sac.mm[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))])
 WSIvalsTSmelt=melt(WSIvalsTS)
 
 WSIvalsTSmelt$treatment=WSImelt$treatment
@@ -322,8 +322,8 @@ Nor is there any association with whether a sample is "immune infiltrated" or no
 ```{r, warning='hide'}
 par(mfrow=c(2,3))
 for (i in tsamples){
-  t1=wilcox.test(Cdata[Cdata$InfiltratingVsRestricted=="Infiltrating", i], Cdata[Cdata$InfiltratingVsRestricted=="restricted", i])$p.value
-  boxplot(Cdata[, i]~Cdata$InfiltratingVsRestricted, main=sprintf("inf/rest: %s p=%s",i, round(t1,2)), xlab="", ylab=i)
+  t1=wilcox.test(Cdata[Cdata$Pathologist.CD8.Spatial=="Infiltrating", i], Cdata[Cdata$Pathologist.CD8.Spatial=="restricted", i])$p.value
+  boxplot(Cdata[, i]~Cdata$Pathologist.CD8.Spatial, main=sprintf("inf/rest: %s p=%s",i, round(t1,2)), xlab="", ylab=i)
 # legend("topleft", paste(levels(Cdata$Growth2), round(t1, 2)))
 }
 ```
@@ -337,17 +337,17 @@ We can also use linear regression models to assess:
 
 par(mfrow=c(2,3))
 for (i in tsamples){
-  a1=cor.test(Cdata[ ,i],Cdata$Tumor.dia..sac..mm./Cdata$Time.NMU2Sac, use="complete")
+  a1=cor.test(Cdata[ ,i],Cdata$Tumor.diameter.sac.mm/Cdata$Time.NMU2Sac, use="complete")
   #a1=cor.test(WSIvals[i, ],TumSizeNorm)
-  plot( Cdata$Tumor.dia..sac..mm./Cdata$Time.NMU2Sac, Cdata[ ,i],xlab="growth rate", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
+  plot( Cdata$Tumor.diameter.sac.mm/Cdata$Time.NMU2Sac.days, Cdata[ ,i],xlab="growth rate", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
 }
 
 
 par(mfrow=c(2,3))
 for (i in tsamples){
-  a1=cor.test(Cdata[ ,i],Cdata$Tumor.dia..sac..mm., use="complete")
+  a1=cor.test(Cdata[ ,i],Cdata$Tumor.diameter.sac.mm, use="complete")
   #a1=cor.test(WSIvals[i, ],TumSizeNorm)
-  plot( Cdata$Tumor.dia..sac..mm.,Cdata[ ,i], xlab="tumor size @ sac", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
+  plot( Cdata$Tumor.diameter.sac.mm,Cdata[ ,i], xlab="tumor size @ sac", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
 }
 
 #devoff()
@@ -365,7 +365,7 @@ Tarea=lapply(WSIsummary, function(x) ripras(x$Centroid.X.µm[x$Class2=="EpCAM"],
 TareaSum=sapply(Tarea, area)
 
 # Tumor diameter
-Tdiameter=Cdata$Tumor.dia..sac..mm.[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))]
+Tdiameter=Cdata$Tumor.diameter.sac.mm[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))]
 
 #par(mfrow=c(1,2))
 #plot(TareaSum, WSIvals[2, ], ylab="EpCAM cell count", xlab="Epcam cells bounding area")
@@ -471,12 +471,12 @@ Note that p=0.05 is designated by a value of 1.3
 # SummaryData$CD8.FACS[which(!is.na(lx))]=unlist(t(Fdata[ 6, na.omit(lx)]))
 # lx=match(rownames(SummaryData), gsub("_", "", Cdata$TumorID))
 # SummaryData$CD45.FACS=Cdata$X..CD45..by.FACS.[lx]
-# SummaryData$TumSize=Cdata$Tumor.dia..sac..mm.[lx]
+# SummaryData$TumSize=Cdata$Tumor.diameter.sac.mm[lx]
 # SummaryData$CD8normTumSize=SummaryData$CD8.WSI/SummaryData$TumSize
 # SummaryData$CD8.EpBoundingBox=TareaSum[match(rownames(SummaryData), names(TareaSum))]/SummaryData$CD8.WSI
 # SummaryData$Treatment=factor(Cdata$Treatment[lx])
 # SummaryData$Growth=Cdata$Growth2[lx]
-# SummaryData$SpatialManual=Cdata$InfiltratingVsRestricted[lx]
+# SummaryData$SpatialManual=Cdata$Pathologist.CD8.Spatial[lx]
 # SummaryData$log2CD8_EPorSMARatio.WSI=log2(SummaryData$CD8_EPorSMARatio.WSI+0.001)
 # SummaryData$log2CD8_EPRatio.WSI=log2(SummaryData$CD8_EPRatio.WSI+0.001)
 

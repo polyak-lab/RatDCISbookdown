@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 18 Trichrome staining | Rat DCIS study</title>
+  <title>Chapter 19 Trichrome staining | Rat DCIS study</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 18 Trichrome staining | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 19 Trichrome staining | Rat DCIS study" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 18 Trichrome staining | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 19 Trichrome staining | Rat DCIS study" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
 <li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
 <li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
+<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
+<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
+<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -263,9 +266,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
 <li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
 <li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
@@ -301,21 +305,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
 <li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
-<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
+<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -338,7 +348,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="trichrome-staining" class="section level1">
-<h1><span class="header-section-number">Chapter 18</span> Trichrome staining</h1>
+<h1><span class="header-section-number">Chapter 19</span> Trichrome staining</h1>
 <p>Quantification of trichrome staining was performed in Qupath using the following steps:</p>
 <ul>
 <li>image is loaded as a “DAB” image</li>
@@ -350,66 +360,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>A snippet of the qupath script is shown below:</p>
 <div id="associations-with-cellular-fraction-wsi" class="section level2">
-<h2><span class="header-section-number">18.1</span> Associations with cellular fraction (wsi)</h2>
+<h2><span class="header-section-number">19.1</span> Associations with cellular fraction (wsi)</h2>
 <pre><code>##       knn.EpCAM knn.EpCAM..SMA  knn.SMA knn.Unclass knn.EpMIN knn.EpStrRatio1
 ## 10LB   39.96193       52.72253 16.94935    28.07623  39.96193       0.5735732
-## 10LC   17.87345       34.57734 32.12258    24.28626  17.87345       0.2679682
+## 10LC   32.12258       34.57734 17.87345    24.28626  32.12258       0.6124326
 ## 10LD   34.33110       30.18133 15.97086    35.99495  30.18133       0.7438671
 ## 10NA   23.80977             NA 27.49276    48.19205  23.80977       0.8660376
 ## 10ND   26.20801             NA 30.06210    40.01762  26.20801       0.8717958
 ## 10RBL  44.92703       67.36295 18.22774    26.07893  44.92703       0.5249056
 ##       knn.EpStrRatio2 knn.EpStrRatio3 knn.EpStrRatio4     IF.CD8  IF.EpCAM
 ## 10LB        2.3577258       1.3302993       5.4683183 0.20538263 0.2236555
-## 10LC        0.5564141       0.7863697       1.6328326 0.07842574 0.4768745
+## 10LC        1.7972227       1.2716665       3.7317865 0.07842574 0.3168630
 ## 10LD        2.1496080       1.3978193       4.0393825 0.28162217 0.2944373
 ## 10NA        0.8660376       0.8660376       0.8660376 0.35915415 0.4808547
 ## 10ND        0.8717958       0.8717958       0.8717958 0.30086657 0.4408878
 ## 10RBL       2.4647619       1.3119416       6.1603904 0.12791040 0.2213380
 ##       IF.EpCAM..SMA    IF.SMA IF.Unclass   IF.EpMIN IF.EpStrRatio1
 ## 10LB     0.08038836 0.5905018  0.3010823 0.08038836      0.3333713
-## 10LC     0.23757541 0.3168630  0.3714450 0.23757541      0.8601036
+## 10LC     0.23757541 0.4768745  0.3714450 0.23757541      0.4435062
 ## 10LD     0.25637789 0.5786730  0.1450209 0.25637789      0.3525981
 ## 10NA             NA 0.3207166  0.1112743 0.48085466      1.4993132
 ## 10ND             NA 0.1738438  0.1426298 0.44088779      2.5361139
 ## 10RBL    0.20394931 0.5758915  0.4544651 0.20394931      0.2838246
 ##       IF.EpStrRatio2 IF.EpStrRatio3 IF.EpStrRatio4  MH.EpCAM MH.EpCAM..SMA
-## 10LB       0.3787550      0.4531947      0.5148906 0.4598790     0.4523963
-## 10LC       1.5049864      1.2886010      2.2547597 0.5432610     0.5212001
-## 10LD       0.5088147      0.6596187      0.9518592 0.6867357     0.6212434
-## 10NA       1.4993132      1.4993132      1.4993132 0.4764461            NA
-## 10ND       2.5361139      2.5361139      2.5361139 0.4181843            NA
-## 10RBL      0.3843398      0.5453515      0.7384852 0.5857603     0.5360503
+## 10LB       0.3787550      0.4531947      0.5148906 0.4189067     0.4131540
+## 10LC       0.6644578      0.7760354      1.1626506 0.4097456     0.4514649
+## 10LD       0.5088147      0.6596187      0.9518592 0.6622844     0.5987199
+## 10NA       1.4993132      1.4993132      1.4993132 0.4314681            NA
+## 10ND       2.5361139      2.5361139      2.5361139 0.3700572            NA
+## 10RBL      0.3843398      0.5453515      0.7384852 0.5503682     0.4903183
 ##          MH.SMA MH.Unclass  MH.EpMIN MH.EpStrRatio1 MH.EpStrRatio2
-## 10LB  0.6129639  0.5544075 0.4523963      0.4316653      0.7502546
-## 10LC  0.4755447  0.5727582 0.5212001      0.5450352      1.1423973
-## 10LD  0.7215931  0.6164435 0.6212434      0.5114068      0.9516938
-## 10NA  0.5082689  0.4033893 0.4764461      0.9373898      0.9373898
-## 10ND  0.3506799  0.3206394 0.4181843      1.1924959      1.1924959
-## 10RBL 0.6881028  0.5917978 0.5360503      0.4785025      0.8512686
+## 10LB  0.5718496  0.5168234 0.4131540      0.4252844      0.7325470
+## 10LC  0.4699867  0.5056881 0.4097456      0.4446740      0.8718238
+## 10LD  0.6967903  0.5894954 0.5987199      0.5112151      0.9504787
+## 10NA  0.4720285  0.3768075 0.4314681      0.9140722      0.9140722
+## 10ND  0.3088513  0.2854604 0.3700572      1.1981728      1.1981728
+## 10RBL 0.6513715  0.5568501 0.4903183      0.4820645      0.8449375
 ##       MH.EpStrRatio3 MH.EpStrRatio4 Treatment  Growth        Infil    CD8frac
-## 10LB       0.8563069      1.4883019      PDL1 growing Infiltrating 0.02289774
-## 10LC       1.0679374      2.2384038      PDL1 growing Infiltrating 0.01003407
-## 10LD       0.9740419      1.8126268      PDL1  stable Infiltrating 0.06810877
-## 10NA       0.9373898      0.9373898      PDL1    &lt;NA&gt;   restricted 0.04656271
-## 10ND       1.1924959      1.1924959      PDL1  stable   restricted 0.02271949
-## 10RBL      0.9163973      1.6302950      PDL1 growing   restricted 0.02027148
+## 10LB       0.8447286      1.4550342      PDL1 growing Infiltrating 0.02289774
+## 10LC       0.9346237      1.8324147      PDL1 growing Infiltrating 0.01003407
+## 10LD       0.9733650      1.8097328      PDL1  stable Infiltrating 0.06810877
+## 10NA       0.9140722      0.9140722      PDL1    &lt;NA&gt;   restricted 0.04656271
+## 10ND       1.1981728      1.1981728      PDL1  stable   restricted 0.02271949
+## 10RBL      0.9115317      1.5976850      PDL1 growing   restricted 0.02027148
 ##       GrowthRate TumSize knn.EpCAMcut MH.EpCAMcut IF.EpCAMcut CD8Fraccut
-## 10LB   6.2285714      35         high        high         low        low
-## 10LC   5.3571429      25         high        high        high        low
+## 10LB   6.2285714      35         &lt;NA&gt;        high         low        low
+## 10LC   5.3571429      25         high         low        high        low
 ## 10LD   1.9729730      10         high        high        high       high
 ## 10NA          NA      12         high        high        high       high
 ## 10ND   0.3930533      15         high         low        high        low
 ## 10RBL  4.9761905      40         &lt;NA&gt;        high         low        low
 ##              CD8     EpCAM EpCAM: SMA       SMA   Unclass        CD8     EpCAM
 ## 10LB  0.02289774 0.2663149  0.1200304 0.3936498 0.1971072 0.02289774 0.2663149
-## 10LC  0.01003407 0.3081967  0.1672355 0.2960411 0.2184926 0.01003407 0.3081967
+## 10LC  0.01003407 0.2960411  0.1672355 0.3081967 0.2184926 0.01003407 0.2960411
 ## 10LD  0.06810877 0.1948931  0.2063845 0.4066703 0.1239434 0.06810877 0.1948931
 ## 10NA  0.04656271 0.5554448  0.0000000 0.2855199 0.1124726 0.04656271 0.5554448
 ## 10ND  0.02271949 0.4651478  0.0000000 0.2837204 0.2284123 0.02271949 0.4651478
 ## 10RBL 0.02027148 0.3478534  0.1505455 0.2547647 0.2265650 0.02027148 0.3478534
 ##       EpCAM: SMA       SMA   Unclass Trichrome
 ## 10LB   0.1200304 0.3936498 0.1971072 0.1266438
-## 10LC   0.1672355 0.2960411 0.2184926 0.1500257
+## 10LC   0.1672355 0.3081967 0.2184926 0.1500257
 ## 10LD   0.2063845 0.4066703 0.1239434 0.1766188
 ## 10NA   0.0000000 0.2855199 0.1124726        NA
 ## 10ND   0.0000000 0.2837204 0.2284123        NA
@@ -418,69 +428,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##                 2</code></pre>
 </div>
 <div id="associations-with-growth-and-spatial-patterns" class="section level2">
-<h2><span class="header-section-number">18.2</span> Associations with growth and spatial patterns</h2>
+<h2><span class="header-section-number">19.2</span> Associations with growth and spatial patterns</h2>
 <pre><code>## [1] &quot;GrowthRate&quot; &quot;MH.EpCAM&quot;   &quot;IF.EpCAM&quot;   &quot;knn.EpCAM&quot;</code></pre>
 <pre><code>##       PDL1         LY    PDL1+LY 
 ## 0.50800711 0.96795666 0.03089095</code></pre>
 <pre><code>##       knn.EpCAM knn.EpCAM..SMA  knn.SMA knn.Unclass knn.EpMIN knn.EpStrRatio1
 ## 10LB   39.96193       52.72253 16.94935    28.07623  39.96193       0.5735732
-## 10LC   17.87345       34.57734 32.12258    24.28626  17.87345       0.2679682
+## 10LC   32.12258       34.57734 17.87345    24.28626  32.12258       0.6124326
 ## 10LD   34.33110       30.18133 15.97086    35.99495  30.18133       0.7438671
 ## 10NA   23.80977             NA 27.49276    48.19205  23.80977       0.8660376
 ## 10ND   26.20801             NA 30.06210    40.01762  26.20801       0.8717958
 ## 10RBL  44.92703       67.36295 18.22774    26.07893  44.92703       0.5249056
 ##       knn.EpStrRatio2 knn.EpStrRatio3 knn.EpStrRatio4     IF.CD8  IF.EpCAM
 ## 10LB        2.3577258       1.3302993       5.4683183 0.20538263 0.2236555
-## 10LC        0.5564141       0.7863697       1.6328326 0.07842574 0.4768745
+## 10LC        1.7972227       1.2716665       3.7317865 0.07842574 0.3168630
 ## 10LD        2.1496080       1.3978193       4.0393825 0.28162217 0.2944373
 ## 10NA        0.8660376       0.8660376       0.8660376 0.35915415 0.4808547
 ## 10ND        0.8717958       0.8717958       0.8717958 0.30086657 0.4408878
 ## 10RBL       2.4647619       1.3119416       6.1603904 0.12791040 0.2213380
 ##       IF.EpCAM..SMA    IF.SMA IF.Unclass   IF.EpMIN IF.EpStrRatio1
 ## 10LB     0.08038836 0.5905018  0.3010823 0.08038836      0.3333713
-## 10LC     0.23757541 0.3168630  0.3714450 0.23757541      0.8601036
+## 10LC     0.23757541 0.4768745  0.3714450 0.23757541      0.4435062
 ## 10LD     0.25637789 0.5786730  0.1450209 0.25637789      0.3525981
 ## 10NA             NA 0.3207166  0.1112743 0.48085466      1.4993132
 ## 10ND             NA 0.1738438  0.1426298 0.44088779      2.5361139
 ## 10RBL    0.20394931 0.5758915  0.4544651 0.20394931      0.2838246
 ##       IF.EpStrRatio2 IF.EpStrRatio3 IF.EpStrRatio4  MH.EpCAM MH.EpCAM..SMA
-## 10LB       0.3787550      0.4531947      0.5148906 0.4598790     0.4523963
-## 10LC       1.5049864      1.2886010      2.2547597 0.5432610     0.5212001
-## 10LD       0.5088147      0.6596187      0.9518592 0.6867357     0.6212434
-## 10NA       1.4993132      1.4993132      1.4993132 0.4764461            NA
-## 10ND       2.5361139      2.5361139      2.5361139 0.4181843            NA
-## 10RBL      0.3843398      0.5453515      0.7384852 0.5857603     0.5360503
+## 10LB       0.3787550      0.4531947      0.5148906 0.4189067     0.4131540
+## 10LC       0.6644578      0.7760354      1.1626506 0.4097456     0.4514649
+## 10LD       0.5088147      0.6596187      0.9518592 0.6622844     0.5987199
+## 10NA       1.4993132      1.4993132      1.4993132 0.4314681            NA
+## 10ND       2.5361139      2.5361139      2.5361139 0.3700572            NA
+## 10RBL      0.3843398      0.5453515      0.7384852 0.5503682     0.4903183
 ##          MH.SMA MH.Unclass  MH.EpMIN MH.EpStrRatio1 MH.EpStrRatio2
-## 10LB  0.6129639  0.5544075 0.4523963      0.4316653      0.7502546
-## 10LC  0.4755447  0.5727582 0.5212001      0.5450352      1.1423973
-## 10LD  0.7215931  0.6164435 0.6212434      0.5114068      0.9516938
-## 10NA  0.5082689  0.4033893 0.4764461      0.9373898      0.9373898
-## 10ND  0.3506799  0.3206394 0.4181843      1.1924959      1.1924959
-## 10RBL 0.6881028  0.5917978 0.5360503      0.4785025      0.8512686
+## 10LB  0.5718496  0.5168234 0.4131540      0.4252844      0.7325470
+## 10LC  0.4699867  0.5056881 0.4097456      0.4446740      0.8718238
+## 10LD  0.6967903  0.5894954 0.5987199      0.5112151      0.9504787
+## 10NA  0.4720285  0.3768075 0.4314681      0.9140722      0.9140722
+## 10ND  0.3088513  0.2854604 0.3700572      1.1981728      1.1981728
+## 10RBL 0.6513715  0.5568501 0.4903183      0.4820645      0.8449375
 ##       MH.EpStrRatio3 MH.EpStrRatio4 Treatment  Growth        Infil    CD8frac
-## 10LB       0.8563069      1.4883019      PDL1 growing Infiltrating 0.02289774
-## 10LC       1.0679374      2.2384038      PDL1 growing Infiltrating 0.01003407
-## 10LD       0.9740419      1.8126268      PDL1  stable Infiltrating 0.06810877
-## 10NA       0.9373898      0.9373898      PDL1    &lt;NA&gt;   restricted 0.04656271
-## 10ND       1.1924959      1.1924959      PDL1  stable   restricted 0.02271949
-## 10RBL      0.9163973      1.6302950      PDL1 growing   restricted 0.02027148
+## 10LB       0.8447286      1.4550342      PDL1 growing Infiltrating 0.02289774
+## 10LC       0.9346237      1.8324147      PDL1 growing Infiltrating 0.01003407
+## 10LD       0.9733650      1.8097328      PDL1  stable Infiltrating 0.06810877
+## 10NA       0.9140722      0.9140722      PDL1    &lt;NA&gt;   restricted 0.04656271
+## 10ND       1.1981728      1.1981728      PDL1  stable   restricted 0.02271949
+## 10RBL      0.9115317      1.5976850      PDL1 growing   restricted 0.02027148
 ##       GrowthRate TumSize knn.EpCAMcut MH.EpCAMcut IF.EpCAMcut CD8Fraccut
-## 10LB   6.2285714      35         high        high         low        low
-## 10LC   5.3571429      25         high        high        high        low
+## 10LB   6.2285714      35         &lt;NA&gt;        high         low        low
+## 10LC   5.3571429      25         high         low        high        low
 ## 10LD   1.9729730      10         high        high        high       high
 ## 10NA          NA      12         high        high        high       high
 ## 10ND   0.3930533      15         high         low        high        low
 ## 10RBL  4.9761905      40         &lt;NA&gt;        high         low        low
 ##              CD8     EpCAM EpCAM: SMA       SMA   Unclass        CD8     EpCAM
 ## 10LB  0.02289774 0.2663149  0.1200304 0.3936498 0.1971072 0.02289774 0.2663149
-## 10LC  0.01003407 0.3081967  0.1672355 0.2960411 0.2184926 0.01003407 0.3081967
+## 10LC  0.01003407 0.2960411  0.1672355 0.3081967 0.2184926 0.01003407 0.2960411
 ## 10LD  0.06810877 0.1948931  0.2063845 0.4066703 0.1239434 0.06810877 0.1948931
 ## 10NA  0.04656271 0.5554448  0.0000000 0.2855199 0.1124726 0.04656271 0.5554448
 ## 10ND  0.02271949 0.4651478  0.0000000 0.2837204 0.2284123 0.02271949 0.4651478
 ## 10RBL 0.02027148 0.3478534  0.1505455 0.2547647 0.2265650 0.02027148 0.3478534
 ##       EpCAM: SMA       SMA   Unclass Trichrome
 ## 10LB   0.1200304 0.3936498 0.1971072 0.1266438
-## 10LC   0.1672355 0.2960411 0.2184926 0.1500257
+## 10LC   0.1672355 0.3081967 0.2184926 0.1500257
 ## 10LD   0.2063845 0.4066703 0.1239434 0.1766188
 ## 10NA   0.0000000 0.2855199 0.1124726        NA
 ## 10ND   0.0000000 0.2837204 0.2284123        NA

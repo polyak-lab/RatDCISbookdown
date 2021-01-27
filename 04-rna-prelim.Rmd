@@ -54,6 +54,18 @@ The cell types are:
 * Epcam: green 
 * DN:blue
 
+```{r}
+Xa=c(brewer.pal(3, "Reds"), brewer.pal(3, "Blues"), brewer.pal(3, "Greens"))
+
+plotPCA(vsd[, which(vsd$Cohort%in%"Progression")], c("Growth", "Fraction"))+scale_color_manual(values=Xa[c( 3,9, 6,1, 7, 4, 2,8, 5)])+theme_bw()
+
+
+vsd$Treatment2=ifelse(vsd$Treatment=="Vehicle", "none", "yes")
+plotPCA(vsd[, which(vsd$Cohort%in%"Progression" & vsd$Fraction=="CD45")], c("Treatment2"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()
+plotPCA(vsd[, which(vsd$Cohort%in%"Progression" & vsd$Fraction=="DN")], c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()
+plotPCA(vsd[, which(vsd$Cohort%in%"Progression" & vsd$Fraction=="CD45")], c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()
+```
+
 Reference Genes:
 
 * purple: immune
@@ -66,7 +78,7 @@ Below, we see that the CD45 cells separate from the Ep/DN populations have high 
 
 However, the DN/Ep fractions are more intermixed. The DN fraction has expression of keratins, as well as fibroblast markers (Acta1), and myeoepithelial markers (Tp63)
 
-```{r, eval=F}
+```{r}
 ## why doesnt this work???
 Agenes=unlist(GeneListRat)
 
@@ -79,10 +91,11 @@ RowSideCol=substr(RowSideCol, 1, 3)
 
 ColSideCol=sapply(strsplit(colnames(RatExpr2), "_"), function(x) x[length(x)])
 
+colnames(RatExpr2)=paste(infoTableFinal$TumorIDnew[match(colnames(RatExpr2), rownames(infoTableFinal))],
+                         infoTableFinal$Fraction[match(colnames(RatExpr2), rownames(infoTableFinal))])
 #pdf("~/Desktop/FiguS3_celltype_markers_RNA.pdf", height = 10, width=14)
 
- a1=heatmap.2(RatExpr2, col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
-              ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol)] )
+a1=heatmap.2(RatExpr2, col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",  ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol)] )
  
  a1=heatmap.2(RatExpr2[, -grep("CD45", colnames(RatExpr2))], col=RdBu[11:1], trace="none", RowSideColors = brewer.pal(6, "Set1")[factor(RowSideCol)], scale="row",
               ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol[-grep("CD45", colnames(RatExpr2))])] )
@@ -91,7 +104,7 @@ ColSideCol=sapply(strsplit(colnames(RatExpr2), "_"), function(x) x[length(x)])
 
 
 # plot the heatmap col-side bar
-# ColBars=rbind(factor(infoTable$Fraction[a1$colInd]), factor(infoTable$Batch[a1$colInd]))
+# ColBars=rbind(factor(infoTableFinal$Fraction[a1$colInd]), factor(infoTableFinal$Batch[a1$colInd]))
 # image(t(ColBars), col=c(1:3), main="column index", yaxt="none", xaxt="none")
 # axis(2, at=c(0, 1), labels=c("cell type", "batch"), las=2)
 # par(oma=c(3, 0,0,0))

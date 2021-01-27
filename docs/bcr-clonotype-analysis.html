@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-09" />
+<meta name="date" content="2020-12-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -224,7 +224,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
 <li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
 <li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.4</b> Specific pathways</a></li>
+<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
+<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
+<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
+<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -263,9 +266,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
 <li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
 <li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.4</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.5</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.6</b> Association with infiltration</a></li>
+<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
+<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
@@ -301,21 +305,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
 <li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>16</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="16.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>16.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="16.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>16.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="16.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>16.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="16.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>16.3.1</b> Look at cancer specific pathways</a></li>
+<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>16.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="16.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>16.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="16.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>16.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
+<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
+<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
+<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
+<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>17</b> haplotype caller</a></li>
-<li class="chapter" data-level="18" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>18</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="18.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>18.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="18.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>18.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
+<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -342,29 +352,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="processing-summary" class="section level2">
 <h2><span class="header-section-number">13.1</span> Processing summary</h2>
 <p>Fastq files have previously been run through TRUST4 using the Rn6 BCR annotations using the following code (not run here). Note that the bcr/tcr .fa files were assembled using the ensembl annotation (these annotations are not present in the UCSC genomic files). Annotation files for the rn6 BCR regions are available at <a href="http://www.imgt.org//download/V-QUEST/IMGT_V-QUEST_reference_directory/Rattus_norvegicus/">IMGT</a>, but TCR regions are not available</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="bcr-clonotype-analysis.html#cb72-1"></a><span class="co"># obtain the gene names for rat:</span></span>
-<span id="cb72-2"><a href="bcr-clonotype-analysis.html#cb72-2"></a><span class="kw">library</span>(biomaRt)</span>
-<span id="cb72-3"><a href="bcr-clonotype-analysis.html#cb72-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
-<span id="cb72-4"><a href="bcr-clonotype-analysis.html#cb72-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
-<span id="cb72-5"><a href="bcr-clonotype-analysis.html#cb72-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
-<span id="cb72-6"><a href="bcr-clonotype-analysis.html#cb72-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
-<span id="cb72-7"><a href="bcr-clonotype-analysis.html#cb72-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
-<span id="cb72-8"><a href="bcr-clonotype-analysis.html#cb72-8"></a></span>
-<span id="cb72-9"><a href="bcr-clonotype-analysis.html#cb72-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
-<span id="cb72-10"><a href="bcr-clonotype-analysis.html#cb72-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
-<span id="cb72-11"><a href="bcr-clonotype-analysis.html#cb72-11"></a></span>
-<span id="cb72-12"><a href="bcr-clonotype-analysis.html#cb72-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
-<span id="cb72-13"><a href="bcr-clonotype-analysis.html#cb72-13"></a></span>
-<span id="cb72-14"><a href="bcr-clonotype-analysis.html#cb72-14"></a><span class="co"># Obtain the reference annotation file</span></span>
-<span id="cb72-15"><a href="bcr-clonotype-analysis.html#cb72-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
-<span id="cb72-16"><a href="bcr-clonotype-analysis.html#cb72-16"></a></span>
-<span id="cb72-17"><a href="bcr-clonotype-analysis.html#cb72-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
-<span id="cb72-18"><a href="bcr-clonotype-analysis.html#cb72-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="bcr-clonotype-analysis.html#cb101-1"></a><span class="co"># obtain the gene names for rat:</span></span>
+<span id="cb101-2"><a href="bcr-clonotype-analysis.html#cb101-2"></a><span class="kw">library</span>(biomaRt)</span>
+<span id="cb101-3"><a href="bcr-clonotype-analysis.html#cb101-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
+<span id="cb101-4"><a href="bcr-clonotype-analysis.html#cb101-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
+<span id="cb101-5"><a href="bcr-clonotype-analysis.html#cb101-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
+<span id="cb101-6"><a href="bcr-clonotype-analysis.html#cb101-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
+<span id="cb101-7"><a href="bcr-clonotype-analysis.html#cb101-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
+<span id="cb101-8"><a href="bcr-clonotype-analysis.html#cb101-8"></a></span>
+<span id="cb101-9"><a href="bcr-clonotype-analysis.html#cb101-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
+<span id="cb101-10"><a href="bcr-clonotype-analysis.html#cb101-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
+<span id="cb101-11"><a href="bcr-clonotype-analysis.html#cb101-11"></a></span>
+<span id="cb101-12"><a href="bcr-clonotype-analysis.html#cb101-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
+<span id="cb101-13"><a href="bcr-clonotype-analysis.html#cb101-13"></a></span>
+<span id="cb101-14"><a href="bcr-clonotype-analysis.html#cb101-14"></a><span class="co"># Obtain the reference annotation file</span></span>
+<span id="cb101-15"><a href="bcr-clonotype-analysis.html#cb101-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
+<span id="cb101-16"><a href="bcr-clonotype-analysis.html#cb101-16"></a></span>
+<span id="cb101-17"><a href="bcr-clonotype-analysis.html#cb101-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
+<span id="cb101-18"><a href="bcr-clonotype-analysis.html#cb101-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
 </div>
 <div id="summary-stats" class="section level2">
 <h2><span class="header-section-number">13.2</span> Summary Stats</h2>
 <p>Firstly, look at the number of BCR regions which have been identified by TRUST4. In green are the CD45 populations, which as expected appear to have a higher number of clonotypes compared to the epithelial and the double-negative populations (in read and orange).</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-4.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-4.png" width="672" /></p>
 <p>We will refine the above plot to contain only the CD45 population and assess:</p>
 <ul>
 <li>number of clonotypes</li>
@@ -392,14 +402,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will see the proportion of the BCR repertoire which is computed using the top 10 frequent clones.
 This will give an idea of whether there is a clonal expansion</p>
 <p>The following plot demonstrates the relationship between the above metrics</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-151-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
 <p>Notice that some samples have very few clones. An example is 5RB which is represented by a single clonotype, accounting for the absence of a Gini or shannon index</p>
 </div>
 <div id="compare-the-characterisation-cohort" class="section level2">
 <h2><span class="header-section-number">13.4</span> Compare the characterisation cohort</h2>
 <p>In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.
 Is there a difference in the clonotypes between these samples?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-152-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-152-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-2.png" width="672" /></p>
 </div>
 <div id="associate-with-clinicopathological-data" class="section level2">
 <h2><span class="header-section-number">13.5</span> Associate with clinicopathological data</h2>
@@ -417,7 +427,10 @@ Is there a difference in the clonotypes between these samples?</p>
 <li>Growth</li>
 <li>Treatment</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-6.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-2.png" width="672" /></p>
+<pre><code>## &lt; table of extent 0 &gt;</code></pre>
+<pre><code>## quartz_off_screen 
+##                 2</code></pre>
 </div>
 <div id="associate-with-signature-scores" class="section level2">
 <h2><span class="header-section-number">13.6</span> Associate with signature scores</h2>
@@ -425,17 +438,17 @@ Is there a difference in the clonotypes between these samples?</p>
 <ul>
 <li>B cell signature enrichments scores (from RNA data)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-2.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-2.png" width="672" /></p>
 <ul>
 <li>B cell frequencies based on FACS:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-155-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /></p>
 </div>
 <div id="check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations" class="section level2">
 <h2><span class="header-section-number">13.7</span> Check whether the clonotype percentages match with gsva signatures or CD20 populations</h2>
 <p>associate with immune signature scores (ssgsea)
 fdr adjust the correlation p values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
 
 </div>
 </div>

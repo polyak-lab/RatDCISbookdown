@@ -180,7 +180,7 @@ viewEnrichMap(gscacd, gscs=c("ProcessNetworks"),
 ## Epithelial samples
 
 ```{r}
-infoTableFinal$TumSize=Cdata$Tumor.dia..sac..mm.[match(infoTableFinal$TumorID, Cdata$TumorID)]
+infoTableFinal$TumSize=Cdata$Tumor.diameter.sac.mm[match(infoTableFinal$TumorID, Cdata$TumorID)]
 #infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
 
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$SizeCat))])
@@ -351,4 +351,13 @@ testOut=gsva(Mx1, PathwayMapAllComp,method="ssgsea", kcdf="Gaussian", ssgsea.nor
 boxplot(testOut["Cell cycle_S phase", ]~vst1$SizeCat)
 boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 
+```
+
+
+## Check expression of checkpoint proteins
+
+```{r}
+
+ImmSuppAPC
+MHCPres2Rat
 ```

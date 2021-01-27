@@ -165,6 +165,8 @@ We remove genes which have 0 counts in more than half the samples, and genes whi
 
 ```{r deseq-assoc-runs, cache=T}
 # find epithelial samples
+infoTableFinal$Treatment2=ifelse(infoTableFinal$Treatment=="Vehicle", "none", "imm")
+
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$Growth))])
 Epdds=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~Comp4+factor(Batch)) ## change class
 a1x=rowSums(counts(Epdds))
@@ -231,7 +233,7 @@ Epddscd8MH=DESeq(Epddscd8MH)
 ## CD45 samples
 
 cdidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$Growth))])
-CDdds=DESeqDataSetFromMatrix(allstarFinal[ ,cdidx], infoTableFinal[cdidx, ], design=~Comp4+factor(Batch)) ## change class
+CDdds=DESeqDataSetFromMatrix(allstarFinal[ ,cdidx], infoTableFinal[cdidx, ], design=~Treatment2+factor(Batch)) ## change class
 a1x=rowSums(counts(CDdds))
 a1b=apply(counts(CDdds), 1, function(c) sum(c!=0))
 # par(mfrow=c(1,2))
@@ -453,7 +455,16 @@ These are separated based on cell type
 #pdf(sprintf("rslt/DESeq/Sample_specific_PCA_%s.pdf", Sys.Date()), height=9, width=9)
 Epdds$cd8MH=paste(Epdds$CD8FracCut, Epdds$MHcut)
 
-vstEp=vst(Epdds, blind=T)
+vstEp=vst(Epdds, blind=F)
+vstEp$Treatment2=ifelse(vstEp$Treatment=="Vehicle", "no", "yes")
+
+
+vsdLimmaEp=vstEp
+assay(vsdLimmaEp)<- limma::removeBatchEffect(assay(vsdLimmaEp),vsdLimmaEp$Batch)
+plotPCA(vsdLimmaEp, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth Ep")
+plotPCA(vsdLimmaEp, c("Treatment"))+theme_bw()+ggtitle("Treatment Ep")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
 plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
 plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
 plotPCA(vstEp, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment + growth")
@@ -474,10 +485,26 @@ dev.off()
 
 ### CD45
 
+Note there is a strong batch effect: need to apply limma remove Batch Effect prior to creating PCA plots
+
 ```{r}
 CDdds$cd8MH=paste(CDdds$CD8FracCut, CDdds$MHcut)
 
-vstCD=vst(CDdds, blind=T)
+vstCD=vst(CDdds, blind=F)
+plotPCA(vstCD, "Batch")
+vsdLimmaCD=vstCD
+
+assay(vsdLimmaCD)<- limma::removeBatchEffect(assay(vsdLimmaCD),vstCD$Batch)
+# library(cluster)
+# PAMx=pam(t(assay(vsdLimmaCD)), 2)
+# autoplot(PAMx )
+# 
+# 
+ax1=plotPCA(vsdLimmaCD, c("Batch"), returnData=T)
+plotPCA(vsdLimmaCD, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth CD45")
+plotPCA(vsdLimmaCD, c("Treatment"))+theme_bw()+ggtitle("Treatment CD45")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
 plotPCA(vstCD, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment")
 plotPCA(vstCD, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment + growth")
 plotPCA(vstCD, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 treatment (immune vs control) + growth")
@@ -503,6 +530,23 @@ dev.off()
 DNdds$cd8MH=paste(DNdds$CD8FracCut, DNdds$MHcut)
 
 vstDN=vst(DNdds, blind=T)
+vstDN$Treatment2=ifelse(vstDN$Treatment=="Vehicle", "no", "imm")
+
+vsdLimmaDN=vstDN
+
+assay(vsdLimmaDN)<- limma::removeBatchEffect(assay(vsdLimmaDN),vstDN$Batch)
+# library(cluster)
+# PAMx=pam(t(assay(vsdLimmaCD)), 2)
+# autoplot(PAMx )
+# 
+# 
+ax1=plotPCA(vsdLimmaDN, c("Batch"), returnData=T)
+plotPCA(vsdLimmaDN, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth CDN")
+plotPCA(vsdLimmaDN, c("Treatment"))+theme_bw()+ggtitle("Treatment DN")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
+
+
 plotPCA(vstDN, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment ")
 plotPCA(vstDN, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment + growth")
 plotPCA(vstDN, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN treatment (immune vs control) + growth")
@@ -524,6 +568,134 @@ dev.off()
 
 ```
 
+## Output: relate this to treatment
+
+```{r}
+EpddsTreatB=EpddsTreat
+design(EpddsTreatB)=~treatA+factor(Batch)
+EpddsTreatB=DESeq(EpddsTreatB)
+
+epr=results(EpddsTreatB)
+Xa1=epr[which(epr$padj<0.05 & epr$baseMean>60), ]
+
+epvsd=vst(EpddsTreatB)
+assay(epvsd)<- limma::removeBatchEffect(assay(epvsd),factor(epvsd$Batch))
+
+
+
+Mat2=epvsd[match(rownames(Xa1), rownames(epvsd)), ]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+```
+
+DN
+
+List of markers from xcell:
+
+```{r}
+xcellgenes=readxl::read_xlsx("../anntotations/xcell_genes.xlsx", sheet=1)
+AllGenes=as.vector(xcellgenes[ ,-c(1:2)])
+AllGenes=firstup(tolower(unique(as.character(unlist(AllGenes)))))
+
+```
+
+```{r}
+
+#rm list
+rmList=c("15L_B_DN", "6R_B_DN", "10L_C_DN", "6R_D_DN")
+
+DNddsTreatB=DNddsTreat#[, -match(rmList, colnames(DNddsTreat))]
+design(DNddsTreatB)=~treatA+factor(Batch)
+DNddsTreatB=DESeq(DNddsTreatB)
+
+DNr=results(DNddsTreatB)
+Xa1=DNr[which(DNr$padj<0.05 & DNr$baseMean>100 & abs(DNr$log2FoldChange)>1.5), ]
+
+# DNvsd=vst(DNddsTreatB)
+# assay(DNvsd)<- limma::removeBatchEffect(assay(DNvsd),factor(DNvsd$Batch))
+AllG2=rownames(Xa1)[which(rownames(Xa1)%in%c(AllGenes, "Il6"))]
+
+Mat2=vsdLimmaDN[match(AllG2, rownames(vsdLimmaDN)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+
+
+### don't use this?
+
+ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+
+AllG=unique(c(G1, G2, G3))
+
+#AllG2=AllG[which(AllG%in%RatAllImm)]
+
+Mat2=vsdLimmaDN[match(AllG, rownames(vsdLimmaDN)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+colSCol2=ColSizeb[Mat2$Growth]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+```
+
+CD45
+
+```{r}
+CDddsTreatB=CDddsTreat
+design(CDddsTreatB)=~treatA
+CDddsTreatB=DESeq(CDddsTreatB)
+
+CDr=results(CDddsTreatB)
+Xa1=CDr[which(CDr$padj<0.05 & CDr$baseMean>100 & abs(CDr$log2FoldChange)>1.5), ]
+
+AllG2=rownames(Xa1)[which(rownames(Xa1)%in%RatAllImm)]
+
+Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
+
+#assay(CDvsd)<- limma::removeBatchEffect(assay(CDvsd))
+
+#Mat2=CDvsd[match(rownames(Xa1), rownames(CDvsd)), ]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+
+## ALSO LOOK AT the pairwise comparisons and pull out those genes
+ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+
+AllG=unique(c(G1, G2, G3))
+
+AllG2=AllG[which(AllG%in%RatAllImm)]
+
+Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+colSCol2=ColSizeb[Mat2$Growth]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+```
 
 ## Collating results and running GSEA
 
