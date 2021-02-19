@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 DESeq analysis: Immunotherapy/Growth comparisons | Rat DCIS study</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 DESeq analysis: Immunotherapy/Growth comparisons | Rat DCIS study" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 DESeq analysis: Immunotherapy/Growth comparisons | Rat DCIS study" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2021-02-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="expression-in-specific-pathways.html"/>
+<link rel="next" href="summary-of-gsea-runs.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+<script type="text/javascript">
+  
+  // toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+  
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+  
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Global") elem.value = "Show Global";
+  else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="prerequisites.html"><a href="prerequisites.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="prerequisites.html"><a href="prerequisites.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="prerequisites.html"><a href="prerequisites.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.5</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.5.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.5.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.5.2</b> Summary of the RNA data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="3.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>3.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="3.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>3.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="3.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>3.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="3.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>3.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="3.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>3.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="3.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>3.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome to treatment</a></li>
+<li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="4.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>4.2.2</b> Growth</a></li>
+<li class="chapter" data-level="4.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>4.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>4.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>4.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>4.3.2</b> Growth</a></li>
+<li class="chapter" data-level="4.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>4.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>4.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="4.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#other-cell-types"><i class="fa fa-check"></i><b>4.5</b> Other cell types</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>5</b> Expression data</a><ul>
+<li class="chapter" data-level="5.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>5.1</b> Running alignment</a></li>
+<li class="chapter" data-level="5.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>5.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="5.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>5.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>5.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>5.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>6</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
+<li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>7.5</b> Pearson correlation plots of samples</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>8</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#gene-list"><i class="fa fa-check"></i><b>9.1</b> Gene List</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#progression-cohort"><i class="fa fa-check"></i><b>9.2</b> Progression cohort</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#charcterisation-cohort"><i class="fa fa-check"></i><b>9.3</b> Charcterisation cohort</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples"><i class="fa fa-check"></i><b>9.4</b> DN samples</a></li>
+<li class="chapter" data-level="9.5" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#comparison-with-staining"><i class="fa fa-check"></i><b>9.5</b> Comparison with staining</a></li>
+<li class="chapter" data-level="9.6" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#summary-of-expression-markers-for-each-subtypecell-fraction"><i class="fa fa-check"></i><b>9.6</b> Summary of expression markers for each subtype/cell fraction</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="expression-in-specific-pathways.html"><a href="expression-in-specific-pathways.html"><i class="fa fa-check"></i><b>10</b> Expression in Specific pathways</a></li>
+<li class="chapter" data-level="11" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html"><i class="fa fa-check"></i><b>11</b> DESeq analysis: Immunotherapy/Growth comparisons</a><ul>
+<li class="chapter" data-level="11.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#summary-of-comparisons"><i class="fa fa-check"></i><b>11.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="11.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>11.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#epcam-samples"><i class="fa fa-check"></i><b>11.2.1</b> EPCAM samples</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>11.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#dn-fraction"><i class="fa fa-check"></i><b>11.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="11.3.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cd-fraction"><i class="fa fa-check"></i><b>11.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="11.3.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#ep-fraction"><i class="fa fa-check"></i><b>11.3.3</b> Ep Fraction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>12</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>12.1</b> Stable vs growing: all samples</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#barplots-of-enriched-pathways"><i class="fa fa-check"></i><b>12.1.1</b> barplots of enriched pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#comparisons-based-on-treatment"><i class="fa fa-check"></i><b>12.2</b> Comparisons based on treatment</a></li>
+<li class="chapter" data-level="12.3" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>12.3</b> Pathways of Interest 2</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>13</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#comparison-of-enriched-pathways-across-samples"><i class="fa fa-check"></i><b>13.1</b> Comparison of enriched pathways across samples</a></li>
+<li class="chapter" data-level="13.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deseq-comparison"><i class="fa fa-check"></i><b>13.2</b> DeSeq comparison</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#compare-inflammatory-vs-non-inflammatory"><i class="fa fa-check"></i><b>13.2.1</b> Compare inflammatory vs non-inflammatory</a></li>
+<li class="chapter" data-level="13.2.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#finding-a-signature-for-each-branch"><i class="fa fa-check"></i><b>13.2.2</b> Finding a signature for each branch</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#analyse-the-non-inflammatory-samples"><i class="fa fa-check"></i><b>13.3</b> Analyse the non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#non-inflammatory-branch-ep-only-samples"><i class="fa fa-check"></i><b>13.3.1</b> Non-inflammatory branch: Ep only samples</a></li>
+<li class="chapter" data-level="13.3.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea"><i class="fa fa-check"></i><b>13.3.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#same-analysis-with-only-luminal-samples"><i class="fa fa-check"></i><b>13.4</b> Same analysis with only luminal samples</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea-1"><i class="fa fa-check"></i><b>13.4.1</b> GSEA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>14</b> Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="14.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>14.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="14.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>14.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>14.2.1</b> TCGA: LumA high vs low signatures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>15</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="15.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>15.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>15.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>15.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="15.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>15.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>15.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>15.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-3"><i class="fa fa-check"></i><b>15.2.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>15.3</b> Check expression of checkpoint proteins</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>16</b> Signature analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>16.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>16.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="16.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>16.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="16.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>16.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="16.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>16.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>17</b> Immune estimation</a><ul>
+<li class="chapter" data-level="17.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>17.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="17.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>17.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="17.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>17.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="17.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>17.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="17.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>17.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>17.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="17.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>17.5.2</b> Association with Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>17.6</b> Summary of the outcome</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>18</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>18.1</b> Processing summary</a></li>
+<li class="chapter" data-level="18.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>18.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="18.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>18.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="18.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>18.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="18.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>18.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="18.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>18.6</b> Associate with signature scores</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>19</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="19.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>19.1</b> Data</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>19.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="19.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>19.1.2</b> Annotate the data with human common variants</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>19.2</b> Plots</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>19.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="19.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>19.2.2</b> Coding variants &amp; TMB</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>19.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>19.3.1</b> Sites which are commonly mutated?</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>19.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>19.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>19.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>20</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>20.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="20.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>20.2</b> Load files</a></li>
+<li class="chapter" data-level="20.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>20.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="20.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>20.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="20.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>20.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>21</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="21.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>21.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="21.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>21.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="21.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>21.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>21.4</b> Mutation load?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>22</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="22.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>22.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="22.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>22.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="22.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>22.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="22.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>22.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>23</b> Writing files to file</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1"><i class="fa fa-check"></i>Figure 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-somehting"><i class="fa fa-check"></i>Figure 4: Somehting</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-figures"><i class="fa fa-check"></i>Extended Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-1"><i class="fa fa-check"></i>Extended data 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-2"><i class="fa fa-check"></i>Extended data 2</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-3"><i class="fa fa-check"></i>Extended data 3</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-4"><i class="fa fa-check"></i>Extended data 4</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-5"><i class="fa fa-check"></i>Extended data 5</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="deseq-analysis-immunotherapygrowth-comparisons" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> DESeq analysis: Immunotherapy/Growth comparisons</h1>
+<div id="summary-of-comparisons" class="section level2">
+<h2><span class="header-section-number">11.1</span> Summary of comparisons</h2>
+<p>Quick plot of the differences in number of differential genes:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-1"></a>Allchanges=<span class="kw">rbind</span>(UpDn1, CDUpDn1, DNUpDn1)</span>
+<span id="cb224-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-2"></a>Allchanges=<span class="kw">cbind</span>(Allchanges, <span class="dt">Frac=</span><span class="kw">c</span>(<span class="st">&quot;Ep&quot;</span>, <span class="st">&quot;Ep&quot;</span>, <span class="st">&quot;CD&quot;</span>, <span class="st">&quot;CD&quot;</span>, <span class="st">&quot;DN&quot;</span>, <span class="st">&quot;DN&quot;</span>), <span class="dt">dir=</span><span class="kw">rownames</span>(Allchanges))</span>
+<span id="cb224-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-3"></a></span>
+<span id="cb224-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-4"></a>AllchangesB=<span class="kw">melt</span>(<span class="kw">as.data.frame</span>(Allchanges), <span class="dt">id.vars =</span> <span class="kw">c</span>(<span class="st">&quot;Frac&quot;</span>, <span class="st">&quot;dir&quot;</span>))</span>
+<span id="cb224-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-5"></a></span>
+<span id="cb224-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb224-6"></a><span class="kw">ggplot</span>(AllchangesB, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span><span class="kw">as.numeric</span>(value), <span class="dt">fill=</span>dir))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>,<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(Frac<span class="op">~</span>., <span class="dt">scale=</span><span class="st">&quot;free_y&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free_y&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;No. differential genes&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;number of differential genes&quot;</span>)<span class="op">+</span><span class="kw">scale_y_log10</span>()</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb225-1"></a><span class="co">## plot the number of samples in each comparison</span></span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-1"></a>Nsamp=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">6</span>, <span class="dt">ncol=</span><span class="kw">ncol</span>(Allchanges))</span>
+<span id="cb226-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-2"></a>ta=<span class="kw">table</span>(Epdds<span class="op">$</span>Comp4)</span>
+<span id="cb226-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-3"></a>tb=<span class="kw">table</span>(CDdds<span class="op">$</span>Comp4)</span>
+<span id="cb226-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-4"></a>tc=<span class="kw">table</span>(DNdds<span class="op">$</span>Comp4)</span>
+<span id="cb226-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-5"></a></span>
+<span id="cb226-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>){</span>
+<span id="cb226-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-7"></a>  Nsamp[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, i]=<span class="kw">c</span>(ta[xsearch[i]], ta[ysearch[i]])</span>
+<span id="cb226-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-8"></a>  Nsamp[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, i]=<span class="kw">c</span>(tb[xsearch[i]], tb[ysearch[i]])</span>
+<span id="cb226-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-9"></a>  Nsamp[<span class="dv">5</span><span class="op">:</span><span class="dv">6</span>, i]=<span class="kw">c</span>(tc[xsearch[i]], tc[ysearch[i]])</span>
+<span id="cb226-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-10"></a>}</span>
+<span id="cb226-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-11"></a></span>
+<span id="cb226-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-12"></a>ta=<span class="kw">table</span>(Epdds<span class="op">$</span>Treatment)</span>
+<span id="cb226-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-13"></a>tb=<span class="kw">table</span>(CDdds<span class="op">$</span>Treatment)</span>
+<span id="cb226-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-14"></a>tc=<span class="kw">table</span>(DNdds<span class="op">$</span>Treatment)</span>
+<span id="cb226-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-15"></a></span>
+<span id="cb226-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</span>
+<span id="cb226-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-17"></a>  Nsamp[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, i<span class="op">+</span><span class="dv">4</span>]=<span class="kw">c</span>(ta[cList[i]], ta[<span class="st">&quot;Vehicle&quot;</span>])</span>
+<span id="cb226-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-18"></a>  Nsamp[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, i<span class="op">+</span><span class="dv">4</span>]=<span class="kw">c</span>(tb[cList[i]], tb[<span class="st">&quot;Vehicle&quot;</span>])</span>
+<span id="cb226-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-19"></a>  Nsamp[<span class="dv">5</span><span class="op">:</span><span class="dv">6</span>, i<span class="op">+</span><span class="dv">4</span>]=<span class="kw">c</span>(tc[cList[i]], tc[<span class="st">&quot;Vehicle&quot;</span>])</span>
+<span id="cb226-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-20"></a>}</span>
+<span id="cb226-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-21"></a></span>
+<span id="cb226-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-22"></a>ta=<span class="kw">table</span>(EpddsTreatG<span class="op">$</span>Comp8)</span>
+<span id="cb226-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-23"></a>tb=<span class="kw">table</span>(CDddsTreatG<span class="op">$</span>Comp8)</span>
+<span id="cb226-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-24"></a>tc=<span class="kw">table</span>(DNddsTreatG<span class="op">$</span>Comp8)</span>
+<span id="cb226-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-25"></a></span>
+<span id="cb226-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-26"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>){</span>
+<span id="cb226-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-27"></a>  Nsamp[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, i<span class="op">+</span><span class="dv">7</span>]=<span class="kw">c</span>(ta[xsearchA[i]], ta[ysearchB[i]])</span>
+<span id="cb226-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-28"></a>  Nsamp[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, i<span class="op">+</span><span class="dv">7</span>]=<span class="kw">c</span>(tb[xsearchA[i]], tb[ysearchB[i]])</span>
+<span id="cb226-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-29"></a>  Nsamp[<span class="dv">5</span><span class="op">:</span><span class="dv">6</span>, i<span class="op">+</span><span class="dv">7</span>]=<span class="kw">c</span>(tc[xsearchA[i]], tc[ysearchB[i]])</span>
+<span id="cb226-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-30"></a>}</span>
+<span id="cb226-31"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-31"></a></span>
+<span id="cb226-32"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-32"></a>Nsamp[ ,<span class="dv">12</span>]=<span class="kw">c</span>(<span class="kw">table</span>(EpddsGrowth<span class="op">$</span>Growth), <span class="kw">table</span>(CDddsGrowth<span class="op">$</span>Growth), <span class="kw">table</span>(DNddsGrowth<span class="op">$</span>Growth))</span>
+<span id="cb226-33"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-33"></a>Nsamp[ ,<span class="dv">13</span>]=<span class="kw">c</span>(<span class="kw">table</span>(EpddsStrMH<span class="op">$</span>MHcut), <span class="kw">table</span>(CDddsStrMH<span class="op">$</span>MHcut), <span class="kw">table</span>(DNddsStrMH<span class="op">$</span>MHcut))</span>
+<span id="cb226-34"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-34"></a>Nsamp[ ,<span class="dv">14</span>]=<span class="kw">c</span>(<span class="kw">table</span>(EpddsStrIF<span class="op">$</span>IFcut), <span class="kw">table</span>(CDddsStrIF<span class="op">$</span>IFcut), <span class="kw">table</span>(DNddsStrIF<span class="op">$</span>IFcut))</span>
+<span id="cb226-35"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-35"></a>Nsamp[ ,<span class="dv">15</span>]=<span class="kw">c</span>(<span class="kw">table</span>(EpddsStrknn<span class="op">$</span>knncut), <span class="kw">table</span>(CDddsStrknn<span class="op">$</span>knncut), <span class="kw">table</span>(DNddsStrknn<span class="op">$</span>knncut))</span>
+<span id="cb226-36"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-36"></a>Nsamp[ ,<span class="dv">16</span>]=<span class="kw">c</span>(<span class="kw">table</span>(Epddscd8<span class="op">$</span>CD8FracCut), <span class="kw">table</span>(CDddscd8<span class="op">$</span>CD8FracCut), <span class="kw">table</span>(DNddscd8<span class="op">$</span>CD8FracCut))</span>
+<span id="cb226-37"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-37"></a>Nsamp[ ,<span class="dv">17</span>]=<span class="kw">c</span>(<span class="kw">table</span>(EpddsSpatMan<span class="op">$</span>SpatialManual), <span class="kw">table</span>(CDddsSpatMan<span class="op">$</span>SpatialManual), <span class="kw">table</span>(DNddsSpatMan<span class="op">$</span>SpatialManual))</span>
+<span id="cb226-38"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-38"></a></span>
+<span id="cb226-39"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-39"></a>ta=<span class="kw">table</span>(Epddscd8MH<span class="op">$</span>cd8MH)</span>
+<span id="cb226-40"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-40"></a>tb=<span class="kw">table</span>(CDddscd8MH<span class="op">$</span>cd8MH)</span>
+<span id="cb226-41"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-41"></a>tc=<span class="kw">table</span>(DNddscd8MH<span class="op">$</span>cd8MH)</span>
+<span id="cb226-42"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-42"></a></span>
+<span id="cb226-43"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-43"></a></span>
+<span id="cb226-44"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-44"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>){</span>
+<span id="cb226-45"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-45"></a>  Nsamp[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, i<span class="op">+</span><span class="dv">17</span>]=<span class="kw">c</span>(ta[xsearchC[i]], ta[ysearchD[i]])</span>
+<span id="cb226-46"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-46"></a>  Nsamp[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, i<span class="op">+</span><span class="dv">17</span>]=<span class="kw">c</span>(tb[xsearchC[i]], tb[ysearchD[i]])</span>
+<span id="cb226-47"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-47"></a>  Nsamp[<span class="dv">5</span><span class="op">:</span><span class="dv">6</span>, i<span class="op">+</span><span class="dv">17</span>]=<span class="kw">c</span>(tc[xsearchC[i]], tc[ysearchD[i]])</span>
+<span id="cb226-48"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-48"></a>}</span>
+<span id="cb226-49"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-49"></a></span>
+<span id="cb226-50"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-50"></a><span class="kw">colnames</span>(Nsamp)=<span class="kw">colnames</span>(Allchanges)</span>
+<span id="cb226-51"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-51"></a>Nsamp[ , <span class="dv">22</span><span class="op">:</span><span class="dv">23</span>]=Allchanges[ ,<span class="dv">22</span><span class="op">:</span><span class="dv">23</span>]</span>
+<span id="cb226-52"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-52"></a></span>
+<span id="cb226-53"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-53"></a></span>
+<span id="cb226-54"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-54"></a>Nsamp2=<span class="kw">melt</span>(<span class="kw">as.data.frame</span>(Nsamp), <span class="dt">id.vars=</span><span class="kw">c</span>(<span class="st">&quot;Frac&quot;</span>, <span class="st">&quot;dir&quot;</span>))</span>
+<span id="cb226-55"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-55"></a></span>
+<span id="cb226-56"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-56"></a><span class="kw">ggplot</span>(Nsamp2, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span><span class="kw">as.numeric</span>(value), <span class="dt">fill=</span>dir))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>,<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(Frac<span class="op">~</span>., <span class="dt">scale=</span><span class="st">&quot;free_y&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_discrete</span>(<span class="dt">name =</span> <span class="st">&quot;Comparison&quot;</span>, <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;numerator&quot;</span>, <span class="st">&quot;reference&quot;</span>))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;No. samples in comparison&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;number of samples in comparison&quot;</span>)</span>
+<span id="cb226-57"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-57"></a></span>
+<span id="cb226-58"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb226-58"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<p>Notes:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Comparison Type</th>
+<th>Main cell type impacted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Treatment</td>
+<td>CD45+, PDL1+LY in the DN, LY may affect Ep</td>
+</tr>
+<tr class="even">
+<td>growth</td>
+<td>Ep and CD45</td>
+</tr>
+<tr class="odd">
+<td>growth in control</td>
+<td>CD and DN</td>
+</tr>
+<tr class="even">
+<td>Spatial Patterns</td>
+<td>CD45, Ep</td>
+</tr>
+<tr class="odd">
+<td>Spatial, high cd8</td>
+<td>all cases</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="deseq-any-treatment-vs-control" class="section level2">
+<h2><span class="header-section-number">11.2</span> DESeq: any treatment vs control</h2>
+<p>What are the differential genes if we compare any immunotherapy to the control arm?</p>
+<p>First look at the epithelial fraction:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-1"></a><span class="co"># EpddsTreatB=EpddsTreat</span></span>
+<span id="cb227-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-2"></a><span class="co"># design(EpddsTreatB)=~treatA+factor(Batch)</span></span>
+<span id="cb227-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-3"></a><span class="co"># EpddsTreatB=DESeq(EpddsTreatB)</span></span>
+<span id="cb227-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-4"></a></span>
+<span id="cb227-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-5"></a>epr=<span class="kw">results</span>(Epdds)</span>
+<span id="cb227-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-6"></a>Xa1=epr[<span class="kw">which</span>(epr<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>epr<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">60</span>), ]</span>
+<span id="cb227-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-7"></a></span>
+<span id="cb227-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-8"></a>epvsd=<span class="kw">vst</span>(Epdds)</span>
+<span id="cb227-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-9"></a><span class="kw">assay</span>(epvsd)&lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">removeBatchEffect</span>(<span class="kw">assay</span>(epvsd),<span class="kw">factor</span>(epvsd<span class="op">$</span>Batch))</span>
+<span id="cb227-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-10"></a></span>
+<span id="cb227-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-11"></a></span>
+<span id="cb227-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-12"></a>Mat2=epvsd[<span class="kw">match</span>(<span class="kw">rownames</span>(Xa1), <span class="kw">rownames</span>(epvsd)), ]</span>
+<span id="cb227-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-13"></a></span>
+<span id="cb227-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-14"></a>colSCols=ColMerge[ ,<span class="dv">1</span>][Mat2<span class="op">$</span>Treatment]</span>
+<span id="cb227-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-15"></a></span>
+<span id="cb227-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb227-16"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(Mat2), <span class="dt">ColSideColors =</span> colSCols, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">hclustfun =</span> hclust.ave)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-90-1.png" width="672" /></p>
+<p>DN</p>
+<p>List of markers from xcell:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-1"></a>xcellgenes=readxl<span class="op">::</span><span class="kw">read_xlsx</span>(<span class="st">&quot;../anntotations/xcell_genes.xlsx&quot;</span>, <span class="dt">sheet=</span><span class="dv">1</span>)</span>
+<span id="cb228-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-2"></a>AllGenes=<span class="kw">as.vector</span>(xcellgenes[ ,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)])</span>
+<span id="cb228-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-3"></a>AllGenes=<span class="kw">firstup</span>(<span class="kw">tolower</span>(<span class="kw">unique</span>(<span class="kw">as.character</span>(<span class="kw">unlist</span>(AllGenes)))))</span>
+<span id="cb228-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-4"></a></span>
+<span id="cb228-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-5"></a></span>
+<span id="cb228-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-6"></a><span class="co">#rm list</span></span>
+<span id="cb228-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-7"></a>rmList=<span class="kw">c</span>(<span class="st">&quot;15L_B_DN&quot;</span>, <span class="st">&quot;6R_B_DN&quot;</span>, <span class="st">&quot;10L_C_DN&quot;</span>, <span class="st">&quot;6R_D_DN&quot;</span>)</span>
+<span id="cb228-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-8"></a></span>
+<span id="cb228-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-9"></a><span class="co">#DNddsTreatB=DNddsTreat#[, -match(rmList, colnames(DNddsTreat))]</span></span>
+<span id="cb228-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-10"></a><span class="co">#design(DNddsTreatB)=~treatA+factor(Batch)</span></span>
+<span id="cb228-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-11"></a><span class="co">#DNddsTreatB=DESeq(DNddsTreatB)</span></span>
+<span id="cb228-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-12"></a></span>
+<span id="cb228-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-13"></a>DNr=<span class="kw">results</span>(DNdds)</span>
+<span id="cb228-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-14"></a>Xa1=DNr[<span class="kw">which</span>(DNr<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>DNr<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(DNr<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), ]</span>
+<span id="cb228-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-15"></a></span>
+<span id="cb228-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-16"></a><span class="co"># DNvsd=vst(DNddsTreatB)</span></span>
+<span id="cb228-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-17"></a><span class="co"># assay(DNvsd)&lt;- limma::removeBatchEffect(assay(DNvsd),factor(DNvsd$Batch))</span></span>
+<span id="cb228-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-18"></a>AllG2=<span class="kw">rownames</span>(Xa1)[<span class="kw">which</span>(<span class="kw">rownames</span>(Xa1)<span class="op">%in%</span><span class="kw">c</span>(AllGenes, <span class="st">&quot;Il6&quot;</span>))]</span>
+<span id="cb228-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-19"></a></span>
+<span id="cb228-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-20"></a>Mat2=vsdLimmaDN[<span class="kw">match</span>(AllG2, <span class="kw">rownames</span>(vsdLimmaDN)), ]</span>
+<span id="cb228-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-21"></a><span class="kw">colnames</span>(Mat2)=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">colnames</span>(Mat2),<span class="dv">1</span> , <span class="kw">nchar</span>(<span class="kw">colnames</span>(Mat2))<span class="op">-</span><span class="dv">3</span>), Cdata<span class="op">$</span>TumorID)]</span>
+<span id="cb228-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-22"></a></span>
+<span id="cb228-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-23"></a>colSCols=ColMerge[ ,<span class="dv">1</span>][Mat2<span class="op">$</span>Treatment]</span>
+<span id="cb228-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-24"></a></span>
+<span id="cb228-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb228-25"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(Mat2), <span class="dt">ColSideColors =</span> colSCols, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>])</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-91-1.png" width="672" /></p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-1"></a></span>
+<span id="cb229-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-2"></a></span>
+<span id="cb229-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-3"></a></span>
+<span id="cb229-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-4"></a><span class="co">### don&#39;t use this?</span></span>
+<span id="cb229-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-5"></a></span>
+<span id="cb229-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-6"></a><span class="co"># ax1=results(DNddsTreat, c(&quot;Treatment&quot;, &quot;LY&quot;, &quot;Vehicle&quot;))</span></span>
+<span id="cb229-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-7"></a><span class="co"># bx1=results(DNddsTreat, c(&quot;Treatment&quot;, &quot;PDL1&quot;, &quot;Vehicle&quot;))</span></span>
+<span id="cb229-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-8"></a><span class="co"># cx1=results(DNddsTreat, c(&quot;Treatment&quot;, &quot;PDL1+LY&quot;, &quot;Vehicle&quot;))</span></span>
+<span id="cb229-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-9"></a><span class="co"># </span></span>
+<span id="cb229-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-10"></a><span class="co"># G1=rownames(ax1)[which(ax1$baseMean&gt;100 &amp; ax1$padj&lt;0.05 &amp; abs(ax1$log2FoldChange)&gt;1.5)]</span></span>
+<span id="cb229-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-11"></a><span class="co"># G2=rownames(bx1)[which(bx1$baseMean&gt;100 &amp; bx1$padj&lt;0.05 &amp; abs(bx1$log2FoldChange)&gt;1.5)]</span></span>
+<span id="cb229-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-12"></a><span class="co"># G3=rownames(cx1)[which(cx1$baseMean&gt;100 &amp; cx1$padj&lt;0.05 &amp; abs(cx1$log2FoldChange)&gt;1.5)]</span></span>
+<span id="cb229-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-13"></a><span class="co"># </span></span>
+<span id="cb229-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-14"></a><span class="co"># AllG=unique(c(G1, G2, G3))</span></span>
+<span id="cb229-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-15"></a><span class="co"># </span></span>
+<span id="cb229-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-16"></a><span class="co"># #AllG2=AllG[which(AllG%in%RatAllImm)]</span></span>
+<span id="cb229-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-17"></a><span class="co"># </span></span>
+<span id="cb229-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-18"></a><span class="co"># Mat2=vsdLimmaDN[match(G3, rownames(vsdLimmaDN)),  ]</span></span>
+<span id="cb229-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-19"></a><span class="co"># colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]</span></span>
+<span id="cb229-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-20"></a><span class="co"># </span></span>
+<span id="cb229-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-21"></a><span class="co"># Mat2=Mat2[ ,which(Mat2$Treatment%in%c(&quot;PDL1+LY&quot;, &quot;Vehicle&quot;))]</span></span>
+<span id="cb229-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-22"></a><span class="co"># colSCols=c(brewer.pal(3, &quot;Oranges&quot;),&quot;#5D5D5D&quot; )[Mat2$Treatment]</span></span>
+<span id="cb229-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-23"></a><span class="co"># colSCol2=ColSizeb[Mat2$Growth]</span></span>
+<span id="cb229-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-24"></a><span class="co"># </span></span>
+<span id="cb229-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-25"></a><span class="co"># heatmap.2(assay(Mat2), ColSideColors = colSCols, trace=&quot;none&quot;, scale=&quot;row&quot;, col=RdBu[11:1])</span></span>
+<span id="cb229-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-26"></a><span class="co"># </span></span>
+<span id="cb229-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-27"></a><span class="co"># Agenes2=unlist(GeneListRat[-c(3, 6)])</span></span>
+<span id="cb229-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-28"></a><span class="co"># </span></span>
+<span id="cb229-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-29"></a><span class="co"># Mat3=vsdLimmaDN[na.omit(match(Agenes2, rownames(vsdLimmaDN))), which(vsdLimmaDN$Treatment%in%c(&quot;PDL1+LY&quot;, &quot;Vehicle&quot;)) ]</span></span>
+<span id="cb229-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb229-30"></a><span class="co"># heatmap.2(assay(Mat3), ColSideColors = colSCols, trace=&quot;none&quot;, scale=&quot;row&quot;, col=RdBu[11:1])</span></span></code></pre></div>
+<p>CD45</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-1"></a><span class="co"># CDddsTreatB=CDddsTreat</span></span>
+<span id="cb230-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-2"></a><span class="co"># design(CDddsTreatB)=~treatA</span></span>
+<span id="cb230-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-3"></a><span class="co"># CDddsTreatB=DESeq(CDddsTreatB)</span></span>
+<span id="cb230-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-4"></a></span>
+<span id="cb230-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-5"></a>CDr=<span class="kw">results</span>(CDdds)</span>
+<span id="cb230-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-6"></a>Xa1=CDr[<span class="kw">which</span>(CDr<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>CDr<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(CDr<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), ]</span>
+<span id="cb230-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-7"></a></span>
+<span id="cb230-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-8"></a>AllG2=<span class="kw">rownames</span>(Xa1)[<span class="kw">which</span>(<span class="kw">rownames</span>(Xa1)<span class="op">%in%</span>RatAllImm)]</span>
+<span id="cb230-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-9"></a></span>
+<span id="cb230-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-10"></a>Mat2=vsdLimmaCD[<span class="kw">match</span>(AllG2, <span class="kw">rownames</span>(vsdLimmaCD)), ]</span>
+<span id="cb230-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-11"></a><span class="kw">colnames</span>(Mat2)=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">colnames</span>(Mat2),<span class="dv">1</span> , <span class="kw">nchar</span>(<span class="kw">colnames</span>(Mat2))<span class="op">-</span><span class="dv">5</span>), Cdata<span class="op">$</span>TumorID)]</span>
+<span id="cb230-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-12"></a></span>
+<span id="cb230-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-13"></a></span>
+<span id="cb230-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-14"></a><span class="co">#assay(CDvsd)&lt;- limma::removeBatchEffect(assay(CDvsd))</span></span>
+<span id="cb230-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-15"></a></span>
+<span id="cb230-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-16"></a><span class="co">#Mat2=CDvsd[match(rownames(Xa1), rownames(CDvsd)), ]</span></span>
+<span id="cb230-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-17"></a></span>
+<span id="cb230-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-18"></a>colSCols=ColMerge[ ,<span class="dv">1</span>][Mat2<span class="op">$</span>Treatment]</span>
+<span id="cb230-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-19"></a></span>
+<span id="cb230-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-20"></a><span class="co">#pdf(&quot;figure-outputs/FIgure3j_1_vs_all.pdf&quot;, height=9, width=6)</span></span>
+<span id="cb230-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-21"></a></span>
+<span id="cb230-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-22"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(Mat2), <span class="dt">ColSideColors =</span> colSCols, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>],</span>
+<span id="cb230-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb230-23"></a>          <span class="dt">hclustfun =</span> hclust.ave)</span></code></pre></div>
+<div class="figure"><span id="fig:3j"></span>
+<img src="RatDCIS-bookdown_files/figure-html/3j-1.png" alt="CD45 IO vs non-IO" width="672" />
+<p class="caption">
+Figure 11.1: CD45 IO vs non-IO
+</p>
+</div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb231-1"></a></span>
+<span id="cb231-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb231-2"></a><span class="co">#dev.off()</span></span>
+<span id="cb231-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb231-3"></a></span>
+<span id="cb231-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb231-4"></a><span class="kw">write.csv</span>(<span class="kw">assay</span>(Mat2), <span class="dt">file=</span><span class="st">&quot;nature-tables/Figure3j_1_vs_all.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-1"></a><span class="co">## ALSO LOOK AT the pairwise comparisons and pull out those genes</span></span>
+<span id="cb232-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-2"></a>ax1=<span class="kw">results</span>(CDddsTreat, <span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;LY&quot;</span>, <span class="st">&quot;Vehicle&quot;</span>))</span>
+<span id="cb232-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-3"></a>bx1=<span class="kw">results</span>(CDddsTreat, <span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;Vehicle&quot;</span>))</span>
+<span id="cb232-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-4"></a>cx1=<span class="kw">results</span>(CDddsTreat, <span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>, <span class="st">&quot;Vehicle&quot;</span>))</span>
+<span id="cb232-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-5"></a></span>
+<span id="cb232-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-6"></a>G1=<span class="kw">rownames</span>(ax1)[<span class="kw">which</span>(ax1<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span>ax1<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(ax1<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>)]</span>
+<span id="cb232-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-7"></a>G2=<span class="kw">rownames</span>(bx1)[<span class="kw">which</span>(bx1<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span>bx1<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(bx1<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>)]</span>
+<span id="cb232-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-8"></a>G3=<span class="kw">rownames</span>(cx1)[<span class="kw">which</span>(cx1<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span>cx1<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(cx1<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>)]</span>
+<span id="cb232-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-9"></a></span>
+<span id="cb232-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-10"></a>AllG=<span class="kw">unique</span>(<span class="kw">c</span>(G1, G2, G3))</span>
+<span id="cb232-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-11"></a></span>
+<span id="cb232-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-12"></a>AllG2=AllG[<span class="kw">which</span>(AllG<span class="op">%in%</span>RatAllImm)]</span>
+<span id="cb232-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-13"></a></span>
+<span id="cb232-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-14"></a>Mat2=vsdLimmaCD[<span class="kw">match</span>(AllG2, <span class="kw">rownames</span>(vsdLimmaCD)), ]</span>
+<span id="cb232-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-15"></a><span class="kw">colnames</span>(Mat2)=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">colnames</span>(Mat2),<span class="dv">1</span> , <span class="kw">nchar</span>(<span class="kw">colnames</span>(Mat2))<span class="op">-</span><span class="dv">5</span>), Cdata<span class="op">$</span>TumorID)]</span>
+<span id="cb232-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-16"></a></span>
+<span id="cb232-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-17"></a>colSCols=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">3</span>, <span class="st">&quot;Oranges&quot;</span>),<span class="st">&quot;#5D5D5D&quot;</span> )[Mat2<span class="op">$</span>Treatment]</span>
+<span id="cb232-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-18"></a>colSCol2=ColSizeb[Mat2<span class="op">$</span>Growth]</span>
+<span id="cb232-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-19"></a></span>
+<span id="cb232-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-20"></a></span>
+<span id="cb232-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-21"></a><span class="co">#pdf(&quot;figure-outputs/FIgure3j_all_comparisons.pdf&quot;, height=9, width=6)</span></span>
+<span id="cb232-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-22"></a></span>
+<span id="cb232-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb232-23"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(Mat2), <span class="dt">ColSideColors =</span> colSCols, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">hclustfun =</span> hclust.ave)</span></code></pre></div>
+<div class="figure"><span id="fig:3jb"></span>
+<img src="RatDCIS-bookdown_files/figure-html/3jb-1.png" alt="IO vs any other treatment" width="672" />
+<p class="caption">
+Figure 11.2: IO vs any other treatment
+</p>
+</div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb233-1"></a><span class="co">#dev.off()</span></span>
+<span id="cb233-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb233-2"></a></span>
+<span id="cb233-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb233-3"></a><span class="kw">write.csv</span>(<span class="kw">assay</span>(Mat2), <span class="dt">file=</span><span class="st">&quot;nature-tables/Figure3j_all_comparisons.csv&quot;</span>)</span></code></pre></div>
+<div id="epcam-samples" class="section level3">
+<h3><span class="header-section-number">11.2.1</span> EPCAM samples</h3>
+<p>Note that there are a subset of samples different from the other based on CD8, growth and MH index (6RB, 3NB, 10LD, 8LD, 11ND) but these parameters don’t group the other samples well</p>
+<p>There is a small subset of samples which have high expression of CCLs and based on the top variable genes, there seems to be three types of epithelial cases.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-1"></a>SampleFrac=<span class="st">&quot;Ep&quot;</span></span>
+<span id="cb234-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-2"></a></span>
+<span id="cb234-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-3"></a>allEpGenes=<span class="kw">unlist</span>(EpCompSig)</span>
+<span id="cb234-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-4"></a>allEpTab=<span class="kw">table</span>(allEpGenes)</span>
+<span id="cb234-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-5"></a>EpGenesList=<span class="kw">names</span>(allEpTab)[<span class="kw">which</span>(allEpTab<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb234-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-6"></a><span class="co">#EpGenesList=EpGenesList[-grep(&quot;LOC&quot;, EpGenesList)]</span></span>
+<span id="cb234-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-7"></a><span class="co">#EpGenesList=EpGenesList[-grep(&quot;RGD&quot;, EpGenesList)]</span></span>
+<span id="cb234-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-8"></a><span class="co"># also, remove all samples which have a base mean less than 10</span></span>
+<span id="cb234-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-9"></a>x1=EpComp4[[<span class="dv">1</span>]]<span class="op">$</span>baseMean[<span class="kw">match</span>(EpGenesList, EpComp4[[<span class="dv">1</span>]]<span class="op">$</span>Gene)]</span>
+<span id="cb234-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-10"></a>x2=<span class="kw">which</span>(x1<span class="op">&gt;</span><span class="dv">100</span>)</span>
+<span id="cb234-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-11"></a>vstEp=<span class="kw">vst</span>(Epdds, <span class="dt">blind=</span>T)</span>
+<span id="cb234-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-12"></a></span>
+<span id="cb234-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-13"></a><span class="co">#EpddsTreatG$Comp8_v2=factor(paste(EpddsTreatG$Treatment, EpddsTreatG$Growth))</span></span>
+<span id="cb234-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-14"></a></span>
+<span id="cb234-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-15"></a>ColsideCols=<span class="kw">hue_pal</span>()(<span class="dv">2</span>)[Epdds<span class="op">$</span>CD8FracCut]</span>
+<span id="cb234-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-16"></a>ColsideColsB=<span class="kw">hue_pal</span>()(<span class="dv">4</span>)[Epdds<span class="op">$</span>Treatment]</span>
+<span id="cb234-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-17"></a>ColsideColsC=<span class="kw">hue_pal</span>()(<span class="dv">2</span>)[Epdds<span class="op">$</span>Growth]</span>
+<span id="cb234-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-18"></a>ColsideColsD=<span class="kw">hue_pal</span>()(<span class="dv">2</span>)[Epdds<span class="op">$</span>MHcut]</span>
+<span id="cb234-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-19"></a></span>
+<span id="cb234-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-20"></a>colTable=<span class="kw">rbind</span>(ColsideCols, ColsideColsB, ColsideColsC, ColsideColsD)</span>
+<span id="cb234-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-21"></a><span class="kw">rownames</span>(colTable)=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;growth&quot;</span>, <span class="st">&quot;MH&quot;</span>)</span>
+<span id="cb234-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-22"></a></span>
+<span id="cb234-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-23"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/DEseq_comparisons_%s.pdf&quot;, SampleFrac), width=7, height=10)</span></span>
+<span id="cb234-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-24"></a></span>
+<span id="cb234-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-25"></a>sampleDist=<span class="kw">dist</span>(<span class="kw">t</span>(<span class="kw">assay</span>(vstEp)))</span>
+<span id="cb234-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-26"></a>sampleDistMatrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(sampleDist)</span>
+<span id="cb234-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-27"></a><span class="kw">heatmap.plus</span>(sampleDistMatrix, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Blues&quot;</span>)[<span class="dv">9</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Similarity between %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb234-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-28"></a></span>
+<span id="cb234-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-29"></a><span class="co"># Take the top 150 variable genes </span></span>
+<span id="cb234-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-30"></a><span class="co"># compute the sds for each genes</span></span>
+<span id="cb234-31"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-31"></a>sds =<span class="st"> </span><span class="kw">rowSds</span>(<span class="kw">assay</span>(vstEp))</span>
+<span id="cb234-32"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-32"></a>means=<span class="kw">rowMeans</span>(<span class="kw">assay</span>(vstEp))</span>
+<span id="cb234-33"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-33"></a>CVs=sds<span class="op">/</span>means</span>
+<span id="cb234-34"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-34"></a>CVs=CVs[<span class="op">-</span><span class="kw">which</span>(means<span class="op">&lt;</span><span class="dv">7</span>)]</span>
+<span id="cb234-35"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-35"></a>sds2=<span class="kw">sort</span>(CVs, <span class="dt">decreasing =</span> T)</span>
+<span id="cb234-36"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-36"></a></span>
+<span id="cb234-37"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-37"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstEp)[<span class="kw">names</span>(sds2)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;top 100 variable genes all %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb234-38"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-38"></a></span>
+<span id="cb234-39"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-39"></a></span>
+<span id="cb234-40"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-40"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstEp)[EpGenesList[x2], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable),</span>
+<span id="cb234-41"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-41"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;DEG at least 2 %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb234-42"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-42"></a></span>
+<span id="cb234-43"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-43"></a><span class="co"># Make a table for these genes</span></span>
+<span id="cb234-44"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-44"></a>FCvalues=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="kw">length</span>(x2), <span class="dt">ncol=</span><span class="kw">length</span>(EpComp4))</span>
+<span id="cb234-45"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-45"></a></span>
+<span id="cb234-46"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-46"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(EpComp4)){</span>
+<span id="cb234-47"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-47"></a>  FCvalues[ ,i]=EpComp4[[i]]<span class="op">$</span>log2FoldChange[<span class="kw">match</span>(EpGenesList[x2], EpComp4[[i]]<span class="op">$</span>Gene)]</span>
+<span id="cb234-48"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-48"></a>}</span>
+<span id="cb234-49"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-49"></a></span>
+<span id="cb234-50"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-50"></a><span class="kw">colnames</span>(FCvalues)=<span class="kw">names</span>(EpComp4)</span>
+<span id="cb234-51"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-51"></a><span class="kw">rownames</span>(FCvalues)=EpGenesList[x2]</span>
+<span id="cb234-52"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-52"></a></span>
+<span id="cb234-53"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-53"></a></span>
+<span id="cb234-54"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-54"></a><span class="co"># for each list pick the top 50 diff genes FC&gt;2 and baseman &gt; 50</span></span>
+<span id="cb234-55"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-55"></a>glist=<span class="ot">NA</span></span>
+<span id="cb234-56"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-56"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(EpComp4)){</span>
+<span id="cb234-57"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-57"></a>  glist=<span class="kw">c</span>(glist, EpComp4[[i]]<span class="op">$</span>Gene[<span class="kw">which</span>(EpComp4[[i]]<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(EpComp4[[i]]<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>EpComp4[[i]]<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">25</span>)])</span>
+<span id="cb234-58"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-58"></a>}</span>
+<span id="cb234-59"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-59"></a></span>
+<span id="cb234-60"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-60"></a>ColsideCols=SetCols[EpddsTreatG<span class="op">$</span>Comp8]</span>
+<span id="cb234-61"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-61"></a></span>
+<span id="cb234-62"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-62"></a>glistmod=<span class="kw">unique</span>(glist)</span>
+<span id="cb234-63"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-63"></a>glistmod=glistmod[<span class="op">-</span><span class="kw">grep</span>(<span class="st">&quot;LOC&quot;</span>, glistmod)]</span>
+<span id="cb234-64"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-64"></a>glistmod=<span class="kw">na.omit</span>(glistmod[<span class="op">-</span><span class="kw">grep</span>(<span class="st">&quot;RGD&quot;</span>, glistmod)])</span>
+<span id="cb234-65"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-65"></a></span>
+<span id="cb234-66"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb234-66"></a><span class="co">#heatmap.plus(assay(vstEp)[glistmod, ], trace=&quot;none&quot;, scale=&quot;row&quot;, col=RdBu[11:1], ColSideColors = t(colTable),  main=sprintf(&quot;All DEG %s samples&quot;, SampleFrac))</span></span></code></pre></div>
+<p>We can also view this in the form of what is highly expressed in each comparison. Below is a heatmap of the fold changes:</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb235-1"></a><span class="co"># distance of the samples to one another</span></span>
+<span id="cb235-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb235-2"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb235-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb235-3"></a><span class="kw">heatmap.2</span>(FCvalues, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], </span>
+<span id="cb235-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb235-4"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;All comparisons %s, log2FC for each gene&quot;</span>, SampleFrac))</span>
+<span id="cb235-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb235-5"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<p>Below, we visualise the enrichment scores using different gene sets and</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-1"></a><span class="co">## GSEA results temp.</span></span>
+<span id="cb236-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-2"></a><span class="kw">pdf</span>(<span class="st">&quot;~/Desktop/Fig5Gene_set_enrichment.pdf&quot;</span>, <span class="dt">height=</span><span class="dv">10</span>, <span class="dt">width=</span><span class="dv">10</span>)</span>
+<span id="cb236-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-3"></a></span>
+<span id="cb236-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-4"></a><span class="co">#Epismr3=ismr4</span></span>
+<span id="cb236-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-5"></a></span>
+<span id="cb236-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-6"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/GSEA_signature_comparisons_%s.pdf&quot;, SampleFrac), width=10, height=12)</span></span>
+<span id="cb236-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-7"></a></span>
+<span id="cb236-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Epismr3)){</span>
+<span id="cb236-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-9"></a>  x1=Epismr3[[i]]</span>
+<span id="cb236-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-10"></a>  <span class="co"># find padj&lt;0.1</span></span>
+<span id="cb236-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-11"></a>  idx2=<span class="kw">lapply</span>(<span class="kw">seq</span>(<span class="dv">3</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>), <span class="cf">function</span>(x) <span class="kw">which</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x1[ ,x]))<span class="op">&lt;</span><span class="fl">0.01</span>))</span>
+<span id="cb236-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-12"></a>  unList=<span class="kw">table</span>(<span class="kw">unlist</span>(idx2))</span>
+<span id="cb236-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-13"></a>  <span class="co">#pickThese=names(unList)#[which(unList&gt;1)]</span></span>
+<span id="cb236-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-14"></a>  pickThese2=<span class="kw">names</span>(unList)[<span class="kw">which</span>(unList<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb236-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-15"></a>  </span>
+<span id="cb236-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-16"></a>  <span class="cf">if</span> (<span class="kw">length</span>(pickThese2)<span class="op">&gt;</span><span class="dv">100</span>){</span>
+<span id="cb236-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-17"></a>    temp=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb236-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-18"></a>    temp2=<span class="kw">sapply</span>(temp, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb236-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-19"></a>    temp2=<span class="kw">rowSds</span>(<span class="kw">abs</span>(temp2))</span>
+<span id="cb236-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-20"></a>    <span class="kw">names</span>(temp2)=pickThese2</span>
+<span id="cb236-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-21"></a>    temp2=<span class="kw">sort</span>(temp2, <span class="dt">decreasing =</span> T)</span>
+<span id="cb236-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-22"></a>    pickThese2=<span class="kw">names</span>(temp2)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>]</span>
+<span id="cb236-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-23"></a>  }</span>
+<span id="cb236-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-24"></a>  </span>
+<span id="cb236-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-25"></a>  x23=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb236-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-26"></a>  </span>
+<span id="cb236-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-27"></a>  x234=<span class="kw">sapply</span>(x23, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb236-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-28"></a>  <span class="kw">rownames</span>(x234)=<span class="kw">rownames</span>(x23)</span>
+<span id="cb236-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-29"></a>  </span>
+<span id="cb236-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-30"></a>  <span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb236-31"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-31"></a>  <span class="kw">heatmap.2</span>(x234, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;%s pathways %s fraction&quot;</span>, </span>
+<span id="cb236-32"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-32"></a>                                                                           <span class="kw">names</span>(Epismr3)[i], SampleFrac))</span>
+<span id="cb236-33"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-33"></a>}</span>
+<span id="cb236-34"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-34"></a></span>
+<span id="cb236-35"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-35"></a><span class="co">#dev.off()</span></span>
+<span id="cb236-36"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-36"></a></span>
+<span id="cb236-37"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-37"></a><span class="co"># boxplot(assay(vstEp)[&quot;Tap1&quot;, ]~EpddsTreatG$Treatment)</span></span>
+<span id="cb236-38"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-38"></a><span class="co"># boxplot(assay(vstEp)[&quot;Cd74&quot;, ]~EpddsTreatG$Comp4)</span></span>
+<span id="cb236-39"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-39"></a><span class="co"># boxplot(assay(vstEp)[&quot;Cd8a&quot;, ]~EpddsTreatG$Treatment)</span></span>
+<span id="cb236-40"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-40"></a><span class="co"># boxplot(assay(vstEp)[&quot;Ctla4&quot;, ]~EpddsTreatG$Treatment)</span></span>
+<span id="cb236-41"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-41"></a><span class="co"># boxplot(assay(vstEp)[&quot;Tgfbr1&quot;, ]~EpddsTreatG$Comp8)</span></span>
+<span id="cb236-42"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-42"></a></span>
+<span id="cb236-43"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb236-43"></a><span class="kw">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-1"></a></span>
+<span id="cb237-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-2"></a><span class="co">### CD45 comparisons</span></span>
+<span id="cb237-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-3"></a>SampleFrac=<span class="st">&quot;CD&quot;</span></span>
+<span id="cb237-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-4"></a></span>
+<span id="cb237-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-5"></a>allCDGenes=<span class="kw">unlist</span>(CDCompSig)</span>
+<span id="cb237-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-6"></a>allCDTab=<span class="kw">table</span>(allCDGenes)</span>
+<span id="cb237-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-7"></a>CDGenesList=<span class="kw">names</span>(allCDTab)[<span class="kw">which</span>(allCDTab<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb237-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-8"></a><span class="co">#CDGenesList=CDGenesList[-grCD(&quot;LOC&quot;, CDGenesList)]</span></span>
+<span id="cb237-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-9"></a><span class="co">#CDGenesList=CDGenesList[-grCD(&quot;RGD&quot;, CDGenesList)]</span></span>
+<span id="cb237-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-10"></a><span class="co"># also, remove all samples which have a base mean less than 10</span></span>
+<span id="cb237-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-11"></a>x1=CDComp4[[<span class="dv">1</span>]]<span class="op">$</span>baseMean[<span class="kw">match</span>(CDGenesList, CDComp4[[<span class="dv">1</span>]]<span class="op">$</span>Gene)]</span>
+<span id="cb237-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-12"></a>x2=<span class="kw">which</span>(x1<span class="op">&gt;</span><span class="dv">25</span>)</span>
+<span id="cb237-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-13"></a>vstCD=<span class="kw">vst</span>(CDdds, <span class="dt">blind=</span>T)</span>
+<span id="cb237-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-14"></a></span>
+<span id="cb237-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-15"></a>CDddsTreatG<span class="op">$</span>Comp8_v2=<span class="kw">factor</span>(<span class="kw">paste</span>(CDddsTreatG<span class="op">$</span>Treatment, CDddsTreatG<span class="op">$</span>Growth))</span>
+<span id="cb237-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-16"></a></span>
+<span id="cb237-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-17"></a>ColsideCols=DiffCols[CDddsTreatG<span class="op">$</span>Comp8_v2]</span>
+<span id="cb237-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-18"></a>ColsideColsB=<span class="kw">hue_pal</span>()(<span class="dv">4</span>)[CDddsTreatG<span class="op">$</span>Treatment]</span>
+<span id="cb237-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-19"></a>ColsideColsC=<span class="kw">hue_pal</span>()(<span class="dv">2</span>)[CDddsTreatG<span class="op">$</span>Growth]</span>
+<span id="cb237-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-20"></a></span>
+<span id="cb237-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-21"></a>colTable=<span class="kw">rbind</span>(ColsideCols, ColsideColsB, ColsideColsC)</span>
+<span id="cb237-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-22"></a><span class="kw">rownames</span>(colTable)=<span class="kw">c</span>(<span class="st">&quot;Treat+growth&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;growth&quot;</span>)</span>
+<span id="cb237-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-23"></a></span>
+<span id="cb237-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-24"></a></span>
+<span id="cb237-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-25"></a></span>
+<span id="cb237-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-26"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/DEseq_comparisons_%s.pdf&quot;, SampleFrac), width=7, height=10)</span></span>
+<span id="cb237-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-27"></a></span>
+<span id="cb237-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-28"></a>sampleDist=<span class="kw">dist</span>(<span class="kw">t</span>(<span class="kw">assay</span>(vstCD)))</span>
+<span id="cb237-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-29"></a>sampleDistMatrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(sampleDist)</span>
+<span id="cb237-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-30"></a><span class="kw">heatmap.plus</span>(sampleDistMatrix, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;Blues&quot;</span>)[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Similarity between %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb237-31"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-31"></a></span>
+<span id="cb237-32"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-32"></a><span class="co"># Take the top 150 variable genes </span></span>
+<span id="cb237-33"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-33"></a><span class="co"># compute the sds for each genes</span></span>
+<span id="cb237-34"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-34"></a>sds =<span class="st"> </span><span class="kw">rowSds</span>(<span class="kw">assay</span>(vstCD))</span>
+<span id="cb237-35"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-35"></a>means=<span class="kw">rowMeans</span>(<span class="kw">assay</span>(vstCD))</span>
+<span id="cb237-36"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-36"></a>CVs=sds<span class="op">/</span>means</span>
+<span id="cb237-37"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-37"></a>CVs=CVs[<span class="op">-</span><span class="kw">which</span>(means<span class="op">&lt;</span><span class="dv">7</span>)]</span>
+<span id="cb237-38"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-38"></a>sds2=<span class="kw">sort</span>(CVs, <span class="dt">decreasing =</span> T)</span>
+<span id="cb237-39"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-39"></a></span>
+<span id="cb237-40"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-40"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstCD)[<span class="kw">names</span>(sds2)[<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;top 200 variable genes all %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb237-41"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-41"></a></span>
+<span id="cb237-42"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-42"></a></span>
+<span id="cb237-43"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-43"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstCD)[CDGenesList[x2], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable),</span>
+<span id="cb237-44"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-44"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;DEG at least 2 %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb237-45"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-45"></a></span>
+<span id="cb237-46"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-46"></a><span class="co"># Make a table for these genes</span></span>
+<span id="cb237-47"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-47"></a>FCvalues=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="kw">length</span>(x2), <span class="dt">ncol=</span><span class="kw">length</span>(CDComp4))</span>
+<span id="cb237-48"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-48"></a></span>
+<span id="cb237-49"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-49"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(CDComp4)){</span>
+<span id="cb237-50"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-50"></a>  FCvalues[ ,i]=CDComp4[[i]]<span class="op">$</span>log2FoldChange[<span class="kw">match</span>(CDGenesList[x2], CDComp4[[i]]<span class="op">$</span>Gene)]</span>
+<span id="cb237-51"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-51"></a>}</span>
+<span id="cb237-52"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-52"></a></span>
+<span id="cb237-53"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-53"></a><span class="kw">colnames</span>(FCvalues)=<span class="kw">names</span>(CDComp4)</span>
+<span id="cb237-54"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-54"></a><span class="kw">rownames</span>(FCvalues)=CDGenesList[x2]</span>
+<span id="cb237-55"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-55"></a></span>
+<span id="cb237-56"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-56"></a></span>
+<span id="cb237-57"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-57"></a><span class="co"># for each list pick the top 50 diff genes FC&gt;2 and baseman &gt; 50</span></span>
+<span id="cb237-58"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-58"></a>glist=<span class="ot">NA</span></span>
+<span id="cb237-59"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-59"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(CDComp4)){</span>
+<span id="cb237-60"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-60"></a>  glist=<span class="kw">c</span>(glist, CDComp4[[i]]<span class="op">$</span>Gene[<span class="kw">which</span>(CDComp4[[i]]<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(CDComp4[[i]]<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>CDComp4[[i]]<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">25</span>)])</span>
+<span id="cb237-61"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-61"></a>}</span>
+<span id="cb237-62"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-62"></a></span>
+<span id="cb237-63"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-63"></a>ColsideCols=SetCols[CDddsTreatG<span class="op">$</span>Comp8]</span>
+<span id="cb237-64"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-64"></a></span>
+<span id="cb237-65"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-65"></a>glistmod=<span class="kw">unique</span>(glist)</span>
+<span id="cb237-66"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-66"></a><span class="co">#glistmod=glistmod[-grep(&quot;LOC&quot;, glistmod)]</span></span>
+<span id="cb237-67"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-67"></a><span class="co">#glistmod=na.omit(glistmod[-grCD(&quot;RGD&quot;, glistmod)])</span></span>
+<span id="cb237-68"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-68"></a></span>
+<span id="cb237-69"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-69"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstCD)[<span class="kw">na.omit</span>(glistmod), ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable),</span>
+<span id="cb237-70"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-70"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;All DEG %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb237-71"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-71"></a></span>
+<span id="cb237-72"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-72"></a><span class="co"># distance of the samples to one another</span></span>
+<span id="cb237-73"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-73"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb237-74"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-74"></a><span class="kw">heatmap.2</span>(FCvalues, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], </span>
+<span id="cb237-75"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-75"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;All comparisons %s, log2FC for each gene&quot;</span>, SampleFrac))</span>
+<span id="cb237-76"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-76"></a><span class="co">#dev.off()</span></span>
+<span id="cb237-77"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-77"></a></span>
+<span id="cb237-78"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-78"></a><span class="co">#CDismr3=ismr4</span></span>
+<span id="cb237-79"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-79"></a></span>
+<span id="cb237-80"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-80"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/GSEA_signature_comparisons_%s.pdf&quot;, SampleFrac), width=10, height=12)</span></span>
+<span id="cb237-81"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-81"></a></span>
+<span id="cb237-82"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-82"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(CDismr3)){</span>
+<span id="cb237-83"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-83"></a>  x1=CDismr3[[i]]</span>
+<span id="cb237-84"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-84"></a>  <span class="co"># find padj&lt;0.1</span></span>
+<span id="cb237-85"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-85"></a>  idx2=<span class="kw">lapply</span>(<span class="kw">seq</span>(<span class="dv">3</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>), <span class="cf">function</span>(x) <span class="kw">which</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x1[ ,x]))<span class="op">&lt;</span><span class="fl">0.01</span>))</span>
+<span id="cb237-86"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-86"></a>  unList=<span class="kw">table</span>(<span class="kw">unlist</span>(idx2))</span>
+<span id="cb237-87"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-87"></a>  <span class="co">#pickThese=names(unList)#[which(unList&gt;1)]</span></span>
+<span id="cb237-88"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-88"></a>  pickThese2=<span class="kw">names</span>(unList)[<span class="kw">which</span>(unList<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb237-89"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-89"></a>  </span>
+<span id="cb237-90"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-90"></a>  <span class="cf">if</span> (<span class="kw">length</span>(pickThese2)<span class="op">&gt;</span><span class="dv">100</span>){</span>
+<span id="cb237-91"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-91"></a>    temp=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb237-92"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-92"></a>    temp2=<span class="kw">sapply</span>(temp, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb237-93"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-93"></a>    temp2=<span class="kw">rowSds</span>(<span class="kw">abs</span>(temp2))</span>
+<span id="cb237-94"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-94"></a>    <span class="kw">names</span>(temp2)=pickThese2</span>
+<span id="cb237-95"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-95"></a>    temp2=<span class="kw">sort</span>(temp2, <span class="dt">decreasing =</span> T)</span>
+<span id="cb237-96"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-96"></a>    pickThese2=<span class="kw">names</span>(temp2)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>]</span>
+<span id="cb237-97"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-97"></a>  }</span>
+<span id="cb237-98"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-98"></a>  </span>
+<span id="cb237-99"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-99"></a>  x23=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb237-100"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-100"></a>  </span>
+<span id="cb237-101"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-101"></a>  x234=<span class="kw">sapply</span>(x23, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb237-102"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-102"></a>  <span class="kw">rownames</span>(x234)=<span class="kw">rownames</span>(x23)</span>
+<span id="cb237-103"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-103"></a>  </span>
+<span id="cb237-104"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-104"></a>  <span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb237-105"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-105"></a>  <span class="kw">heatmap.2</span>(x234, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;%s pathways %s fraction&quot;</span>, </span>
+<span id="cb237-106"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-106"></a>                                                                           <span class="kw">names</span>(CDismr3)[i], SampleFrac))</span>
+<span id="cb237-107"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-107"></a>}</span>
+<span id="cb237-108"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-108"></a></span>
+<span id="cb237-109"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb237-109"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-1"></a></span>
+<span id="cb238-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-2"></a><span class="co">### DN samples</span></span>
+<span id="cb238-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-3"></a>SampleFrac=<span class="st">&quot;DN&quot;</span></span>
+<span id="cb238-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-4"></a></span>
+<span id="cb238-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-5"></a>allDNGenes=<span class="kw">unlist</span>(DNCompSig)</span>
+<span id="cb238-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-6"></a>allDNTab=<span class="kw">table</span>(allDNGenes)</span>
+<span id="cb238-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-7"></a>DNGenesList=<span class="kw">names</span>(allDNTab)[<span class="kw">which</span>(allDNTab<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb238-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-8"></a><span class="co">#DNGenesList=DNGenesList[-grep(&quot;LOC&quot;, DNGenesList)]</span></span>
+<span id="cb238-9"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-9"></a><span class="co">#DNGenesList=DNGenesList[-grep(&quot;RGD&quot;, DNGenesList)]</span></span>
+<span id="cb238-10"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-10"></a><span class="co"># also, remove all samples which have a base mean less than 10</span></span>
+<span id="cb238-11"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-11"></a>x1=DNComp4[[<span class="dv">1</span>]]<span class="op">$</span>baseMean[<span class="kw">match</span>(DNGenesList, DNComp4[[<span class="dv">1</span>]]<span class="op">$</span>Gene)]</span>
+<span id="cb238-12"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-12"></a>x2=<span class="kw">which</span>(x1<span class="op">&gt;</span><span class="dv">25</span>)</span>
+<span id="cb238-13"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-13"></a>vstDN=<span class="kw">vst</span>(DNdds, <span class="dt">blind=</span>T)</span>
+<span id="cb238-14"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-14"></a></span>
+<span id="cb238-15"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-15"></a>DNddsTreatG<span class="op">$</span>Comp8_v2=<span class="kw">factor</span>(<span class="kw">paste</span>(DNddsTreatG<span class="op">$</span>Treatment, DNddsTreatG<span class="op">$</span>Growth))</span>
+<span id="cb238-16"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-16"></a></span>
+<span id="cb238-17"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-17"></a>ColsideCols=DiffCols[DNddsTreatG<span class="op">$</span>Comp8_v2]</span>
+<span id="cb238-18"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-18"></a>ColsideColsB=<span class="kw">hue_pal</span>()(<span class="dv">4</span>)[DNddsTreatG<span class="op">$</span>Treatment]</span>
+<span id="cb238-19"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-19"></a>ColsideColsC=<span class="kw">hue_pal</span>()(<span class="dv">2</span>)[DNddsTreatG<span class="op">$</span>Growth]</span>
+<span id="cb238-20"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-20"></a></span>
+<span id="cb238-21"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-21"></a>colTable=<span class="kw">rbind</span>(ColsideCols, ColsideColsB, ColsideColsC)</span>
+<span id="cb238-22"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-22"></a><span class="kw">rownames</span>(colTable)=<span class="kw">c</span>(<span class="st">&quot;Treat+growth&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;growth&quot;</span>)</span>
+<span id="cb238-23"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-23"></a></span>
+<span id="cb238-24"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-24"></a></span>
+<span id="cb238-25"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-25"></a></span>
+<span id="cb238-26"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-26"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/DEseq_comparisons_%s.pdf&quot;, SampleFrac), width=7, height=10)</span></span>
+<span id="cb238-27"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-27"></a></span>
+<span id="cb238-28"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-28"></a>sampleDist=<span class="kw">dist</span>(<span class="kw">t</span>(<span class="kw">assay</span>(vstDN)))</span>
+<span id="cb238-29"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-29"></a>sampleDistMatrix &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(sampleDist)</span>
+<span id="cb238-30"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-30"></a><span class="kw">heatmap.plus</span>(sampleDistMatrix, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;Blues&quot;</span>)[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Similarity between %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb238-31"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-31"></a></span>
+<span id="cb238-32"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-32"></a><span class="co"># Take the top 150 variable genes </span></span>
+<span id="cb238-33"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-33"></a><span class="co"># compute the sds for each genes</span></span>
+<span id="cb238-34"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-34"></a>sds =<span class="st"> </span><span class="kw">rowSds</span>(<span class="kw">assay</span>(vstDN))</span>
+<span id="cb238-35"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-35"></a>means=<span class="kw">rowMeans</span>(<span class="kw">assay</span>(vstDN))</span>
+<span id="cb238-36"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-36"></a>CVs=sds<span class="op">/</span>means</span>
+<span id="cb238-37"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-37"></a>CVs=CVs[<span class="op">-</span><span class="kw">which</span>(means<span class="op">&lt;</span><span class="dv">7</span>)]</span>
+<span id="cb238-38"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-38"></a>sds2=<span class="kw">sort</span>(CVs, <span class="dt">decreasing =</span> T)</span>
+<span id="cb238-39"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-39"></a></span>
+<span id="cb238-40"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-40"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstDN)[<span class="kw">names</span>(sds2)[<span class="dv">1</span><span class="op">:</span><span class="dv">200</span>], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable), <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;top 200 variable genes all %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb238-41"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-41"></a></span>
+<span id="cb238-42"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-42"></a></span>
+<span id="cb238-43"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-43"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstDN)[DNGenesList[x2], ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable),</span>
+<span id="cb238-44"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-44"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;DEG at least 2 %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb238-45"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-45"></a></span>
+<span id="cb238-46"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-46"></a><span class="co"># Make a table for these genes</span></span>
+<span id="cb238-47"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-47"></a>FCvalues=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="kw">length</span>(x2), <span class="dt">ncol=</span><span class="kw">length</span>(DNComp4))</span>
+<span id="cb238-48"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-48"></a></span>
+<span id="cb238-49"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-49"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(DNComp4)){</span>
+<span id="cb238-50"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-50"></a>  FCvalues[ ,i]=DNComp4[[i]]<span class="op">$</span>log2FoldChange[<span class="kw">match</span>(DNGenesList[x2], DNComp4[[i]]<span class="op">$</span>Gene)]</span>
+<span id="cb238-51"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-51"></a>}</span>
+<span id="cb238-52"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-52"></a></span>
+<span id="cb238-53"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-53"></a><span class="kw">colnames</span>(FCvalues)=<span class="kw">names</span>(DNComp4)</span>
+<span id="cb238-54"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-54"></a><span class="kw">rownames</span>(FCvalues)=DNGenesList[x2]</span>
+<span id="cb238-55"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-55"></a></span>
+<span id="cb238-56"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-56"></a></span>
+<span id="cb238-57"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-57"></a><span class="co"># for each list pick the top 50 diff genes FC&gt;2 and baseman &gt; 50</span></span>
+<span id="cb238-58"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-58"></a>glist=<span class="ot">NA</span></span>
+<span id="cb238-59"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-59"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(DNComp4)){</span>
+<span id="cb238-60"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-60"></a>  glist=<span class="kw">c</span>(glist, DNComp4[[i]]<span class="op">$</span>Gene[<span class="kw">which</span>(DNComp4[[i]]<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(DNComp4[[i]]<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>DNComp4[[i]]<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">25</span>)])</span>
+<span id="cb238-61"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-61"></a>}</span>
+<span id="cb238-62"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-62"></a></span>
+<span id="cb238-63"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-63"></a>ColsideCols=SetCols[DNddsTreatG<span class="op">$</span>Comp8]</span>
+<span id="cb238-64"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-64"></a></span>
+<span id="cb238-65"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-65"></a>glistmod=<span class="kw">na.omit</span>(<span class="kw">unique</span>(glist))</span>
+<span id="cb238-66"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-66"></a><span class="co">#glistmod=glistmod[-grep(&quot;LOC&quot;, glistmod)]</span></span>
+<span id="cb238-67"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-67"></a><span class="co">#glistmod=na.omit(glistmod[-grep(&quot;RGD&quot;, glistmod)])</span></span>
+<span id="cb238-68"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-68"></a></span>
+<span id="cb238-69"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-69"></a><span class="kw">heatmap.plus</span>(<span class="kw">assay</span>(vstDN)[glistmod, ], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">ColSideColors =</span> <span class="kw">t</span>(colTable),</span>
+<span id="cb238-70"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-70"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;All DEG %s samples&quot;</span>, SampleFrac))</span>
+<span id="cb238-71"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-71"></a></span>
+<span id="cb238-72"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-72"></a><span class="co"># distance of the samples to one another</span></span>
+<span id="cb238-73"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-73"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb238-74"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-74"></a><span class="kw">heatmap.2</span>(FCvalues, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], </span>
+<span id="cb238-75"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-75"></a>          <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;All comparisons %s, log2FC for each gene&quot;</span>, SampleFrac))</span>
+<span id="cb238-76"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-76"></a><span class="co">#dev.off()</span></span>
+<span id="cb238-77"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-77"></a></span>
+<span id="cb238-78"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-78"></a><span class="co">#DNismr3=ismr4</span></span>
+<span id="cb238-79"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-79"></a></span>
+<span id="cb238-80"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-80"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/GSEA_signature_comparisons_%s.pdf&quot;, SampleFrac), width=10, height=12)</span></span>
+<span id="cb238-81"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-81"></a></span>
+<span id="cb238-82"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-82"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(DNismr3)){</span>
+<span id="cb238-83"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-83"></a>  x1=DNismr3[[i]]</span>
+<span id="cb238-84"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-84"></a>  <span class="co"># find padj&lt;0.1</span></span>
+<span id="cb238-85"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-85"></a>  idx2=<span class="kw">lapply</span>(<span class="kw">seq</span>(<span class="dv">3</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>), <span class="cf">function</span>(x) <span class="kw">which</span>(<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x1[ ,x]))<span class="op">&lt;</span><span class="fl">0.01</span>))</span>
+<span id="cb238-86"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-86"></a>  unList=<span class="kw">table</span>(<span class="kw">unlist</span>(idx2))</span>
+<span id="cb238-87"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-87"></a>  <span class="co">#pickThese=names(unList)#[which(unList&gt;1)]</span></span>
+<span id="cb238-88"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-88"></a>  pickThese2=<span class="kw">names</span>(unList)[<span class="kw">which</span>(unList<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb238-89"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-89"></a>  </span>
+<span id="cb238-90"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-90"></a>  <span class="cf">if</span> (<span class="kw">length</span>(pickThese2)<span class="op">&gt;</span><span class="dv">100</span>){</span>
+<span id="cb238-91"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-91"></a>    temp=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb238-92"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-92"></a>    temp2=<span class="kw">sapply</span>(temp, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb238-93"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-93"></a>    temp2=<span class="kw">rowSds</span>(<span class="kw">abs</span>(temp2))</span>
+<span id="cb238-94"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-94"></a>    <span class="kw">names</span>(temp2)=pickThese2</span>
+<span id="cb238-95"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-95"></a>    temp2=<span class="kw">sort</span>(temp2, <span class="dt">decreasing =</span> T)</span>
+<span id="cb238-96"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-96"></a>    pickThese2=<span class="kw">names</span>(temp2)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>]</span>
+<span id="cb238-97"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-97"></a>  }</span>
+<span id="cb238-98"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-98"></a>  </span>
+<span id="cb238-99"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-99"></a>  x23=x1[<span class="kw">as.numeric</span>(pickThese2), <span class="kw">seq</span>(<span class="dv">2</span>, <span class="kw">ncol</span>(x1), <span class="dt">by=</span><span class="dv">2</span>)]</span>
+<span id="cb238-100"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-100"></a>  </span>
+<span id="cb238-101"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-101"></a>  x234=<span class="kw">sapply</span>(x23, <span class="cf">function</span>(x) <span class="kw">as.numeric</span>(<span class="kw">as.character</span>(x)))</span>
+<span id="cb238-102"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-102"></a>  <span class="kw">rownames</span>(x234)=<span class="kw">rownames</span>(x23)</span>
+<span id="cb238-103"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-103"></a>  </span>
+<span id="cb238-104"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-104"></a>  <span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb238-105"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-105"></a>  <span class="kw">heatmap.2</span>(x234, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;%s pathways %s fraction&quot;</span>, </span>
+<span id="cb238-106"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-106"></a>                                                                           <span class="kw">names</span>(DNismr3)[i], SampleFrac))</span>
+<span id="cb238-107"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-107"></a>}</span>
+<span id="cb238-108"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-108"></a></span>
+<span id="cb238-109"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb238-109"></a><span class="co">#dev.off()</span></span></code></pre></div>
+</div>
+</div>
+<div id="growing-vs-stable-emphasis" class="section level2">
+<h2><span class="header-section-number">11.3</span> Growing vs stable emphasis</h2>
+<p>Below, we focus specifically on the growing vs stable comparison in greater depth.
+Here, we look at the 3 different fractions in greater depth and look at volcano plots of DEG and heatmaps of differential genes. Samples are colored according to whether they are growing or stable</p>
+<div id="dn-fraction" class="section level3">
+<h3><span class="header-section-number">11.3.1</span> DN fraction</h3>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-1"></a></span>
+<span id="cb239-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-2"></a><span class="co">#pdf(sprintf(&quot;rslt/DESeq/volcano_plots_differences_stable_vs_growing_%s.pdf&quot;, Sys.Date()), height=7, width=8)</span></span>
+<span id="cb239-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-3"></a></span>
+<span id="cb239-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-4"></a>DNa1=DNComp4<span class="op">$</span>stable_vs_growing</span>
+<span id="cb239-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-5"></a>DNa=DNComp4<span class="op">$</span>stable_vs_growing[ <span class="kw">which</span>(DNComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span>DNComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">50</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(DNComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), ]</span>
+<span id="cb239-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-6"></a><span class="kw">with</span>(DNa1, <span class="kw">plot</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">main=</span><span class="st">&quot;Volcano plot: DN Stable (+) vs Growing (-)&quot;</span>, <span class="dt">cex=</span><span class="fl">1.0</span>, <span class="dt">xlab=</span><span class="kw">bquote</span>(<span class="op">~</span>Log[<span class="dv">2</span>]<span class="op">~</span>fold<span class="op">~</span>change), <span class="dt">ylab=</span><span class="kw">bquote</span>(<span class="op">~-</span>log[<span class="dv">10</span>]<span class="op">~</span>Q<span class="op">~</span>value)))</span>
+<span id="cb239-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-7"></a><span class="kw">with</span>(<span class="kw">subset</span>(DNa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">points</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.5</span>))</span>
+<span id="cb239-8"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb239-8"></a><span class="kw">with</span>(<span class="kw">subset</span>(DNa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">text</span>(log2FoldChange<span class="fl">+0.05</span>, <span class="op">-</span><span class="kw">log10</span>(padj)<span class="op">+</span><span class="fl">0.05</span>, Gene, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.75</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-97-1.png" width="672" /></p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb240-1"></a></span>
+<span id="cb240-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb240-2"></a></span>
+<span id="cb240-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb240-3"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(vstDN)[ DNa<span class="op">$</span>Gene, ], <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> <span class="kw">as.character</span>(<span class="kw">as.numeric</span>(vstDN<span class="op">$</span>Growth)), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;DN genes&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-97-2.png" width="672" /></p>
+</div>
+<div id="cd-fraction" class="section level3">
+<h3><span class="header-section-number">11.3.2</span> CD fraction</h3>
+<p>Volcano plot</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-1"></a></span>
+<span id="cb241-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-2"></a><span class="co">#pdf(&quot;~/Desktop/Figure4G_CD_stable_growing.pdf&quot;, height=12, width=12)</span></span>
+<span id="cb241-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-3"></a>CDa1=CDComp4<span class="op">$</span>stable_vs_growing</span>
+<span id="cb241-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-4"></a>CDa=CDComp4<span class="op">$</span>stable_vs_growing[ <span class="kw">which</span>(CDComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.05</span> <span class="op">&amp;</span><span class="st"> </span>CDComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">100</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(CDComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="dv">2</span>), ]</span>
+<span id="cb241-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-5"></a><span class="kw">with</span>(CDa1, <span class="kw">plot</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">main=</span><span class="st">&quot;Volcano plot: CD Stable (+) vs Growing (-)&quot;</span>, <span class="dt">cex=</span><span class="fl">1.0</span>, <span class="dt">xlab=</span><span class="kw">bquote</span>(<span class="op">~</span>Log[<span class="dv">2</span>]<span class="op">~</span>fold<span class="op">~</span>change), <span class="dt">ylab=</span><span class="kw">bquote</span>(<span class="op">~-</span>log[<span class="dv">10</span>]<span class="op">~</span>Q<span class="op">~</span>value)))</span>
+<span id="cb241-6"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-6"></a><span class="kw">with</span>(<span class="kw">subset</span>(CDa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">points</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.5</span>))</span>
+<span id="cb241-7"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb241-7"></a><span class="kw">with</span>(<span class="kw">subset</span>(CDa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">text</span>(log2FoldChange<span class="fl">+0.05</span>, <span class="op">-</span><span class="kw">log10</span>(padj)<span class="op">+</span><span class="fl">0.05</span>, Gene, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.75</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4g"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4g-1.png" alt="volcano plot of DEG stable vs growing CD45" width="672" />
+<p class="caption">
+Figure 11.3: volcano plot of DEG stable vs growing CD45
+</p>
+</div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb242-1"></a></span>
+<span id="cb242-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb242-2"></a><span class="kw">write.csv</span>(CDa1, <span class="dt">file=</span><span class="st">&quot;nature-tables/4g.csv&quot;</span>)</span></code></pre></div>
+<p>Here are a bunch of heatmaps, which are then separated by wehther genes are downregulated (growing specific) or upregulated (stable specific)</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb243-1"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(vstCD)[ CDa<span class="op">$</span>Gene, ], <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> <span class="kw">as.character</span>(<span class="kw">as.numeric</span>(vstCD<span class="op">$</span>Growth)), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;CD genes&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-1.png" width="672" /></p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb244-1"></a></span>
+<span id="cb244-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb244-2"></a><span class="co">## growing specific</span></span>
+<span id="cb244-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb244-3"></a>CDg=CDa<span class="op">$</span>Gene[<span class="kw">which</span>(CDa<span class="op">$</span>log2FoldChange<span class="op">&lt;</span><span class="dv">0</span>)]</span>
+<span id="cb244-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb244-4"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(vstCD)[CDg, ], <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> <span class="kw">as.character</span>(<span class="kw">as.numeric</span>(vstCD<span class="op">$</span>Growth)), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;CD genes growing&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-2.png" width="672" /></p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb245-1"></a></span>
+<span id="cb245-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb245-2"></a><span class="co">## stable specific</span></span>
+<span id="cb245-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb245-3"></a>CDs=CDa<span class="op">$</span>Gene[<span class="kw">which</span>(CDa<span class="op">$</span>log2FoldChange<span class="op">&gt;</span><span class="dv">0</span>)]</span>
+<span id="cb245-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb245-4"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(vstCD)[CDs, ], <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> <span class="kw">as.character</span>(<span class="kw">as.numeric</span>(vstCD<span class="op">$</span>Growth)), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;CD genes stable&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-98-3.png" width="672" /></p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb246-1"></a></span>
+<span id="cb246-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb246-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
+</div>
+<div id="ep-fraction" class="section level3">
+<h3><span class="header-section-number">11.3.3</span> Ep Fraction</h3>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb247-1"></a>Epa1=EpComp4<span class="op">$</span>stable_vs_growing</span>
+<span id="cb247-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb247-2"></a>Epa=EpComp4<span class="op">$</span>stable_vs_growing[ <span class="kw">which</span>(EpComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span>EpComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>baseMean<span class="op">&gt;</span><span class="dv">50</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(EpComp4<span class="op">$</span>stable_vs_growing<span class="op">$</span>log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), ]</span>
+<span id="cb247-3"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb247-3"></a><span class="kw">with</span>(Epa1, <span class="kw">plot</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">main=</span><span class="st">&quot;Volcano plot: Ep Stable vs Growing&quot;</span>, <span class="dt">cex=</span><span class="fl">1.0</span>, <span class="dt">xlab=</span><span class="kw">bquote</span>(<span class="op">~</span>Log[<span class="dv">2</span>]<span class="op">~</span>fold<span class="op">~</span>change), <span class="dt">ylab=</span><span class="kw">bquote</span>(<span class="op">~-</span>log[<span class="dv">10</span>]<span class="op">~</span>Q<span class="op">~</span>value)))</span>
+<span id="cb247-4"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb247-4"></a><span class="kw">with</span>(<span class="kw">subset</span>(Epa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">points</span>(log2FoldChange, <span class="op">-</span><span class="kw">log10</span>(padj), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.5</span>))</span>
+<span id="cb247-5"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb247-5"></a><span class="kw">with</span>(<span class="kw">subset</span>(Epa1, padj<span class="op">&lt;</span><span class="fl">0.1</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(log2FoldChange)<span class="op">&gt;</span><span class="fl">1.5</span>), <span class="kw">text</span>(log2FoldChange<span class="fl">+0.05</span>, <span class="op">-</span><span class="kw">log10</span>(padj)<span class="op">+</span><span class="fl">0.1</span>, Gene, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="fl">0.75</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-1.png" width="672" /></p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb248-1"></a></span>
+<span id="cb248-2"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cb248-2"></a><span class="kw">heatmap.2</span>(<span class="kw">assay</span>(vstEp)[ Epa<span class="op">$</span>Gene, ], <span class="dt">scale=</span><span class="st">&quot;row&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> <span class="kw">as.character</span>(<span class="kw">as.numeric</span>(vstEp<span class="op">$</span>Growth)), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;Ep genes&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-99-2.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="expression-in-specific-pathways.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary-of-gsea-runs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

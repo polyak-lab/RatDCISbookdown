@@ -1,0 +1,110 @@
+# (APPENDIX) Appendix {-} 
+
+
+Here we have a links to the list of the figures in this study
+
+# List of Figures
+
+## Main Figures{-}
+
+## Figure 1 {-}
+
+* Fig 1F: [Characterisation HR plot](#fig:1f)
+* Fig 1G: [Ep DEG big-small](#fig:1g)
+* Fig 1H: [Ep hairball with size](#fig:1h)
+* Fig 1I: [summary of mutation burden](#fig:1i)
+* Fig 1J: [Frequency of different mutational codons](#fig:1j)
+* Fig 1K: [summary of mutations acccording to frequency cosmic](#fig:1k)
+* Fig 1L: [summary of metacore common mutated pathways](#fig:1lb)
+
+
+## Figure 2: Immune system of NMU-rat {-}
+
+* Fig 2D: [Differential CD45 genes](#fig:2d)
+* Fig 2E: [CD45 growing vs stable hairball](#fig:cd45-hairball)
+* Fig 2F: [CIBERSORT shit](#fig:2fplot)
+* Fig 2H: [bcr clonotypes in tumor and normal mammary glands](#fig:2h)
+
+## Figure 3: Immunotherapy applied to NMU rats {-}
+
+* Fig 3B: [Growth rates of tumors](#fig:3b)
+* Fig 3C: [Growth rates of tumors w.r.t. treatment](#fig:3c)
+* Fig 3D: [Histogram of growth rates of tumors](#fig:3d)
+* Fig 3E: [Contingency table growth rate and treatment](#3e)
+* Fig 3G: [Trichrome staining growth rate and treatment](#fig:3g)
+* Fig 3J: [Differentially expressed genes in CD45 fraction](#fig:3jb)
+
+## Figure 4: Somehting{-}
+
+* Fig 4B: [association of frequency with treatment and growth](#fig:4b) 
+* Fig 4C: [KNN distances](#fig:Fig4c)
+* Fig 4D: [interacting fraction](#fig:if-growth) 
+* Fig 4E: [MH index with CD8 growth](#fig:4e)
+* Fig 4F: [Progression CIBERSORT TIMER](#fig:4f)
+* Fig 4G: [volcano plot of DEG stable vs growing CD45](#fig:4g)
+* Fig 4H: [CD45 cells enriched pathways](#fig:4h)
+* Fig 4I: [trust-progression COHORT](#fig:4i)
+
+## Figure 5 : Epithelial cells in growing vs stable rats {-}
+
+* Fig 5A: [GSEA summary stable growing](#fig:5a)
+* Fig 5B: [ssGSEA scores for specific pathways](#fig:5b)
+* Fig 5D: [CD74 assoc with patient data](#fig:5d)
+* Fig 5E: [forest plot CD74](#fig:5e)
+* Fig 5F: [lum only non-inflamm growth vs stable DEG](#fig:ColSideCols)
+* Fig 5G: [lum only non-inflamm growth vs stable hairball](#fig:gsea-noninf-lum-branch)
+* Fig 5H [luminal signature associated with clinical variables](#fig:5h)
+* Fig 5I [OS and DFS for growing signature](#fig:5i)
+* Fig 5J [TCGA DEG for LumA samples](#fig:tcga-volcano)
+* Fig 5K [TCGA HAIRBALL for LumA samples](#fig:TCGA-gsea)
+
+# Extended Figures{-}
+
+## Extended data 1{-}
+
+* Ext Fig 1b : [Number of tumors per rat in each cohort](#fig:Ext1b)
+* Ext Fig 1c: [growth of NMU treated tumors over time](#fig:Ext1c)
+* Ext Fig 1f: [PCA of growing vs stable epithelial cells](#fig:Ext1f)
+* Ext Fig 1G: [correlation plot epithelial samples](#fig:Ext1g)
+* Ext Fig 1H-I: [assoc of mutations with cohort](#fig:Ext1h)
+* Ext Fig 1J: [Alexandrov mutational signatures](#fig:Ext1j)
+* Ext Fig 1K: [most frequent mutations](#fig:Ext1k)
+* Ext Fig 1L: [PCA of growing vs stable epithelial cells](#fig:Ext1f)
+
+
+## Extended data 2 {-}
+
+* Ext2D [PCA of CD45 cells](#fig:Ext2d)
+* Ext2E [clonotype assoc with size](#fig:Ext2e)
+* Ext2F [cNo fucking idea where this came from](#fig:Ext2f)
+
+## Extended data 3{-}
+
+* Ext Fig 3c : [FACS associated with outcome](#fig:Ext3c)
+* Ext Fig 3d : [PCA plot all cell types](#fig:Ext3d)
+* Ext Fig 3e : [Cell type specific genes](#fig:Ext3e)
+* Ext Fig 3H: [DN assoc treatment GSEA](#fig:Ext3h)
+* Ext Fig 3i : [HR clustering output progression](#fig:Ext3i)
+
+
+
+## Extended data 4{-}
+
+* Ext Fig 4B [association with facs](#fig:Ext4b) 
+* Ext Fig 4C-D [WSI-normalised-all-samples](#fig:Ext4c) here \@ref(Ext4c)
+* Ext Fig 4E [Knn with treatment](#fig:Fig4c) 
+* Ext Fig 4F [Interacting fraction with treatment](#fig:if-growth) 
+* Ext Fig 4H [MH with treatment](#fig:4h) 
+
+
+## Extended data 5{-}
+
+* Ext Fig5A [growth profiles of inflammatory tumors](#fig:5xta)
+* Ext Fig 5B: [](#fig:Ext5b)
+* Ext Fig 5C: [Differential gene exp inflammatory vs non-inflammatory](#fig:Ext5c)
+* Ext Fig 5D: [association signature with WSI](#fig:Ext5d)
+* Ext Fig 5E: [Survival plots TCGA and CD74 by subtype](#fig:Ext5e-os)
+* Ext Fig 5F: [DEG all inflammatory removed](#fig:Epddsinflamm)
+* Ext Fig 5G [non-inflammatory branch hairball](#fig:gsea-non-inflammatory-branch)
+* Ext Fig 5I: [Trichrome association with inflammation and growth rate](#fig:)
+* Ext Fig 5J: [Transcriptional heterogeneity](#fig:Ext5j)

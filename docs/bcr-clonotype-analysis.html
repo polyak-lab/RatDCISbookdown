@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 BCR clonotype analysis | Rat DCIS study</title>
+  <title>Chapter 18 BCR clonotype analysis | Rat DCIS study</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 13 BCR clonotype analysis | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 18 BCR clonotype analysis | Rat DCIS study" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 BCR clonotype analysis | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 18 BCR clonotype analysis | Rat DCIS study" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-30" />
+<meta name="date" content="2021-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,6 +61,30 @@
 <script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
 <script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
 <script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+<script type="text/javascript">
+  
+  // toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+  
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+  
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Global") elem.value = "Show Global";
+  else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
 
 
 <style type="text/css">
@@ -144,22 +168,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Rat prevention study</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
-<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="prerequisites.html"><a href="prerequisites.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="prerequisites.html"><a href="prerequisites.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="prerequisites.html"><a href="prerequisites.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
 <li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
 <li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
-<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.5</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.5.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.5.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.5.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -172,10 +198,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
 <li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification-treatment-growth"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification, treatment, growth</a></li>
-<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome</a></li>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome to treatment</a></li>
 <li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
-<li class="chapter" data-level="4.1.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#association-between-distance-and-content"><i class="fa fa-check"></i><b>4.1.4</b> Association between distance and content</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
@@ -202,130 +227,155 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
 <li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="deseq-analysis.html"><a href="deseq-analysis.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="7.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
-<li class="chapter" data-level="7.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
-<li class="chapter" data-level="7.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#set-up-cell-type-specifoc-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specifoc the comparisons</a></li>
-<li class="chapter" data-level="7.4" data-path="deseq-analysis.html"><a href="deseq-analysis.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
-<li class="chapter" data-level="7.4.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
-<li class="chapter" data-level="7.4.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
-<li class="chapter" data-level="7.4.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
 </ul></li>
-<li class="chapter" data-level="7.5" data-path="deseq-analysis.html"><a href="deseq-analysis.html#collating-results-and-running-gsea"><i class="fa fa-check"></i><b>7.5</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>7.5</b> Pearson correlation plots of samples</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html"><i class="fa fa-check"></i><b>8</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="8.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comparisons"><i class="fa fa-check"></i><b>8.1</b> Summary of comparisons</a></li>
-<li class="chapter" data-level="8.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comaprisons"><i class="fa fa-check"></i><b>8.2</b> Summary of comaprisons</a><ul>
-<li class="chapter" data-level="8.2.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#epcam-samples"><i class="fa fa-check"></i><b>8.2.1</b> EPCAM samples</a></li>
-<li class="chapter" data-level="8.2.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd45-comparisons"><i class="fa fa-check"></i><b>8.2.2</b> CD45 comparisons</a></li>
-<li class="chapter" data-level="8.2.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-samples"><i class="fa fa-check"></i><b>8.2.3</b> DN samples</a></li>
+<li class="chapter" data-level="8" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>8</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#gene-list"><i class="fa fa-check"></i><b>9.1</b> Gene List</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#progression-cohort"><i class="fa fa-check"></i><b>9.2</b> Progression cohort</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#charcterisation-cohort"><i class="fa fa-check"></i><b>9.3</b> Charcterisation cohort</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples"><i class="fa fa-check"></i><b>9.4</b> DN samples</a></li>
+<li class="chapter" data-level="9.5" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#comparison-with-staining"><i class="fa fa-check"></i><b>9.5</b> Comparison with staining</a></li>
+<li class="chapter" data-level="9.6" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#summary-of-expression-markers-for-each-subtypecell-fraction"><i class="fa fa-check"></i><b>9.6</b> Summary of expression markers for each subtype/cell fraction</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>8.3</b> Growing vs stable emphasis</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
-<li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
-<li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
-<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
-<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
-<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
+<li class="chapter" data-level="10" data-path="expression-in-specific-pathways.html"><a href="expression-in-specific-pathways.html"><i class="fa fa-check"></i><b>10</b> Expression in Specific pathways</a></li>
+<li class="chapter" data-level="11" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html"><i class="fa fa-check"></i><b>11</b> DESeq analysis: Immunotherapy/Growth comparisons</a><ul>
+<li class="chapter" data-level="11.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#summary-of-comparisons"><i class="fa fa-check"></i><b>11.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="11.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>11.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#epcam-samples"><i class="fa fa-check"></i><b>11.2.1</b> EPCAM samples</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
-<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
-<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="11.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>11.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#dn-fraction"><i class="fa fa-check"></i><b>11.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="11.3.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cd-fraction"><i class="fa fa-check"></i><b>11.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="11.3.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#ep-fraction"><i class="fa fa-check"></i><b>11.3.3</b> Ep Fraction</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
-<li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples-2"><i class="fa fa-check"></i><b>10.1.1</b> DN samples?</a></li>
+<li class="chapter" data-level="12" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>12</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>12.1</b> Stable vs growing: all samples</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#barplots-of-enriched-pathways"><i class="fa fa-check"></i><b>12.1.1</b> barplots of enriched pathways</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>10.2</b> PAM50 (Parker) scoring</a></li>
-<li class="chapter" data-level="10.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>10.3</b> Clustering based on random genes</a></li>
-<li class="chapter" data-level="10.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>10.4</b> Consolidating the different results</a></li>
+<li class="chapter" data-level="12.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#comparisons-based-on-treatment"><i class="fa fa-check"></i><b>12.2</b> Comparisons based on treatment</a></li>
+<li class="chapter" data-level="12.3" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>12.3</b> Pathways of Interest 2</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>11</b> Signature analysis</a><ul>
-<li class="chapter" data-level="11.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>11.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="11.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>11.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="11.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>11.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="11.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>11.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="13" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>13</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#comparison-of-enriched-pathways-across-samples"><i class="fa fa-check"></i><b>13.1</b> Comparison of enriched pathways across samples</a></li>
+<li class="chapter" data-level="13.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deseq-comparison"><i class="fa fa-check"></i><b>13.2</b> DeSeq comparison</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#compare-inflammatory-vs-non-inflammatory"><i class="fa fa-check"></i><b>13.2.1</b> Compare inflammatory vs non-inflammatory</a></li>
+<li class="chapter" data-level="13.2.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#finding-a-signature-for-each-branch"><i class="fa fa-check"></i><b>13.2.2</b> Finding a signature for each branch</a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>11.2</b> Cancer pathways</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>11.2.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="11.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.2.2</b> regression model for covariates</a></li>
-<li class="chapter" data-level="11.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>11.2.3</b> Taking into account directionality</a></li>
+<li class="chapter" data-level="13.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#analyse-the-non-inflammatory-samples"><i class="fa fa-check"></i><b>13.3</b> Analyse the non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#non-inflammatory-branch-ep-only-samples"><i class="fa fa-check"></i><b>13.3.1</b> Non-inflammatory branch: Ep only samples</a></li>
+<li class="chapter" data-level="13.3.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea"><i class="fa fa-check"></i><b>13.3.2</b> GSEA</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
-<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a><ul>
-<li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
-<li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
+<li class="chapter" data-level="13.4" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#same-analysis-with-only-luminal-samples"><i class="fa fa-check"></i><b>13.4</b> Same analysis with only luminal samples</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea-1"><i class="fa fa-check"></i><b>13.4.1</b> GSEA</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="13.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>13.1</b> Processing summary</a></li>
-<li class="chapter" data-level="13.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>13.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="13.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>13.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="13.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>13.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="13.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>13.5</b> Associate with clinicopathological data</a></li>
-<li class="chapter" data-level="13.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>13.6</b> Associate with signature scores</a></li>
-<li class="chapter" data-level="13.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>13.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>14</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="14.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>14.1</b> Data</a><ul>
-<li class="chapter" data-level="14.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>14.1.1</b> Extract mutation signatures</a></li>
-<li class="chapter" data-level="14.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>14.1.2</b> Annotate the data with human common variants</a></li>
-</ul></li>
-<li class="chapter" data-level="14.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>14.2</b> Plots</a><ul>
-<li class="chapter" data-level="14.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>14.2.1</b> Quick overview</a></li>
-<li class="chapter" data-level="14.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>14.2.2</b> Coding variants &amp; TMB</a></li>
-</ul></li>
-<li class="chapter" data-level="14.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>14.3</b> Coding variants</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>14.3.1</b> Sites which are commonly mutated?</a></li>
-</ul></li>
-<li class="chapter" data-level="14.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>14.4</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="14.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>14.4.1</b> All mutations</a></li>
-</ul></li>
-<li class="chapter" data-level="14.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>14.5</b> Metacore analysis of commonly mutated pathways</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>15</b> Mutations in RNA</a><ul>
-<li class="chapter" data-level="15.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>15.1</b> Haplotype caller</a></li>
-<li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
-<li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
-<li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
-<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
-<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
-<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
-<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
-</ul></li>
-<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="14" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>14</b> Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="14.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>14.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="14.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>14.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>14.2.1</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
-<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="15" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>15</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="15.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>15.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>15.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>15.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="15.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>15.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>15.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>15.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-3"><i class="fa fa-check"></i><b>15.2.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>15.3</b> Check expression of checkpoint proteins</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>16</b> Signature analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>16.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>16.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="16.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>16.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="16.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>16.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="16.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>16.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>17</b> Immune estimation</a><ul>
+<li class="chapter" data-level="17.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>17.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="17.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>17.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="17.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>17.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="17.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>17.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="17.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>17.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>17.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="17.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>17.5.2</b> Association with Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>17.6</b> Summary of the outcome</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>18</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>18.1</b> Processing summary</a></li>
+<li class="chapter" data-level="18.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>18.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="18.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>18.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="18.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>18.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="18.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>18.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="18.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>18.6</b> Associate with signature scores</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>19</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="19.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>19.1</b> Data</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>19.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="19.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>19.1.2</b> Annotate the data with human common variants</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>19.2</b> Plots</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>19.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="19.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>19.2.2</b> Coding variants &amp; TMB</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>19.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>19.3.1</b> Sites which are commonly mutated?</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>19.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>19.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>19.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>20</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>20.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="20.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>20.2</b> Load files</a></li>
+<li class="chapter" data-level="20.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>20.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="20.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>20.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="20.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>20.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>21</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="21.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>21.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="21.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>21.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="21.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>21.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>21.4</b> Mutation load?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>22</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="22.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>22.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="22.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>22.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="22.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>22.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="22.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>22.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>23</b> Writing files to file</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1"><i class="fa fa-check"></i>Figure 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-somehting"><i class="fa fa-check"></i>Figure 4: Somehting</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-figures"><i class="fa fa-check"></i>Extended Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-1"><i class="fa fa-check"></i>Extended data 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-2"><i class="fa fa-check"></i>Extended data 2</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-3"><i class="fa fa-check"></i>Extended data 3</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-4"><i class="fa fa-check"></i>Extended data 4</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-5"><i class="fa fa-check"></i>Extended data 5</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -348,33 +398,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="bcr-clonotype-analysis" class="section level1">
-<h1><span class="header-section-number">Chapter 13</span> BCR clonotype analysis</h1>
+<h1><span class="header-section-number">Chapter 18</span> BCR clonotype analysis</h1>
 <div id="processing-summary" class="section level2">
-<h2><span class="header-section-number">13.1</span> Processing summary</h2>
+<h2><span class="header-section-number">18.1</span> Processing summary</h2>
 <p>Fastq files have previously been run through TRUST4 using the Rn6 BCR annotations using the following code (not run here). Note that the bcr/tcr .fa files were assembled using the ensembl annotation (these annotations are not present in the UCSC genomic files). Annotation files for the rn6 BCR regions are available at <a href="http://www.imgt.org//download/V-QUEST/IMGT_V-QUEST_reference_directory/Rattus_norvegicus/">IMGT</a>, but TCR regions are not available</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="bcr-clonotype-analysis.html#cb101-1"></a><span class="co"># obtain the gene names for rat:</span></span>
-<span id="cb101-2"><a href="bcr-clonotype-analysis.html#cb101-2"></a><span class="kw">library</span>(biomaRt)</span>
-<span id="cb101-3"><a href="bcr-clonotype-analysis.html#cb101-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
-<span id="cb101-4"><a href="bcr-clonotype-analysis.html#cb101-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
-<span id="cb101-5"><a href="bcr-clonotype-analysis.html#cb101-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
-<span id="cb101-6"><a href="bcr-clonotype-analysis.html#cb101-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
-<span id="cb101-7"><a href="bcr-clonotype-analysis.html#cb101-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
-<span id="cb101-8"><a href="bcr-clonotype-analysis.html#cb101-8"></a></span>
-<span id="cb101-9"><a href="bcr-clonotype-analysis.html#cb101-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
-<span id="cb101-10"><a href="bcr-clonotype-analysis.html#cb101-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
-<span id="cb101-11"><a href="bcr-clonotype-analysis.html#cb101-11"></a></span>
-<span id="cb101-12"><a href="bcr-clonotype-analysis.html#cb101-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
-<span id="cb101-13"><a href="bcr-clonotype-analysis.html#cb101-13"></a></span>
-<span id="cb101-14"><a href="bcr-clonotype-analysis.html#cb101-14"></a><span class="co"># Obtain the reference annotation file</span></span>
-<span id="cb101-15"><a href="bcr-clonotype-analysis.html#cb101-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
-<span id="cb101-16"><a href="bcr-clonotype-analysis.html#cb101-16"></a></span>
-<span id="cb101-17"><a href="bcr-clonotype-analysis.html#cb101-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
-<span id="cb101-18"><a href="bcr-clonotype-analysis.html#cb101-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="bcr-clonotype-analysis.html#cb375-1"></a><span class="co"># obtain the gene names for rat:</span></span>
+<span id="cb375-2"><a href="bcr-clonotype-analysis.html#cb375-2"></a><span class="kw">library</span>(biomaRt)</span>
+<span id="cb375-3"><a href="bcr-clonotype-analysis.html#cb375-3"></a>human =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
+<span id="cb375-4"><a href="bcr-clonotype-analysis.html#cb375-4"></a>rat =<span class="st"> </span><span class="kw">useEnsembl</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">mirror=</span><span class="st">&quot;useast&quot;</span>, <span class="dt">data=</span><span class="st">&quot;rnorvegicus_gene_ensembl&quot;</span>)</span>
+<span id="cb375-5"><a href="bcr-clonotype-analysis.html#cb375-5"></a>TS =<span class="st"> </span>human_igg_trv_list</span>
+<span id="cb375-6"><a href="bcr-clonotype-analysis.html#cb375-6"></a>Hum2RatProt =<span class="st"> </span><span class="kw">getLDS</span>(<span class="dt">attributes =</span> <span class="kw">c</span>(<span class="st">&quot;hgnc_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id&quot;</span>), <span class="dt">filters =</span> <span class="st">&quot;hgnc_symbol&quot;</span>,  <span class="dt">values =</span> TS , <span class="dt">mart =</span> human, <span class="dt">attributesL =</span> <span class="kw">c</span>(<span class="st">&quot;rgd_symbol&quot;</span>, <span class="st">&quot;ensembl_transcript_id”, “ensemble_gene_id&quot;</span>), <span class="dt">martL =</span> rat, <span class="dt">uniqueRows=</span>T)</span>
+<span id="cb375-7"><a href="bcr-clonotype-analysis.html#cb375-7"></a><span class="kw">write.table</span>(<span class="kw">unique</span>(Hum2RatProt<span class="op">$</span>ensemble_gene_id), <span class="st">&quot;ensbl_rat_bcr.txt&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">row.names=</span>F,<span class="dt">colnames=</span>F)</span>
+<span id="cb375-8"><a href="bcr-clonotype-analysis.html#cb375-8"></a></span>
+<span id="cb375-9"><a href="bcr-clonotype-analysis.html#cb375-9"></a><span class="co"># obtain the tcr/bcr.fa file</span></span>
+<span id="cb375-10"><a href="bcr-clonotype-analysis.html#cb375-10"></a><span class="co">#(Note that BuildDatabaseFa.pl needs to be edited on lines 95, 102, 114 and 121 to use transcript_id or gene_id instead)</span></span>
+<span id="cb375-11"><a href="bcr-clonotype-analysis.html#cb375-11"></a></span>
+<span id="cb375-12"><a href="bcr-clonotype-analysis.html#cb375-12"></a>perl BuildDatabaseFa.pl Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="fl">0.</span>dna_sm.toplevel.fa Rattus_norvegicus.Rnor_<span class="dv">6</span>.<span class="dv">0</span>.<span class="fl">99.</span>gtf ensbl_rat_bcr.txt <span class="op">&gt;</span><span class="st"> </span>bcrtcr_rat_ens.fa</span>
+<span id="cb375-13"><a href="bcr-clonotype-analysis.html#cb375-13"></a></span>
+<span id="cb375-14"><a href="bcr-clonotype-analysis.html#cb375-14"></a><span class="co"># Obtain the reference annotation file</span></span>
+<span id="cb375-15"><a href="bcr-clonotype-analysis.html#cb375-15"></a>perl BuildImgtAnnot.pl Rattus_norvegicus <span class="op">&gt;</span><span class="st"> </span>Rnor_IMGT<span class="op">+</span>C.fa</span>
+<span id="cb375-16"><a href="bcr-clonotype-analysis.html#cb375-16"></a></span>
+<span id="cb375-17"><a href="bcr-clonotype-analysis.html#cb375-17"></a><span class="co"># Run TRUST (below is single end)</span></span>
+<span id="cb375-18"><a href="bcr-clonotype-analysis.html#cb375-18"></a>.<span class="op">/</span>run<span class="op">-</span>trust4 <span class="op">-</span>u <span class="dv">20170125</span>_NMU7_Tumor_RLU_CD45_CGDA5146_S1_R1_<span class="fl">001.</span>fastq.gz <span class="op">-</span>f bcrtcr_rat_ens.fa <span class="op">--</span>ref Rnor_IMGT<span class="op">+</span>C.fa</span></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="bcr-clonotype-analysis.html#cb376-1"></a><span class="co">#Annotation file: Load in an annotation file indicating all the samples, batch effects etc </span></span>
+<span id="cb376-2"><a href="bcr-clonotype-analysis.html#cb376-2"></a></span>
+<span id="cb376-3"><a href="bcr-clonotype-analysis.html#cb376-3"></a></span>
+<span id="cb376-4"><a href="bcr-clonotype-analysis.html#cb376-4"></a>TRUST4path=<span class="st">&quot;../data/TRUST4/&quot;</span></span>
+<span id="cb376-5"><a href="bcr-clonotype-analysis.html#cb376-5"></a>TRUST4files=<span class="kw">dir</span>(TRUST4path,<span class="st">&quot;*.tsv&quot;</span>)</span>
+<span id="cb376-6"><a href="bcr-clonotype-analysis.html#cb376-6"></a><span class="co">#FileNames=sapply(strsplit(TRUST4files, &quot;_report.tsv&quot;), function(x) x[1])</span></span>
+<span id="cb376-7"><a href="bcr-clonotype-analysis.html#cb376-7"></a>matchidx=<span class="kw">match</span>(TRUST4files, infoTableFinal<span class="op">$</span>TRUSTName)</span>
+<span id="cb376-8"><a href="bcr-clonotype-analysis.html#cb376-8"></a></span>
+<span id="cb376-9"><a href="bcr-clonotype-analysis.html#cb376-9"></a><span class="co">#RepNames=paste(infoTableFinal$Rat_ID, tempAnnot$Location, tempAnnot$Fraction, sep=&quot;_&quot;)[matchidx]</span></span>
+<span id="cb376-10"><a href="bcr-clonotype-analysis.html#cb376-10"></a><span class="co"># load in all the files and save the list to file</span></span>
+<span id="cb376-11"><a href="bcr-clonotype-analysis.html#cb376-11"></a>RatTrust=<span class="kw">lapply</span>(TRUST4files, <span class="cf">function</span>(x) <span class="kw">read.delim</span>(<span class="kw">paste</span>(TRUST4path, x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>))</span>
+<span id="cb376-12"><a href="bcr-clonotype-analysis.html#cb376-12"></a><span class="kw">names</span>(RatTrust)=infoTableFinal<span class="op">$</span>SampleID[matchidx]</span>
+<span id="cb376-13"><a href="bcr-clonotype-analysis.html#cb376-13"></a></span>
+<span id="cb376-14"><a href="bcr-clonotype-analysis.html#cb376-14"></a></span>
+<span id="cb376-15"><a href="bcr-clonotype-analysis.html#cb376-15"></a>TRUST4path=<span class="st">&quot;../data/TRUST4/matchedNormal/&quot;</span></span>
+<span id="cb376-16"><a href="bcr-clonotype-analysis.html#cb376-16"></a>TRUST4files=<span class="kw">dir</span>(TRUST4path,<span class="st">&quot;*.tsv&quot;</span>)</span>
+<span id="cb376-17"><a href="bcr-clonotype-analysis.html#cb376-17"></a><span class="co">#FileNames=sapply(strsplit(TRUST4files, &quot;_report.tsv&quot;), function(x) x[1])</span></span>
+<span id="cb376-18"><a href="bcr-clonotype-analysis.html#cb376-18"></a>FileNames=<span class="kw">paste</span>(<span class="kw">substr</span>(TRUST4files, <span class="dv">10</span>, <span class="dv">12</span>), <span class="st">&quot;matchedNMUCD45&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb376-19"><a href="bcr-clonotype-analysis.html#cb376-19"></a>RatTrustNormal=<span class="kw">lapply</span>(TRUST4files, <span class="cf">function</span>(x) <span class="kw">read.delim</span>(<span class="kw">paste</span>(TRUST4path, x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>))</span>
+<span id="cb376-20"><a href="bcr-clonotype-analysis.html#cb376-20"></a><span class="kw">names</span>(RatTrustNormal)=FileNames</span>
+<span id="cb376-21"><a href="bcr-clonotype-analysis.html#cb376-21"></a></span>
+<span id="cb376-22"><a href="bcr-clonotype-analysis.html#cb376-22"></a>RatTrust=<span class="kw">c</span>(RatTrust, RatTrustNormal)</span>
+<span id="cb376-23"><a href="bcr-clonotype-analysis.html#cb376-23"></a></span>
+<span id="cb376-24"><a href="bcr-clonotype-analysis.html#cb376-24"></a><span class="kw">save</span>(RatTrust, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/Rat_TRUST4_%s.RData&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 </div>
 <div id="summary-stats" class="section level2">
-<h2><span class="header-section-number">13.2</span> Summary Stats</h2>
+<h2><span class="header-section-number">18.2</span> Summary Stats</h2>
 <p>Firstly, look at the number of BCR regions which have been identified by TRUST4. In green are the CD45 populations, which as expected appear to have a higher number of clonotypes compared to the epithelial and the double-negative populations (in read and orange).</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-4.png" width="672" /></p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="bcr-clonotype-analysis.html#cb377-1"></a>NSamples=<span class="kw">sapply</span>(RatTrust, nrow)</span>
+<span id="cb377-2"><a href="bcr-clonotype-analysis.html#cb377-2"></a>NSamplesCt2=<span class="kw">sapply</span>(RatTrust, <span class="cf">function</span>(x) <span class="kw">length</span>(<span class="kw">which</span>(x<span class="op">$</span>X.count<span class="op">&gt;=</span><span class="dv">2</span>)))</span>
+<span id="cb377-3"><a href="bcr-clonotype-analysis.html#cb377-3"></a>NSamplesCDR3comp=<span class="kw">sapply</span>(RatTrust, <span class="cf">function</span>(x) <span class="kw">length</span>(<span class="kw">which</span>(x<span class="op">$</span>CDR3aa<span class="op">!=</span><span class="st">&quot;partial&quot;</span>)))</span>
+<span id="cb377-4"><a href="bcr-clonotype-analysis.html#cb377-4"></a>NSamplesCDR3compCt2=<span class="kw">sapply</span>(RatTrust, <span class="cf">function</span>(x) <span class="kw">length</span>(<span class="kw">which</span>(x<span class="op">$</span>CDR3aa<span class="op">!=</span><span class="st">&quot;partial&quot;</span> <span class="op">&amp;</span><span class="st"> </span>x<span class="op">$</span>X.count<span class="op">&gt;=</span><span class="dv">2</span>)))</span>
+<span id="cb377-5"><a href="bcr-clonotype-analysis.html#cb377-5"></a></span>
+<span id="cb377-6"><a href="bcr-clonotype-analysis.html#cb377-6"></a>TableOut=<span class="kw">cbind</span>(NSamples, NSamplesCt2, NSamplesCDR3comp, NSamplesCDR3compCt2)</span>
+<span id="cb377-7"><a href="bcr-clonotype-analysis.html#cb377-7"></a></span>
+<span id="cb377-8"><a href="bcr-clonotype-analysis.html#cb377-8"></a>matchidx=<span class="kw">match</span>(<span class="kw">rownames</span>(TableOut), infoTableFinal<span class="op">$</span>SampleID)</span>
+<span id="cb377-9"><a href="bcr-clonotype-analysis.html#cb377-9"></a>ColOut=<span class="kw">factor</span>(<span class="kw">paste</span>(infoTableFinal<span class="op">$</span>Fraction[matchidx], infoTableFinal<span class="op">$</span>Batch[matchidx]))</span>
+<span id="cb377-10"><a href="bcr-clonotype-analysis.html#cb377-10"></a><span class="co">#palette(c(&quot;#e5f5e0&quot;,&quot;#a1d99b&quot;, &quot;#31a354&quot;,  &quot;#fd8d3c&quot;,&quot;#fa9fb5&quot;, &quot;#f03b20&quot;, &quot;#005824&quot;))</span></span>
+<span id="cb377-11"><a href="bcr-clonotype-analysis.html#cb377-11"></a></span>
+<span id="cb377-12"><a href="bcr-clonotype-analysis.html#cb377-12"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/BCR_summary_QC_%s.pdf&quot;, Sys.Date()), height=5, width = 7)</span></span>
+<span id="cb377-13"><a href="bcr-clonotype-analysis.html#cb377-13"></a></span>
+<span id="cb377-14"><a href="bcr-clonotype-analysis.html#cb377-14"></a><span class="co"># plot the clonotype diversity, color-code according to both batch and the sample used</span></span>
+<span id="cb377-15"><a href="bcr-clonotype-analysis.html#cb377-15"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb377-16"><a href="bcr-clonotype-analysis.html#cb377-16"></a><span class="kw">barplot</span>(NSamplesCt2<span class="op">+</span><span class="dv">1</span>, <span class="dt">las=</span><span class="dv">2</span>,<span class="dt">log =</span><span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of BCR clonotypes&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Overview of clonotype diversity (2+ reads)&quot;</span>, <span class="dt">col=</span>ColOut, <span class="dt">cex.names =</span> <span class="fl">0.75</span>)</span>
+<span id="cb377-17"><a href="bcr-clonotype-analysis.html#cb377-17"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.03</span>),  <span class="dt">legend =</span> <span class="kw">levels</span>(ColOut),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>), <span class="dt">horiz =</span> T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-126-1.png" width="672" /></p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="bcr-clonotype-analysis.html#cb378-1"></a></span>
+<span id="cb378-2"><a href="bcr-clonotype-analysis.html#cb378-2"></a><span class="co"># plot the number of full vs partial clonotypes</span></span>
+<span id="cb378-3"><a href="bcr-clonotype-analysis.html#cb378-3"></a>PartialvsFull=<span class="kw">rbind</span>(NSamplesCDR3compCt2,NSamplesCt2<span class="op">-</span>NSamplesCDR3compCt2)</span>
+<span id="cb378-4"><a href="bcr-clonotype-analysis.html#cb378-4"></a><span class="kw">rownames</span>(PartialvsFull)=<span class="kw">c</span>(<span class="st">&quot;full&quot;</span>, <span class="st">&quot;partial&quot;</span>)</span>
+<span id="cb378-5"><a href="bcr-clonotype-analysis.html#cb378-5"></a></span>
+<span id="cb378-6"><a href="bcr-clonotype-analysis.html#cb378-6"></a></span>
+<span id="cb378-7"><a href="bcr-clonotype-analysis.html#cb378-7"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb378-8"><a href="bcr-clonotype-analysis.html#cb378-8"></a><span class="kw">barplot</span>(PartialvsFull<span class="op">+</span><span class="dv">1</span>, <span class="dt">las=</span><span class="dv">2</span>,<span class="dt">log =</span><span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of BCR clonotypes&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Proportion of full vs partial CDR3a&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>), <span class="dt">cex.names =</span> <span class="fl">0.75</span>)</span>
+<span id="cb378-9"><a href="bcr-clonotype-analysis.html#cb378-9"></a><span class="kw">legend</span>(<span class="st">&quot;bottom&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.5</span>),  <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;full&quot;</span>, <span class="st">&quot;partial&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>), <span class="dt">horiz =</span> T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-126-2.png" width="672" /></p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="bcr-clonotype-analysis.html#cb379-1"></a></span>
+<span id="cb379-2"><a href="bcr-clonotype-analysis.html#cb379-2"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb379-3"><a href="bcr-clonotype-analysis.html#cb379-3"></a><span class="kw">barplot</span>(<span class="kw">t</span>(TableOut[ <span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction[matchidx]<span class="op">==</span><span class="st">&quot;CD45&quot;</span>),]<span class="op">+</span><span class="dv">1</span>), <span class="dt">las=</span><span class="dv">2</span>,<span class="dt">log =</span><span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of BCR clonotypes&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Clonotype diversity CD45+ samples&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">cex.names =</span> <span class="fl">0.75</span>, <span class="dt">beside =</span> T)</span>
+<span id="cb379-4"><a href="bcr-clonotype-analysis.html#cb379-4"></a><span class="kw">legend</span>(<span class="st">&quot;bottom&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.5</span>),  <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;# clonotypes&quot;</span>, <span class="st">&quot;clonotypes &gt;2reads&quot;</span>, <span class="st">&quot;complete CDR3&quot;</span>, <span class="st">&quot;both&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">horiz =</span> T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-126-3.png" width="672" /></p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="bcr-clonotype-analysis.html#cb380-1"></a></span>
+<span id="cb380-2"><a href="bcr-clonotype-analysis.html#cb380-2"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb380-3"><a href="bcr-clonotype-analysis.html#cb380-3"></a><span class="kw">barplot</span>(NSamplesCDR3compCt2<span class="op">+</span><span class="dv">1</span>, <span class="dt">las=</span><span class="dv">2</span>,<span class="dt">log =</span><span class="st">&#39;y&#39;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of BCR clonotypes&quot;</span>, <span class="dt">main=</span><span class="st">&quot;Filtered Clonotypes based on batch&quot;</span>, <span class="dt">col=</span>ColOut, <span class="dt">cex.names =</span> <span class="fl">0.75</span>, <span class="dt">beside =</span> T)</span>
+<span id="cb380-4"><a href="bcr-clonotype-analysis.html#cb380-4"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.03</span>),  <span class="dt">legend =</span> <span class="kw">levels</span>(ColOut),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dt">horiz =</span> T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-126-4.png" width="672" /></p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="bcr-clonotype-analysis.html#cb381-1"></a></span>
+<span id="cb381-2"><a href="bcr-clonotype-analysis.html#cb381-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <p>We will refine the above plot to contain only the CD45 population and assess:</p>
 <ul>
 <li>number of clonotypes</li>
@@ -383,9 +496,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Note: although this does not look like a big drop, the data is plotted on a log-scale. For example, in the control 4 (first column) a quarter of the clonotypes have at least 2 counts and about half have a complete CDR3 sequence.</p>
 <p>For the following analyses, the clonotypes are filtered to <span style="color:red"> only clonotypes with at least 2 supporting reads and a complete VDJ read </span>. When applying this restriction, we have the following distribution of BCR regions. Almost all the epithelial cases do not have supporting reads, and few of the DN cases have supporting reads too.</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="bcr-clonotype-analysis.html#cb382-1"></a>RatTrustB=<span class="kw">lapply</span>(RatTrust, <span class="cf">function</span>(x) x[<span class="kw">which</span>(x<span class="op">$</span>CDR3aa<span class="op">!=</span><span class="st">&quot;partial&quot;</span> <span class="op">&amp;</span><span class="st"> </span>x<span class="op">$</span>X.count<span class="op">&gt;=</span><span class="dv">2</span>), ])</span>
+<span id="cb382-2"><a href="bcr-clonotype-analysis.html#cb382-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(RatTrustB)){</span>
+<span id="cb382-3"><a href="bcr-clonotype-analysis.html#cb382-3"></a>  RatTrustB[[i]]<span class="op">$</span>frequency=RatTrustB[[i]]<span class="op">$</span>X.count<span class="op">/</span><span class="kw">sum</span>(RatTrustB[[i]]<span class="op">$</span>X.count)</span>
+<span id="cb382-4"><a href="bcr-clonotype-analysis.html#cb382-4"></a>}</span></code></pre></div>
 </div>
 <div id="diversity-metrics" class="section level2">
-<h2><span class="header-section-number">13.3</span> Diversity metrics</h2>
+<h2><span class="header-section-number">18.3</span> Diversity metrics</h2>
 <p>We will assess BCR diversity using the following metrics:</p>
 <p>** Shannon index **</p>
 <p>The shannon index is computed by:</p>
@@ -401,18 +518,139 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>** Top Clonotypes **</p>
 <p>We will see the proportion of the BCR repertoire which is computed using the top 10 frequent clones.
 This will give an idea of whether there is a clonal expansion</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="bcr-clonotype-analysis.html#cb383-1"></a><span class="co"># compute values here</span></span>
+<span id="cb383-2"><a href="bcr-clonotype-analysis.html#cb383-2"></a>Div1=<span class="kw">sapply</span>(RatTrustB, <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">sum</span>(x<span class="op">$</span>frequency<span class="op">*</span><span class="kw">log</span>(x<span class="op">$</span>frequency), <span class="dt">na.rm=</span>T))</span>
+<span id="cb383-3"><a href="bcr-clonotype-analysis.html#cb383-3"></a>EDiv=<span class="kw">sapply</span>(NSamplesCDR3compCt2, <span class="cf">function</span>(x) <span class="op">-</span><span class="kw">log</span>(<span class="dv">1</span><span class="op">/</span>x))</span>
+<span id="cb383-4"><a href="bcr-clonotype-analysis.html#cb383-4"></a>NormDiv=Div1<span class="op">/</span>EDiv</span>
+<span id="cb383-5"><a href="bcr-clonotype-analysis.html#cb383-5"></a></span>
+<span id="cb383-6"><a href="bcr-clonotype-analysis.html#cb383-6"></a><span class="co">## Shannon index</span></span>
+<span id="cb383-7"><a href="bcr-clonotype-analysis.html#cb383-7"></a><span class="co"># bootstrap rslt</span></span>
+<span id="cb383-8"><a href="bcr-clonotype-analysis.html#cb383-8"></a>BSrslt=<span class="kw">sapply</span>(RatTrustB, <span class="cf">function</span>(x) <span class="kw">tryCatch</span>(<span class="kw">BootstrapShannonIdx</span>(x[ ,<span class="dv">1</span>], <span class="dv">1000</span>), <span class="dt">error=</span><span class="cf">function</span>(e) <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</span>
+<span id="cb383-9"><a href="bcr-clonotype-analysis.html#cb383-9"></a><span class="co"># divide the CI by the maximum possible diversity</span></span>
+<span id="cb383-10"><a href="bcr-clonotype-analysis.html#cb383-10"></a></span>
+<span id="cb383-11"><a href="bcr-clonotype-analysis.html#cb383-11"></a>BSCI=<span class="kw">t</span>(BSrslt)<span class="op">/</span>EDiv</span>
+<span id="cb383-12"><a href="bcr-clonotype-analysis.html#cb383-12"></a></span>
+<span id="cb383-13"><a href="bcr-clonotype-analysis.html#cb383-13"></a>df=<span class="kw">data.frame</span>(<span class="dt">sample=</span><span class="kw">rownames</span>(BSCI), <span class="dt">Val=</span>NormDiv, <span class="dt">Lower=</span>BSCI[ , <span class="dv">1</span>], <span class="dt">Upper=</span>BSCI[ ,<span class="dv">2</span> ], <span class="dt">Type=</span>infoTableFinal<span class="op">$</span>Fraction[matchidx], <span class="dt">Batch=</span>infoTableFinal<span class="op">$</span>Batch[matchidx])</span>
+<span id="cb383-14"><a href="bcr-clonotype-analysis.html#cb383-14"></a></span>
+<span id="cb383-15"><a href="bcr-clonotype-analysis.html#cb383-15"></a><span class="co">## Gini index</span></span>
+<span id="cb383-16"><a href="bcr-clonotype-analysis.html#cb383-16"></a></span>
+<span id="cb383-17"><a href="bcr-clonotype-analysis.html#cb383-17"></a>Gini=<span class="kw">sapply</span>(RatTrustB, <span class="cf">function</span>(x) <span class="kw">gini</span>(x<span class="op">$</span>frequency))</span>
+<span id="cb383-18"><a href="bcr-clonotype-analysis.html#cb383-18"></a></span>
+<span id="cb383-19"><a href="bcr-clonotype-analysis.html#cb383-19"></a>PGini=<span class="kw">sapply</span>(RatTrustB, <span class="cf">function</span>(x) <span class="kw">tryCatch</span>(<span class="kw">PermuteGini</span>(x<span class="op">$</span>X.count, <span class="dv">1000</span>), <span class="dt">error=</span><span class="cf">function</span>(e) <span class="kw">c</span>(<span class="ot">NA</span>, <span class="ot">NA</span>)))</span>
+<span id="cb383-20"><a href="bcr-clonotype-analysis.html#cb383-20"></a></span>
+<span id="cb383-21"><a href="bcr-clonotype-analysis.html#cb383-21"></a>df<span class="op">$</span>Calc=<span class="st">&quot;shannon&quot;</span></span>
+<span id="cb383-22"><a href="bcr-clonotype-analysis.html#cb383-22"></a></span>
+<span id="cb383-23"><a href="bcr-clonotype-analysis.html#cb383-23"></a>df2=<span class="kw">data.frame</span>(<span class="dt">sample=</span>df<span class="op">$</span>sample, <span class="dt">Val=</span>Gini, <span class="dt">Lower=</span>PGini[<span class="dv">1</span>, ], <span class="dt">Upper=</span>PGini[<span class="dv">2</span>, ], <span class="dt">Type=</span>df<span class="op">$</span>Type, <span class="dt">Batch=</span>df<span class="op">$</span>Batch,</span>
+<span id="cb383-24"><a href="bcr-clonotype-analysis.html#cb383-24"></a>               <span class="dt">Calc=</span><span class="st">&quot;Gini&quot;</span>)</span>
+<span id="cb383-25"><a href="bcr-clonotype-analysis.html#cb383-25"></a></span>
+<span id="cb383-26"><a href="bcr-clonotype-analysis.html#cb383-26"></a>dfAll=<span class="kw">rbind</span>(df, df2)</span>
+<span id="cb383-27"><a href="bcr-clonotype-analysis.html#cb383-27"></a></span>
+<span id="cb383-28"><a href="bcr-clonotype-analysis.html#cb383-28"></a><span class="co">## Top Clonotypes</span></span>
+<span id="cb383-29"><a href="bcr-clonotype-analysis.html#cb383-29"></a></span>
+<span id="cb383-30"><a href="bcr-clonotype-analysis.html#cb383-30"></a>TopClones=<span class="kw">sapply</span>(RatTrustB, <span class="cf">function</span>(x) <span class="kw">sum</span>(x<span class="op">$</span>frequency[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">na.rm =</span> T))</span>
+<span id="cb383-31"><a href="bcr-clonotype-analysis.html#cb383-31"></a>TopClones[<span class="kw">which</span>(NSamplesCDR3compCt2<span class="op">==</span><span class="dv">0</span>)]=<span class="dv">0</span></span>
+<span id="cb383-32"><a href="bcr-clonotype-analysis.html#cb383-32"></a>df2<span class="op">$</span>Val=TopClones</span>
+<span id="cb383-33"><a href="bcr-clonotype-analysis.html#cb383-33"></a>df2<span class="op">$</span>Calc=<span class="st">&quot;Top10&quot;</span></span>
+<span id="cb383-34"><a href="bcr-clonotype-analysis.html#cb383-34"></a>df2<span class="op">$</span>Lower=TopClones</span>
+<span id="cb383-35"><a href="bcr-clonotype-analysis.html#cb383-35"></a>df2<span class="op">$</span>Upper=TopClones</span>
+<span id="cb383-36"><a href="bcr-clonotype-analysis.html#cb383-36"></a></span>
+<span id="cb383-37"><a href="bcr-clonotype-analysis.html#cb383-37"></a>dfAll=<span class="kw">rbind</span>(dfAll, df2)</span>
+<span id="cb383-38"><a href="bcr-clonotype-analysis.html#cb383-38"></a></span>
+<span id="cb383-39"><a href="bcr-clonotype-analysis.html#cb383-39"></a>dfAll<span class="op">$</span>Batch=<span class="kw">as.character</span>(dfAll<span class="op">$</span>Batch)</span>
+<span id="cb383-40"><a href="bcr-clonotype-analysis.html#cb383-40"></a>dfAll<span class="op">$</span>Batch[<span class="kw">grep</span>(<span class="st">&quot;matchedNMU&quot;</span>, <span class="kw">rownames</span>(dfAll))]=<span class="st">&quot;match&quot;</span></span>
+<span id="cb383-41"><a href="bcr-clonotype-analysis.html#cb383-41"></a>dfAll<span class="op">$</span>Type[<span class="kw">grep</span>(<span class="st">&quot;matchedNMU&quot;</span>, <span class="kw">rownames</span>(dfAll))]=<span class="st">&quot;CD45&quot;</span></span>
+<span id="cb383-42"><a href="bcr-clonotype-analysis.html#cb383-42"></a><span class="co">#ggplot(df[df$Type==&quot;CD45&quot;, ], aes(x=sample, y=Val, fill=Type))+geom_bar(stat=&quot;identity&quot;)+facet_grid(~Batch, scales=&quot;free_x&quot;, space=&quot;free&quot;)+geom_errorbar( aes(ymin=Lower, ymax=Upper), width=.2)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(&quot;Shannon idx of BCR diversity&quot;)</span></span></code></pre></div>
 <p>The following plot demonstrates the relationship between the above metrics</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-166-1.png" width="672" /></p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="bcr-clonotype-analysis.html#cb384-1"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/summary_Scores_diversity_%s.pdf&quot;, Sys.Date()), width=7, height=5)</span></span>
+<span id="cb384-2"><a href="bcr-clonotype-analysis.html#cb384-2"></a></span>
+<span id="cb384-3"><a href="bcr-clonotype-analysis.html#cb384-3"></a><span class="kw">ggplot</span>(dfAll[dfAll<span class="op">$</span>Type<span class="op">==</span><span class="st">&quot;CD45&quot;</span>, ], <span class="kw">aes</span>(<span class="dt">x=</span>sample, <span class="dt">y=</span>Val, <span class="dt">fill=</span>Type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(Calc<span class="op">~</span>Batch, <span class="dt">scales=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">geom_errorbar</span>( <span class="kw">aes</span>(<span class="dt">ymin=</span>Lower, <span class="dt">ymax=</span>Upper), <span class="dt">width=</span>.<span class="dv">2</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;BCR diversity across samples&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;index value&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-129-1.png" width="672" /></p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="bcr-clonotype-analysis.html#cb385-1"></a></span>
+<span id="cb385-2"><a href="bcr-clonotype-analysis.html#cb385-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <p>Notice that some samples have very few clones. An example is 5RB which is represented by a single clonotype, accounting for the absence of a Gini or shannon index</p>
 </div>
 <div id="compare-the-characterisation-cohort" class="section level2">
-<h2><span class="header-section-number">13.4</span> Compare the characterisation cohort</h2>
-<p>In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.
-Is there a difference in the clonotypes between these samples?</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-2.png" width="672" /></p>
+<h2><span class="header-section-number">18.4</span> Compare the characterisation cohort</h2>
+<p>In the characterisation cohort, we have 3 cases which have CD45 samples in both the tumor and a matched NMU treated mammary gland.</p>
+<p>Is there a difference in the clonotypes between these samples?</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="bcr-clonotype-analysis.html#cb386-1"></a>CharTemp=dfAll[<span class="kw">which</span>(dfAll<span class="op">$</span>Type<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dfAll<span class="op">$</span>Batch<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;match&quot;</span>)), ]</span>
+<span id="cb386-2"><a href="bcr-clonotype-analysis.html#cb386-2"></a>CharTemp<span class="op">$</span>Batch[<span class="kw">grep</span>(<span class="st">&quot;Control&quot;</span>, CharTemp<span class="op">$</span>sample)]=<span class="st">&quot;Normal&quot;</span></span>
+<span id="cb386-3"><a href="bcr-clonotype-analysis.html#cb386-3"></a>Nclonotypes=TableOut[<span class="kw">which</span>(<span class="kw">rownames</span>(TableOut)<span class="op">%in%</span>CharTemp<span class="op">$</span>sample), ]</span>
+<span id="cb386-4"><a href="bcr-clonotype-analysis.html#cb386-4"></a>Nclonotypes2=<span class="kw">melt</span>(Nclonotypes)</span>
+<span id="cb386-5"><a href="bcr-clonotype-analysis.html#cb386-5"></a>Nclonotypes2<span class="op">$</span>Case=<span class="st">&quot;tumor&quot;</span></span>
+<span id="cb386-6"><a href="bcr-clonotype-analysis.html#cb386-6"></a>Nclonotypes2<span class="op">$</span>Case[<span class="kw">grep</span>(<span class="st">&quot;match&quot;</span>, Nclonotypes2<span class="op">$</span>Var1)]=<span class="st">&quot;mammary&quot;</span></span>
+<span id="cb386-7"><a href="bcr-clonotype-analysis.html#cb386-7"></a>Nclonotypes2<span class="op">$</span>Case[<span class="kw">grep</span>(<span class="st">&quot;Control&quot;</span>, Nclonotypes2<span class="op">$</span>Var1)]=<span class="st">&quot;control&quot;</span></span>
+<span id="cb386-8"><a href="bcr-clonotype-analysis.html#cb386-8"></a></span>
+<span id="cb386-9"><a href="bcr-clonotype-analysis.html#cb386-9"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/compare_mammary_vs_tumor_%s.pdf&quot;, Sys.Date()), width=8, height=6)</span></span>
+<span id="cb386-10"><a href="bcr-clonotype-analysis.html#cb386-10"></a>a1=<span class="kw">sapply</span>(<span class="kw">unique</span>(CharTemp<span class="op">$</span>Calc), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(CharTemp<span class="op">$</span>Val[CharTemp<span class="op">$</span>Calc<span class="op">==</span>x <span class="op">&amp;</span><span class="st"> </span>CharTemp<span class="op">$</span>Batch<span class="op">==</span><span class="dv">1</span>], CharTemp<span class="op">$</span>Val[CharTemp<span class="op">$</span>Calc<span class="op">==</span>x <span class="op">&amp;</span><span class="st"> </span>CharTemp<span class="op">$</span>Batch<span class="op">==</span><span class="st">&quot;match&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb386-11"><a href="bcr-clonotype-analysis.html#cb386-11"></a>p=<span class="kw">ggplot</span>(CharTemp, <span class="kw">aes</span>(<span class="dt">x=</span>Batch, <span class="dt">y=</span>Val))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Calc)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">sprintf</span>(<span class="st">&quot;wilcox pval: Gini %s, Shannon %s, Top10 = %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">2</span>],<span class="dv">2</span>), <span class="kw">round</span>(a1[<span class="dv">1</span>],<span class="dv">2</span>), <span class="kw">round</span>(a1[<span class="dv">3</span>],<span class="dv">2</span>)))<span class="op">+</span><span class="kw">geom_jitter</span>(<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">theme_bw</span>()</span>
+<span id="cb386-12"><a href="bcr-clonotype-analysis.html#cb386-12"></a><span class="kw">print</span>(p)</span></code></pre></div>
+<div class="figure"><span id="fig:2h"></span>
+<img src="RatDCIS-bookdown_files/figure-html/2h-1.png" alt="bcr clonotypes in tumor and normal mammary glands" width="672" />
+<p class="caption">
+Figure 18.1: bcr clonotypes in tumor and normal mammary glands
+</p>
 </div>
-<div id="associate-with-clinicopathological-data" class="section level2">
-<h2><span class="header-section-number">13.5</span> Associate with clinicopathological data</h2>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="bcr-clonotype-analysis.html#cb387-1"></a></span>
+<span id="cb387-2"><a href="bcr-clonotype-analysis.html#cb387-2"></a><span class="kw">write.csv</span>(CharTemp, <span class="dt">file=</span><span class="st">&quot;nature-tables/2h.csv&quot;</span>)</span></code></pre></div>
+<p>Next, we check whether this could be attributed to the total number of clones. Here is a plot which assesses whether these are similar or different</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="bcr-clonotype-analysis.html#cb388-1"></a></span>
+<span id="cb388-2"><a href="bcr-clonotype-analysis.html#cb388-2"></a>a1=<span class="kw">sapply</span>(<span class="kw">unique</span>(Nclonotypes2<span class="op">$</span>Var2), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(Nclonotypes2<span class="op">$</span>value[Nclonotypes2<span class="op">$</span>Var2<span class="op">==</span>x <span class="op">&amp;</span><span class="st"> </span>Nclonotypes2<span class="op">$</span>Case<span class="op">==</span><span class="st">&quot;tumor&quot;</span>], </span>
+<span id="cb388-3"><a href="bcr-clonotype-analysis.html#cb388-3"></a>                                                             Nclonotypes2<span class="op">$</span>value[Nclonotypes2<span class="op">$</span>Var2<span class="op">==</span>x <span class="op">&amp;</span><span class="st"> </span>Nclonotypes2<span class="op">$</span>Case<span class="op">==</span><span class="st">&quot;mammary&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb388-4"><a href="bcr-clonotype-analysis.html#cb388-4"></a></span>
+<span id="cb388-5"><a href="bcr-clonotype-analysis.html#cb388-5"></a>ann_text2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lab=</span><span class="kw">paste</span>(<span class="st">&quot;p=&quot;</span>, <span class="kw">round</span>(a1,<span class="dv">4</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="dt">Var2=</span><span class="kw">unique</span>(Nclonotypes2<span class="op">$</span>Var2), <span class="dt">Case=</span><span class="dv">1</span>, <span class="dt">value=</span><span class="dv">2</span>)</span>
+<span id="cb388-6"><a href="bcr-clonotype-analysis.html#cb388-6"></a>p=<span class="kw">ggplot</span>(Nclonotypes2, <span class="kw">aes</span>(<span class="dt">x=</span>Case, <span class="dt">y=</span>value))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Var2)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Nclonotype with different filters&quot;</span>)<span class="op">+</span><span class="kw">geom_jitter</span>(<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb388-7"><a href="bcr-clonotype-analysis.html#cb388-7"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="dt">data=</span>ann_text2, <span class="kw">aes</span>(<span class="dt">label=</span>lab))</span>
+<span id="cb388-8"><a href="bcr-clonotype-analysis.html#cb388-8"></a><span class="kw">print</span>(p)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/2h-nClones-1.png" width="672" /></p>
+<p>What about association with size?</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="bcr-clonotype-analysis.html#cb389-1"></a>CharTemp2=CharTemp[<span class="kw">which</span>(CharTemp<span class="op">$</span>Batch<span class="op">==</span><span class="st">&quot;1&quot;</span>), ]</span>
+<span id="cb389-2"><a href="bcr-clonotype-analysis.html#cb389-2"></a>midx=Cdata<span class="op">$</span>Tumor.diameter.sac.mm[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">as.character</span>(CharTemp2<span class="op">$</span>sample), <span class="dv">1</span>, <span class="kw">nchar</span>(<span class="kw">as.character</span>(CharTemp2<span class="op">$</span>sample))<span class="op">-</span><span class="dv">5</span>), Cdata<span class="op">$</span>TumorID)]</span>
+<span id="cb389-3"><a href="bcr-clonotype-analysis.html#cb389-3"></a>CharTemp2<span class="op">$</span>size=midx</span>
+<span id="cb389-4"><a href="bcr-clonotype-analysis.html#cb389-4"></a></span>
+<span id="cb389-5"><a href="bcr-clonotype-analysis.html#cb389-5"></a></span>
+<span id="cb389-6"><a href="bcr-clonotype-analysis.html#cb389-6"></a><span class="kw">ggplot</span>(CharTemp2, <span class="kw">aes</span>(<span class="dt">x=</span>size, <span class="dt">y=</span>Val))<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Calc)<span class="op">+</span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="figure"><span id="fig:Ext2e"></span>
+<img src="RatDCIS-bookdown_files/figure-html/Ext2e-1.png" alt="clonotype assoc with size" width="672" />
+<p class="caption">
+Figure 18.2: clonotype assoc with size
+</p>
+</div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="bcr-clonotype-analysis.html#cb390-1"></a></span>
+<span id="cb390-2"><a href="bcr-clonotype-analysis.html#cb390-2"></a><span class="kw">write.csv</span>(CharTemp2, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext2e.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="bcr-clonotype-analysis.html#cb391-1"></a>ProgTemp=dfAll[<span class="kw">which</span>(dfAll<span class="op">$</span>Type<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>dfAll<span class="op">$</span>sample<span class="op">%in%</span>infoTableFinal<span class="op">$</span>SampleID[<span class="kw">which</span>(infoTableFinal<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span>)]), ]</span>
+<span id="cb391-2"><a href="bcr-clonotype-analysis.html#cb391-2"></a>a1=<span class="kw">match</span>(ProgTemp<span class="op">$</span>sample, infoTable)</span>
+<span id="cb391-3"><a href="bcr-clonotype-analysis.html#cb391-3"></a>ProgTemp<span class="op">$</span>Growth=infoTableFinal<span class="op">$</span>Growth[a1]</span>
+<span id="cb391-4"><a href="bcr-clonotype-analysis.html#cb391-4"></a>ProgTemp<span class="op">$</span>NewID=infoTableFinal<span class="op">$</span>TumorIDnew[a1]</span>
+<span id="cb391-5"><a href="bcr-clonotype-analysis.html#cb391-5"></a>ProgTemp<span class="op">$</span>Treatment=infoTableFinal<span class="op">$</span>Treatment[a1]</span>
+<span id="cb391-6"><a href="bcr-clonotype-analysis.html#cb391-6"></a></span>
+<span id="cb391-7"><a href="bcr-clonotype-analysis.html#cb391-7"></a>Nclonotypes=TableOut[<span class="kw">which</span>(<span class="kw">rownames</span>(TableOut)<span class="op">%in%</span>ProgTemp<span class="op">$</span>sample), ]</span>
+<span id="cb391-8"><a href="bcr-clonotype-analysis.html#cb391-8"></a>Nclonotypes2=<span class="kw">melt</span>(Nclonotypes)</span>
+<span id="cb391-9"><a href="bcr-clonotype-analysis.html#cb391-9"></a><span class="co"># Nclonotypes2$Case=&quot;tumor&quot;</span></span>
+<span id="cb391-10"><a href="bcr-clonotype-analysis.html#cb391-10"></a><span class="co"># Nclonotypes2$Case[grep(&quot;match&quot;, Nclonotypes2$Var1)]=&quot;mammary&quot;</span></span>
+<span id="cb391-11"><a href="bcr-clonotype-analysis.html#cb391-11"></a><span class="co"># Nclonotypes2$Case[grep(&quot;Control&quot;, Nclonotypes2$Var1)]=&quot;control&quot;</span></span>
+<span id="cb391-12"><a href="bcr-clonotype-analysis.html#cb391-12"></a></span>
+<span id="cb391-13"><a href="bcr-clonotype-analysis.html#cb391-13"></a></span>
+<span id="cb391-14"><a href="bcr-clonotype-analysis.html#cb391-14"></a><span class="kw">head</span>(Nclonotypes2)</span>
+<span id="cb391-15"><a href="bcr-clonotype-analysis.html#cb391-15"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/compare_mammary_vs_tumor_%s.pdf&quot;, Sys.Date()), width=8, height=6)</span></span>
+<span id="cb391-16"><a href="bcr-clonotype-analysis.html#cb391-16"></a><span class="co">#a1=sapply(unique(ProgTemp$Calc), function(x) wilcox.test(ProgTemp$Val[ProgTemp$Calc==x &amp; ProgTemp$Batch==1], ProgTemp$Val[ProgTemp$Calc==x &amp; ProgTemp$Batch==&quot;match&quot;])$p.value)</span></span>
+<span id="cb391-17"><a href="bcr-clonotype-analysis.html#cb391-17"></a></span>
+<span id="cb391-18"><a href="bcr-clonotype-analysis.html#cb391-18"></a>p=<span class="kw">ggplot</span>(ProgTemp, <span class="kw">aes</span>(<span class="dt">x=</span>Growth, <span class="dt">y=</span>Val))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Calc)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">sprintf</span>(<span class="st">&quot;wilcox pval: Gini %s, Shannon %s, Top10 = %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">2</span>],<span class="dv">2</span>), <span class="kw">round</span>(a1[<span class="dv">1</span>],<span class="dv">2</span>), <span class="kw">round</span>(a1[<span class="dv">3</span>],<span class="dv">2</span>)))<span class="op">+</span><span class="kw">geom_jitter</span>(<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">theme_bw</span>()</span>
+<span id="cb391-19"><a href="bcr-clonotype-analysis.html#cb391-19"></a><span class="kw">print</span>(p)</span>
+<span id="cb391-20"><a href="bcr-clonotype-analysis.html#cb391-20"></a></span>
+<span id="cb391-21"><a href="bcr-clonotype-analysis.html#cb391-21"></a></span>
+<span id="cb391-22"><a href="bcr-clonotype-analysis.html#cb391-22"></a><span class="kw">write.csv</span>(ProgTemp, <span class="dt">file=</span><span class="st">&quot;nature-tables/4i_clonotypes.csv&quot;</span>)</span>
+<span id="cb391-23"><a href="bcr-clonotype-analysis.html#cb391-23"></a></span>
+<span id="cb391-24"><a href="bcr-clonotype-analysis.html#cb391-24"></a></span>
+<span id="cb391-25"><a href="bcr-clonotype-analysis.html#cb391-25"></a><span class="co"># a1=sapply(unique(Nclonotypes2$Var2), function(x) wilcox.test(Nclonotypes2$value[Nclonotypes2$Var2==x &amp; Nclonotypes2$Case==&quot;tumor&quot;], Nclonotypes2$value[Nclonotypes2$Var2==x &amp; Nclonotypes2$Case==&quot;mammary&quot;])$p.value)</span></span>
+<span id="cb391-26"><a href="bcr-clonotype-analysis.html#cb391-26"></a><span class="co"># </span></span>
+<span id="cb391-27"><a href="bcr-clonotype-analysis.html#cb391-27"></a><span class="co"># ann_text2 &lt;- data.frame(lab=paste(&quot;p=&quot;, round(a1,4),sep=&quot;&quot;), Var2=unique(Nclonotypes2$Var2), Case=1, value=2)</span></span>
+<span id="cb391-28"><a href="bcr-clonotype-analysis.html#cb391-28"></a><span class="co"># p=ggplot(Nclonotypes2, aes(x=Case, y=value))+geom_boxplot()+facet_grid(~Var2)+ggtitle(&quot;Nclonotype with different filters&quot;)+geom_jitter(col=&quot;grey&quot;)+theme_bw()+</span></span>
+<span id="cb391-29"><a href="bcr-clonotype-analysis.html#cb391-29"></a><span class="co">#   geom_text(data=ann_text2, aes(label=lab))</span></span>
+<span id="cb391-30"><a href="bcr-clonotype-analysis.html#cb391-30"></a><span class="co"># print(p)</span></span></code></pre></div>
+</div>
+<div id="associate-with-clinicopathological-data-progression" class="section level2">
+<h2><span class="header-section-number">18.5</span> Associate with clinicopathological data (progression)</h2>
 <p>We will associate the following metrics:</p>
 <ul>
 <li>total unique clones</li>
@@ -427,28 +665,262 @@ Is there a difference in the clonotypes between these samples?</p>
 <li>Growth</li>
 <li>Treatment</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-2.png" width="672" /></p>
-<pre><code>## &lt; table of extent 0 &gt;</code></pre>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="bcr-clonotype-analysis.html#cb392-1"></a>matchidx=<span class="kw">match</span>(<span class="kw">rownames</span>(TableOut), infoTableFinal<span class="op">$</span>SampleID)</span>
+<span id="cb392-2"><a href="bcr-clonotype-analysis.html#cb392-2"></a></span>
+<span id="cb392-3"><a href="bcr-clonotype-analysis.html#cb392-3"></a>TrustTab=infoTableFinal[matchidx, ]</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="bcr-clonotype-analysis.html#cb393-1"></a>TrustTab<span class="op">$</span>TrustNclonotypes=TableOut[<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, <span class="kw">rownames</span>(TableOut)) ,<span class="dv">2</span>]</span>
+<span id="cb393-2"><a href="bcr-clonotype-analysis.html#cb393-2"></a>TrustTab<span class="op">$</span>TrustShannon=dfAll<span class="op">$</span>Val[<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, dfAll<span class="op">$</span>sample) ]</span>
+<span id="cb393-3"><a href="bcr-clonotype-analysis.html#cb393-3"></a>TrustTab<span class="op">$</span>TrustTop10=df2<span class="op">$</span>Val[<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, df2<span class="op">$</span>sample)]</span>
+<span id="cb393-4"><a href="bcr-clonotype-analysis.html#cb393-4"></a>TrustTab<span class="op">$</span>TrustGini=dfAll<span class="op">$</span>Val[<span class="kw">which</span>(dfAll<span class="op">$</span>Calc<span class="op">==</span><span class="st">&quot;Gini&quot;</span>)[<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, dfAll<span class="op">$</span>sample)] ]</span>
+<span id="cb393-5"><a href="bcr-clonotype-analysis.html#cb393-5"></a>TrustTab<span class="op">$</span>CD45FACS=<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(Cdata<span class="op">$</span>CD45.Frac.FACS[<span class="kw">match</span>(TrustTab<span class="op">$</span>TumorID, Cdata<span class="op">$</span>TumorID)]))</span>
+<span id="cb393-6"><a href="bcr-clonotype-analysis.html#cb393-6"></a>TrustTab<span class="op">$</span>UnclassFrac=<span class="kw">as.numeric</span>(<span class="kw">as.character</span>(Cdata<span class="op">$</span>UnclassFraction[<span class="kw">match</span>(TrustTab<span class="op">$</span>TumorID, Cdata<span class="op">$</span>TumorID)]))</span>
+<span id="cb393-7"><a href="bcr-clonotype-analysis.html#cb393-7"></a>CD45F=<span class="kw">which</span>(TrustTab<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span>)</span>
+<span id="cb393-8"><a href="bcr-clonotype-analysis.html#cb393-8"></a><span class="co">#TrustTab=TrustTab[TrustTab$Fraction==&quot;CD45&quot;, ]</span></span>
+<span id="cb393-9"><a href="bcr-clonotype-analysis.html#cb393-9"></a></span>
+<span id="cb393-10"><a href="bcr-clonotype-analysis.html#cb393-10"></a>paramSearch=<span class="kw">c</span>(<span class="st">&quot;CD8Frac&quot;</span>, <span class="st">&quot;TumSize&quot;</span>, <span class="st">&quot;CD45FACS&quot;</span>, <span class="st">&quot;MHEpCAM&quot;</span>, <span class="st">&quot;MHSMA&quot;</span>, <span class="st">&quot;IFEpCAM&quot;</span>, <span class="st">&quot;IFSMA&quot;</span>, <span class="st">&quot;UnclassFrac&quot;</span>)</span>
+<span id="cb393-11"><a href="bcr-clonotype-analysis.html#cb393-11"></a>FeatTrust=<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>, <span class="st">&quot;TrustShannon&quot;</span>, <span class="st">&quot;TrustGini&quot;</span>, <span class="st">&quot;TrustTop10&quot;</span>)</span>
+<span id="cb393-12"><a href="bcr-clonotype-analysis.html#cb393-12"></a></span>
+<span id="cb393-13"><a href="bcr-clonotype-analysis.html#cb393-13"></a>Nclon=<span class="kw">sapply</span>(paramSearch, <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[CD45F ,x], TrustTab[ CD45F,<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>)], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb393-14"><a href="bcr-clonotype-analysis.html#cb393-14"></a>SDiv=<span class="kw">sapply</span>(paramSearch, <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[CD45F ,x], TrustTab[CD45F ,<span class="kw">c</span>(<span class="st">&quot;TrustShannon&quot;</span>)], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb393-15"><a href="bcr-clonotype-analysis.html#cb393-15"></a>GDiv=<span class="kw">sapply</span>(paramSearch, <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[ CD45F,x], TrustTab[CD45F ,<span class="kw">c</span>(<span class="st">&quot;TrustGini&quot;</span>)], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb393-16"><a href="bcr-clonotype-analysis.html#cb393-16"></a>TDiv=<span class="kw">sapply</span>(paramSearch, <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[CD45F ,x], TrustTab[CD45F ,<span class="kw">c</span>(<span class="st">&quot;TrustTop10&quot;</span>)], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb393-17"><a href="bcr-clonotype-analysis.html#cb393-17"></a></span>
+<span id="cb393-18"><a href="bcr-clonotype-analysis.html#cb393-18"></a>AllSmerge=<span class="kw">rbind</span>(Nclon, SDiv, GDiv, TDiv)</span>
+<span id="cb393-19"><a href="bcr-clonotype-analysis.html#cb393-19"></a></span>
+<span id="cb393-20"><a href="bcr-clonotype-analysis.html#cb393-20"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/association_trustmetrics_clinicopathological_%s.pdf&quot;, Sys.Date()), width=10, height=8)</span></span>
+<span id="cb393-21"><a href="bcr-clonotype-analysis.html#cb393-21"></a></span>
+<span id="cb393-22"><a href="bcr-clonotype-analysis.html#cb393-22"></a><span class="kw">heatmap.2</span>(AllSmerge, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="st">&quot;p values of associations&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-1"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-1.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.3: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="bcr-clonotype-analysis.html#cb394-1"></a></span>
+<span id="cb394-2"><a href="bcr-clonotype-analysis.html#cb394-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb394-3"><a href="bcr-clonotype-analysis.html#cb394-3"></a>idx=<span class="kw">which</span>(AllSmerge<span class="op">&lt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)</span>
+<span id="cb394-4"><a href="bcr-clonotype-analysis.html#cb394-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(idx)){</span>
+<span id="cb394-5"><a href="bcr-clonotype-analysis.html#cb394-5"></a>  a1=<span class="kw">cor.test</span>(TrustTab[CD45F , FeatTrust[idx[i, <span class="dv">1</span>]]]  ,TrustTab[CD45F , paramSearch[idx[i, <span class="dv">2</span>]]], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb394-6"><a href="bcr-clonotype-analysis.html#cb394-6"></a>  <span class="kw">plot</span>(TrustTab[CD45F , FeatTrust[idx[i, <span class="dv">1</span>]]]  ,TrustTab[CD45F , paramSearch[idx[i, <span class="dv">2</span>]]], <span class="dt">xlab=</span>FeatTrust[idx[i, <span class="dv">1</span>]], <span class="dt">ylab=</span>paramSearch[idx[i, <span class="dv">2</span>]],</span>
+<span id="cb394-7"><a href="bcr-clonotype-analysis.html#cb394-7"></a>       <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;cor:%s p:%s&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate,<span class="dv">2</span>), <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>)))</span>
+<span id="cb394-8"><a href="bcr-clonotype-analysis.html#cb394-8"></a>  <span class="kw">text</span>(TrustTab[CD45F , FeatTrust[idx[i, <span class="dv">1</span>]]]  ,TrustTab[CD45F , paramSearch[idx[i, <span class="dv">2</span>]]], <span class="kw">rownames</span>(TrustTab)[CD45F], <span class="dt">cex=</span><span class="fl">0.75</span>)</span>
+<span id="cb394-9"><a href="bcr-clonotype-analysis.html#cb394-9"></a>}</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-2"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-2.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.4: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="bcr-clonotype-analysis.html#cb395-1"></a></span>
+<span id="cb395-2"><a href="bcr-clonotype-analysis.html#cb395-2"></a><span class="co">#pdf(&quot;~/Desktop/4L-TRUST-rslt-associate-outcome-progression.pdf&quot;, height=8, width=8)</span></span>
+<span id="cb395-3"><a href="bcr-clonotype-analysis.html#cb395-3"></a></span>
+<span id="cb395-4"><a href="bcr-clonotype-analysis.html#cb395-4"></a>CD45F2=<span class="kw">which</span>(TrustTab<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>TrustTab<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span>)</span>
+<span id="cb395-5"><a href="bcr-clonotype-analysis.html#cb395-5"></a></span>
+<span id="cb395-6"><a href="bcr-clonotype-analysis.html#cb395-6"></a>yvals=<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>, <span class="st">&quot;TrustShannon&quot;</span>, <span class="st">&quot;TrustGini&quot;</span>, <span class="st">&quot;TrustTop10&quot;</span>)</span>
+<span id="cb395-7"><a href="bcr-clonotype-analysis.html#cb395-7"></a><span class="co">## associate with growth and treatment type</span></span>
+<span id="cb395-8"><a href="bcr-clonotype-analysis.html#cb395-8"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-3"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-3.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.5: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="bcr-clonotype-analysis.html#cb396-1"></a>CD45F2a=<span class="kw">which</span>(TrustTab<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>TrustTab<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb396-2"><a href="bcr-clonotype-analysis.html#cb396-2"></a><span class="st">                </span>TrustTab<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, <span class="st">&quot;PDL1&quot;</span>))</span>
+<span id="cb396-3"><a href="bcr-clonotype-analysis.html#cb396-3"></a>a1=<span class="kw">sapply</span>(yvals, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(TrustTab[CD45F2a ,x]<span class="op">~</span>TrustTab[CD45F2a, <span class="st">&quot;Treatment&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb396-4"><a href="bcr-clonotype-analysis.html#cb396-4"></a>CD45F2a=<span class="kw">which</span>(TrustTab<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>TrustTab<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb396-5"><a href="bcr-clonotype-analysis.html#cb396-5"></a><span class="st">                </span>TrustTab<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, <span class="st">&quot;LY&quot;</span>))</span>
+<span id="cb396-6"><a href="bcr-clonotype-analysis.html#cb396-6"></a>b1=<span class="kw">sapply</span>(yvals, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(TrustTab[CD45F2a ,x]<span class="op">~</span>TrustTab[CD45F2a, <span class="st">&quot;Treatment&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb396-7"><a href="bcr-clonotype-analysis.html#cb396-7"></a>CD45F2a=<span class="kw">which</span>(TrustTab<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>TrustTab<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span> <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb396-8"><a href="bcr-clonotype-analysis.html#cb396-8"></a><span class="st">                </span>TrustTab<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>))</span>
+<span id="cb396-9"><a href="bcr-clonotype-analysis.html#cb396-9"></a>c1=<span class="kw">sapply</span>(yvals, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(TrustTab[CD45F2a ,x]<span class="op">~</span>TrustTab[CD45F2a, <span class="st">&quot;Treatment&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb396-10"><a href="bcr-clonotype-analysis.html#cb396-10"></a></span>
+<span id="cb396-11"><a href="bcr-clonotype-analysis.html#cb396-11"></a></span>
+<span id="cb396-12"><a href="bcr-clonotype-analysis.html#cb396-12"></a>TrustTabmelt=<span class="kw">melt</span>(TrustTab[CD45F2, ], <span class="dt">measure.vars=</span><span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>, </span>
+<span id="cb396-13"><a href="bcr-clonotype-analysis.html#cb396-13"></a>                                                     <span class="st">&quot;TrustShannon&quot;</span>, <span class="st">&quot;TrustGini&quot;</span>))</span>
+<span id="cb396-14"><a href="bcr-clonotype-analysis.html#cb396-14"></a><span class="kw">head</span>(TrustTabmelt)</span>
+<span id="cb396-15"><a href="bcr-clonotype-analysis.html#cb396-15"></a><span class="co">##   starSampleName                                       FqFile Rat_ID Fraction</span></span>
+<span id="cb396-16"><a href="bcr-clonotype-analysis.html#cb396-16"></a><span class="co">## 1     CD45_10L_D 20190213_25_CGDA6432-2of3_S1_R1_001.fastq.gz    10L     CD45</span></span>
+<span id="cb396-17"><a href="bcr-clonotype-analysis.html#cb396-17"></a><span class="co">## 2    CD45_10R_BL 20190213_26_CGDA6432-2of3_S2_R1_001.fastq.gz    10R     CD45</span></span>
+<span id="cb396-18"><a href="bcr-clonotype-analysis.html#cb396-18"></a><span class="co">## 3     CD45_11N_D 20190213_27_CGDA6432-2of3_S3_R1_001.fastq.gz    11N     CD45</span></span>
+<span id="cb396-19"><a href="bcr-clonotype-analysis.html#cb396-19"></a><span class="co">## 4     CD45_11R_D 20190213_28_CGDA6432-2of3_S4_R1_001.fastq.gz    11R     CD45</span></span>
+<span id="cb396-20"><a href="bcr-clonotype-analysis.html#cb396-20"></a><span class="co">## 5     CD45_14N_B 20190213_30_CGDA6432-2of3_S5_R1_001.fastq.gz    14N     CD45</span></span>
+<span id="cb396-21"><a href="bcr-clonotype-analysis.html#cb396-21"></a><span class="co">## 6     CD45_14N_D 20190213_31_CGDA6432-2of3_S6_R1_001.fastq.gz    14N     CD45</span></span>
+<span id="cb396-22"><a href="bcr-clonotype-analysis.html#cb396-22"></a><span class="co">##   Batch Location      Cohort                                      TRUSTName</span></span>
+<span id="cb396-23"><a href="bcr-clonotype-analysis.html#cb396-23"></a><span class="co">## 1     2        D Progression 20190213_25_CGDA6432-2of3_S1_R1_001_report.tsv</span></span>
+<span id="cb396-24"><a href="bcr-clonotype-analysis.html#cb396-24"></a><span class="co">## 2     2       BL Progression 20190213_26_CGDA6432-2of3_S2_R1_001_report.tsv</span></span>
+<span id="cb396-25"><a href="bcr-clonotype-analysis.html#cb396-25"></a><span class="co">## 3     2        D Progression 20190213_27_CGDA6432-2of3_S3_R1_001_report.tsv</span></span>
+<span id="cb396-26"><a href="bcr-clonotype-analysis.html#cb396-26"></a><span class="co">## 4     2        D Progression 20190213_28_CGDA6432-2of3_S4_R1_001_report.tsv</span></span>
+<span id="cb396-27"><a href="bcr-clonotype-analysis.html#cb396-27"></a><span class="co">## 5     2        B Progression 20190213_30_CGDA6432-2of3_S5_R1_001_report.tsv</span></span>
+<span id="cb396-28"><a href="bcr-clonotype-analysis.html#cb396-28"></a><span class="co">## 6     2        D Progression 20190213_31_CGDA6432-2of3_S6_R1_001_report.tsv</span></span>
+<span id="cb396-29"><a href="bcr-clonotype-analysis.html#cb396-29"></a><span class="co">##   Treatment    SampleID TumorID  Growth SpatialManual    CD8Frac TumSize</span></span>
+<span id="cb396-30"><a href="bcr-clonotype-analysis.html#cb396-30"></a><span class="co">## 1      PDL1  10L_D_CD45   10L_D  stable  Infiltrating 0.06810877      10</span></span>
+<span id="cb396-31"><a href="bcr-clonotype-analysis.html#cb396-31"></a><span class="co">## 2      PDL1 10R_BL_CD45  10R_BL growing    restricted 0.02027148      40</span></span>
+<span id="cb396-32"><a href="bcr-clonotype-analysis.html#cb396-32"></a><span class="co">## 3      PDL1  11N_D_CD45   11N_D  stable  Infiltrating 0.38006717       3</span></span>
+<span id="cb396-33"><a href="bcr-clonotype-analysis.html#cb396-33"></a><span class="co">## 4      PDL1  11R_D_CD45   11R_D growing    restricted 0.02244524      25</span></span>
+<span id="cb396-34"><a href="bcr-clonotype-analysis.html#cb396-34"></a><span class="co">## 5   PDL1+LY  14N_B_CD45   14N_B growing    restricted 0.10615200      23</span></span>
+<span id="cb396-35"><a href="bcr-clonotype-analysis.html#cb396-35"></a><span class="co">## 6   PDL1+LY  14N_D_CD45   14N_D  stable          &lt;NA&gt;         NA       5</span></span>
+<span id="cb396-36"><a href="bcr-clonotype-analysis.html#cb396-36"></a><span class="co">##   Time.NMU2Sac Age.Injection IFEpAntstrRatio MHEpAntstrRatio GrowthRate</span></span>
+<span id="cb396-37"><a href="bcr-clonotype-analysis.html#cb396-37"></a><span class="co">## 1           79         32-36     0.416700736       0.9499329  1.9729730</span></span>
+<span id="cb396-38"><a href="bcr-clonotype-analysis.html#cb396-38"></a><span class="co">## 2           98         32-36     0.319648094       0.8754987  4.9761905</span></span>
+<span id="cb396-39"><a href="bcr-clonotype-analysis.html#cb396-39"></a><span class="co">## 3          127         32-36     0.005010206       0.8141016  0.1065574</span></span>
+<span id="cb396-40"><a href="bcr-clonotype-analysis.html#cb396-40"></a><span class="co">## 4          112         32-36     0.652759670       0.9303400  3.6428571</span></span>
+<span id="cb396-41"><a href="bcr-clonotype-analysis.html#cb396-41"></a><span class="co">## 5           79         32-36     1.447412008       0.9239682  3.3150685</span></span>
+<span id="cb396-42"><a href="bcr-clonotype-analysis.html#cb396-42"></a><span class="co">## 6           79         32-36              NA              NA  0.7621622</span></span>
+<span id="cb396-43"><a href="bcr-clonotype-analysis.html#cb396-43"></a><span class="co">##     MHEpCAM   IFEpCAM     MHSMA      IFSMA TumorIDnew knnEpCAM treatA MHcut</span></span>
+<span id="cb396-44"><a href="bcr-clonotype-analysis.html#cb396-44"></a><span class="co">## 1 0.6191886 0.2944373 0.7442853 0.14528823      P24T3 34.33110    imm   inf</span></span>
+<span id="cb396-45"><a href="bcr-clonotype-analysis.html#cb396-45"></a><span class="co">## 2 0.4376521 0.2213380 0.7448562 0.20100206      P26T1 44.92703    imm   inf</span></span>
+<span id="cb396-46"><a href="bcr-clonotype-analysis.html#cb396-46"></a><span class="co">## 3 0.6777854 0.4326199 0.7633779 0.12801387      P28T1 26.89773    imm   inf</span></span>
+<span id="cb396-47"><a href="bcr-clonotype-analysis.html#cb396-47"></a><span class="co">## 4 0.2646073 0.2323507 0.4526483 0.07717074      P29T2 73.82461    imm   res</span></span>
+<span id="cb396-48"><a href="bcr-clonotype-analysis.html#cb396-48"></a><span class="co">## 5 0.3688258 0.2540062 0.4970472 0.04933051      P31T1 49.22243    imm   inf</span></span>
+<span id="cb396-49"><a href="bcr-clonotype-analysis.html#cb396-49"></a><span class="co">## 6        NA        NA        NA         NA      P31T3       NA    imm  &lt;NA&gt;</span></span>
+<span id="cb396-50"><a href="bcr-clonotype-analysis.html#cb396-50"></a><span class="co">##   CD8FracCut SizeCat Name2 TrustTop10 CD45FACS UnclassFrac         variable</span></span>
+<span id="cb396-51"><a href="bcr-clonotype-analysis.html#cb396-51"></a><span class="co">## 1       high   small  10LD  0.7132988     49.8   0.1239434 TrustNclonotypes</span></span>
+<span id="cb396-52"><a href="bcr-clonotype-analysis.html#cb396-52"></a><span class="co">## 2        low     big 10RBL  1.0000000     14.5   0.2265650 TrustNclonotypes</span></span>
+<span id="cb396-53"><a href="bcr-clonotype-analysis.html#cb396-53"></a><span class="co">## 3       high   small  11ND  0.4119670     70.3   0.1642079 TrustNclonotypes</span></span>
+<span id="cb396-54"><a href="bcr-clonotype-analysis.html#cb396-54"></a><span class="co">## 4        low     big  11RD  0.4836957       NA   0.2807970 TrustNclonotypes</span></span>
+<span id="cb396-55"><a href="bcr-clonotype-analysis.html#cb396-55"></a><span class="co">## 5       high     big  14NB  0.0000000     19.6   0.2793663 TrustNclonotypes</span></span>
+<span id="cb396-56"><a href="bcr-clonotype-analysis.html#cb396-56"></a><span class="co">## 6       &lt;NA&gt;   small  14ND  1.0000000     25.3          NA TrustNclonotypes</span></span>
+<span id="cb396-57"><a href="bcr-clonotype-analysis.html#cb396-57"></a><span class="co">##   value</span></span>
+<span id="cb396-58"><a href="bcr-clonotype-analysis.html#cb396-58"></a><span class="co">## 1    36</span></span>
+<span id="cb396-59"><a href="bcr-clonotype-analysis.html#cb396-59"></a><span class="co">## 2     5</span></span>
+<span id="cb396-60"><a href="bcr-clonotype-analysis.html#cb396-60"></a><span class="co">## 3   102</span></span>
+<span id="cb396-61"><a href="bcr-clonotype-analysis.html#cb396-61"></a><span class="co">## 4    79</span></span>
+<span id="cb396-62"><a href="bcr-clonotype-analysis.html#cb396-62"></a><span class="co">## 5     2</span></span>
+<span id="cb396-63"><a href="bcr-clonotype-analysis.html#cb396-63"></a><span class="co">## 6    11</span></span>
+<span id="cb396-64"><a href="bcr-clonotype-analysis.html#cb396-64"></a></span>
+<span id="cb396-65"><a href="bcr-clonotype-analysis.html#cb396-65"></a><span class="co">#ggplot(TrustTab[CD45F2, ], aes(x=Treatment, y=value))</span></span>
+<span id="cb396-66"><a href="bcr-clonotype-analysis.html#cb396-66"></a></span>
+<span id="cb396-67"><a href="bcr-clonotype-analysis.html#cb396-67"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Treatment&quot;</span>], <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">1</span>],<span class="dv">2</span>), <span class="st">&quot;LY&quot;</span>, <span class="kw">round</span>(b1[<span class="dv">1</span>],<span class="dv">2</span>), <span class="st">&quot;PDL1+LY&quot;</span>, <span class="kw">round</span>(c1[<span class="dv">1</span>], <span class="dv">2</span>)), <span class="dt">xlab=</span><span class="st">&quot;treat&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;no clonotypes&quot;</span>,</span>
+<span id="cb396-68"><a href="bcr-clonotype-analysis.html#cb396-68"></a>        <span class="dt">col=</span>ColMerge[ ,<span class="dv">1</span>])</span>
+<span id="cb396-69"><a href="bcr-clonotype-analysis.html#cb396-69"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustShannon&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Treatment&quot;</span>], <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">2</span>],<span class="dv">2</span>), <span class="st">&quot;LY&quot;</span>, <span class="kw">round</span>(b1[<span class="dv">2</span>],<span class="dv">2</span>), <span class="st">&quot;PDL1+LY&quot;</span>, <span class="kw">round</span>(c1[<span class="dv">2</span>], <span class="dv">2</span>)), </span>
+<span id="cb396-70"><a href="bcr-clonotype-analysis.html#cb396-70"></a>        <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;shannon&quot;</span>,<span class="dt">col=</span>ColMerge[ ,<span class="dv">1</span>])</span>
+<span id="cb396-71"><a href="bcr-clonotype-analysis.html#cb396-71"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustGini&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Treatment&quot;</span>],<span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">3</span>],<span class="dv">2</span>), <span class="st">&quot;LY&quot;</span>, <span class="kw">round</span>(b1[<span class="dv">3</span>],<span class="dv">2</span>), <span class="st">&quot;PDL1+LY&quot;</span>, <span class="kw">round</span>(c1[<span class="dv">3</span>], <span class="dv">2</span>)),   <span class="dt">ylab=</span><span class="st">&quot;gini&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>,<span class="dt">col=</span>ColMerge[ ,<span class="dv">1</span>])</span>
+<span id="cb396-72"><a href="bcr-clonotype-analysis.html#cb396-72"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustTop10&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Treatment&quot;</span>], <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">4</span>],<span class="dv">2</span>), <span class="st">&quot;LY&quot;</span>, <span class="kw">round</span>(b1[<span class="dv">4</span>],<span class="dv">2</span>), <span class="st">&quot;PDL1+LY&quot;</span>, <span class="kw">round</span>(c1[<span class="dv">4</span>], <span class="dv">2</span>)),   <span class="dt">ylab=</span><span class="st">&quot;top10 clonotypes&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">col=</span>ColMerge[ ,<span class="dv">1</span>])</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-4"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-4.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.6: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="bcr-clonotype-analysis.html#cb397-1"></a></span>
+<span id="cb397-2"><a href="bcr-clonotype-analysis.html#cb397-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb397-3"><a href="bcr-clonotype-analysis.html#cb397-3"></a>a1=<span class="kw">sapply</span>(yvals, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(TrustTab[CD45F2 ,x]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Growth&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb397-4"><a href="bcr-clonotype-analysis.html#cb397-4"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Growth&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Growth: BCR # clonotypes %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">1</span>], <span class="dv">2</span>)), <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;no clonotypes&quot;</span>, <span class="dt">col=</span>ColSizeb)</span>
+<span id="cb397-5"><a href="bcr-clonotype-analysis.html#cb397-5"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustShannon&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Growth&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Growth: BCR # shan %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">2</span>], <span class="dv">2</span>)), <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;shannon&quot;</span>, <span class="dt">col=</span>ColSizeb)</span>
+<span id="cb397-6"><a href="bcr-clonotype-analysis.html#cb397-6"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustGini&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Growth&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Growth: Gini %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">3</span>], <span class="dv">2</span>)),</span>
+<span id="cb397-7"><a href="bcr-clonotype-analysis.html#cb397-7"></a>          <span class="dt">ylab=</span><span class="st">&quot;gini&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">col=</span>ColSizeb)</span>
+<span id="cb397-8"><a href="bcr-clonotype-analysis.html#cb397-8"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustTop10&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;Growth&quot;</span>],  <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Growth: Top10&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">4</span>], <span class="dv">2</span>)),</span>
+<span id="cb397-9"><a href="bcr-clonotype-analysis.html#cb397-9"></a>         <span class="dt">ylab=</span><span class="st">&quot;top10 clonotypes&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;growth&quot;</span>, <span class="dt">col=</span>ColSizeb)</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-5"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-5.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.7: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="bcr-clonotype-analysis.html#cb398-1"></a></span>
+<span id="cb398-2"><a href="bcr-clonotype-analysis.html#cb398-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb398-3"><a href="bcr-clonotype-analysis.html#cb398-3"></a>a1=<span class="kw">sapply</span>(yvals, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(TrustTab[CD45F2 ,x]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;SpatialManual&quot;</span>])<span class="op">$</span>p.value)</span>
+<span id="cb398-4"><a href="bcr-clonotype-analysis.html#cb398-4"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustNclonotypes&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;SpatialManual&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Spatial: BCR # clonotypes %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">1</span>], <span class="dv">2</span>)), <span class="dt">xlab=</span><span class="st">&quot;spatialMan&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;no clonotypes&quot;</span>)</span>
+<span id="cb398-5"><a href="bcr-clonotype-analysis.html#cb398-5"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustShannon&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;SpatialManual&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;SpatMan: BCR # shan %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">2</span>], <span class="dv">2</span>)), <span class="dt">xlab=</span><span class="st">&quot;spatialMan&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;shannon&quot;</span>)</span>
+<span id="cb398-6"><a href="bcr-clonotype-analysis.html#cb398-6"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustGini&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;SpatialManual&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;SpatMan: BCR # gini %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">3</span>], <span class="dv">2</span>)),   <span class="dt">ylab=</span><span class="st">&quot;gini&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;spatialMan&quot;</span>)</span>
+<span id="cb398-7"><a href="bcr-clonotype-analysis.html#cb398-7"></a><span class="kw">boxplot</span>(TrustTab[CD45F2 ,<span class="kw">c</span>(<span class="st">&quot;TrustTop10&quot;</span>)]<span class="op">~</span>TrustTab[CD45F2, <span class="st">&quot;SpatialManual&quot;</span>], <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;SpatMan: BCR # top 10  %s&quot;</span>, <span class="kw">round</span>(a1[<span class="dv">4</span>], <span class="dv">2</span>)),  <span class="dt">ylab=</span><span class="st">&quot;top10 clonotypes&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;spatialMan&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:trust-progression-6"></span>
+<img src="RatDCIS-bookdown_files/figure-html/trust-progression-6.png" alt="4i: trust result" width="672" />
+<p class="caption">
+Figure 18.8: 4i: trust result
+</p>
+</div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="bcr-clonotype-analysis.html#cb399-1"></a></span>
+<span id="cb399-2"><a href="bcr-clonotype-analysis.html#cb399-2"></a></span>
+<span id="cb399-3"><a href="bcr-clonotype-analysis.html#cb399-3"></a><span class="kw">write.csv</span>(TrustTab[CD45F2, ], <span class="dt">file=</span><span class="st">&quot;nature-tables/4i_trust.csv&quot;</span>)</span>
+<span id="cb399-4"><a href="bcr-clonotype-analysis.html#cb399-4"></a></span>
+<span id="cb399-5"><a href="bcr-clonotype-analysis.html#cb399-5"></a><span class="co">#par(mfrow=c(2,2))</span></span>
+<span id="cb399-6"><a href="bcr-clonotype-analysis.html#cb399-6"></a><span class="co">#TrustTab$MHEpCAMcut=ifelse(TrustTab$MHEpCAM&gt; median(unique(TrustTab$MHEpCAM)), &quot;high&quot;, &quot;low&quot;)</span></span>
+<span id="cb399-7"><a href="bcr-clonotype-analysis.html#cb399-7"></a><span class="co">#table(TrustTab$MHEpCAMcut)</span></span>
+<span id="cb399-8"><a href="bcr-clonotype-analysis.html#cb399-8"></a><span class="co"># a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, &quot;MHEpCAMcut&quot;])$p.value)</span></span>
+<span id="cb399-9"><a href="bcr-clonotype-analysis.html#cb399-9"></a><span class="co"># boxplot(TrustTab[CD45F2 ,c(&quot;TrustNclonotypes&quot;)]~TrustTab[CD45F2, &quot;MHEpCAMcut&quot;], main=sprintf(&quot;MHepcam: BCR # clonotypes %s&quot;, round(a1[1], 2)), xlab=&quot;MHepcam&quot;, ylab=&quot;no clonotypes&quot;)</span></span>
+<span id="cb399-10"><a href="bcr-clonotype-analysis.html#cb399-10"></a><span class="co"># boxplot(TrustTab[CD45F2 ,c(&quot;TrustShannon&quot;)]~TrustTab[CD45F2, &quot;MHEpCAMcut&quot;], main=sprintf(&quot;MHepcam: BCR # shan %s&quot;, round(a1[2], 2)), xlab=&quot;MHepcam&quot;, ylab=&quot;shannon&quot;)</span></span>
+<span id="cb399-11"><a href="bcr-clonotype-analysis.html#cb399-11"></a><span class="co"># boxplot(TrustTab[CD45F2 ,c(&quot;TrustGini&quot;)]~TrustTab[CD45F2, &quot;MHEpCAMcut&quot;], main=sprintf(&quot;MHepcam: BCR # gini %s&quot;, round(a1[3], 2)),   ylab=&quot;gini&quot;, xlab=&quot;spatialMan&quot;)</span></span>
+<span id="cb399-12"><a href="bcr-clonotype-analysis.html#cb399-12"></a><span class="co"># boxplot(TrustTab[CD45F2 ,c(&quot;TrustTop10&quot;)]~TrustTab[CD45F2, &quot;MHEpCAMcut&quot;], main=sprintf(&quot;MHepcam: BCR # top 10  %s&quot;, round(a1[4], 2)),  ylab=&quot;top10 clonotypes&quot;, xlab=&quot;MHepcam&quot;)</span></span>
+<span id="cb399-13"><a href="bcr-clonotype-analysis.html#cb399-13"></a></span>
+<span id="cb399-14"><a href="bcr-clonotype-analysis.html#cb399-14"></a><span class="co">#dev.off()</span></span></code></pre></div>
 </div>
 <div id="associate-with-signature-scores" class="section level2">
-<h2><span class="header-section-number">13.6</span> Associate with signature scores</h2>
+<h2><span class="header-section-number">18.6</span> Associate with signature scores</h2>
 <p>Compare to B cell counts and activation status based on RNA-seq</p>
 <ul>
 <li>B cell signature enrichments scores (from RNA data)</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-2.png" width="672" /></p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="bcr-clonotype-analysis.html#cb400-1"></a>bidx=<span class="kw">grep</span>(<span class="st">&quot;B cell&quot;</span>, output1<span class="op">$</span>cell_type)</span>
+<span id="cb400-2"><a href="bcr-clonotype-analysis.html#cb400-2"></a>idx2=<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, <span class="kw">colnames</span>(output1))</span>
+<span id="cb400-3"><a href="bcr-clonotype-analysis.html#cb400-3"></a></span>
+<span id="cb400-4"><a href="bcr-clonotype-analysis.html#cb400-4"></a>Bsig=output1[bidx, <span class="kw">na.omit</span>(idx2)]</span>
+<span id="cb400-5"><a href="bcr-clonotype-analysis.html#cb400-5"></a><span class="kw">rownames</span>(Bsig)=output1<span class="op">$</span>cell_type[bidx]</span>
+<span id="cb400-6"><a href="bcr-clonotype-analysis.html#cb400-6"></a></span>
+<span id="cb400-7"><a href="bcr-clonotype-analysis.html#cb400-7"></a></span>
+<span id="cb400-8"><a href="bcr-clonotype-analysis.html#cb400-8"></a>Bassoc=<span class="kw">sapply</span>(FeatTrust, <span class="cf">function</span>(y) <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Bsig), <span class="cf">function</span>(x) <span class="kw">cor</span>( <span class="kw">t</span>(Bsig[x, ]),(TrustTab[CD45F, y]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)))</span>
+<span id="cb400-9"><a href="bcr-clonotype-analysis.html#cb400-9"></a>Bassoc2=<span class="kw">sapply</span>(FeatTrust, <span class="cf">function</span>(y) <span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Bsig), <span class="cf">function</span>(x) <span class="kw">cor.test</span>( <span class="kw">t</span>(Bsig[x, ]),(TrustTab[CD45F, y]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>, <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)<span class="op">$</span>p.value))</span>
+<span id="cb400-10"><a href="bcr-clonotype-analysis.html#cb400-10"></a><span class="kw">rownames</span>(Bassoc)=<span class="kw">rownames</span>(Bsig)</span>
+<span id="cb400-11"><a href="bcr-clonotype-analysis.html#cb400-11"></a></span>
+<span id="cb400-12"><a href="bcr-clonotype-analysis.html#cb400-12"></a>BassocM=Bassoc</span>
+<span id="cb400-13"><a href="bcr-clonotype-analysis.html#cb400-13"></a>BassocM[<span class="kw">which</span>(Bassoc2<span class="op">&lt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb400-14"><a href="bcr-clonotype-analysis.html#cb400-14"></a></span>
+<span id="cb400-15"><a href="bcr-clonotype-analysis.html#cb400-15"></a></span>
+<span id="cb400-16"><a href="bcr-clonotype-analysis.html#cb400-16"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/association_Bcell_signatures_%s.pdf&quot;, Sys.Date()), width=7, height=6)</span></span>
+<span id="cb400-17"><a href="bcr-clonotype-analysis.html#cb400-17"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb400-18"><a href="bcr-clonotype-analysis.html#cb400-18"></a><span class="kw">heatmap.2</span>(Bassoc, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;correlation&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-132-1.png" width="672" /></p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="bcr-clonotype-analysis.html#cb401-1"></a><span class="kw">heatmap.2</span>(BassocM, <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">main=</span><span class="st">&quot;significant associations p&lt;0.1 only&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-132-2.png" width="672" /></p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="bcr-clonotype-analysis.html#cb402-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <ul>
 <li>B cell frequencies based on FACS:</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /></p>
-</div>
-<div id="check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations" class="section level2">
-<h2><span class="header-section-number">13.7</span> Check whether the clonotype percentages match with gsva signatures or CD20 populations</h2>
-<p>associate with immune signature scores (ssgsea)
-fdr adjust the correlation p values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-171-1.png" width="672" /></p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="bcr-clonotype-analysis.html#cb403-1"></a>lx1=<span class="kw">match</span>(<span class="kw">colnames</span>(Fdata), <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">unlist</span>(<span class="kw">strsplit</span>( <span class="kw">rownames</span>(TrustTab), <span class="st">&quot;_CD45&quot;</span>))))</span>
+<span id="cb403-2"><a href="bcr-clonotype-analysis.html#cb403-2"></a></span>
+<span id="cb403-3"><a href="bcr-clonotype-analysis.html#cb403-3"></a><span class="co">#pdf(sprintf(&quot;rslt/TRUST4/BCR_association_FACS_%s.pdf&quot;, Sys.Date()), width=8, height=8)</span></span>
+<span id="cb403-4"><a href="bcr-clonotype-analysis.html#cb403-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb403-5"><a href="bcr-clonotype-analysis.html#cb403-5"></a>a1=<span class="kw">cor.test</span>(<span class="kw">as.numeric</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ])), TrustTab<span class="op">$</span>TrustNclonotypes[lx1], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb403-6"><a href="bcr-clonotype-analysis.html#cb403-6"></a><span class="kw">plot</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustNclonotypes[lx1], <span class="dt">xlab=</span><span class="st">&quot;B cell FACS fraction&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;# clonotypes&quot;</span>, <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate, <span class="dv">2</span>), <span class="st">&quot; p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>) ,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb403-7"><a href="bcr-clonotype-analysis.html#cb403-7"></a><span class="kw">text</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustNclonotypes[lx1], TrustTab<span class="op">$</span>TumorID[lx1])</span>
+<span id="cb403-8"><a href="bcr-clonotype-analysis.html#cb403-8"></a>a1=<span class="kw">cor.test</span>(<span class="kw">as.numeric</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ])), TrustTab<span class="op">$</span>TrustShannon[lx1], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb403-9"><a href="bcr-clonotype-analysis.html#cb403-9"></a><span class="kw">plot</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustShannon[lx1], <span class="dt">xlab=</span><span class="st">&quot;B cell FACS fraction&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Shannon Index&quot;</span>,  <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate, <span class="dv">2</span>), <span class="st">&quot; p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb403-10"><a href="bcr-clonotype-analysis.html#cb403-10"></a><span class="kw">text</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustShannon[lx1], TrustTab<span class="op">$</span>TumorID[lx1])</span>
+<span id="cb403-11"><a href="bcr-clonotype-analysis.html#cb403-11"></a>a1=<span class="kw">cor.test</span>(<span class="kw">as.numeric</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ])), TrustTab<span class="op">$</span>TrustGini[lx1], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb403-12"><a href="bcr-clonotype-analysis.html#cb403-12"></a><span class="kw">plot</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustGini[lx1], <span class="dt">xlab=</span><span class="st">&quot;B cell FACS fraction&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Gini Index&quot;</span>,  <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate, <span class="dv">2</span>), <span class="st">&quot; p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb403-13"><a href="bcr-clonotype-analysis.html#cb403-13"></a><span class="kw">text</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustGini[lx1], TrustTab<span class="op">$</span>TumorID[lx1])</span>
+<span id="cb403-14"><a href="bcr-clonotype-analysis.html#cb403-14"></a>a1=<span class="kw">cor.test</span>(<span class="kw">as.numeric</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ])), TrustTab<span class="op">$</span>TrustTop10[lx1], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb403-15"><a href="bcr-clonotype-analysis.html#cb403-15"></a><span class="kw">plot</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustTop10[lx1], <span class="dt">xlab=</span><span class="st">&quot;B cell FACS fraction&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Top10&quot;</span>,  <span class="dt">main=</span><span class="kw">paste</span>(<span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate, <span class="dv">2</span>), <span class="st">&quot; p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>),<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb403-16"><a href="bcr-clonotype-analysis.html#cb403-16"></a><span class="kw">text</span>(<span class="kw">t</span>(Fdata[ <span class="dv">9</span>, ]), TrustTab<span class="op">$</span>TrustTop10[lx1], TrustTab<span class="op">$</span>TumorID[lx1])</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-133-1.png" width="672" /></p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="bcr-clonotype-analysis.html#cb404-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="bcr-clonotype-analysis.html#cb405-1"></a><span class="co">## Check whether the clonotype percentages match with gsva signatures or CD20 populations</span></span>
+<span id="cb405-2"><a href="bcr-clonotype-analysis.html#cb405-2"></a></span>
+<span id="cb405-3"><a href="bcr-clonotype-analysis.html#cb405-3"></a><span class="co">#</span></span>
+<span id="cb405-4"><a href="bcr-clonotype-analysis.html#cb405-4"></a><span class="co">#associate with immune signature scores (ssgsea)</span></span>
+<span id="cb405-5"><a href="bcr-clonotype-analysis.html#cb405-5"></a><span class="co">#fdr adjust the correlation p values</span></span>
+<span id="cb405-6"><a href="bcr-clonotype-analysis.html#cb405-6"></a></span>
+<span id="cb405-7"><a href="bcr-clonotype-analysis.html#cb405-7"></a></span>
+<span id="cb405-8"><a href="bcr-clonotype-analysis.html#cb405-8"></a><span class="co">#s1=dfAll[which(dfAll$Type==&quot;CD45&quot; &amp; dfAll$Calc==&quot;Gini&quot;), ]</span></span>
+<span id="cb405-9"><a href="bcr-clonotype-analysis.html#cb405-9"></a>x1=<span class="kw">match</span>(TrustTab<span class="op">$</span>SampleID, <span class="kw">colnames</span>(Imm_counts))</span>
+<span id="cb405-10"><a href="bcr-clonotype-analysis.html#cb405-10"></a>SGiniCor=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Imm_counts), <span class="cf">function</span>(x) <span class="kw">cor</span>(TrustTab[CD45F, <span class="st">&quot;TrustGini&quot;</span>], Imm_counts[ x, <span class="kw">na.omit</span>(x1) ], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb405-11"><a href="bcr-clonotype-analysis.html#cb405-11"></a>SGiniCorP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Imm_counts), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[CD45F, <span class="st">&quot;TrustGini&quot;</span>], Imm_counts[ x, <span class="kw">na.omit</span>(x1) ], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb405-12"><a href="bcr-clonotype-analysis.html#cb405-12"></a>SGiniCorPadj=<span class="kw">p.adjust</span>(SGiniCorP, <span class="st">&quot;fdr&quot;</span>)</span>
+<span id="cb405-13"><a href="bcr-clonotype-analysis.html#cb405-13"></a></span>
+<span id="cb405-14"><a href="bcr-clonotype-analysis.html#cb405-14"></a><span class="co">#s1=dfAll[which(dfAll$Type==&quot;CD45&quot; &amp; dfAll$Calc==&quot;shannon&quot;), ]</span></span>
+<span id="cb405-15"><a href="bcr-clonotype-analysis.html#cb405-15"></a><span class="co">#x1=match(s1$sample, infoTableFinal$SampleID)</span></span>
+<span id="cb405-16"><a href="bcr-clonotype-analysis.html#cb405-16"></a>SShanCor=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Imm_counts), <span class="cf">function</span>(x) <span class="kw">cor</span>(TrustTab[CD45F, <span class="st">&quot;TrustShannon&quot;</span>], Imm_counts[ x, <span class="kw">na.omit</span>(x1) ], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb405-17"><a href="bcr-clonotype-analysis.html#cb405-17"></a>SShanCorP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Imm_counts), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(TrustTab[CD45F, <span class="st">&quot;TrustShannon&quot;</span>], Imm_counts[ x, <span class="kw">na.omit</span>(x1) ], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb405-18"><a href="bcr-clonotype-analysis.html#cb405-18"></a>SShanCorPadj=<span class="kw">p.adjust</span>(SShanCorP, <span class="st">&quot;fdr&quot;</span>)</span>
+<span id="cb405-19"><a href="bcr-clonotype-analysis.html#cb405-19"></a></span>
+<span id="cb405-20"><a href="bcr-clonotype-analysis.html#cb405-20"></a>OutputCorrs=<span class="kw">rbind</span>(SGiniCor, SShanCor)</span>
+<span id="cb405-21"><a href="bcr-clonotype-analysis.html#cb405-21"></a><span class="kw">colnames</span>(OutputCorrs)=<span class="kw">rownames</span>(Imm_counts)</span>
+<span id="cb405-22"><a href="bcr-clonotype-analysis.html#cb405-22"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb405-23"><a href="bcr-clonotype-analysis.html#cb405-23"></a><span class="kw">barplot</span>(OutputCorrs, <span class="dt">beside=</span>T, <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">ylab=</span><span class="st">&quot;correlation coefficient&quot;</span>)</span>
+<span id="cb405-24"><a href="bcr-clonotype-analysis.html#cb405-24"></a><span class="kw">text</span>(<span class="kw">which</span>(SGiniCorPadj<span class="op">&lt;</span><span class="fl">0.1</span>)<span class="op">*</span><span class="dv">3</span><span class="fl">-1.5</span>, <span class="fl">0.3</span>, <span class="st">&quot;*&quot;</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb405-25"><a href="bcr-clonotype-analysis.html#cb405-25"></a><span class="kw">text</span>(<span class="kw">which</span>(SShanCorPadj<span class="op">&lt;</span><span class="fl">0.1</span>)<span class="op">*</span><span class="dv">3</span><span class="fl">+0.5</span>, <span class="fl">0.3</span>, <span class="st">&quot;*&quot;</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb405-26"><a href="bcr-clonotype-analysis.html#cb405-26"></a><span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;gini&quot;</span>, <span class="st">&quot;shannon&quot;</span>), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;grey35&quot;</span>, <span class="st">&quot;grey85&quot;</span>), <span class="dt">pch=</span><span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>))</span></code></pre></div>
 
 </div>
 </div>

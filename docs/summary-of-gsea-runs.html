@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 Summary of GSEA runs | Rat DCIS study</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 Summary of GSEA runs | Rat DCIS study" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 Summary of GSEA runs | Rat DCIS study" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2021-02-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="deseq-analysis-immunotherapygrowth-comparisons.html"/>
+<link rel="next" href="epcam-inflammatory-vs-non-inflammatory-samples.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+<script type="text/javascript">
+  
+  // toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+  
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+  
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Global") elem.value = "Show Global";
+  else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="prerequisites.html"><a href="prerequisites.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="prerequisites.html"><a href="prerequisites.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="prerequisites.html"><a href="prerequisites.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.5</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.5.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.5.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.5.2</b> Summary of the RNA data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="3.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>3.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="3.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>3.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="3.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>3.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="3.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>3.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="3.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>3.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="3.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>3.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome to treatment</a></li>
+<li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="4.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>4.2.2</b> Growth</a></li>
+<li class="chapter" data-level="4.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>4.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>4.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>4.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>4.3.2</b> Growth</a></li>
+<li class="chapter" data-level="4.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>4.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>4.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="4.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#other-cell-types"><i class="fa fa-check"></i><b>4.5</b> Other cell types</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>5</b> Expression data</a><ul>
+<li class="chapter" data-level="5.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>5.1</b> Running alignment</a></li>
+<li class="chapter" data-level="5.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>5.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="5.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>5.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>5.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>5.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>6</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
+<li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>7.5</b> Pearson correlation plots of samples</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>8</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#gene-list"><i class="fa fa-check"></i><b>9.1</b> Gene List</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#progression-cohort"><i class="fa fa-check"></i><b>9.2</b> Progression cohort</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#charcterisation-cohort"><i class="fa fa-check"></i><b>9.3</b> Charcterisation cohort</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples"><i class="fa fa-check"></i><b>9.4</b> DN samples</a></li>
+<li class="chapter" data-level="9.5" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#comparison-with-staining"><i class="fa fa-check"></i><b>9.5</b> Comparison with staining</a></li>
+<li class="chapter" data-level="9.6" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#summary-of-expression-markers-for-each-subtypecell-fraction"><i class="fa fa-check"></i><b>9.6</b> Summary of expression markers for each subtype/cell fraction</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="expression-in-specific-pathways.html"><a href="expression-in-specific-pathways.html"><i class="fa fa-check"></i><b>10</b> Expression in Specific pathways</a></li>
+<li class="chapter" data-level="11" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html"><i class="fa fa-check"></i><b>11</b> DESeq analysis: Immunotherapy/Growth comparisons</a><ul>
+<li class="chapter" data-level="11.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#summary-of-comparisons"><i class="fa fa-check"></i><b>11.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="11.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>11.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#epcam-samples"><i class="fa fa-check"></i><b>11.2.1</b> EPCAM samples</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>11.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#dn-fraction"><i class="fa fa-check"></i><b>11.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="11.3.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cd-fraction"><i class="fa fa-check"></i><b>11.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="11.3.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#ep-fraction"><i class="fa fa-check"></i><b>11.3.3</b> Ep Fraction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>12</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>12.1</b> Stable vs growing: all samples</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#barplots-of-enriched-pathways"><i class="fa fa-check"></i><b>12.1.1</b> barplots of enriched pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#comparisons-based-on-treatment"><i class="fa fa-check"></i><b>12.2</b> Comparisons based on treatment</a></li>
+<li class="chapter" data-level="12.3" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>12.3</b> Pathways of Interest 2</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>13</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#comparison-of-enriched-pathways-across-samples"><i class="fa fa-check"></i><b>13.1</b> Comparison of enriched pathways across samples</a></li>
+<li class="chapter" data-level="13.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deseq-comparison"><i class="fa fa-check"></i><b>13.2</b> DeSeq comparison</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#compare-inflammatory-vs-non-inflammatory"><i class="fa fa-check"></i><b>13.2.1</b> Compare inflammatory vs non-inflammatory</a></li>
+<li class="chapter" data-level="13.2.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#finding-a-signature-for-each-branch"><i class="fa fa-check"></i><b>13.2.2</b> Finding a signature for each branch</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#analyse-the-non-inflammatory-samples"><i class="fa fa-check"></i><b>13.3</b> Analyse the non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#non-inflammatory-branch-ep-only-samples"><i class="fa fa-check"></i><b>13.3.1</b> Non-inflammatory branch: Ep only samples</a></li>
+<li class="chapter" data-level="13.3.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea"><i class="fa fa-check"></i><b>13.3.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#same-analysis-with-only-luminal-samples"><i class="fa fa-check"></i><b>13.4</b> Same analysis with only luminal samples</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea-1"><i class="fa fa-check"></i><b>13.4.1</b> GSEA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>14</b> Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="14.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>14.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="14.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>14.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>14.2.1</b> TCGA: LumA high vs low signatures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>15</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="15.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>15.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>15.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>15.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="15.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>15.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>15.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>15.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-3"><i class="fa fa-check"></i><b>15.2.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>15.3</b> Check expression of checkpoint proteins</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>16</b> Signature analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>16.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>16.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="16.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>16.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="16.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>16.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="16.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>16.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>17</b> Immune estimation</a><ul>
+<li class="chapter" data-level="17.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>17.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="17.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>17.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="17.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>17.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="17.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>17.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="17.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>17.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>17.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="17.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>17.5.2</b> Association with Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>17.6</b> Summary of the outcome</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>18</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>18.1</b> Processing summary</a></li>
+<li class="chapter" data-level="18.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>18.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="18.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>18.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="18.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>18.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="18.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>18.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="18.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>18.6</b> Associate with signature scores</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>19</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="19.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>19.1</b> Data</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>19.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="19.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>19.1.2</b> Annotate the data with human common variants</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>19.2</b> Plots</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>19.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="19.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>19.2.2</b> Coding variants &amp; TMB</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>19.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>19.3.1</b> Sites which are commonly mutated?</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>19.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>19.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>19.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>20</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>20.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="20.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>20.2</b> Load files</a></li>
+<li class="chapter" data-level="20.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>20.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="20.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>20.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="20.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>20.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>21</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="21.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>21.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="21.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>21.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="21.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>21.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>21.4</b> Mutation load?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>22</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="22.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>22.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="22.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>22.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="22.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>22.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="22.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>22.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>23</b> Writing files to file</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1"><i class="fa fa-check"></i>Figure 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-somehting"><i class="fa fa-check"></i>Figure 4: Somehting</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-figures"><i class="fa fa-check"></i>Extended Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-1"><i class="fa fa-check"></i>Extended data 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-2"><i class="fa fa-check"></i>Extended data 2</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-3"><i class="fa fa-check"></i>Extended data 3</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-4"><i class="fa fa-check"></i>Extended data 4</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-5"><i class="fa fa-check"></i>Extended data 5</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="summary-of-gsea-runs" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> Summary of GSEA runs</h1>
+<div id="stable-vs-growing-all-samples" class="section level2">
+<h2><span class="header-section-number">12.1</span> Stable vs growing: all samples</h2>
+<p>Below is a summary of growing vs stable comparisons using Process Networks:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="summary-of-gsea-runs.html#cb249-1"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb249-2"><a href="summary-of-gsea-runs.html#cb249-2"></a>e1=Epismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb249-3"><a href="summary-of-gsea-runs.html#cb249-3"></a>c1=CDismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb249-4"><a href="summary-of-gsea-runs.html#cb249-4"></a><span class="co">#</span></span>
+<span id="cb249-5"><a href="summary-of-gsea-runs.html#cb249-5"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb249-6"><a href="summary-of-gsea-runs.html#cb249-6"></a>es=<span class="kw">which</span>(e1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb249-7"><a href="summary-of-gsea-runs.html#cb249-7"></a>cs=<span class="kw">which</span>(c1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb249-8"><a href="summary-of-gsea-runs.html#cb249-8"></a></span>
+<span id="cb249-9"><a href="summary-of-gsea-runs.html#cb249-9"></a>AUnique=<span class="kw">c</span>(<span class="kw">rownames</span>(d1)[ds], <span class="kw">rownames</span>(e1)[es], <span class="kw">rownames</span>(c1)[cs])</span>
+<span id="cb249-10"><a href="summary-of-gsea-runs.html#cb249-10"></a>xalist=<span class="kw">unique</span>(AUnique)</span>
+<span id="cb249-11"><a href="summary-of-gsea-runs.html#cb249-11"></a></span>
+<span id="cb249-12"><a href="summary-of-gsea-runs.html#cb249-12"></a>tx=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">1</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">1</span>]),</span>
+<span id="cb249-13"><a href="summary-of-gsea-runs.html#cb249-13"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">1</span>]))</span>
+<span id="cb249-14"><a href="summary-of-gsea-runs.html#cb249-14"></a>tx2=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">2</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">2</span>]),</span>
+<span id="cb249-15"><a href="summary-of-gsea-runs.html#cb249-15"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">2</span>]))</span>
+<span id="cb249-16"><a href="summary-of-gsea-runs.html#cb249-16"></a>tx[<span class="kw">which</span>(tx2<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb249-17"><a href="summary-of-gsea-runs.html#cb249-17"></a><span class="kw">rownames</span>(tx)=<span class="kw">substr</span>(xalist, <span class="dv">2</span>, <span class="dv">100</span>)</span>
+<span id="cb249-18"><a href="summary-of-gsea-runs.html#cb249-18"></a>txb=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(tx), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb249-19"><a href="summary-of-gsea-runs.html#cb249-19"></a>rCol=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(txb)]</span>
+<span id="cb249-20"><a href="summary-of-gsea-runs.html#cb249-20"></a><span class="kw">colnames</span>(tx)=<span class="kw">c</span>(<span class="st">&quot;DN&quot;</span>, <span class="st">&quot;Ep&quot;</span>, <span class="st">&quot;CD&quot;</span>)</span>
+<span id="cb249-21"><a href="summary-of-gsea-runs.html#cb249-21"></a></span>
+<span id="cb249-22"><a href="summary-of-gsea-runs.html#cb249-22"></a></span>
+<span id="cb249-23"><a href="summary-of-gsea-runs.html#cb249-23"></a><span class="co">#pdf(&quot;~/Desktop/5A-summary-pathways-process-networks.pdf&quot;, height=9, width=4)</span></span>
+<span id="cb249-24"><a href="summary-of-gsea-runs.html#cb249-24"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb249-25"><a href="summary-of-gsea-runs.html#cb249-25"></a>ax=<span class="kw">heatmap.2</span>(tx, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> rCol)</span></code></pre></div>
+<div class="figure"><span id="fig:5a-1"></span>
+<img src="RatDCIS-bookdown_files/figure-html/5a-1.png" alt="GSEA summary stable growing" width="672" />
+<p class="caption">
+Figure 12.1: GSEA summary stable growing
+</p>
+</div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="summary-of-gsea-runs.html#cb250-1"></a><span class="co">## re-order this?</span></span>
+<span id="cb250-2"><a href="summary-of-gsea-runs.html#cb250-2"></a>axb=ax<span class="op">$</span>carpet</span>
+<span id="cb250-3"><a href="summary-of-gsea-runs.html#cb250-3"></a>an2=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))]</span>
+<span id="cb250-4"><a href="summary-of-gsea-runs.html#cb250-4"></a><span class="kw">colnames</span>(axb)=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb250-5"><a href="summary-of-gsea-runs.html#cb250-5"></a>rOrd=<span class="kw">order</span>(an2)</span>
+<span id="cb250-6"><a href="summary-of-gsea-runs.html#cb250-6"></a></span>
+<span id="cb250-7"><a href="summary-of-gsea-runs.html#cb250-7"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb250-8"><a href="summary-of-gsea-runs.html#cb250-8"></a><span class="kw">heatmap.2</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> an2[rOrd],</span>
+<span id="cb250-9"><a href="summary-of-gsea-runs.html#cb250-9"></a>             <span class="dt">Rowv =</span> <span class="ot">NA</span>, <span class="dt">main=</span><span class="st">&quot;stable red, growing blue&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:5a-2"></span>
+<img src="RatDCIS-bookdown_files/figure-html/5a-2.png" alt="GSEA summary stable growing" width="672" />
+<p class="caption">
+Figure 12.2: GSEA summary stable growing
+</p>
+</div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="summary-of-gsea-runs.html#cb251-1"></a><span class="kw">dev.off</span>()</span>
+<span id="cb251-2"><a href="summary-of-gsea-runs.html#cb251-2"></a><span class="co">## null device </span></span>
+<span id="cb251-3"><a href="summary-of-gsea-runs.html#cb251-3"></a><span class="co">##           1</span></span>
+<span id="cb251-4"><a href="summary-of-gsea-runs.html#cb251-4"></a></span>
+<span id="cb251-5"><a href="summary-of-gsea-runs.html#cb251-5"></a></span>
+<span id="cb251-6"><a href="summary-of-gsea-runs.html#cb251-6"></a><span class="kw">write.csv</span>(tx, <span class="dt">file=</span><span class="st">&quot;nature-tables/5a.csv&quot;</span>)</span>
+<span id="cb251-7"><a href="summary-of-gsea-runs.html#cb251-7"></a><span class="kw">write.csv</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">file=</span><span class="st">&quot;nature-tables/5a_version2.csv&quot;</span>)</span></code></pre></div>
+<div id="barplots-of-enriched-pathways" class="section level3">
+<h3><span class="header-section-number">12.1.1</span> barplots of enriched pathways</h3>
+<p>Below are the bar-plots for the enriched pathways in CD45 cells:</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="summary-of-gsea-runs.html#cb252-1"></a>termA=c1[cs, ]</span>
+<span id="cb252-2"><a href="summary-of-gsea-runs.html#cb252-2"></a></span>
+<span id="cb252-3"><a href="summary-of-gsea-runs.html#cb252-3"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb252-4"><a href="summary-of-gsea-runs.html#cb252-4"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb252-5"><a href="summary-of-gsea-runs.html#cb252-5"></a></span>
+<span id="cb252-6"><a href="summary-of-gsea-runs.html#cb252-6"></a>sigTerms=TermsA</span>
+<span id="cb252-7"><a href="summary-of-gsea-runs.html#cb252-7"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
+<span id="cb252-8"><a href="summary-of-gsea-runs.html#cb252-8"></a></span>
+<span id="cb252-9"><a href="summary-of-gsea-runs.html#cb252-9"></a><span class="co">## check whether this runs:</span></span>
+<span id="cb252-10"><a href="summary-of-gsea-runs.html#cb252-10"></a></span>
+<span id="cb252-11"><a href="summary-of-gsea-runs.html#cb252-11"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Apoptosis&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb252-12"><a href="summary-of-gsea-runs.html#cb252-12"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Proliferation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb252-13"><a href="summary-of-gsea-runs.html#cb252-13"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Translation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb252-14"><a href="summary-of-gsea-runs.html#cb252-14"></a>testType=<span class="kw">c</span>(<span class="st">&quot;Inflammation&quot;</span>, <span class="st">&quot;Immune response&quot;</span>, <span class="st">&quot;Transcription&quot;</span>)</span>
+<span id="cb252-15"><a href="summary-of-gsea-runs.html#cb252-15"></a></span>
+<span id="cb252-16"><a href="summary-of-gsea-runs.html#cb252-16"></a><span class="co">#pdf(&quot;~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf&quot;, height=8, width=8)</span></span>
+<span id="cb252-17"><a href="summary-of-gsea-runs.html#cb252-17"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb252-18"><a href="summary-of-gsea-runs.html#cb252-18"></a><span class="cf">for</span> (i <span class="cf">in</span> testType){</span>
+<span id="cb252-19"><a href="summary-of-gsea-runs.html#cb252-19"></a>  <span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms[<span class="kw">which</span>(TermType<span class="op">==</span>i)], <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
+<span id="cb252-20"><a href="summary-of-gsea-runs.html#cb252-20"></a>          <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]))))</span>
+<span id="cb252-21"><a href="summary-of-gsea-runs.html#cb252-21"></a>}</span>
+<span id="cb252-22"><a href="summary-of-gsea-runs.html#cb252-22"></a></span>
+<span id="cb252-23"><a href="summary-of-gsea-runs.html#cb252-23"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
+<span id="cb252-24"><a href="summary-of-gsea-runs.html#cb252-24"></a></span>
+<span id="cb252-25"><a href="summary-of-gsea-runs.html#cb252-25"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/4h.csv&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:4h"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4h-1.png" alt="CD45 cells enriched pathways" width="672" />
+<p class="caption">
+Figure 12.3: CD45 cells enriched pathways
+</p>
+</div>
+</div>
+</div>
+<div id="comparisons-based-on-treatment" class="section level2">
+<h2><span class="header-section-number">12.2</span> Comparisons based on treatment</h2>
+<p>We can do the same analysis for the DN compartment, but for comparing treatment effect:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="summary-of-gsea-runs.html#cb253-1"></a></span>
+<span id="cb253-2"><a href="summary-of-gsea-runs.html#cb253-2"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;imm_vs_control NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb253-3"><a href="summary-of-gsea-runs.html#cb253-3"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb253-4"><a href="summary-of-gsea-runs.html#cb253-4"></a></span>
+<span id="cb253-5"><a href="summary-of-gsea-runs.html#cb253-5"></a>termA=d1[ds, ]</span>
+<span id="cb253-6"><a href="summary-of-gsea-runs.html#cb253-6"></a></span>
+<span id="cb253-7"><a href="summary-of-gsea-runs.html#cb253-7"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb253-8"><a href="summary-of-gsea-runs.html#cb253-8"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb253-9"><a href="summary-of-gsea-runs.html#cb253-9"></a></span>
+<span id="cb253-10"><a href="summary-of-gsea-runs.html#cb253-10"></a>sigTerms=TermsA</span>
+<span id="cb253-11"><a href="summary-of-gsea-runs.html#cb253-11"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
+<span id="cb253-12"><a href="summary-of-gsea-runs.html#cb253-12"></a></span>
+<span id="cb253-13"><a href="summary-of-gsea-runs.html#cb253-13"></a><span class="co">## check whether this runs:</span></span>
+<span id="cb253-14"><a href="summary-of-gsea-runs.html#cb253-14"></a></span>
+<span id="cb253-15"><a href="summary-of-gsea-runs.html#cb253-15"></a><span class="co"># TermType[which(TermType==&quot;Apoptosis&quot;)]=&quot;Transcription&quot;</span></span>
+<span id="cb253-16"><a href="summary-of-gsea-runs.html#cb253-16"></a><span class="co"># TermType[which(TermType==&quot;Proliferation&quot;)]=&quot;Transcription&quot;</span></span>
+<span id="cb253-17"><a href="summary-of-gsea-runs.html#cb253-17"></a><span class="co"># TermType[which(TermType==&quot;Translation&quot;)]=&quot;Transcription&quot;</span></span>
+<span id="cb253-18"><a href="summary-of-gsea-runs.html#cb253-18"></a><span class="co"># testType=c(&quot;Inflammation&quot;, &quot;Immune response&quot;, &quot;Transcription&quot;)</span></span>
+<span id="cb253-19"><a href="summary-of-gsea-runs.html#cb253-19"></a><span class="co"># </span></span>
+<span id="cb253-20"><a href="summary-of-gsea-runs.html#cb253-20"></a><span class="co"># #pdf(&quot;~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf&quot;, height=8, width=8)</span></span>
+<span id="cb253-21"><a href="summary-of-gsea-runs.html#cb253-21"></a><span class="co"># par(oma=c(2, 5, 0,0), mfrow=c(2,2))</span></span>
+<span id="cb253-22"><a href="summary-of-gsea-runs.html#cb253-22"></a><span class="co"># for (i in testType){</span></span>
+<span id="cb253-23"><a href="summary-of-gsea-runs.html#cb253-23"></a><span class="co">#   barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,</span></span>
+<span id="cb253-24"><a href="summary-of-gsea-runs.html#cb253-24"></a><span class="co">#           xlab=&quot;NES&quot;, main=testType, col=factor(sign(termA[which(TermType==i), 1])))</span></span>
+<span id="cb253-25"><a href="summary-of-gsea-runs.html#cb253-25"></a><span class="co"># }</span></span>
+<span id="cb253-26"><a href="summary-of-gsea-runs.html#cb253-26"></a></span>
+<span id="cb253-27"><a href="summary-of-gsea-runs.html#cb253-27"></a><span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms, <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
+<span id="cb253-28"><a href="summary-of-gsea-runs.html#cb253-28"></a>         <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]))))</span></code></pre></div>
+<div class="figure"><span id="fig:Ext3h"></span>
+<img src="RatDCIS-bookdown_files/figure-html/Ext3h-1.png" alt="DN assoc treatment GSEA" width="672" />
+<p class="caption">
+Figure 12.4: DN assoc treatment GSEA
+</p>
+</div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="summary-of-gsea-runs.html#cb254-1"></a></span>
+<span id="cb254-2"><a href="summary-of-gsea-runs.html#cb254-2"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
+<span id="cb254-3"><a href="summary-of-gsea-runs.html#cb254-3"></a></span>
+<span id="cb254-4"><a href="summary-of-gsea-runs.html#cb254-4"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext3h.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="pathways-of-interest-2" class="section level2">
+<h2><span class="header-section-number">12.3</span> Pathways of Interest 2</h2>
+<p>Focus on:</p>
+<ul>
+<li>JAK-STAT signalling</li>
+<li>interferon-gamma signalling</li>
+<li>IL-6 signalling</li>
+<li>BCR pathway</li>
+<li>TCR pathway</li>
+<li>antigen presentation</li>
+<li>KRAS signalling?</li>
+<li>T helper differentiation</li>
+</ul>
+<p>In DN samples:</p>
+<ul>
+<li>androgen receptor signalling?</li>
+<li>esr1 signalling?</li>
+<li>myc targets</li>
+<li>EMT</li>
+</ul>
+<p>Perform GSVA on these pathways</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="summary-of-gsea-runs.html#cb255-1"></a><span class="kw">load</span>(<span class="st">&quot;../anntotations/Metacore_extracted_Process_networks_nov2020.RData&quot;</span>)</span>
+<span id="cb255-2"><a href="summary-of-gsea-runs.html#cb255-2"></a></span>
+<span id="cb255-3"><a href="summary-of-gsea-runs.html#cb255-3"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(e1)[es], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb255-4"><a href="summary-of-gsea-runs.html#cb255-4"></a></span>
+<span id="cb255-5"><a href="summary-of-gsea-runs.html#cb255-5"></a>rNames2=SymHum2Rat<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(<span class="kw">rownames</span>(allTPMFinal), SymHum2Rat<span class="op">$</span>RGD.symbol)]</span>
+<span id="cb255-6"><a href="summary-of-gsea-runs.html#cb255-6"></a>rNames2[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))]=<span class="kw">toupper</span>(<span class="kw">rownames</span>(allTPMFinal)[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))])</span>
+<span id="cb255-7"><a href="summary-of-gsea-runs.html#cb255-7"></a></span>
+<span id="cb255-8"><a href="summary-of-gsea-runs.html#cb255-8"></a></span>
+<span id="cb255-9"><a href="summary-of-gsea-runs.html#cb255-9"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstEp<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb255-10"><a href="summary-of-gsea-runs.html#cb255-10"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb255-11"><a href="summary-of-gsea-runs.html#cb255-11"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb255-12"><a href="summary-of-gsea-runs.html#cb255-12"></a></span>
+<span id="cb255-13"><a href="summary-of-gsea-runs.html#cb255-13"></a></span>
+<span id="cb255-14"><a href="summary-of-gsea-runs.html#cb255-14"></a>gsva1=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb255-15"><a href="summary-of-gsea-runs.html#cb255-15"></a></span>
+<span id="cb255-16"><a href="summary-of-gsea-runs.html#cb255-16"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva1), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva1[x, ]))</span>
+<span id="cb255-17"><a href="summary-of-gsea-runs.html#cb255-17"></a>a1=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb255-18"><a href="summary-of-gsea-runs.html#cb255-18"></a></span>
+<span id="cb255-19"><a href="summary-of-gsea-runs.html#cb255-19"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(d1)[ds], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb255-20"><a href="summary-of-gsea-runs.html#cb255-20"></a></span>
+<span id="cb255-21"><a href="summary-of-gsea-runs.html#cb255-21"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstDN<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb255-22"><a href="summary-of-gsea-runs.html#cb255-22"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb255-23"><a href="summary-of-gsea-runs.html#cb255-23"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb255-24"><a href="summary-of-gsea-runs.html#cb255-24"></a></span>
+<span id="cb255-25"><a href="summary-of-gsea-runs.html#cb255-25"></a>gsva2=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb255-26"><a href="summary-of-gsea-runs.html#cb255-26"></a></span>
+<span id="cb255-27"><a href="summary-of-gsea-runs.html#cb255-27"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva2), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva2[x, ]))</span>
+<span id="cb255-28"><a href="summary-of-gsea-runs.html#cb255-28"></a>a2=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb255-29"><a href="summary-of-gsea-runs.html#cb255-29"></a></span>
+<span id="cb255-30"><a href="summary-of-gsea-runs.html#cb255-30"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(c1)[cs], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb255-31"><a href="summary-of-gsea-runs.html#cb255-31"></a></span>
+<span id="cb255-32"><a href="summary-of-gsea-runs.html#cb255-32"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstCD<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb255-33"><a href="summary-of-gsea-runs.html#cb255-33"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb255-34"><a href="summary-of-gsea-runs.html#cb255-34"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb255-35"><a href="summary-of-gsea-runs.html#cb255-35"></a></span>
+<span id="cb255-36"><a href="summary-of-gsea-runs.html#cb255-36"></a>gsva3=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb255-37"><a href="summary-of-gsea-runs.html#cb255-37"></a></span>
+<span id="cb255-38"><a href="summary-of-gsea-runs.html#cb255-38"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva3), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva3[x, ]))</span>
+<span id="cb255-39"><a href="summary-of-gsea-runs.html#cb255-39"></a>a3=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb255-40"><a href="summary-of-gsea-runs.html#cb255-40"></a></span>
+<span id="cb255-41"><a href="summary-of-gsea-runs.html#cb255-41"></a><span class="co">#pdf(&quot;~/Desktop/5B-ssgsea-scores.pdf&quot;, height=5, width=5)</span></span>
+<span id="cb255-42"><a href="summary-of-gsea-runs.html#cb255-42"></a></span>
+<span id="cb255-43"><a href="summary-of-gsea-runs.html#cb255-43"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb255-44"><a href="summary-of-gsea-runs.html#cb255-44"></a><span class="kw">heatmap.2</span>(gsva1[a1, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstEp<span class="op">$</span>Growth],</span>
+<span id="cb255-45"><a href="summary-of-gsea-runs.html#cb255-45"></a>          <span class="dt">main=</span><span class="st">&quot;Ep&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-1.png" width="672" /></p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="summary-of-gsea-runs.html#cb256-1"></a></span>
+<span id="cb256-2"><a href="summary-of-gsea-runs.html#cb256-2"></a><span class="kw">heatmap.2</span>(gsva2[a2, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstDN<span class="op">$</span>Growth],</span>
+<span id="cb256-3"><a href="summary-of-gsea-runs.html#cb256-3"></a>          <span class="dt">main=</span><span class="st">&quot;DN&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-2.png" width="672" /></p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="summary-of-gsea-runs.html#cb257-1"></a></span>
+<span id="cb257-2"><a href="summary-of-gsea-runs.html#cb257-2"></a><span class="kw">heatmap.2</span>(gsva3[a3, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstCD<span class="op">$</span>Growth],</span>
+<span id="cb257-3"><a href="summary-of-gsea-runs.html#cb257-3"></a>          <span class="dt">main=</span><span class="st">&quot;CD&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-100-3.png" width="672" /></p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="summary-of-gsea-runs.html#cb258-1"></a></span>
+<span id="cb258-2"><a href="summary-of-gsea-runs.html#cb258-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="deseq-analysis-immunotherapygrowth-comparisons.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="epcam-inflammatory-vs-non-inflammatory-samples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

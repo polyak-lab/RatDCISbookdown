@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 12 Immune estimation | Rat DCIS study</title>
+  <title>Chapter 17 Immune estimation | Rat DCIS study</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 12 Immune estimation | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 17 Immune estimation | Rat DCIS study" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 12 Immune estimation | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 17 Immune estimation | Rat DCIS study" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2020-12-30" />
+<meta name="date" content="2021-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,6 +61,30 @@
 <script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
 <script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
 <script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+<script type="text/javascript">
+  
+  // toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+  
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+  
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Global") elem.value = "Show Global";
+  else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
 
 
 <style type="text/css">
@@ -144,22 +168,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Rat prevention study</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
-<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="prerequisites.html"><a href="prerequisites.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="prerequisites.html"><a href="prerequisites.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="prerequisites.html"><a href="prerequisites.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
 <li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
 <li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.3</b> FACS data</a></li>
-<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.4</b> Summary Table</a><ul>
-<li class="chapter" data-level="2.4.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.4.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="2.4.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.4.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.5</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.5.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.5.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.5.2</b> Summary of the RNA data</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
@@ -172,10 +198,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
 <li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification-treatment-growth"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification, treatment, growth</a></li>
-<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome</a></li>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome to treatment</a></li>
 <li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
-<li class="chapter" data-level="4.1.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#association-between-distance-and-content"><i class="fa fa-check"></i><b>4.1.4</b> Association between distance and content</a></li>
 </ul></li>
 <li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
@@ -202,130 +227,155 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
 <li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="deseq-analysis.html"><a href="deseq-analysis.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="7.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
-<li class="chapter" data-level="7.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
-<li class="chapter" data-level="7.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#set-up-cell-type-specifoc-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specifoc the comparisons</a></li>
-<li class="chapter" data-level="7.4" data-path="deseq-analysis.html"><a href="deseq-analysis.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
-<li class="chapter" data-level="7.4.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
-<li class="chapter" data-level="7.4.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
-<li class="chapter" data-level="7.4.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
 </ul></li>
-<li class="chapter" data-level="7.5" data-path="deseq-analysis.html"><a href="deseq-analysis.html#collating-results-and-running-gsea"><i class="fa fa-check"></i><b>7.5</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>7.5</b> Pearson correlation plots of samples</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html"><i class="fa fa-check"></i><b>8</b> DESeq analysis</a><ul>
-<li class="chapter" data-level="8.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comparisons"><i class="fa fa-check"></i><b>8.1</b> Summary of comparisons</a></li>
-<li class="chapter" data-level="8.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#summary-of-comaprisons"><i class="fa fa-check"></i><b>8.2</b> Summary of comaprisons</a><ul>
-<li class="chapter" data-level="8.2.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#epcam-samples"><i class="fa fa-check"></i><b>8.2.1</b> EPCAM samples</a></li>
-<li class="chapter" data-level="8.2.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd45-comparisons"><i class="fa fa-check"></i><b>8.2.2</b> CD45 comparisons</a></li>
-<li class="chapter" data-level="8.2.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-samples"><i class="fa fa-check"></i><b>8.2.3</b> DN samples</a></li>
+<li class="chapter" data-level="8" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>8</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="9" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>9</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="9.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#gene-list"><i class="fa fa-check"></i><b>9.1</b> Gene List</a></li>
+<li class="chapter" data-level="9.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#progression-cohort"><i class="fa fa-check"></i><b>9.2</b> Progression cohort</a></li>
+<li class="chapter" data-level="9.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#charcterisation-cohort"><i class="fa fa-check"></i><b>9.3</b> Charcterisation cohort</a></li>
+<li class="chapter" data-level="9.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples"><i class="fa fa-check"></i><b>9.4</b> DN samples</a></li>
+<li class="chapter" data-level="9.5" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#comparison-with-staining"><i class="fa fa-check"></i><b>9.5</b> Comparison with staining</a></li>
+<li class="chapter" data-level="9.6" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#summary-of-expression-markers-for-each-subtypecell-fraction"><i class="fa fa-check"></i><b>9.6</b> Summary of expression markers for each subtype/cell fraction</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>8.3</b> Growing vs stable emphasis</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#dn-fraction"><i class="fa fa-check"></i><b>8.3.1</b> DN fraction</a></li>
-<li class="chapter" data-level="8.3.2" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#cd-fraction"><i class="fa fa-check"></i><b>8.3.2</b> CD fraction</a></li>
-<li class="chapter" data-level="8.3.3" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#ep-fraction"><i class="fa fa-check"></i><b>8.3.3</b> Ep Fraction</a></li>
-<li class="chapter" data-level="8.3.4" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>8.3.4</b> Pathways of Interest 2</a></li>
-<li class="chapter" data-level="8.3.5" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#inflammatory-vs-non-inflammatory-samples"><i class="fa fa-check"></i><b>8.3.5</b> Inflammatory vs non-inflammatory samples</a></li>
-<li class="chapter" data-level="8.3.6" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#samples-with-matching-cases"><i class="fa fa-check"></i><b>8.3.6</b> Samples with matching cases</a></li>
-<li class="chapter" data-level="8.3.7" data-path="deseq-analysis-1.html"><a href="deseq-analysis-1.html#specific-pathways"><i class="fa fa-check"></i><b>8.3.7</b> Specific pathways</a></li>
+<li class="chapter" data-level="10" data-path="expression-in-specific-pathways.html"><a href="expression-in-specific-pathways.html"><i class="fa fa-check"></i><b>10</b> Expression in Specific pathways</a></li>
+<li class="chapter" data-level="11" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html"><i class="fa fa-check"></i><b>11</b> DESeq analysis: Immunotherapy/Growth comparisons</a><ul>
+<li class="chapter" data-level="11.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#summary-of-comparisons"><i class="fa fa-check"></i><b>11.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="11.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>11.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#epcam-samples"><i class="fa fa-check"></i><b>11.2.1</b> EPCAM samples</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
-<li class="chapter" data-level="9.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>9.1</b> CD45 samples</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>9.1.1</b> PCA plot</a></li>
-<li class="chapter" data-level="9.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>9.1.2</b> Differential Gene Expression</a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>9.2</b> Epithelial samples</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>9.2.1</b> PCA plot</a></li>
-<li class="chapter" data-level="9.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea"><i class="fa fa-check"></i><b>9.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="11.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>11.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#dn-fraction"><i class="fa fa-check"></i><b>11.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="11.3.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cd-fraction"><i class="fa fa-check"></i><b>11.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="11.3.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#ep-fraction"><i class="fa fa-check"></i><b>11.3.3</b> Ep Fraction</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
-<li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#in-house-classifier"><i class="fa fa-check"></i><b>10.1</b> In-house classifier</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples-2"><i class="fa fa-check"></i><b>10.1.1</b> DN samples?</a></li>
+<li class="chapter" data-level="12" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>12</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="12.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>12.1</b> Stable vs growing: all samples</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#barplots-of-enriched-pathways"><i class="fa fa-check"></i><b>12.1.1</b> barplots of enriched pathways</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#pam50-parker-scoring"><i class="fa fa-check"></i><b>10.2</b> PAM50 (Parker) scoring</a></li>
-<li class="chapter" data-level="10.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#clustering-based-on-random-genes"><i class="fa fa-check"></i><b>10.3</b> Clustering based on random genes</a></li>
-<li class="chapter" data-level="10.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#consolidating-the-different-results"><i class="fa fa-check"></i><b>10.4</b> Consolidating the different results</a></li>
+<li class="chapter" data-level="12.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#comparisons-based-on-treatment"><i class="fa fa-check"></i><b>12.2</b> Comparisons based on treatment</a></li>
+<li class="chapter" data-level="12.3" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>12.3</b> Pathways of Interest 2</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>11</b> Signature analysis</a><ul>
-<li class="chapter" data-level="11.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>11.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="11.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>11.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="11.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>11.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="11.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>11.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="13" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>13</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#comparison-of-enriched-pathways-across-samples"><i class="fa fa-check"></i><b>13.1</b> Comparison of enriched pathways across samples</a></li>
+<li class="chapter" data-level="13.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deseq-comparison"><i class="fa fa-check"></i><b>13.2</b> DeSeq comparison</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#compare-inflammatory-vs-non-inflammatory"><i class="fa fa-check"></i><b>13.2.1</b> Compare inflammatory vs non-inflammatory</a></li>
+<li class="chapter" data-level="13.2.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#finding-a-signature-for-each-branch"><i class="fa fa-check"></i><b>13.2.2</b> Finding a signature for each branch</a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="signature-analysis.html"><a href="signature-analysis.html#cancer-pathways"><i class="fa fa-check"></i><b>11.2</b> Cancer pathways</a><ul>
-<li class="chapter" data-level="11.2.1" data-path="signature-analysis.html"><a href="signature-analysis.html#ssgsea"><i class="fa fa-check"></i><b>11.2.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="11.2.2" data-path="signature-analysis.html"><a href="signature-analysis.html#regression-model-for-covariates"><i class="fa fa-check"></i><b>11.2.2</b> regression model for covariates</a></li>
-<li class="chapter" data-level="11.2.3" data-path="signature-analysis.html"><a href="signature-analysis.html#taking-into-account-directionality"><i class="fa fa-check"></i><b>11.2.3</b> Taking into account directionality</a></li>
+<li class="chapter" data-level="13.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#analyse-the-non-inflammatory-samples"><i class="fa fa-check"></i><b>13.3</b> Analyse the non-inflammatory samples</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#non-inflammatory-branch-ep-only-samples"><i class="fa fa-check"></i><b>13.3.1</b> Non-inflammatory branch: Ep only samples</a></li>
+<li class="chapter" data-level="13.3.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea"><i class="fa fa-check"></i><b>13.3.2</b> GSEA</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>12</b> Immune estimation</a><ul>
-<li class="chapter" data-level="12.1" data-path="immune-estimation.html"><a href="immune-estimation.html#ssgsea-1"><i class="fa fa-check"></i><b>12.1</b> ssGSEA</a></li>
-<li class="chapter" data-level="12.2" data-path="immune-estimation.html"><a href="immune-estimation.html#deconvolution-methods"><i class="fa fa-check"></i><b>12.2</b> Deconvolution methods</a><ul>
-<li class="chapter" data-level="12.2.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>12.2.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="12.2.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-between-characterisation-cohort-and-size"><i class="fa fa-check"></i><b>12.2.2</b> Association between characterisation cohort and size</a></li>
-<li class="chapter" data-level="12.2.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>12.2.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="12.2.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort"><i class="fa fa-check"></i><b>12.2.4</b> Progression cohort</a></li>
-<li class="chapter" data-level="12.2.5" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>12.2.5</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="12.2.6" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>12.2.6</b> Association with Growth</a></li>
-<li class="chapter" data-level="12.2.7" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-infiltration"><i class="fa fa-check"></i><b>12.2.7</b> Association with infiltration</a></li>
+<li class="chapter" data-level="13.4" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#same-analysis-with-only-luminal-samples"><i class="fa fa-check"></i><b>13.4</b> Same analysis with only luminal samples</a><ul>
+<li class="chapter" data-level="13.4.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea-1"><i class="fa fa-check"></i><b>13.4.1</b> GSEA</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>13</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="13.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>13.1</b> Processing summary</a></li>
-<li class="chapter" data-level="13.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>13.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="13.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>13.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="13.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>13.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="13.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data"><i class="fa fa-check"></i><b>13.5</b> Associate with clinicopathological data</a></li>
-<li class="chapter" data-level="13.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>13.6</b> Associate with signature scores</a></li>
-<li class="chapter" data-level="13.7" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#check-whether-the-clonotype-percentages-match-with-gsva-signatures-or-cd20-populations"><i class="fa fa-check"></i><b>13.7</b> Check whether the clonotype percentages match with gsva signatures or CD20 populations</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>14</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="14.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>14.1</b> Data</a><ul>
-<li class="chapter" data-level="14.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>14.1.1</b> Extract mutation signatures</a></li>
-<li class="chapter" data-level="14.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>14.1.2</b> Annotate the data with human common variants</a></li>
-</ul></li>
-<li class="chapter" data-level="14.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>14.2</b> Plots</a><ul>
-<li class="chapter" data-level="14.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>14.2.1</b> Quick overview</a></li>
-<li class="chapter" data-level="14.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>14.2.2</b> Coding variants &amp; TMB</a></li>
-</ul></li>
-<li class="chapter" data-level="14.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>14.3</b> Coding variants</a><ul>
-<li class="chapter" data-level="14.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>14.3.1</b> Sites which are commonly mutated?</a></li>
-</ul></li>
-<li class="chapter" data-level="14.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>14.4</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="14.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>14.4.1</b> All mutations</a></li>
-</ul></li>
-<li class="chapter" data-level="14.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>14.5</b> Metacore analysis of commonly mutated pathways</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>15</b> Mutations in RNA</a><ul>
-<li class="chapter" data-level="15.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>15.1</b> Haplotype caller</a></li>
-<li class="chapter" data-level="15.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>15.2</b> Load files</a></li>
-<li class="chapter" data-level="15.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>15.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
-<li class="chapter" data-level="15.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>15.4</b> Find coding mutations which are specific to ep cells</a></li>
-<li class="chapter" data-level="15.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>15.5</b> Filtering WGS data based on CD45 data</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>16</b> Mutations in progression cohort</a><ul>
-<li class="chapter" data-level="16.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>16.1</b> Summary of common mutations:</a></li>
-<li class="chapter" data-level="16.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>16.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="16.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>16.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
-<li class="chapter" data-level="16.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>16.4</b> Mutation load?</a></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html"><i class="fa fa-check"></i><b>17</b> Associating expression with Mutations</a><ul>
-<li class="chapter" data-level="17.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-in-common"><i class="fa fa-check"></i><b>17.1</b> Expression of genes in common</a></li>
-<li class="chapter" data-level="17.2" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-genes-with-key-mutations"><i class="fa fa-check"></i><b>17.2</b> Expression of genes with key mutations</a></li>
-<li class="chapter" data-level="17.3" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-common-mutations"><i class="fa fa-check"></i><b>17.3</b> Expression of common mutations?</a><ul>
-<li class="chapter" data-level="17.3.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#look-at-cancer-specific-pathways"><i class="fa fa-check"></i><b>17.3.1</b> Look at cancer specific pathways</a></li>
-</ul></li>
-<li class="chapter" data-level="17.4" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#expression-of-immune-related-genes-in-the-cd45-population"><i class="fa fa-check"></i><b>17.4</b> Expression of immune related genes in the CD45 population</a></li>
-<li class="chapter" data-level="17.5" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#cancer-specific-pathways"><i class="fa fa-check"></i><b>17.5</b> Cancer Specific Pathways</a><ul>
-<li class="chapter" data-level="17.5.1" data-path="associating-expression-with-mutations.html"><a href="associating-expression-with-mutations.html#compute-co-occurence-matrices"><i class="fa fa-check"></i><b>17.5.1</b> Compute co-occurence matrices</a></li>
+<li class="chapter" data-level="14" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>14</b> Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="14.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>14.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="14.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>14.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>14.2.1</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="haplotype-caller-1.html"><a href="haplotype-caller-1.html"><i class="fa fa-check"></i><b>18</b> haplotype caller</a></li>
-<li class="chapter" data-level="19" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>19</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="19.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>19.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="19.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-spatial-patterns"><i class="fa fa-check"></i><b>19.2</b> Associations with growth and spatial patterns</a></li>
+<li class="chapter" data-level="15" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>15</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="15.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>15.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>15.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>15.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="15.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>15.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>15.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>15.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-3"><i class="fa fa-check"></i><b>15.2.2</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>15.3</b> Check expression of checkpoint proteins</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>16</b> Signature analysis</a><ul>
+<li class="chapter" data-level="16.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>16.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>16.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="16.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>16.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="16.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>16.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="16.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>16.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>17</b> Immune estimation</a><ul>
+<li class="chapter" data-level="17.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>17.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="17.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>17.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="17.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>17.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="17.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>17.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="17.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>17.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>17.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="17.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>17.5.2</b> Association with Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>17.6</b> Summary of the outcome</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>18</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>18.1</b> Processing summary</a></li>
+<li class="chapter" data-level="18.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>18.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="18.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>18.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="18.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>18.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="18.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>18.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="18.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>18.6</b> Associate with signature scores</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>19</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="19.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>19.1</b> Data</a><ul>
+<li class="chapter" data-level="19.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>19.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="19.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>19.1.2</b> Annotate the data with human common variants</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>19.2</b> Plots</a><ul>
+<li class="chapter" data-level="19.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>19.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="19.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>19.2.2</b> Coding variants &amp; TMB</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>19.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="19.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>19.3.1</b> Sites which are commonly mutated?</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>19.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="19.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>19.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>19.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>20</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="20.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>20.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="20.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>20.2</b> Load files</a></li>
+<li class="chapter" data-level="20.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>20.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="20.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>20.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="20.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>20.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>21</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="21.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>21.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="21.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>21.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="21.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>21.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.4" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#mutation-load"><i class="fa fa-check"></i><b>21.4</b> Mutation load?</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>22</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="22.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>22.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="22.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>22.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="22.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>22.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="22.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>22.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>23</b> Writing files to file</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1"><i class="fa fa-check"></i>Figure 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-somehting"><i class="fa fa-check"></i>Figure 4: Somehting</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-figures"><i class="fa fa-check"></i>Extended Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-1"><i class="fa fa-check"></i>Extended data 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-2"><i class="fa fa-check"></i>Extended data 2</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-3"><i class="fa fa-check"></i>Extended data 3</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-4"><i class="fa fa-check"></i>Extended data 4</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#extended-data-5"><i class="fa fa-check"></i>Extended data 5</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -348,68 +398,310 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="immune-estimation" class="section level1">
-<h1><span class="header-section-number">Chapter 12</span> Immune estimation</h1>
-<p>In this section, we will look at a number of methods for immune estimation:</p>
-<ol style="list-style-type: decimal">
-<li>ssGSEA using known signatures: This includes the Thorsson signatures, as well as signatures for activation and dysfunction as described by Tirosh and in the supplementary tables from Gil del Alcazar.</li>
-<li>Deconvolution methods (CIBERSORT, TIMER etc)</li>
-</ol>
-<div id="ssgsea-1" class="section level2">
-<h2><span class="header-section-number">12.1</span> ssGSEA</h2>
-<p>Below, we use the GSVA package and TPM counts to assess variability in the different signatures. We will compare this to:</p>
-<ul>
-<li>growth</li>
-<li>CD8 counts</li>
-<li>spatial patterns (infiltrating vs restricted, MH index)</li>
-</ul>
-<pre><code>## 
-## inf res 
-##  34  34</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-1.png" width="672" /></p>
-<pre><code>##  [1]  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
-## [26] 29 30 31 32 33 34 35 36 37 38</code></pre>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-148-2.png" width="672" /></p>
-<p>Based on wilcoxon tests for differences between growth, cd8 content, spatial arrangement, we can also pull out the significantly different signatures and plot these below:</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-149-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-149-2.png" width="672" /></p>
-<p>For the MH scores and the CD8 scores, we can do a correlation analysis using the raw values</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
-</div>
-<div id="deconvolution-methods" class="section level2">
-<h2><span class="header-section-number">12.2</span> Deconvolution methods</h2>
+<h1><span class="header-section-number">Chapter 17</span> Immune estimation</h1>
+<p>In this section, we will look at Deconvolution methods (CIBERSORT, TIMER etc) for estimating immune fractions and cell types</p>
 <p>Deconvolution was performed using the TIMER website, which lists results from TIMER,
 XCELL,
 CIBERSORT,
 EPIC, MMPCOUNTER</p>
-<p>For TIDE, we need to:</p>
-<ul>
-<li>compute log(RPKM+1) values</li>
-<li>Determine the values of the reference/or compute a sample average</li>
-<li>Subtract the two</li>
-<li>We can convert from Rat gene names to Human and exclude all the non mapping gnes.</li>
-</ul>
-<p>TPM counts were used for this analysis (using Rat gene names)</p>
-<div id="overview-of-the-cell-types" class="section level3">
-<h3><span class="header-section-number">12.2.1</span> Overview of the cell types</h3>
+<p>TPM counts were used for this analysis (using Rat gene names) on the TIMER website ()</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="immune-estimation.html#cb350-1"></a>ProgSpecCD45=<span class="kw">read.csv</span>(<span class="st">&quot;../data/RNA_expression/CD45_TPM_rgd_names_prog_12-08_estimation_matrix.csv&quot;</span>)</span>
+<span id="cb350-2"><a href="immune-estimation.html#cb350-2"></a><span class="kw">colnames</span>(ProgSpecCD45)=<span class="kw">gsub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">colnames</span>(ProgSpecCD45))</span>
+<span id="cb350-3"><a href="immune-estimation.html#cb350-3"></a>CharSpecCD45=<span class="kw">read.csv</span>(<span class="st">&quot;../data/RNA_expression/CD45-tpm-rgdnames-char-2020-11-22-estimation_matrix.csv&quot;</span>)</span>
+<span id="cb350-4"><a href="immune-estimation.html#cb350-4"></a><span class="kw">colnames</span>(CharSpecCD45)=<span class="kw">gsub</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">colnames</span>(CharSpecCD45))</span>
+<span id="cb350-5"><a href="immune-estimation.html#cb350-5"></a></span>
+<span id="cb350-6"><a href="immune-estimation.html#cb350-6"></a><span class="co">## merge the two together</span></span>
+<span id="cb350-7"><a href="immune-estimation.html#cb350-7"></a></span>
+<span id="cb350-8"><a href="immune-estimation.html#cb350-8"></a>output1=<span class="kw">merge</span>(ProgSpecCD45, CharSpecCD45, <span class="dt">by.x=</span><span class="st">&quot;cell_type&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;cell_type&quot;</span>, <span class="dt">all=</span>T)</span></code></pre></div>
+<div id="overview-of-the-cell-types" class="section level2">
+<h2><span class="header-section-number">17.1</span> Overview of the cell types</h2>
 <p>Below, we will look at the enrichment scores of specific cell types compared to others using these different methods. It appears that most methods have scores which skews towards high representation of T cells:</p>
 <p>TIMER for example shows an enrichment of dendritic and CD8 T cells.
 EPIC in contrast shows enrichment for CD4+ and to a lesser extend CD8 T cells
 MMPCOUNTER puts an unusually large weighting to T cells and this does not fit our FACS analysis
 XCELL enriches for T cells</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="immune-estimation.html#cb351-1"></a>RowNames=<span class="kw">c</span>(<span class="st">&quot;TIMER&quot;</span>, <span class="st">&quot;CIBERSORT$&quot;</span>, <span class="st">&quot;CIBERSORT-ABS&quot;</span>, <span class="st">&quot;EPIC&quot;</span>, <span class="st">&quot;MMCPCOUNTER&quot;</span>, <span class="st">&quot;XCELL&quot;</span>)</span>
+<span id="cb351-2"><a href="immune-estimation.html#cb351-2"></a>Type=<span class="kw">c</span>(<span class="st">&quot;enrichment&quot;</span>, <span class="st">&quot;fraction&quot;</span>, <span class="st">&quot;enrichment&quot;</span>, <span class="st">&quot;fraction&quot;</span>, <span class="st">&quot;enrichment&quot;</span>, <span class="st">&quot;enrichment&quot;</span>)</span>
+<span id="cb351-3"><a href="immune-estimation.html#cb351-3"></a></span>
+<span id="cb351-4"><a href="immune-estimation.html#cb351-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb351-5"><a href="immune-estimation.html#cb351-5"></a></span>
+<span id="cb351-6"><a href="immune-estimation.html#cb351-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(RowNames)){</span>
+<span id="cb351-7"><a href="immune-estimation.html#cb351-7"></a>timSamples=output1[<span class="kw">grep</span>(RowNames[i], output1<span class="op">$</span>cell_type), ]</span>
+<span id="cb351-8"><a href="immune-estimation.html#cb351-8"></a><span class="kw">rownames</span>(timSamples)=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(timSamples<span class="op">$</span>cell_type), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb351-9"><a href="immune-estimation.html#cb351-9"></a><span class="kw">boxplot</span>(<span class="kw">t</span>(timSamples[ ,<span class="op">-</span><span class="dv">1</span>]), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">main=</span>RowNames[i], <span class="dt">ylab=</span>Type[i])</span>
+<span id="cb351-10"><a href="immune-estimation.html#cb351-10"></a>}</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
 </div>
-<div id="association-between-characterisation-cohort-and-size" class="section level3">
-<h3><span class="header-section-number">12.2.2</span> Association between characterisation cohort and size</h3>
-<p>Associations with size? Perform a correlation test between all of the information above and tumor size</p>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-154-2.png" width="672" /></p>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
-<p>Make the plots with individual samples:</p>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
+<div id="characterisation-cohort-assoc-with-size" class="section level2">
+<h2><span class="header-section-number">17.2</span> characterisation cohort: assoc with size</h2>
+<p>Associations with size? Perform a correlation test between all of the information above and tumor size.</p>
+<p>We obtain a matrix which is colored with a coefficient correlation (red is associative, blue is negatively associated). Correlations which are significant are marked with an asterisk:</p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="immune-estimation.html#cb352-1"></a>sizeInfo=infoTableFinal<span class="op">$</span>TumSize[<span class="kw">match</span>(<span class="kw">colnames</span>(CharSpecCD45)[<span class="op">-</span><span class="dv">1</span>], <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb352-2"><a href="immune-estimation.html#cb352-2"></a></span>
+<span id="cb352-3"><a href="immune-estimation.html#cb352-3"></a>CorVals=<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(CharSpecCD45))</span>
+<span id="cb352-4"><a href="immune-estimation.html#cb352-4"></a><span class="kw">names</span>(CorVals)=CharSpecCD45<span class="op">$</span>cell_type</span>
+<span id="cb352-5"><a href="immune-estimation.html#cb352-5"></a>CorValsP=CorVals</span>
+<span id="cb352-6"><a href="immune-estimation.html#cb352-6"></a></span>
+<span id="cb352-7"><a href="immune-estimation.html#cb352-7"></a>CorVals=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(CharSpecCD45), <span class="cf">function</span>(x) <span class="kw">cor</span>(<span class="kw">t</span>(CharSpecCD45[x, <span class="dv">-1</span>]), sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb352-8"><a href="immune-estimation.html#cb352-8"></a>CorValsP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(CharSpecCD45), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(<span class="kw">t</span>(CharSpecCD45[x, <span class="dv">-1</span>]), sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb352-9"><a href="immune-estimation.html#cb352-9"></a></span>
+<span id="cb352-10"><a href="immune-estimation.html#cb352-10"></a>naidx=<span class="kw">which</span>(CorValsP<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb352-11"><a href="immune-estimation.html#cb352-11"></a></span>
+<span id="cb352-12"><a href="immune-estimation.html#cb352-12"></a>RNames1=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(CharSpecCD45<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb352-13"><a href="immune-estimation.html#cb352-13"></a>RNamesMethod=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(CharSpecCD45<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb352-14"><a href="immune-estimation.html#cb352-14"></a></span>
+<span id="cb352-15"><a href="immune-estimation.html#cb352-15"></a></span>
+<span id="cb352-16"><a href="immune-estimation.html#cb352-16"></a>df2=<span class="kw">data.frame</span>(<span class="dt">cell=</span>RNames1, <span class="dt">method=</span>RNamesMethod, <span class="dt">cor=</span>CorVals, <span class="dt">p=</span>CorValsP)</span>
+<span id="cb352-17"><a href="immune-estimation.html#cb352-17"></a>ax1=<span class="kw">acast</span>(df2[ ,<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)], RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb352-18"><a href="immune-estimation.html#cb352-18"></a></span>
+<span id="cb352-19"><a href="immune-estimation.html#cb352-19"></a><span class="co">#df2=data.frame(cell=RNames1, method=RNamesMethod, cor=CorValsP)</span></span>
+<span id="cb352-20"><a href="immune-estimation.html#cb352-20"></a>ax2=<span class="kw">acast</span>(df2[ ,<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">4</span>)], RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb352-21"><a href="immune-estimation.html#cb352-21"></a>ax2[<span class="kw">which</span>(ax2<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb352-22"><a href="immune-estimation.html#cb352-22"></a>ax2[<span class="kw">which</span>(<span class="kw">is.na</span>(ax2), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb352-23"><a href="immune-estimation.html#cb352-23"></a></span>
+<span id="cb352-24"><a href="immune-estimation.html#cb352-24"></a><span class="co">#par(oma=c(3, 5, 2, 2))</span></span>
+<span id="cb352-25"><a href="immune-estimation.html#cb352-25"></a><span class="co">#OutputplotFun(ax1, scaleR=&quot;none&quot;, main=&quot;cell type correlation&quot;, classN=&quot;no&quot;, sigMat=ax2)</span></span>
+<span id="cb352-26"><a href="immune-estimation.html#cb352-26"></a></span>
+<span id="cb352-27"><a href="immune-estimation.html#cb352-27"></a><span class="co">## Also plot these all separately</span></span>
+<span id="cb352-28"><a href="immune-estimation.html#cb352-28"></a>sizeInfoCut=infoTableFinal<span class="op">$</span>SizeCat[<span class="kw">match</span>(<span class="kw">colnames</span>(CharSpecCD45)[<span class="op">-</span><span class="dv">1</span>], <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb352-29"><a href="immune-estimation.html#cb352-29"></a></span>
+<span id="cb352-30"><a href="immune-estimation.html#cb352-30"></a>ttestVal=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(CharSpecCD45), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(<span class="kw">t</span>(CharSpecCD45[x, <span class="dv">-1</span>])<span class="op">~</span>sizeInfoCut)<span class="op">$</span>p.value)</span>
+<span id="cb352-31"><a href="immune-estimation.html#cb352-31"></a>df3=<span class="kw">data.frame</span>(<span class="dt">cell=</span>RNames1, <span class="dt">method=</span>RNamesMethod, <span class="dt">cor=</span>ttestVal)</span>
+<span id="cb352-32"><a href="immune-estimation.html#cb352-32"></a>ax3=<span class="kw">acast</span>(df3, RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb352-33"><a href="immune-estimation.html#cb352-33"></a>ax3[<span class="kw">which</span>(ax3<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb352-34"><a href="immune-estimation.html#cb352-34"></a>ax3[<span class="kw">which</span>(<span class="kw">is.na</span>(ax3), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span></code></pre></div>
+<p>The above matrices are sparse, and we can zoom in on specific methods to see whether there is an association</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="immune-estimation.html#cb353-1"></a><span class="co">#pdf(&quot;~/Desktop/2F_characterisation_association_size_immune_types.pdf&quot;, width=8, height=3)</span></span>
+<span id="cb353-2"><a href="immune-estimation.html#cb353-2"></a></span>
+<span id="cb353-3"><a href="immune-estimation.html#cb353-3"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb353-4"><a href="immune-estimation.html#cb353-4"></a></span>
+<span id="cb353-5"><a href="immune-estimation.html#cb353-5"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(ax1)){</span>
+<span id="cb353-6"><a href="immune-estimation.html#cb353-6"></a>  t1=ax1[, i]</span>
+<span id="cb353-7"><a href="immune-estimation.html#cb353-7"></a>  t2=<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(t1))</span>
+<span id="cb353-8"><a href="immune-estimation.html#cb353-8"></a>  <span class="kw">image</span>(<span class="kw">cbind</span>(ax1[t2, i],ax1[t2, i]), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>,</span>
+<span id="cb353-9"><a href="immune-estimation.html#cb353-9"></a>        <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;correlation %s (* sig p&lt;0.1)&quot;</span>, <span class="kw">colnames</span>(ax1)[i]))</span>
+<span id="cb353-10"><a href="immune-estimation.html#cb353-10"></a>  <span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">length</span>(t2)), <span class="kw">names</span>(t1)[t2], <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)</span>
+<span id="cb353-11"><a href="immune-estimation.html#cb353-11"></a>  <span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="kw">c</span>(<span class="st">&quot;cor p&quot;</span>, <span class="st">&quot;wilcox p&quot;</span>), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)</span>
+<span id="cb353-12"><a href="immune-estimation.html#cb353-12"></a>  mx=<span class="kw">which</span>(ax2[ t2,i]<span class="op">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb353-13"><a href="immune-estimation.html#cb353-13"></a>  <span class="kw">text</span>((mx<span class="dv">-1</span>)<span class="op">/</span>(<span class="kw">length</span>(t2)<span class="op">-</span><span class="dv">1</span>), <span class="dv">0</span> , <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb353-14"><a href="immune-estimation.html#cb353-14"></a>  mx=<span class="kw">which</span>(ax3[ t2,i]<span class="op">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb353-15"><a href="immune-estimation.html#cb353-15"></a>  <span class="kw">text</span>((mx<span class="dv">-1</span>)<span class="op">/</span>(<span class="kw">length</span>(t2)<span class="op">-</span><span class="dv">1</span>), <span class="dv">1</span> , <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb353-16"><a href="immune-estimation.html#cb353-16"></a> }</span></code></pre></div>
+<div class="figure"><span id="fig:2f-1"></span>
+<img src="RatDCIS-bookdown_files/figure-html/2f-1.png" alt="correlation coefficient values" width="672" />
+<p class="caption">
+Figure 17.1: correlation coefficient values
+</p>
 </div>
-<div id="comparison-with-facs-data" class="section level3">
-<h3><span class="header-section-number">12.2.3</span> Comparison with FACS data</h3>
-<p>In this section, we compare how well the estimates from RNAseq deconvolution methods associate with FACS data.</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="immune-estimation.html#cb354-1"></a></span>
+<span id="cb354-2"><a href="immune-estimation.html#cb354-2"></a><span class="kw">write.csv</span>(df2, <span class="dt">file=</span><span class="st">&quot;nature-tables/2f_correlation_coefficients_pvalues.csv&quot;</span>)</span>
+<span id="cb354-3"><a href="immune-estimation.html#cb354-3"></a><span class="co">#write.csv(ax1, file=&quot;nature-tables/2f_correlation_coefficients.csv&quot;)</span></span>
+<span id="cb354-4"><a href="immune-estimation.html#cb354-4"></a></span>
+<span id="cb354-5"><a href="immune-estimation.html#cb354-5"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="figure"><span id="fig:2f-2"></span>
+<img src="RatDCIS-bookdown_files/figure-html/2f-2.png" alt="correlation coefficient values" width="672" />
+<p class="caption">
+Figure 17.2: correlation coefficient values
+</p>
+</div>
+<p>These accompany the following plots with individual samples:</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="immune-estimation.html#cb355-1"></a></span>
+<span id="cb355-2"><a href="immune-estimation.html#cb355-2"></a><span class="co">#pdf(&quot;~/Desktop/2F-sample-celltypes.pdf&quot;, height=6, width=7)</span></span>
+<span id="cb355-3"><a href="immune-estimation.html#cb355-3"></a></span>
+<span id="cb355-4"><a href="immune-estimation.html#cb355-4"></a>x2=<span class="kw">c</span>(<span class="kw">colnames</span>(CharSpecCD45)[<span class="kw">order</span>(sizeInfo)<span class="op">+</span><span class="dv">1</span>])</span>
+<span id="cb355-5"><a href="immune-estimation.html#cb355-5"></a></span>
+<span id="cb355-6"><a href="immune-estimation.html#cb355-6"></a>ax1=<span class="kw">grep</span>(<span class="st">&quot;TIMER&quot;</span>, CharSpecCD45<span class="op">$</span>cell_type)</span>
+<span id="cb355-7"><a href="immune-estimation.html#cb355-7"></a>T1melt=<span class="kw">melt</span>(CharSpecCD45[ax1, ])</span>
+<span id="cb355-8"><a href="immune-estimation.html#cb355-8"></a>T1melt<span class="op">$</span>variable=<span class="kw">factor</span>(T1melt<span class="op">$</span>variable, x2)</span>
+<span id="cb355-9"><a href="immune-estimation.html#cb355-9"></a>T1melt<span class="op">$</span>NewID=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(T1melt<span class="op">$</span>variable, <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb355-10"><a href="immune-estimation.html#cb355-10"></a></span>
+<span id="cb355-11"><a href="immune-estimation.html#cb355-11"></a></span>
+<span id="cb355-12"><a href="immune-estimation.html#cb355-12"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>NewID, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb355-13"><a href="immune-estimation.html#cb355-13"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;TIMER:char cohort separately&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb355-14"><a href="immune-estimation.html#cb355-14"></a><span class="st">   </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>,   <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:2fplot"></span>
+<img src="RatDCIS-bookdown_files/figure-html/2fplot-1.png" alt="TIMER" width="672" />
+<p class="caption">
+Figure 17.3: TIMER
+</p>
+</div>
+<p>And below is the result for CIBERSORT</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="immune-estimation.html#cb356-1"></a>ax1=<span class="kw">grep</span>(<span class="st">&quot;CIBERSORT$&quot;</span>, CharSpecCD45<span class="op">$</span>cell_type)</span>
+<span id="cb356-2"><a href="immune-estimation.html#cb356-2"></a>T1melt=<span class="kw">melt</span>(CharSpecCD45[ax1, ])</span>
+<span id="cb356-3"><a href="immune-estimation.html#cb356-3"></a></span>
+<span id="cb356-4"><a href="immune-estimation.html#cb356-4"></a>T1melt<span class="op">$</span>variable=<span class="kw">factor</span>(T1melt<span class="op">$</span>variable, x2)</span>
+<span id="cb356-5"><a href="immune-estimation.html#cb356-5"></a></span>
+<span id="cb356-6"><a href="immune-estimation.html#cb356-6"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb356-7"><a href="immune-estimation.html#cb356-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:char cohort separately&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb356-8"><a href="immune-estimation.html#cb356-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/2fagain-1.png" width="672" /></p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="immune-estimation.html#cb357-1"></a></span>
+<span id="cb357-2"><a href="immune-estimation.html#cb357-2"></a><span class="co"># Also do a version where the Bcells, Macrophages,NK, Mast Cells, CD4, CD8 Cells are merged together, NK</span></span>
+<span id="cb357-3"><a href="immune-estimation.html#cb357-3"></a></span>
+<span id="cb357-4"><a href="immune-estimation.html#cb357-4"></a>T1melt<span class="op">$</span>cell_type2=<span class="kw">substr</span>(T1melt<span class="op">$</span>cell_type, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb357-5"><a href="immune-estimation.html#cb357-5"></a>T1melt<span class="op">$</span>cell_type2[<span class="kw">grep</span>(<span class="st">&quot;CD8&quot;</span>, T1melt<span class="op">$</span>cell_type)]=<span class="st">&quot;T CD8&quot;</span></span>
+<span id="cb357-6"><a href="immune-estimation.html#cb357-6"></a>T1melt<span class="op">$</span>cell_type2[<span class="kw">grep</span>(<span class="st">&quot;CD4&quot;</span>, T1melt<span class="op">$</span>cell_type)]=<span class="st">&quot;T CD4&quot;</span></span>
+<span id="cb357-7"><a href="immune-estimation.html#cb357-7"></a></span>
+<span id="cb357-8"><a href="immune-estimation.html#cb357-8"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type2))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb357-9"><a href="immune-estimation.html#cb357-9"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:char cohort separately&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb357-10"><a href="immune-estimation.html#cb357-10"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#E6F598&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FC4E2A&quot;</span>, <span class="st">&quot;#bdbdbd&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#5E4FA2&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>, <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/2fagain-2.png" width="672" /></p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="immune-estimation.html#cb358-1"></a></span>
+<span id="cb358-2"><a href="immune-estimation.html#cb358-2"></a>T1melt<span class="op">$</span>sdat=<span class="kw">paste</span>(T1melt<span class="op">$</span>variable, T1melt<span class="op">$</span>cell_type2, <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb358-3"><a href="immune-estimation.html#cb358-3"></a>T2=<span class="kw">by</span>(T1melt<span class="op">$</span>value, T1melt<span class="op">$</span>sdat, sum)</span>
+<span id="cb358-4"><a href="immune-estimation.html#cb358-4"></a>T2m=<span class="kw">stack</span>(T2)</span>
+<span id="cb358-5"><a href="immune-estimation.html#cb358-5"></a>T2m<span class="op">$</span>ind1=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(T2m<span class="op">$</span>ind), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb358-6"><a href="immune-estimation.html#cb358-6"></a>T2m<span class="op">$</span>ind2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(T2m<span class="op">$</span>ind), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb358-7"><a href="immune-estimation.html#cb358-7"></a></span>
+<span id="cb358-8"><a href="immune-estimation.html#cb358-8"></a>T2mTab=<span class="kw">acast</span>(T2m[ ,<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>)], ind2<span class="op">~</span>ind1, <span class="dt">value.var=</span><span class="st">&quot;values&quot;</span>)</span>
+<span id="cb358-9"><a href="immune-estimation.html#cb358-9"></a>CorV=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">cor</span>(T2mTab[x, ], sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb358-10"><a href="immune-estimation.html#cb358-10"></a>CorVP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(T2mTab[x, ], sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb358-11"><a href="immune-estimation.html#cb358-11"></a>wilP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(T2mTab[x, ]<span class="op">~</span><span class="st"> </span>sizeInfoCut)<span class="op">$</span>p.value)</span>
+<span id="cb358-12"><a href="immune-estimation.html#cb358-12"></a></span>
+<span id="cb358-13"><a href="immune-estimation.html#cb358-13"></a><span class="co"># dev.off()</span></span>
+<span id="cb358-14"><a href="immune-estimation.html#cb358-14"></a></span>
+<span id="cb358-15"><a href="immune-estimation.html#cb358-15"></a><span class="kw">write.csv</span>(T1melt, <span class="dt">file=</span><span class="st">&quot;nature-tables/2f.csv&quot;</span>)  </span>
+<span id="cb358-16"><a href="immune-estimation.html#cb358-16"></a>  </span></code></pre></div>
+</div>
+<div id="comparison-with-facs-data" class="section level2">
+<h2><span class="header-section-number">17.3</span> Comparison with FACS data</h2>
+<p>In this section, we compare how well the estimates from RNAseq deconvolution methods associate with FACS data. Below is a heatmap showing the correlation coefficient of each cell type (by FACS) and the method,</p>
+<p>Note that there are twice as manay samples with reliable myeloid derived cell information than for leukocytes.</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="immune-estimation.html#cb359-1"></a><span class="co">## annotate the FACS data here</span></span>
+<span id="cb359-2"><a href="immune-estimation.html#cb359-2"></a></span>
+<span id="cb359-3"><a href="immune-estimation.html#cb359-3"></a>infoTableFinal<span class="op">$</span>Name2=<span class="ot">NA</span></span>
+<span id="cb359-4"><a href="immune-estimation.html#cb359-4"></a>infoTableFinal<span class="op">$</span>Name2[<span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span>)]=<span class="kw">paste</span>(infoTableFinal<span class="op">$</span>Rat_ID[<span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span>)], infoTableFinal<span class="op">$</span>Location[<span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span>)], <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb359-5"><a href="immune-estimation.html#cb359-5"></a>m2=<span class="kw">match</span>(<span class="kw">colnames</span>(Fdata), infoTableFinal<span class="op">$</span>Name2)</span>
+<span id="cb359-6"><a href="immune-estimation.html#cb359-6"></a></span>
+<span id="cb359-7"><a href="immune-estimation.html#cb359-7"></a><span class="co">## get rid of the NA samples</span></span>
+<span id="cb359-8"><a href="immune-estimation.html#cb359-8"></a>naom=infoTableFinal<span class="op">$</span>SampleID[m2[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(m2))]]</span>
+<span id="cb359-9"><a href="immune-estimation.html#cb359-9"></a>mid=<span class="kw">colnames</span>(Fdata)[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(m2))]</span>
+<span id="cb359-10"><a href="immune-estimation.html#cb359-10"></a></span>
+<span id="cb359-11"><a href="immune-estimation.html#cb359-11"></a>lx1=Fdata[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">match</span>(mid, <span class="kw">colnames</span>(Fdata)))]</span>
+<span id="cb359-12"><a href="immune-estimation.html#cb359-12"></a>out2=output1[, <span class="kw">c</span>(<span class="dv">1</span>,<span class="kw">match</span>(naom, <span class="kw">colnames</span>(output1)))]</span>
+<span id="cb359-13"><a href="immune-estimation.html#cb359-13"></a></span>
+<span id="cb359-14"><a href="immune-estimation.html#cb359-14"></a><span class="co">#head(out2)</span></span>
+<span id="cb359-15"><a href="immune-estimation.html#cb359-15"></a><span class="kw">colnames</span>(lx1)=<span class="kw">colnames</span>(out2)</span>
+<span id="cb359-16"><a href="immune-estimation.html#cb359-16"></a></span>
+<span id="cb359-17"><a href="immune-estimation.html#cb359-17"></a><span class="co"># Run all the association tests here</span></span>
+<span id="cb359-18"><a href="immune-estimation.html#cb359-18"></a><span class="co">## New Table</span></span>
+<span id="cb359-19"><a href="immune-estimation.html#cb359-19"></a><span class="co"># -cd8</span></span>
+<span id="cb359-20"><a href="immune-estimation.html#cb359-20"></a><span class="co"># Th</span></span>
+<span id="cb359-21"><a href="immune-estimation.html#cb359-21"></a><span class="co"># Tregs</span></span>
+<span id="cb359-22"><a href="immune-estimation.html#cb359-22"></a><span class="co"># B cells</span></span>
+<span id="cb359-23"><a href="immune-estimation.html#cb359-23"></a><span class="co"># Macrophage</span></span>
+<span id="cb359-24"><a href="immune-estimation.html#cb359-24"></a></span>
+<span id="cb359-25"><a href="immune-estimation.html#cb359-25"></a><span class="co"># </span></span>
+<span id="cb359-26"><a href="immune-estimation.html#cb359-26"></a>MergedTable=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">ncol=</span><span class="dv">21</span>, <span class="dt">nrow=</span><span class="dv">1</span>)</span>
+<span id="cb359-27"><a href="immune-estimation.html#cb359-27"></a><span class="kw">colnames</span>(MergedTable)=<span class="kw">colnames</span>(out2)</span>
+<span id="cb359-28"><a href="immune-estimation.html#cb359-28"></a></span>
+<span id="cb359-29"><a href="immune-estimation.html#cb359-29"></a>tx1=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(out2<span class="op">$</span>cell_type), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb359-30"><a href="immune-estimation.html#cb359-30"></a>MethodSumm=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(out2<span class="op">$</span>cell_type), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb359-31"><a href="immune-estimation.html#cb359-31"></a>tabtx1=<span class="kw">table</span>(tx1)</span>
+<span id="cb359-32"><a href="immune-estimation.html#cb359-32"></a>TheseFracs=<span class="kw">names</span>(tabtx1)[<span class="kw">which</span>(tabtx1<span class="op">&gt;</span><span class="dv">3</span>)]</span>
+<span id="cb359-33"><a href="immune-estimation.html#cb359-33"></a></span>
+<span id="cb359-34"><a href="immune-estimation.html#cb359-34"></a></span>
+<span id="cb359-35"><a href="immune-estimation.html#cb359-35"></a></span>
+<span id="cb359-36"><a href="immune-estimation.html#cb359-36"></a>testSetB=<span class="kw">c</span>(<span class="st">&quot;B cell&quot;</span>, <span class="st">&quot;MHCII-hi&quot;</span>, <span class="st">&quot;MHCII-lo&quot;</span>, <span class="st">&quot;Monocyte&quot;</span>, <span class="st">&quot;Neutrophil&quot;</span>, <span class="st">&quot;NK cells&quot;</span>, <span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;Treg&quot;</span>)</span>
+<span id="cb359-37"><a href="immune-estimation.html#cb359-37"></a><span class="co">#  &quot;CD8&quot;, &quot;Th&quot;, &quot;Treg&quot;, &quot;B cells&quot;, &quot;NK cells&quot;, &quot;DC&quot;, &quot;Neutrophil&quot;, &quot;Monocyte&quot;, &quot;gd T&quot;, &quot;MHCII-hi&quot;, &quot;MHCII-lo&quot;)</span></span>
+<span id="cb359-38"><a href="immune-estimation.html#cb359-38"></a>testSet=TheseFracs[<span class="op">-</span><span class="dv">2</span>]<span class="co">#c(&quot;CD8&quot;, &quot;CD4&quot;, &quot;Treg&quot;, &quot;B cell&quot;, &quot;NK&quot;, &quot;dendritic&quot;, &quot;Neutrophil&quot;, &quot;Monocyte&quot;, &quot;gamma delta&quot;, &quot;M1&quot;, &quot;M2&quot;)</span></span>
+<span id="cb359-39"><a href="immune-estimation.html#cb359-39"></a> </span>
+<span id="cb359-40"><a href="immune-estimation.html#cb359-40"></a>CMat=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="kw">length</span>(testSet), <span class="dt">ncol=</span><span class="kw">length</span>(<span class="kw">unique</span>(MethodSumm)))</span>
+<span id="cb359-41"><a href="immune-estimation.html#cb359-41"></a><span class="kw">rownames</span>(CMat)=testSet</span>
+<span id="cb359-42"><a href="immune-estimation.html#cb359-42"></a><span class="kw">colnames</span>(CMat)=<span class="kw">unique</span>(MethodSumm)</span>
+<span id="cb359-43"><a href="immune-estimation.html#cb359-43"></a> </span>
+<span id="cb359-44"><a href="immune-estimation.html#cb359-44"></a>PMat=CMat</span>
+<span id="cb359-45"><a href="immune-estimation.html#cb359-45"></a><span class="co">#testSet=&quot;M2&quot;</span></span>
+<span id="cb359-46"><a href="immune-estimation.html#cb359-46"></a><span class="co">#testSetB=&quot;MHCII-lo&quot;</span></span>
+<span id="cb359-47"><a href="immune-estimation.html#cb359-47"></a></span>
+<span id="cb359-48"><a href="immune-estimation.html#cb359-48"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(testSet)){</span>
+<span id="cb359-49"><a href="immune-estimation.html#cb359-49"></a>CD8Table=<span class="kw">rbind</span>(lx1[<span class="kw">grep</span>(testSetB[j], lx1<span class="op">$</span>cell_type), ],</span>
+<span id="cb359-50"><a href="immune-estimation.html#cb359-50"></a>               out2[<span class="kw">which</span>(tx1<span class="op">==</span>testSet[j]), ])</span>
+<span id="cb359-51"><a href="immune-estimation.html#cb359-51"></a>CD8Table[<span class="dv">1</span>,<span class="dv">1</span>]=<span class="kw">paste</span>(testSetB[j], <span class="st">&quot;facs&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb359-52"><a href="immune-estimation.html#cb359-52"></a>ms=MethodSumm[<span class="kw">which</span>(tx1<span class="op">==</span>testSet[j])]</span>
+<span id="cb359-53"><a href="immune-estimation.html#cb359-53"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb359-54"><a href="immune-estimation.html#cb359-54"></a></span>
+<span id="cb359-55"><a href="immune-estimation.html#cb359-55"></a></span>
+<span id="cb359-56"><a href="immune-estimation.html#cb359-56"></a>cVals=<span class="kw">sapply</span>(<span class="dv">2</span><span class="op">:</span><span class="kw">nrow</span>(CD8Table), <span class="cf">function</span>(x) <span class="kw">cor</span>(<span class="kw">t</span>(CD8Table[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="kw">t</span>(CD8Table[x, <span class="dv">-1</span>]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb359-57"><a href="immune-estimation.html#cb359-57"></a>cVals2=<span class="kw">sapply</span>(<span class="dv">2</span><span class="op">:</span><span class="kw">nrow</span>(CD8Table), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(<span class="kw">t</span>(CD8Table[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="kw">t</span>(CD8Table[x, <span class="dv">-1</span>]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb359-58"><a href="immune-estimation.html#cb359-58"></a></span>
+<span id="cb359-59"><a href="immune-estimation.html#cb359-59"></a>CMat[j, <span class="kw">match</span>(ms, <span class="kw">colnames</span>(CMat))]=cVals</span>
+<span id="cb359-60"><a href="immune-estimation.html#cb359-60"></a>PMat[j, <span class="kw">match</span>(ms, <span class="kw">colnames</span>(PMat))]=cVals2</span>
+<span id="cb359-61"><a href="immune-estimation.html#cb359-61"></a></span>
+<span id="cb359-62"><a href="immune-estimation.html#cb359-62"></a>MergedTable=<span class="kw">rbind</span>(MergedTable, CD8Table)</span>
+<span id="cb359-63"><a href="immune-estimation.html#cb359-63"></a></span>
+<span id="cb359-64"><a href="immune-estimation.html#cb359-64"></a><span class="co">#for (i in 2:nrow(CD8Table)){</span></span>
+<span id="cb359-65"><a href="immune-estimation.html#cb359-65"></a>  <span class="co">#a1=cor(t(CD8Table[1, -1]), t(CD8Table[i, -1]), use=&quot;complete&quot;)</span></span>
+<span id="cb359-66"><a href="immune-estimation.html#cb359-66"></a>  <span class="co">#plot(t(CD8Table[1, -1]), t(CD8Table[i, -1]), main=CD8Table[i,1], ylab=&quot;method&quot;, xlab=&quot;FACS&quot;)</span></span>
+<span id="cb359-67"><a href="immune-estimation.html#cb359-67"></a>  <span class="co">#text(min(t(CD8Table[1, -1]), na.rm=T)*2, max(t(CD8Table[i, -1]), na.rm=T), paste(&quot;r=&quot;, round(a1, digits=2), sep=&quot;&quot;))</span></span>
+<span id="cb359-68"><a href="immune-estimation.html#cb359-68"></a>  </span>
+<span id="cb359-69"><a href="immune-estimation.html#cb359-69"></a>}</span>
+<span id="cb359-70"><a href="immune-estimation.html#cb359-70"></a></span>
+<span id="cb359-71"><a href="immune-estimation.html#cb359-71"></a></span>
+<span id="cb359-72"><a href="immune-estimation.html#cb359-72"></a><span class="co">##for the following, find the terms and calculate the sum</span></span>
+<span id="cb359-73"><a href="immune-estimation.html#cb359-73"></a></span>
+<span id="cb359-74"><a href="immune-estimation.html#cb359-74"></a>testSetB=<span class="kw">c</span>(<span class="st">&quot;Macro&quot;</span>, <span class="st">&quot;Th&quot;</span>, <span class="st">&quot;B cell&quot;</span>)</span>
+<span id="cb359-75"><a href="immune-estimation.html#cb359-75"></a>testSet=<span class="kw">c</span>(<span class="st">&quot;Macro&quot;</span>, <span class="st">&quot;CD4&quot;</span>, <span class="st">&quot;B cell&quot;</span>)</span>
+<span id="cb359-76"><a href="immune-estimation.html#cb359-76"></a>rmThese=<span class="kw">c</span>(<span class="st">&quot;M0&quot;</span>, <span class="st">&quot;naive&quot;</span>, <span class="ot">NULL</span>)</span>
+<span id="cb359-77"><a href="immune-estimation.html#cb359-77"></a></span>
+<span id="cb359-78"><a href="immune-estimation.html#cb359-78"></a>savTemp=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">3</span>, <span class="dt">ncol=</span><span class="kw">ncol</span>(CMat))</span>
+<span id="cb359-79"><a href="immune-estimation.html#cb359-79"></a><span class="kw">rownames</span>(savTemp)=<span class="kw">paste</span>(<span class="st">&quot;all&quot;</span>, testSet, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb359-80"><a href="immune-estimation.html#cb359-80"></a>savTempP=savTemp</span>
+<span id="cb359-81"><a href="immune-estimation.html#cb359-81"></a></span>
+<span id="cb359-82"><a href="immune-estimation.html#cb359-82"></a></span>
+<span id="cb359-83"><a href="immune-estimation.html#cb359-83"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(testSetB)){</span>
+<span id="cb359-84"><a href="immune-estimation.html#cb359-84"></a>  </span>
+<span id="cb359-85"><a href="immune-estimation.html#cb359-85"></a>  CD8Table=lx1[<span class="kw">grep</span>(testSetB[j], lx1<span class="op">$</span>cell_type), ]</span>
+<span id="cb359-86"><a href="immune-estimation.html#cb359-86"></a>  CD8Table=<span class="kw">colSums</span>(CD8Table[, <span class="dv">-1</span>])</span>
+<span id="cb359-87"><a href="immune-estimation.html#cb359-87"></a>  <span class="co">#rownames(CD8Table)=&quot;facs&quot;</span></span>
+<span id="cb359-88"><a href="immune-estimation.html#cb359-88"></a>  </span>
+<span id="cb359-89"><a href="immune-estimation.html#cb359-89"></a>  outB=out2[<span class="kw">grep</span>(testSet[j], out2<span class="op">$</span>cell_type), ]</span>
+<span id="cb359-90"><a href="immune-estimation.html#cb359-90"></a>  rm2=<span class="kw">grep</span>(rmThese[j], outB<span class="op">$</span>cell_type)</span>
+<span id="cb359-91"><a href="immune-estimation.html#cb359-91"></a>  </span>
+<span id="cb359-92"><a href="immune-estimation.html#cb359-92"></a>  <span class="cf">if</span> (<span class="kw">length</span>(<span class="kw">na.omit</span>(rm2))<span class="op">&gt;</span><span class="dv">0</span>){</span>
+<span id="cb359-93"><a href="immune-estimation.html#cb359-93"></a>    outB=outB[<span class="op">-</span>rm2, ]</span>
+<span id="cb359-94"><a href="immune-estimation.html#cb359-94"></a>  }</span>
+<span id="cb359-95"><a href="immune-estimation.html#cb359-95"></a>  </span>
+<span id="cb359-96"><a href="immune-estimation.html#cb359-96"></a>  namOut=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(outB<span class="op">$</span>cell_type), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb359-97"><a href="immune-estimation.html#cb359-97"></a>  nam2=<span class="kw">unique</span>(namOut[<span class="kw">which</span>(<span class="kw">duplicated</span>(namOut))])</span>
+<span id="cb359-98"><a href="immune-estimation.html#cb359-98"></a>  </span>
+<span id="cb359-99"><a href="immune-estimation.html#cb359-99"></a>  outC=<span class="kw">sapply</span>(nam2, <span class="cf">function</span>(x) <span class="kw">colSums</span>(outB[<span class="kw">which</span>(namOut<span class="op">==</span>x), <span class="dv">-1</span> ]))</span>
+<span id="cb359-100"><a href="immune-estimation.html#cb359-100"></a>  outB=outB[<span class="op">-</span><span class="kw">which</span>(namOut<span class="op">%in%</span>nam2), ]</span>
+<span id="cb359-101"><a href="immune-estimation.html#cb359-101"></a>  <span class="kw">rownames</span>(outB)=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(outB<span class="op">$</span>cell_type), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb359-102"><a href="immune-estimation.html#cb359-102"></a>  </span>
+<span id="cb359-103"><a href="immune-estimation.html#cb359-103"></a>  allD=<span class="kw">rbind</span>(CD8Table, outB[, <span class="dv">-1</span>], <span class="kw">t</span>(outC))</span>
+<span id="cb359-104"><a href="immune-estimation.html#cb359-104"></a>  <span class="kw">rownames</span>(allD)[<span class="dv">1</span>]=<span class="st">&quot;facs&quot;</span></span>
+<span id="cb359-105"><a href="immune-estimation.html#cb359-105"></a>  allD<span class="op">$</span>method=<span class="kw">rownames</span>(allD)</span>
+<span id="cb359-106"><a href="immune-estimation.html#cb359-106"></a>  </span>
+<span id="cb359-107"><a href="immune-estimation.html#cb359-107"></a> <span class="co"># allD=data.matrix(allD)</span></span>
+<span id="cb359-108"><a href="immune-estimation.html#cb359-108"></a>  </span>
+<span id="cb359-109"><a href="immune-estimation.html#cb359-109"></a><span class="co">#pdf(sprintf(&quot;rslt/Immune decomposition/correlations_combined_%s.pdf&quot;, testSetB[j]), width=10, height=10)</span></span>
+<span id="cb359-110"><a href="immune-estimation.html#cb359-110"></a></span>
+<span id="cb359-111"><a href="immune-estimation.html#cb359-111"></a><span class="co">#ggplot(temp8, aes(x=method, y=value, col=variable))+geom_bar(stat=&quot;identity&quot;)+facet_wrap(~variable, scale=&quot;free_y&quot;)+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))</span></span>
+<span id="cb359-112"><a href="immune-estimation.html#cb359-112"></a></span>
+<span id="cb359-113"><a href="immune-estimation.html#cb359-113"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb359-114"><a href="immune-estimation.html#cb359-114"></a></span>
+<span id="cb359-115"><a href="immune-estimation.html#cb359-115"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="kw">nrow</span>(allD)){</span>
+<span id="cb359-116"><a href="immune-estimation.html#cb359-116"></a>  a1=<span class="kw">cor</span>(<span class="kw">t</span>(allD[<span class="dv">1</span>, <span class="op">-</span><span class="kw">ncol</span>(allD)]), <span class="kw">t</span>(allD[i, <span class="op">-</span><span class="kw">ncol</span>(allD)]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb359-117"><a href="immune-estimation.html#cb359-117"></a>  a2=<span class="kw">cor.test</span>(<span class="kw">t</span>(allD[<span class="dv">1</span>, <span class="op">-</span><span class="kw">ncol</span>(allD)]), <span class="kw">t</span>(allD[i, <span class="op">-</span><span class="kw">ncol</span>(allD)]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value</span>
+<span id="cb359-118"><a href="immune-estimation.html#cb359-118"></a>  savTemp[j, <span class="kw">match</span>(<span class="kw">rownames</span>(allD)[i], <span class="kw">colnames</span>(CMat))]=a1</span>
+<span id="cb359-119"><a href="immune-estimation.html#cb359-119"></a>  savTempP[j, <span class="kw">match</span>(<span class="kw">rownames</span>(allD)[i], <span class="kw">colnames</span>(CMat))]=a2</span>
+<span id="cb359-120"><a href="immune-estimation.html#cb359-120"></a><span class="co"># plot(t(allD[1, -ncol(allD)]), t(allD[i,-ncol(allD)]), main=allD[i,ncol(allD)], ylab=&quot;method&quot;, xlab=&quot;FACS&quot;)</span></span>
+<span id="cb359-121"><a href="immune-estimation.html#cb359-121"></a><span class="co">#  text(min(t(allD[1, -ncol(allD)]), na.rm=T)*2, max(t(allD[i, -ncol(allD)]), na.rm=T), paste(&quot;r=&quot;, round(a1, digits=2), sep=&quot;&quot;))</span></span>
+<span id="cb359-122"><a href="immune-estimation.html#cb359-122"></a>  </span>
+<span id="cb359-123"><a href="immune-estimation.html#cb359-123"></a>}</span>
+<span id="cb359-124"><a href="immune-estimation.html#cb359-124"></a></span>
+<span id="cb359-125"><a href="immune-estimation.html#cb359-125"></a>cell_type=<span class="kw">paste</span>(testSetB[j], allD<span class="op">$</span>method, <span class="dt">sep=</span><span class="st">&quot;_all_&quot;</span>)</span>
+<span id="cb359-126"><a href="immune-estimation.html#cb359-126"></a></span>
+<span id="cb359-127"><a href="immune-estimation.html#cb359-127"></a>MergedTable=<span class="kw">rbind</span>(MergedTable, <span class="kw">cbind</span>(cell_type, allD[ ,<span class="op">-</span><span class="dv">21</span>]))</span>
+<span id="cb359-128"><a href="immune-estimation.html#cb359-128"></a></span>
+<span id="cb359-129"><a href="immune-estimation.html#cb359-129"></a>}</span>
+<span id="cb359-130"><a href="immune-estimation.html#cb359-130"></a></span>
+<span id="cb359-131"><a href="immune-estimation.html#cb359-131"></a>CorMatAll=<span class="kw">rbind</span>(CMat, savTemp)</span>
+<span id="cb359-132"><a href="immune-estimation.html#cb359-132"></a>CorMatP=<span class="kw">rbind</span>(PMat, savTempP)</span>
+<span id="cb359-133"><a href="immune-estimation.html#cb359-133"></a></span>
+<span id="cb359-134"><a href="immune-estimation.html#cb359-134"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">5</span>))</span>
+<span id="cb359-135"><a href="immune-estimation.html#cb359-135"></a><span class="kw">heatmap.2</span>(CorMatAll, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="st">&quot;correlation FACS and GE&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/imm-assoc-facs-1.png" width="672" /></p>
 <p>We can plot associations between the different cell types below, here selecting:</p>
 <ul>
@@ -418,21 +710,212 @@ XCELL enriches for T cells</p>
 <li>M2 macophage</li>
 <li>M1 macrophage</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-4.png" width="672" /></p>
+<p>with each method. The correlation coefficient is indicated.</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="immune-estimation.html#cb360-1"></a>testSetB=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>,  <span class="st">&quot;B cells&quot;</span>, <span class="st">&quot;MHCII-hi&quot;</span>, <span class="st">&quot;MHCII-lo&quot;</span>)</span>
+<span id="cb360-2"><a href="immune-estimation.html#cb360-2"></a>testSet=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;B cell&quot;</span>,<span class="st">&quot;M1&quot;</span>, <span class="st">&quot;M2&quot;</span>)</span>
+<span id="cb360-3"><a href="immune-estimation.html#cb360-3"></a></span>
+<span id="cb360-4"><a href="immune-estimation.html#cb360-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb360-5"><a href="immune-estimation.html#cb360-5"></a></span>
+<span id="cb360-6"><a href="immune-estimation.html#cb360-6"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(testSetB)){ </span>
+<span id="cb360-7"><a href="immune-estimation.html#cb360-7"></a>CMat=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">ncol=</span><span class="kw">length</span>(testSet), <span class="dt">nrow=</span><span class="dv">10</span>) </span>
+<span id="cb360-8"><a href="immune-estimation.html#cb360-8"></a>CD8Table=<span class="kw">rbind</span>(lx1[<span class="kw">grep</span>(testSetB[j], lx1<span class="op">$</span>cell_type), ],</span>
+<span id="cb360-9"><a href="immune-estimation.html#cb360-9"></a>               out2[<span class="kw">grep</span>(testSet[j], out2<span class="op">$</span>cell_type), ])</span>
+<span id="cb360-10"><a href="immune-estimation.html#cb360-10"></a></span>
+<span id="cb360-11"><a href="immune-estimation.html#cb360-11"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="kw">nrow</span>(CD8Table)){</span>
+<span id="cb360-12"><a href="immune-estimation.html#cb360-12"></a>  a1=<span class="kw">cor</span>(<span class="kw">t</span>(CD8Table[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="kw">t</span>(CD8Table[i, <span class="dv">-1</span>]), <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb360-13"><a href="immune-estimation.html#cb360-13"></a>  <span class="kw">plot</span>(<span class="kw">t</span>(CD8Table[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="kw">t</span>(CD8Table[i, <span class="dv">-1</span>]), <span class="dt">main=</span>CD8Table[i,<span class="dv">1</span>], <span class="dt">ylab=</span><span class="st">&quot;method&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FACS&quot;</span>)</span>
+<span id="cb360-14"><a href="immune-estimation.html#cb360-14"></a>  <span class="kw">text</span>(<span class="kw">min</span>(<span class="kw">t</span>(CD8Table[<span class="dv">1</span>, <span class="dv">-1</span>]), <span class="dt">na.rm=</span>T)<span class="op">*</span><span class="dv">2</span>, <span class="kw">max</span>(<span class="kw">t</span>(CD8Table[i, <span class="dv">-1</span>]), <span class="dt">na.rm=</span>T), <span class="kw">paste</span>(<span class="st">&quot;r=&quot;</span>, <span class="kw">round</span>(a1, <span class="dt">digits=</span><span class="dv">2</span>), <span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb360-15"><a href="immune-estimation.html#cb360-15"></a>}</span>
+<span id="cb360-16"><a href="immune-estimation.html#cb360-16"></a><span class="kw">mtext</span>(testSetB[j], <span class="dt">side=</span><span class="dv">3</span>, <span class="dt">line=</span><span class="op">-</span><span class="dv">2</span>, <span class="dt">outer=</span>T)</span>
+<span id="cb360-17"><a href="immune-estimation.html#cb360-17"></a>  </span>
+<span id="cb360-18"><a href="immune-estimation.html#cb360-18"></a>}</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-120-4.png" width="672" /></p>
 </div>
-<div id="progression-cohort" class="section level3">
-<h3><span class="header-section-number">12.2.4</span> Progression cohort</h3>
-<p>Plot the cibersort and/or EPIC output:</p>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
+<div id="progression-cohort-1" class="section level2">
+<h2><span class="header-section-number">17.4</span> Progression cohort</h2>
+<p>We perform the same sort of analysis for the progression cohort:</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="immune-estimation.html#cb361-1"></a><span class="co"># drop samples</span></span>
+<span id="cb361-2"><a href="immune-estimation.html#cb361-2"></a><span class="co">#dsamp=c(&quot;2R_D_CD45&quot;, &quot;3L_D_CD45&quot;)</span></span>
+<span id="cb361-3"><a href="immune-estimation.html#cb361-3"></a></span>
+<span id="cb361-4"><a href="immune-estimation.html#cb361-4"></a></span>
+<span id="cb361-5"><a href="immune-estimation.html#cb361-5"></a>sizeInfo=infoTableFinal<span class="op">$</span>GrowthRate[<span class="kw">match</span>(<span class="kw">colnames</span>(ProgSpecCD45)[<span class="op">-</span><span class="dv">1</span>], <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb361-6"><a href="immune-estimation.html#cb361-6"></a></span>
+<span id="cb361-7"><a href="immune-estimation.html#cb361-7"></a>CorVals=<span class="kw">rep</span>(<span class="ot">NA</span>, <span class="kw">nrow</span>(ProgSpecCD45))</span>
+<span id="cb361-8"><a href="immune-estimation.html#cb361-8"></a><span class="kw">names</span>(CorVals)=ProgSpecCD45<span class="op">$</span>cell_type</span>
+<span id="cb361-9"><a href="immune-estimation.html#cb361-9"></a>CorValsP=CorVals</span>
+<span id="cb361-10"><a href="immune-estimation.html#cb361-10"></a></span>
+<span id="cb361-11"><a href="immune-estimation.html#cb361-11"></a>CorVals=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ProgSpecCD45), <span class="cf">function</span>(x) <span class="kw">cor</span>(<span class="kw">t</span>(ProgSpecCD45[x, <span class="dv">-1</span>]), sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb361-12"><a href="immune-estimation.html#cb361-12"></a>CorValsP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ProgSpecCD45), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(<span class="kw">t</span>(ProgSpecCD45[x, <span class="dv">-1</span>]), sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb361-13"><a href="immune-estimation.html#cb361-13"></a></span>
+<span id="cb361-14"><a href="immune-estimation.html#cb361-14"></a>naidx=<span class="kw">which</span>(CorValsP<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb361-15"><a href="immune-estimation.html#cb361-15"></a></span>
+<span id="cb361-16"><a href="immune-estimation.html#cb361-16"></a>RNames1=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(ProgSpecCD45<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb361-17"><a href="immune-estimation.html#cb361-17"></a>RNamesMethod=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(ProgSpecCD45<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb361-18"><a href="immune-estimation.html#cb361-18"></a></span>
+<span id="cb361-19"><a href="immune-estimation.html#cb361-19"></a></span>
+<span id="cb361-20"><a href="immune-estimation.html#cb361-20"></a>df2=<span class="kw">data.frame</span>(<span class="dt">cell=</span>RNames1, <span class="dt">method=</span>RNamesMethod, <span class="dt">cor=</span>CorVals, <span class="dt">p=</span>CorValsP)</span>
+<span id="cb361-21"><a href="immune-estimation.html#cb361-21"></a>ax1=<span class="kw">acast</span>(df2[ ,<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)], RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb361-22"><a href="immune-estimation.html#cb361-22"></a></span>
+<span id="cb361-23"><a href="immune-estimation.html#cb361-23"></a><span class="co">#df2=data.frame(cell=RNames1, method=RNamesMethod, cor=CorValsP)</span></span>
+<span id="cb361-24"><a href="immune-estimation.html#cb361-24"></a>ax2=<span class="kw">acast</span>(df2[ ,<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dv">4</span>)], RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb361-25"><a href="immune-estimation.html#cb361-25"></a>ax2[<span class="kw">which</span>(ax2<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb361-26"><a href="immune-estimation.html#cb361-26"></a>ax2[<span class="kw">which</span>(<span class="kw">is.na</span>(ax2), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb361-27"><a href="immune-estimation.html#cb361-27"></a></span>
+<span id="cb361-28"><a href="immune-estimation.html#cb361-28"></a><span class="kw">pdf</span>(<span class="st">&quot;~/Desktop/4F_progression_association_growthrate_all_methods.pdf&quot;</span>, <span class="dt">width=</span><span class="dv">8</span>, <span class="dt">height=</span><span class="dv">6</span>)</span>
+<span id="cb361-29"><a href="immune-estimation.html#cb361-29"></a></span>
+<span id="cb361-30"><a href="immune-estimation.html#cb361-30"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb361-31"><a href="immune-estimation.html#cb361-31"></a><span class="kw">OutputplotFun</span>(ax1, <span class="dt">scaleR=</span><span class="st">&quot;none&quot;</span>, <span class="dt">main=</span><span class="st">&quot;cell type correlation&quot;</span>, <span class="dt">classN=</span><span class="st">&quot;no&quot;</span>, <span class="dt">sigMat=</span>ax2)</span>
+<span id="cb361-32"><a href="immune-estimation.html#cb361-32"></a></span>
+<span id="cb361-33"><a href="immune-estimation.html#cb361-33"></a><span class="kw">dev.off</span>()</span>
+<span id="cb361-34"><a href="immune-estimation.html#cb361-34"></a><span class="co">## quartz_off_screen </span></span>
+<span id="cb361-35"><a href="immune-estimation.html#cb361-35"></a><span class="co">##                 2</span></span>
+<span id="cb361-36"><a href="immune-estimation.html#cb361-36"></a></span>
+<span id="cb361-37"><a href="immune-estimation.html#cb361-37"></a><span class="co">## Also plot these all separately</span></span>
+<span id="cb361-38"><a href="immune-estimation.html#cb361-38"></a>sizeInfoCut=infoTableFinal<span class="op">$</span>Growth[<span class="kw">match</span>(<span class="kw">colnames</span>(ProgSpecCD45)[<span class="op">-</span><span class="dv">1</span>], <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb361-39"><a href="immune-estimation.html#cb361-39"></a></span>
+<span id="cb361-40"><a href="immune-estimation.html#cb361-40"></a>ttestVal=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ProgSpecCD45), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(<span class="kw">t</span>(ProgSpecCD45[x, <span class="dv">-1</span>])<span class="op">~</span>sizeInfoCut)<span class="op">$</span>p.value)</span>
+<span id="cb361-41"><a href="immune-estimation.html#cb361-41"></a>df3=<span class="kw">data.frame</span>(<span class="dt">cell=</span>RNames1, <span class="dt">method=</span>RNamesMethod, <span class="dt">cor=</span>ttestVal)</span>
+<span id="cb361-42"><a href="immune-estimation.html#cb361-42"></a>ax3=<span class="kw">acast</span>(df3, RNames1<span class="op">~</span>RNamesMethod)</span>
+<span id="cb361-43"><a href="immune-estimation.html#cb361-43"></a>ax3[<span class="kw">which</span>(ax3<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb361-44"><a href="immune-estimation.html#cb361-44"></a>ax3[<span class="kw">which</span>(<span class="kw">is.na</span>(ax3), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb361-45"><a href="immune-estimation.html#cb361-45"></a></span>
+<span id="cb361-46"><a href="immune-estimation.html#cb361-46"></a><span class="co">#pdf(&quot;~/Desktop/4F_progression_association_growth_types.pdf&quot;, width=8, height=3)</span></span>
+<span id="cb361-47"><a href="immune-estimation.html#cb361-47"></a></span>
+<span id="cb361-48"><a href="immune-estimation.html#cb361-48"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb361-49"><a href="immune-estimation.html#cb361-49"></a></span>
+<span id="cb361-50"><a href="immune-estimation.html#cb361-50"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(ax1)){</span>
+<span id="cb361-51"><a href="immune-estimation.html#cb361-51"></a>  t1=ax1[, i]</span>
+<span id="cb361-52"><a href="immune-estimation.html#cb361-52"></a>  t2=<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(t1))</span>
+<span id="cb361-53"><a href="immune-estimation.html#cb361-53"></a>  <span class="kw">image</span>(<span class="kw">cbind</span>(ax1[t2, i],ax1[t2, i]), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>,</span>
+<span id="cb361-54"><a href="immune-estimation.html#cb361-54"></a>        <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;correlation %s (* sig p&lt;0.1)&quot;</span>, <span class="kw">colnames</span>(ax1)[i]))</span>
+<span id="cb361-55"><a href="immune-estimation.html#cb361-55"></a>  <span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">length</span>(t2)), <span class="kw">names</span>(t1)[t2], <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)</span>
+<span id="cb361-56"><a href="immune-estimation.html#cb361-56"></a>  <span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="kw">c</span>(<span class="st">&quot;cor p&quot;</span>, <span class="st">&quot;wilcox p&quot;</span>), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex=</span><span class="fl">0.7</span>)</span>
+<span id="cb361-57"><a href="immune-estimation.html#cb361-57"></a>  mx=<span class="kw">which</span>(ax2[ t2,i]<span class="op">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb361-58"><a href="immune-estimation.html#cb361-58"></a>  <span class="kw">text</span>((mx<span class="dv">-1</span>)<span class="op">/</span>(<span class="kw">length</span>(t2)<span class="op">-</span><span class="dv">1</span>), <span class="dv">0</span> , <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb361-59"><a href="immune-estimation.html#cb361-59"></a>  mx=<span class="kw">which</span>(ax3[ t2,i]<span class="op">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb361-60"><a href="immune-estimation.html#cb361-60"></a>  <span class="kw">text</span>((mx<span class="dv">-1</span>)<span class="op">/</span>(<span class="kw">length</span>(t2)<span class="op">-</span><span class="dv">1</span>), <span class="dv">1</span> , <span class="st">&quot;*&quot;</span>)</span>
+<span id="cb361-61"><a href="immune-estimation.html#cb361-61"></a> }</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-1.png" width="672" /></p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="immune-estimation.html#cb362-1"></a></span>
+<span id="cb362-2"><a href="immune-estimation.html#cb362-2"></a><span class="kw">write.csv</span>(df2, <span class="dt">file=</span><span class="st">&quot;nature-tables/4f.csv&quot;</span>)</span>
+<span id="cb362-3"><a href="immune-estimation.html#cb362-3"></a></span>
+<span id="cb362-4"><a href="immune-estimation.html#cb362-4"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-121-2.png" width="672" /></p>
 <p>Make the plots with individual samples:</p>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="immune-estimation.html#cb363-1"></a></span>
+<span id="cb363-2"><a href="immune-estimation.html#cb363-2"></a><span class="co">#pdf(&quot;~/Desktop/4F-sample-celltypes-arranged_by_growth_rate.pdf&quot;, height=6, width=10)</span></span>
+<span id="cb363-3"><a href="immune-estimation.html#cb363-3"></a></span>
+<span id="cb363-4"><a href="immune-estimation.html#cb363-4"></a>x2=<span class="kw">c</span>(<span class="kw">colnames</span>(ProgSpecCD45)[<span class="kw">order</span>(sizeInfo)<span class="op">+</span><span class="dv">1</span>])</span>
+<span id="cb363-5"><a href="immune-estimation.html#cb363-5"></a></span>
+<span id="cb363-6"><a href="immune-estimation.html#cb363-6"></a>ax1=<span class="kw">grep</span>(<span class="st">&quot;TIMER&quot;</span>, ProgSpecCD45<span class="op">$</span>cell_type)</span>
+<span id="cb363-7"><a href="immune-estimation.html#cb363-7"></a>T1melt=<span class="kw">melt</span>(ProgSpecCD45[ax1, ])</span>
+<span id="cb363-8"><a href="immune-estimation.html#cb363-8"></a>T1melt<span class="op">$</span>growth=infoTableFinal<span class="op">$</span>Growth[<span class="kw">match</span>(T1melt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb363-9"><a href="immune-estimation.html#cb363-9"></a>T1melt<span class="op">$</span>treatment=infoTableFinal<span class="op">$</span>Treatment[<span class="kw">match</span>(T1melt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb363-10"><a href="immune-estimation.html#cb363-10"></a></span>
+<span id="cb363-11"><a href="immune-estimation.html#cb363-11"></a>T1melt<span class="op">$</span>variable=<span class="kw">factor</span>(T1melt<span class="op">$</span>variable, x2)</span>
+<span id="cb363-12"><a href="immune-estimation.html#cb363-12"></a></span>
+<span id="cb363-13"><a href="immune-estimation.html#cb363-13"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>growth, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>, <span class="dt">drop=</span>T)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;TIMER:prog growth&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb363-14"><a href="immune-estimation.html#cb363-14"></a><span class="st">   </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>,   <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-1"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-1.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.4: Progression CIBERSORT TIMER
+</p>
 </div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="immune-estimation.html#cb364-1"></a></span>
+<span id="cb364-2"><a href="immune-estimation.html#cb364-2"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>treatment, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>, <span class="dt">drop=</span>T)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;TIMER:prog treatment&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb364-3"><a href="immune-estimation.html#cb364-3"></a><span class="st">   </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>,   <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-2"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-2.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.5: Progression CIBERSORT TIMER
+</p>
+</div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="immune-estimation.html#cb365-1"></a></span>
+<span id="cb365-2"><a href="immune-estimation.html#cb365-2"></a></span>
+<span id="cb365-3"><a href="immune-estimation.html#cb365-3"></a>ax1=<span class="kw">grep</span>(<span class="st">&quot;CIBERSORT$&quot;</span>, ProgSpecCD45<span class="op">$</span>cell_type)</span>
+<span id="cb365-4"><a href="immune-estimation.html#cb365-4"></a>T1melt=<span class="kw">melt</span>(ProgSpecCD45[ax1, ])</span>
+<span id="cb365-5"><a href="immune-estimation.html#cb365-5"></a></span>
+<span id="cb365-6"><a href="immune-estimation.html#cb365-6"></a>T1melt<span class="op">$</span>variable=<span class="kw">factor</span>(T1melt<span class="op">$</span>variable, x2)</span>
+<span id="cb365-7"><a href="immune-estimation.html#cb365-7"></a>T1melt<span class="op">$</span>growth=infoTableFinal<span class="op">$</span>Growth[<span class="kw">match</span>(T1melt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb365-8"><a href="immune-estimation.html#cb365-8"></a>T1melt<span class="op">$</span>treatment=infoTableFinal<span class="op">$</span>Treatment[<span class="kw">match</span>(T1melt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb365-9"><a href="immune-estimation.html#cb365-9"></a></span>
+<span id="cb365-10"><a href="immune-estimation.html#cb365-10"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>growth, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span></span>
+<span id="cb365-11"><a href="immune-estimation.html#cb365-11"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:char cohort separately&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb365-12"><a href="immune-estimation.html#cb365-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-3"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-3.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.6: Progression CIBERSORT TIMER
+</p>
+</div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="immune-estimation.html#cb366-1"></a></span>
+<span id="cb366-2"><a href="immune-estimation.html#cb366-2"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>treatment, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span></span>
+<span id="cb366-3"><a href="immune-estimation.html#cb366-3"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:char cohort separately&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb366-4"><a href="immune-estimation.html#cb366-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-4"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-4.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.7: Progression CIBERSORT TIMER
+</p>
+</div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="immune-estimation.html#cb367-1"></a></span>
+<span id="cb367-2"><a href="immune-estimation.html#cb367-2"></a><span class="co"># Also do a version where the Bcells, Macrophages,NK, Mast Cells, CD4, CD8 Cells are merged together, NK</span></span>
+<span id="cb367-3"><a href="immune-estimation.html#cb367-3"></a></span>
+<span id="cb367-4"><a href="immune-estimation.html#cb367-4"></a>T1melt<span class="op">$</span>cell_type2=<span class="kw">substr</span>(T1melt<span class="op">$</span>cell_type, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb367-5"><a href="immune-estimation.html#cb367-5"></a>T1melt<span class="op">$</span>cell_type2[<span class="kw">grep</span>(<span class="st">&quot;CD8&quot;</span>, T1melt<span class="op">$</span>cell_type)]=<span class="st">&quot;T CD8&quot;</span></span>
+<span id="cb367-6"><a href="immune-estimation.html#cb367-6"></a>T1melt<span class="op">$</span>cell_type2[<span class="kw">grep</span>(<span class="st">&quot;CD4&quot;</span>, T1melt<span class="op">$</span>cell_type)]=<span class="st">&quot;T CD4&quot;</span></span>
+<span id="cb367-7"><a href="immune-estimation.html#cb367-7"></a></span>
+<span id="cb367-8"><a href="immune-estimation.html#cb367-8"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type2))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>growth, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span></span>
+<span id="cb367-9"><a href="immune-estimation.html#cb367-9"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:prog growth&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb367-10"><a href="immune-estimation.html#cb367-10"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#E6F598&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FC4E2A&quot;</span>, <span class="st">&quot;#bdbdbd&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#5E4FA2&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>, <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-5"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-5.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.8: Progression CIBERSORT TIMER
+</p>
+</div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="immune-estimation.html#cb368-1"></a></span>
+<span id="cb368-2"><a href="immune-estimation.html#cb368-2"></a><span class="kw">ggplot</span>(T1melt, <span class="kw">aes</span>(<span class="dt">x=</span>variable, <span class="dt">y=</span>value, <span class="dt">fill=</span>cell_type2))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>treatment, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span></span>
+<span id="cb368-3"><a href="immune-estimation.html#cb368-3"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;CIBSERT:prog treatment&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb368-4"><a href="immune-estimation.html#cb368-4"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;#66C2A5&quot;</span>, <span class="st">&quot;#E6F598&quot;</span>, <span class="st">&quot;#FED976&quot;</span>, <span class="st">&quot;#FC4E2A&quot;</span>, <span class="st">&quot;#bdbdbd&quot;</span>, <span class="st">&quot;#FEEBE2&quot;</span> ,<span class="st">&quot;#AE017E&quot;</span>, <span class="st">&quot;#5E4FA2&quot;</span>, <span class="st">&quot;#2171B5&quot;</span>, <span class="st">&quot;#BDD7E7&quot;</span>, <span class="st">&quot;#EFF3FF&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="figure"><span id="fig:4f-6"></span>
+<img src="RatDCIS-bookdown_files/figure-html/4f-6.png" alt="Progression CIBERSORT TIMER" width="672" />
+<p class="caption">
+Figure 17.9: Progression CIBERSORT TIMER
+</p>
+</div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="immune-estimation.html#cb369-1"></a></span>
+<span id="cb369-2"><a href="immune-estimation.html#cb369-2"></a></span>
+<span id="cb369-3"><a href="immune-estimation.html#cb369-3"></a></span>
+<span id="cb369-4"><a href="immune-estimation.html#cb369-4"></a>T1melt<span class="op">$</span>sdat=<span class="kw">paste</span>(T1melt<span class="op">$</span>variable, T1melt<span class="op">$</span>cell_type2, <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb369-5"><a href="immune-estimation.html#cb369-5"></a>T2=<span class="kw">by</span>(T1melt<span class="op">$</span>value, T1melt<span class="op">$</span>sdat, sum)</span>
+<span id="cb369-6"><a href="immune-estimation.html#cb369-6"></a>T2m=<span class="kw">stack</span>(T2)</span>
+<span id="cb369-7"><a href="immune-estimation.html#cb369-7"></a>T2m<span class="op">$</span>ind1=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(T2m<span class="op">$</span>ind), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb369-8"><a href="immune-estimation.html#cb369-8"></a>T2m<span class="op">$</span>ind2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(T2m<span class="op">$</span>ind), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb369-9"><a href="immune-estimation.html#cb369-9"></a></span>
+<span id="cb369-10"><a href="immune-estimation.html#cb369-10"></a>T2mTab=<span class="kw">acast</span>(T2m[ ,<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span><span class="op">:</span><span class="dv">4</span>)], ind2<span class="op">~</span>ind1, <span class="dt">value.var=</span><span class="st">&quot;values&quot;</span>)</span>
+<span id="cb369-11"><a href="immune-estimation.html#cb369-11"></a>CorV=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">cor</span>(T2mTab[x, ], sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>))</span>
+<span id="cb369-12"><a href="immune-estimation.html#cb369-12"></a>CorVP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">cor.test</span>(T2mTab[x, ], sizeInfo, <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)<span class="op">$</span>p.value)</span>
+<span id="cb369-13"><a href="immune-estimation.html#cb369-13"></a>wilP=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(T2mTab), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(T2mTab[x, ]<span class="op">~</span><span class="st"> </span>sizeInfoCut)<span class="op">$</span>p.value)</span>
+<span id="cb369-14"><a href="immune-estimation.html#cb369-14"></a></span>
+<span id="cb369-15"><a href="immune-estimation.html#cb369-15"></a><span class="co"># image(cbind(CorV,CorV), col=RdBu[11:1], xaxt=&quot;none&quot;, yaxt=&quot;none&quot;,</span></span>
+<span id="cb369-16"><a href="immune-estimation.html#cb369-16"></a><span class="co">#         main=&quot;correlation CIBERSORT growth rate (* sig p&lt;0.1)&quot;)</span></span>
+<span id="cb369-17"><a href="immune-estimation.html#cb369-17"></a><span class="co">#   axis(1, at=seq(0, 1, length=length(CorV)), rownames(T2mTab), las=2, cex=0.7)</span></span>
+<span id="cb369-18"><a href="immune-estimation.html#cb369-18"></a><span class="co">#   axis(2, at=c(0,1),c(&quot;cor p&quot;, &quot;wilcox p&quot;), las=2, cex=0.7)</span></span>
+<span id="cb369-19"><a href="immune-estimation.html#cb369-19"></a><span class="co">#   mx=which(CorVP&lt;0.1)</span></span>
+<span id="cb369-20"><a href="immune-estimation.html#cb369-20"></a><span class="co">#   text((mx-1)/(CorVP-1), 0 , &quot;*&quot;)</span></span>
+<span id="cb369-21"><a href="immune-estimation.html#cb369-21"></a><span class="co">#   mx=which(wilP&lt;0.1)</span></span>
+<span id="cb369-22"><a href="immune-estimation.html#cb369-22"></a><span class="co">#   text((mx-1)/(wilP-1), 1 , &quot;*&quot;)</span></span>
+<span id="cb369-23"><a href="immune-estimation.html#cb369-23"></a></span>
+<span id="cb369-24"><a href="immune-estimation.html#cb369-24"></a>  <span class="co">#dev.off()</span></span>
+<span id="cb369-25"><a href="immune-estimation.html#cb369-25"></a></span>
+<span id="cb369-26"><a href="immune-estimation.html#cb369-26"></a><span class="kw">write.csv</span>(T1melt, <span class="dt">file=</span><span class="st">&quot;nature-tables/4f_image.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="clinical-associations" class="section level2">
+<h2><span class="header-section-number">17.5</span> Clinical associations</h2>
 <div id="associate-with-treatment" class="section level3">
-<h3><span class="header-section-number">12.2.5</span> Associate with Treatment</h3>
+<h3><span class="header-section-number">17.5.1</span> Associate with Treatment</h3>
 <p>Look at association with treatment, growth and spatial infiltration for each method.</p>
 <p>Associations with treatment:</p>
 <ul>
@@ -440,7 +923,56 @@ XCELL enriches for T cells</p>
 <li>growth: stable associated with higher CD8</li>
 <li>infiltration: more neutrophils and CD8? maybe CD4 cells</li>
 </ul>
-<p><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-12.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-13.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-14.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-15.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-16.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-17.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-18.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-19.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-20.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-21.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-22.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-23.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-24.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-25.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-26.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-27.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-28.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-29.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-30.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-31.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-32.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-33.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-34.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-35.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-36.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-37.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-38.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-39.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-40.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-41.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-42.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-43.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-44.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-45.png" width="672" /></p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="immune-estimation.html#cb370-1"></a><span class="co">#sizeCutOff=7</span></span>
+<span id="cb370-2"><a href="immune-estimation.html#cb370-2"></a></span>
+<span id="cb370-3"><a href="immune-estimation.html#cb370-3"></a>MergedTablemelt=<span class="kw">melt</span>(MergedTable[<span class="op">-</span><span class="dv">1</span>, ])</span>
+<span id="cb370-4"><a href="immune-estimation.html#cb370-4"></a>MergedTablemelt<span class="op">$</span>Treatment=infoTableFinal<span class="op">$</span>Treatment[<span class="kw">match</span>(MergedTablemelt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb370-5"><a href="immune-estimation.html#cb370-5"></a>MergedTablemelt<span class="op">$</span>Growth=infoTableFinal<span class="op">$</span>Growth[<span class="kw">match</span>(MergedTablemelt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb370-6"><a href="immune-estimation.html#cb370-6"></a>MergedTablemelt<span class="op">$</span>InfRes=infoTableFinal<span class="op">$</span>MHcut[<span class="kw">match</span>(MergedTablemelt<span class="op">$</span>variable, infoTableFinal<span class="op">$</span>SampleID)]</span>
+<span id="cb370-7"><a href="immune-estimation.html#cb370-7"></a>MergedTablemelt<span class="op">$</span>cell_type2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(MergedTablemelt<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb370-8"><a href="immune-estimation.html#cb370-8"></a>MergedTablemelt<span class="op">$</span>method=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(MergedTablemelt<span class="op">$</span>cell_type, <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb370-9"><a href="immune-estimation.html#cb370-9"></a></span>
+<span id="cb370-10"><a href="immune-estimation.html#cb370-10"></a>unValues=<span class="kw">unique</span>(MergedTablemelt<span class="op">$</span>cell_type2)</span>
+<span id="cb370-11"><a href="immune-estimation.html#cb370-11"></a></span>
+<span id="cb370-12"><a href="immune-estimation.html#cb370-12"></a>CompTest=<span class="kw">list</span>()</span>
+<span id="cb370-13"><a href="immune-estimation.html#cb370-13"></a></span>
+<span id="cb370-14"><a href="immune-estimation.html#cb370-14"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(unValues)){</span>
+<span id="cb370-15"><a href="immune-estimation.html#cb370-15"></a>ax=MergedTablemelt[MergedTablemelt<span class="op">$</span>cell_type2<span class="op">==</span>unValues[i], ]</span>
+<span id="cb370-16"><a href="immune-estimation.html#cb370-16"></a>p&lt;-<span class="kw">ggplot</span>(ax, <span class="kw">aes</span>(<span class="dt">x=</span>Treatment, <span class="dt">y=</span><span class="kw">as.numeric</span>(value), <span class="dt">col=</span>Treatment))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_wrap</span>(<span class="op">~</span>method, <span class="dt">scale=</span><span class="st">&quot;free_y&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(unValues[i], <span class="st">&quot;Treatment&quot;</span>))</span>
+<span id="cb370-17"><a href="immune-estimation.html#cb370-17"></a><span class="kw">print</span>(p)</span>
+<span id="cb370-18"><a href="immune-estimation.html#cb370-18"></a><span class="co">#p&lt;-ggplot(ax, aes(x=Growth, y=as.numeric(value), col=Growth))+geom_boxplot()+facet_wrap(~method, scale=&quot;free_y&quot;)+ggtitle(paste(unValues[i], &quot;Growth&quot;))</span></span>
+<span id="cb370-19"><a href="immune-estimation.html#cb370-19"></a><span class="co">#print(p)</span></span>
+<span id="cb370-20"><a href="immune-estimation.html#cb370-20"></a><span class="co">#p&lt;-ggplot(ax, aes(x=InfRes, y=as.numeric(value), col=InfRes))+geom_boxplot()+facet_wrap(~method, #scale=&quot;free_y&quot;)+ggtitle(paste(unValues[i], &quot;Infiltration&quot;))</span></span>
+<span id="cb370-21"><a href="immune-estimation.html#cb370-21"></a><span class="co">#print(p)</span></span>
+<span id="cb370-22"><a href="immune-estimation.html#cb370-22"></a></span>
+<span id="cb370-23"><a href="immune-estimation.html#cb370-23"></a>unT=<span class="kw">sort</span>(<span class="kw">unique</span>(ax<span class="op">$</span>Treatment))</span>
+<span id="cb370-24"><a href="immune-estimation.html#cb370-24"></a>unB=<span class="kw">sort</span>(<span class="kw">unique</span>(ax<span class="op">$</span>method))</span>
+<span id="cb370-25"><a href="immune-estimation.html#cb370-25"></a>Outcome1=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">5</span>, <span class="dt">ncol=</span><span class="kw">length</span>(unB))</span>
+<span id="cb370-26"><a href="immune-estimation.html#cb370-26"></a></span>
+<span id="cb370-27"><a href="immune-estimation.html#cb370-27"></a><span class="kw">rownames</span>(Outcome1)=<span class="kw">c</span>(<span class="kw">paste</span>(unT[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="st">&quot;vs.Vehicle&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>), <span class="st">&quot;Grow.Stable&quot;</span>, <span class="st">&quot;Inf.res&quot;</span>)</span>
+<span id="cb370-28"><a href="immune-estimation.html#cb370-28"></a><span class="kw">colnames</span>(Outcome1)=unB</span>
+<span id="cb370-29"><a href="immune-estimation.html#cb370-29"></a></span>
+<span id="cb370-30"><a href="immune-estimation.html#cb370-30"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Outcome1)){</span>
+<span id="cb370-31"><a href="immune-estimation.html#cb370-31"></a>Outcome1[<span class="dv">1</span> , ]=<span class="kw">sapply</span>(unB, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(ax<span class="op">$</span>value[<span class="kw">which</span>(ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;LY&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x)], </span>
+<span id="cb370-32"><a href="immune-estimation.html#cb370-32"></a>                  ax<span class="op">$</span>value[ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;Vehicle&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x])<span class="op">$</span>p.value)</span>
+<span id="cb370-33"><a href="immune-estimation.html#cb370-33"></a>Outcome1[<span class="dv">2</span> , ]=<span class="kw">sapply</span>(unB, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(ax<span class="op">$</span>value[ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;PDL1&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x], </span>
+<span id="cb370-34"><a href="immune-estimation.html#cb370-34"></a>                  ax<span class="op">$</span>value[ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;Vehicle&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x])<span class="op">$</span>p.value)</span>
+<span id="cb370-35"><a href="immune-estimation.html#cb370-35"></a>Outcome1[<span class="dv">3</span> , ]=<span class="kw">sapply</span>(unB, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(ax<span class="op">$</span>value[ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;PDL1+LY&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x], </span>
+<span id="cb370-36"><a href="immune-estimation.html#cb370-36"></a>                  ax<span class="op">$</span>value[ax<span class="op">$</span>Treatment<span class="op">==</span><span class="st">&quot;Vehicle&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x])<span class="op">$</span>p.value)</span>
+<span id="cb370-37"><a href="immune-estimation.html#cb370-37"></a>Outcome1[<span class="dv">4</span> , ]=<span class="kw">sapply</span>(unB, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(ax<span class="op">$</span>value[ax<span class="op">$</span>Growth<span class="op">==</span><span class="st">&quot;growing&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x], </span>
+<span id="cb370-38"><a href="immune-estimation.html#cb370-38"></a>                  ax<span class="op">$</span>value[ax<span class="op">$</span>Growth<span class="op">==</span><span class="st">&quot;stable&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x])<span class="op">$</span>p.value)</span>
+<span id="cb370-39"><a href="immune-estimation.html#cb370-39"></a>Outcome1[<span class="dv">5</span> , ]=<span class="kw">sapply</span>(unB, <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(ax<span class="op">$</span>value[ax<span class="op">$</span>InfRes<span class="op">==</span><span class="st">&quot;inf&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x], </span>
+<span id="cb370-40"><a href="immune-estimation.html#cb370-40"></a>                  ax<span class="op">$</span>value[ax<span class="op">$</span>InfRes<span class="op">==</span><span class="st">&quot;res&quot;</span> <span class="op">&amp;</span><span class="st"> </span>ax<span class="op">$</span>method<span class="op">==</span>x])<span class="op">$</span>p.value)</span>
+<span id="cb370-41"><a href="immune-estimation.html#cb370-41"></a></span>
+<span id="cb370-42"><a href="immune-estimation.html#cb370-42"></a>}</span>
+<span id="cb370-43"><a href="immune-estimation.html#cb370-43"></a>CompTest[[i]]=<span class="kw">t</span>(Outcome1)</span>
+<span id="cb370-44"><a href="immune-estimation.html#cb370-44"></a>o1=Outcome1</span>
+<span id="cb370-45"><a href="immune-estimation.html#cb370-45"></a>o1[<span class="kw">which</span>(o1<span class="op">&lt;</span><span class="fl">0.05</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">3</span></span>
+<span id="cb370-46"><a href="immune-estimation.html#cb370-46"></a>o1[<span class="kw">which</span>(o1<span class="op">&lt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">2</span></span>
+<span id="cb370-47"><a href="immune-estimation.html#cb370-47"></a>o1[<span class="kw">which</span>(o1<span class="op">&lt;=</span><span class="dv">1</span>, <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb370-48"><a href="immune-estimation.html#cb370-48"></a><span class="co">#heatmap.2(o1, col=brewer.pal(9, &quot;Blues&quot;), scale=&quot;none&quot;, trace=&quot;none&quot;, main=paste(&quot;pvalue summary&quot;, unValues[i]), Colv = NA, Rowv = NA)</span></span>
+<span id="cb370-49"><a href="immune-estimation.html#cb370-49"></a>}</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-12.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-13.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-14.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/immune-assoc-outcome-15.png" width="672" /></p>
 <p>Using wilcox tests for significance, we can make the above comparisons and see if there is an association with outcome:</p>
 <ul>
 <li>There are differences in B-cell content between LY vs V comaprisons using xcell and cibersort</li>
@@ -448,13 +980,28 @@ XCELL enriches for T cells</p>
 </ul>
 </div>
 <div id="association-with-growth" class="section level3">
-<h3><span class="header-section-number">12.2.6</span> Association with Growth</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-12.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-13.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-14.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-15.png" width="672" /></p>
+<h3><span class="header-section-number">17.5.2</span> Association with Growth</h3>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="immune-estimation.html#cb371-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(unValues)){</span>
+<span id="cb371-2"><a href="immune-estimation.html#cb371-2"></a>ax=MergedTablemelt[MergedTablemelt<span class="op">$</span>cell_type2<span class="op">==</span>unValues[i], ]</span>
+<span id="cb371-3"><a href="immune-estimation.html#cb371-3"></a>p&lt;-<span class="kw">ggplot</span>(ax, <span class="kw">aes</span>(<span class="dt">x=</span>Growth, <span class="dt">y=</span><span class="kw">as.numeric</span>(value), <span class="dt">col=</span>Growth))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_wrap</span>(<span class="op">~</span>method, <span class="dt">scale=</span><span class="st">&quot;free_y&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(unValues[i], <span class="st">&quot;Growth&quot;</span>))</span>
+<span id="cb371-4"><a href="immune-estimation.html#cb371-4"></a><span class="kw">print</span>(p)</span>
+<span id="cb371-5"><a href="immune-estimation.html#cb371-5"></a>}</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-12.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-13.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-14.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-122-15.png" width="672" /></p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="immune-estimation.html#cb372-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(unValues)){</span>
+<span id="cb372-2"><a href="immune-estimation.html#cb372-2"></a>ax=MergedTablemelt[MergedTablemelt<span class="op">$</span>cell_type2<span class="op">==</span>unValues[i], ]</span>
+<span id="cb372-3"><a href="immune-estimation.html#cb372-3"></a>p&lt;-<span class="kw">ggplot</span>(ax, <span class="kw">aes</span>(<span class="dt">x=</span>InfRes, <span class="dt">y=</span><span class="kw">as.numeric</span>(value), <span class="dt">col=</span>InfRes))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">facet_wrap</span>(<span class="op">~</span>method, <span class="dt">scale=</span><span class="st">&quot;free_y&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(unValues[i], <span class="st">&quot;Infiltration&quot;</span>))</span>
+<span id="cb372-4"><a href="immune-estimation.html#cb372-4"></a><span class="kw">print</span>(p)</span>
+<span id="cb372-5"><a href="immune-estimation.html#cb372-5"></a>}</span></code></pre></div>
 </div>
-<div id="association-with-infiltration" class="section level3">
-<h3><span class="header-section-number">12.2.7</span> Association with infiltration</h3>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-1.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-2.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-3.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-4.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-5.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-6.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-7.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-8.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-9.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-10.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-11.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-12.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-13.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-14.png" width="672" /><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-15.png" width="672" />
-### Summary of the outcome</p>
+</div>
+<div id="summary-of-the-outcome" class="section level2">
+<h2><span class="header-section-number">17.6</span> Summary of the outcome</h2>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="immune-estimation.html#cb373-1"></a>CompTest2=<span class="kw">do.call</span>(rbind, CompTest)</span>
+<span id="cb373-2"><a href="immune-estimation.html#cb373-2"></a> </span>
+<span id="cb373-3"><a href="immune-estimation.html#cb373-3"></a><span class="kw">write.csv</span>(CompTest2, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/p_values_differences_treatment_growth_infiltration_%s.csv&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
+<span id="cb373-4"><a href="immune-estimation.html#cb373-4"></a></span>
+<span id="cb373-5"><a href="immune-estimation.html#cb373-5"></a><span class="kw">scroll_box</span>(<span class="kw">kable</span>(CompTest2, <span class="dt">format=</span><span class="st">&quot;html&quot;</span>),</span>
+<span id="cb373-6"><a href="immune-estimation.html#cb373-6"></a>         <span class="dt">height=</span><span class="st">&quot;300px&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table>
 <thead>
@@ -1702,8 +2249,25 @@ XCELL
 </tbody>
 </table>
 </div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="immune-estimation.html#cb374-1"></a></span>
+<span id="cb374-2"><a href="immune-estimation.html#cb374-2"></a>CompTest2=<span class="kw">data.frame</span>(CompTest2)</span>
+<span id="cb374-3"><a href="immune-estimation.html#cb374-3"></a><span class="co"># CompTest2$Method=sapply(strsplit(rownames(CompTest2), &quot;_&quot;), function(x) x[2])</span></span>
+<span id="cb374-4"><a href="immune-estimation.html#cb374-4"></a><span class="co"># CompTest2$CellType=sapply(strsplit(rownames(CompTest2), &quot;_&quot;), function(x) x[1])</span></span>
+<span id="cb374-5"><a href="immune-estimation.html#cb374-5"></a><span class="co"># </span></span>
+<span id="cb374-6"><a href="immune-estimation.html#cb374-6"></a><span class="co"># x2=unique(CompTest2$CellType[which(duplicated(CompTest2$CellType))])</span></span>
+<span id="cb374-7"><a href="immune-estimation.html#cb374-7"></a><span class="co"># </span></span>
+<span id="cb374-8"><a href="immune-estimation.html#cb374-8"></a><span class="co"># CompTest3=CompTest2[which(CompTest2$CellType%in%x2), ]</span></span>
+<span id="cb374-9"><a href="immune-estimation.html#cb374-9"></a><span class="co"># CompTest3melt=melt(CompTest3)</span></span>
+<span id="cb374-10"><a href="immune-estimation.html#cb374-10"></a><span class="co"># </span></span>
+<span id="cb374-11"><a href="immune-estimation.html#cb374-11"></a><span class="co"># CompTest3melt$P2=ifelse(CompTest3melt$value&lt;0.05, &quot;**&quot;, ifelse(CompTest3melt$value&lt;0.1, &quot;*&quot;, &quot;ns&quot;))</span></span>
+<span id="cb374-12"><a href="immune-estimation.html#cb374-12"></a><span class="co"># </span></span>
+<span id="cb374-13"><a href="immune-estimation.html#cb374-13"></a><span class="co"># </span></span>
+<span id="cb374-14"><a href="immune-estimation.html#cb374-14"></a><span class="co"># </span></span>
+<span id="cb374-15"><a href="immune-estimation.html#cb374-15"></a><span class="co"># p=ggplot(CompTest3melt, aes(x=CellType, y=Method, fill=P2))+geom_tile()+facet_wrap(~variable)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab(&quot;No. differential genes&quot;)+scale_fill_manual(values=c(&quot;#084594&quot;, &quot;#2171b5&quot;, &quot;#deebf7&quot;))+ggtitle(&quot;p values of comparisons&quot;)</span></span>
+<span id="cb374-16"><a href="immune-estimation.html#cb374-16"></a><span class="co"># print(p)</span></span>
+<span id="cb374-17"><a href="immune-estimation.html#cb374-17"></a></span>
+<span id="cb374-18"><a href="immune-estimation.html#cb374-18"></a><span class="co">##dev.off()</span></span></code></pre></div>
 
-</div>
 </div>
 </div>
             </section>

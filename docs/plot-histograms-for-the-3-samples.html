@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 12 plot histograms for the 3 samples: | Rat DCIS study</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 12 plot histograms for the 3 samples: | Rat DCIS study" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 12 plot histograms for the 3 samples: | Rat DCIS study" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2021-02-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="epcam-inflammatory-vs-non-inflammatory-samples.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-summary.html"><a href="cohort-summary.html"><i class="fa fa-check"></i><b>2</b> Cohort summary</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-summary.html"><a href="cohort-summary.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-summary.html"><a href="cohort-summary.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-summary.html"><a href="cohort-summary.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-table"><i class="fa fa-check"></i><b>2.5</b> Summary Table</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="cohort-summary.html"><a href="cohort-summary.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>2.5.1</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="2.5.2" data-path="cohort-summary.html"><a href="cohort-summary.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>2.5.2</b> Summary of the RNA data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>3</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="3.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>3.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="3.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>3.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="3.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>3.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="3.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>3.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="3.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>3.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="3.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>3.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>4</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>4.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>4.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="4.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>4.1.2</b> Associations with outcome to treatment</a></li>
+<li class="chapter" data-level="4.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>4.1.3</b> Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>4.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>4.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="4.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>4.2.2</b> Growth</a></li>
+<li class="chapter" data-level="4.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>4.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>4.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>4.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="4.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>4.3.2</b> Growth</a></li>
+<li class="chapter" data-level="4.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>4.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>4.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="4.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#other-cell-types"><i class="fa fa-check"></i><b>4.5</b> Other cell types</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>5</b> Expression data</a><ul>
+<li class="chapter" data-level="5.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>5.1</b> Running alignment</a></li>
+<li class="chapter" data-level="5.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>5.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="5.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>5.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>5.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>5.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>6</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="6.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>6.1</b> PCA plots</a></li>
+<li class="chapter" data-level="6.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>6.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>7</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="7.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>7.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="7.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>7.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="7.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>7.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="7.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>7.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>7.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="7.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>7.4.2</b> CD45</a></li>
+<li class="chapter" data-level="7.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>7.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>7.5</b> Pearson correlation plots of samples</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>8</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="9" data-path="deseq-analysis.html"><a href="deseq-analysis.html"><i class="fa fa-check"></i><b>9</b> DESeq analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#summary-of-comparisons"><i class="fa fa-check"></i><b>9.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="9.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>9.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#epcam-samples"><i class="fa fa-check"></i><b>9.2.1</b> EPCAM samples</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>9.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="deseq-analysis.html"><a href="deseq-analysis.html#dn-fraction"><i class="fa fa-check"></i><b>9.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="9.3.2" data-path="deseq-analysis.html"><a href="deseq-analysis.html#cd-fraction"><i class="fa fa-check"></i><b>9.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="9.3.3" data-path="deseq-analysis.html"><a href="deseq-analysis.html#ep-fraction"><i class="fa fa-check"></i><b>9.3.3</b> Ep Fraction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>10</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="10.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>10.1</b> Stable vs growing: all samples</a></li>
+<li class="chapter" data-level="10.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>10.2</b> Pathways of Interest 2</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>11</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="11.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#comparison-of-enriched-pathways-across-samples"><i class="fa fa-check"></i><b>11.1</b> Comparison of enriched pathways across samples</a></li>
+<li class="chapter" data-level="11.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deseq-comparison"><i class="fa fa-check"></i><b>11.2</b> DeSeq comparison</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#compare-inflammatory-vs-inflamm-stable-vs-inflamm-growing"><i class="fa fa-check"></i><b>11.2.1</b> Compare inflammatory vs inflamm stable vs inflamm growing</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#perform-ssgsea-on-these-samples-and-see-where-they-fit"><i class="fa fa-check"></i><b>11.3</b> perform ssGSEA on these samples and see where they fit:</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html"><i class="fa fa-check"></i><b>12</b> plot histograms for the 3 samples:</a><ul>
+<li class="chapter" data-level="12.1" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-for-input-gene-list-and-hit-list"><i class="fa fa-check"></i><b>12.1</b> -Preprocessing for input gene list and hit list …</a></li>
+<li class="chapter" data-level="12.2" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-genes-without-values-in-genelist"><i class="fa fa-check"></i><b>12.2</b> –Removing genes without values in geneList …</a></li>
+<li class="chapter" data-level="12.3" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-duplicated-genes"><i class="fa fa-check"></i><b>12.3</b> –Removing duplicated genes …</a></li>
+<li class="chapter" data-level="12.4" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#converting-annotations"><i class="fa fa-check"></i><b>12.4</b> –Converting annotations …</a></li>
+<li class="chapter" data-level="12.5" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data."><i class="fa fa-check"></i><b>12.5</b> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.6" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-181-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data."><i class="fa fa-check"></i><b>12.6</b> – 8 genes (out of 181) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.7" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#ordering-gene-list-decreasingly"><i class="fa fa-check"></i><b>12.7</b> –Ordering Gene List decreasingly …</a></li>
+<li class="chapter" data-level="12.8" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-complete"><i class="fa fa-check"></i><b>12.8</b> -Preprocessing complete!</a></li>
+<li class="chapter" data-level="12.9" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list"><i class="fa fa-check"></i><b>12.9</b> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</a></li>
+<li class="chapter" data-level="12.10" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp"><i class="fa fa-check"></i><b>12.10</b> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</a></li>
+<li class="chapter" data-level="12.11" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf"><i class="fa fa-check"></i><b>12.11</b> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</a></li>
+<li class="chapter" data-level="12.12" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc"><i class="fa fa-check"></i><b>12.12</b> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</a></li>
+<li class="chapter" data-level="12.13" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway"><i class="fa fa-check"></i><b>12.13</b> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</a></li>
+<li class="chapter" data-level="12.14" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-hypergeometric-analysis"><i class="fa fa-check"></i><b>12.14</b> -Performing hypergeometric analysis …</a></li>
+<li class="chapter" data-level="12.15" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeometric-analysis-complete"><i class="fa fa-check"></i><b>12.15</b> -Hypergeometric analysis complete</a></li>
+<li class="chapter" data-level="12.16" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section"><i class="fa fa-check"></i><b>12.16</b> </a></li>
+<li class="chapter" data-level="12.17" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-gene-set-enrichment-analysis-using-htsanalyzer2"><i class="fa fa-check"></i><b>12.17</b> -Performing gene set enrichment analysis using HTSanalyzeR2…</a></li>
+<li class="chapter" data-level="12.18" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#calculating-the-permutations"><i class="fa fa-check"></i><b>12.18</b> –Calculating the permutations …</a></li>
+<li class="chapter" data-level="12.19" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-set-enrichment-analysis-using-htsanalyzer2-complete"><i class="fa fa-check"></i><b>12.19</b> -Gene set enrichment analysis using HTSanalyzeR2 complete</a></li>
+<li class="chapter" data-level="12.20" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-1"><i class="fa fa-check"></i><b>12.20</b> ==============================================</a></li>
+<li class="chapter" data-level="12.21" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-for-input-gene-list-and-hit-list-1"><i class="fa fa-check"></i><b>12.21</b> -Preprocessing for input gene list and hit list …</a></li>
+<li class="chapter" data-level="12.22" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-genes-without-values-in-genelist-1"><i class="fa fa-check"></i><b>12.22</b> –Removing genes without values in geneList …</a></li>
+<li class="chapter" data-level="12.23" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-duplicated-genes-1"><i class="fa fa-check"></i><b>12.23</b> –Removing duplicated genes …</a></li>
+<li class="chapter" data-level="12.24" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#converting-annotations-1"><i class="fa fa-check"></i><b>12.24</b> –Converting annotations …</a></li>
+<li class="chapter" data-level="12.25" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-1"><i class="fa fa-check"></i><b>12.25</b> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.26" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-63-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data."><i class="fa fa-check"></i><b>12.26</b> – 7 genes (out of 63) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.27" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#ordering-gene-list-decreasingly-1"><i class="fa fa-check"></i><b>12.27</b> –Ordering Gene List decreasingly …</a></li>
+<li class="chapter" data-level="12.28" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-complete-1"><i class="fa fa-check"></i><b>12.28</b> -Preprocessing complete!</a></li>
+<li class="chapter" data-level="12.29" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-1"><i class="fa fa-check"></i><b>12.29</b> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</a></li>
+<li class="chapter" data-level="12.30" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-1"><i class="fa fa-check"></i><b>12.30</b> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</a></li>
+<li class="chapter" data-level="12.31" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-1"><i class="fa fa-check"></i><b>12.31</b> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</a></li>
+<li class="chapter" data-level="12.32" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-1"><i class="fa fa-check"></i><b>12.32</b> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</a></li>
+<li class="chapter" data-level="12.33" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-1"><i class="fa fa-check"></i><b>12.33</b> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</a></li>
+<li class="chapter" data-level="12.34" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-hypergeometric-analysis-1"><i class="fa fa-check"></i><b>12.34</b> -Performing hypergeometric analysis …</a></li>
+<li class="chapter" data-level="12.35" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeometric-analysis-complete-1"><i class="fa fa-check"></i><b>12.35</b> -Hypergeometric analysis complete</a></li>
+<li class="chapter" data-level="12.36" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-2"><i class="fa fa-check"></i><b>12.36</b> </a></li>
+<li class="chapter" data-level="12.37" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-gene-set-enrichment-analysis-using-htsanalyzer2-1"><i class="fa fa-check"></i><b>12.37</b> -Performing gene set enrichment analysis using HTSanalyzeR2…</a></li>
+<li class="chapter" data-level="12.38" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#calculating-the-permutations-1"><i class="fa fa-check"></i><b>12.38</b> –Calculating the permutations …</a></li>
+<li class="chapter" data-level="12.39" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-set-enrichment-analysis-using-htsanalyzer2-complete-1"><i class="fa fa-check"></i><b>12.39</b> -Gene set enrichment analysis using HTSanalyzeR2 complete</a></li>
+<li class="chapter" data-level="12.40" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-3"><i class="fa fa-check"></i><b>12.40</b> ==============================================</a></li>
+<li class="chapter" data-level="12.41" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-for-input-gene-list-and-hit-list-2"><i class="fa fa-check"></i><b>12.41</b> -Preprocessing for input gene list and hit list …</a></li>
+<li class="chapter" data-level="12.42" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-genes-without-values-in-genelist-2"><i class="fa fa-check"></i><b>12.42</b> –Removing genes without values in geneList …</a></li>
+<li class="chapter" data-level="12.43" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-duplicated-genes-2"><i class="fa fa-check"></i><b>12.43</b> –Removing duplicated genes …</a></li>
+<li class="chapter" data-level="12.44" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#converting-annotations-2"><i class="fa fa-check"></i><b>12.44</b> –Converting annotations …</a></li>
+<li class="chapter" data-level="12.45" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-2"><i class="fa fa-check"></i><b>12.45</b> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.46" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-182-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data."><i class="fa fa-check"></i><b>12.46</b> – 11 genes (out of 182) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.47" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#ordering-gene-list-decreasingly-2"><i class="fa fa-check"></i><b>12.47</b> –Ordering Gene List decreasingly …</a></li>
+<li class="chapter" data-level="12.48" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-complete-2"><i class="fa fa-check"></i><b>12.48</b> -Preprocessing complete!</a></li>
+<li class="chapter" data-level="12.49" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-2"><i class="fa fa-check"></i><b>12.49</b> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</a></li>
+<li class="chapter" data-level="12.50" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-2"><i class="fa fa-check"></i><b>12.50</b> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</a></li>
+<li class="chapter" data-level="12.51" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-2"><i class="fa fa-check"></i><b>12.51</b> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</a></li>
+<li class="chapter" data-level="12.52" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-2"><i class="fa fa-check"></i><b>12.52</b> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</a></li>
+<li class="chapter" data-level="12.53" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-2"><i class="fa fa-check"></i><b>12.53</b> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</a></li>
+<li class="chapter" data-level="12.54" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-hypergeometric-analysis-2"><i class="fa fa-check"></i><b>12.54</b> -Performing hypergeometric analysis …</a></li>
+<li class="chapter" data-level="12.55" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeometric-analysis-complete-2"><i class="fa fa-check"></i><b>12.55</b> -Hypergeometric analysis complete</a></li>
+<li class="chapter" data-level="12.56" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-4"><i class="fa fa-check"></i><b>12.56</b> </a></li>
+<li class="chapter" data-level="12.57" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-gene-set-enrichment-analysis-using-htsanalyzer2-2"><i class="fa fa-check"></i><b>12.57</b> -Performing gene set enrichment analysis using HTSanalyzeR2…</a></li>
+<li class="chapter" data-level="12.58" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#calculating-the-permutations-2"><i class="fa fa-check"></i><b>12.58</b> –Calculating the permutations …</a></li>
+<li class="chapter" data-level="12.59" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-set-enrichment-analysis-using-htsanalyzer2-complete-2"><i class="fa fa-check"></i><b>12.59</b> -Gene set enrichment analysis using HTSanalyzeR2 complete</a></li>
+<li class="chapter" data-level="12.60" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-5"><i class="fa fa-check"></i><b>12.60</b> ==============================================</a></li>
+<li class="chapter" data-level="12.61" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-6"><i class="fa fa-check"></i><b>12.61</b> </a></li>
+<li class="chapter" data-level="12.62" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#wilcoxon-rank-sum-exact-test"><i class="fa fa-check"></i><b>12.62</b> Wilcoxon rank sum exact test</a></li>
+<li class="chapter" data-level="12.63" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-7"><i class="fa fa-check"></i><b>12.63</b> </a></li>
+<li class="chapter" data-level="12.64" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#data-tab2hettab2inf-inf-by-tab2inftab2inf-inf"><i class="fa fa-check"></i><b>12.64</b> data: tab2<span class="math inline">\(het[tab2\)</span>inf != “inf”] by tab2<span class="math inline">\(inf[tab2\)</span>inf != “inf”]</a></li>
+<li class="chapter" data-level="12.65" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#w-9-p-value-0.05528"><i class="fa fa-check"></i><b>12.65</b> W = 9, p-value = 0.05528</a></li>
+<li class="chapter" data-level="12.66" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#alternative-hypothesis-true-location-shift-is-not-equal-to-0"><i class="fa fa-check"></i><b>12.66</b> alternative hypothesis: true location shift is not equal to 0</a></li>
+<li class="chapter" data-level="12.67" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-for-input-gene-list-and-hit-list-3"><i class="fa fa-check"></i><b>12.67</b> -Preprocessing for input gene list and hit list …</a></li>
+<li class="chapter" data-level="12.68" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-genes-without-values-in-genelist-3"><i class="fa fa-check"></i><b>12.68</b> –Removing genes without values in geneList …</a></li>
+<li class="chapter" data-level="12.69" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#removing-duplicated-genes-3"><i class="fa fa-check"></i><b>12.69</b> –Removing duplicated genes …</a></li>
+<li class="chapter" data-level="12.70" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#converting-annotations-3"><i class="fa fa-check"></i><b>12.70</b> –Converting annotations …</a></li>
+<li class="chapter" data-level="12.71" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-3"><i class="fa fa-check"></i><b>12.71</b> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.72" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#genes-out-of-88-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data."><i class="fa fa-check"></i><b>12.72</b> – 9 genes (out of 88) could not be mapped to any identifier, and were removed from the data.</a></li>
+<li class="chapter" data-level="12.73" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#ordering-gene-list-decreasingly-3"><i class="fa fa-check"></i><b>12.73</b> –Ordering Gene List decreasingly …</a></li>
+<li class="chapter" data-level="12.74" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#preprocessing-complete-3"><i class="fa fa-check"></i><b>12.74</b> -Preprocessing complete!</a></li>
+<li class="chapter" data-level="12.75" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-3"><i class="fa fa-check"></i><b>12.75</b> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</a></li>
+<li class="chapter" data-level="12.76" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-3"><i class="fa fa-check"></i><b>12.76</b> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</a></li>
+<li class="chapter" data-level="12.77" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-3"><i class="fa fa-check"></i><b>12.77</b> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</a></li>
+<li class="chapter" data-level="12.78" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-3"><i class="fa fa-check"></i><b>12.78</b> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</a></li>
+<li class="chapter" data-level="12.79" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-3"><i class="fa fa-check"></i><b>12.79</b> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</a></li>
+<li class="chapter" data-level="12.80" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-hypergeometric-analysis-3"><i class="fa fa-check"></i><b>12.80</b> -Performing hypergeometric analysis …</a></li>
+<li class="chapter" data-level="12.81" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeometric-analysis-complete-3"><i class="fa fa-check"></i><b>12.81</b> -Hypergeometric analysis complete</a></li>
+<li class="chapter" data-level="12.82" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-8"><i class="fa fa-check"></i><b>12.82</b> </a></li>
+<li class="chapter" data-level="12.83" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#performing-gene-set-enrichment-analysis-using-htsanalyzer2-3"><i class="fa fa-check"></i><b>12.83</b> -Performing gene set enrichment analysis using HTSanalyzeR2…</a></li>
+<li class="chapter" data-level="12.84" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#calculating-the-permutations-3"><i class="fa fa-check"></i><b>12.84</b> –Calculating the permutations …</a></li>
+<li class="chapter" data-level="12.85" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-set-enrichment-analysis-using-htsanalyzer2-complete-3"><i class="fa fa-check"></i><b>12.85</b> -Gene set enrichment analysis using HTSanalyzeR2 complete</a></li>
+<li class="chapter" data-level="12.86" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-9"><i class="fa fa-check"></i><b>12.86</b> ==============================================</a></li>
+<li class="chapter" data-level="12.87" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-10"><i class="fa fa-check"></i><b>12.87</b> </a></li>
+<li class="chapter" data-level="12.88" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#no-of-genes-in-gene-set-collections"><i class="fa fa-check"></i><b>12.88</b> -No of genes in Gene set collections:</a></li>
+<li class="chapter" data-level="12.89" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#input-above-min-size"><i class="fa fa-check"></i><b>12.89</b> input above min size</a></li>
+<li class="chapter" data-level="12.90" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#c2list-2199-2053"><i class="fa fa-check"></i><b>12.90</b> c2List 2199 2053</a></li>
+<li class="chapter" data-level="12.91" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#c5bp-7530-6682"><i class="fa fa-check"></i><b>12.91</b> c5BP 7530 6682</a></li>
+<li class="chapter" data-level="12.92" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#c5mf-1663-1394"><i class="fa fa-check"></i><b>12.92</b> c5MF 1663 1394</a></li>
+<li class="chapter" data-level="12.93" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#c5cc-999-889"><i class="fa fa-check"></i><b>12.93</b> c5CC 999 889</a></li>
+<li class="chapter" data-level="12.94" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#processnetworks-158-158"><i class="fa fa-check"></i><b>12.94</b> ProcessNetworks 158 158</a></li>
+<li class="chapter" data-level="12.95" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#metpathway-1480-1103"><i class="fa fa-check"></i><b>12.95</b> MetPathway 1480 1103</a></li>
+<li class="chapter" data-level="12.96" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hallmark-50-50"><i class="fa fa-check"></i><b>12.96</b> Hallmark 50 50</a></li>
+<li class="chapter" data-level="12.97" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-11"><i class="fa fa-check"></i><b>12.97</b> </a></li>
+<li class="chapter" data-level="12.98" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-12"><i class="fa fa-check"></i><b>12.98</b> </a></li>
+<li class="chapter" data-level="12.99" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#no-of-genes-in-gene-list"><i class="fa fa-check"></i><b>12.99</b> -No of genes in Gene List:</a></li>
+<li class="chapter" data-level="12.100" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#input-valid-duplicate-removed-converted-to-entrez"><i class="fa fa-check"></i><b>12.100</b> input valid duplicate removed converted to entrez</a></li>
+<li class="chapter" data-level="12.101" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gene-list-12449-12449-12341-11814"><i class="fa fa-check"></i><b>12.101</b> Gene List 12449 12449 12341 11814</a></li>
+<li class="chapter" data-level="12.102" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-13"><i class="fa fa-check"></i><b>12.102</b> </a></li>
+<li class="chapter" data-level="12.103" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-14"><i class="fa fa-check"></i><b>12.103</b> </a></li>
+<li class="chapter" data-level="12.104" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#no-of-hits"><i class="fa fa-check"></i><b>12.104</b> -No of hits:</a></li>
+<li class="chapter" data-level="12.105" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#input-preprocessed"><i class="fa fa-check"></i><b>12.105</b> input preprocessed</a></li>
+<li class="chapter" data-level="12.106" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hits-88-79"><i class="fa fa-check"></i><b>12.106</b> Hits 88 79</a></li>
+<li class="chapter" data-level="12.107" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-15"><i class="fa fa-check"></i><b>12.107</b> </a></li>
+<li class="chapter" data-level="12.108" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-16"><i class="fa fa-check"></i><b>12.108</b> </a></li>
+<li class="chapter" data-level="12.109" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#parameters-for-analysis"><i class="fa fa-check"></i><b>12.109</b> -Parameters for analysis:</a></li>
+<li class="chapter" data-level="12.110" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#mingenesetsize-pvaluecutoff-padjustmethod"><i class="fa fa-check"></i><b>12.110</b> minGeneSetSize pValueCutoff pAdjustMethod</a></li>
+<li class="chapter" data-level="12.111" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeo-test-5-0.05-bh"><i class="fa fa-check"></i><b>12.111</b> HyperGeo Test 5 0.05 BH</a></li>
+<li class="chapter" data-level="12.112" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-17"><i class="fa fa-check"></i><b>12.112</b> </a></li>
+<li class="chapter" data-level="12.113" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#mingenesetsize-pvaluecutoff-padjustmethod-npermutations-exponent"><i class="fa fa-check"></i><b>12.113</b> minGeneSetSize pValueCutoff pAdjustMethod nPermutations exponent</a></li>
+<li class="chapter" data-level="12.114" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gsea-5-0.05-bh-100-1"><i class="fa fa-check"></i><b>12.114</b> GSEA 5 0.05 BH 100 1</a></li>
+<li class="chapter" data-level="12.115" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-18"><i class="fa fa-check"></i><b>12.115</b> </a></li>
+<li class="chapter" data-level="12.116" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#section-19"><i class="fa fa-check"></i><b>12.116</b> </a></li>
+<li class="chapter" data-level="12.117" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#significant-gene-sets-adjusted-p-value-0.05"><i class="fa fa-check"></i><b>12.117</b> -Significant gene sets (adjusted p-value&lt; 0.05 ):</a></li>
+<li class="chapter" data-level="12.118" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#c2list-c5bp-c5mf-c5cc-processnetworks-metpathway-hallmark"><i class="fa fa-check"></i><b>12.118</b> c2List c5BP c5MF c5CC ProcessNetworks MetPathway Hallmark</a></li>
+<li class="chapter" data-level="12.119" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#hypergeo-4-2-0-2-0-0-1"><i class="fa fa-check"></i><b>12.119</b> HyperGeo 4 2 0 2 0 0 1</a></li>
+<li class="chapter" data-level="12.120" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#gsea-203-644-120-134-18-22-19"><i class="fa fa-check"></i><b>12.120</b> GSEA 203 644 120 134 18 22 19</a></li>
+<li class="chapter" data-level="12.121" data-path="plot-histograms-for-the-3-samples.html"><a href="plot-histograms-for-the-3-samples.html#both-1-1-0-2-0-0-1"><i class="fa fa-check"></i><b>12.121</b> Both 1 1 0 2 0 0 1</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plot-histograms-for-the-3-samples" class="section level1">
+<h1><span class="header-section-number">Chapter 12</span> plot histograms for the 3 samples:</h1>
+<p>par(mfrow=c(3,3))</p>
+<p>for (i in 1:3){
+for (j in c(“inf”, “grow”, “stab”)){
+plot(density(RatssGSEA[i, which(vstEpInf$Inflammation2==j)]), main=paste(j, rownames(RatssGSEA)[i]),
+xlim=c(-0.6, 0.8))
+}
+}</p>
+<pre><code>
+
+
+GSEA for the above 3 groups?
+
+</code></pre>
+<div id="preprocessing-for-input-gene-list-and-hit-list" class="section level2">
+<h2><span class="header-section-number">12.1</span> -Preprocessing for input gene list and hit list …</h2>
+</div>
+<div id="removing-genes-without-values-in-genelist" class="section level2">
+<h2><span class="header-section-number">12.2</span> –Removing genes without values in geneList …</h2>
+</div>
+<div id="removing-duplicated-genes" class="section level2">
+<h2><span class="header-section-number">12.3</span> –Removing duplicated genes …</h2>
+</div>
+<div id="converting-annotations" class="section level2">
+<h2><span class="header-section-number">12.4</span> –Converting annotations …</h2>
+</div>
+<div id="genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data." class="section level2">
+<h2><span class="header-section-number">12.5</span> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="genes-out-of-181-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data." class="section level2">
+<h2><span class="header-section-number">12.6</span> – 8 genes (out of 181) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="ordering-gene-list-decreasingly" class="section level2">
+<h2><span class="header-section-number">12.7</span> –Ordering Gene List decreasingly …</h2>
+</div>
+<div id="preprocessing-complete" class="section level2">
+<h2><span class="header-section-number">12.8</span> -Preprocessing complete!</h2>
+<pre><code></code></pre>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list" class="section level2">
+<h2><span class="header-section-number">12.9</span> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp" class="section level2">
+<h2><span class="header-section-number">12.10</span> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf" class="section level2">
+<h2><span class="header-section-number">12.11</span> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc" class="section level2">
+<h2><span class="header-section-number">12.12</span> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway" class="section level2">
+<h2><span class="header-section-number">12.13</span> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</h2>
+</div>
+<div id="performing-hypergeometric-analysis" class="section level2">
+<h2><span class="header-section-number">12.14</span> -Performing hypergeometric analysis …</h2>
+</div>
+<div id="hypergeometric-analysis-complete" class="section level2">
+<h2><span class="header-section-number">12.15</span> -Hypergeometric analysis complete</h2>
+</div>
+<div id="section" class="section level2">
+<h2><span class="header-section-number">12.16</span> </h2>
+</div>
+<div id="performing-gene-set-enrichment-analysis-using-htsanalyzer2" class="section level2">
+<h2><span class="header-section-number">12.17</span> -Performing gene set enrichment analysis using HTSanalyzeR2…</h2>
+</div>
+<div id="calculating-the-permutations" class="section level2">
+<h2><span class="header-section-number">12.18</span> –Calculating the permutations …</h2>
+</div>
+<div id="gene-set-enrichment-analysis-using-htsanalyzer2-complete" class="section level2">
+<h2><span class="header-section-number">12.19</span> -Gene set enrichment analysis using HTSanalyzeR2 complete</h2>
+</div>
+<div id="section-1" class="section level2">
+<h2><span class="header-section-number">12.20</span> ==============================================</h2>
+<pre><code></code></pre>
+</div>
+<div id="preprocessing-for-input-gene-list-and-hit-list-1" class="section level2">
+<h2><span class="header-section-number">12.21</span> -Preprocessing for input gene list and hit list …</h2>
+</div>
+<div id="removing-genes-without-values-in-genelist-1" class="section level2">
+<h2><span class="header-section-number">12.22</span> –Removing genes without values in geneList …</h2>
+</div>
+<div id="removing-duplicated-genes-1" class="section level2">
+<h2><span class="header-section-number">12.23</span> –Removing duplicated genes …</h2>
+</div>
+<div id="converting-annotations-1" class="section level2">
+<h2><span class="header-section-number">12.24</span> –Converting annotations …</h2>
+</div>
+<div id="genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-1" class="section level2">
+<h2><span class="header-section-number">12.25</span> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="genes-out-of-63-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data." class="section level2">
+<h2><span class="header-section-number">12.26</span> – 7 genes (out of 63) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="ordering-gene-list-decreasingly-1" class="section level2">
+<h2><span class="header-section-number">12.27</span> –Ordering Gene List decreasingly …</h2>
+</div>
+<div id="preprocessing-complete-1" class="section level2">
+<h2><span class="header-section-number">12.28</span> -Preprocessing complete!</h2>
+<pre><code></code></pre>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-1" class="section level2">
+<h2><span class="header-section-number">12.29</span> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-1" class="section level2">
+<h2><span class="header-section-number">12.30</span> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-1" class="section level2">
+<h2><span class="header-section-number">12.31</span> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-1" class="section level2">
+<h2><span class="header-section-number">12.32</span> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-1" class="section level2">
+<h2><span class="header-section-number">12.33</span> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</h2>
+</div>
+<div id="performing-hypergeometric-analysis-1" class="section level2">
+<h2><span class="header-section-number">12.34</span> -Performing hypergeometric analysis …</h2>
+</div>
+<div id="hypergeometric-analysis-complete-1" class="section level2">
+<h2><span class="header-section-number">12.35</span> -Hypergeometric analysis complete</h2>
+</div>
+<div id="section-2" class="section level2">
+<h2><span class="header-section-number">12.36</span> </h2>
+</div>
+<div id="performing-gene-set-enrichment-analysis-using-htsanalyzer2-1" class="section level2">
+<h2><span class="header-section-number">12.37</span> -Performing gene set enrichment analysis using HTSanalyzeR2…</h2>
+</div>
+<div id="calculating-the-permutations-1" class="section level2">
+<h2><span class="header-section-number">12.38</span> –Calculating the permutations …</h2>
+</div>
+<div id="gene-set-enrichment-analysis-using-htsanalyzer2-complete-1" class="section level2">
+<h2><span class="header-section-number">12.39</span> -Gene set enrichment analysis using HTSanalyzeR2 complete</h2>
+</div>
+<div id="section-3" class="section level2">
+<h2><span class="header-section-number">12.40</span> ==============================================</h2>
+<pre><code></code></pre>
+</div>
+<div id="preprocessing-for-input-gene-list-and-hit-list-2" class="section level2">
+<h2><span class="header-section-number">12.41</span> -Preprocessing for input gene list and hit list …</h2>
+</div>
+<div id="removing-genes-without-values-in-genelist-2" class="section level2">
+<h2><span class="header-section-number">12.42</span> –Removing genes without values in geneList …</h2>
+</div>
+<div id="removing-duplicated-genes-2" class="section level2">
+<h2><span class="header-section-number">12.43</span> –Removing duplicated genes …</h2>
+</div>
+<div id="converting-annotations-2" class="section level2">
+<h2><span class="header-section-number">12.44</span> –Converting annotations …</h2>
+</div>
+<div id="genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-2" class="section level2">
+<h2><span class="header-section-number">12.45</span> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="genes-out-of-182-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data." class="section level2">
+<h2><span class="header-section-number">12.46</span> – 11 genes (out of 182) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="ordering-gene-list-decreasingly-2" class="section level2">
+<h2><span class="header-section-number">12.47</span> –Ordering Gene List decreasingly …</h2>
+</div>
+<div id="preprocessing-complete-2" class="section level2">
+<h2><span class="header-section-number">12.48</span> -Preprocessing complete!</h2>
+<pre><code></code></pre>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-2" class="section level2">
+<h2><span class="header-section-number">12.49</span> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-2" class="section level2">
+<h2><span class="header-section-number">12.50</span> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-2" class="section level2">
+<h2><span class="header-section-number">12.51</span> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-2" class="section level2">
+<h2><span class="header-section-number">12.52</span> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-2" class="section level2">
+<h2><span class="header-section-number">12.53</span> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</h2>
+</div>
+<div id="performing-hypergeometric-analysis-2" class="section level2">
+<h2><span class="header-section-number">12.54</span> -Performing hypergeometric analysis …</h2>
+</div>
+<div id="hypergeometric-analysis-complete-2" class="section level2">
+<h2><span class="header-section-number">12.55</span> -Hypergeometric analysis complete</h2>
+</div>
+<div id="section-4" class="section level2">
+<h2><span class="header-section-number">12.56</span> </h2>
+</div>
+<div id="performing-gene-set-enrichment-analysis-using-htsanalyzer2-2" class="section level2">
+<h2><span class="header-section-number">12.57</span> -Performing gene set enrichment analysis using HTSanalyzeR2…</h2>
+</div>
+<div id="calculating-the-permutations-2" class="section level2">
+<h2><span class="header-section-number">12.58</span> –Calculating the permutations …</h2>
+</div>
+<div id="gene-set-enrichment-analysis-using-htsanalyzer2-complete-2" class="section level2">
+<h2><span class="header-section-number">12.59</span> -Gene set enrichment analysis using HTSanalyzeR2 complete</h2>
+</div>
+<div id="section-5" class="section level2">
+<h2><span class="header-section-number">12.60</span> ==============================================</h2>
+<pre><code>
+&lt;img src=&quot;RatDCIS-bookdown_files/figure-html/unnamed-chunk-109-1.png&quot; width=&quot;672&quot; /&gt;
+
+
+Calculate transcriptional heterogeneity? From TPMcounts?
+
+&lt;img src=&quot;RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-1.png&quot; width=&quot;672&quot; /&gt;&lt;img src=&quot;RatDCIS-bookdown_files/figure-html/unnamed-chunk-110-2.png&quot; width=&quot;672&quot; /&gt;
+</code></pre>
+</div>
+<div id="section-6" class="section level2">
+<h2><span class="header-section-number">12.61</span> </h2>
+</div>
+<div id="wilcoxon-rank-sum-exact-test" class="section level2">
+<h2><span class="header-section-number">12.62</span> Wilcoxon rank sum exact test</h2>
+</div>
+<div id="section-7" class="section level2">
+<h2><span class="header-section-number">12.63</span> </h2>
+</div>
+<div id="data-tab2hettab2inf-inf-by-tab2inftab2inf-inf" class="section level2">
+<h2><span class="header-section-number">12.64</span> data: tab2<span class="math inline">\(het[tab2\)</span>inf != “inf”] by tab2<span class="math inline">\(inf[tab2\)</span>inf != “inf”]</h2>
+</div>
+<div id="w-9-p-value-0.05528" class="section level2">
+<h2><span class="header-section-number">12.65</span> W = 9, p-value = 0.05528</h2>
+</div>
+<div id="alternative-hypothesis-true-location-shift-is-not-equal-to-0" class="section level2">
+<h2><span class="header-section-number">12.66</span> alternative hypothesis: true location shift is not equal to 0</h2>
+<pre><code>
+
+
+### Non-inflammatory samples
+
+Remove inflammatory samples
+Also remove samples which are basal-like
+
+
+
+Quickly run gsea for these samples:
+
+</code></pre>
+</div>
+<div id="preprocessing-for-input-gene-list-and-hit-list-3" class="section level2">
+<h2><span class="header-section-number">12.67</span> -Preprocessing for input gene list and hit list …</h2>
+</div>
+<div id="removing-genes-without-values-in-genelist-3" class="section level2">
+<h2><span class="header-section-number">12.68</span> –Removing genes without values in geneList …</h2>
+</div>
+<div id="removing-duplicated-genes-3" class="section level2">
+<h2><span class="header-section-number">12.69</span> –Removing duplicated genes …</h2>
+</div>
+<div id="converting-annotations-3" class="section level2">
+<h2><span class="header-section-number">12.70</span> –Converting annotations …</h2>
+</div>
+<div id="genes-out-of-12341-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data.-3" class="section level2">
+<h2><span class="header-section-number">12.71</span> – 527 genes (out of 12341) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="genes-out-of-88-could-not-be-mapped-to-any-identifier-and-were-removed-from-the-data." class="section level2">
+<h2><span class="header-section-number">12.72</span> – 9 genes (out of 88) could not be mapped to any identifier, and were removed from the data.</h2>
+</div>
+<div id="ordering-gene-list-decreasingly-3" class="section level2">
+<h2><span class="header-section-number">12.73</span> –Ordering Gene List decreasingly …</h2>
+</div>
+<div id="preprocessing-complete-3" class="section level2">
+<h2><span class="header-section-number">12.74</span> -Preprocessing complete!</h2>
+<pre><code></code></pre>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c2list-3" class="section level2">
+<h2><span class="header-section-number">12.75</span> –146 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c2List!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5bp-3" class="section level2">
+<h2><span class="header-section-number">12.76</span> –848 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5BP!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5mf-3" class="section level2">
+<h2><span class="header-section-number">12.77</span> –269 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5MF!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-c5cc-3" class="section level2">
+<h2><span class="header-section-number">12.78</span> –110 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named c5CC!</h2>
+</div>
+<div id="gene-sets-dont-have-5-overlapped-genes-with-universe-in-gene-set-collection-named-metpathway-3" class="section level2">
+<h2><span class="header-section-number">12.79</span> –377 gene sets don’t have &gt;= 5 overlapped genes with universe in gene set collection named MetPathway!</h2>
+</div>
+<div id="performing-hypergeometric-analysis-3" class="section level2">
+<h2><span class="header-section-number">12.80</span> -Performing hypergeometric analysis …</h2>
+</div>
+<div id="hypergeometric-analysis-complete-3" class="section level2">
+<h2><span class="header-section-number">12.81</span> -Hypergeometric analysis complete</h2>
+</div>
+<div id="section-8" class="section level2">
+<h2><span class="header-section-number">12.82</span> </h2>
+</div>
+<div id="performing-gene-set-enrichment-analysis-using-htsanalyzer2-3" class="section level2">
+<h2><span class="header-section-number">12.83</span> -Performing gene set enrichment analysis using HTSanalyzeR2…</h2>
+</div>
+<div id="calculating-the-permutations-3" class="section level2">
+<h2><span class="header-section-number">12.84</span> –Calculating the permutations …</h2>
+</div>
+<div id="gene-set-enrichment-analysis-using-htsanalyzer2-complete-3" class="section level2">
+<h2><span class="header-section-number">12.85</span> -Gene set enrichment analysis using HTSanalyzeR2 complete</h2>
+</div>
+<div id="section-9" class="section level2">
+<h2><span class="header-section-number">12.86</span> ==============================================</h2>
+<pre><code></code></pre>
+</div>
+<div id="section-10" class="section level2">
+<h2><span class="header-section-number">12.87</span> </h2>
+</div>
+<div id="no-of-genes-in-gene-set-collections" class="section level2">
+<h2><span class="header-section-number">12.88</span> -No of genes in Gene set collections:</h2>
+</div>
+<div id="input-above-min-size" class="section level2">
+<h2><span class="header-section-number">12.89</span> input above min size</h2>
+</div>
+<div id="c2list-2199-2053" class="section level2">
+<h2><span class="header-section-number">12.90</span> c2List 2199 2053</h2>
+</div>
+<div id="c5bp-7530-6682" class="section level2">
+<h2><span class="header-section-number">12.91</span> c5BP 7530 6682</h2>
+</div>
+<div id="c5mf-1663-1394" class="section level2">
+<h2><span class="header-section-number">12.92</span> c5MF 1663 1394</h2>
+</div>
+<div id="c5cc-999-889" class="section level2">
+<h2><span class="header-section-number">12.93</span> c5CC 999 889</h2>
+</div>
+<div id="processnetworks-158-158" class="section level2">
+<h2><span class="header-section-number">12.94</span> ProcessNetworks 158 158</h2>
+</div>
+<div id="metpathway-1480-1103" class="section level2">
+<h2><span class="header-section-number">12.95</span> MetPathway 1480 1103</h2>
+</div>
+<div id="hallmark-50-50" class="section level2">
+<h2><span class="header-section-number">12.96</span> Hallmark 50 50</h2>
+</div>
+<div id="section-11" class="section level2">
+<h2><span class="header-section-number">12.97</span> </h2>
+</div>
+<div id="section-12" class="section level2">
+<h2><span class="header-section-number">12.98</span> </h2>
+</div>
+<div id="no-of-genes-in-gene-list" class="section level2">
+<h2><span class="header-section-number">12.99</span> -No of genes in Gene List:</h2>
+</div>
+<div id="input-valid-duplicate-removed-converted-to-entrez" class="section level2">
+<h2><span class="header-section-number">12.100</span> input valid duplicate removed converted to entrez</h2>
+</div>
+<div id="gene-list-12449-12449-12341-11814" class="section level2">
+<h2><span class="header-section-number">12.101</span> Gene List 12449 12449 12341 11814</h2>
+</div>
+<div id="section-13" class="section level2">
+<h2><span class="header-section-number">12.102</span> </h2>
+</div>
+<div id="section-14" class="section level2">
+<h2><span class="header-section-number">12.103</span> </h2>
+</div>
+<div id="no-of-hits" class="section level2">
+<h2><span class="header-section-number">12.104</span> -No of hits:</h2>
+</div>
+<div id="input-preprocessed" class="section level2">
+<h2><span class="header-section-number">12.105</span> input preprocessed</h2>
+</div>
+<div id="hits-88-79" class="section level2">
+<h2><span class="header-section-number">12.106</span> Hits 88 79</h2>
+</div>
+<div id="section-15" class="section level2">
+<h2><span class="header-section-number">12.107</span> </h2>
+</div>
+<div id="section-16" class="section level2">
+<h2><span class="header-section-number">12.108</span> </h2>
+</div>
+<div id="parameters-for-analysis" class="section level2">
+<h2><span class="header-section-number">12.109</span> -Parameters for analysis:</h2>
+</div>
+<div id="mingenesetsize-pvaluecutoff-padjustmethod" class="section level2">
+<h2><span class="header-section-number">12.110</span> minGeneSetSize pValueCutoff pAdjustMethod</h2>
+</div>
+<div id="hypergeo-test-5-0.05-bh" class="section level2">
+<h2><span class="header-section-number">12.111</span> HyperGeo Test 5 0.05 BH</h2>
+</div>
+<div id="section-17" class="section level2">
+<h2><span class="header-section-number">12.112</span> </h2>
+</div>
+<div id="mingenesetsize-pvaluecutoff-padjustmethod-npermutations-exponent" class="section level2">
+<h2><span class="header-section-number">12.113</span> minGeneSetSize pValueCutoff pAdjustMethod nPermutations exponent</h2>
+</div>
+<div id="gsea-5-0.05-bh-100-1" class="section level2">
+<h2><span class="header-section-number">12.114</span> GSEA 5 0.05 BH 100 1</h2>
+</div>
+<div id="section-18" class="section level2">
+<h2><span class="header-section-number">12.115</span> </h2>
+</div>
+<div id="section-19" class="section level2">
+<h2><span class="header-section-number">12.116</span> </h2>
+</div>
+<div id="significant-gene-sets-adjusted-p-value-0.05" class="section level2">
+<h2><span class="header-section-number">12.117</span> -Significant gene sets (adjusted p-value&lt; 0.05 ):</h2>
+</div>
+<div id="c2list-c5bp-c5mf-c5cc-processnetworks-metpathway-hallmark" class="section level2">
+<h2><span class="header-section-number">12.118</span> c2List c5BP c5MF c5CC ProcessNetworks MetPathway Hallmark</h2>
+</div>
+<div id="hypergeo-4-2-0-2-0-0-1" class="section level2">
+<h2><span class="header-section-number">12.119</span> HyperGeo 4 2 0 2 0 0 1</h2>
+</div>
+<div id="gsea-203-644-120-134-18-22-19" class="section level2">
+<h2><span class="header-section-number">12.120</span> GSEA 203 644 120 134 18 22 19</h2>
+</div>
+<div id="both-1-1-0-2-0-0-1" class="section level2">
+<h2><span class="header-section-number">12.121</span> Both 1 1 0 2 0 0 1</h2>
+<p>```</p>
+<div id="htmlwidget-35289059b061194da51f" style="width:672px;height:480px;" class="forceGraph html-widget"></div>
+<script type="application/json" data-for="htmlwidget-35289059b061194da51f">{"x":{"nodes":{"id":["ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NDNA damage_BER-NER repair","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion"],"size":[3,4.63703703703704,5.64444444444444,8.79259259259259,8.91851851851852,10.5555555555556,10.5555555555556,10.9333333333333,11.6888888888889,12.0666666666667,12.1925925925926,13.3259259259259,14.2074074074074,14.5851851851852,14.962962962963,15.4666666666667,18.1111111111111,20],"color":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"scheme":["neg","pos","neg","pos","neg","neg","pos","neg","pos","neg","neg","neg","neg","neg","neg","neg","pos","neg"],"label":["Melatonin signaling","ER and cytoplasm","Visual perception","Endoplasmic reticulum stress pathway","Th17-derived cytokines","BER-NER repair","IFN-gamma signaling","Chemotaxis","Kallikrein-kinin system","Skeletal muscle development","Potassium transport","Muscle contraction","Glycoconjugates","Neurogenesis","Calcium transport","Cell-matrix interactions","Ubiquitin-proteasomal proteolysis","Integrin-mediated cell-matrix adhesion"],"label_id":["NNeurophysiological process_Melatonin signaling","NProtein folding_ER and cytoplasm","NNeurophysiological process_Visual perception","NApoptosis_Endoplasmic reticulum stress pathway","NImmune response_Th17-derived cytokines","NDNA damage_BER-NER repair","NInflammation_IFN-gamma signaling","NChemotaxis","NInflammation_Kallikrein-kinin system","NDevelopment_Skeletal muscle development","NTransport_Potassium transport","NMuscle contraction","NCell adhesion_Glycoconjugates","NDevelopment_Neurogenesis_Synaptogenesis","NTransport_Calcium transport","NCell adhesion_Cell-matrix interactions","NProteolysis_Ubiquitin-proteasomal proteolysis","NCell adhesion_Integrin-mediated cell-matrix adhesion"],"label_term":["Melatonin signaling","ER and cytoplasm","Visual perception","Endoplasmic reticulum stress pathway","Th17-derived cytokines","BER-NER repair","IFN-gamma signaling","Chemotaxis","Kallikrein-kinin system","Skeletal muscle development","Potassium transport","Muscle contraction","Glycoconjugates","Neurogenesis","Calcium transport","Cell-matrix interactions","Ubiquitin-proteasomal proteolysis","Integrin-mediated cell-matrix adhesion"]},"links":{"source":["ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NNeurophysiological process_Melatonin signaling","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NProtein folding_ER and cytoplasm","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NDNA damage_BER-NER repair","ProcessNetworks.NDNA damage_BER-NER repair","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions"],"target":["ProcessNetworks.NNeurophysiological process_Visual perception","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NMuscle contraction","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NDNA damage_BER-NER repair","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NMuscle contraction","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NApoptosis_Endoplasmic reticulum stress pathway","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NTransport_Potassium transport","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NImmune response_Th17-derived cytokines","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NDNA damage_BER-NER repair","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NInflammation_IFN-gamma signaling","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NChemotaxis","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NInflammation_Kallikrein-kinin system","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NDevelopment_Skeletal muscle development","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NMuscle contraction","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NMuscle contraction","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Glycoconjugates","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NDevelopment_Neurogenesis_Synaptogenesis","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NTransport_Calcium transport","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NProteolysis_Ubiquitin-proteasomal proteolysis","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NCell adhesion_Cell-matrix interactions","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion","ProcessNetworks.NCell adhesion_Integrin-mediated cell-matrix adhesion"],"weight":[0.0535714285714286,0.0120481927710843,0.0315789473684211,0.01,0.0490196078431373,0.00917431192660551,0.018348623853211,0.0344827586206897,0.015625,0.0152671755725191,0.0543478260869565,0.00909090909090909,0.00819672131147541,0.0152671755725191,0.00689655172413793,0.0239520958083832,0.00961538461538462,0.0170940170940171,0.0078740157480315,0.0155038759689922,0.0153846153846154,0.0291970802919708,0.00680272108843537,0.0134228187919463,0.0335570469798658,0.00518134715025907,0.0564516129032258,0.0434782608695652,0.0137931034482759,0.0408163265306122,0.00645161290322581,0.0236686390532544,0.0170454545454545,0.00492610837438424,0.00458715596330275,0.00694444444444444,0.169354838709677,0.129770992366412,0.124087591240876,0.00641025641025641,0.0235294117647059,0.00558659217877095,0.0222222222222222,0.042654028436019,0.00636942675159236,0.0186915887850467,0.110344827586207,0.159722222222222,0.0179640718562874,0.0112359550561798,0.0564971751412429,0.0160427807486631,0.0265957446808511,0.0154639175257732,0.00460829493087558,0.0639269406392694,0.0897435897435897,0.0176470588235294,0.00549450549450549,0.0674157303370786,0.00520833333333333,0.0204081632653061,0.0582959641255605,0.0112994350282486,0.0216216216216216,0.0315789473684211,0.00505050505050505,0.0202020202020202,0.066079295154185,0.215189873417722,0.0310880829015544,0.0466321243523316,0.0199004975124378,0.0663265306122449,0.0425531914893617,0.0604395604395604,0.0673575129533679,0.00478468899521531,0.0295566502463054,0.0495049504950495,0.0913705583756345,0.0428571428571429,0.0493827160493827,0.0478468899521531,0.00909090909090909,0.13,0.212962962962963,0.0514018691588785,0.0132743362831858,0.00806451612903226,0.0192307692307692,0.00432900432900433,0.0075187969924812,0.133333333333333]},"options":{"title":"Enrichment Map of GSEA on ProcessNetworks","legendTitle":"-Log10(Adjusted p-values)","type":"GSEA","nodeScheme":"dual","label":{"text":"term"},"colorScaler":"log10","nPermutations":100,"colorDomain":{"neg":[0,0.05],"pos":[0,0.05]}}},"evals":[],"jsHooks":[]}</script>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="epcam-inflammatory-vs-non-inflammatory-samples.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

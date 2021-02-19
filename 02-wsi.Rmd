@@ -1,20 +1,7 @@
 
 # Whole-slide imaging
 
-
-```{r, eval=F}
-# Delete this part when finished
-
-library(ggplot2)
-library(reshape2)
-library(gplots)
-library(RColorBrewer)
-library(spatstat)
-source("rscript/PvalueHeatMap.R")
-```
-
-
-In this section, we will be looking at the composition and spatial distribution of cells in whole slide images. These sections have previously been assessed using an  <span style="color:red">external script. Save this somewhere </span>
+In this section, we will be looking at the composition and spatial distribution of cells in whole slide images. These sections have previously been assessed using an external script: SpatialStatisticsWSI.R 
 
 The following markers have been used:
 
@@ -61,6 +48,10 @@ save(WSIsummary, WSIknn, WSIIF, WSIMH, WSIMHsetup, file=sprintf("outputs/WSI_raw
 
 ## Associate the frequencies with other data types
 
+
+<span style="color:red">
+UPDATE THE CIBERSORT INFORMATION. </span>
+
 Note there are 47 samples with imaging data. 33 of these samples have FACS data, manual counts and TIMER scores
 
 Correlate the following information:
@@ -84,7 +75,7 @@ It appears that CD8 whole-slide imaging associates well with:
 * Manual scoring (Fig 4) of CD8 cells
 * Some CD8 gene signature scores (mainly in EPC, TIMER)
 
-```{r}
+```{r assoc-facs}
 SummaryData=read.csv("../metadata/new_SummaryData.csv", row.names = 1)
 
 ## CD summary
@@ -119,18 +110,19 @@ for (i in 1:length(colTestFACS)){
   FACSsummary[i, ]=sapply(colTestWSI, function(x) cor(SummaryData[, colTestFACS[i]], SummaryData[,x], use="complete"))
   FACSsummaryP[i, ]=sapply(colTestWSI, function(x) cor.test(SummaryData[, colTestFACS[i]], SummaryData[,x], use="complete")$p.value)
 }
+```
 
-#pdf(sprintf("rslt/WSI-analysis/WSI_vs_FACS_correlationCoeff_w_pvalues_%s.pdf", Sys.Date()), height=8, width=7)
+```{r Ext4b, fig.cap="association with facs"}
 PvalHM(CDsummary, round(CDsummaryP,2), "CD8 WSI correlation with Pvalues")
-PvalHM(FACSsummary, round(FACSsummaryP, 2), "WSI vs FACS w Pvalues")
-#devoff()
+```
 
-#write.csv(SummaryData, file="metadata/new_SummaryData.csv")
+```{r}
+PvalHM(FACSsummary, round(FACSsummaryP, 2), "WSI vs FACS w Pvalues")
 ```
 
 ## Cellular composition
 
-```{r, cache=T}
+```{r cellular-composition, cache=T}
 WSIvals=sapply(WSIsummary, function(x) table(factor(x$Class2, levels=c("CD8", "EpCAM", "EpCAM: SMA", "SMA", "Unclass"))))
 WSIvalFracs=t(t(WSIvals)/colSums(WSIvals))
 
@@ -171,8 +163,7 @@ WSIvalFracs=WSIvalFracs[ , order(WSIvalFracs[1, ])]
 ordV2=colnames(WSIvalFracs)
 
 
-## match with meta data
-# get the sample Names
+## match with meta data# get the sample Names
 CdataTID=gsub("_", "", Cdata$TumorID)
 l1=match(colnames(WSIvals), CdataTID)
 
@@ -200,20 +191,26 @@ ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet
 
 Here, the same data is shown and normalised according to total cell count:
 
-```{r, fig.hright=5}
-pdf("~/Desktop/Fig2-WSI-summary-allsamples.pdf", height=5, width=7)
+```{r WSI-normalised-all-samples, fig.height=5, fig.cap="WSI-normalised-all-samples"}
 ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
-dev.off()
 ```
+
+```{r Ext4c, fig.cap="association with treatment"}
+ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+```
+
+```{r Ext4c_pt2, fig.cap="association with growth"}
+ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+
+write.csv(WSIfracMelt, file="nature-tables/Ext4c-d.csv")
+```
+
 ## Associate composition with other covariates
 
+Make Boxplots of the above data, and index samples according to growth or with treatment
 
-Boxplots of the above data:
-
-```{r}
-pdf("~/Desktop/Fig4B-summary-WSI-growth-treatment.pdf", height=7, width=7)
+```{r 4b, fig.cap="association of frequency with treatment and growth"}
+#pdf("~/Desktop/Fig4B-summary-WSI-growth-treatment.pdf", height=7, width=7)
 
 nx1=levels(WSIfracMelt$Var1)
 
@@ -221,8 +218,9 @@ nOut=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$growth=="
 
 ggplot(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], aes(x=Var1, y=value, col=factor(growth)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
   scale_color_manual(values=c(ColSize, "black"))+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+ggtitle(paste(names(nOut), round(nOut,2), collapse=" ;"))
+```
 
-
+```{r 4b2, fig.cap="association with treatment"}
 nOutA=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$treatment=="Vehicle" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$treatment=="LY" & WSIfracMelt$Var1==x])$p.value)
 
 nOutB=sapply(nx1, function(x) wilcox.test(WSIfracMelt$value[WSIfracMelt$treatment=="Vehicle" & WSIfracMelt$Var1==x],WSIfracMelt$value[WSIfracMelt$treatment=="PDL1" & WSIfracMelt$Var1==x])$p.value)
@@ -234,7 +232,10 @@ ggplot(WSIfracMelt, aes(x=Var1, y=value, col=(treatment)))+geom_boxplot()+geom_p
   scale_color_manual(values=ColMerge[ ,1])+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+
   ggtitle(paste(paste(names(nOutA), round(nOutA,2), collapse=" ;"),paste(names(nOutB), round(nOutB,2), collapse=" ;"),paste(names(nOutC), round(nOutC,2), collapse=" ;") ) )
 
-dev.off()
+#dev.off()
+
+write.csv(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], file="nature-tables/4b.csv")
+#write.csv(WSIfracMelt, file="nature-tables/4b.csv")
 
 ```
 
@@ -245,119 +246,11 @@ Treatment | values
 LY | `r nOutA`
 PDL1 | `r nOutB`
 PDL1+LY | `r nOutC`
-
-Is there a difference if we normalise to tumor size:
-
-```{r}
-WSIvalsTS=t(t(WSIvals)/Cdata$Tumor.diameter.sac.mm[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))])
-WSIvalsTSmelt=melt(WSIvalsTS)
-
-WSIvalsTSmelt$treatment=WSImelt$treatment
-WSIvalsTSmelt$growth=WSImelt$growth
-
-pdf("~/Desktop/Fig4B-summary-WSI-growth-treatment-norm-tumor-size.pdf", height=7, width=7)
-
-nx1=levels(WSIvalsTSmelt$Var1)
-
-nOut=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$growth=="growing" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$growth=="stable" & WSIvalsTSmelt$Var1==x])$p.value)
-
-ggplot(WSIvalsTSmelt[-which(is.na(WSIvalsTSmelt$growth)), ], aes(x=Var1, y=value, col=factor(growth)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
-  scale_color_manual(values=c(ColSize, "black"))+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+ggtitle(paste(names(nOut), round(nOut,2), collapse=" ;"))
-
-
-nOutA=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="LY" & WSIvalsTSmelt$Var1==x])$p.value)
-
-nOutB=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="PDL1" & WSIvalsTSmelt$Var1==x])$p.value)
-
-nOutC=sapply(nx1, function(x) wilcox.test(WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="Vehicle" & WSIvalsTSmelt$Var1==x],WSIvalsTSmelt$value[WSIvalsTSmelt$treatment=="PDL1+LY" & WSIvalsTSmelt$Var1==x])$p.value)
-
-
-ggplot(WSIvalsTSmelt, aes(x=Var1, y=value, col=(treatment)))+geom_boxplot()+geom_point(position=position_jitterdodge(),alpha=0.3)+
-  scale_color_manual(values=ColMerge[ ,1])+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")+theme_bw()+
-  ggtitle(paste(paste(names(nOutA), round(nOutA,2), collapse=" ;"),paste(names(nOutB), round(nOutB,2), collapse=" ;"),paste(names(nOutC), round(nOutC,2), collapse=" ;") ) )
-
-dev.off()
-
-```
-
-P values when comparing to the vehicle for each comparison:
-
-Treatment | values
-----------|---------
-LY | `r nOutA`
-PDL1 | `r nOutB`
-PDL1+LY | `r nOutC`
-
-
-We can collapse the above data into boxplots to see if there is an association with treatments, performed using non-parametric wilcoxon test. 
-
-Compared to the vehicle, LY treated samples have a lower "stromal" fraction (unclassed DAPI+ cells) and PDL1 treated samples are more likely to have a EpCAM+SMA+ double positive fraction
-
-```{r, warning=F, message=F}
-## boxplots here for each cell type stratified by treatment or growth
-tsamples=colnames(Cdata)[grep("Fraction", colnames(Cdata))]
-#pdf(sprintf("rslt/WSI-analysis/cell-distribution-by-treatment-or-growth_norm_cell_count_%s.pdf", Sys.Date()), width=12, height=8)
-
-par(mfrow=c(2,3))
-for (i in tsamples){
-  t1=sapply(levels(Treat)[1:3], function(x) wilcox.test(Cdata[Cdata$Treatment==x, i], Cdata[Cdata$Treatment=="Vehicle", i])$p.value)
-  boxplot(Cdata[, i]~Cdata$Treatment, main=sprintf("Treatment: %s", i), xlab="", ylab=i)
-  legend("topleft", paste(levels(Treat)[1:3], round(t1, 2)))
-}
-```
-
-When comparing these fractions to growth, there is no association:
-
-```{r, warning='hide'}
-par(mfrow=c(2,3))
-for (i in tsamples){
-  t1=wilcox.test(Cdata[Cdata$Growth2=="growing", i], Cdata[Cdata$Growth2=="stable", i])$p.value
-  boxplot(Cdata[, i]~Cdata$Growth2, main=sprintf("Growth: %s p=%s",i, round(t1,2)), xlab="", ylab=i)
-# legend("topleft", paste(levels(Cdata$Growth2), round(t1, 2)))
-}
-```
-
-Nor is there any association with whether a sample is "immune infiltrated" or not (by manual inspection)
-
-```{r, warning='hide'}
-par(mfrow=c(2,3))
-for (i in tsamples){
-  t1=wilcox.test(Cdata[Cdata$Pathologist.CD8.Spatial=="Infiltrating", i], Cdata[Cdata$Pathologist.CD8.Spatial=="restricted", i])$p.value
-  boxplot(Cdata[, i]~Cdata$Pathologist.CD8.Spatial, main=sprintf("inf/rest: %s p=%s",i, round(t1,2)), xlab="", ylab=i)
-# legend("topleft", paste(levels(Cdata$Growth2), round(t1, 2)))
-}
-```
-
-We can also use linear regression models to assess:
-
-* correlation between growth rate and cell fractions (no associations)
-* correlation between final tumor size and cell fractions (no association)
-
-```{r}
-
-par(mfrow=c(2,3))
-for (i in tsamples){
-  a1=cor.test(Cdata[ ,i],Cdata$Tumor.diameter.sac.mm/Cdata$Time.NMU2Sac, use="complete")
-  #a1=cor.test(WSIvals[i, ],TumSizeNorm)
-  plot( Cdata$Tumor.diameter.sac.mm/Cdata$Time.NMU2Sac.days, Cdata[ ,i],xlab="growth rate", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
-}
-
-
-par(mfrow=c(2,3))
-for (i in tsamples){
-  a1=cor.test(Cdata[ ,i],Cdata$Tumor.diameter.sac.mm, use="complete")
-  #a1=cor.test(WSIvals[i, ],TumSizeNorm)
-  plot( Cdata$Tumor.diameter.sac.mm,Cdata[ ,i], xlab="tumor size @ sac", ylab=i, main=sprintf("rho=%s, p=%s, %s",round(a1$estimate,2), round(a1$p.value,2), i))
-}
-
-#devoff()
-
-```
 
 ## Estimate tumor size
 
 Using WSI data, we can estimate a tumor size for each tissue sample and compare to the final tumor sizes. This will be based on the distribution of EpCAM+ cells.
-This estimate is also used to normalise CD8 counts earlier on.
+This estimate is can be used to normalise CD8 counts.
 
 ```{r}
 #estimate the tumor areas
@@ -367,8 +260,6 @@ TareaSum=sapply(Tarea, area)
 # Tumor diameter
 Tdiameter=Cdata$Tumor.diameter.sac.mm[match(colnames(WSIvals), gsub("_", "", Cdata$TumorID))]
 
-#par(mfrow=c(1,2))
-#plot(TareaSum, WSIvals[2, ], ylab="EpCAM cell count", xlab="Epcam cells bounding area")
 plot(TareaSum, Tdiameter, ylab="Tumor Diameter", xlab="Epcam cells bounding area")
 
 cor.test(TareaSum, Tdiameter, use="complete")
@@ -377,9 +268,7 @@ cor.test(TareaSum, Tdiameter, use="complete")
 Cdata$TumorAreaWSI=NA
 lxmatch=match(colnames(WSIvalFracs), gsub("_", "", Cdata$TumorID)) # probably don't need this
 Cdata$TumorAreaWSI[(lxmatch)]=TareaSum #[-which(is.na(lxmatch))]
-## Normalisation strategies:
 ```
-
 
 ## Correlations between different subpopulations
 
@@ -412,16 +301,16 @@ a1=cor.test(WSIvalFracs[2, ], WSIvalFracs[5, ])
 plot(WSIvalFracs[2, ], WSIvalFracs[5, ], xlab="Epcam+", ylab="nclass", main=sprintf("rho=%s,p=%s", round(a1$estimate, 2), round(a1$p.value, 2)))
 
 #devoff()
+
 # correlations
-Ax1
 
 ctest=matrix(NA, nrow=5, ncol=5)
 for (i in 1:5){
   ctest[i, ]=sapply(1:5, function(x) cor.test(WSIvalFracs[i, ], WSIvalFracs[x, ])$p.value)
 }
-
-ctest
 ```
+
+All associations determined using a correlation test
 
 ## Associations between CD8 counts with other clinical variables
 
@@ -454,55 +343,4 @@ heatmap.2(-log10(a1), col=brewer.pal(9, "Blues"), trace="none", scale="none")
 Note that CD8 normalised by tumor size is associated with growth (but this could a reflection of the size of the tumor), and there is a borderline difference once normalised by epithelial content. In addition the CD8 total count is associated with pdl1+ly treatment.
 
 Note that p=0.05 is designated by a value of 1.3
-
-
-```{r, eval=F}
-## save this data to file to generate the summary data file
-## Check if the other metrics used correlate with growth status or treatment
-
-#####
-# COMMENT OUT IF NOT NEEDED
-#####
-
-
-## add FACS data
-# lx=match(rownames(SummaryData), colnames(Fdata))
-# SummaryData$CD8.FACS=NA
-# SummaryData$CD8.FACS[which(!is.na(lx))]=unlist(t(Fdata[ 6, na.omit(lx)]))
-# lx=match(rownames(SummaryData), gsub("_", "", Cdata$TumorID))
-# SummaryData$CD45.FACS=Cdata$X..CD45..by.FACS.[lx]
-# SummaryData$TumSize=Cdata$Tumor.diameter.sac.mm[lx]
-# SummaryData$CD8normTumSize=SummaryData$CD8.WSI/SummaryData$TumSize
-# SummaryData$CD8.EpBoundingBox=TareaSum[match(rownames(SummaryData), names(TareaSum))]/SummaryData$CD8.WSI
-# SummaryData$Treatment=factor(Cdata$Treatment[lx])
-# SummaryData$Growth=Cdata$Growth2[lx]
-# SummaryData$SpatialManual=Cdata$Pathologist.CD8.Spatial[lx]
-# SummaryData$log2CD8_EPorSMARatio.WSI=log2(SummaryData$CD8_EPorSMARatio.WSI+0.001)
-# SummaryData$log2CD8_EPRatio.WSI=log2(SummaryData$CD8_EPRatio.WSI+0.001)
-
-#####
-# END COMMENT section
-#####
-
-indx1=c(indx1, "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
-
-#pdf(sprintf("rslt/WSI-analysis/WSI_CD8_metrics_vs_growth_%s.pdf", Sys.Date()), height=8, width=8)
-for (i in 1:length(indx1)){
-  a1=wilcox.test(SummaryData[SummaryData$Growth%in%c("stable", "growing") ,indx1[i] ]~ SummaryData$Growth[SummaryData$Growth%in%c("stable", "growing")])
-p<-ggplot(SummaryData, aes_string(y=(indx1[i]), x="Growth"))+geom_boxplot(outlier.shape=NA)+geom_jitter(position=position_jitter(width=.1, height=0))+ggtitle(paste(indx1[i], " stab vs grow p=", round(a1$p.value,2),sep=""))
-print(p)
-}
-#devoff()
-
-#pdf(sprintf("rslt/WSI-analysis/WSI_CD8_metrics_vs_treatment_%s.pdf", Sys.Date()), height=8, width=8)
-for (i in 1:length(indx1)){
-a1=wilcox.test(SummaryData[SummaryData$Treatment%in%c("Vehicle", "PDL1"),indx1[i] ]~ SummaryData$Treatment[SummaryData$Treatment%in%c("Vehicle", "PDL1")])
-a2=wilcox.test(SummaryData[SummaryData$Treatment%in%c("Vehicle", "LY"),indx1[i] ]~ SummaryData$Treatment[SummaryData$Treatment%in%c("Vehicle", "LY")])
-a3=wilcox.test(SummaryData[SummaryData$Treatment%in%c("Vehicle", "PDL1+LY"),indx1[i] ]~ SummaryData$Treatment[SummaryData$Treatment%in%c("Vehicle", "PDL1+LY")])
-p<-ggplot(SummaryData, aes_string(y=(indx1[i]), x="Treatment"))+geom_boxplot(outlier.shape=NA)+geom_jitter(position=position_jitter(width=.1, height=0))+ggtitle(paste(indx1[i], " PDL1p=", round(a1$p.value,2), " LYp=", round(a2$p.value,2), " P+Lp=", round(a3$p.value,2), sep=""))
-print(p)
-}
-#devoff()
-```
-
 

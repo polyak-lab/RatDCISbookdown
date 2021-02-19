@@ -1,0 +1,413 @@
+# Associate Epcam+ inflammatory with survival
+
+Associate the signature with outcome in TCGA: Load in TCGA right now
+
+```{r}
+TCGArsem=read.delim("../data/TCGA/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt", sep="\t")
+rownames(TCGArsem)=TCGArsem[ ,1]
+TCGArsem=TCGArsem[, grep("01A", colnames(TCGArsem))]
+colnames(TCGArsem)=substr(colnames(TCGArsem), 1, 12)
+colnames(TCGArsem)=gsub("\\.", "-", colnames(TCGArsem))
+TCGArsem=TCGArsem[-1, ]
+
+TCGArsem2=apply(TCGArsem, 2, as.numeric)
+#TCGArsem2=t(TCGArsem2)
+#colnames(TCGArsem2)=colnames(TCGArsem)
+#TCGArsem2=data.frame(TCGArsem2)
+rownames(TCGArsem2)=rownames(TCGArsem)
+rownames(TCGArsem2)=sapply(strsplit(rownames(TCGArsem2), "\\|"), function(x) x[1])
+TCGArsem2=TCGArsem2[-which(rownames(TCGArsem2)=="?"), ]
+
+load("../data/TCGA/BrClin_clinical_Nov2017.RData")
+
+ax1=match(BrClin$Patient.ID, colnames(TCGArsem))
+
+BrClin=BrClin[-which(is.na(ax1)), ]
+TCGArsem=TCGArsem[ , na.omit(ax1)]
+
+## load in the inflammation subtype information
+ThorssData=read.xlsx("../data/TCGA/Thorsson2018_table1.xlsx",1)
+```
+
+
+Edit the clinical data to make sure data is censored at 60 months (5 years) and that stage is given an integer value (no 2A, 2b etc.) for easier comparisons
+
+```{r}
+#m1=match(colnames(TCGAssgsea), BrClin$Patient.ID)
+BrClin$Stage=(substr(BrClin$American.Joint.Committee.on.Cancer.Tumor.Stage.Code, 2, 2))
+BrClin$Stage[which(BrClin$Stage==""|BrClin$Stage=="X")]=NA
+
+BrClin$Overall.Survival..Months.[which(BrClin$Overall.Survival..Months.>=60)]=60
+BrClin$Overall.Survival.Status[which(BrClin$Overall.Survival..Months.>=60)]="LIVING"
+
+BrClin$Disease.Free..Months.[which(BrClin$Disease.Free..Months.>=60)]=60
+BrClin$Disease.Free.Status[which(BrClin$Disease.Free..Months.>=60)]="Disease Free"
+
+```
+
+
+```{r, eval=F}
+## Load the old file
+Nickold=read.csv("outputs/EpCAM_IFNg_low_growing_vs_stable.filtered.csv", row.names = 1)
+
+GlistGrowing=rownames(Nickold)[which(sign(Nickold$log2FoldChange)<0 & Nickold$baseMean>100)]
+Glistnon=rownames(Nickold)[which(sign(Nickold$log2FoldChange)>0 & Nickold$baseMean>100)]
+
+#alist=results(vstLumRes)
+```
+
+## Associating CD74 with phenotype and outcome
+
+The Thorsson data has pre-calculated scores for:
+
+* immune subtypes
+* leukocyte fractins
+* proportion of data with coding mutations
+* TCR shannon index
+
+Z-Scale CD74 scores prior to analysis:
+
+```{r 5d, fig.cap="CD74 assoc with patient data"}
+TCGAssgsea=scale(TCGArsem2[match("CD74", rownames(TCGArsem2)), ])
+m1=match(colnames(TCGArsem2), BrClin$Patient.ID)
+
+tinfo=data.frame(pam=BrClin$PAM50[m1], OSM=BrClin$Overall.Survival..Months.[m1],
+                 OSS=BrClin$Overall.Survival.Status[m1], cd74=TCGAssgsea,
+                 DFS=BrClin$Disease.Free.Status[m1],
+                 DFM=BrClin$Disease.Free..Months.[m1],
+                 Stage=BrClin$Stage[m1])
+
+ThorssData=ThorssData[which(ThorssData$TCGA.Study=="BRCA"), ]
+
+n1=match(rownames(tinfo), ThorssData$TCGA.Participant.Barcode)
+tinfo$immSub=ThorssData$Immune.Subtype[n1]
+tinfo$leukFrac=as.numeric(ThorssData$Leukocyte.Fraction[n1])
+tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
+tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
+
+
+#pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
+
+par(mfrow=c(2,3))
+boxplot(tinfo$cd74~tinfo$pam, ylab="gene exp", main="PAM50")
+boxplot(tinfo$cd74~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
+ax=cor.test(tinfo$cd74, log10(tinfo$codingMut+1), method="pearson")
+smoothScatter(tinfo$cd74, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$cd74, tinfo$leukFrac, method="pearson")
+smoothScatter(tinfo$cd74, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$cd74, tinfo$TCRshann, method="pearson")
+smoothScatter(tinfo$cd74, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+hist(tinfo$cd74)
+
+#dev.off()
+
+write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
+```
+
+We can also check if there is an association with survival:
+
+```{r}
+
+axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="Recurred/Progressed", 1, ifelse(tinfo$DFS=="DiseaseFree", 0, NA)))
+
+axO=Surv(tinfo$OSM, ifelse(tinfo$OSS=="DECEASED", 1, ifelse(tinfo$OSS=="LIVING", 0, NA)))
+
+SurvOSS=coxph(axO~tinfo$pam+tinfo$Stage+tinfo$cd74)
+SurvDFS=coxph(axD~tinfo$pam+tinfo$Stage+tinfo$cd74)
+
+ao=summary(SurvOSS)
+ao
+as=summary(SurvDFS)
+as
+```
+Note that CD74 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
+
+This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
+
+```{r 5e, fig.cap="forest plot CD74"}
+
+data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "CD74"),
+                X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
+                X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$cd74))),
+                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
+                     round(summary(SurvOSS)$coefficients[ 5:8,2],2)))
+
+mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
+mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
+
+#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
+
+forestplot(data1, mdata, xlog=T,
+           boxsize=0.5)
+
+#dev.off()
+
+write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
+
+```
+
+
+
+
+
+We can look below what the association with subtype is in KM curves:
+
+```{r Ext5e-os, fig.cap="OS CD74 by subtype" }
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="DECEASED", 1, ifelse(tinfo$OSS[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
+
+
+```{r Ext5e-dfs, fig.cap="DFS CD74 by subtype"}
+
+par(mfrow=c(2,2))
+
+for (i in Xind){
+   l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="Recurred/Progressed", 1, ifelse(tinfo$DFS[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
+
+
+## Signature: Lum cases non-inflammatory: growing vs stable
+
+Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples
+
+```{r, results='hide'}
+GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+
+HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
+HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
+
+TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+
+par(mfrow=c(1,2))
+hist(TCGAssgsea[1, ], main="stable")
+hist(TCGAssgsea[2, ], main="growing")
+plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="stable", ylab="growing")
+```
+
+Below are the survival curves:
+
+```{r, fig.height=8}
+#pdf("figure-outputs/Fig5_survival_analysis_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
+
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+   axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
+  axc=summary(axb)
+  TCGAvalCut=cut(TCGAssgsea[1, lx2], quantile(TCGAssgsea[1, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
+                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+  
+}
+
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
+  axc=summary(axb)
+  
+  TCGAvalCut=cut(TCGAssgsea[1, lx2], quantile(TCGAssgsea[1, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
+                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+}
+```
+
+Below are firstly the OS curves for the growing signature
+
+```{r 5i, fig.cap="OS: growing signature"}
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+   axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+  axc=summary(axb)
+  
+  TCGAvalCut=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
+                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+  
+}
+```
+
+Followed by the DFS plots for this signature
+
+```{r 5i-dfs, fig.cap="DFS forgrowing signature"}
+par(mfrow=c(2,2))
+
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+   axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+  axc=summary(axb)
+  
+  TCGAvalCut=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
+                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+  
+}
+```
+
+The gene lists are 
+
+Stable:
+
+`r GlistGrowing` 
+
+Growing:
+
+`r Glistnon`
+
+
+We can see whether this signature associates with leukocyte content and TCR diversity in the TCGA cohort:
+
+```{r 5h, fig.cap="luminal signature associated with clinical variables"}
+
+l1=which(BrClin$PAM50=="LumA")
+lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+
+lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
+
+newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
+                      leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
+                      TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
+                      immSub=ThorssData$Immune.Subtype[lx3])
+
+
+#pdf("figure-outputs/Fig5_assoc_growing_stable_signature.pdf", height=6, width=9)
+par(mfrow=c(1,2))
+ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
+smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
+text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
+smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
+text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+```
+
+As well as whether it associates with any of the previously identified immune subtypes:
+
+```{r thorrs-subtypes}
+ggplot(newinfoTab, aes(x=immSub, y=TCGAval))+geom_boxplot()+geom_point()+theme_bw()
+
+write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
+```
+
+### TCGA: LumA high vs low signatures
+
+We can pull out the samples here which have high vs low signature (in the lumA group) and perform differential gene expression analysis on these cases:
+
+```{r TCGA-deseq}
+newinfoTab$TCGAvalcut=cut(newinfoTab$TCGAval,  quantile(newinfoTab$TCGAval, c(0, 0.33, 0.67, 1) ), c("L", "M", "O"))
+
+colDataTCGA=newinfoTab[which(newinfoTab$TCGAvalcut!="M"), ]
+
+head(colDataTCGA)
+
+TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnames(TCGArsem2))]), colDataTCGA, design=~TCGAvalcut)
+
+TCGAdeseq=DESeq(TCGAdeseq)
+
+TCGAdeseqRes=results(TCGAdeseq)
+
+write.csv(TCGAdeseqRes, file="nature-tables/5j_TCGA.csv")
+
+TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
+                                 & TCGAdeseqRes$baseMean>100), ]
+```
+
+We can plot the differential genes here in a volcano plot:
+
+```{r tcga-volcano, fig.cap="yet another volcano plot"}
+pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
+with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
+dev.off()
+```
+
+```{r heatmap-tcga, fig.cap="because someone will ask for it"}
+vstTCGA=vst(assay(TCGAdeseqRes))
+
+ColSideCols=c("skyblue", "blue")[vstTCGA$TCGAvalcut]
+
+ax1=assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ]
+ax1[1:5, 1:5]
+
+pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+
+heatmap.2(assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+
+dev.off()
+
+```
+
+Run gsea here
+
+```{r TCGA-gsea, fig.cap="pointless TCGA hairball"}
+
+hits=rownames(TCGAdeseqRes2)
+fcTab=TCGAdeseqRes$log2FoldChange
+
+names(fcTab)=rownames(TCGAdeseq)
+  gscaTCGA=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+   gscaTCGA<- preprocess( gscaTCGA, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+   gscaTCGA <- analyze( gscaTCGA, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+   
+save( gscaTCGA, file="figure-outputs/TCGA_hairball.RData")
+   
+TermsA=sapply(strsplit(rownames(gscaTCGA@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscaTCGA@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+## check whether this runs:
+gscaTCGA@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscaTCGA, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term" )
+
+write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5XX_TCGA_lumA_GSEA.csv")
+```
+

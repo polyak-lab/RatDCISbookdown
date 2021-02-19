@@ -1,0 +1,518 @@
+# Epcam+ Inflammatory vs non-inflammatory samples
+
+## Identification of inflammatory samples
+
+Here, look at individual enrichment scores (ssGSEA). We notice in the Epithelial samples there are 5 samples which appear to be hyperinflammatory: They have higher enrichment for TNFA, interferon signalling for example.
+
+```{r, results='hide', message=F, warning=F}
+d1=DNismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+e1=Epismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+c1=CDismr3$Hallmark[, c("stable_vs_growing NES", "stable_vs_growing padj")]
+#
+ds=which(d1[ ,2]<0.05)
+es=which(e1[ ,2]<0.05)
+cs=which(c1[ ,2]<0.05)
+
+AUnique=c(rownames(d1)[ds], rownames(e1)[es], rownames(c1)[cs])
+xalist=unique(AUnique)
+
+sList=PathInH[match((rownames(e1)[es]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstEp$SampleID, colnames(allTPMFinal))]
+colnames(tpmTemp)=infoTableFinal$TumorIDnew[match(colnames(tpmTemp), rownames(infoTableFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva1=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva1), function(x) sd(gsva1[x, ]))
+a1=which(nx2>0.03)
+
+sList=PathInH[match((rownames(d1)[ds]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstDN$SampleID, colnames(allTPMFinal))]
+colnames(tpmTemp)=infoTableFinal$TumorIDnew[match(colnames(tpmTemp), rownames(infoTableFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva2=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva2), function(x) sd(gsva2[x, ]))
+a2=which(nx2>0.03)
+
+sList=PathInH[match((rownames(c1)[cs]), names(PathInH))]
+
+tpmTemp=allTPMFinal[ , match(vstCD$SampleID, colnames(allTPMFinal))]
+rownames(tpmTemp)=rNames2
+
+gsva3=gsva(tpmTemp, sList, method="ssgsea", ssgsea.norm=T)
+
+nx2=sapply(1:nrow(gsva3), function(x) sd(gsva3[x, ]))
+a3=which(nx2>0.03)
+
+#pdf("~/Desktop/5B-ssgsea-scores-hallmark-pathways.pdf", height=5, width=5)
+
+HRstat2=Cdata$HR_status[match(vstEp$TumorID, Cdata$TumorID)]
+HRstat2[which(HRstat2=="Basal")]=NA
+```
+
+
+Check which pathways are enriched in which specific samples:
+
+```{r 5b, fig.cap="ssGSEA specific pathways"}
+par(oma=c(1, 1, 1, 5))
+# heatmap.2(gsva1[a1, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstEp$Growth],
+#           main="Ep")
+heatmap.2(gsva1[a1, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColMerge[ vstEp$Treatment,1],
+          main="Ep")
+
+write.csv(gsva1[a1, ], file="nature-tables/5b.csv")
+```
+
+Below are the pathways specific to cd45 and dn
+
+```{r}
+heatmap.2(gsva2[a2, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstDN$Growth],
+          main="DN")
+
+heatmap.2(gsva3[a3, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstCD$Growth],
+          main="CD")
+
+#dev.off()
+
+```
+
+## DEG: inflammatory vs non-inflammatory
+
+What genes are different between inflammatory and non-inflammatory?
+
+```{r Ext5c, fig.cap="Differential gene exp inflammatory vs non-inflammatory"}
+Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep")
+
+Epdds$Inflammation="no"
+Epdds$Inflammation[which(colnames(Epdds)%in%Inflamm)]="yes"
+Epdds$Inflammation=factor(Epdds$Inflammation)
+
+
+vstEpInf=Epdds
+design(vstEpInf)=~Inflammation
+vstEpInf=DESeq(vstEpInf)
+
+vstEpInfRes=results(vstEpInf)
+
+sigGenes=rownames(vstEpInfRes)[which(vstEpInfRes$padj<0.05 & abs(vstEpInfRes$log2FoldChange)>2.5 & 
+                 vstEpInfRes$baseMean>200)]
+
+colnames(vstEp)=infoTableFinal$TumorIDnew[match(colnames(vstEp), rownames(infoTableFinal))]
+
+heatmap.2(assay(vstEp)[sigGenes, ], col=RdBu[11:1], trace="none", scale = "row", ColSideColors = ColSizeb[vstEpInf$Growth], hclustfun = hclust.ave)
+
+write.csv(assay(vstEp)[sigGenes, ], file="nature-tables/Ext5c_heatmap.csc")
+```
+
+There are `r length(which(sigGenes%in%RatAllImm))` genes which differentiates these two, which includes `r sigGenes[which(sigGenes%in%RatAllImm)]`.
+
+
+We can also assess whether there is an association between immune infiltration. We can compare whether the non-inflammatory have differences in T-cell infiltration, mixing indices based on imaging data. Below 'no' samples are non-inflammatory and 'yes' samples are hyper-inflammatory.
+
+```{r Ext5d, fig.cap="association signature with WSI"}
+## boxplots for 
+nTab=data.frame(inf=vstEpInf$Inflammation, MH=vstEpInf$MHEpCAM, cd8=vstEpInf$CD8Frac,
+           knn=vstEpInf$knnEpCAM)
+nTabmelt=melt(nTab, measure.vars = c("cd8", "knn", "MH"))
+
+ggplot(data=nTabmelt, aes(x=inf, y=value))+geom_boxplot()+geom_point()+theme_bw()+facet_wrap(~variable, scale="free")
+
+write.csv(nTabmelt, file="nature-tables/Ext5d.csv")
+
+Cdata$Inflammation=NA
+Cdata$Inflammation=vstEpInf$Inflammation2[match(Cdata$NewID, colnames(vstEp))]
+
+nTab
+```
+
+Statistics are below:
+
+```{r Ext5d-ttest}
+print('assoc with cd8')
+#t.test(nTab$cd8~nTab$inf)
+#table(nTab$cd8, nTab$inf)
+print('assoc with MH index')
+#t.test(nTab$MH~nTab$inf)
+#table(nTab$MH,nTab$inf)
+print('assoc with knn')
+#t.test(nTab$knn~nTab$inf)
+#table(nTab$knn~nTab$inf)
+
+nTab
+```
+
+## Finding 3 signatures for 3 branches
+
+Below we can perform a 1 vs all analysis i.e. compare
+
+1. growing vs the rest
+2. inflammatory vs the rest
+3. stable vs the rest
+
+```{r}
+#vstEpInf$Inflammation2=vstEpInf$Inflammation
+vstEpInf$Inflammation2=factor(ifelse(vstEpInf$Inflammation=="yes", "inf", ifelse(vstEpInf$Growth=="growing", "grow", "stab")))
+
+
+design(vstEpInf)=~Inflammation2
+vstEpInf=DESeq(vstEpInf)
+
+vstEpInfRes1=results(vstEpInf, contrast = c("Inflammation2", "stab", "inf"))
+res1genes=rownames(vstEpInfRes1)[which(vstEpInfRes1$padj<0.05 & abs(vstEpInfRes1$log2FoldChange)>1.5 &
+                                         vstEpInfRes1$baseMean>100)]
+
+vstEpInfRes2=results(vstEpInf, contrast = c("Inflammation2", "stab", "grow"))
+res2genes=rownames(vstEpInfRes2)[which(vstEpInfRes2$padj<0.05 & abs(vstEpInfRes2$log2FoldChange)>1.5 &
+                                         vstEpInfRes2$baseMean>100)]
+
+vstEpInfRes3=results(vstEpInf, contrast = c("Inflammation2", "grow", "inf"))
+res3genes=rownames(vstEpInfRes3)[which(vstEpInfRes3$padj<0.05 & abs(vstEpInfRes3$log2FoldChange)>1.5 &
+                                         vstEpInfRes3$baseMean>100)]
+
+aUnique=c(res1genes, res2genes, res3genes)
+
+AX1=setdiff(res2genes, res1genes)
+ax2=setdiff(res3genes, res1genes)
+
+heatmap.2(assay(vstEp)[AX1, ], col=RdBu[11:1], trace="none", scale = "row", ColSideColors = ColSizec[vstEpInf$Inflammation2], hclustfun = hclust.ave)
+
+write.csv(assay(vstEp)[AX1, ], file="nature-tables/Ext5c.csv")
+
+nTab=data.frame(inf=vstEpInf$Inflammation2, MH=vstEpInf$MHEpCAM, cd8=vstEpInf$CD8Frac,
+           knn=vstEpInf$knnEpCAM)
+nTabmelt=melt(nTab, measure.vars = c("cd8", "knn", "MH"))
+
+ggplot(data=nTabmelt, aes(x=inf, y=value))+geom_boxplot()+geom_point()+theme_bw()+facet_wrap(~variable, scale="free")
+
+vstOut=vst(vstEpInf)
+
+plotPCA(vstOut, "Inflammation2")
+```
+
+We see that the growing vs stable samples are very similary overall, however, DEGs between growing and stable are also expressed in the inflammatory branch.
+
+We can use these gene signatures to identify each branch: Below, we see the separation between the 3 groups using these genes. (note that the stable branch has no identifiable upregulated genes and is defined by the negative score of the downregulated genes:). We use ssGSEA to get a score for each sample
+
+```{r wtf-is-this, message=F, results='hide'}
+vstEpInf$Inflammation3=vstEpInf$Inflammation2
+vstEpInf$Inflammation3[which(vstEpInf$Inflammation3=="stab")]="inf"
+vstEpInf$Inflammation3=factor(vstEpInf$Inflammation3)
+design(vstEpInf)=~(Inflammation3)
+vstEpInfb=DESeq(vstEpInf)
+vstEpInfRes1b=results(vstEpInfb)
+res1genesGrow=rownames(vstEpInfRes1b)[which(vstEpInfRes1b$padj<0.05 & (vstEpInfRes1b$log2FoldChange)<(-1.5) &
+                                         vstEpInfRes1b$baseMean>100)]
+vstEpInf$Inflammation3=vstEpInf$Inflammation2
+vstEpInf$Inflammation3[which(vstEpInf$Inflammation2=="grow")]="inf"
+vstEpInf$Inflammation3=factor(vstEpInf$Inflammation3)
+design(vstEpInf)=~(Inflammation3)
+vstEpInfb=DESeq(vstEpInf)
+vstEpInfRes1b=results(vstEpInfb)
+res1genesStab=rownames(vstEpInfRes1b)[which(vstEpInfRes1b$padj<0.05 & (vstEpInfRes1b$log2FoldChange)<(-1.5) &
+                                         vstEpInfRes1b$baseMean>100)]
+
+vstEpInf$Inflammation3=vstEpInf$Inflammation2
+vstEpInf$Inflammation3[which(vstEpInf$Inflammation2=="stab")]="grow"
+vstEpInf$Inflammation3=factor(vstEpInf$Inflammation3)
+design(vstEpInf)=~(Inflammation3)
+vstEpInfb=DESeq(vstEpInf)
+vstEpInfRes1b=results(vstEpInfb)
+res1genesInf=rownames(vstEpInfRes1b)[which(vstEpInfRes1b$padj<0.05 & (vstEpInfRes1b$log2FoldChange)>(1.5) &
+                                         vstEpInfRes1b$baseMean>100)]
+
+## perform ssGSEA on these samples and see where they fit:
+
+RatssGSEA=gsva(assay(vsdLimmaEp), 
+               list(grow=res1genesGrow, inh=res1genesInf, nonstab=res1genesStab), method="ssgsea", ssgsea.norm=T)
+
+par(mfrow=c(1,2))
+plot(RatssGSEA[1, ], RatssGSEA[2, ], col=factor(vstEpInf$Inflammation2), xlab="grow score", ylab="inh score")
+plot(RatssGSEA[1, ], -RatssGSEA[3, ], col=factor(vstEpInf$Inflammation2), xlab="grow score", ylab="-stab score")
+RatssGSEA[3, ]=-RatssGSEA[3, ]
+```
+
+We can also overlay these signatures from ssGSEA to see how well it can predict each group:
+
+```{r}
+# plot histograms for the 3 samples:
+par(mfrow=c(3,3))
+
+for (i in 1:3){
+  for (j in c("inf", "grow", "stab")){
+    plot(density(RatssGSEA[i, which(vstEpInf$Inflammation2==j)]), main=paste(j, rownames(RatssGSEA)[i]), 
+         xlim=c(-0.6, 0.8))
+  }
+}
+```
+
+
+
+GSEA for the above 3 groups?
+
+```{r gsea-1-v-all-ep, results='hide', message=F}
+
+l1=SymHum2Rat$HGNC.symbol[match(rownames(vstEpInfRes1), SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(rownames(vstEpInfRes1), Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(rownames(vstEpInfRes1), Mouse2Hum$MGI.symbol)]
+EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, rownames(vstEpInfRes1))))
+
+
+## run 1
+hits=EpGenesConv[match(res1genes, rownames(vstEpInfRes1))]
+fcTab=vstEpInfRes1$log2FoldChange
+names(fcTab)=EpGenesConv
+  gscaepInf1=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscaepInf1 <- preprocess(gscaepInf1, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscaepInf1 <- analyze(gscaepInf1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+## run2
+hits=EpGenesConv[match(res2genes, rownames(vstEpInfRes2))]
+fcTab=vstEpInfRes2$log2FoldChange
+names(fcTab)=EpGenesConv
+gscaepInf2=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+gscaepInf2 <- preprocess(gscaepInf2, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+gscaepInf2 <- analyze(gscaepInf2, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+## run3
+hits=EpGenesConv[match(res3genes, rownames(vstEpInfRes3))]
+fcTab=vstEpInfRes3$log2FoldChange
+names(fcTab)=EpGenesConv
+gscaepInf3=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+gscaepInf3 <- preprocess(gscaepInf3, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+gscaepInf3 <- analyze(gscaepInf3, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+
+
+GSEA1=gscaepInf1@result$GSEA.results$ProcessNetworks
+GSEA2=gscaepInf2@result$GSEA.results$ProcessNetworks
+GSEA3=gscaepInf3@result$GSEA.results$ProcessNetworks
+
+
+lx1=unique(c(rownames(GSEA1)[which(GSEA1[ ,3]<0.05)],
+      rownames(GSEA2)[which(GSEA2[ ,3]<0.05)],
+      rownames(GSEA3)[which(GSEA3[ ,3]<0.05)]))
+
+
+Fx=cbind(GSEA1[lx1, 1], GSEA3[lx1, 1], GSEA2[lx1, 1])
+Fx2=cbind(GSEA1[lx1, 3], GSEA3[lx1, 3], GSEA2[lx1, 3])
+Fx[which(Fx2>0.05, arr.ind=T)]=0
+
+rownames(Fx)=lx1
+colnames(Fx)=c("s/i", "g/i", "s/g")
+
+
+ltest=which(rowSums(sign(abs(Fx)))>1)
+ltest2=which(abs(Fx[,3])>0)
+
+par(oma=c(1,1,1,5))
+heatmap.2(Fx[unique(c(ltest,ltest2)), ], col=RdBu[11:1], trace="none", scale = "none", hclustfun = hclust.ave)
+
+```
+
+
+## Analyse the non-inflammatory samples
+
+We remove all the inflammtory samples and compare differences between stable and growing here. 
+Below is the volcano plot for the 
+
+```{r Epddsinflamm, fig.cap="ep non-inflammatory comparison"}
+#Remove inflammatory samples
+#Also remove samples which are basal-like
+
+Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep") #,"2N__Ep", "15N_C_Ep", "7N_A_Ep", "8R_CU_Ep", "12L_D_Ep", "14N_D_Ep")
+
+EpddsInflam=EpddsGrowth
+EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
+
+EpddsInflam=DESeq(EpddsInflam)
+
+ResA=results(EpddsInflam, contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5), ]
+
+
+#pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
+
+plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
+     main="growing (-ve) vs stable (+ve)")
+
+text(ResAb$log2FoldChange, -log10(ResAb$padj), rownames(ResAb), col="red")
+
+write.csv(ResA, file="nature-tables/5f.csv")
+```
+
+Followed by the heatmap for this analysis
+
+```{r Epddsinflamm2, fig.cap="ep non-inflammatory comparison heatmap"}
+vst2=vst(EpddsInflam)
+
+heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
+          ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
+# heatmap.2(assay(vstEp)[match(rownames(ResAb), rownames(vstEp)), ], col=RdBu[11:1], 
+#           ColSideColors = ColSizeb[vstEp$Growth], trace="none", scale="row")
+
+#dev.off()
+
+#write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
+```
+
+### GSEA
+
+Quickly run GSEA for these samples:
+
+```{r gsea-non-inflammatory-branch, fig.cap="5g: non inflammatory branch"}
+
+EpGenes=rownames(ResA)
+
+l1=SymHum2Rat$HGNC.symbol[match(EpGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(EpGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(EpGenes, Mouse2Hum$MGI.symbol)]
+EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, EpGenes)))
+
+
+hits=EpGenesConv[match(rownames(ResAb), EpGenes)]
+fcTab=ResA$log2FoldChange
+names(fcTab)=EpGenesConv
+
+
+  gscaepInf=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscaepInf <- preprocess(gscaepInf, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscaepInf <- analyze(gscaepInf, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+  
+A1=summarize(gscaepInf)  
+
+PNresultsef=gscaepInf@result$GSEA.results$ProcessNetworks
+
+TermsA=sapply(strsplit(rownames(gscaepInf@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscaepInf@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+## check whether this runs:
+gscaepInf@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscaepInf, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term" )
+#plotGSEA(gscaepInf, gscs=c("ProcessNetworks"), filepath="figure-outputs/", output="pdf")
+
+
+save(gscaepInf2, file="figure-outputs/5g.Rdata") # save this file to change the color scheme
+write.csv(gscaepInf@result$GSEA.results$ProcessNetworks, file="nature-tables/Ext5g_perhaps.csv")
+```
+
+We've noticed that some of the differentially expressed genes above are splicing related or epigenetic related. Could there be an association with transcriptional diversity? Below we calculate the transcriptional diversity based on rsem values
+
+```{r Ext5j, fig.cap="Transcriptional heterogeneity"}
+local.rnaseq.shannon <- function(exp.mat, pseudoNum = 0){
+# calculate shannon index from transcriptome matrix
+apply(exp.mat, 2, function(x){
+x<-x+pseudoNum
+prop<-x/sum(x)
+#prop<-prop[prop>0]
+shidx = -sum(prop*log(prop), na.rm=T)/log(length(prop))
+shidx
+})
+}
+
+
+Output1=local.rnaseq.shannon(allrsemFinal)
+Output2=Output1[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Progression")]
+
+tab2=data.frame(inf=vstEpInf$Inflammation2, het=Output2[-3])
+ggplot(tab2, aes(x=inf, y=het))+geom_boxplot()+geom_point()+ggtitle("transcriptional heterogeneity: rsem")
+wilcox.test(tab2$het[tab2$inf!="inf"]~tab2$inf[tab2$inf!="inf"])
+
+write.csv(tab2, file="nature-tables/Ext5j_transcriptional_heterigeneity.csv")
+```
+
+## Luminal-only non-inflammtory samples samples
+
+We removed all the basal samples and did the same comparison:
+
+
+```{r EpddsLum, fig.cap="DEG non-inflamm Lum only"}
+Epdds$HR=Cdata$HR_status[match(substr(colnames(Epdds), 1, nchar(colnames(Epdds))-3), Cdata$TumorID)]
+vstLumOnly=Epdds[, which(Epdds$HR=="Lum")]
+design(vstLumOnly)=~Growth
+vstLumOnly=DESeq(vstLumOnly)
+colnames(Epdds)
+
+vstLumRes=results(vstLumOnly)
+vsdLumvst=vst(vstLumOnly)
+
+write.csv(vstLumRes, file="nature-tables/5j_lumonly_ep_growing_vs_stable.csv")
+genes2=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
+
+ColSideCols=ColSizeb[vstLumOnly$Growth]
+#pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
+
+heatmap.2(assay(vsdLumvst)[ genes2,  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="Ep genes")
+#dev.off()
+
+write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing_vs_stable.csv")
+```
+
+Quickly run GSEA for these samples:
+
+```{r gsea-noninf-lum-branch, fig.cap="luminal non inflammatory branch"}
+
+EpGenes=rownames(vstLumRes)
+
+l1=SymHum2Rat$HGNC.symbol[match(EpGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(EpGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(EpGenes, Mouse2Hum$MGI.symbol)]
+EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, EpGenes)))
+
+
+hits=EpGenesConv[match(rownames(vstLumRes), EpGenes)]
+fcTab=vstLumRes$log2FoldChange
+names(fcTab)=EpGenesConv
+
+
+  gscaepNI_lum=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gscaepNI_lum<- preprocess(gscaepNI_lum, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gscaepNI_lum <- analyze(gscaepNI_lum, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+  
+A1=summarize(gscaepNI_lum)  
+
+PNresultsef=gscaepNI_lum@result$GSEA.results$ProcessNetworks
+
+TermsA=sapply(strsplit(rownames(gscaepNI_lum@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(gscaepNI_lum@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
+
+save(gscaepNI_lum, file="figure-outputs/5xx_lumonly.Rdata") # save this file to change the colors
+
+## check whether this runs:
+gscaepNI_lum@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
+viewEnrichMap(gscaepNI_lum, gscs=c("ProcessNetworks"),
+              allSig = TRUE, gsNameType="term" )
+
+write.csv(gscaepNI_lum@result$GSEA.results$ProcessNetworks, file="nature-tables/5g_lumxx.csv")
+```

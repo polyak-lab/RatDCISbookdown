@@ -1,0 +1,159 @@
+# Trichrome staining
+
+Quantification of trichrome staining was performed in Qupath using the following steps:
+
+* image is loaded as a "DAB" image
+* using "gold standard" trichrome-stained images with good stroma and epithelial content, estimate the stain vectors
+* Perform color deconvolution
+* A pixel classifier was used to estimate trichrome content
+* A pixel classifier was used to estimate tumor content
+
+A snippet of the qupath script is shown below:
+
+```{r, eval=F, echo=T}
+# insert some text here
+
+setImageType('BRIGHTFIELD_H_DAB');
+setColorDeconvolutionStains('{"Name" : "trichrome", "Stain 1" : "Hematoxylin", "Values 1" : "0.71695 0.66336 0.21432 ", "Stain 2" : "DAB", "Values 2" : "0.46299 0.76212 0.45257 ", "Background" : " 255 255 255 "}');
+selectAnnotations();
+addPixelClassifierMeasurements("stroma_classifier_again", "stroma_classifier_again")
+selectAnnotations();
+addPixelClassifierMeasurements("test_tumor", "test_tumor")
+
+def entry = getProjectEntry()
+def name = entry.getImageName() + '.txt'
+def path = buildFilePath(PROJECT_BASE_DIR, 'annotation results')
+mkdirs(path)
+path = buildFilePath(path, name)
+saveAnnotationMeasurements(path)
+
+```
+
+## Associations with cellular fraction (wsi)
+
+```{r, height=6, eval=T}
+# load the data
+TrichromeData=read.xlsx("../data/trichrome-staining-result.xls", 1)
+midx=match(TrichromeData$SampleID, gsub("_", "", Cdata$TumorID))
+
+Cdata$Trichrome=NA
+Cdata$Trichrome[na.omit(midx)]=TrichromeData$Percentage.Stroma[which(!is.na(midx))]
+
+t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+
+df.Spatial=cbind(df.Spatial, t(t2))
+
+#head(df.Spatial)
+
+df.Spatial$Trichrome=NA
+midx=match(TrichromeData$SampleID, rownames(df.Spatial))
+df.Spatial$Trichrome[na.omit(midx)]=TrichromeData$Percentage.Stroma[-which(is.na(midx))]
+# plot associations
+
+n2=c("CD8", "EpCAM", "SMA", "Unclass", "EpCAM: SMA")
+
+#pdf("~/Desktop/richrome-association-WSI-data-Calc2.pdf", width=6, height=5)
+
+par(mfrow=c(2,3))
+for (i in n2){
+   a1=cor.test(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], use="complete")
+   n1=paste(i, "cor:", round(a1$estimate,1), "p:", round(a1$p.value,2))
+   plot(df.Spatial$Trichrome, df.Spatial[ ,match(i, colnames(df.Spatial))], main=n1, xlab="Trichrome", ylab=i)
+}
+
+#dev.off()
+```
+
+## Associations with CD8 content
+
+```{r 3gpre, fig.height=6}
+
+par(mfrow=c(1,2))
+
+a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$IF.EpCAMcut, main=sprintf("Ep int. fraction %s", round(a1,2)))
+a1=wilcox.test(df.Spatial$Trichrome~df.Spatial$CD8Fraccut)$p.val
+boxplot(df.Spatial$Trichrome~df.Spatial$CD8Fraccut, main=sprintf("CD8 fraction vs Trichrome %s", round(a1,2)))
+```
+
+## Associations with growth and treatment
+
+```{r 3g, fig.cap="Trichrome staining with treatment"}
+#pdf("~/Desktop/testoutput.pdf", height=6, width=6)
+pv1=sapply(c("PDL1", "LY", "PDL1+LY"), function(x) wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Treatment%in%c("Vehicle", x))]~
+           df.Spatial$Treatment[which(df.Spatial$Treatment%in%c("Vehicle", x))])$p.value)
+names(pv1)=c("PDL1", "LY", "PDL1+LY")
+
+ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, col=Treatment))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+```
+
+```{r 3gb, fig.cap="Trichrome with growth"}
+ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
+ scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth", round(a1a, 2)))
+print(p)
+
+write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
+
+```
+
+## Association with hyperinflammatory status
+
+We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples
+
+```{r}
+vstEpInf$Inflammation3
+ax1=colnames(vstEpInf)
+ax1
+
+t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
+t2
+
+```
+
+# Writing files to file
+
+Update the metadata file:
+write to file:
+
+* updated ext data table
+* spatial information summary
+* star aligned table
+* colData information
+* collapsed information on wsi/facs
+
+```{r}
+write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+
+x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
+head(x1)
+write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
+
+colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
+infoTableFinal2=infoTableFinal[ ,c("TumorIDnew","Growth", "CD8Frac", "TumSize", "Time.NMU2Sac", 
+                                   "Age.Injection","Treatment","Cohort", "SizeCat")]
+write.csv(infoTableFinal2, file="nature-tables/infoTableFinal2_output.csv")
+write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
+
+
+colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
+
+# colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+
+# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
+#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
+#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
+#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
+#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
+#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
+#                )
+
+```
+
+
+Below is the session info
+
+```{r}
+sessionInfo()
+```

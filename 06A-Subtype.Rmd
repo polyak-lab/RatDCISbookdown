@@ -1,0 +1,550 @@
+# ER/Pgr Subtyping
+
+In this section, we will look at whether there are differences in rat subtype by:
+
+* creating a list of specific markers of interest 
+* applying PAM clsutering (partitioning around medoids)
+
+As the DN samples do have keratin expression, we will also try to determine the subtypes in these samples too.
+
+In the below analyses, we will conduct this subtyping as follows:
+
+* progression specific epithelial cohort
+* characterisation specific epithelial cohort
+* dn specific cohort (progression)
+
+## Gene List
+
+We will assess clustering using two different lists. A. is a more comprehensive list containing epithelial, mesenchymal markers and proliferation markers, B. has a more narrow list of subtype specific markers
+
+a. 'Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna'
+b. 'Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr'
+
+## Progression cohort
+
+We will be using variance stabilised counts in this section.
+
+Firstly, we will look at the progression cohort. Note that the overlap between the two gene-sets are similar, and the heatmap is row-scaled. 
+
+```{r}
+Markers1=c('Ar', 'Cd24', 'Cdh1', 'Foxa1', 'Gata3', 'Krt8', 'Krt18', 'Krt5', 'Vim', 'Erbb2', 'Esr1', 'Pgr', 'Mki67', 'Pcna')
+Markers2=c('Ar', 'Foxa1', 'Gata3', 'Erbb2', 'Esr1', 'Pgr')
+# Progression cohort
+Ax1a=assay(vstEp)[ match(Markers1, rownames(assay(vstEp))),]
+Ax2a=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
+Pam1=pam(t(Ax1a), 2)
+Pam2=pam(t(Ax2a), 2)
+
+par(mfrow=c(2,2))
+plot(Pam1, main="List A, progression cohort")
+plot(Pam2, main="List B, progression cohort")
+
+ColA=Pam1$clustering
+ColA=ifelse(ColA==1, "Basal", "Lum")
+ColB=Pam2$clustering
+ColB=ifelse(ColB==1, "Basal", "Lum")
+```
+
+The following shows the heatmaps using these list, using average distances in the hclustering approaches:
+
+```{r Ext3i, fig.cap="HR clustering"}
+#colnames(Ax1a)=infoTableFinal$TumorIDnew[match(colnames(Ax1a), rownames(infoTableFinal))]
+
+#hclust.ave <- function(x) hclust(x, method="average")
+ax1=heatmap.2(Ax1a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColA)])
+
+ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColB)])
+
+
+```
+
+We can save this information to our main data file
+
+```{r}
+# axb2=cutree(as.hclust(ax1$colDendrogram), 4)
+# ## Also perform a clustering analysis of the samples and see if they cluster according to subtype:
+# 
+# CorMatEp=cor(assay(vsdLimmaEp))
+# colnames(CorMatEp)=infoTableFinal$TumorIDnew[match(colnames(CorMatEp), rownames(infoTableFinal))]
+# rownames(CorMatEp)=colnames(CorMatEp)
+
+#ColSideCol=ifelse(axb2==2, "blue", "red")
+#ColSideColB=ifelse(ColA=="Basal", "red", "blue")
+colnames(Ax2a)=infoTableFinal$TumorIDnew[match(colnames(Ax2a), rownames(infoTableFinal))]
+Cdata$HR_status=NA
+Cdata$HR_status[match(colnames(Ax2a), Cdata$NewID)]=ColB
+
+#ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", ColSideColors = ColB)
+
+write.csv(ax1$carpet, file="nature-tables/Ext3i.csv")
+
+#heatmap.2(CorMatEp, col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSideColB)
+```
+
+## Charcterisation cohort
+
+We can perform a similar analysis to the characterisation cohort: (and save to file)
+
+```{r}
+c2=infoTableFinal$SampleID[which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
+
+Ax1=assay(vsd)[ match(Markers1, rownames(assay(vsd))), match(c2, colnames(vsd))]
+Ax2=assay(vsd)[ match(Markers2, rownames(assay(vsd))), match(c2, colnames(vsd))]
+
+Pam3=pam(t(Ax1), 2)
+Pam4=pam(t(Ax2), 2)
+
+#plot(Pam3)
+plot(Pam4, main="narrow list")
+
+Ax1b=scale(t(Ax1))
+
+#plot(Pam3, "extended list")
+ColC=Pam3$clustering
+ColC=ifelse(ColC==2, "Basal", "Lum")
+ColD=Pam4$clustering
+ColD=ifelse(ColD==1, "Basal", "Lum")
+
+#table(ColC, ColD)
+
+#pdf("~/Desktop/PAM50-characterisation-different-list2.pdf", width=8, height=8)
+
+# heatmap.plus(t(Ax1b), col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CTable,scale="none", main="Char cohort vsd marker list2", trace="none")
+
+colnames(Ax1)=infoTableFinal$TumorIDnew[match(rownames(Ax1b), rownames(infoTableFinal))]
+heatmap.2((Ax1), trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", ColSideColors = c("red", "blue")[factor(ColC)])
+```
+
+```{r 1f, fig.cap="HR status in characterisation cohort"}
+colnames(Ax2)=infoTableFinal$TumorIDnew[match(rownames(Ax1b), rownames(infoTableFinal))]
+heatmap.2((Ax2), trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", ColSideColors = c("red", "blue")[factor(ColD)])
+
+write.csv(Ax2, file="nature-tables/1f.csv")
+```
+
+
+## DN samples
+
+DN samples: note there is variability in DN expression of PR, Foxa1, Esr1, Ar,
+Erbb2 and Gata3 shows fairly stable expression values
+
+```{r}
+Ax2=assay(vsdLimmaDN)[ match(Markers2, rownames(assay(vsdLimmaDN))),]
+Pam5=pam(t(Ax2), 2)
+plot(Pam5, main="extended list DN")
+ColE=Pam5$clustering
+ColE=ifelse(ColE==1, "Basal", "Lum")
+
+
+ColE=gsub("Basal", "red", ColE)
+ColE=gsub("Lum", "blue", ColE)
+
+#pdf("~/Desktop/5X-DN-samples-HR-status.pdf", width=6, height=5)
+colnames(Ax2)=infoTableFinal$TumorIDnew[match(colnames(Ax2), rownames(infoTableFinal))]
+heatmap.2(Ax2, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =ColE,scale="row", main="DN samples vsd marker list1", trace="none", hclustfun = hclust.ave)
+```
+
+
+```{r, eval=F}
+# Check which samples are also in the epithelial samples:
+
+V2=intersect(colnames(Ax1a), colnames(Ax2))
+colnames(Ax1a)
+colnames(Ax2)
+dim(Ax2)
+```
+
+```{r, eval=F}
+heatmap.2(Ax2[ ,V2], col=brewer.pal(11, "RdBu")[11:1], ColSideColors =ColE[V2],scale="row", main="DN samples vsd marker list1", trace="none", hclustfun = hclust.ave)
+
+names(ColSideColB)=colnames(Ax1a)
+
+heatmap.2(Ax1a[ ,V2], col=brewer.pal(11, "RdBu")[11:1], ColSideColors =ColSideColB[V2],scale="row", main="Ep samples", trace="none", hclustfun = hclust.ave)
+
+Tx1=cbind(Ax2[ ,V2], Ax1a[ ,V2])
+ColSide=c(rep("blue", length(V2)), rep("Green", length(V2)))
+ColSide=c(ColE[V2],ColSideColB[V2] )
+ColSide=Cdata$Tumor.Growth[match(colnames(Tx1), Cdata$NewID)]
+ColSide=ifelse(ColSide=="growing", "orange", "forestgreen")
+
+heatmap.2(Tx1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =ColSide,scale="row", main="Ep samples", trace="none", hclustfun = hclust.ave)
+
+heatmap.2(cor((Tx1)), trace = "none", col=RdBu[11:1], symm = F, ColSideColors = ColSide)
+
+
+axnew=cor(Tx1)
+t2=sapply(1:nrow(axnew), function(x) axnew[x, which(colnames(axnew)==rownames(axnew)[x]) ])
+colnames(t2)=colnames(axnew)
+
+boxplot(t2[2, 1:16]~ColSide[1:16])
+
+```
+
+Do a heatmap with the Epithelial samples
+
+```{r, eval=F}
+
+vsdProg=vsd[, which(infoTableFinal$Fraction!="CD45" & infoTableFinal$Cohort=="Progression")]
+
+CNamesList=rep(NA, ncol(vsdProg))
+CNamesList[match(rownames(CTablea), colnames(vsdProg))]=CTablea[ ,1]
+CNamesList[match(rownames(CTabled), colnames(vsdProg))]=CTabled[ ,1]
+CNamesList2=ifelse(CNamesList=="Lum", "blue", "red")
+
+X2=rep("darkgreen", ncol(vsdProg))
+X2[grep("Ep", colnames(vsdProg))]="pink"
+
+X3=vsdProg$Growth
+X3=gsub("growing", "orange", X3)
+X3=gsub("stable", "forestgreen", X3)
+
+#pdf("~/Desktop/5X-DN+Ep-HR-status.pdf", width=6, height=5)
+
+Ax1=assay(vsdProg)[match(Markers2, rownames(assay(vsdProg))), ]
+heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =cbind(CNamesList2, X2, X3),scale="none", main="DN samples vsd marker list1", trace="none")
+
+heatmap.2(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =CNamesList2,scale="row", main="Ep+DN markers", trace="none")
+
+par(mfrow=c(2,2))
+boxplot(Ax1["Pgr", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Pgr")
+boxplot(Ax1["Foxa1", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Foxa1")
+boxplot(Ax1["Gata3", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Gata3")
+boxplot(Ax1["Esr1", ]~vsdProg$Growth+vsdProg$Fraction, ylab="Esr1")
+
+Mx1=table(vsdProg$Growth, CNamesList2, vsdProg$Fraction)
+
+ContTable(Mx1[ , , 3], "HR-status-growth-Epithelial", T,  "Hr-status","growth")
+
+#dev.off()
+```
+
+## Comparison with staining
+
+We can collate these different scores and assess whether there are similarities with PgR and ER staining:
+
+```{r, eval=T}
+## match to infoTable here
+
+# Contingency Tables
+par(mfrow=c(1,2))
+a1=table(Cdata$HR_status, Cdata$PgR.IF)
+ContTable(a1[ ,-2], "Pgr Expr", T, "Pgr IF", "compressed subtype")
+
+# Contingency Tables
+a1=table(Cdata$HR_status, Cdata$ER.IF)
+ContTable(a1[ ,-2], "ER Expr", T, "ER IF", "compressed subtype")
+
+
+```
+
+
+## Summary of expression markers for each subtype/cell fraction
+
+We can pull out the main markers of interest: ER, PGR, Erbb2 and Ki67 (or PCNA). 
+We also compare these expression distribution of these markers to CD45, DN and Ep overall:
+
+Notes:
+
+* Pgr highest in luminal samples
+* Esr1 dynamic range is lower
+* Ar is higher in basal samples
+* Pcna is higher in Basal
+
+```{r}
+# midx=match(ExpressedaprilChar$X, colnames(allTPMFinal))
+# midx3=match(Pall$X[grep("DN",Pall$X)], colnames(allTPMFinal))
+# midx2=match(ExpressedaprilProg2$X, colnames(allTPMFinal))
+# 
+# summ1=table(ExpressedaprilChar$Call)
+# summ2=table(ExpressedaprilProg2$Call)
+# summ3=table(Pall$Call[grep("DN",Pall$X)])
+
+
+gList=c("Esr1", "Pgr", "Erbb2", "Ar", "Pcna", "Mki67", "Acta2", "Epcam", "Krt18")
+
+# par(mfrow=c(2,3))
+# 
+# for (i in gList){
+# boxplot(allTPMFinal[i, midx ]~ExpressedaprilChar$Call, main="Char",  names=paste(names(summ1)," N=",summ1, sep=""), las=2, ylab=i, xlab="")
+# boxplot(allTPMFinal[i, midx2 ]~ExpressedaprilProg2$Call, main="Prog", names=paste(names(summ2)," N=",summ2, sep=""), las=2,ylab=i, xlab="")
+# boxplot(allTPMFinal[i, midx3 ]~Pall$Call[grep("DN",Pall$X)], main="DN",  names=paste(names(summ3)," N=",summ3, sep=""), ylab=i, las=2, xlab="")
+# }
+# 
+summ4=table(infoTableFinal$Fraction)
+
+#pdf("~/Desktop/FigS3-plot-gene-of-interest-average-expression.pdf", height=8, width=8)
+
+par(mfrow=c(2,3))
+for (i in gList){
+boxplot(allTPMFinal[i, ]~infoTableFinal$Fraction, main=i,  names=paste(names(summ4)," N=",summ4, sep=""), las=2, ylab=i, xlab="")
+}
+
+#dev.off()
+```
+
+
+
+
+
+```{r, eval=F}
+Based on the above calls, we can condense the calls:
+
+* Her2, LumB are sumilar and can be combined with LumA
+* Normal and Basal are most likely most similar
+
+Pall$Call2=Pall$Call
+Pall$Call2[which(Pall$Call2=="Her2")]="LumB"
+
+Pall$Call3="Basal"
+Pall$Call3[grep("Lum", Pall$Call2)]="Lum"
+
+BLcall=ifelse(Pall$Call3=="Basal", "blue", "red")
+
+midx4=match(Pall$X, colnames(allTPMFinal))
+Ax4=assay(vsd)[match(Markers2, rownames(assay(vsd))),na.omit(midx4)]
+Ax4b=allRSEMnorm2log[na.omit(match(toupper(Markers2), rownames(allRSEMnorm2log))), na.omit(midx4)]
+
+heatmap.2(Ax4, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, scale="row", main="vsd marker list3", trace="none")
+heatmap.2(Ax4b, col=brewer.pal(11, "RdBu")[11:1], ColSideColors = BLcall, trace="none", scale="row", main="RSEM marker3")
+
+```
+
+
+
+```{r, eval=F}
+## Clustering based on random genes
+
+In this section we randomly select the most variable 200, 500, 1000, 2000 genes: we use both the standard deviation and coefficient of variation (sd normalised by the mean) to select these most variable genes.
+
+Below is a correlation plot which visualises the concordance between the different methods.
+
+
+ProgCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort=="Progression")]
+CharCoh=assay(vsd)[ ,which(infoTableFinal$Fraction=="Ep" & infoTableFinal$Cohort!="Progression")]
+
+GeneVar1=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ]))
+GeneVar2=sapply(1:nrow(ProgCoh), function(x) sd(ProgCoh[x, ])/mean(ProgCoh[x, ]))
+names(GeneVar2)=rownames(ProgCoh)
+names(GeneVar1)=rownames(ProgCoh)
+OrdGene1=sort(GeneVar1, decreasing = T)
+OrdGene2=sort(GeneVar2, decreasing = T)
+
+xsearch=c(200, 500, 1000, 2000)
+
+CallsTableProg=matrix(NA, ncol=ncol(ProgCoh), nrow=10)
+colnames(CallsTableProg)=colnames(ProgCoh)
+CallsTableProg[1, ]=Pall$Call3[match(colnames(CallsTableProg), Pall$X)]
+#CallsTableProg[2, ]=Pall$Call2[match(colnames(CallsTableProg), Pall$X)]
+#CallsTableProg[2, ]=Pall$PamCallLong[match(colnames(CallsTableProg), Pall$X)]
+CallsTableProg[2, ]=Pall$PamCallshort[match(colnames(CallsTableProg), Pall$X)]
+
+count=3
+
+par(mfrow=c(2,2))
+
+for (i in xsearch){
+ # Int1=venn(list(SD=names(OrdGene1)[1:i], CoV=names(OrdGene2)[1:i]))
+  ax1=pam(t(ProgCoh[names(OrdGene1)[1:i],  ]), 2)
+  bx1=pam(t(ProgCoh[names(OrdGene2)[1:i],  ]), 2)
+  CallsTableProg[count, ]=ax1$clustering
+  CallsTableProg[count+1, ]=bx1$clustering
+  count=count+2
+}
+
+ConcordanceMat=matrix(NA, nrow=nrow(CallsTableProg), ncol=nrow(CallsTableProg))
+for (i in 1:nrow(CallsTableProg)){
+  for (j in 1:nrow(CallsTableProg)){
+    a1=table(CallsTableProg[i, ], CallsTableProg[j, ])
+    ConcordanceMat[i, j]=sum(diag(a1))/sum(a1)
+  }
+}
+
+colnames(ConcordanceMat)=c("P50", "PamShort", paste(rep(c("sd", "cov"), 4), rep(xsearch, each=2), sep="."))
+rownames(ConcordanceMat)=colnames(ConcordanceMat)
+ConcordanceMat2=ConcordanceMat
+ConcordanceMat2[which(ConcordanceMat2<0.5, arr.ind=T)]=1-ConcordanceMat2[which(ConcordanceMat2<0.5, arr.ind=T)]
+
+# Example heatmap
+Ax1=assay(vstEp)[ match(Markers2, rownames(assay(vstEp))),]
+
+TabOutput=cbind(ifelse(CallsTableProg[4, ]==1, "blue", "red"),ifelse(CallsTableProg[5, ]==1, "blue", "red"))
+x1=match(colnames(Ax1), colnames(CallsTableProg))
+
+heatmap.plus(Ax1, col=brewer.pal(11, "RdBu")[11:1], ColSideColors =(TabOutput[ x1,]),scale="row", main="Progression cohort vsd marker list1", trace="none")
+
+```
+
+
+
+
+```{r, eval=F}
+
+## Consolidating the different results
+
+Below is a concordance map of the similarity between the different metrics calculated as
+
+$$ \frac{N_{b,b}+N_{l,l}}{N_{total}} $$
+
+where $N_{b,b}$ is the number of cases which are basal in two comparisons and $N_{l,l}$ the number of cases which are luminal in both comparisons.
+
+Note that the values extend from 0.5 to 1, which indicates that any two methods overlap more than just by chance. 
+
+
+There is good overlap between the in-house specific list characterisation, and some overlap between pam50 calling and in-house short list. 
+
+
+
+
+heatmap.2(ConcordanceMat2, col=RdBu[11:1], trace="none",scale="none")
+
+heatmap.2(ConcordanceMat2[1:7, 1:7], col=RdBu[11:1], trace="none",scale="none")
+```
+
+
+```{r, eval=F}
+
+Below is a summary of the average expression values of the classes defined by the different methods:
+
+* The targeted lists show differences in esr1, pgr, erbb2, pcna
+* Ar has differing directions for the pam classifications
+* Random genes selected show differences in pgr, erbb2, Ar and perhaps Mki67
+
+
+
+par(mfrow=c(2,3))
+
+compv=c("PAM50",  "pamshort", "top200sd", "top500sd", "top1000sd", "top2000sd")
+gList=c(gList, "Foxa1", "Gata3", "Vim")
+
+for (j in gList){
+for (i in c(1:3,5, 7, 9)){
+  boxplot(ProgCoh[j, ]~CallsTableProg[i, ], main=rownames(ConcordanceMat2)[i], ylab=j, xlab="")
+}}
+mtext("ESR1", side=2, outer=T, line=-2)
+
+```
+
+```{r, eval=F}
+
+We can summarise the outputs for each sample below
+
+
+CallsTableProg2=CallsTableProg[c(1:3,5, 7, 9), ]
+rownames(CallsTableProg2)=compv
+
+scroll_box(kable(t(CallsTableProg2), format="html"),
+         height="300px", width="100%")
+
+
+```
+
+# Expression in Specific pathways
+
+The above plots suggest that there could be a different in growing and stable based on:
+
+* inflammation
+* Kras signalling
+* MHC presentation
+* checkpoint proteins
+
+We can pull out the genes in these sets and visualise the relative expression in a heatmap in the DN, CD45 and Ep samples:
+
+Note that red is growing and green is stable
+
+```{r}
+# library(org.Hs.eg.db)
+load("../anntotations/ListofGeneSets.RData")
+
+SetNamesc2=names(PathInc2) #names(ListGSC$c2List)
+x1=grep("MHC", SetNamesc2)
+GeneNames=unique(unlist(geneIds(PathInc2[x1[c(1, 4,5)]])))
+
+#test1=mapIds(org.Hs.eg.db, GeneNames, 'SYMBOL','ENTREZID')
+RatGeneNamesMHC=na.omit(unique(SymHum2Rat$RGD.symbol[match(GeneNames, SymHum2Rat$HGNC.symbol)]))
+
+#RatGeneNamesKras=mapIds(org.Hs.eg.db, ListGSC$Hallmark$HALLMARK_KRAS_SIGNALING_UP, 'SYMBOL','ENTREZID')
+GeneNames=unlist(geneIds(PathInH["HALLMARK_KRAS_SIGNALING_UP"]))
+RatGeneNamesKras=na.omit(unique(SymHum2Rat$RGD.symbol[match(GeneNames, SymHum2Rat$HGNC.symbol)]))
+
+GeneNames=unlist(geneIds(PathInH["HALLMARK_INFLAMMATORY_RESPONSE"]))
+RatGeneNamesInf=na.omit(unique(SymHum2Rat$RGD.symbol[match(GeneNames, SymHum2Rat$HGNC.symbol)]))
+
+CheckpointProt=unlist(ImmSuppAPC)
+RatGeneNamesCheckpoint=na.omit(unique(SymHum2Rat$RGD.symbol[match(CheckpointProt, SymHum2Rat$HGNC.symbol)]))
+
+# RatCP=read.delim("../anntotations/immune_Suppression.csv", sep="\t", stringsAsFactors = F)
+# RatCP=na.omit(unique(SymHum2Rat$RGD.symbol[match(unique(unlist(RatCP)), SymHum2Rat$HGNC.symbol)]))
+# 
+# 
+# RatMHC=read.csv("../anntotations/MHCloss.csv", header = F, stringsAsFactors = F)[ ,1]
+# RatMHCb=na.omit(unique(SymHum2Rat$RGD.symbol[match(RatMHC, SymHum2Rat$HGNC.symbol)]))
+# read in checkpoint proteins
+```
+
+#### DN samples:
+
+Note the distribution of growing/stable in DN is: `r table(DNdds$Growth)`
+
+```{r}
+ColsideColsC=hue_pal()(2)[DNdds$Growth]
+
+heatmap.2(assay(vstDN)[na.omit(match(RatGeneNamesMHC, rownames(vstDN))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC expression")
+
+heatmap.2(assay(vstDN)[na.omit(match(RatGeneNamesKras, rownames(vstDN))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Kras expression")
+
+heatmap.2(assay(vstDN)[na.omit(match(RatGeneNamesInf, rownames(vstDN))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Inflammatory response")
+
+heatmap.2(assay(vstDN)[na.omit(match(RatGeneNamesCheckpoint, rownames(vstDN))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="checkpoint proteins")
+
+heatmap.2(assay(vstDN)[na.omit(match(MHCPres2Rat, rownames(vstDN))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC proteins")
+```
+
+#### CD45 samples:
+
+Note the distribution of growing/stable in CD is: `r table(CDdds$Growth)`
+
+
+```{r}
+ColsideColsC=hue_pal()(2)[CDdds$Growth]
+
+heatmap.2(assay(vstCD)[na.omit(match(RatGeneNamesMHC, rownames(vstCD))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC expression")
+
+heatmap.2(assay(vstCD)[na.omit(match(RatGeneNamesKras, rownames(vstCD))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Kras expression")
+
+heatmap.2(assay(vstCD)[na.omit(match(RatGeneNamesInf, rownames(vstCD))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Inflammatory response")
+
+heatmap.2(assay(vstCD)[na.omit(match(RatGeneNamesCheckpoint, rownames(vstCD))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="checkpoint proteins")
+
+heatmap.2(assay(vstCD)[na.omit(match(MHCPres2Rat, rownames(vstCD))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC proteins")
+```
+
+#### Epithelial samples:
+
+```{r}
+ColsideColsC=hue_pal()(2)[Epdds$Growth]
+
+heatmap.2(assay(vstEp)[na.omit(match(RatGeneNamesMHC, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC expression")
+
+heatmap.2(assay(vstEp)[na.omit(match(RatGeneNamesKras, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Kras expression")
+
+heatmap.2(assay(vstEp)[na.omit(match(RatGeneNamesInf, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="Inflammatory response")
+
+heatmap.2(assay(vstEp)[na.omit(match(RatGeneNamesCheckpoint, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="checkpoint proteins")
+
+heatmap.2(assay(vstEp)[na.omit(match(MHCPres2Rat, rownames(vstEp))), ], col=RdBu[11:1], trace="none", scale="row", ColSideColors = ColsideColsC, main="MHC proteins")
+```
+
+
+```{r, eval=F}
+### comapre DN samples: PAM50 Lum vs Basal/Normal?
+
+DNdds$PAM50_v2="ERplus"
+DNdds$PAM50_v2[which(DNdds$PAM50%in%c("Basal", "Normal"))]="ERneg"
+DNdds$PAM50_v2=factor(DNdds$PAM50_v2)
+design(DNdds)=~PAM50_v2+factor(Batch)
+DNddsP50=DESeq(DNdds)
+
+DNresP50=results(DNddsP50)
+
+x1=rownames(DNresP50)[which(abs(DNresP50$log2FoldChange)>2 & DNresP50$padj<0.05)]
+```
