@@ -374,15 +374,15 @@ ann_text=data.frame(Glabel=round(AllP, 2),
 
 p=ggplot(TrustTab[CD45F2, ], aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+
   scale_colour_manual(values=c(ColMerge[ ,1], "black"))+facet_grid(~variable)+theme_bw()
-p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
+#p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
 
 boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[1],2), "LY", round(b1[1],2), "PDL1+LY", round(c1[1], 2)), xlab="treat", ylab="no clonotypes",
         col=ColMerge[ ,1])
 boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[2],2), "LY", round(b1[2],2), "PDL1+LY", round(c1[2], 2)),
         xlab="growth", ylab="shannon",col=ColMerge[ ,1])
-# boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Treatment"],main=paste("PDL1", round(a1[3],2), "LY", round(b1[3],2), "PDL1+LY", round(c1[3], 2)),   ylab="gini", xlab="growth",col=ColMerge[ ,1])
-# boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[4],2), "LY", round(b1[4],2), "PDL1+LY", round(c1[4], 2)),   ylab="top10 clonotypes", xlab="growth", col=ColMerge[ ,1])
+
 ```
+
 
 ```{r 4ib, fig.cap="trust growth"}
 par(mfrow=c(2,2))

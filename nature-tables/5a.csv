@@ -1,0 +1,74 @@
+"","DN","Ep","CD"
+"Development_Neurogenesis_Synaptogenesis",-0.567753820501547,0,0
+"Proteolysis_Ubiquitin-proteasomal proteolysis",0.150049559396598,0,0
+"Transcription_mRNA processing",-0.114350047349038,-0.366675677402234,0.411897721115249
+"Cell adhesion_Cell-matrix interactions",-0.615414239042744,0,-0.475887088698646
+"Immune response_Antigen presentation",0.22772943760508,0.562903317191318,0
+"Development_Neurogenesis in general",-0.560567843027608,0,0
+"Transcription_Transcription by RNA polymerase II",0.214025054296192,0,0.375501446560809
+"Inflammation_Interferon signaling",0.390044683749077,0.703852375297509,0
+"Development_Ossification and bone remodeling",-0.531583069704798,0,0
+"Transcription_Chromatin modification",-0.171045356011585,-0.341719565720093,0.412645796517447
+"Translation_Translation initiation",0.584496317925683,-0.43890791503669,0
+"Signal transduction_Androgen receptor nuclear signaling",-0.18565760518185,0,0.301456862069274
+"Translation_Regulation of initiation",0.156938025020716,0,0
+"Inflammation_IL-12,15,18 signaling",0.356612722444981,0,0
+"Signal transduction_ESR2 pathway",0.23710073304476,0,0
+"Protein folding_Protein folding nucleus",0.288409060006737,0,0
+"Inflammation_IL-6 signaling",0.203216130340411,0,0.353135049964102
+"Transcription_Nuclear receptors transcriptional regulation",-0.22910440787844,0,0.286554886233537
+"Cell adhesion_Synaptic contact",-0.535056614075909,0,0
+"DNA damage_BER-NER repair",-0.203759703151025,0,0
+"Protein folding_ER and cytoplasm",0.270549825348616,0,0
+"Muscle contraction",-0.55882522049282,0,0
+"Inflammation_IFN-gamma signaling",0.287963067745686,0.545189145712579,0
+"Development_Hemopoiesis, Erythropoietin pathway",-0.256366747725532,0,0.308955462882569
+"Transport_Calcium transport",-0.636657853798782,0,0
+"Immune response_IL-5 signalling",0.254897002732357,0,0
+"Apoptosis_Endoplasmic reticulum stress pathway",0.295031374143524,0,0.380351651567626
+"Immune response_Th17-derived cytokines",0.285231107800115,0.496691124419669,0
+"Transport_Potassium transport",-0.661775496489752,0,-0.45681020135322
+"Neurophysiological process_Transmission of nerve impulse",-0.691221482127486,0.468165646734977,0
+"Inflammation_Innate inflammatory response",0.301712650732,0,-0.434767572338416
+"Immune response_Innate immune response to RNA viral infection ",0.456738910198463,0.486059789195381,0
+"Transport_Sodium transport",-0.556108545368337,0.572144447521828,0
+"Translation_Translation in mitochondria",0.36830143822962,-0.490030813625403,-0.552550027384605
+"Translation_Elongation-Termination",0.52719870558038,-0.463991497525177,0
+"Cell cycle_G2-M",0,-0.275065963285633,0
+"Proliferation_Positive regulation cell proliferation",0,0.439294285501328,0
+"Inflammation_Jak-STAT Pathway",0,0.581395415610221,0
+"Cell adhesion_Platelet-endothelium-leucocyte interactions",0,0.611904322560139,0
+"Cell cycle_S phase",0,-0.350271605217181,0
+"Chemotaxis",0,0.610100026120125,-0.477844155042473
+"Cell adhesion_Attractive and repulsive receptors",0,0.441560594113057,0
+"Development_Neurogenesis_Axonal guidance",0,0.386834149110355,0
+"Cell cycle_Core",0,-0.365865508160503,0
+"Proliferation_Lymphocyte proliferation",0,0.462322894131104,0.373313893272948
+"Development_Regulation of angiogenesis",0,0.42911178962708,0
+"Inflammation_NK cell cytotoxicity",0,0.505200784356834,0
+"Apoptosis_Anti-Apoptosis mediated by external signals via PI3K/AKT",0,0.489932859631819,0.2759233030439
+"Cell adhesion_Leucocyte chemotaxis",0,0.600238812259228,0
+"Blood coagulation",0,0.612689262604605,0
+"Apoptosis_Anti-apoptosis mediated by external signals via NF-kB",0,0.514817330682057,0
+"Inflammation_IL-4 signaling",0,0.604402332898696,0
+"Inflammation_TREM1 signaling",0,0.462716353770055,0
+"Inflammation_Complement system",0,0.714941749262872,-0.703459698799401
+"Immune response_Phagocytosis",0,0.508423448422822,-0.458938260690868
+"Inflammation_Neutrophil activation",0,0.457810662614564,0
+"Immune response_T helper cell differentiation",0,0.485702297514811,0
+"Cell adhesion_Glycoconjugates",0,0.478766254397749,0
+"Cell adhesion_Platelet aggregation",0,0.537273987686285,0
+"Inflammation_Histamine signaling",0,0.533591088392725,0
+"Inflammation_Kallikrein-kinin system",0,0.528227778581193,0
+"Apoptosis_Apoptotic nucleus",0,0,0.315488762522586
+"Proteolysis_ECM remodeling",0,0,-0.454932418982349
+"Reproduction_Male sex differentiation",0,0,0.272879302725525
+"Signal transduction_ESR1-nuclear pathway",0,0,0.25405452907893
+"Reproduction_Spermatogenesis, motility and copulation",0,0,0.311575005687903
+"Development_Blood vessel morphogenesis",0,0,0.280498471263606
+"Immune response_TCR signaling",0,0,0.327391739136541
+"Immune response_Phagosome in antigen presentation",0,0,-0.384593113384235
+"Immune response_BCR pathway",0,0,0.446924040716237
+"Muscle contraction_Nitric oxide signaling in the cardiovascular system",0,0,0.366791406239316
+"Neurophysiological process_Circadian rhythm",0,0,0.397349604117764
+"Transport_Bile acids transport and its regulation",0,0,-0.728302763451031

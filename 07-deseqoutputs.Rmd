@@ -122,13 +122,8 @@ xcellgenes=readxl::read_xlsx("../anntotations/xcell_genes.xlsx", sheet=1)
 AllGenes=as.vector(xcellgenes[ ,-c(1:2)])
 AllGenes=firstup(tolower(unique(as.character(unlist(AllGenes)))))
 
-
 #rm list
 rmList=c("15L_B_DN", "6R_B_DN", "10L_C_DN", "6R_D_DN")
-
-#DNddsTreatB=DNddsTreat#[, -match(rmList, colnames(DNddsTreat))]
-#design(DNddsTreatB)=~treatA+factor(Batch)
-#DNddsTreatB=DESeq(DNddsTreatB)
 
 DNr=results(DNdds)
 Xa1=DNr[which(DNr$padj<0.05 & DNr$baseMean>100 & abs(DNr$log2FoldChange)>1.5), ]
@@ -143,36 +138,6 @@ colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))
 colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
-
-
-
-### don't use this?
-
-# ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
-# bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
-# cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
-# 
-# G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
-# G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
-# G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
-# 
-# AllG=unique(c(G1, G2, G3))
-# 
-# #AllG2=AllG[which(AllG%in%RatAllImm)]
-# 
-# Mat2=vsdLimmaDN[match(G3, rownames(vsdLimmaDN)),  ]
-# colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]
-# 
-# Mat2=Mat2[ ,which(Mat2$Treatment%in%c("PDL1+LY", "Vehicle"))]
-# colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
-# colSCol2=ColSizeb[Mat2$Growth]
-# 
-# heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
-# 
-# Agenes2=unlist(GeneListRat[-c(3, 6)])
-# 
-# Mat3=vsdLimmaDN[na.omit(match(Agenes2, rownames(vsdLimmaDN))), which(vsdLimmaDN$Treatment%in%c("PDL1+LY", "Vehicle")) ]
-# heatmap.2(assay(Mat3), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
 ```
 

@@ -155,7 +155,7 @@ write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
 
 We can look below what the association with subtype is in KM curves:
 
-```{r Ext5e-os, fig.cap="OS CD74 by subtype" }
+```{r Ext5e-os, fig.cap="OS CD74 by subtype", fig.height=8}
 par(mfrow=c(2,2))
 
 Xind=c("Basal", "Her2", "LumA", "LumB")
@@ -365,18 +365,18 @@ dev.off()
 ```
 
 ```{r heatmap-tcga, fig.cap="because someone will ask for it"}
-vstTCGA=vst(assay(TCGAdeseqRes))
+vstTCGA=vst(assay(TCGAdeseq))
 
-ColSideCols=c("skyblue", "blue")[vstTCGA$TCGAvalcut]
+ColSideCols=c("skyblue", "blue")[factor(TCGAdeseq$TCGAvalcut)]
 
-ax1=assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ]
-ax1[1:5, 1:5]
+#ax1=assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ]
+#ax1[1:5, 1:5]
 
-pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+#pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
 
-heatmap.2(assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+#heatmap.2(assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
 
-dev.off()
+#dev.off()
 
 ```
 
