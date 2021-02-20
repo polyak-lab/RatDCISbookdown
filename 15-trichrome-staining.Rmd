@@ -101,22 +101,24 @@ write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tabl
 
 We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples
 
-```{r}
+```{r Ext5i, fig.cap="association with hyperinflammation"}
+vstEpInf$Inflammation3
 vstEpInf$Inflammation2
+vstEpInf$Inflammation
+save(vstEpInf, file="figure-outputs/temp_test.RData")
+
 ax1=colnames(vstEpInf)
-ax1
 
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
-t2
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
              inf=vstEpInf$Inflammation3[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))])
-             
-head(newTab)
 
+pdf("figure-outputs/5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-write.csv(newTab, file="nature-tables/Ext5z_trichrome.csv")
+dev.off()
+write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
 
 ```
 

@@ -1,4 +1,4 @@
-# Associate Epcam+ inflammatory with survival
+# TCGA: Associate Epcam+ inflammatory with survival
 
 Associate the signature with outcome in TCGA: Load in TCGA right now
 
@@ -247,7 +247,7 @@ for (i in Xind){
 
 Below are firstly the OS curves for the growing signature
 
-```{r 5i, fig.cap="OS: growing signature"}
+```{r 5i, fig.cap="OS: growing signature", fig.height=8}
 par(mfrow=c(2,2))
 
 Xind=c("Basal", "Her2", "LumA", "LumB")
@@ -269,7 +269,7 @@ for (i in Xind){
 
 Followed by the DFS plots for this signature
 
-```{r 5i-dfs, fig.cap="DFS forgrowing signature"}
+```{r 5i-dfs, fig.cap="DFS forgrowing signature", fig.height=8}
 par(mfrow=c(2,2))
 
 for (i in Xind){
@@ -327,7 +327,6 @@ As well as whether it associates with any of the previously identified immune su
 
 ```{r thorrs-subtypes}
 ggplot(newinfoTab, aes(x=immSub, y=TCGAval))+geom_boxplot()+geom_point()+theme_bw()
-
 write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
 ```
 
@@ -344,11 +343,11 @@ head(colDataTCGA)
 
 TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnames(TCGArsem2))]), colDataTCGA, design=~TCGAvalcut)
 
-TCGAdeseq=DESeq(TCGAdeseq)
+TCGAdeseq=DESeq(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
 
 TCGAdeseqRes=results(TCGAdeseq)
 
-write.csv(TCGAdeseqRes, file="nature-tables/5j_TCGA.csv")
+write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
 TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
                                  & TCGAdeseqRes$baseMean>100), ]
@@ -357,7 +356,7 @@ TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2F
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
-#pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
+#pdf("figure-outputs/Fig5J_TCGA_deg.pdf", height=8, width=8)
 with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
@@ -371,16 +370,17 @@ vstTCGA=vst(assay(TCGAdeseq))
 ColSideCols=c("skyblue", "blue")[factor(TCGAdeseq$TCGAvalcut)]
 
 ax1=vstTCGA[ match(rownames(TCGAdeseqRes2), rownames(vstTCGA)),  ]
-ax1[1:5, 1:5]
 
-pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+#pdf("figure-outputs/Figure5J_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
 
 heatmap.2(vstTCGA[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+```
 
-dev.off()
 
+also check the directions by looking at CXCl13, which is an overexpressed gene:
 
-boxplot(vstTCGA["CD8A", ]~TCGAdeseq$TCGAvalcut)
+```{r}
+boxplot(vstTCGA["CXCL13", ]~TCGAdeseq$TCGAvalcut)
 
 ```
 
@@ -412,6 +412,6 @@ gscaTCGA@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaTCGA, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term" )
 
-write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5XX_TCGA_lumA_GSEA.csv")
+write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5k_TCGA_lumA_GSEA.csv")
 ```
 

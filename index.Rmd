@@ -1,5 +1,5 @@
 --- 
-title: "Rat DCIS study"
+title: "NMU-induced rat tumor models for I/O"
 author: "Anne Trinh"
 date: "`r Sys.Date()`"
 documentclass: book
@@ -12,7 +12,7 @@ lof: yes
 site: bookdown::bookdown_site
 github-repo: polyak-lab/RatDCISbookdown
 url: 'https://polyak-lab.github.io/RatDCISbookdown/'
-description: "This is a summary of the code required in the study: 'insert study name' "
+description: "This is a summary of the code required in the study: 'NMU-induced rat tumor models for I/O' "
 graphics: yes
 ---
 

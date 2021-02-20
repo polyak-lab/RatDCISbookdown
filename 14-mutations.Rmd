@@ -126,18 +126,17 @@ SBSprofb=SBSprof[ ,-1]/rowSums(SBSprof[ ,-1])
 SBSprofb=SBSprofb[ ,-which(colSums(SBSprofb)==0)]
 rownames(SBSprofb)=SBSprof[ ,1]
 
-
-#pdf(sprintf("rslt/WGS/mutational_signatures_%s.pdf", Sys.Date()), height=9, width=7)
-heatmap.2(data.matrix(SBSprofb[ ,-1]), col=brewer.pal(9, "Blues"), scale="none", trace="none", Colv = NA, Rowv=NA)
-
 SBSmelt=melt(cbind(SBSprofb[ , -1], id=rownames(SBSprofb)))
 SBSsummary <- aggregate(. ~ variable, mean, data=SBSmelt)
 
 ggplot(SBSmelt, aes(x=variable, y=value, col=variable))+geom_jitter()+geom_crossbar(data=SBSsummary , aes(ymin = value, ymax = value),size=0.5,col="black", width = .7)+theme_bw()+ylab("Percentage of mutations")
 
-
 write.csv(SBSmelt, file="nature-tables/Ext1j.csv")
+```
 
+We can see whether any of these associate with tumor size for example:
+
+```{r}
 ## Assign with growth data or tumor size?
 tname=substr(SBSprof$Cancer.Types, 7, 20)
 idx=sapply(tname, function(x) grep(x, Cdata$WGS))
@@ -214,11 +213,6 @@ x4
 
 And here, we plot the frequency of these different mutations
 
-<span style="color:red">
-what;s wrong here?
-</span>
-
-
 ```{r Ext1k, fig.cap="most frequent mutations"}
 idx=which(!is.na(MeltCosmic$HumAAno))
 length(idx)
@@ -231,7 +225,11 @@ ind2=which(T2>1)
 barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations with human homolog", las=2)
 #dev.off()
 
+ttemp=names(T2[ind2])
+```
 
+
+```{r}
 Nx=paste(MeltCosmic$Gene, MeltCosmic$AAno)
 T2=sort(table(Nx), decreasing = T)
 ind2=which(T2>1)
@@ -239,7 +237,10 @@ ind2=which(T2>1)
 barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations ", las=2)
 #dev.off()
 
-write.csv(T2[ind2], file="nature-tables/Ext1k_maybe.csv")
+tableout=data.frame(gene=names(T2[ind2]), ncount=T2[ind2], freq=T2[ind2]/31,
+                    humanHom=ifelse(names(T2[ind2])%in%ttemp, 1, 0))
+
+write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
 
 ```
 
@@ -369,8 +370,9 @@ ann_text2 <- data.frame(lab=paste("p=", round(pvalOutputs, 2)), val=1, Size=5, c
                         variable=c("NCodingMut", "TMB", "TotalMut", "Tum.size","NsynFreq"))
 
 ggplot(Ntot2melt, aes(x=cohort, y=value, col=cohort))+geom_boxplot()+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))+geom_text(data=ann_text2, aes(label=lab, x=1, y=0))
+```
 
-
+```{r}
 ann_text2 <- data.frame(lab=paste("p=", round(corOutputs, 2)), val=1, Size=5, cohort="latency-4",
                         variable=c("NCodingMut", "TMB", "TotalMut",
                      "NsynFreq"))
@@ -608,6 +610,8 @@ Color codes:
 * blue:
 
 ```{r}
+palette(brewer.pal(9, "Set1"))
+
 Nmut=86 ## was previously 92: this appears at least 17 times
 
 rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)), ]
@@ -694,7 +698,8 @@ topCOSMIC=colnames(tempz2)
 
 save(topN, topCOSMIC, file="outputs/genes-selected-common-WGX-mutations.RData")
 
-x3=table(colSums(rGeneOut2))
+#x3=table(colSums(rGeneOut2))
+write.csv(rGeneOut[ , x1], file="nature-tables/1k-mutations.csv")
 ```
 
 Note that in this table, the distribution of samples with mutations is as follows:
@@ -709,7 +714,7 @@ The number of genes which are cosmic associated are:
 
 `r length(x1)` and the number which appear in more than 1 sample is `r length(x1)-length(x2)`.
 
-These genes are tabulated below: (nice figures generated here)
+These genes are tabulated below: (nice figures generated here). 
 
 
 ```{r 1k, fig.cap="summary of mutations acccording to frequency cosmic"}
@@ -718,15 +723,6 @@ top90genes=colnames(rGeneOut2)
 
 #pdf(sprintf("~/Desktop/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
 
-# 
-# par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-# image(t(tempx), col=c("white", 1:3), xaxt='n', yaxt='n')
-# axis(1, at=seq(0, 1, length=ncol(tempx)), colnames(tempx), las=2, cex=0.5)
-# axis(2, at=seq(0, 1, length=nrow(tempx)), rownames(tempx), las=2, cex=0.5)
-# text(na.omit(hotspot1$Y-1)/(ncol(tempx)-1), na.omit(hotspot1$X-1)/(nrow(tempx)-1) , "*")
-# legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
-# 
-
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex.axis=0.7)
@@ -734,8 +730,11 @@ axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex.axis=0.7
 text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("top 90 mutations", side=3, line=-1, outer=T)
+```
 
+Below is the above list refined according to cosmic specifc genes, and listing 
 
+```{r}
 # par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 # image(t(tempyb), col=c("white", 1:4), xaxt='n', yaxt='n')
 # axis(1, at=seq(0, 1, length=ncol(tempyb)), colnames(tempyb), las=2, cex.axis=0.5)
@@ -745,7 +744,6 @@ mtext("top 90 mutations", side=3, line=-1, outer=T)
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
-
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex.axis=0.7)
@@ -800,13 +798,12 @@ GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
 SumTable2=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
 colnames(SumTable2)=Process_Networks$Networks[n2]
 #listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
-head(SumTable2)
 
 ## do this for ERS1 networks
 er1=GList2[[8]] #6,8, 35
 axtemp=table(er1[ ,1], er1[,2])
 colnames(axtemp)=Cdata$NewID[sapply(colnames(axtemp), function(x) grep(x, Cdata$WGS) ) ]
-a2=heatmap.2(sign(axtemp))
+a2=heatmap.2(sign(axtemp), col=brewer.pal(3, "Blues"), trace="none")
 
 image(t(a2$carpet), xaxt="n", yaxt="n", col=c("white", "skyblue"))
 axis(1, at=seq(0, 1, length=nrow(axtemp)), colnames(a2$carpet), las=2, cex.axis=0.7)

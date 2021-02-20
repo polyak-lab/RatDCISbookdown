@@ -45,40 +45,25 @@ ColB=Pam2$clustering
 ColB=ifelse(ColB==1, "Basal", "Lum")
 ```
 
-The following shows the heatmaps using these list, using average distances in the hclustering approaches:
+The following shows the heatmaps using these list, using average distances in the hclustering approaches: firstly, using the longer list
 
 ```{r Ext3i, fig.cap="HR clustering"}
 #colnames(Ax1a)=infoTableFinal$TumorIDnew[match(colnames(Ax1a), rownames(infoTableFinal))]
 
 #hclust.ave <- function(x) hclust(x, method="average")
 ax1=heatmap.2(Ax1a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColA)])
-
-ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColB)])
-
-
 ```
 
-We can save this information to our main data file
+and now using the shorter list
 
 ```{r}
-# axb2=cutree(as.hclust(ax1$colDendrogram), 4)
-# ## Also perform a clustering analysis of the samples and see if they cluster according to subtype:
-# 
-# CorMatEp=cor(assay(vsdLimmaEp))
-# colnames(CorMatEp)=infoTableFinal$TumorIDnew[match(colnames(CorMatEp), rownames(infoTableFinal))]
-# rownames(CorMatEp)=colnames(CorMatEp)
-
-#ColSideCol=ifelse(axb2==2, "blue", "red")
-#ColSideColB=ifelse(ColA=="Basal", "red", "blue")
-colnames(Ax2a)=infoTableFinal$TumorIDnew[match(colnames(Ax2a), rownames(infoTableFinal))]
-Cdata$HR_status=NA
-Cdata$HR_status[match(colnames(Ax2a), Cdata$NewID)]=ColB
-
-#ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", ColSideColors = ColB)
+ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColB)])
 
 write.csv(ax1$carpet, file="nature-tables/Ext3i.csv")
 
-#heatmap.2(CorMatEp, col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSideColB)
+colnames(Ax2a)=infoTableFinal$TumorIDnew[match(colnames(Ax2a), rownames(infoTableFinal))]
+Cdata$HR_status=NA
+Cdata$HR_status[match(colnames(Ax2a), Cdata$NewID)]=ColB
 ```
 
 ## Charcterisation cohort

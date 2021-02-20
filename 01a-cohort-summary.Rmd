@@ -260,11 +260,9 @@ text(1.5, 0.6, paste("wilcox p =", round(x1, 3)))
 Is there an association with treatment? Calculate below using chi-squared test: 
 
 ```{r 3e, fig.cap="Contingency tables"}
-## Old data
-
 # print('new data outcome')
  a3=chisq.test(table(factor(d1$treatment), d1$growthrate_cutoff2))
- a3
+a3
  
  ContTable(table((d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
 ```

@@ -499,17 +499,15 @@ Below are the MH indices with increasing grid-size for individual samples. In ge
 
 ```{r 4e, fig.cap="Fig4e MH index with CD8 growth"}
 
-pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
-
 p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
 
-dev.off()
 ```
 
-WE can condense these values based on growing vs stable cases:
+We can condense these values based on growing vs stable cases:
 
 ```{r another-plot}
+pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
 
 pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Growth=="growing"], 
                                                       A3$value[A3$Var1==x & A3$Growth=="stable"])$p.value)
@@ -517,7 +515,7 @@ pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$G
 ann_text=data.frame(label=round(pvals,2), Var1=unique(A3$Var1), Growth="growing")
 
 ggplot(A3, aes(x=Growth, y=value, col=Growth))+facet_grid(~Var1)+geom_boxplot()+geom_point()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_text(data=ann_text, mapping = aes(x=2, y=0.75, label=label))+scale_color_manual(values=c(ColSizeb, "black"))
-
+dev.off()
 write.csv(A3, file="nature-tables/Fig4e-Ext4h.csv")
 ```
 

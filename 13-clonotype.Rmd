@@ -367,16 +367,9 @@ tablex=TrustTab[CD45F2, c("Treatment", "Growth", "TrustNclonotypes",
                           "TrustShannon", "TrustTop10", "TrustGini")]
 tablexM=melt(tablex)
 
+ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
 
-ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+facet_grid(~varianle, scale="free_y", space="free_y")+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
-
-write.csv(tableM, file="nature-tables/trust-treatment.csv")
-
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[1],2), "LY", round(b1[1],2), "PDL1+LY", round(c1[1], 2)), xlab="treat", ylab="no clonotypes",
-        col=ColMerge[ ,1])
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[2],2), "LY", round(b1[2],2), "PDL1+LY", round(c1[2], 2)),
-        xlab="growth", ylab="shannon",col=ColMerge[ ,1])
-
+write.csv(tablexM, file="nature-tables/4i_trust-treatment.csv")
 ```
 
 ```{r}
@@ -390,8 +383,10 @@ c1
 
 
 ```{r 4ib, fig.cap="trust growth"}
-ggplot(tablexM, aes(x=Growth, y=value, col=Growth))+geom_boxplot()+geom_point()+facet_grid(~varianle, scale="free_y", space="free_y")+scale_colour_manual(values=c(ColSizeb, "black"))+theme_bw()
+pdf("figure-outputs/4I_BCR_clonotypes.pdf", height=8, width=5)
 
+ggplot(tablexM, aes(x=Growth, y=value, col=Growth))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColSizeb, "black"))+theme_bw()
+dev.off()
 #par(mfrow=c(2,2))
 
 a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "Growth"])$p.value)

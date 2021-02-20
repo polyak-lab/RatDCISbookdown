@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 24 CNV calling | NMU-induced rat tumor models for I/O</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 24 CNV calling | NMU-induced rat tumor models for I/O" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
+  
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
+  <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 24 CNV calling | NMU-induced rat tumor models for I/O" />
+  
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
+  
+
+<meta name="author" content="Anne Trinh" />
+
+
+<meta name="date" content="2021-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="trichrome-staining.html"/>
+<link rel="next" href="writing-files-to-file.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="libs/forceGraph-0.1.0.9/common.css" rel="stylesheet" />
+<script src="libs/forceGraph-0.1.0.9/common.js"></script>
+<script src="libs/forceGraph-0.1.0.9/jquery.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/settings.js"></script>
+<script src="libs/forceGraph-0.1.0.9/sigma.min.js"></script>
+<script src="libs/forceGraph-0.1.0.9/plugins.min.js"></script>
+<script src="libs/forceGraph-binding-0.99.19/forceGraph.js"></script>
+<script type="text/javascript">
+  
+  // toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+  
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+  
+  var elem = document.getElementById("myButton1");
+  if (elem.value === "Hide Global") elem.value = "Show Global";
+  else elem.value = "Hide Global";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Hide Global" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+</script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Rat prevention study</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a><ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#packages-and-software"><i class="fa fa-check"></i><b>1.1</b> Packages and Software</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#external-software"><i class="fa fa-check"></i><b>1.2</b> External software</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#annotations"><i class="fa fa-check"></i><b>1.3</b> Annotations</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="prerequisites.html"><a href="prerequisites.html#genomic-properties"><i class="fa fa-check"></i><b>1.3.1</b> Genomic properties</a></li>
+<li class="chapter" data-level="1.3.2" data-path="prerequisites.html"><a href="prerequisites.html#gene-name-homologs-between-organisms"><i class="fa fa-check"></i><b>1.3.2</b> Gene name homologs between organisms</a></li>
+<li class="chapter" data-level="1.3.3" data-path="prerequisites.html"><a href="prerequisites.html#gene-signatures-and-data-bases"><i class="fa fa-check"></i><b>1.3.3</b> Gene signatures and data-bases</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html"><i class="fa fa-check"></i><b>2</b> Cohort characteristics</a><ul>
+<li class="chapter" data-level="2.1" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
+<li class="chapter" data-level="2.2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html"><i class="fa fa-check"></i><b>3</b> Cohort Summary Table</a><ul>
+<li class="chapter" data-level="3.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#total-number-of-samples"><i class="fa fa-check"></i><b>3.1</b> Total number of samples</a></li>
+<li class="chapter" data-level="3.2" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>3.2</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="3.3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>3.3</b> Summary of the RNA data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>4</b> Whole-slide imaging</a><ul>
+<li class="chapter" data-level="4.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>4.1</b> Associate the frequencies with other data types</a></li>
+<li class="chapter" data-level="4.2" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#cellular-composition"><i class="fa fa-check"></i><b>4.2</b> Cellular composition</a></li>
+<li class="chapter" data-level="4.3" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-composition-with-other-covariates"><i class="fa fa-check"></i><b>4.3</b> Associate composition with other covariates</a></li>
+<li class="chapter" data-level="4.4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#estimate-tumor-size"><i class="fa fa-check"></i><b>4.4</b> Estimate tumor size</a></li>
+<li class="chapter" data-level="4.5" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#correlations-between-different-subpopulations"><i class="fa fa-check"></i><b>4.5</b> Correlations between different subpopulations</a></li>
+<li class="chapter" data-level="4.6" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associations-between-cd8-counts-with-other-clinical-variables"><i class="fa fa-check"></i><b>4.6</b> Associations between CD8 counts with other clinical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="spatial-statistics.html"><a href="spatial-statistics.html"><i class="fa fa-check"></i><b>5</b> Spatial statistics</a><ul>
+<li class="chapter" data-level="5.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#knn-distances"><i class="fa fa-check"></i><b>5.1</b> knn-Distances:</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-classification"><i class="fa fa-check"></i><b>5.1.1</b> Comparison to manual classification</a></li>
+<li class="chapter" data-level="5.1.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#associations-with-outcome-to-treatment"><i class="fa fa-check"></i><b>5.1.2</b> Associations with outcome to treatment</a></li>
+<li class="chapter" data-level="5.1.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth"><i class="fa fa-check"></i><b>5.1.3</b> Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#the-interacting-fraction"><i class="fa fa-check"></i><b>5.2</b> The interacting fraction</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-select-optimal-r"><i class="fa fa-check"></i><b>5.2.1</b> Comparison to manual &amp; select optimal r</a></li>
+<li class="chapter" data-level="5.2.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-1"><i class="fa fa-check"></i><b>5.2.2</b> Growth</a></li>
+<li class="chapter" data-level="5.2.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment"><i class="fa fa-check"></i><b>5.2.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#m-h-distances"><i class="fa fa-check"></i><b>5.3</b> M-H distances</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-to-manual-scoring"><i class="fa fa-check"></i><b>5.3.1</b> Comparison to Manual Scoring</a></li>
+<li class="chapter" data-level="5.3.2" data-path="spatial-statistics.html"><a href="spatial-statistics.html#growth-2"><i class="fa fa-check"></i><b>5.3.2</b> Growth</a></li>
+<li class="chapter" data-level="5.3.3" data-path="spatial-statistics.html"><a href="spatial-statistics.html#treatment-1"><i class="fa fa-check"></i><b>5.3.3</b> Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="spatial-statistics.html"><a href="spatial-statistics.html#comparison-between-metrics"><i class="fa fa-check"></i><b>5.4</b> Comparison between metrics</a></li>
+<li class="chapter" data-level="5.5" data-path="spatial-statistics.html"><a href="spatial-statistics.html#distances-to-unclassified-cells"><i class="fa fa-check"></i><b>5.5</b> Distances to “unclassified cells”</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="expression-data.html"><a href="expression-data.html"><i class="fa fa-check"></i><b>6</b> Expression data</a><ul>
+<li class="chapter" data-level="6.1" data-path="expression-data.html"><a href="expression-data.html#running-alignment"><i class="fa fa-check"></i><b>6.1</b> Running alignment</a></li>
+<li class="chapter" data-level="6.2" data-path="expression-data.html"><a href="expression-data.html#rna-initial-qc"><i class="fa fa-check"></i><b>6.2</b> RNA Initial QC</a></li>
+<li class="chapter" data-level="6.3" data-path="expression-data.html"><a href="expression-data.html#normalisation"><i class="fa fa-check"></i><b>6.3</b> Normalisation</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="expression-data.html"><a href="expression-data.html#preliminary-visualisation-to-remove-outliers"><i class="fa fa-check"></i><b>6.3.1</b> preliminary visualisation (to remove outliers)</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="expression-data.html"><a href="expression-data.html#processing-files-for-external-software"><i class="fa fa-check"></i><b>6.4</b> Processing files for external software</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html"><i class="fa fa-check"></i><b>7</b> RNA data: preliminary plots</a><ul>
+<li class="chapter" data-level="7.1" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#pca-plots"><i class="fa fa-check"></i><b>7.1</b> PCA plots</a></li>
+<li class="chapter" data-level="7.2" data-path="rna-data-preliminary-plots.html"><a href="rna-data-preliminary-plots.html#expression-patterns-by-cell-type"><i class="fa fa-check"></i><b>7.2</b> Expression patterns by cell type</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html"><i class="fa fa-check"></i><b>8</b> DESeq analysis: Progression/Immunotherapy cohort</a><ul>
+<li class="chapter" data-level="8.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn-vs-ep"><i class="fa fa-check"></i><b>8.1</b> DN vs Ep</a></li>
+<li class="chapter" data-level="8.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#no.-samples-in-comparisons"><i class="fa fa-check"></i><b>8.2</b> No. samples in comparisons</a></li>
+<li class="chapter" data-level="8.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#set-up-cell-type-specific-the-comparisons"><i class="fa fa-check"></i><b>8.3</b> Set-up cell-type specific the comparisons</a></li>
+<li class="chapter" data-level="8.4" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pca-plots-1"><i class="fa fa-check"></i><b>8.4</b> PCA plots</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#epcam"><i class="fa fa-check"></i><b>8.4.1</b> EpCAM</a></li>
+<li class="chapter" data-level="8.4.2" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#cd45"><i class="fa fa-check"></i><b>8.4.2</b> CD45</a></li>
+<li class="chapter" data-level="8.4.3" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#dn"><i class="fa fa-check"></i><b>8.4.3</b> DN</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="deseq-analysis-progressionimmunotherapy-cohort.html"><a href="deseq-analysis-progressionimmunotherapy-cohort.html#pearson-correlation-plots-of-samples"><i class="fa fa-check"></i><b>8.5</b> Pearson correlation plots of samples</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="collating-results-and-running-gsea.html"><a href="collating-results-and-running-gsea.html"><i class="fa fa-check"></i><b>9</b> Collating results and running GSEA</a></li>
+<li class="chapter" data-level="10" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html"><i class="fa fa-check"></i><b>10</b> ER/Pgr Subtyping</a><ul>
+<li class="chapter" data-level="10.1" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#gene-list"><i class="fa fa-check"></i><b>10.1</b> Gene List</a></li>
+<li class="chapter" data-level="10.2" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#progression-cohort"><i class="fa fa-check"></i><b>10.2</b> Progression cohort</a></li>
+<li class="chapter" data-level="10.3" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#charcterisation-cohort"><i class="fa fa-check"></i><b>10.3</b> Charcterisation cohort</a></li>
+<li class="chapter" data-level="10.4" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#dn-samples"><i class="fa fa-check"></i><b>10.4</b> DN samples</a></li>
+<li class="chapter" data-level="10.5" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#comparison-with-staining"><i class="fa fa-check"></i><b>10.5</b> Comparison with staining</a></li>
+<li class="chapter" data-level="10.6" data-path="erpgr-subtyping.html"><a href="erpgr-subtyping.html#summary-of-expression-markers-for-each-subtypecell-fraction"><i class="fa fa-check"></i><b>10.6</b> Summary of expression markers for each subtype/cell fraction</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="expression-in-specific-pathways.html"><a href="expression-in-specific-pathways.html"><i class="fa fa-check"></i><b>11</b> Expression in Specific pathways</a></li>
+<li class="chapter" data-level="12" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html"><i class="fa fa-check"></i><b>12</b> DESeq analysis: Immunotherapy/Growth comparisons</a><ul>
+<li class="chapter" data-level="12.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#summary-of-comparisons"><i class="fa fa-check"></i><b>12.1</b> Summary of comparisons</a></li>
+<li class="chapter" data-level="12.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#deseq-any-treatment-vs-control"><i class="fa fa-check"></i><b>12.2</b> DESeq: any treatment vs control</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#epcam-samples"><i class="fa fa-check"></i><b>12.2.1</b> EPCAM samples</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#growing-vs-stable-emphasis"><i class="fa fa-check"></i><b>12.3</b> Growing vs stable emphasis</a><ul>
+<li class="chapter" data-level="12.3.1" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#dn-fraction"><i class="fa fa-check"></i><b>12.3.1</b> DN fraction</a></li>
+<li class="chapter" data-level="12.3.2" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#cd-fraction"><i class="fa fa-check"></i><b>12.3.2</b> CD fraction</a></li>
+<li class="chapter" data-level="12.3.3" data-path="deseq-analysis-immunotherapygrowth-comparisons.html"><a href="deseq-analysis-immunotherapygrowth-comparisons.html#ep-fraction"><i class="fa fa-check"></i><b>12.3.3</b> Ep Fraction</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html"><i class="fa fa-check"></i><b>13</b> Summary of GSEA runs</a><ul>
+<li class="chapter" data-level="13.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#stable-vs-growing-all-samples"><i class="fa fa-check"></i><b>13.1</b> Stable vs growing: all samples</a><ul>
+<li class="chapter" data-level="13.1.1" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#barplots-of-enriched-pathways"><i class="fa fa-check"></i><b>13.1.1</b> barplots of enriched pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#comparisons-based-on-treatment"><i class="fa fa-check"></i><b>13.2</b> Comparisons based on treatment</a></li>
+<li class="chapter" data-level="13.3" data-path="summary-of-gsea-runs.html"><a href="summary-of-gsea-runs.html#pathways-of-interest-2"><i class="fa fa-check"></i><b>13.3</b> Pathways of Interest 2</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html"><i class="fa fa-check"></i><b>14</b> Epcam+ Inflammatory vs non-inflammatory samples</a><ul>
+<li class="chapter" data-level="14.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#identification-of-inflammatory-samples"><i class="fa fa-check"></i><b>14.1</b> Identification of inflammatory samples</a></li>
+<li class="chapter" data-level="14.2" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#deg-inflammatory-vs-non-inflammatory"><i class="fa fa-check"></i><b>14.2</b> DEG: inflammatory vs non-inflammatory</a></li>
+<li class="chapter" data-level="14.3" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#finding-3-signatures-for-3-branches"><i class="fa fa-check"></i><b>14.3</b> Finding 3 signatures for 3 branches</a></li>
+<li class="chapter" data-level="14.4" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#analyse-the-non-inflammatory-samples"><i class="fa fa-check"></i><b>14.4</b> Analyse the non-inflammatory samples</a><ul>
+<li class="chapter" data-level="14.4.1" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#gsea"><i class="fa fa-check"></i><b>14.4.1</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#luminal-only-non-inflammtory-samples-samples"><i class="fa fa-check"></i><b>14.5</b> Luminal-only non-inflammtory samples samples</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>15</b> Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="15.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="15.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.2.1</b> TCGA: LumA high vs low signatures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="16.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>16.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>16.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="16.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>16.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="16.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>16.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>16.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>16.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="16.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>16.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="16.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.2.3</b> Check expression of checkpoint proteins</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>17</b> Signature analysis</a><ul>
+<li class="chapter" data-level="17.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>17.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>17.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="17.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>17.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="17.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>17.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="17.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>17.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>18</b> Immune estimation</a><ul>
+<li class="chapter" data-level="18.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>18.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="18.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>18.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="18.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>18.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="18.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>18.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="18.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>18.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="18.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>18.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="18.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>18.5.2</b> Association with Growth</a></li>
+</ul></li>
+<li class="chapter" data-level="18.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>18.6</b> Summary of the outcome</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>19</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="19.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>19.1</b> Processing summary</a></li>
+<li class="chapter" data-level="19.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>19.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="19.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>19.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="19.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>19.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="19.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>19.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="19.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>19.6</b> Associate with signature scores</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>20</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="20.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>20.1</b> Data</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>20.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="20.1.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>20.1.2</b> Annotate the data with human common variants</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>20.2</b> Plots</a><ul>
+<li class="chapter" data-level="20.2.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>20.2.1</b> Quick overview</a></li>
+<li class="chapter" data-level="20.2.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>20.2.2</b> Coding variants &amp; TMB</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants"><i class="fa fa-check"></i><b>20.3</b> Coding variants</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>20.3.1</b> Sites which are commonly mutated?</a></li>
+</ul></li>
+<li class="chapter" data-level="20.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>20.4</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="20.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>20.4.1</b> All mutations</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>20.5</b> Metacore analysis of commonly mutated pathways</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>21</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="21.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>21.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="21.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>21.2</b> Load files</a></li>
+<li class="chapter" data-level="21.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>21.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="21.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>21.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="21.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>21.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>22</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="22.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>22.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="22.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>22.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="22.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>22.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>23</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="23.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>23.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="23.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>23.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="23.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>23.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>24</b> CNV calling</a><ul>
+<li class="chapter" data-level="24.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>24.1</b> Sample data</a></li>
+<li class="chapter" data-level="24.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>24.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>24.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1-nmu-induced-mammary-tumors"><i class="fa fa-check"></i>Figure 1: NMU-induced mammary tumors</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-characterizing-cd45-cells-in-tumors"><i class="fa fa-check"></i>Figure 4: Characterizing CD45 cells in tumors</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html"><i class="fa fa-check"></i>Extended Figures</a><ul>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html#extended-data-1"><i class="fa fa-check"></i>Extended data 1</a></li>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html#extended-data-2"><i class="fa fa-check"></i>Extended data 2</a></li>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html#extended-data-3"><i class="fa fa-check"></i>Extended data 3</a></li>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html#extended-data-4"><i class="fa fa-check"></i>Extended data 4</a></li>
+<li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html#extended-data-5"><i class="fa fa-check"></i>Extended data 5</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NMU-induced rat tumor models for I/O</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cnv-calling" class="section level1">
+<h1><span class="header-section-number">Chapter 24</span> CNV calling</h1>
+<p>CNV calling was performed with BICseq</p>
+<div id="sample-data" class="section level2">
+<h2><span class="header-section-number">24.1</span> Sample data</h2>
+<p>Load BICseq2 data for all tested samples:</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="cnv-calling.html#cb480-1"></a>allfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/CNV_calls/&quot;</span>,<span class="st">&quot;2_scale$&quot;</span>, <span class="dt">full.names =</span> T)</span>
+<span id="cb480-2"><a href="cnv-calling.html#cb480-2"></a></span>
+<span id="cb480-3"><a href="cnv-calling.html#cb480-3"></a>CNVL2=<span class="kw">lapply</span>(allfiles, <span class="cf">function</span>(x) <span class="kw">read.delim</span>(x, <span class="dt">stringsAsFactors =</span> F))</span>
+<span id="cb480-4"><a href="cnv-calling.html#cb480-4"></a>meltCN=<span class="kw">melt</span>(CNVL2, <span class="dt">measure.vars=</span><span class="kw">c</span>(<span class="st">&quot;log2.copyRatio&quot;</span>))</span>
+<span id="cb480-5"><a href="cnv-calling.html#cb480-5"></a>AllDCN=<span class="kw">data.frame</span>(<span class="dt">sampleID=</span>meltCN<span class="op">$</span>L1, <span class="dt">chrom=</span><span class="kw">substr</span>(meltCN<span class="op">$</span>chrom, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">start.pos=</span>meltCN<span class="op">$</span>start,</span>
+<span id="cb480-6"><a href="cnv-calling.html#cb480-6"></a>                  <span class="dt">end.pos=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">mean=</span>meltCN<span class="op">$</span>value, </span>
+<span id="cb480-7"><a href="cnv-calling.html#cb480-7"></a>                  <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
+<span id="cb480-8"><a href="cnv-calling.html#cb480-8"></a></span>
+<span id="cb480-9"><a href="cnv-calling.html#cb480-9"></a>AllDCN2=<span class="kw">data.frame</span>(<span class="dt">sample=</span>meltCN<span class="op">$</span>L1, <span class="dt">chromosome=</span>meltCN<span class="op">$</span>chrom, <span class="dt">start=</span>meltCN<span class="op">$</span>start,</span>
+<span id="cb480-10"><a href="cnv-calling.html#cb480-10"></a>                  <span class="dt">end=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">segmean=</span><span class="dv">2</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span>(meltCN<span class="op">$</span>value), </span>
+<span id="cb480-11"><a href="cnv-calling.html#cb480-11"></a>                  <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
+<span id="cb480-12"><a href="cnv-calling.html#cb480-12"></a>AllDCN2<span class="op">$</span>chromosome=<span class="kw">factor</span>(AllDCN2<span class="op">$</span>chromosome, <span class="dt">levels=</span><span class="kw">unique</span>(AllDCN2<span class="op">$</span>chromosome))</span>
+<span id="cb480-13"><a href="cnv-calling.html#cb480-13"></a></span>
+<span id="cb480-14"><a href="cnv-calling.html#cb480-14"></a>CNVGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> AllDCN<span class="op">$</span>chrom, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>AllDCN<span class="op">$</span>start.pos, <span class="dt">end=</span>AllDCN<span class="op">$</span>end.pos), <span class="dt">copy_ratio=</span>AllDCN<span class="op">$</span>mean, <span class="dt">call=</span>AllDCN<span class="op">$</span>call)</span></code></pre></div>
+</div>
+<div id="data-summary" class="section level2">
+<h2><span class="header-section-number">24.2</span> Data Summary</h2>
+<div id="frequency-of-gains-and-losses-across-the-genome" class="section level3">
+<h3><span class="header-section-number">24.2.1</span> Frequency of gains and losses across the genome</h3>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="cnv-calling.html#cb481-1"></a><span class="co"># plot the frequencies</span></span>
+<span id="cb481-2"><a href="cnv-calling.html#cb481-2"></a>Samp1=<span class="kw">cnFreq_mod</span>(AllDCN2,<span class="dt">CN_low_cutoff=</span><span class="fl">1.4</span>, <span class="dt">CN_high_cutoff=</span><span class="fl">2.8</span>, <span class="dt">genome=</span>cytoInfo)</span>
+<span id="cb481-3"><a href="cnv-calling.html#cb481-3"></a>Samp1<span class="op">$</span>plot</span></code></pre></div>
+<div class="figure"><span id="fig:bicseq"></span>
+<img src="RatDCIS-bookdown_files/figure-html/bicseq-1.png" alt="summary of regions of frequent gains and losses" width="672" />
+<p class="caption">
+Figure 24.1: summary of regions of frequent gains and losses
+</p>
+</div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="cnv-calling.html#cb482-1"></a></span>
+<span id="cb482-2"><a href="cnv-calling.html#cb482-2"></a><span class="kw">write.csv</span>(Samp1<span class="op">$</span>data, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext1l_CNV_frequencies.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="loci-which-have-a-hit-in-at-least-30-of-samples" class="section level3">
+<h3><span class="header-section-number">24.2.2</span> Loci which have a hit in at least 30% of samples</h3>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="cnv-calling.html#cb483-1"></a><span class="co"># Filter out gain and loss regions</span></span>
+<span id="cb483-2"><a href="cnv-calling.html#cb483-2"></a>LocationsA=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>gainProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
+<span id="cb483-3"><a href="cnv-calling.html#cb483-3"></a>LocationsA=LocationsA[<span class="kw">order</span>( LocationsA<span class="op">$</span>chromosome, LocationsA<span class="op">$</span>start),  ]</span>
+<span id="cb483-4"><a href="cnv-calling.html#cb483-4"></a>LocAmerge=<span class="kw">Merge_contig</span>(LocationsA)</span>
+<span id="cb483-5"><a href="cnv-calling.html#cb483-5"></a></span>
+<span id="cb483-6"><a href="cnv-calling.html#cb483-6"></a>LocationsB=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>lossProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
+<span id="cb483-7"><a href="cnv-calling.html#cb483-7"></a>LocationsB=LocationsB[<span class="kw">order</span>( LocationsB<span class="op">$</span>chromosome, LocationsB<span class="op">$</span>start),  ]</span>
+<span id="cb483-8"><a href="cnv-calling.html#cb483-8"></a>LocBmerge=<span class="kw">Merge_contig</span>(LocationsB)</span>
+<span id="cb483-9"><a href="cnv-calling.html#cb483-9"></a></span>
+<span id="cb483-10"><a href="cnv-calling.html#cb483-10"></a><span class="co"># turn into a GRanges object</span></span>
+<span id="cb483-11"><a href="cnv-calling.html#cb483-11"></a></span>
+<span id="cb483-12"><a href="cnv-calling.html#cb483-12"></a>LocAGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocAmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocAmerge<span class="op">$</span>start, <span class="dt">end=</span>LocAmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
+<span id="cb483-13"><a href="cnv-calling.html#cb483-13"></a>                    <span class="dt">sampleFrequency=</span>LocAmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocAmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocAmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocAmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocAmerge<span class="op">$</span>lossProportion)</span>
+<span id="cb483-14"><a href="cnv-calling.html#cb483-14"></a></span>
+<span id="cb483-15"><a href="cnv-calling.html#cb483-15"></a>LocBGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocBmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocBmerge<span class="op">$</span>start, <span class="dt">end=</span>LocBmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
+<span id="cb483-16"><a href="cnv-calling.html#cb483-16"></a>                    <span class="dt">sampleFrequency=</span>LocBmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocBmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocBmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocBmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocBmerge<span class="op">$</span>lossProportion)</span>
+<span id="cb483-17"><a href="cnv-calling.html#cb483-17"></a></span>
+<span id="cb483-18"><a href="cnv-calling.html#cb483-18"></a><span class="co"># find the overlaps</span></span>
+<span id="cb483-19"><a href="cnv-calling.html#cb483-19"></a>GainOLap=<span class="kw">findOverlaps</span>(LocAGRanges, txRn6)</span>
+<span id="cb483-20"><a href="cnv-calling.html#cb483-20"></a>UniqueGainOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap))</span>
+<span id="cb483-21"><a href="cnv-calling.html#cb483-21"></a>GainGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(GainOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(GainOLap)<span class="op">==</span>x)])])</span>
+<span id="cb483-22"><a href="cnv-calling.html#cb483-22"></a></span>
+<span id="cb483-23"><a href="cnv-calling.html#cb483-23"></a>LossOLap=<span class="kw">findOverlaps</span>(LocBGRanges, txRn6)</span>
+<span id="cb483-24"><a href="cnv-calling.html#cb483-24"></a>UniqueLossOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap))</span>
+<span id="cb483-25"><a href="cnv-calling.html#cb483-25"></a>LossGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(LossOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(LossOLap)<span class="op">==</span>x)])])</span></code></pre></div>
+<p>Venn diagrams of the number of genes which intersect with the cosmic dataset</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="cnv-calling.html#cb484-1"></a>OverviewG=<span class="kw">unique</span>(<span class="kw">unlist</span>(GainGenes))</span>
+<span id="cb484-2"><a href="cnv-calling.html#cb484-2"></a>OverviewL=<span class="kw">unique</span>(<span class="kw">unlist</span>(LossGenes))</span>
+<span id="cb484-3"><a href="cnv-calling.html#cb484-3"></a></span>
+<span id="cb484-4"><a href="cnv-calling.html#cb484-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb484-5"><a href="cnv-calling.html#cb484-5"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">cosmic=</span>RatCosmic))</span>
+<span id="cb484-6"><a href="cnv-calling.html#cb484-6"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">cosmic=</span>RatCosmic))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
+<p>The intersecting gene is Lrp1b, Grin2a</p>
+<p>Venn diagram of immune related genes:</p>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="cnv-calling.html#cb485-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb485-2"><a href="cnv-calling.html#cb485-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">Immune=</span>RatAllImm))</span>
+<span id="cb485-3"><a href="cnv-calling.html#cb485-3"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">Immune=</span>RatAllImm))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-1.png" width="672" /></p>
+<p>The gained genes are Mir295-2, Scarb1
+The lost genes are Ccl28, Mff, Pdcd1, Arrb2, Mx2</p>
+</div>
+<div id="annotated-plot-of-genome-and-locations-of-genes" class="section level3">
+<h3><span class="header-section-number">24.2.3</span> Annotated plot of genome and locations of genes</h3>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="cnv-calling.html#cb486-1"></a>S2=Samp1<span class="op">$</span>data</span>
+<span id="cb486-2"><a href="cnv-calling.html#cb486-2"></a>S2=S2[<span class="kw">order</span>(S2<span class="op">$</span>chromosome, S2<span class="op">$</span>start), ]</span>
+<span id="cb486-3"><a href="cnv-calling.html#cb486-3"></a></span>
+<span id="cb486-4"><a href="cnv-calling.html#cb486-4"></a></span>
+<span id="cb486-5"><a href="cnv-calling.html#cb486-5"></a>GG2=<span class="kw">sapply</span>(GainGenes, length)</span>
+<span id="cb486-6"><a href="cnv-calling.html#cb486-6"></a>GG3=<span class="kw">unlist</span>(GainGenes)</span>
+<span id="cb486-7"><a href="cnv-calling.html#cb486-7"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
+<span id="cb486-8"><a href="cnv-calling.html#cb486-8"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
+<span id="cb486-9"><a href="cnv-calling.html#cb486-9"></a>Ggenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
+<span id="cb486-10"><a href="cnv-calling.html#cb486-10"></a>Ggenes=<span class="kw">gsub</span>(<span class="st">&quot;  &quot;</span>, <span class="st">&quot;&quot;</span>, Ggenes)</span>
+<span id="cb486-11"><a href="cnv-calling.html#cb486-11"></a>Ggenes[<span class="kw">which</span>(Ggenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb486-12"><a href="cnv-calling.html#cb486-12"></a>Datx=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
+<span id="cb486-13"><a href="cnv-calling.html#cb486-13"></a>Datx[<span class="kw">match</span>(LocAmerge<span class="op">$</span>start[UniqueGainOlapRegions], S2<span class="op">$</span>start)]=Ggenes</span>
+<span id="cb486-14"><a href="cnv-calling.html#cb486-14"></a></span>
+<span id="cb486-15"><a href="cnv-calling.html#cb486-15"></a>GG2=<span class="kw">sapply</span>(LossGenes, length)</span>
+<span id="cb486-16"><a href="cnv-calling.html#cb486-16"></a>GG3=<span class="kw">unlist</span>(LossGenes)</span>
+<span id="cb486-17"><a href="cnv-calling.html#cb486-17"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
+<span id="cb486-18"><a href="cnv-calling.html#cb486-18"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
+<span id="cb486-19"><a href="cnv-calling.html#cb486-19"></a>Lgenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
+<span id="cb486-20"><a href="cnv-calling.html#cb486-20"></a>Lgenes[<span class="kw">which</span>(Lgenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb486-21"><a href="cnv-calling.html#cb486-21"></a>Daty=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
+<span id="cb486-22"><a href="cnv-calling.html#cb486-22"></a>Daty[<span class="kw">match</span>(LocBmerge<span class="op">$</span>start[UniqueLossOlapRegions], S2<span class="op">$</span>start)]=Lgenes</span>
+<span id="cb486-23"><a href="cnv-calling.html#cb486-23"></a></span>
+<span id="cb486-24"><a href="cnv-calling.html#cb486-24"></a><span class="co">## </span></span>
+<span id="cb486-25"><a href="cnv-calling.html#cb486-25"></a><span class="co">#S2=Samp1$data</span></span>
+<span id="cb486-26"><a href="cnv-calling.html#cb486-26"></a><span class="co">#S2=S2[order(S2$chromosome, S2$start), ]</span></span>
+<span id="cb486-27"><a href="cnv-calling.html#cb486-27"></a>S2<span class="op">$</span>xLoc=S2<span class="op">$</span>start<span class="op">+</span>chrInfo<span class="op">$</span>sumdist[<span class="kw">match</span>(S2<span class="op">$</span>chromosome, chrInfo<span class="op">$</span>Chromosome)]</span>
+<span id="cb486-28"><a href="cnv-calling.html#cb486-28"></a>S2<span class="op">$</span>width=S2<span class="op">$</span>end<span class="op">-</span>S2<span class="op">$</span>start</span>
+<span id="cb486-29"><a href="cnv-calling.html#cb486-29"></a>S2<span class="op">$</span>label=Datx</span>
+<span id="cb486-30"><a href="cnv-calling.html#cb486-30"></a></span>
+<span id="cb486-31"><a href="cnv-calling.html#cb486-31"></a>S3=S2</span>
+<span id="cb486-32"><a href="cnv-calling.html#cb486-32"></a>S3<span class="op">$</span>gainProportion=S3<span class="op">$</span>lossProportion[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(S2)]<span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb486-33"><a href="cnv-calling.html#cb486-33"></a>S3<span class="op">$</span>label=Daty</span>
+<span id="cb486-34"><a href="cnv-calling.html#cb486-34"></a></span>
+<span id="cb486-35"><a href="cnv-calling.html#cb486-35"></a>S4=<span class="kw">rbind</span>(<span class="kw">cbind</span>(S3, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>), <span class="kw">cbind</span>(S2, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>))</span>
+<span id="cb486-36"><a href="cnv-calling.html#cb486-36"></a>S4=S4[<span class="op">-</span><span class="kw">which</span>(S3<span class="op">$</span>gainProportion<span class="op">==</span><span class="dv">0</span>), ]</span>
+<span id="cb486-37"><a href="cnv-calling.html#cb486-37"></a></span>
+<span id="cb486-38"><a href="cnv-calling.html#cb486-38"></a><span class="kw">ggplot</span>(S4, <span class="kw">aes</span>(<span class="dt">x=</span>xLoc, <span class="dt">y=</span>gainProportion, <span class="dt">width=</span>width<span class="op">*</span><span class="fl">1.2</span>, <span class="dt">label=</span>label, <span class="dt">col=</span>col))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">geom_label_repel</span>()<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">xlim</span>(<span class="dv">0</span>, chrInfo<span class="op">$</span>sumdist2[<span class="dv">22</span>])<span class="op">+</span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>chrInfo<span class="op">$</span>sumdist2,<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">scale_colour_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span>chrInfo<span class="op">$</span>sumdist, <span class="dt">y=</span><span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">22</span>), <span class="dt">label=</span>chrInfo<span class="op">$</span>Chromosome, <span class="dt">col=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="trichrome-staining.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="writing-files-to-file.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["RatDCIS-bookdown.pdf", "RatDCIS-bookdown.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

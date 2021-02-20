@@ -1,5 +1,5 @@
 --- 
-title: "Rat DCIS study"
+title: "NMU-induced rat tumor models for I/O"
 author: "Anne Trinh"
 date: "`r Sys.Date()`"
 documentclass: book
@@ -12,7 +12,7 @@ lof: yes
 site: bookdown::bookdown_site
 github-repo: polyak-lab/RatDCISbookdown
 url: 'https://polyak-lab.github.io/RatDCISbookdown/'
-description: "This is a summary of the code required in the study: 'insert study name' "
+description: "This is a summary of the code required in the study: 'NMU-induced rat tumor models for I/O' "
 graphics: yes
 ---
 
@@ -630,11 +630,9 @@ text(1.5, 0.6, paste("wilcox p =", round(x1, 3)))
 Is there an association with treatment? Calculate below using chi-squared test: 
 
 ```{r 3e, fig.cap="Contingency tables"}
-## Old data
-
 # print('new data outcome')
  a3=chisq.test(table(factor(d1$treatment), d1$growthrate_cutoff2))
- a3
+a3
  
  ContTable(table((d1$treatment), d1$growthrate_cutoff2), "new rates", T, "growth", "treatment")
 ```
@@ -766,6 +764,8 @@ ggplot(t3melt, aes(x=variable, y=value, fill=type))+geom_bar(stat="identity")+xl
 
 # Cohort Summary Table
 
+## Total number of samples
+
 Firstly, look at the total number of samples:
 
 ```{r}
@@ -774,7 +774,6 @@ avtum=table(Cdata$Rat_ID)
 Cchar=Cdata[Cdata$Cohort!="Progression", ]
 Cprog=Cdata[Cdata$Cohort=="Progression", ]
 ```
-
 
 Feature | Levels | N
 --------|---------|-----
@@ -786,7 +785,7 @@ Total No Rats | All| `r length(unique(Cdata$Rat_ID))`
 - | Progression | `r length(unique(Cdata$Rat_ID[which(Cdata$Cohort=="Progression")]))`
 No tumours per rat | | `r round(mean(avtum),2) ` ( `r quantile(avtum, c(0.1, 0.9))`)
 
-### Compare the characterisation vs progression cohort
+## Compare the characterisation vs progression cohort
 
 Feature | Levels | Characterisation | Progression
 --------|---------|-------- |------
@@ -831,7 +830,7 @@ Trichrome Data | No tumors | |`r length(which(!is.na(Cprog$Trichrome)))`
 FACS data | Comprehensive|  | `r length(which(colnames(Fdata)%in%gsub("_", "", Cprog$TumorID)))`
 - | EpCAM/CD45 | `r length(which(!is.na(Cchar$CD45.Frac.FACS)))` |  `r length(which(!is.na(Cprog$CD45.Frac.FACS)))` 
 
-### Summary of the RNA data
+## Summary of the RNA data
 
 Below is a table of the samples with RNA information
 
@@ -1719,17 +1718,15 @@ Below are the MH indices with increasing grid-size for individual samples. In ge
 
 ```{r 4e, fig.cap="Fig4e MH index with CD8 growth"}
 
-pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
-
 p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
 
-dev.off()
 ```
 
-WE can condense these values based on growing vs stable cases:
+We can condense these values based on growing vs stable cases:
 
 ```{r another-plot}
+pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
 
 pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$Growth=="growing"], 
                                                       A3$value[A3$Var1==x & A3$Growth=="stable"])$p.value)
@@ -1737,7 +1734,7 @@ pvals=sapply(unique(A3$Var1), function(x) wilcox.test(A3$value[A3$Var1==x & A3$G
 ann_text=data.frame(label=round(pvals,2), Var1=unique(A3$Var1), Growth="growing")
 
 ggplot(A3, aes(x=Growth, y=value, col=Growth))+facet_grid(~Var1)+geom_boxplot()+geom_point()+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_text(data=ann_text, mapping = aes(x=2, y=0.75, label=label))+scale_color_manual(values=c(ColSizeb, "black"))
-
+dev.off()
 write.csv(A3, file="nature-tables/Fig4e-Ext4h.csv")
 ```
 
@@ -3484,40 +3481,25 @@ ColB=Pam2$clustering
 ColB=ifelse(ColB==1, "Basal", "Lum")
 ```
 
-The following shows the heatmaps using these list, using average distances in the hclustering approaches:
+The following shows the heatmaps using these list, using average distances in the hclustering approaches: firstly, using the longer list
 
 ```{r Ext3i, fig.cap="HR clustering"}
 #colnames(Ax1a)=infoTableFinal$TumorIDnew[match(colnames(Ax1a), rownames(infoTableFinal))]
 
 #hclust.ave <- function(x) hclust(x, method="average")
 ax1=heatmap.2(Ax1a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColA)])
-
-ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColB)])
-
-
 ```
 
-We can save this information to our main data file
+and now using the shorter list
 
 ```{r}
-# axb2=cutree(as.hclust(ax1$colDendrogram), 4)
-# ## Also perform a clustering analysis of the samples and see if they cluster according to subtype:
-# 
-# CorMatEp=cor(assay(vsdLimmaEp))
-# colnames(CorMatEp)=infoTableFinal$TumorIDnew[match(colnames(CorMatEp), rownames(infoTableFinal))]
-# rownames(CorMatEp)=colnames(CorMatEp)
-
-#ColSideCol=ifelse(axb2==2, "blue", "red")
-#ColSideColB=ifelse(ColA=="Basal", "red", "blue")
-colnames(Ax2a)=infoTableFinal$TumorIDnew[match(colnames(Ax2a), rownames(infoTableFinal))]
-Cdata$HR_status=NA
-Cdata$HR_status[match(colnames(Ax2a), Cdata$NewID)]=ColB
-
-#ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", ColSideColors = ColB)
+ax1=heatmap.2(Ax2a, trace="none", hclustfun = hclust.ave, col=brewer.pal(11, "RdBu")[11:1], scale="row", main="narrow list", ColSideColors = c("red", "blue")[factor(ColB)])
 
 write.csv(ax1$carpet, file="nature-tables/Ext3i.csv")
 
-#heatmap.2(CorMatEp, col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSideColB)
+colnames(Ax2a)=infoTableFinal$TumorIDnew[match(colnames(Ax2a), rownames(infoTableFinal))]
+Cdata$HR_status=NA
+Cdata$HR_status[match(colnames(Ax2a), Cdata$NewID)]=ColB
 ```
 
 ## Charcterisation cohort
@@ -4006,68 +3988,6 @@ ggplot(AllchangesB, aes(x=variable, y=as.numeric(value), fill=dir))+geom_bar(sta
 ## plot the number of samples in each comparison
 ```
 
-
-```{r, eval=F}
-Nsamp=matrix(NA, nrow=6, ncol=ncol(Allchanges))
-ta=table(Epdds$Comp4)
-tb=table(CDdds$Comp4)
-tc=table(DNdds$Comp4)
-
-for (i in 1:4){
-  Nsamp[1:2, i]=c(ta[xsearch[i]], ta[ysearch[i]])
-  Nsamp[3:4, i]=c(tb[xsearch[i]], tb[ysearch[i]])
-  Nsamp[5:6, i]=c(tc[xsearch[i]], tc[ysearch[i]])
-}
-
-ta=table(Epdds$Treatment)
-tb=table(CDdds$Treatment)
-tc=table(DNdds$Treatment)
-
-for (i in 1:3){
-  Nsamp[1:2, i+4]=c(ta[cList[i]], ta["Vehicle"])
-  Nsamp[3:4, i+4]=c(tb[cList[i]], tb["Vehicle"])
-  Nsamp[5:6, i+4]=c(tc[cList[i]], tc["Vehicle"])
-}
-
-ta=table(EpddsTreatG$Comp8)
-tb=table(CDddsTreatG$Comp8)
-tc=table(DNddsTreatG$Comp8)
-
-for (i in 1:4){
-  Nsamp[1:2, i+7]=c(ta[xsearchA[i]], ta[ysearchB[i]])
-  Nsamp[3:4, i+7]=c(tb[xsearchA[i]], tb[ysearchB[i]])
-  Nsamp[5:6, i+7]=c(tc[xsearchA[i]], tc[ysearchB[i]])
-}
-
-Nsamp[ ,12]=c(table(EpddsGrowth$Growth), table(CDddsGrowth$Growth), table(DNddsGrowth$Growth))
-Nsamp[ ,13]=c(table(EpddsStrMH$MHcut), table(CDddsStrMH$MHcut), table(DNddsStrMH$MHcut))
-Nsamp[ ,14]=c(table(EpddsStrIF$IFcut), table(CDddsStrIF$IFcut), table(DNddsStrIF$IFcut))
-Nsamp[ ,15]=c(table(EpddsStrknn$knncut), table(CDddsStrknn$knncut), table(DNddsStrknn$knncut))
-Nsamp[ ,16]=c(table(Epddscd8$CD8FracCut), table(CDddscd8$CD8FracCut), table(DNddscd8$CD8FracCut))
-Nsamp[ ,17]=c(table(EpddsSpatMan$SpatialManual), table(CDddsSpatMan$SpatialManual), table(DNddsSpatMan$SpatialManual))
-
-ta=table(Epddscd8MH$cd8MH)
-tb=table(CDddscd8MH$cd8MH)
-tc=table(DNddscd8MH$cd8MH)
-
-
-for (i in 1:4){
-  Nsamp[1:2, i+17]=c(ta[xsearchC[i]], ta[ysearchD[i]])
-  Nsamp[3:4, i+17]=c(tb[xsearchC[i]], tb[ysearchD[i]])
-  Nsamp[5:6, i+17]=c(tc[xsearchC[i]], tc[ysearchD[i]])
-}
-
-colnames(Nsamp)=colnames(Allchanges)
-Nsamp[ , 22:23]=Allchanges[ ,22:23]
-
-
-Nsamp2=melt(as.data.frame(Nsamp), id.vars=c("Frac", "dir"))
-
-ggplot(Nsamp2, aes(x=variable, y=as.numeric(value), fill=dir))+geom_bar(stat="identity",position = "dodge")+facet_grid(Frac~., scale="free_y", space="free")+theme(axis.text.x = element_text(angle = 90, hjust = 1)) + scale_fill_discrete(name = "Comparison", labels = c("numerator", "reference"))+ylab("No. samples in comparison")+ggtitle("number of samples in comparison")
-
-#dev.off()
-```
-
 Notes:
 
 Comparison Type | Main cell type impacted
@@ -4150,12 +4070,12 @@ colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))
 
 colSCols=ColMerge[ ,1][Mat2$Treatment]
 
-pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=7, width=6)
+#pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=7, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1],
           hclustfun = hclust.ave)
 
-dev.off()
+#dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 ```
@@ -4180,12 +4100,12 @@ Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
 colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
 
 colSCols=ColMerge[ ,1][Mat2$Treatment]
-pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
+#pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 dev.off()
 
-write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
+#write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
 ```
 
 ### EPCAM samples
@@ -4311,245 +4231,7 @@ for (i in 1:length(Epismr3)){
                                                                            names(Epismr3)[i], SampleFrac))
 }
 
-#dev.off()
-
-# boxplot(assay(vstEp)["Tap1", ]~EpddsTreatG$Treatment)
-# boxplot(assay(vstEp)["Cd74", ]~EpddsTreatG$Comp4)
-# boxplot(assay(vstEp)["Cd8a", ]~EpddsTreatG$Treatment)
-# boxplot(assay(vstEp)["Ctla4", ]~EpddsTreatG$Treatment)
-# boxplot(assay(vstEp)["Tgfbr1", ]~EpddsTreatG$Comp8)
-
 dev.off()
-```
-
-
-```{r, eval=F}
-
-### CD45 comparisons
-SampleFrac="CD"
-
-allCDGenes=unlist(CDCompSig)
-allCDTab=table(allCDGenes)
-CDGenesList=names(allCDTab)[which(allCDTab>1)]
-#CDGenesList=CDGenesList[-grCD("LOC", CDGenesList)]
-#CDGenesList=CDGenesList[-grCD("RGD", CDGenesList)]
-# also, remove all samples which have a base mean less than 10
-x1=CDComp4[[1]]$baseMean[match(CDGenesList, CDComp4[[1]]$Gene)]
-x2=which(x1>25)
-vstCD=vst(CDdds, blind=T)
-
-CDddsTreatG$Comp8_v2=factor(paste(CDddsTreatG$Treatment, CDddsTreatG$Growth))
-
-ColsideCols=DiffCols[CDddsTreatG$Comp8_v2]
-ColsideColsB=hue_pal()(4)[CDddsTreatG$Treatment]
-ColsideColsC=hue_pal()(2)[CDddsTreatG$Growth]
-
-colTable=rbind(ColsideCols, ColsideColsB, ColsideColsC)
-rownames(colTable)=c("Treat+growth", "Treatment", "growth")
-
-
-
-#pdf(sprintf("rslt/DESeq/DEseq_comparisons_%s.pdf", SampleFrac), width=7, height=10)
-
-sampleDist=dist(t(assay(vstCD)))
-sampleDistMatrix <- as.matrix(sampleDist)
-heatmap.plus(sampleDistMatrix, trace="none", scale="none", col=brewer.pal(11, "Blues")[11:1], ColSideColors = t(colTable), main=sprintf("Similarity between %s samples", SampleFrac))
-
-# Take the top 150 variable genes 
-# compute the sds for each genes
-sds = rowSds(assay(vstCD))
-means=rowMeans(assay(vstCD))
-CVs=sds/means
-CVs=CVs[-which(means<7)]
-sds2=sort(CVs, decreasing = T)
-
-heatmap.plus(assay(vstCD)[names(sds2)[1:200], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable), main=sprintf("top 200 variable genes all %s samples", SampleFrac))
-
-
-heatmap.plus(assay(vstCD)[CDGenesList[x2], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),
-          main=sprintf("DEG at least 2 %s samples", SampleFrac))
-
-# Make a table for these genes
-FCvalues=matrix(NA, nrow=length(x2), ncol=length(CDComp4))
-
-for (i in 1:length(CDComp4)){
-  FCvalues[ ,i]=CDComp4[[i]]$log2FoldChange[match(CDGenesList[x2], CDComp4[[i]]$Gene)]
-}
-
-colnames(FCvalues)=names(CDComp4)
-rownames(FCvalues)=CDGenesList[x2]
-
-
-# for each list pick the top 50 diff genes FC>2 and baseman > 50
-glist=NA
-for (i in 1:length(CDComp4)){
-  glist=c(glist, CDComp4[[i]]$Gene[which(CDComp4[[i]]$padj<0.1 & abs(CDComp4[[i]]$log2FoldChange)>2 & CDComp4[[i]]$baseMean>25)])
-}
-
-ColsideCols=SetCols[CDddsTreatG$Comp8]
-
-glistmod=unique(glist)
-#glistmod=glistmod[-grep("LOC", glistmod)]
-#glistmod=na.omit(glistmod[-grCD("RGD", glistmod)])
-
-heatmap.plus(assay(vstCD)[na.omit(glistmod), ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),
-          main=sprintf("All DEG %s samples", SampleFrac))
-
-# distance of the samples to one another
-par(oma=c(2,0,0,0))
-heatmap.2(FCvalues, trace="none", scale="row", col=RdBu[11:1], 
-          main=sprintf("All comparisons %s, log2FC for each gene", SampleFrac))
-#dev.off()
-
-#CDismr3=ismr4
-
-#pdf(sprintf("rslt/DESeq/GSEA_signature_comparisons_%s.pdf", SampleFrac), width=10, height=12)
-
-for (i in 1:length(CDismr3)){
-  x1=CDismr3[[i]]
-  # find padj<0.1
-  idx2=lapply(seq(3, ncol(x1), by=2), function(x) which(as.numeric(as.character(x1[ ,x]))<0.01))
-  unList=table(unlist(idx2))
-  #pickThese=names(unList)#[which(unList>1)]
-  pickThese2=names(unList)[which(unList>1)]
-  
-  if (length(pickThese2)>100){
-    temp=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-    temp2=sapply(temp, function(x) as.numeric(as.character(x)))
-    temp2=rowSds(abs(temp2))
-    names(temp2)=pickThese2
-    temp2=sort(temp2, decreasing = T)
-    pickThese2=names(temp2)[1:100]
-  }
-  
-  x23=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-  
-  x234=sapply(x23, function(x) as.numeric(as.character(x)))
-  rownames(x234)=rownames(x23)
-  
-  par(oma=c(2,0,0,2))
-  heatmap.2(x234, col=RdBu[11:1], scale="none", trace="none", main=sprintf("%s pathways %s fraction", 
-                                                                           names(CDismr3)[i], SampleFrac))
-}
-
-#dev.off()
-
-
-```
-
-
-
-```{r, eval=F}
-
-### DN samples
-SampleFrac="DN"
-
-allDNGenes=unlist(DNCompSig)
-allDNTab=table(allDNGenes)
-DNGenesList=names(allDNTab)[which(allDNTab>1)]
-#DNGenesList=DNGenesList[-grep("LOC", DNGenesList)]
-#DNGenesList=DNGenesList[-grep("RGD", DNGenesList)]
-# also, remove all samples which have a base mean less than 10
-x1=DNComp4[[1]]$baseMean[match(DNGenesList, DNComp4[[1]]$Gene)]
-x2=which(x1>25)
-vstDN=vst(DNdds, blind=T)
-
-DNddsTreatG$Comp8_v2=factor(paste(DNddsTreatG$Treatment, DNddsTreatG$Growth))
-
-ColsideCols=DiffCols[DNddsTreatG$Comp8_v2]
-ColsideColsB=hue_pal()(4)[DNddsTreatG$Treatment]
-ColsideColsC=hue_pal()(2)[DNddsTreatG$Growth]
-
-colTable=rbind(ColsideCols, ColsideColsB, ColsideColsC)
-rownames(colTable)=c("Treat+growth", "Treatment", "growth")
-
-
-
-#pdf(sprintf("rslt/DESeq/DEseq_comparisons_%s.pdf", SampleFrac), width=7, height=10)
-
-sampleDist=dist(t(assay(vstDN)))
-sampleDistMatrix <- as.matrix(sampleDist)
-heatmap.plus(sampleDistMatrix, trace="none", scale="none", col=brewer.pal(11, "Blues")[11:1], ColSideColors = t(colTable), main=sprintf("Similarity between %s samples", SampleFrac))
-
-# Take the top 150 variable genes 
-# compute the sds for each genes
-sds = rowSds(assay(vstDN))
-means=rowMeans(assay(vstDN))
-CVs=sds/means
-CVs=CVs[-which(means<7)]
-sds2=sort(CVs, decreasing = T)
-
-heatmap.plus(assay(vstDN)[names(sds2)[1:200], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable), main=sprintf("top 200 variable genes all %s samples", SampleFrac))
-
-
-heatmap.plus(assay(vstDN)[DNGenesList[x2], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),
-          main=sprintf("DEG at least 2 %s samples", SampleFrac))
-
-# Make a table for these genes
-FCvalues=matrix(NA, nrow=length(x2), ncol=length(DNComp4))
-
-for (i in 1:length(DNComp4)){
-  FCvalues[ ,i]=DNComp4[[i]]$log2FoldChange[match(DNGenesList[x2], DNComp4[[i]]$Gene)]
-}
-
-colnames(FCvalues)=names(DNComp4)
-rownames(FCvalues)=DNGenesList[x2]
-
-
-# for each list pick the top 50 diff genes FC>2 and baseman > 50
-glist=NA
-for (i in 1:length(DNComp4)){
-  glist=c(glist, DNComp4[[i]]$Gene[which(DNComp4[[i]]$padj<0.1 & abs(DNComp4[[i]]$log2FoldChange)>2 & DNComp4[[i]]$baseMean>25)])
-}
-
-ColsideCols=SetCols[DNddsTreatG$Comp8]
-
-glistmod=na.omit(unique(glist))
-#glistmod=glistmod[-grep("LOC", glistmod)]
-#glistmod=na.omit(glistmod[-grep("RGD", glistmod)])
-
-heatmap.plus(assay(vstDN)[glistmod, ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),
-          main=sprintf("All DEG %s samples", SampleFrac))
-
-# distance of the samples to one another
-par(oma=c(2,0,0,0))
-heatmap.2(FCvalues, trace="none", scale="row", col=RdBu[11:1], 
-          main=sprintf("All comparisons %s, log2FC for each gene", SampleFrac))
-#dev.off()
-
-#DNismr3=ismr4
-
-#pdf(sprintf("rslt/DESeq/GSEA_signature_comparisons_%s.pdf", SampleFrac), width=10, height=12)
-
-for (i in 1:length(DNismr3)){
-  x1=DNismr3[[i]]
-  # find padj<0.1
-  idx2=lapply(seq(3, ncol(x1), by=2), function(x) which(as.numeric(as.character(x1[ ,x]))<0.01))
-  unList=table(unlist(idx2))
-  #pickThese=names(unList)#[which(unList>1)]
-  pickThese2=names(unList)[which(unList>1)]
-  
-  if (length(pickThese2)>100){
-    temp=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-    temp2=sapply(temp, function(x) as.numeric(as.character(x)))
-    temp2=rowSds(abs(temp2))
-    names(temp2)=pickThese2
-    temp2=sort(temp2, decreasing = T)
-    pickThese2=names(temp2)[1:100]
-  }
-  
-  x23=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-  
-  x234=sapply(x23, function(x) as.numeric(as.character(x)))
-  rownames(x234)=rownames(x23)
-  
-  par(oma=c(2,0,0,2))
-  heatmap.2(x234, col=RdBu[11:1], scale="none", trace="none", main=sprintf("%s pathways %s fraction", 
-                                                                           names(DNismr3)[i], SampleFrac))
-}
-
-#dev.off()
-
 ```
 
 ## Growing vs stable emphasis
@@ -4709,12 +4391,11 @@ write.csv(Ntab, file="nature-tables/4h.csv")
 
 ## Comparisons based on treatment
 
-
 We can do the same analysis for the DN compartment, but for comparing treatment effect:
 
 ```{r Ext3h, fig.cap="DN assoc treatment GSEA"}
 
-d1=DNismr3$ProcessNetworks[, c("imm_vs_control NES", "stable_vs_growing padj")]
+d1=DNismr3$ProcessNetworks[, c("imm_vs_control NES", "imm_vs_control padj")]
 ds=which(d1[ ,2]<0.05)
 
 termA=d1[ds, ]
@@ -4727,18 +4408,6 @@ TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
 
 ## check whether this runs:
 
-# TermType[which(TermType=="Apoptosis")]="Transcription"
-# TermType[which(TermType=="Proliferation")]="Transcription"
-# TermType[which(TermType=="Translation")]="Transcription"
-# testType=c("Inflammation", "Immune response", "Transcription")
-# 
-# #pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf", height=8, width=8)
-# par(oma=c(2, 5, 0,0), mfrow=c(2,2))
-# for (i in testType){
-#   barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
-#           xlab="NES", main=testType, col=factor(sign(termA[which(TermType==i), 1])))
-# }
-
 barplot(as.numeric(termA[, 1]), names.arg = sigTerms, horiz = T, las=2,
          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
 
@@ -4746,6 +4415,24 @@ Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 
 write.csv(Ntab, file="nature-tables/Ext3h.csv")
 ```
+
+Also look at the output for combo treatment vs vehcile
+
+```{r}
+d1=DNismr3$ProcessNetworks[, c("PDL1+LY_vs_Vehicle NES", "PDL1+LY_vs_Vehicle padj")]
+ds=which(d1[ ,2]<0.05)
+
+termA=d1[ds, ]
+
+TermsA=sapply(strsplit(rownames(termA), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50)
+
+barplot(as.numeric(termA[, 1]), names.arg = TermsA, horiz = T, las=2,
+         xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
+
+
+```
+
 
 
 ## Pathways of Interest 2
@@ -5309,7 +4996,7 @@ write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing
 
 Quickly run GSEA for these samples:
 
-```{r gsea-noninf-lum-branch, fig.cap="luminal non inflammatory branch"}
+```{r gsea-noninf-lum-branch, fig.cap="luminal non inflammatory branch", results='hide'}
 
 EpGenes=rownames(vstLumRes)
 
@@ -5348,12 +5035,12 @@ gscaepNI_lum@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaepNI_lum, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term" )
 
-write.csv(gscaepNI_lum@result$GSEA.results$ProcessNetworks, file="nature-tables/5g_lumxx.csv")
+write.csv(gscaepNI_lum@result$GSEA.results$ProcessNetworks, file="nature-tables/5g_lum_gsea.csv")
 ```
 
 <!--chapter:end:09-EpCAM_comparison_inflammatory.Rmd-->
 
-# Associate Epcam+ inflammatory with survival
+# TCGA: Associate Epcam+ inflammatory with survival
 
 Associate the signature with outcome in TCGA: Load in TCGA right now
 
@@ -5602,7 +5289,7 @@ for (i in Xind){
 
 Below are firstly the OS curves for the growing signature
 
-```{r 5i, fig.cap="OS: growing signature"}
+```{r 5i, fig.cap="OS: growing signature", fig.height=8}
 par(mfrow=c(2,2))
 
 Xind=c("Basal", "Her2", "LumA", "LumB")
@@ -5624,7 +5311,7 @@ for (i in Xind){
 
 Followed by the DFS plots for this signature
 
-```{r 5i-dfs, fig.cap="DFS forgrowing signature"}
+```{r 5i-dfs, fig.cap="DFS forgrowing signature", fig.height=8}
 par(mfrow=c(2,2))
 
 for (i in Xind){
@@ -5682,7 +5369,6 @@ As well as whether it associates with any of the previously identified immune su
 
 ```{r thorrs-subtypes}
 ggplot(newinfoTab, aes(x=immSub, y=TCGAval))+geom_boxplot()+geom_point()+theme_bw()
-
 write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
 ```
 
@@ -5699,11 +5385,11 @@ head(colDataTCGA)
 
 TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnames(TCGArsem2))]), colDataTCGA, design=~TCGAvalcut)
 
-TCGAdeseq=DESeq(TCGAdeseq)
+TCGAdeseq=DESeq(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
 
 TCGAdeseqRes=results(TCGAdeseq)
 
-write.csv(TCGAdeseqRes, file="nature-tables/5j_TCGA.csv")
+write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
 TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
                                  & TCGAdeseqRes$baseMean>100), ]
@@ -5712,7 +5398,7 @@ TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2F
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
-#pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
+#pdf("figure-outputs/Fig5J_TCGA_deg.pdf", height=8, width=8)
 with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
@@ -5726,16 +5412,17 @@ vstTCGA=vst(assay(TCGAdeseq))
 ColSideCols=c("skyblue", "blue")[factor(TCGAdeseq$TCGAvalcut)]
 
 ax1=vstTCGA[ match(rownames(TCGAdeseqRes2), rownames(vstTCGA)),  ]
-ax1[1:5, 1:5]
 
-pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+#pdf("figure-outputs/Figure5J_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
 
 heatmap.2(vstTCGA[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+```
 
-dev.off()
 
+also check the directions by looking at CXCl13, which is an overexpressed gene:
 
-boxplot(vstTCGA["CD8A", ]~TCGAdeseq$TCGAvalcut)
+```{r}
+boxplot(vstTCGA["CXCL13", ]~TCGAdeseq$TCGAvalcut)
 
 ```
 
@@ -5767,7 +5454,7 @@ gscaTCGA@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaTCGA, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term" )
 
-write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5XX_TCGA_lumA_GSEA.csv")
+write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5k_TCGA_lumA_GSEA.csv")
 ```
 
 
@@ -5994,7 +5681,7 @@ EpddsChar=DESeq(EpddsChar)
 
 First, have a look at the samples in a PCA plot: do they separate based on size:
 
-```{r Ext1-pca, fig.cap="PCA plot of epithelial samples"}
+```{r Ext1f, fig.cap="PCA plot of epithelial samples"}
 
 #pdf("~/Desktop/S1CD-Ep-characterisation-PCA-outcome.pdf", width=6, height=6)
 
@@ -6138,9 +5825,9 @@ boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 
 ```
 
-## Check expression of checkpoint proteins
+### Check expression of checkpoint proteins
 
-```{r}
+```{r Ext2f, fig.cap="checkpoint proteins expressed in epithelial samples"}
 
 ImmSuppAPCRat=sapply(ImmSuppAPC, function(x) na.omit(SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)]))
 
@@ -6152,6 +5839,8 @@ rmx=which(is.na(vstB[ ,1]))
 
 heatmap.2(vstB[-rmx, ], col=RdBu[11:1], scale="none", trace="none", 
           RowSideColors = ColSideCols[-rmx], hclustfun = hclust.ave)
+
+write.csv(vstB[-rmx, ], file="nature-tables/Ext2f_checkpoint_expression.csv")
 
 ```
 
@@ -6664,7 +6353,7 @@ write.csv(df2, file="nature-tables/4f.csv")
 #dev.off()
 ```
 
-Make the plots with individual samples:
+Make the plots with individual samples. Firstly TIMER
 
 ```{r 4f, fig.cap="Progression CIBERSORT TIMER"}
 
@@ -6681,7 +6370,11 @@ T1melt$variable=factor(T1melt$variable, x2)
 
 ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free", drop=T)+ggtitle("TIMER:prog growth")+theme(axis.text.x = element_text(angle = 90))+
    scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+```
 
+then CIBERSORT
+
+```{r}
 ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free", drop=T)+ggtitle("TIMER:prog treatment")+theme(axis.text.x = element_text(angle = 90))+
    scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
 
@@ -7232,52 +6925,43 @@ TrustTabmelt=melt(TrustTab[CD45F2, ], measure.vars=c("TrustNclonotypes",
 
 
 ```{r 4i, fig.cap="trust treatment"}
-head(TrustTabmelt)
-
-AllP=c(a1, b1, c1)
-AllP=AllP[c(seq(2, 12, by=3), seq(1, 12, by=3), seq(3, 12, by=3))]
-ann_text=data.frame(Glabel=round(AllP, 2), 
-                    Treatment=rep(c("LY", "PDL1", "PDL1+LY"), 4), 
-                    variable=rep(yvals, each=3), value=0.7)
-
-print('P values for something')
-a1
-b1
-c1
-
 tablex=TrustTab[CD45F2, c("Treatment", "Growth", "TrustNclonotypes", 
                           "TrustShannon", "TrustTop10", "TrustGini")]
-head(tablex)
 tablexM=melt(tablex)
 
-save(tablex, file="figure-outputs/figure-trust.Rdata")
-ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_point()+facet_grid(variable~., scale="free_y", space="free_y")+theme_bw()
-#+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
+ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
 
+write.csv(tablexM, file="nature-tables/4i_trust-treatment.csv")
+```
 
-
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[1],2), "LY", round(b1[1],2), "PDL1+LY", round(c1[1], 2)), xlab="treat", ylab="no clonotypes",
-        col=ColMerge[ ,1])
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[2],2), "LY", round(b1[2],2), "PDL1+LY", round(c1[2], 2)),
-        xlab="growth", ylab="shannon",col=ColMerge[ ,1])
-
+```{r}
+print('P values PDL1')
+a1
+print('P values LY')
+b1
+print('P values PDL1+LY')
+c1
 ```
 
 
 ```{r 4ib, fig.cap="trust growth"}
-par(mfrow=c(2,2))
+pdf("figure-outputs/4I_BCR_clonotypes.pdf", height=8, width=5)
+
+ggplot(tablexM, aes(x=Growth, y=value, col=Growth))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColSizeb, "black"))+theme_bw()
+dev.off()
+#par(mfrow=c(2,2))
+
 a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "Growth"])$p.value)
-boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # clonotypes %s", round(a1[1], 2)), xlab="growth", ylab="no clonotypes", col=ColSizeb)
-boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # shan %s", round(a1[2], 2)), xlab="growth", ylab="shannon", col=ColSizeb)
-boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: Gini %s", round(a1[3], 2)),
-          ylab="gini", xlab="growth", col=ColSizeb)
-boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"],  main=sprintf("Growth: Top10", round(a1[4], 2)),
-         ylab="top10 clonotypes", xlab="growth", col=ColSizeb)
+#boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # clonotypes %s", round(a1[1], 2)), xlab="growth", ylab="no clonotypes", col=ColSizeb)
+#boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # shan %s", round(a1[2], 2)), xlab="growth", ylab="shannon", col=ColSizeb)
+#boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: Gini %s", round(a1[3], 2)),         ylab="gini", xlab="growth", col=ColSizeb)
+#boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"],  main=sprintf("Growth: Top10", round(a1[4], 2)),ylab="top10 clonotypes", xlab="growth", col=ColSizeb)
 
 
-write.csv(TrustTab[CD45F2, ], file="nature-tables/4i_trust.csv")
+print('p values here')
+a1
+
 ```
-
 
 ## Associate with signature scores
 
@@ -7461,18 +7145,17 @@ SBSprofb=SBSprof[ ,-1]/rowSums(SBSprof[ ,-1])
 SBSprofb=SBSprofb[ ,-which(colSums(SBSprofb)==0)]
 rownames(SBSprofb)=SBSprof[ ,1]
 
-
-#pdf(sprintf("rslt/WGS/mutational_signatures_%s.pdf", Sys.Date()), height=9, width=7)
-heatmap.2(data.matrix(SBSprofb[ ,-1]), col=brewer.pal(9, "Blues"), scale="none", trace="none", Colv = NA, Rowv=NA)
-
 SBSmelt=melt(cbind(SBSprofb[ , -1], id=rownames(SBSprofb)))
 SBSsummary <- aggregate(. ~ variable, mean, data=SBSmelt)
 
 ggplot(SBSmelt, aes(x=variable, y=value, col=variable))+geom_jitter()+geom_crossbar(data=SBSsummary , aes(ymin = value, ymax = value),size=0.5,col="black", width = .7)+theme_bw()+ylab("Percentage of mutations")
 
-
 write.csv(SBSmelt, file="nature-tables/Ext1j.csv")
+```
 
+We can see whether any of these associate with tumor size for example:
+
+```{r}
 ## Assign with growth data or tumor size?
 tname=substr(SBSprof$Cancer.Types, 7, 20)
 idx=sapply(tname, function(x) grep(x, Cdata$WGS))
@@ -7549,11 +7232,6 @@ x4
 
 And here, we plot the frequency of these different mutations
 
-<span style="color:red">
-what;s wrong here?
-</span>
-
-
 ```{r Ext1k, fig.cap="most frequent mutations"}
 idx=which(!is.na(MeltCosmic$HumAAno))
 length(idx)
@@ -7566,7 +7244,11 @@ ind2=which(T2>1)
 barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations with human homolog", las=2)
 #dev.off()
 
+ttemp=names(T2[ind2])
+```
 
+
+```{r}
 Nx=paste(MeltCosmic$Gene, MeltCosmic$AAno)
 T2=sort(table(Nx), decreasing = T)
 ind2=which(T2>1)
@@ -7574,7 +7256,10 @@ ind2=which(T2>1)
 barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations ", las=2)
 #dev.off()
 
-write.csv(T2[ind2], file="nature-tables/Ext1k_maybe.csv")
+tableout=data.frame(gene=names(T2[ind2]), ncount=T2[ind2], freq=T2[ind2]/31,
+                    humanHom=ifelse(names(T2[ind2])%in%ttemp, 1, 0))
+
+write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
 
 ```
 
@@ -7704,8 +7389,9 @@ ann_text2 <- data.frame(lab=paste("p=", round(pvalOutputs, 2)), val=1, Size=5, c
                         variable=c("NCodingMut", "TMB", "TotalMut", "Tum.size","NsynFreq"))
 
 ggplot(Ntot2melt, aes(x=cohort, y=value, col=cohort))+geom_boxplot()+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))+geom_text(data=ann_text2, aes(label=lab, x=1, y=0))
+```
 
-
+```{r}
 ann_text2 <- data.frame(lab=paste("p=", round(corOutputs, 2)), val=1, Size=5, cohort="latency-4",
                         variable=c("NCodingMut", "TMB", "TotalMut",
                      "NsynFreq"))
@@ -7943,6 +7629,8 @@ Color codes:
 * blue:
 
 ```{r}
+palette(brewer.pal(9, "Set1"))
+
 Nmut=86 ## was previously 92: this appears at least 17 times
 
 rmHarlanSNP=WGSList[which(!is.na(WGSList$HarlanFreq)), ]
@@ -8029,7 +7717,8 @@ topCOSMIC=colnames(tempz2)
 
 save(topN, topCOSMIC, file="outputs/genes-selected-common-WGX-mutations.RData")
 
-x3=table(colSums(rGeneOut2))
+#x3=table(colSums(rGeneOut2))
+write.csv(rGeneOut[ , x1], file="nature-tables/1k-mutations.csv")
 ```
 
 Note that in this table, the distribution of samples with mutations is as follows:
@@ -8044,7 +7733,7 @@ The number of genes which are cosmic associated are:
 
 `r length(x1)` and the number which appear in more than 1 sample is `r length(x1)-length(x2)`.
 
-These genes are tabulated below: (nice figures generated here)
+These genes are tabulated below: (nice figures generated here). 
 
 
 ```{r 1k, fig.cap="summary of mutations acccording to frequency cosmic"}
@@ -8053,15 +7742,6 @@ top90genes=colnames(rGeneOut2)
 
 #pdf(sprintf("~/Desktop/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
 
-# 
-# par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-# image(t(tempx), col=c("white", 1:3), xaxt='n', yaxt='n')
-# axis(1, at=seq(0, 1, length=ncol(tempx)), colnames(tempx), las=2, cex=0.5)
-# axis(2, at=seq(0, 1, length=nrow(tempx)), rownames(tempx), las=2, cex=0.5)
-# text(na.omit(hotspot1$Y-1)/(ncol(tempx)-1), na.omit(hotspot1$X-1)/(nrow(tempx)-1) , "*")
-# legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:3, "black"), horiz = T)
-# 
-
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex.axis=0.7)
@@ -8069,8 +7749,11 @@ axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex.axis=0.7
 text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("top 90 mutations", side=3, line=-1, outer=T)
+```
 
+Below is the above list refined according to cosmic specifc genes, and listing 
 
+```{r}
 # par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 # image(t(tempyb), col=c("white", 1:4), xaxt='n', yaxt='n')
 # axis(1, at=seq(0, 1, length=ncol(tempyb)), colnames(tempyb), las=2, cex.axis=0.5)
@@ -8080,7 +7763,6 @@ mtext("top 90 mutations", side=3, line=-1, outer=T)
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
-
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex.axis=0.7)
@@ -8135,13 +7817,12 @@ GList2=lapply(N2, function(x) MeltWGSCodingB[x, c("Hum_Gene", "L1")])
 SumTable2=sapply(GList2, function(x) summary(factor(x[ ,"L1"], levels=unique(MeltWGSCodingB$L1))))
 colnames(SumTable2)=Process_Networks$Networks[n2]
 #listGenes=strsplit(Process_Networks$Network.Objects.from.Active.Data[1:15], ",")
-head(SumTable2)
 
 ## do this for ERS1 networks
 er1=GList2[[8]] #6,8, 35
 axtemp=table(er1[ ,1], er1[,2])
 colnames(axtemp)=Cdata$NewID[sapply(colnames(axtemp), function(x) grep(x, Cdata$WGS) ) ]
-a2=heatmap.2(sign(axtemp))
+a2=heatmap.2(sign(axtemp), col=brewer.pal(3, "Blues"), trace="none")
 
 image(t(a2$carpet), xaxt="n", yaxt="n", col=c("white", "skyblue"))
 axis(1, at=seq(0, 1, length=nrow(axtemp)), colnames(a2$carpet), las=2, cex.axis=0.7)
@@ -8930,107 +8611,37 @@ write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tabl
 
 We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples
 
-```{r}
+```{r Ext5i, fig.cap="association with hyperinflammation"}
 vstEpInf$Inflammation3
+vstEpInf$Inflammation2
+vstEpInf$Inflammation
+save(vstEpInf, file="figure-outputs/temp_test.RData")
+
 ax1=colnames(vstEpInf)
-ax1
 
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
-t2
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
              inf=vstEpInf$Inflammation3[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))])
-             
-head(newTab)
 
+pdf("figure-outputs/5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-write.csv(newTab, file="nature-tables/Ext5z_trichrome.csv")
+dev.off()
+write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
 
 ```
 
-# Writing files to file
-
-Update the metadata file:
-write to file:
-
-* updated ext data table
-* spatial information summary
-* star aligned table
-* colData information
-* collapsed information on wsi/facs
-
-```{r}
-write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
-
-x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
-head(x1)
-write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
-
-colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
-infoTableFinal2=infoTableFinal[ ,c("TumorIDnew","Growth", "CD8Frac", "TumSize", "Time.NMU2Sac", 
-                                   "Age.Injection","Treatment","Cohort", "SizeCat")]
-write.csv(infoTableFinal2, file="nature-tables/infoTableFinal2_output.csv")
-write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
-
-
-colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
-
-# colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
-
-# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
-#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
-#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
-#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
-#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
-#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
-#                )
-
-```
-
-
-Below is the session info
-
-```{r}
-sessionInfo()
-```
 
 <!--chapter:end:15-trichrome-staining.Rmd-->
 
+# CNV calling
+
+CNV calling was performed with BICseq
 
 
-# BICseqout
-## Move to combined data load page
 
-### Annotation files
-
-Information on chromosome sizes, cytobands and centromere locations were obtained from the [UCSC genome browser](http://hgdownload.soe.ucsc.edu/goldenPath/rn6/database/).
-
-
-Create a TxDb object from a gtf file and save information 
-
-```{r, cache=T, message=F, warning=F, eval=F}
-txRn6=makeTxDbFromGFF("dontUpload/rn6_refGene.gtf",
-                        organism="Rattus norvegicus")
-txRn6<-genes(txRn6)
-```
-
-```{r, eval=F}
-AllCosmic=read.csv("anntotations/Census_COSMIC_Feb2020.csv")
-RatCosmic=unique(na.omit(SymHum2Rat$RGD.symbol[match(AllCosmic$Gene.Symbol, SymHum2Rat$HGNC.symbol)]))
-```
-
-```{r, eval=F}
-ImmPortGenes=read.csv("anntotations/ImmPort_Set.csv")
-InnateDBGenes=read.csv("anntotations/innatedb_curated_genes.csv")
-
-# convert to Rat genes
-AllImmGenes=unique(toupper(c(as.character(ImmPortGenes$Symbol), as.character(InnateDBGenes$Gene.Symbol))))
-RatAllImm=na.omit(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$HGNC.symbol)])
-```
-
-### Sample data
+## Sample data
 
 Load BICseq2 data for all tested samples:
 
@@ -9049,21 +8660,18 @@ AllDCN2=data.frame(sample=meltCN$L1, chromosome=meltCN$chrom, start=meltCN$start
 AllDCN2$chromosome=factor(AllDCN2$chromosome, levels=unique(AllDCN2$chromosome))
 
 CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call)
-
-# load all and save the temporary outputs to file to see how the parameters change
-# pdf("rslt/BICseq_summary_2scale.pdf", width=12, height=6)
-# cnFreq_mod(AllDCN2,CN_low_cutoff=1.4, CN_high_cutoff=2.8, genome=cytoInfo)
-# dev.off()
 ```
 
 ## Data Summary
 
 ### Frequency of gains and losses across the genome
 
-```{r}
+```{r bicseq, fig.cap="summary of regions of frequent gains and losses"}
 # plot the frequencies
 Samp1=cnFreq_mod(AllDCN2,CN_low_cutoff=1.4, CN_high_cutoff=2.8, genome=cytoInfo)
 Samp1$plot
+
+write.csv(Samp1$data, file="nature-tables/Ext1l_CNV_frequencies.csv")
 ```
 
 ### Loci which have a hit in at least 30\% of samples
@@ -9167,6 +8775,55 @@ ggplot(S4, aes(x=xLoc, y=gainProportion, width=width*1.2, label=label, col=col))
 
 <!--chapter:end:16-BICseqout.Rmd-->
 
+# Writing files to file
+
+Update the metadata file:
+write to file:
+
+* updated ext data table
+* spatial information summary
+* star aligned table
+* colData information
+* collapsed information on wsi/facs
+
+```{r}
+write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+
+x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
+head(x1)
+write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
+
+colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
+infoTableFinal2=infoTableFinal[ ,c("TumorIDnew","Growth", "CD8Frac", "TumSize", "Time.NMU2Sac", 
+                                   "Age.Injection","Treatment","Cohort", "SizeCat")]
+write.csv(infoTableFinal2, file="nature-tables/infoTableFinal2_output.csv")
+write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
+
+
+colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
+
+# colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+
+# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
+#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
+#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
+#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
+#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
+#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
+#                )
+
+```
+
+
+Below is the session info
+
+```{r}
+sessionInfo()
+```
+
+<!--chapter:end:99-CheckSessionInfo.Rmd-->
+
 # (APPENDIX) Appendix {-} 
 
 
@@ -9176,7 +8833,7 @@ Here we have a links to the list of the figures in this study
 
 ## Main Figures{-}
 
-## Figure 1 {-}
+## Figure 1: NMU-induced mammary tumors {-}
 
 * Fig 1F: [Characterisation HR plot](#fig:1f)
 * Fig 1G: [Ep DEG big-small](#fig:1g)
@@ -9199,11 +8856,11 @@ Here we have a links to the list of the figures in this study
 * Fig 3B: [Growth rates of tumors](#fig:3b)
 * Fig 3C: [Growth rates of tumors w.r.t. treatment](#fig:3c)
 * Fig 3D: [Histogram of growth rates of tumors](#fig:3d)
-* Fig 3E: [Contingency table growth rate and treatment](#3e)
+* Fig 3E: [Contingency table growth rate and treatment](#fig:3e)
 * Fig 3G: [Trichrome staining growth rate and treatment](#fig:3g)
 * Fig 3J: [Differentially expressed genes in CD45 fraction](#fig:3jb)
 
-## Figure 4: Somehting{-}
+## Figure 4: Characterizing CD45 cells in tumors {-}
 
 * Fig 4B: [association of frequency with treatment and growth](#fig:4b) 
 * Fig 4C: [KNN distances](#fig:Fig4c)
@@ -9212,7 +8869,7 @@ Here we have a links to the list of the figures in this study
 * Fig 4F: [Progression CIBERSORT TIMER](#fig:4f)
 * Fig 4G: [volcano plot of DEG stable vs growing CD45](#fig:4g)
 * Fig 4H: [CD45 cells enriched pathways](#fig:4h)
-* Fig 4I: [trust-progression COHORT](#fig:4i)
+* Fig 4I: [BCR clonotypes with respect to treatment/growth](#fig:4i)
 
 ## Figure 5 : Epithelial cells in growing vs stable rats {-}
 
@@ -9220,7 +8877,7 @@ Here we have a links to the list of the figures in this study
 * Fig 5B: [ssGSEA scores for specific pathways](#fig:5b)
 * Fig 5D: [CD74 assoc with patient data](#fig:5d)
 * Fig 5E: [forest plot CD74](#fig:5e)
-* Fig 5F: [lum only non-inflamm growth vs stable DEG](#fig:ColSideCols)
+* Fig 5F: [lum only non-inflamm growth vs stable DEG](#fig:EpddsLum)
 * Fig 5G: [lum only non-inflamm growth vs stable hairball](#fig:gsea-noninf-lum-branch)
 * Fig 5H [luminal signature associated with clinical variables](#fig:5h)
 * Fig 5I [OS and DFS for growing signature](#fig:5i)
@@ -9231,51 +8888,51 @@ Here we have a links to the list of the figures in this study
 
 ## Extended data 1{-}
 
-* Ext Fig 1b : [Number of tumors per rat in each cohort](#fig:Ext1b)
-* Ext Fig 1c: [growth of NMU treated tumors over time](#fig:Ext1c)
-* Ext Fig 1f: [PCA of growing vs stable epithelial cells](#fig:Ext1f)
+* Ext Fig 1B : [Number of tumors per rat in each cohort](#fig:Ext1b)
+* Ext Fig 1C: [growth of NMU treated tumors over time](#fig:Ext1c)
+* Ext Fig 1F: [PCA of growing vs stable epithelial cells](#fig:Ext1f)
 * Ext Fig 1G: [correlation plot epithelial samples](#fig:Ext1g)
 * Ext Fig 1H-I: [assoc of mutations with cohort](#fig:Ext1h)
 * Ext Fig 1J: [Alexandrov mutational signatures](#fig:Ext1j)
 * Ext Fig 1K: [most frequent mutations](#fig:Ext1k)
-* Ext Fig 1L: [PCA of growing vs stable epithelial cells](#fig:Ext1f)
+* Ext Fig 1L: [CNV calls](#fig:bicseq)
 
 
 ## Extended data 2 {-}
 
 * Ext2D [PCA of CD45 cells](#fig:Ext2d)
 * Ext2E [clonotype assoc with size](#fig:Ext2e)
-* Ext2F [cNo fucking idea where this came from](#fig:Ext2f)
+* Ext2F [expression of checkpoint proteins in epithelial cells](#fig:Ext2f)
 
 ## Extended data 3{-}
 
-* Ext Fig 3c : [FACS associated with outcome](#fig:Ext3c)
-* Ext Fig 3d : [PCA plot all cell types](#fig:Ext3d)
-* Ext Fig 3e : [Cell type specific genes](#fig:Ext3e)
+* Ext Fig 3C : [FACS associated with outcome](#fig:Ext3c)
+* Ext Fig 3D : [PCA plot all cell types](#fig:Ext3d)
+* Ext Fig 3E : [Cell type specific genes](#fig:Ext3e)
 * Ext Fig 3H: [DN assoc treatment GSEA](#fig:Ext3h)
-* Ext Fig 3i : [HR clustering output progression](#fig:Ext3i)
+* Ext Fig 3I : [HR clustering output progression](#fig:Ext3i)
 
 
 
 ## Extended data 4{-}
 
 * Ext Fig 4B [association with facs](#fig:Ext4b) 
-* Ext Fig 4C-D [WSI-normalised-all-samples](#fig:Ext4c) here \@ref(Ext4c)
+* Ext Fig 4C-D [WSI-normalised-all-samples](#fig:Ext4c)
 * Ext Fig 4E [Knn with treatment](#fig:Fig4c) 
 * Ext Fig 4F [Interacting fraction with treatment](#fig:if-growth) 
-* Ext Fig 4H [MH with treatment](#fig:4h) 
+* Ext Fig 4H [MH with treatment](#fig:Ext4h) 
 
 
 ## Extended data 5{-}
 
 * Ext Fig5A [growth profiles of inflammatory tumors](#fig:5xta)
-* Ext Fig 5B: [](#fig:Ext5b)
+* Ext Fig 5B: [Expression of inflammatory genes across samples](#fig:Ext5b)
 * Ext Fig 5C: [Differential gene exp inflammatory vs non-inflammatory](#fig:Ext5c)
 * Ext Fig 5D: [association signature with WSI](#fig:Ext5d)
 * Ext Fig 5E: [Survival plots TCGA and CD74 by subtype](#fig:Ext5e-os)
 * Ext Fig 5F: [DEG all inflammatory removed](#fig:Epddsinflamm)
 * Ext Fig 5G [non-inflammatory branch hairball](#fig:gsea-non-inflammatory-branch)
-* Ext Fig 5I: [Trichrome association with inflammation and growth rate](#fig:)
+* Ext Fig 5I: [Trichrome association with inflammation and growth rate](#fig:Ext5i)
 * Ext Fig 5J: [Transcriptional heterogeneity](#fig:Ext5j)
 
 <!--chapter:end:Appendix.Rmd-->

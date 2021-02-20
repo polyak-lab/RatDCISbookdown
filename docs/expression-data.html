@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Expression data | Rat DCIS study</title>
-  <meta name="description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <title>Chapter 6 Expression data | NMU-induced rat tumor models for I/O</title>
+  <meta name="description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Expression data | Rat DCIS study" />
+  <meta property="og:title" content="Chapter 6 Expression data | NMU-induced rat tumor models for I/O" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
-  <meta property="og:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta property="og:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Expression data | Rat DCIS study" />
+  <meta name="twitter:title" content="Chapter 6 Expression data | NMU-induced rat tumor models for I/O" />
   
-  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘insert study name’" />
+  <meta name="twitter:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   
 
 <meta name="author" content="Anne Trinh" />
@@ -185,8 +185,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html"><i class="fa fa-check"></i><b>3</b> Cohort Summary Table</a><ul>
-<li class="chapter" data-level="3.0.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>3.0.1</b> Compare the characterisation vs progression cohort</a></li>
-<li class="chapter" data-level="3.0.2" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>3.0.2</b> Summary of the RNA data</a></li>
+<li class="chapter" data-level="3.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#total-number-of-samples"><i class="fa fa-check"></i><b>3.1</b> Total number of samples</a></li>
+<li class="chapter" data-level="3.2" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#compare-the-characterisation-vs-progression-cohort"><i class="fa fa-check"></i><b>3.2</b> Compare the characterisation vs progression cohort</a></li>
+<li class="chapter" data-level="3.3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#summary-of-the-rna-data"><i class="fa fa-check"></i><b>3.3</b> Summary of the RNA data</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html"><i class="fa fa-check"></i><b>4</b> Whole-slide imaging</a><ul>
 <li class="chapter" data-level="4.1" data-path="whole-slide-imaging.html"><a href="whole-slide-imaging.html#associate-the-frequencies-with-other-data-types"><i class="fa fa-check"></i><b>4.1</b> Associate the frequencies with other data types</a></li>
@@ -290,8 +291,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>16.2</b> Epithelial samples</a><ul>
 <li class="chapter" data-level="16.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>16.2.1</b> PCA plot</a></li>
 <li class="chapter" data-level="16.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>16.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="16.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.2.3</b> Check expression of checkpoint proteins</a></li>
 </ul></li>
-<li class="chapter" data-level="16.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.3</b> Check expression of checkpoint proteins</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>17</b> Signature analysis</a><ul>
 <li class="chapter" data-level="17.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>17.1</b> MHC signature analysis</a><ul>
@@ -355,25 +356,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>23.3</b> Associations with growth and treatment</a></li>
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
-<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
-<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
-<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
-<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
-</ul></li>
-<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
-<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
-<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
-<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+<li class="chapter" data-level="24" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>24</b> CNV calling</a><ul>
+<li class="chapter" data-level="24.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>24.1</b> Sample data</a></li>
+<li class="chapter" data-level="24.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>24.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="24.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>24.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
-<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1"><i class="fa fa-check"></i>Figure 1</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-1-nmu-induced-mammary-tumors"><i class="fa fa-check"></i>Figure 1: NMU-induced mammary tumors</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-2-immune-system-of-nmu-rat"><i class="fa fa-check"></i>Figure 2: Immune system of NMU-rat</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-3-immunotherapy-applied-to-nmu-rats"><i class="fa fa-check"></i>Figure 3: Immunotherapy applied to NMU rats</a></li>
-<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-somehting"><i class="fa fa-check"></i>Figure 4: Somehting</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-4-characterizing-cd45-cells-in-tumors"><i class="fa fa-check"></i>Figure 4: Characterizing CD45 cells in tumors</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#figure-5-epithelial-cells-in-growing-vs-stable-rats"><i class="fa fa-check"></i>Figure 5 : Epithelial cells in growing vs stable rats</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="extended-figures.html"><a href="extended-figures.html"><i class="fa fa-check"></i>Extended Figures</a><ul>
@@ -395,7 +393,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Rat DCIS study</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NMU-induced rat tumor models for I/O</a>
           </h1>
         </div>
 
@@ -413,108 +411,108 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="running-alignment" class="section level2">
 <h2><span class="header-section-number">6.1</span> Running alignment</h2>
 <p>Samples were mapped in star using the following parameters. Note that the first two batches of samples run had shorter read lengths (~75 bp) whereas batch 3 had lengths of ~150bp</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="expression-data.html#cb105-1"></a><span class="co">## Not run here</span></span>
-<span id="cb105-2"><a href="expression-data.html#cb105-2"></a>STAR \</span>
-<span id="cb105-3"><a href="expression-data.html#cb105-3"></a>     <span class="op">--</span>readFilesCommand zcat \</span>
-<span id="cb105-4"><a href="expression-data.html#cb105-4"></a>     <span class="op">--</span>genomeDir <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2 \</span>
-<span id="cb105-5"><a href="expression-data.html#cb105-5"></a>     <span class="op">--</span>sjdbGTFfile <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2<span class="op">/</span>rn6.refGene.gtf \</span>
-<span id="cb105-6"><a href="expression-data.html#cb105-6"></a>     <span class="op">--</span>runThreadN <span class="dv">10</span> \</span>
-<span id="cb105-7"><a href="expression-data.html#cb105-7"></a>     <span class="op">--</span>runMode alignReads \</span>
-<span id="cb105-8"><a href="expression-data.html#cb105-8"></a>     <span class="op">--</span>genomeLoad NoSharedMemory\</span>
-<span id="cb105-9"><a href="expression-data.html#cb105-9"></a>     <span class="op">--</span>outSAMattributes NH HI AS nM NM\</span>
-<span id="cb105-10"><a href="expression-data.html#cb105-10"></a>     <span class="op">--</span>outSAMstrandField intronMotif\</span>
-<span id="cb105-11"><a href="expression-data.html#cb105-11"></a>     <span class="op">--</span>outFilterMultimapNmax <span class="dv">20</span>\</span>
-<span id="cb105-12"><a href="expression-data.html#cb105-12"></a>     <span class="op">--</span>alignSJoverhangMin <span class="dv">8</span>\</span>
-<span id="cb105-13"><a href="expression-data.html#cb105-13"></a>     <span class="op">--</span>readFilesIn <span class="op">$</span><span class="dv">1</span> <span class="op">$</span><span class="dv">2</span> \</span>
-<span id="cb105-14"><a href="expression-data.html#cb105-14"></a>     <span class="op">--</span>alignSJDBoverhangMin <span class="dv">1</span>\</span>
-<span id="cb105-15"><a href="expression-data.html#cb105-15"></a>     <span class="op">--</span>outFilterMismatchNmax <span class="dv">999</span>\</span>
-<span id="cb105-16"><a href="expression-data.html#cb105-16"></a>     <span class="op">--</span>outFilterMismatchNoverLmax <span class="fl">0.1</span>\</span>
-<span id="cb105-17"><a href="expression-data.html#cb105-17"></a>     <span class="op">--</span>alignIntronMin <span class="dv">20</span>\</span>
-<span id="cb105-18"><a href="expression-data.html#cb105-18"></a>     <span class="op">--</span>alignIntronMax <span class="dv">1000000</span>\</span>
-<span id="cb105-19"><a href="expression-data.html#cb105-19"></a>     <span class="op">--</span>alignMatesGapMax <span class="dv">1000000</span>\</span>
-<span id="cb105-20"><a href="expression-data.html#cb105-20"></a>     <span class="op">--</span>outFilterType BySJout\</span>
-<span id="cb105-21"><a href="expression-data.html#cb105-21"></a>     <span class="op">--</span>outFilterScoreMinOverLread <span class="fl">0.33</span> \</span>
-<span id="cb105-22"><a href="expression-data.html#cb105-22"></a>     <span class="op">--</span>outFilterMatchNminOverLread <span class="fl">0.33</span> \</span>
-<span id="cb105-23"><a href="expression-data.html#cb105-23"></a>     <span class="op">--</span>limitSjdbInsertNsj <span class="dv">1200000</span> \</span>
-<span id="cb105-24"><a href="expression-data.html#cb105-24"></a>     <span class="op">--</span>outFilterIntronMotifs None \</span>
-<span id="cb105-25"><a href="expression-data.html#cb105-25"></a>     <span class="op">--</span>alignSoftClipAtReferenceEnds Yes\</span>
-<span id="cb105-26"><a href="expression-data.html#cb105-26"></a>     <span class="op">--</span>outSAMattrRGline ID<span class="op">:</span><span class="er">$</span><span class="dv">4</span> SM<span class="op">:</span><span class="er">$</span><span class="dv">4</span> \</span>
-<span id="cb105-27"><a href="expression-data.html#cb105-27"></a>     <span class="op">--</span>chimSegmentMin <span class="dv">15</span> \</span>
-<span id="cb105-28"><a href="expression-data.html#cb105-28"></a>     <span class="op">--</span>chimJunctionOverhangMin <span class="dv">15</span>\</span>
-<span id="cb105-29"><a href="expression-data.html#cb105-29"></a>     <span class="op">--</span>limitBAMsortRAM <span class="dv">0</span>\</span>
-<span id="cb105-30"><a href="expression-data.html#cb105-30"></a>     <span class="op">--</span>outSAMtype BAM SortedByCoordinate\</span>
-<span id="cb105-31"><a href="expression-data.html#cb105-31"></a>     <span class="op">--</span>outSAMunmapped Within \</span>
-<span id="cb105-32"><a href="expression-data.html#cb105-32"></a>     <span class="op">--</span>quantMode GeneCounts transcriptomeSAM \</span>
-<span id="cb105-33"><a href="expression-data.html#cb105-33"></a>     <span class="op">--</span>quantTranscriptomeBan IndelSoftclipSingleend \</span>
-<span id="cb105-34"><a href="expression-data.html#cb105-34"></a>     <span class="op">--</span>outFileNamePrefix <span class="op">$</span><span class="dv">3</span> \</span>
-<span id="cb105-35"><a href="expression-data.html#cb105-35"></a>     <span class="op">--</span>twopassMode Basic</span></code></pre></div>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="expression-data.html#cb106-1"></a><span class="co"># Upload infoTable</span></span>
-<span id="cb106-2"><a href="expression-data.html#cb106-2"></a>infoTable=<span class="kw">read.csv</span>(<span class="st">&quot;../metadata/AllRNA_samples_jan.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="expression-data.html#cb104-1"></a><span class="co">## Not run here</span></span>
+<span id="cb104-2"><a href="expression-data.html#cb104-2"></a>STAR \</span>
+<span id="cb104-3"><a href="expression-data.html#cb104-3"></a>     <span class="op">--</span>readFilesCommand zcat \</span>
+<span id="cb104-4"><a href="expression-data.html#cb104-4"></a>     <span class="op">--</span>genomeDir <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2 \</span>
+<span id="cb104-5"><a href="expression-data.html#cb104-5"></a>     <span class="op">--</span>sjdbGTFfile <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>rn6_v2<span class="op">/</span>rn6.refGene.gtf \</span>
+<span id="cb104-6"><a href="expression-data.html#cb104-6"></a>     <span class="op">--</span>runThreadN <span class="dv">10</span> \</span>
+<span id="cb104-7"><a href="expression-data.html#cb104-7"></a>     <span class="op">--</span>runMode alignReads \</span>
+<span id="cb104-8"><a href="expression-data.html#cb104-8"></a>     <span class="op">--</span>genomeLoad NoSharedMemory\</span>
+<span id="cb104-9"><a href="expression-data.html#cb104-9"></a>     <span class="op">--</span>outSAMattributes NH HI AS nM NM\</span>
+<span id="cb104-10"><a href="expression-data.html#cb104-10"></a>     <span class="op">--</span>outSAMstrandField intronMotif\</span>
+<span id="cb104-11"><a href="expression-data.html#cb104-11"></a>     <span class="op">--</span>outFilterMultimapNmax <span class="dv">20</span>\</span>
+<span id="cb104-12"><a href="expression-data.html#cb104-12"></a>     <span class="op">--</span>alignSJoverhangMin <span class="dv">8</span>\</span>
+<span id="cb104-13"><a href="expression-data.html#cb104-13"></a>     <span class="op">--</span>readFilesIn <span class="op">$</span><span class="dv">1</span> <span class="op">$</span><span class="dv">2</span> \</span>
+<span id="cb104-14"><a href="expression-data.html#cb104-14"></a>     <span class="op">--</span>alignSJDBoverhangMin <span class="dv">1</span>\</span>
+<span id="cb104-15"><a href="expression-data.html#cb104-15"></a>     <span class="op">--</span>outFilterMismatchNmax <span class="dv">999</span>\</span>
+<span id="cb104-16"><a href="expression-data.html#cb104-16"></a>     <span class="op">--</span>outFilterMismatchNoverLmax <span class="fl">0.1</span>\</span>
+<span id="cb104-17"><a href="expression-data.html#cb104-17"></a>     <span class="op">--</span>alignIntronMin <span class="dv">20</span>\</span>
+<span id="cb104-18"><a href="expression-data.html#cb104-18"></a>     <span class="op">--</span>alignIntronMax <span class="dv">1000000</span>\</span>
+<span id="cb104-19"><a href="expression-data.html#cb104-19"></a>     <span class="op">--</span>alignMatesGapMax <span class="dv">1000000</span>\</span>
+<span id="cb104-20"><a href="expression-data.html#cb104-20"></a>     <span class="op">--</span>outFilterType BySJout\</span>
+<span id="cb104-21"><a href="expression-data.html#cb104-21"></a>     <span class="op">--</span>outFilterScoreMinOverLread <span class="fl">0.33</span> \</span>
+<span id="cb104-22"><a href="expression-data.html#cb104-22"></a>     <span class="op">--</span>outFilterMatchNminOverLread <span class="fl">0.33</span> \</span>
+<span id="cb104-23"><a href="expression-data.html#cb104-23"></a>     <span class="op">--</span>limitSjdbInsertNsj <span class="dv">1200000</span> \</span>
+<span id="cb104-24"><a href="expression-data.html#cb104-24"></a>     <span class="op">--</span>outFilterIntronMotifs None \</span>
+<span id="cb104-25"><a href="expression-data.html#cb104-25"></a>     <span class="op">--</span>alignSoftClipAtReferenceEnds Yes\</span>
+<span id="cb104-26"><a href="expression-data.html#cb104-26"></a>     <span class="op">--</span>outSAMattrRGline ID<span class="op">:</span><span class="er">$</span><span class="dv">4</span> SM<span class="op">:</span><span class="er">$</span><span class="dv">4</span> \</span>
+<span id="cb104-27"><a href="expression-data.html#cb104-27"></a>     <span class="op">--</span>chimSegmentMin <span class="dv">15</span> \</span>
+<span id="cb104-28"><a href="expression-data.html#cb104-28"></a>     <span class="op">--</span>chimJunctionOverhangMin <span class="dv">15</span>\</span>
+<span id="cb104-29"><a href="expression-data.html#cb104-29"></a>     <span class="op">--</span>limitBAMsortRAM <span class="dv">0</span>\</span>
+<span id="cb104-30"><a href="expression-data.html#cb104-30"></a>     <span class="op">--</span>outSAMtype BAM SortedByCoordinate\</span>
+<span id="cb104-31"><a href="expression-data.html#cb104-31"></a>     <span class="op">--</span>outSAMunmapped Within \</span>
+<span id="cb104-32"><a href="expression-data.html#cb104-32"></a>     <span class="op">--</span>quantMode GeneCounts transcriptomeSAM \</span>
+<span id="cb104-33"><a href="expression-data.html#cb104-33"></a>     <span class="op">--</span>quantTranscriptomeBan IndelSoftclipSingleend \</span>
+<span id="cb104-34"><a href="expression-data.html#cb104-34"></a>     <span class="op">--</span>outFileNamePrefix <span class="op">$</span><span class="dv">3</span> \</span>
+<span id="cb104-35"><a href="expression-data.html#cb104-35"></a>     <span class="op">--</span>twopassMode Basic</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="expression-data.html#cb105-1"></a><span class="co"># Upload infoTable</span></span>
+<span id="cb105-2"><a href="expression-data.html#cb105-2"></a>infoTable=<span class="kw">read.csv</span>(<span class="st">&quot;../metadata/AllRNA_samples_jan.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="rna-initial-qc" class="section level2">
 <h2><span class="header-section-number">6.2</span> RNA Initial QC</h2>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="expression-data.html#cb107-1"></a>BatchNo=<span class="st">&quot;april&quot;</span></span>
-<span id="cb107-2"><a href="expression-data.html#cb107-2"></a></span>
-<span id="cb107-3"><a href="expression-data.html#cb107-3"></a>rsemFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/RNA_expression/rsem/&quot;</span>, <span class="st">&quot;.results&quot;</span>)</span>
-<span id="cb107-4"><a href="expression-data.html#cb107-4"></a>allrsem=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles)) <span class="co">#31038</span></span>
-<span id="cb107-5"><a href="expression-data.html#cb107-5"></a>allTPM=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles))</span>
-<span id="cb107-6"><a href="expression-data.html#cb107-6"></a>allFPKM=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles))</span>
-<span id="cb107-7"><a href="expression-data.html#cb107-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(rsemFiles)){</span>
-<span id="cb107-8"><a href="expression-data.html#cb107-8"></a>  a1=<span class="kw">read.delim</span>(<span class="kw">file.path</span>(<span class="st">&quot;../data/RNA_expression/rsem/&quot;</span>, rsemFiles[i]))</span>
-<span id="cb107-9"><a href="expression-data.html#cb107-9"></a>  allrsem[ ,i]=a1<span class="op">$</span>expected_count</span>
-<span id="cb107-10"><a href="expression-data.html#cb107-10"></a>  allTPM[ ,i]=a1<span class="op">$</span>TPM</span>
-<span id="cb107-11"><a href="expression-data.html#cb107-11"></a>  allFPKM[ ,i]=a1<span class="op">$</span>FPKM</span>
-<span id="cb107-12"><a href="expression-data.html#cb107-12"></a>}</span>
-<span id="cb107-13"><a href="expression-data.html#cb107-13"></a></span>
-<span id="cb107-14"><a href="expression-data.html#cb107-14"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(rsemFiles, <span class="st">&quot;.genes.results&quot;</span>))</span>
-<span id="cb107-15"><a href="expression-data.html#cb107-15"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(cNames, <span class="st">&quot;_0.33_v2&quot;</span>))</span>
-<span id="cb107-16"><a href="expression-data.html#cb107-16"></a>sAnnot=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
-<span id="cb107-17"><a href="expression-data.html#cb107-17"></a><span class="kw">colnames</span>(allrsem)=<span class="kw">paste</span>(infoTable<span class="op">$</span>Rat_ID[sAnnot],infoTable<span class="op">$</span>Location[sAnnot], infoTable<span class="op">$</span>Fraction[sAnnot],  <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
-<span id="cb107-18"><a href="expression-data.html#cb107-18"></a><span class="kw">rownames</span>(allrsem)=a1<span class="op">$</span>gene_id</span>
-<span id="cb107-19"><a href="expression-data.html#cb107-19"></a></span>
-<span id="cb107-20"><a href="expression-data.html#cb107-20"></a><span class="kw">colnames</span>(allTPM)=<span class="kw">colnames</span>(allrsem)</span>
-<span id="cb107-21"><a href="expression-data.html#cb107-21"></a><span class="kw">rownames</span>(allTPM)=<span class="kw">rownames</span>(allrsem)</span>
-<span id="cb107-22"><a href="expression-data.html#cb107-22"></a></span>
-<span id="cb107-23"><a href="expression-data.html#cb107-23"></a><span class="kw">colnames</span>(allFPKM)=<span class="kw">colnames</span>(allrsem)</span>
-<span id="cb107-24"><a href="expression-data.html#cb107-24"></a><span class="kw">rownames</span>(allFPKM)=<span class="kw">rownames</span>(allrsem)</span>
-<span id="cb107-25"><a href="expression-data.html#cb107-25"></a></span>
-<span id="cb107-26"><a href="expression-data.html#cb107-26"></a>starFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/RNA_expression/star_april/&quot;</span>, <span class="st">&quot;.tab&quot;</span>)</span>
-<span id="cb107-27"><a href="expression-data.html#cb107-27"></a>allstar=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(starFiles))</span>
-<span id="cb107-28"><a href="expression-data.html#cb107-28"></a>allmapp=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">4</span>, <span class="dt">ncol=</span><span class="kw">length</span>(starFiles))</span>
-<span id="cb107-29"><a href="expression-data.html#cb107-29"></a></span>
-<span id="cb107-30"><a href="expression-data.html#cb107-30"></a></span>
-<span id="cb107-31"><a href="expression-data.html#cb107-31"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(starFiles)){</span>
-<span id="cb107-32"><a href="expression-data.html#cb107-32"></a>  a1=<span class="kw">read.delim</span>(<span class="kw">file.path</span>(<span class="st">&quot;../data/RNA_expression/star_april/&quot;</span>, starFiles[i]), <span class="dt">header=</span>F)</span>
-<span id="cb107-33"><a href="expression-data.html#cb107-33"></a>  allstar[ ,i]=a1[ <span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),<span class="dv">2</span>]</span>
-<span id="cb107-34"><a href="expression-data.html#cb107-34"></a>  allmapp[ ,i]=a1[ <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),<span class="dv">2</span>]</span>
-<span id="cb107-35"><a href="expression-data.html#cb107-35"></a>}</span>
-<span id="cb107-36"><a href="expression-data.html#cb107-36"></a></span>
-<span id="cb107-37"><a href="expression-data.html#cb107-37"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(starFiles, <span class="st">&quot;ReadsPerGene.out.tab&quot;</span>))</span>
-<span id="cb107-38"><a href="expression-data.html#cb107-38"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(cNames, <span class="st">&quot;_0.33_v2&quot;</span>))</span>
-<span id="cb107-39"><a href="expression-data.html#cb107-39"></a>sAnnot=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
-<span id="cb107-40"><a href="expression-data.html#cb107-40"></a><span class="kw">colnames</span>(allstar)=<span class="kw">paste</span>(infoTable<span class="op">$</span>Rat_ID[sAnnot], infoTable<span class="op">$</span>Location[sAnnot],infoTable<span class="op">$</span>Fraction[sAnnot], <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
-<span id="cb107-41"><a href="expression-data.html#cb107-41"></a><span class="kw">rownames</span>(allstar)=a1[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) ,<span class="dv">1</span>]</span>
-<span id="cb107-42"><a href="expression-data.html#cb107-42"></a></span>
-<span id="cb107-43"><a href="expression-data.html#cb107-43"></a><span class="kw">colnames</span>(allmapp)=<span class="kw">colnames</span>(allstar)</span>
-<span id="cb107-44"><a href="expression-data.html#cb107-44"></a>allmapp=<span class="kw">rbind</span>(allmapp, <span class="kw">colSums</span>(allstar))</span>
-<span id="cb107-45"><a href="expression-data.html#cb107-45"></a></span>
-<span id="cb107-46"><a href="expression-data.html#cb107-46"></a><span class="kw">rownames</span>(allmapp)=<span class="kw">c</span>(<span class="kw">as.character</span>(a1[<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dv">1</span>]), <span class="st">&quot;UniqueReads&quot;</span>)</span>
-<span id="cb107-47"><a href="expression-data.html#cb107-47"></a></span>
-<span id="cb107-48"><a href="expression-data.html#cb107-48"></a></span>
-<span id="cb107-49"><a href="expression-data.html#cb107-49"></a><span class="co">## in all cases, remove the files </span></span>
-<span id="cb107-50"><a href="expression-data.html#cb107-50"></a>id=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
-<span id="cb107-51"><a href="expression-data.html#cb107-51"></a>infoTable=infoTable[ <span class="kw">na.omit</span>(id), ]</span>
-<span id="cb107-52"><a href="expression-data.html#cb107-52"></a>id2=<span class="kw">which</span>(<span class="kw">is.na</span>(id))</span>
-<span id="cb107-53"><a href="expression-data.html#cb107-53"></a></span>
-<span id="cb107-54"><a href="expression-data.html#cb107-54"></a><span class="cf">if</span> (<span class="kw">length</span>(id2)<span class="op">&gt;</span><span class="dv">0</span>){</span>
-<span id="cb107-55"><a href="expression-data.html#cb107-55"></a></span>
-<span id="cb107-56"><a href="expression-data.html#cb107-56"></a>allmapp=allmapp[ , <span class="op">-</span><span class="kw">grep</span>(<span class="st">&quot;NA_NA&quot;</span>, <span class="kw">colnames</span>(allmapp))]</span>
-<span id="cb107-57"><a href="expression-data.html#cb107-57"></a></span>
-<span id="cb107-58"><a href="expression-data.html#cb107-58"></a>allTPM=allTPM[ , <span class="op">-</span>id2]</span>
-<span id="cb107-59"><a href="expression-data.html#cb107-59"></a>allFPKM=allFPKM[ , <span class="op">-</span>id2]</span>
-<span id="cb107-60"><a href="expression-data.html#cb107-60"></a>allrsem=allrsem[ , <span class="op">-</span>id2]</span>
-<span id="cb107-61"><a href="expression-data.html#cb107-61"></a>allstar=allstar[, <span class="op">-</span>id2]</span>
-<span id="cb107-62"><a href="expression-data.html#cb107-62"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="expression-data.html#cb106-1"></a>BatchNo=<span class="st">&quot;april&quot;</span></span>
+<span id="cb106-2"><a href="expression-data.html#cb106-2"></a></span>
+<span id="cb106-3"><a href="expression-data.html#cb106-3"></a>rsemFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/RNA_expression/rsem/&quot;</span>, <span class="st">&quot;.results&quot;</span>)</span>
+<span id="cb106-4"><a href="expression-data.html#cb106-4"></a>allrsem=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles)) <span class="co">#31038</span></span>
+<span id="cb106-5"><a href="expression-data.html#cb106-5"></a>allTPM=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles))</span>
+<span id="cb106-6"><a href="expression-data.html#cb106-6"></a>allFPKM=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(rsemFiles))</span>
+<span id="cb106-7"><a href="expression-data.html#cb106-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(rsemFiles)){</span>
+<span id="cb106-8"><a href="expression-data.html#cb106-8"></a>  a1=<span class="kw">read.delim</span>(<span class="kw">file.path</span>(<span class="st">&quot;../data/RNA_expression/rsem/&quot;</span>, rsemFiles[i]))</span>
+<span id="cb106-9"><a href="expression-data.html#cb106-9"></a>  allrsem[ ,i]=a1<span class="op">$</span>expected_count</span>
+<span id="cb106-10"><a href="expression-data.html#cb106-10"></a>  allTPM[ ,i]=a1<span class="op">$</span>TPM</span>
+<span id="cb106-11"><a href="expression-data.html#cb106-11"></a>  allFPKM[ ,i]=a1<span class="op">$</span>FPKM</span>
+<span id="cb106-12"><a href="expression-data.html#cb106-12"></a>}</span>
+<span id="cb106-13"><a href="expression-data.html#cb106-13"></a></span>
+<span id="cb106-14"><a href="expression-data.html#cb106-14"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(rsemFiles, <span class="st">&quot;.genes.results&quot;</span>))</span>
+<span id="cb106-15"><a href="expression-data.html#cb106-15"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(cNames, <span class="st">&quot;_0.33_v2&quot;</span>))</span>
+<span id="cb106-16"><a href="expression-data.html#cb106-16"></a>sAnnot=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
+<span id="cb106-17"><a href="expression-data.html#cb106-17"></a><span class="kw">colnames</span>(allrsem)=<span class="kw">paste</span>(infoTable<span class="op">$</span>Rat_ID[sAnnot],infoTable<span class="op">$</span>Location[sAnnot], infoTable<span class="op">$</span>Fraction[sAnnot],  <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb106-18"><a href="expression-data.html#cb106-18"></a><span class="kw">rownames</span>(allrsem)=a1<span class="op">$</span>gene_id</span>
+<span id="cb106-19"><a href="expression-data.html#cb106-19"></a></span>
+<span id="cb106-20"><a href="expression-data.html#cb106-20"></a><span class="kw">colnames</span>(allTPM)=<span class="kw">colnames</span>(allrsem)</span>
+<span id="cb106-21"><a href="expression-data.html#cb106-21"></a><span class="kw">rownames</span>(allTPM)=<span class="kw">rownames</span>(allrsem)</span>
+<span id="cb106-22"><a href="expression-data.html#cb106-22"></a></span>
+<span id="cb106-23"><a href="expression-data.html#cb106-23"></a><span class="kw">colnames</span>(allFPKM)=<span class="kw">colnames</span>(allrsem)</span>
+<span id="cb106-24"><a href="expression-data.html#cb106-24"></a><span class="kw">rownames</span>(allFPKM)=<span class="kw">rownames</span>(allrsem)</span>
+<span id="cb106-25"><a href="expression-data.html#cb106-25"></a></span>
+<span id="cb106-26"><a href="expression-data.html#cb106-26"></a>starFiles=<span class="kw">dir</span>(<span class="st">&quot;../data/RNA_expression/star_april/&quot;</span>, <span class="st">&quot;.tab&quot;</span>)</span>
+<span id="cb106-27"><a href="expression-data.html#cb106-27"></a>allstar=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">17455</span>, <span class="dt">ncol=</span><span class="kw">length</span>(starFiles))</span>
+<span id="cb106-28"><a href="expression-data.html#cb106-28"></a>allmapp=<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span><span class="dv">4</span>, <span class="dt">ncol=</span><span class="kw">length</span>(starFiles))</span>
+<span id="cb106-29"><a href="expression-data.html#cb106-29"></a></span>
+<span id="cb106-30"><a href="expression-data.html#cb106-30"></a></span>
+<span id="cb106-31"><a href="expression-data.html#cb106-31"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(starFiles)){</span>
+<span id="cb106-32"><a href="expression-data.html#cb106-32"></a>  a1=<span class="kw">read.delim</span>(<span class="kw">file.path</span>(<span class="st">&quot;../data/RNA_expression/star_april/&quot;</span>, starFiles[i]), <span class="dt">header=</span>F)</span>
+<span id="cb106-33"><a href="expression-data.html#cb106-33"></a>  allstar[ ,i]=a1[ <span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),<span class="dv">2</span>]</span>
+<span id="cb106-34"><a href="expression-data.html#cb106-34"></a>  allmapp[ ,i]=a1[ <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>),<span class="dv">2</span>]</span>
+<span id="cb106-35"><a href="expression-data.html#cb106-35"></a>}</span>
+<span id="cb106-36"><a href="expression-data.html#cb106-36"></a></span>
+<span id="cb106-37"><a href="expression-data.html#cb106-37"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(starFiles, <span class="st">&quot;ReadsPerGene.out.tab&quot;</span>))</span>
+<span id="cb106-38"><a href="expression-data.html#cb106-38"></a>cNames=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(cNames, <span class="st">&quot;_0.33_v2&quot;</span>))</span>
+<span id="cb106-39"><a href="expression-data.html#cb106-39"></a>sAnnot=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
+<span id="cb106-40"><a href="expression-data.html#cb106-40"></a><span class="kw">colnames</span>(allstar)=<span class="kw">paste</span>(infoTable<span class="op">$</span>Rat_ID[sAnnot], infoTable<span class="op">$</span>Location[sAnnot],infoTable<span class="op">$</span>Fraction[sAnnot], <span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb106-41"><a href="expression-data.html#cb106-41"></a><span class="kw">rownames</span>(allstar)=a1[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>) ,<span class="dv">1</span>]</span>
+<span id="cb106-42"><a href="expression-data.html#cb106-42"></a></span>
+<span id="cb106-43"><a href="expression-data.html#cb106-43"></a><span class="kw">colnames</span>(allmapp)=<span class="kw">colnames</span>(allstar)</span>
+<span id="cb106-44"><a href="expression-data.html#cb106-44"></a>allmapp=<span class="kw">rbind</span>(allmapp, <span class="kw">colSums</span>(allstar))</span>
+<span id="cb106-45"><a href="expression-data.html#cb106-45"></a></span>
+<span id="cb106-46"><a href="expression-data.html#cb106-46"></a><span class="kw">rownames</span>(allmapp)=<span class="kw">c</span>(<span class="kw">as.character</span>(a1[<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dv">1</span>]), <span class="st">&quot;UniqueReads&quot;</span>)</span>
+<span id="cb106-47"><a href="expression-data.html#cb106-47"></a></span>
+<span id="cb106-48"><a href="expression-data.html#cb106-48"></a></span>
+<span id="cb106-49"><a href="expression-data.html#cb106-49"></a><span class="co">## in all cases, remove the files </span></span>
+<span id="cb106-50"><a href="expression-data.html#cb106-50"></a>id=<span class="kw">match</span>(cNames, infoTable<span class="op">$</span>starSampleName)</span>
+<span id="cb106-51"><a href="expression-data.html#cb106-51"></a>infoTable=infoTable[ <span class="kw">na.omit</span>(id), ]</span>
+<span id="cb106-52"><a href="expression-data.html#cb106-52"></a>id2=<span class="kw">which</span>(<span class="kw">is.na</span>(id))</span>
+<span id="cb106-53"><a href="expression-data.html#cb106-53"></a></span>
+<span id="cb106-54"><a href="expression-data.html#cb106-54"></a><span class="cf">if</span> (<span class="kw">length</span>(id2)<span class="op">&gt;</span><span class="dv">0</span>){</span>
+<span id="cb106-55"><a href="expression-data.html#cb106-55"></a></span>
+<span id="cb106-56"><a href="expression-data.html#cb106-56"></a>allmapp=allmapp[ , <span class="op">-</span><span class="kw">grep</span>(<span class="st">&quot;NA_NA&quot;</span>, <span class="kw">colnames</span>(allmapp))]</span>
+<span id="cb106-57"><a href="expression-data.html#cb106-57"></a></span>
+<span id="cb106-58"><a href="expression-data.html#cb106-58"></a>allTPM=allTPM[ , <span class="op">-</span>id2]</span>
+<span id="cb106-59"><a href="expression-data.html#cb106-59"></a>allFPKM=allFPKM[ , <span class="op">-</span>id2]</span>
+<span id="cb106-60"><a href="expression-data.html#cb106-60"></a>allrsem=allrsem[ , <span class="op">-</span>id2]</span>
+<span id="cb106-61"><a href="expression-data.html#cb106-61"></a>allstar=allstar[, <span class="op">-</span>id2]</span>
+<span id="cb106-62"><a href="expression-data.html#cb106-62"></a>}</span></code></pre></div>
 <p>Default output from R showing the number of unique reads compared to multimapped, unmapped etc. This is shown for each batch.
 Note that batch 3 has differences (high percentage of unmapped) compared to the other batches, possibly due to DNA contamination.</p>
 <p>Below we check for three measures:</p>
@@ -523,52 +521,52 @@ Note that batch 3 has differences (high percentage of unmapped) compared to the 
 <li>Gene Sparsity: This is a measurement of the number of genes which have non-zero values. Ideally, would be greater than 10K, but values which are too high may also suggest contamination from DNA (unexpressed genes are also counted)</li>
 <li>Varability: standard deviation of the transcriptomic counts. If this value is too low, would suggest that high DNA contamination, non-representative transcriptome.</li>
 </ul>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="expression-data.html#cb108-1"></a><span class="co"># number of mapped reads</span></span>
-<span id="cb108-2"><a href="expression-data.html#cb108-2"></a>UnMappedNorm=<span class="kw">t</span>(allmapp)<span class="op">/</span><span class="kw">colSums</span>(allmapp)</span>
-<span id="cb108-3"><a href="expression-data.html#cb108-3"></a></span>
-<span id="cb108-4"><a href="expression-data.html#cb108-4"></a>mUnMap=<span class="kw">melt</span>(UnMappedNorm)</span>
-<span id="cb108-5"><a href="expression-data.html#cb108-5"></a>mUnMap<span class="op">$</span>Batch=infoTable<span class="op">$</span>Batch[<span class="kw">match</span>(mUnMap<span class="op">$</span>Var1, infoTable<span class="op">$</span>SampleID)]</span>
-<span id="cb108-6"><a href="expression-data.html#cb108-6"></a></span>
-<span id="cb108-7"><a href="expression-data.html#cb108-7"></a><span class="co"># how many genes represented</span></span>
-<span id="cb108-8"><a href="expression-data.html#cb108-8"></a>Sparsity=<span class="kw">colSums</span>(<span class="kw">sign</span>(allstar))</span>
-<span id="cb108-9"><a href="expression-data.html#cb108-9"></a><span class="co"># check how skewed the data is</span></span>
-<span id="cb108-10"><a href="expression-data.html#cb108-10"></a></span>
-<span id="cb108-11"><a href="expression-data.html#cb108-11"></a>cSDs=<span class="kw">colSds</span>(allstar)</span>
-<span id="cb108-12"><a href="expression-data.html#cb108-12"></a></span>
-<span id="cb108-13"><a href="expression-data.html#cb108-13"></a>TVals=<span class="kw">data.frame</span>(<span class="dt">MappedReadsM=</span>allmapp[<span class="dv">5</span>, ]<span class="op">/</span><span class="fl">1E6</span>, <span class="dt">GeneSparsityK=</span>Sparsity<span class="op">/</span><span class="fl">1E3</span>,<span class="dt">Batch=</span>infoTable<span class="op">$</span>Batch, <span class="dt">GeneVariabilityCounts=</span>cSDs, <span class="dt">Type=</span><span class="kw">as.character</span>(infoTable<span class="op">$</span>Fraction), <span class="dt">names=</span><span class="kw">colnames</span>(allstar))</span>
-<span id="cb108-14"><a href="expression-data.html#cb108-14"></a></span>
-<span id="cb108-15"><a href="expression-data.html#cb108-15"></a>mTV=<span class="kw">melt</span>(TVals, <span class="dt">measure.vars =</span> <span class="kw">c</span>(<span class="st">&quot;MappedReadsM&quot;</span>, <span class="st">&quot;GeneSparsityK&quot;</span>, <span class="st">&quot;GeneVariabilityCounts&quot;</span>))</span>
-<span id="cb108-16"><a href="expression-data.html#cb108-16"></a></span>
-<span id="cb108-17"><a href="expression-data.html#cb108-17"></a><span class="co">#pdf(sprintf(&quot;../rslt/DESeq/GE_preprocessing_%s_%s.pdf&quot;, BatchNo,Sys.Date()), height=5, width=8)</span></span>
-<span id="cb108-18"><a href="expression-data.html#cb108-18"></a></span>
-<span id="cb108-19"><a href="expression-data.html#cb108-19"></a><span class="kw">ggplot</span>(mUnMap, <span class="kw">aes</span>(<span class="dt">x=</span>Var1, <span class="dt">y=</span>value, <span class="dt">fill=</span>Var2))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Batch, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;proportion of reads&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;mapping summary&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="expression-data.html#cb107-1"></a><span class="co"># number of mapped reads</span></span>
+<span id="cb107-2"><a href="expression-data.html#cb107-2"></a>UnMappedNorm=<span class="kw">t</span>(allmapp)<span class="op">/</span><span class="kw">colSums</span>(allmapp)</span>
+<span id="cb107-3"><a href="expression-data.html#cb107-3"></a></span>
+<span id="cb107-4"><a href="expression-data.html#cb107-4"></a>mUnMap=<span class="kw">melt</span>(UnMappedNorm)</span>
+<span id="cb107-5"><a href="expression-data.html#cb107-5"></a>mUnMap<span class="op">$</span>Batch=infoTable<span class="op">$</span>Batch[<span class="kw">match</span>(mUnMap<span class="op">$</span>Var1, infoTable<span class="op">$</span>SampleID)]</span>
+<span id="cb107-6"><a href="expression-data.html#cb107-6"></a></span>
+<span id="cb107-7"><a href="expression-data.html#cb107-7"></a><span class="co"># how many genes represented</span></span>
+<span id="cb107-8"><a href="expression-data.html#cb107-8"></a>Sparsity=<span class="kw">colSums</span>(<span class="kw">sign</span>(allstar))</span>
+<span id="cb107-9"><a href="expression-data.html#cb107-9"></a><span class="co"># check how skewed the data is</span></span>
+<span id="cb107-10"><a href="expression-data.html#cb107-10"></a></span>
+<span id="cb107-11"><a href="expression-data.html#cb107-11"></a>cSDs=<span class="kw">colSds</span>(allstar)</span>
+<span id="cb107-12"><a href="expression-data.html#cb107-12"></a></span>
+<span id="cb107-13"><a href="expression-data.html#cb107-13"></a>TVals=<span class="kw">data.frame</span>(<span class="dt">MappedReadsM=</span>allmapp[<span class="dv">5</span>, ]<span class="op">/</span><span class="fl">1E6</span>, <span class="dt">GeneSparsityK=</span>Sparsity<span class="op">/</span><span class="fl">1E3</span>,<span class="dt">Batch=</span>infoTable<span class="op">$</span>Batch, <span class="dt">GeneVariabilityCounts=</span>cSDs, <span class="dt">Type=</span><span class="kw">as.character</span>(infoTable<span class="op">$</span>Fraction), <span class="dt">names=</span><span class="kw">colnames</span>(allstar))</span>
+<span id="cb107-14"><a href="expression-data.html#cb107-14"></a></span>
+<span id="cb107-15"><a href="expression-data.html#cb107-15"></a>mTV=<span class="kw">melt</span>(TVals, <span class="dt">measure.vars =</span> <span class="kw">c</span>(<span class="st">&quot;MappedReadsM&quot;</span>, <span class="st">&quot;GeneSparsityK&quot;</span>, <span class="st">&quot;GeneVariabilityCounts&quot;</span>))</span>
+<span id="cb107-16"><a href="expression-data.html#cb107-16"></a></span>
+<span id="cb107-17"><a href="expression-data.html#cb107-17"></a><span class="co">#pdf(sprintf(&quot;../rslt/DESeq/GE_preprocessing_%s_%s.pdf&quot;, BatchNo,Sys.Date()), height=5, width=8)</span></span>
+<span id="cb107-18"><a href="expression-data.html#cb107-18"></a></span>
+<span id="cb107-19"><a href="expression-data.html#cb107-19"></a><span class="kw">ggplot</span>(mUnMap, <span class="kw">aes</span>(<span class="dt">x=</span>Var1, <span class="dt">y=</span>value, <span class="dt">fill=</span>Var2))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Batch, <span class="dt">space=</span><span class="st">&quot;free&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;proportion of reads&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;mapping summary&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/summary-plots-rna-quality-1.png" width="672" /></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="expression-data.html#cb109-1"></a></span>
-<span id="cb109-2"><a href="expression-data.html#cb109-2"></a><span class="kw">ggplot</span>(mTV, <span class="kw">aes</span>(<span class="dt">x=</span>names, <span class="dt">y=</span>value,<span class="dt">fill=</span>Type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
-<span id="cb109-3"><a href="expression-data.html#cb109-3"></a><span class="st">  </span><span class="kw">facet_grid</span>(variable<span class="op">~</span>Batch, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;#Mapped Reads, #Unique Gebes, #Variability&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="expression-data.html#cb108-1"></a></span>
+<span id="cb108-2"><a href="expression-data.html#cb108-2"></a><span class="kw">ggplot</span>(mTV, <span class="kw">aes</span>(<span class="dt">x=</span>names, <span class="dt">y=</span>value,<span class="dt">fill=</span>Type))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb108-3"><a href="expression-data.html#cb108-3"></a><span class="st">  </span><span class="kw">facet_grid</span>(variable<span class="op">~</span>Batch, <span class="dt">space=</span><span class="st">&quot;free_x&quot;</span>, <span class="dt">scale=</span><span class="st">&quot;free&quot;</span>)<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;#Mapped Reads, #Unique Gebes, #Variability&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/summary-plots-rna-quality-2.png" width="672" /></p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="expression-data.html#cb110-1"></a></span>
-<span id="cb110-2"><a href="expression-data.html#cb110-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb110-3"><a href="expression-data.html#cb110-3"></a></span>
-<span id="cb110-4"><a href="expression-data.html#cb110-4"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>MappedReadsM), <span class="dt">main=</span><span class="st">&quot;mapped reads&quot;</span>)</span>
-<span id="cb110-5"><a href="expression-data.html#cb110-5"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>MappedReadsM)</span>
-<span id="cb110-6"><a href="expression-data.html#cb110-6"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>MappedReadsM)</span>
-<span id="cb110-7"><a href="expression-data.html#cb110-7"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
-<span id="cb110-8"><a href="expression-data.html#cb110-8"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.07</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
-<span id="cb110-9"><a href="expression-data.html#cb110-9"></a></span>
-<span id="cb110-10"><a href="expression-data.html#cb110-10"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>GeneSparsityK), <span class="dt">main=</span><span class="st">&quot;gene sparsity&quot;</span>)</span>
-<span id="cb110-11"><a href="expression-data.html#cb110-11"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>GeneSparsityK)</span>
-<span id="cb110-12"><a href="expression-data.html#cb110-12"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>GeneSparsityK)</span>
-<span id="cb110-13"><a href="expression-data.html#cb110-13"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
-<span id="cb110-14"><a href="expression-data.html#cb110-14"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.07</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
-<span id="cb110-15"><a href="expression-data.html#cb110-15"></a></span>
-<span id="cb110-16"><a href="expression-data.html#cb110-16"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>GeneVariabilityCounts), <span class="dt">main=</span><span class="st">&quot;Gene Variability&quot;</span>)</span>
-<span id="cb110-17"><a href="expression-data.html#cb110-17"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>GeneVariabilityCounts)</span>
-<span id="cb110-18"><a href="expression-data.html#cb110-18"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>GeneVariabilityCounts)</span>
-<span id="cb110-19"><a href="expression-data.html#cb110-19"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
-<span id="cb110-20"><a href="expression-data.html#cb110-20"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.00015</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
-<span id="cb110-21"><a href="expression-data.html#cb110-21"></a></span>
-<span id="cb110-22"><a href="expression-data.html#cb110-22"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="expression-data.html#cb109-1"></a></span>
+<span id="cb109-2"><a href="expression-data.html#cb109-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb109-3"><a href="expression-data.html#cb109-3"></a></span>
+<span id="cb109-4"><a href="expression-data.html#cb109-4"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>MappedReadsM), <span class="dt">main=</span><span class="st">&quot;mapped reads&quot;</span>)</span>
+<span id="cb109-5"><a href="expression-data.html#cb109-5"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>MappedReadsM)</span>
+<span id="cb109-6"><a href="expression-data.html#cb109-6"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>MappedReadsM)</span>
+<span id="cb109-7"><a href="expression-data.html#cb109-7"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb109-8"><a href="expression-data.html#cb109-8"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.07</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
+<span id="cb109-9"><a href="expression-data.html#cb109-9"></a></span>
+<span id="cb109-10"><a href="expression-data.html#cb109-10"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>GeneSparsityK), <span class="dt">main=</span><span class="st">&quot;gene sparsity&quot;</span>)</span>
+<span id="cb109-11"><a href="expression-data.html#cb109-11"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>GeneSparsityK)</span>
+<span id="cb109-12"><a href="expression-data.html#cb109-12"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>GeneSparsityK)</span>
+<span id="cb109-13"><a href="expression-data.html#cb109-13"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb109-14"><a href="expression-data.html#cb109-14"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.07</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
+<span id="cb109-15"><a href="expression-data.html#cb109-15"></a></span>
+<span id="cb109-16"><a href="expression-data.html#cb109-16"></a><span class="kw">plot</span>(<span class="kw">density</span>(TVals<span class="op">$</span>GeneVariabilityCounts), <span class="dt">main=</span><span class="st">&quot;Gene Variability&quot;</span>)</span>
+<span id="cb109-17"><a href="expression-data.html#cb109-17"></a>x1=<span class="kw">mean</span>(TVals<span class="op">$</span>GeneVariabilityCounts)</span>
+<span id="cb109-18"><a href="expression-data.html#cb109-18"></a>sdv=<span class="kw">sd</span>(TVals<span class="op">$</span>GeneVariabilityCounts)</span>
+<span id="cb109-19"><a href="expression-data.html#cb109-19"></a><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span>
+<span id="cb109-20"><a href="expression-data.html#cb109-20"></a><span class="kw">text</span>( <span class="kw">c</span>(x1, x1<span class="fl">-1.5</span><span class="op">*</span>sdv, x1<span class="fl">+1.5</span><span class="op">*</span>sdv), <span class="fl">0.00015</span>, <span class="kw">c</span>(x1, x1<span class="dv">-2</span><span class="op">*</span>sdv, x1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>sdv), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex =</span> <span class="fl">0.75</span>, <span class="dt">srt=</span><span class="dv">90</span>)</span>
+<span id="cb109-21"><a href="expression-data.html#cb109-21"></a></span>
+<span id="cb109-22"><a href="expression-data.html#cb109-22"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/summary-plots-rna-quality-3.png" width="672" /></p>
 <p>Samples to remove from analysis:</p>
 <p>The thresholds indicated below are based on the above density plots, and removes cases which are &lt;1.5 SD of the mean</p>
@@ -577,14 +575,14 @@ Note that batch 3 has differences (high percentage of unmapped) compared to the 
 <li>sparsity: less than 8K genes</li>
 <li>variability : threshold under 500</li>
 </ul>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="expression-data.html#cb111-1"></a>rmSamples=<span class="kw">which</span>(TVals<span class="op">$</span>MappedReadsM<span class="op">&lt;</span><span class="fl">1.5</span> <span class="op">|</span><span class="st"> </span>TVals<span class="op">$</span>GeneSparsityK<span class="op">&lt;</span><span class="dv">8</span> <span class="op">|</span><span class="st"> </span>TVals<span class="op">$</span>GeneVariabilityCounts<span class="op">&lt;</span><span class="dv">500</span>)</span>
-<span id="cb111-2"><a href="expression-data.html#cb111-2"></a>allstarFinal=allstar[ ,<span class="op">-</span>rmSamples]</span>
-<span id="cb111-3"><a href="expression-data.html#cb111-3"></a>allrsemFinal=allrsem[ ,<span class="op">-</span>rmSamples]</span>
-<span id="cb111-4"><a href="expression-data.html#cb111-4"></a>allTPMFinal=allTPM[ ,<span class="op">-</span>rmSamples]</span>
-<span id="cb111-5"><a href="expression-data.html#cb111-5"></a>allFPKMFinal=allFPKM[ ,<span class="op">-</span>rmSamples]</span>
-<span id="cb111-6"><a href="expression-data.html#cb111-6"></a>infoTableFinal=infoTable[<span class="op">-</span>rmSamples, ]</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="expression-data.html#cb110-1"></a>rmSamples=<span class="kw">which</span>(TVals<span class="op">$</span>MappedReadsM<span class="op">&lt;</span><span class="fl">1.5</span> <span class="op">|</span><span class="st"> </span>TVals<span class="op">$</span>GeneSparsityK<span class="op">&lt;</span><span class="dv">8</span> <span class="op">|</span><span class="st"> </span>TVals<span class="op">$</span>GeneVariabilityCounts<span class="op">&lt;</span><span class="dv">500</span>)</span>
+<span id="cb110-2"><a href="expression-data.html#cb110-2"></a>allstarFinal=allstar[ ,<span class="op">-</span>rmSamples]</span>
+<span id="cb110-3"><a href="expression-data.html#cb110-3"></a>allrsemFinal=allrsem[ ,<span class="op">-</span>rmSamples]</span>
+<span id="cb110-4"><a href="expression-data.html#cb110-4"></a>allTPMFinal=allTPM[ ,<span class="op">-</span>rmSamples]</span>
+<span id="cb110-5"><a href="expression-data.html#cb110-5"></a>allFPKMFinal=allFPKM[ ,<span class="op">-</span>rmSamples]</span>
+<span id="cb110-6"><a href="expression-data.html#cb110-6"></a>infoTableFinal=infoTable[<span class="op">-</span>rmSamples, ]</span></code></pre></div>
 <p>The omitted samples are:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="expression-data.html#cb112-1"></a><span class="kw">kable</span>(TVals[rmSamples, ])</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="expression-data.html#cb111-1"></a><span class="kw">kable</span>(TVals[rmSamples, ])</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -761,20 +759,20 @@ NMU13_RAU_Ep
 <p>expression ~ Celltype + factor (Batch)</p>
 <p>and keep the genes which have a total count of at least half the number of samples. ie.
 <span class="math display">\[ sum(gene_i) &gt; N_{samples}/2 \]</span></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="expression-data.html#cb113-1"></a><span class="co"># remove rows where counts are low</span></span>
-<span id="cb113-2"><a href="expression-data.html#cb113-2"></a><span class="kw">rownames</span>(infoTableFinal)=infoTableFinal<span class="op">$</span>SampleID</span>
-<span id="cb113-3"><a href="expression-data.html#cb113-3"></a>infoTableFinal<span class="op">$</span>Batch=<span class="kw">factor</span>(infoTableFinal<span class="op">$</span>Batch)</span>
-<span id="cb113-4"><a href="expression-data.html#cb113-4"></a>dds=<span class="kw">DESeqDataSetFromMatrix</span>(allstarFinal, infoTableFinal, <span class="dt">design=</span><span class="op">~</span>Fraction<span class="op">+</span><span class="kw">factor</span>(Batch)) <span class="co">## change class</span></span>
-<span id="cb113-5"><a href="expression-data.html#cb113-5"></a>keep=<span class="kw">rowSums</span>(<span class="kw">counts</span>(dds))<span class="op">&gt;</span>(<span class="kw">ncol</span>(dds)<span class="op">/</span><span class="dv">2</span>)</span>
-<span id="cb113-6"><a href="expression-data.html#cb113-6"></a>dds=dds[keep, ]</span>
-<span id="cb113-7"><a href="expression-data.html#cb113-7"></a>dds=<span class="kw">DESeq</span>(dds)</span>
-<span id="cb113-8"><a href="expression-data.html#cb113-8"></a></span>
-<span id="cb113-9"><a href="expression-data.html#cb113-9"></a>vsd &lt;-<span class="st"> </span><span class="kw">varianceStabilizingTransformation</span>(dds)</span>
-<span id="cb113-10"><a href="expression-data.html#cb113-10"></a>normalizedTableVSD &lt;-<span class="st"> </span><span class="kw">assay</span>(vsd)</span>
-<span id="cb113-11"><a href="expression-data.html#cb113-11"></a></span>
-<span id="cb113-12"><a href="expression-data.html#cb113-12"></a>infoTableFinal<span class="op">$</span>TumorIDnew=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(infoTableFinal<span class="op">$</span>TumorID, Cdata<span class="op">$</span>TumorID)]</span>
-<span id="cb113-13"><a href="expression-data.html#cb113-13"></a></span>
-<span id="cb113-14"><a href="expression-data.html#cb113-14"></a><span class="kw">save</span>(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../dds_normalised_data_newstar_RNAseq%s_%s.RData&quot;</span>, BatchNo, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="expression-data.html#cb112-1"></a><span class="co"># remove rows where counts are low</span></span>
+<span id="cb112-2"><a href="expression-data.html#cb112-2"></a><span class="kw">rownames</span>(infoTableFinal)=infoTableFinal<span class="op">$</span>SampleID</span>
+<span id="cb112-3"><a href="expression-data.html#cb112-3"></a>infoTableFinal<span class="op">$</span>Batch=<span class="kw">factor</span>(infoTableFinal<span class="op">$</span>Batch)</span>
+<span id="cb112-4"><a href="expression-data.html#cb112-4"></a>dds=<span class="kw">DESeqDataSetFromMatrix</span>(allstarFinal, infoTableFinal, <span class="dt">design=</span><span class="op">~</span>Fraction<span class="op">+</span><span class="kw">factor</span>(Batch)) <span class="co">## change class</span></span>
+<span id="cb112-5"><a href="expression-data.html#cb112-5"></a>keep=<span class="kw">rowSums</span>(<span class="kw">counts</span>(dds))<span class="op">&gt;</span>(<span class="kw">ncol</span>(dds)<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb112-6"><a href="expression-data.html#cb112-6"></a>dds=dds[keep, ]</span>
+<span id="cb112-7"><a href="expression-data.html#cb112-7"></a>dds=<span class="kw">DESeq</span>(dds)</span>
+<span id="cb112-8"><a href="expression-data.html#cb112-8"></a></span>
+<span id="cb112-9"><a href="expression-data.html#cb112-9"></a>vsd &lt;-<span class="st"> </span><span class="kw">varianceStabilizingTransformation</span>(dds)</span>
+<span id="cb112-10"><a href="expression-data.html#cb112-10"></a>normalizedTableVSD &lt;-<span class="st"> </span><span class="kw">assay</span>(vsd)</span>
+<span id="cb112-11"><a href="expression-data.html#cb112-11"></a></span>
+<span id="cb112-12"><a href="expression-data.html#cb112-12"></a>infoTableFinal<span class="op">$</span>TumorIDnew=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(infoTableFinal<span class="op">$</span>TumorID, Cdata<span class="op">$</span>TumorID)]</span>
+<span id="cb112-13"><a href="expression-data.html#cb112-13"></a></span>
+<span id="cb112-14"><a href="expression-data.html#cb112-14"></a><span class="kw">save</span>(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../dds_normalised_data_newstar_RNAseq%s_%s.RData&quot;</span>, BatchNo, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 <div id="preliminary-visualisation-to-remove-outliers" class="section level3">
 <h3><span class="header-section-number">6.3.1</span> preliminary visualisation (to remove outliers)</h3>
 <p>Below are PCA plots based on:</p>
@@ -782,90 +780,90 @@ NMU13_RAU_Ep
 <li>Batch</li>
 <li>CellType</li>
 </ul>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="expression-data.html#cb114-1"></a>vsd2 &lt;-<span class="st"> </span><span class="kw">vst</span>(dds)</span>
-<span id="cb114-2"><a href="expression-data.html#cb114-2"></a></span>
-<span id="cb114-3"><a href="expression-data.html#cb114-3"></a><span class="co">#pdf(sprintf(&quot;../rslt/DESeq/PCA_preliminary_%s_%s.pdf&quot;,BatchNo, Sys.Date() ), width=8, height=6)</span></span>
-<span id="cb114-4"><a href="expression-data.html#cb114-4"></a></span>
-<span id="cb114-5"><a href="expression-data.html#cb114-5"></a><span class="kw">plotPCA</span>(vsd2, <span class="st">&quot;Batch&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Batch&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="expression-data.html#cb113-1"></a>vsd2 &lt;-<span class="st"> </span><span class="kw">vst</span>(dds)</span>
+<span id="cb113-2"><a href="expression-data.html#cb113-2"></a></span>
+<span id="cb113-3"><a href="expression-data.html#cb113-3"></a><span class="co">#pdf(sprintf(&quot;../rslt/DESeq/PCA_preliminary_%s_%s.pdf&quot;,BatchNo, Sys.Date() ), width=8, height=6)</span></span>
+<span id="cb113-4"><a href="expression-data.html#cb113-4"></a></span>
+<span id="cb113-5"><a href="expression-data.html#cb113-5"></a><span class="kw">plotPCA</span>(vsd2, <span class="st">&quot;Batch&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Batch&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-1.png" width="672" /></p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="expression-data.html#cb115-1"></a><span class="kw">plotPCA</span>(vsd2, <span class="st">&quot;Fraction&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Fraction&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="expression-data.html#cb114-1"></a><span class="kw">plotPCA</span>(vsd2, <span class="st">&quot;Fraction&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Fraction&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-2.png" width="672" /></p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="expression-data.html#cb116-1"></a><span class="kw">plotPCA</span>(vsd2, <span class="kw">c</span>(<span class="st">&quot;Fraction&quot;</span>))<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name)) </span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="expression-data.html#cb115-1"></a><span class="kw">plotPCA</span>(vsd2, <span class="kw">c</span>(<span class="st">&quot;Fraction&quot;</span>))<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name)) </span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/vsd-transform-3.png" width="672" /></p>
 <p>Batches in general separate out well, however, some samples appear to be outliers in comparison to the main group. We look in closer detail the CD45, DN and EpCAM populations.</p>
 <p>In the CD45 population, narrow down to only immune related genes to see if there is a difference.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="expression-data.html#cb117-1"></a><span class="kw">plotPCA</span>(vsd2[<span class="kw">rownames</span>(<span class="kw">assay</span>(vsd2))<span class="op">%in%</span>RatAllImm  , <span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="kw">c</span>(<span class="st">&quot;Growth&quot;</span>))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;CD45 only Growth&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="expression-data.html#cb116-1"></a><span class="kw">plotPCA</span>(vsd2[<span class="kw">rownames</span>(<span class="kw">assay</span>(vsd2))<span class="op">%in%</span>RatAllImm  , <span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="kw">c</span>(<span class="st">&quot;Growth&quot;</span>))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;CD45 only Growth&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="expression-data.html#cb118-1"></a><span class="kw">plotPCA</span>(vsd2[ , <span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="st">&quot;Growth&quot;</span>)<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Ep only Growth&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="expression-data.html#cb117-1"></a><span class="kw">plotPCA</span>(vsd2[ , <span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="st">&quot;Growth&quot;</span>)<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;Ep only Growth&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-2.png" width="672" /></p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="expression-data.html#cb119-1"></a><span class="kw">plotPCA</span>(vsd2[ , <span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="st">&quot;Growth&quot;</span>)<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;DN only Growth&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="expression-data.html#cb118-1"></a><span class="kw">plotPCA</span>(vsd2[ , <span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">colnames</span>(vsd2))], <span class="st">&quot;Growth&quot;</span>)<span class="op">+</span><span class="kw">geom_label</span>(<span class="kw">aes</span>(<span class="dt">label =</span> name))<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;DN only Growth&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-51-3.png" width="672" /></p>
 <p>Based on the above plots, we remove the following outliers and re-run the normalisation:</p>
 <ul>
 <li>2R_D_DN</li>
 <li>4L_B_CD45</li>
 </ul>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="expression-data.html#cb120-1"></a>rmThese=<span class="kw">c</span>(<span class="st">&quot;2R_D_DN&quot;</span>, <span class="st">&quot;4L_B_CD45&quot;</span>)</span>
-<span id="cb120-2"><a href="expression-data.html#cb120-2"></a></span>
-<span id="cb120-3"><a href="expression-data.html#cb120-3"></a><span class="co">## Note based on the above plots, sample &quot;2R_D_DN&quot; is misclassified as a cd45 sample. Need to remove this sample and re-run the preprocessing:</span></span>
-<span id="cb120-4"><a href="expression-data.html#cb120-4"></a>allstarFinal=allstarFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allstarFinal))]</span>
-<span id="cb120-5"><a href="expression-data.html#cb120-5"></a>infoTableFinal=infoTableFinal[<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">rownames</span>(infoTableFinal)), ]</span>
-<span id="cb120-6"><a href="expression-data.html#cb120-6"></a>allrsemFinal=allrsemFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allrsemFinal))]</span>
-<span id="cb120-7"><a href="expression-data.html#cb120-7"></a>allTPMFinal=allTPMFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allTPMFinal))]</span>
-<span id="cb120-8"><a href="expression-data.html#cb120-8"></a></span>
-<span id="cb120-9"><a href="expression-data.html#cb120-9"></a>dds=<span class="kw">DESeqDataSetFromMatrix</span>(allstarFinal, infoTableFinal, <span class="dt">design=</span><span class="op">~</span>Fraction<span class="op">+</span><span class="kw">factor</span>(Batch)) <span class="co">## change class</span></span>
-<span id="cb120-10"><a href="expression-data.html#cb120-10"></a>keep=<span class="kw">rowSums</span>(<span class="kw">counts</span>(dds))<span class="op">&gt;</span>(<span class="kw">ncol</span>(dds)<span class="op">/</span><span class="dv">2</span>)</span>
-<span id="cb120-11"><a href="expression-data.html#cb120-11"></a>dds=dds[keep, ]</span>
-<span id="cb120-12"><a href="expression-data.html#cb120-12"></a>dds=<span class="kw">DESeq</span>(dds)</span>
-<span id="cb120-13"><a href="expression-data.html#cb120-13"></a></span>
-<span id="cb120-14"><a href="expression-data.html#cb120-14"></a>vsd &lt;-<span class="st"> </span><span class="kw">varianceStabilizingTransformation</span>(dds)</span>
-<span id="cb120-15"><a href="expression-data.html#cb120-15"></a>normalizedTableVSD &lt;-<span class="st"> </span><span class="kw">assay</span>(vsd)</span>
-<span id="cb120-16"><a href="expression-data.html#cb120-16"></a></span>
-<span id="cb120-17"><a href="expression-data.html#cb120-17"></a>infoTableFinal<span class="op">$</span>MHEpCAM=df.Spatial<span class="op">$</span>MH.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
-<span id="cb120-18"><a href="expression-data.html#cb120-18"></a>infoTableFinal<span class="op">$</span>IFEpCAM=df.Spatial<span class="op">$</span>IF.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
-<span id="cb120-19"><a href="expression-data.html#cb120-19"></a>infoTableFinal<span class="op">$</span>knnEpCAM=df.Spatial<span class="op">$</span>knn.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
-<span id="cb120-20"><a href="expression-data.html#cb120-20"></a>infoTableFinal<span class="op">$</span>CD8Frac=df.Spatial<span class="op">$</span>CD8frac[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID),<span class="kw">rownames</span>(df.Spatial))]</span>
-<span id="cb120-21"><a href="expression-data.html#cb120-21"></a></span>
-<span id="cb120-22"><a href="expression-data.html#cb120-22"></a><span class="co"># infoTableFinal$Treatment=RNADNAsamples$Treatment[match(infoTableFinal$FqFile, RNADNAsamples$FqFile.CD45)]</span></span>
-<span id="cb120-23"><a href="expression-data.html#cb120-23"></a><span class="co"># idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.Ep)</span></span>
-<span id="cb120-24"><a href="expression-data.html#cb120-24"></a><span class="co"># infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]</span></span>
-<span id="cb120-25"><a href="expression-data.html#cb120-25"></a><span class="co"># idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)</span></span>
-<span id="cb120-26"><a href="expression-data.html#cb120-26"></a><span class="co"># infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]</span></span>
-<span id="cb120-27"><a href="expression-data.html#cb120-27"></a></span>
-<span id="cb120-28"><a href="expression-data.html#cb120-28"></a><span class="kw">save</span>(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/dds_normalised_data_newstar_RNAseq_%s_rm_outliers.RData&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="expression-data.html#cb119-1"></a>rmThese=<span class="kw">c</span>(<span class="st">&quot;2R_D_DN&quot;</span>, <span class="st">&quot;4L_B_CD45&quot;</span>)</span>
+<span id="cb119-2"><a href="expression-data.html#cb119-2"></a></span>
+<span id="cb119-3"><a href="expression-data.html#cb119-3"></a><span class="co">## Note based on the above plots, sample &quot;2R_D_DN&quot; is misclassified as a cd45 sample. Need to remove this sample and re-run the preprocessing:</span></span>
+<span id="cb119-4"><a href="expression-data.html#cb119-4"></a>allstarFinal=allstarFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allstarFinal))]</span>
+<span id="cb119-5"><a href="expression-data.html#cb119-5"></a>infoTableFinal=infoTableFinal[<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">rownames</span>(infoTableFinal)), ]</span>
+<span id="cb119-6"><a href="expression-data.html#cb119-6"></a>allrsemFinal=allrsemFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allrsemFinal))]</span>
+<span id="cb119-7"><a href="expression-data.html#cb119-7"></a>allTPMFinal=allTPMFinal[ ,<span class="op">-</span><span class="kw">match</span>(rmThese, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb119-8"><a href="expression-data.html#cb119-8"></a></span>
+<span id="cb119-9"><a href="expression-data.html#cb119-9"></a>dds=<span class="kw">DESeqDataSetFromMatrix</span>(allstarFinal, infoTableFinal, <span class="dt">design=</span><span class="op">~</span>Fraction<span class="op">+</span><span class="kw">factor</span>(Batch)) <span class="co">## change class</span></span>
+<span id="cb119-10"><a href="expression-data.html#cb119-10"></a>keep=<span class="kw">rowSums</span>(<span class="kw">counts</span>(dds))<span class="op">&gt;</span>(<span class="kw">ncol</span>(dds)<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb119-11"><a href="expression-data.html#cb119-11"></a>dds=dds[keep, ]</span>
+<span id="cb119-12"><a href="expression-data.html#cb119-12"></a>dds=<span class="kw">DESeq</span>(dds)</span>
+<span id="cb119-13"><a href="expression-data.html#cb119-13"></a></span>
+<span id="cb119-14"><a href="expression-data.html#cb119-14"></a>vsd &lt;-<span class="st"> </span><span class="kw">varianceStabilizingTransformation</span>(dds)</span>
+<span id="cb119-15"><a href="expression-data.html#cb119-15"></a>normalizedTableVSD &lt;-<span class="st"> </span><span class="kw">assay</span>(vsd)</span>
+<span id="cb119-16"><a href="expression-data.html#cb119-16"></a></span>
+<span id="cb119-17"><a href="expression-data.html#cb119-17"></a>infoTableFinal<span class="op">$</span>MHEpCAM=df.Spatial<span class="op">$</span>MH.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
+<span id="cb119-18"><a href="expression-data.html#cb119-18"></a>infoTableFinal<span class="op">$</span>IFEpCAM=df.Spatial<span class="op">$</span>IF.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
+<span id="cb119-19"><a href="expression-data.html#cb119-19"></a>infoTableFinal<span class="op">$</span>knnEpCAM=df.Spatial<span class="op">$</span>knn.EpCAM[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID), <span class="kw">rownames</span>(df.Spatial))]</span>
+<span id="cb119-20"><a href="expression-data.html#cb119-20"></a>infoTableFinal<span class="op">$</span>CD8Frac=df.Spatial<span class="op">$</span>CD8frac[<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, infoTableFinal<span class="op">$</span>TumorID),<span class="kw">rownames</span>(df.Spatial))]</span>
+<span id="cb119-21"><a href="expression-data.html#cb119-21"></a></span>
+<span id="cb119-22"><a href="expression-data.html#cb119-22"></a><span class="co"># infoTableFinal$Treatment=RNADNAsamples$Treatment[match(infoTableFinal$FqFile, RNADNAsamples$FqFile.CD45)]</span></span>
+<span id="cb119-23"><a href="expression-data.html#cb119-23"></a><span class="co"># idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.Ep)</span></span>
+<span id="cb119-24"><a href="expression-data.html#cb119-24"></a><span class="co"># infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]</span></span>
+<span id="cb119-25"><a href="expression-data.html#cb119-25"></a><span class="co"># idx=match(infoTableFinal$FqFile, RNADNAsamples$FqFile.DN)</span></span>
+<span id="cb119-26"><a href="expression-data.html#cb119-26"></a><span class="co"># infoTableFinal$Treatment[-which(is.na(idx))]=RNADNAsamples$Treatment[na.omit(idx)]</span></span>
+<span id="cb119-27"><a href="expression-data.html#cb119-27"></a></span>
+<span id="cb119-28"><a href="expression-data.html#cb119-28"></a><span class="kw">save</span>(dds, vsd,allstarFinal, allrsemFinal,allTPMFinal, normalizedTableVSD,infoTableFinal,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/dds_normalised_data_newstar_RNAseq_%s_rm_outliers.RData&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 </div>
 </div>
 <div id="processing-files-for-external-software" class="section level2">
 <h2><span class="header-section-number">6.4</span> Processing files for external software</h2>
 <p>We also process these files for external software (TIMER) - which can also run cibersort</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="expression-data.html#cb121-1"></a>Rnames=<span class="kw">rownames</span>(allrsemFinal)</span>
-<span id="cb121-2"><a href="expression-data.html#cb121-2"></a>mNames1=SymHum2Rat<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(Rnames, SymHum2Rat<span class="op">$</span>RGD.symbol)]</span>
-<span id="cb121-3"><a href="expression-data.html#cb121-3"></a>mNames2=Rat2Hum<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(Rnames, Rat2Hum<span class="op">$</span>RGD.symbol)]</span>
-<span id="cb121-4"><a href="expression-data.html#cb121-4"></a></span>
-<span id="cb121-5"><a href="expression-data.html#cb121-5"></a>HumNameFinal=<span class="kw">ifelse</span>(<span class="kw">is.na</span>(mNames1), mNames2, mNames1)</span>
-<span id="cb121-6"><a href="expression-data.html#cb121-6"></a>x1=<span class="kw">which</span>(<span class="kw">is.na</span>(HumNameFinal)<span class="op">==</span>T)</span>
-<span id="cb121-7"><a href="expression-data.html#cb121-7"></a></span>
-<span id="cb121-8"><a href="expression-data.html#cb121-8"></a><span class="co">## save rsem for xcell</span></span>
-<span id="cb121-9"><a href="expression-data.html#cb121-9"></a>allrsemSave=allrsemFinal[<span class="op">-</span>x1, ]</span>
-<span id="cb121-10"><a href="expression-data.html#cb121-10"></a><span class="kw">rownames</span>(allrsemSave)=<span class="kw">na.omit</span>(HumNameFinal)</span>
-<span id="cb121-11"><a href="expression-data.html#cb121-11"></a></span>
-<span id="cb121-12"><a href="expression-data.html#cb121-12"></a><span class="kw">write.table</span>(allrsemSave, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/RSEM_for_xcell%s__%s.txt&quot;</span>,BatchNo, <span class="kw">Sys.Date</span>()), <span class="dt">col.names =</span> <span class="ot">NA</span>)</span>
-<span id="cb121-13"><a href="expression-data.html#cb121-13"></a></span>
-<span id="cb121-14"><a href="expression-data.html#cb121-14"></a><span class="co">## save row names for cibersort</span></span>
-<span id="cb121-15"><a href="expression-data.html#cb121-15"></a>alltpmSave=allTPMFinal[<span class="op">-</span>x1, ]</span>
-<span id="cb121-16"><a href="expression-data.html#cb121-16"></a><span class="kw">rownames</span>(alltpmSave)=<span class="kw">na.omit</span>(HumNameFinal)</span>
-<span id="cb121-17"><a href="expression-data.html#cb121-17"></a><span class="kw">write.table</span>(alltpmSave, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/TPM_for_cibersort%s_%s.txt&quot;</span>,BatchNo, <span class="kw">Sys.Date</span>()), <span class="dt">col.names =</span> <span class="ot">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="expression-data.html#cb120-1"></a>Rnames=<span class="kw">rownames</span>(allrsemFinal)</span>
+<span id="cb120-2"><a href="expression-data.html#cb120-2"></a>mNames1=SymHum2Rat<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(Rnames, SymHum2Rat<span class="op">$</span>RGD.symbol)]</span>
+<span id="cb120-3"><a href="expression-data.html#cb120-3"></a>mNames2=Rat2Hum<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(Rnames, Rat2Hum<span class="op">$</span>RGD.symbol)]</span>
+<span id="cb120-4"><a href="expression-data.html#cb120-4"></a></span>
+<span id="cb120-5"><a href="expression-data.html#cb120-5"></a>HumNameFinal=<span class="kw">ifelse</span>(<span class="kw">is.na</span>(mNames1), mNames2, mNames1)</span>
+<span id="cb120-6"><a href="expression-data.html#cb120-6"></a>x1=<span class="kw">which</span>(<span class="kw">is.na</span>(HumNameFinal)<span class="op">==</span>T)</span>
+<span id="cb120-7"><a href="expression-data.html#cb120-7"></a></span>
+<span id="cb120-8"><a href="expression-data.html#cb120-8"></a><span class="co">## save rsem for xcell</span></span>
+<span id="cb120-9"><a href="expression-data.html#cb120-9"></a>allrsemSave=allrsemFinal[<span class="op">-</span>x1, ]</span>
+<span id="cb120-10"><a href="expression-data.html#cb120-10"></a><span class="kw">rownames</span>(allrsemSave)=<span class="kw">na.omit</span>(HumNameFinal)</span>
+<span id="cb120-11"><a href="expression-data.html#cb120-11"></a></span>
+<span id="cb120-12"><a href="expression-data.html#cb120-12"></a><span class="kw">write.table</span>(allrsemSave, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/RSEM_for_xcell%s__%s.txt&quot;</span>,BatchNo, <span class="kw">Sys.Date</span>()), <span class="dt">col.names =</span> <span class="ot">NA</span>)</span>
+<span id="cb120-13"><a href="expression-data.html#cb120-13"></a></span>
+<span id="cb120-14"><a href="expression-data.html#cb120-14"></a><span class="co">## save row names for cibersort</span></span>
+<span id="cb120-15"><a href="expression-data.html#cb120-15"></a>alltpmSave=allTPMFinal[<span class="op">-</span>x1, ]</span>
+<span id="cb120-16"><a href="expression-data.html#cb120-16"></a><span class="kw">rownames</span>(alltpmSave)=<span class="kw">na.omit</span>(HumNameFinal)</span>
+<span id="cb120-17"><a href="expression-data.html#cb120-17"></a><span class="kw">write.table</span>(alltpmSave, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/TPM_for_cibersort%s_%s.txt&quot;</span>,BatchNo, <span class="kw">Sys.Date</span>()), <span class="dt">col.names =</span> <span class="ot">NA</span>)</span></code></pre></div>
 <p>Also split up the immunotherapy and the characterisation cohorts.
 Save the mouse names for TIMER cistrome: check that this is actually required for TIMER</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="expression-data.html#cb122-1"></a></span>
-<span id="cb122-2"><a href="expression-data.html#cb122-2"></a><span class="co"># Write files for CIBERSORT using rgd. Use cohort specific values</span></span>
-<span id="cb122-3"><a href="expression-data.html#cb122-3"></a>allTPMCD45=allTPMFinal[ , <span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>infoTableFinal<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span>)]</span>
-<span id="cb122-4"><a href="expression-data.html#cb122-4"></a></span>
-<span id="cb122-5"><a href="expression-data.html#cb122-5"></a><span class="kw">write.csv</span>(allTPMCD45, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/CD45_TPM_rgd_names_prog_%s.csv&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
-<span id="cb122-6"><a href="expression-data.html#cb122-6"></a></span>
-<span id="cb122-7"><a href="expression-data.html#cb122-7"></a>allTPMCD45=allTPMFinal[ , <span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>infoTableFinal<span class="op">$</span>Cohort<span class="op">!=</span><span class="st">&quot;Progression&quot;</span>)]</span>
-<span id="cb122-8"><a href="expression-data.html#cb122-8"></a></span>
-<span id="cb122-9"><a href="expression-data.html#cb122-9"></a><span class="kw">write.csv</span>(allTPMCD45, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/CD45_TPM_rgd_names_char_%s.csv&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="expression-data.html#cb121-1"></a></span>
+<span id="cb121-2"><a href="expression-data.html#cb121-2"></a><span class="co"># Write files for CIBERSORT using rgd. Use cohort specific values</span></span>
+<span id="cb121-3"><a href="expression-data.html#cb121-3"></a>allTPMCD45=allTPMFinal[ , <span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>infoTableFinal<span class="op">$</span>Cohort<span class="op">==</span><span class="st">&quot;Progression&quot;</span>)]</span>
+<span id="cb121-4"><a href="expression-data.html#cb121-4"></a></span>
+<span id="cb121-5"><a href="expression-data.html#cb121-5"></a><span class="kw">write.csv</span>(allTPMCD45, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/CD45_TPM_rgd_names_prog_%s.csv&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
+<span id="cb121-6"><a href="expression-data.html#cb121-6"></a></span>
+<span id="cb121-7"><a href="expression-data.html#cb121-7"></a>allTPMCD45=allTPMFinal[ , <span class="kw">which</span>(infoTableFinal<span class="op">$</span>Fraction<span class="op">==</span><span class="st">&quot;CD45&quot;</span> <span class="op">&amp;</span><span class="st"> </span>infoTableFinal<span class="op">$</span>Cohort<span class="op">!=</span><span class="st">&quot;Progression&quot;</span>)]</span>
+<span id="cb121-8"><a href="expression-data.html#cb121-8"></a></span>
+<span id="cb121-9"><a href="expression-data.html#cb121-9"></a><span class="kw">write.csv</span>(allTPMCD45, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../output4external/CD45_TPM_rgd_names_char_%s.csv&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 
 </div>
 </div>

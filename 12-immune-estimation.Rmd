@@ -419,7 +419,7 @@ write.csv(df2, file="nature-tables/4f.csv")
 #dev.off()
 ```
 
-Make the plots with individual samples:
+Make the plots with individual samples. Firstly TIMER
 
 ```{r 4f, fig.cap="Progression CIBERSORT TIMER"}
 
@@ -436,7 +436,11 @@ T1melt$variable=factor(T1melt$variable, x2)
 
 ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free", drop=T)+ggtitle("TIMER:prog growth")+theme(axis.text.x = element_text(angle = 90))+
    scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+```
 
+then CIBERSORT
+
+```{r}
 ggplot(T1melt, aes(x=variable, y=value, fill=cell_type))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free", drop=T)+ggtitle("TIMER:prog treatment")+theme(axis.text.x = element_text(angle = 90))+
    scale_fill_manual(values=c("#66C2A5", "#FED976", "#FEEBE2" ,"#AE017E", "#2171B5",   "#BDD7E7", "#EFF3FF"))+theme_bw()+theme(axis.text.x = element_text(angle = 90))
 

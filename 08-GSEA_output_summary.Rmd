@@ -86,12 +86,11 @@ write.csv(Ntab, file="nature-tables/4h.csv")
 
 ## Comparisons based on treatment
 
-
 We can do the same analysis for the DN compartment, but for comparing treatment effect:
 
 ```{r Ext3h, fig.cap="DN assoc treatment GSEA"}
 
-d1=DNismr3$ProcessNetworks[, c("imm_vs_control NES", "stable_vs_growing padj")]
+d1=DNismr3$ProcessNetworks[, c("imm_vs_control NES", "imm_vs_control padj")]
 ds=which(d1[ ,2]<0.05)
 
 termA=d1[ds, ]
@@ -104,18 +103,6 @@ TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
 
 ## check whether this runs:
 
-# TermType[which(TermType=="Apoptosis")]="Transcription"
-# TermType[which(TermType=="Proliferation")]="Transcription"
-# TermType[which(TermType=="Translation")]="Transcription"
-# testType=c("Inflammation", "Immune response", "Transcription")
-# 
-# #pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf", height=8, width=8)
-# par(oma=c(2, 5, 0,0), mfrow=c(2,2))
-# for (i in testType){
-#   barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
-#           xlab="NES", main=testType, col=factor(sign(termA[which(TermType==i), 1])))
-# }
-
 barplot(as.numeric(termA[, 1]), names.arg = sigTerms, horiz = T, las=2,
          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
 
@@ -123,6 +110,24 @@ Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 
 write.csv(Ntab, file="nature-tables/Ext3h.csv")
 ```
+
+Also look at the output for combo treatment vs vehcile
+
+```{r}
+d1=DNismr3$ProcessNetworks[, c("PDL1+LY_vs_Vehicle NES", "PDL1+LY_vs_Vehicle padj")]
+ds=which(d1[ ,2]<0.05)
+
+termA=d1[ds, ]
+
+TermsA=sapply(strsplit(rownames(termA), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50)
+
+barplot(as.numeric(termA[, 1]), names.arg = TermsA, horiz = T, las=2,
+         xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
+
+
+```
+
 
 
 ## Pathways of Interest 2

@@ -29,15 +29,12 @@ CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.po
 
 ### Frequency of gains and losses across the genome
 
-```{r}
+```{r bicseq, fig.cap="summary of regions of frequent gains and losses"}
 # plot the frequencies
 Samp1=cnFreq_mod(AllDCN2,CN_low_cutoff=1.4, CN_high_cutoff=2.8, genome=cytoInfo)
 Samp1$plot
-```
 
-```{r}
-save(Samp1, file="figure-outputs/CNVcalls_summary.RData")
-
+write.csv(Samp1$data, file="nature-tables/Ext1l_CNV_frequencies.csv")
 ```
 
 ### Loci which have a hit in at least 30\% of samples

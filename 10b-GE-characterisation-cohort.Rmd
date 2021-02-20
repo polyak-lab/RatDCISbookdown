@@ -219,7 +219,7 @@ EpddsChar=DESeq(EpddsChar)
 
 First, have a look at the samples in a PCA plot: do they separate based on size:
 
-```{r Ext1-pca, fig.cap="PCA plot of epithelial samples"}
+```{r Ext1f, fig.cap="PCA plot of epithelial samples"}
 
 #pdf("~/Desktop/S1CD-Ep-characterisation-PCA-outcome.pdf", width=6, height=6)
 
@@ -363,9 +363,9 @@ boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 
 ```
 
-## Check expression of checkpoint proteins
+### Check expression of checkpoint proteins
 
-```{r}
+```{r Ext2f, fig.cap="checkpoint proteins expressed in epithelial samples"}
 
 ImmSuppAPCRat=sapply(ImmSuppAPC, function(x) na.omit(SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)]))
 
@@ -377,6 +377,8 @@ rmx=which(is.na(vstB[ ,1]))
 
 heatmap.2(vstB[-rmx, ], col=RdBu[11:1], scale="none", trace="none", 
           RowSideColors = ColSideCols[-rmx], hclustfun = hclust.ave)
+
+write.csv(vstB[-rmx, ], file="nature-tables/Ext2f_checkpoint_expression.csv")
 
 ```
 

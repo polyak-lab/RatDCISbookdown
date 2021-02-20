@@ -1,5 +1,7 @@
 # Cohort Summary Table
 
+## Total number of samples
+
 Firstly, look at the total number of samples:
 
 ```{r}
@@ -8,7 +10,6 @@ avtum=table(Cdata$Rat_ID)
 Cchar=Cdata[Cdata$Cohort!="Progression", ]
 Cprog=Cdata[Cdata$Cohort=="Progression", ]
 ```
-
 
 Feature | Levels | N
 --------|---------|-----
@@ -20,7 +21,7 @@ Total No Rats | All| `r length(unique(Cdata$Rat_ID))`
 - | Progression | `r length(unique(Cdata$Rat_ID[which(Cdata$Cohort=="Progression")]))`
 No tumours per rat | | `r round(mean(avtum),2) ` ( `r quantile(avtum, c(0.1, 0.9))`)
 
-### Compare the characterisation vs progression cohort
+## Compare the characterisation vs progression cohort
 
 Feature | Levels | Characterisation | Progression
 --------|---------|-------- |------
@@ -65,7 +66,7 @@ Trichrome Data | No tumors | |`r length(which(!is.na(Cprog$Trichrome)))`
 FACS data | Comprehensive|  | `r length(which(colnames(Fdata)%in%gsub("_", "", Cprog$TumorID)))`
 - | EpCAM/CD45 | `r length(which(!is.na(Cchar$CD45.Frac.FACS)))` |  `r length(which(!is.na(Cprog$CD45.Frac.FACS)))` 
 
-### Summary of the RNA data
+## Summary of the RNA data
 
 Below is a table of the samples with RNA information
 
