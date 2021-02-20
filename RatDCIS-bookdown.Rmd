@@ -5385,9 +5385,9 @@ head(colDataTCGA)
 
 TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnames(TCGArsem2))]), colDataTCGA, design=~TCGAvalcut)
 
-TCGAdeseq=DESeq(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
+TCGAdeseq=DESeq(TCGAdeseq)
 
-TCGAdeseqRes=results(TCGAdeseq)
+TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
 
 write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
@@ -8622,12 +8622,12 @@ ax1=colnames(vstEpInf)
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
-             inf=vstEpInf$Inflammation3[-which(is.na(t2))],
+             inf=vstEpInf$Inflammation2[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))])
 
-pdf("figure-outputs/5I_trichrome.pdf", height=5, width=4)
+#pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-dev.off()
+#dev.off()
 write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
 
 ```
@@ -8770,7 +8770,27 @@ S4=S4[-which(S3$gainProportion==0), ]
 
 ggplot(S4, aes(x=xLoc, y=gainProportion, width=width*1.2, label=label, col=col))+geom_bar(stat = "identity")+geom_label_repel()+theme_bw()+xlim(0, chrInfo$sumdist2[22])+geom_vline(xintercept=chrInfo$sumdist2,col="grey")+scale_colour_manual(values=c("blue", "red"))+annotate("text", x=chrInfo$sumdist, y=rep(-1, 22), label=chrInfo$Chromosome, col="black")
 
+```
 
+## Summary of the sequencing depth
+
+Below, do a quick summary of the WGS data: what is the coverage, and plot the percentage mapping of the coverage:
+
+```{r}
+SeqData=read.delim("../data/wholegenome_mutations/summary_Sequencing_output.txt", sep="\t")
+
+hist(SeqData$MEAN_COVERAGE, breaks=10)
+```
+
+Also, extract the information about coverage:
+
+```{r}
+SeqDatam=melt(SeqData[ ,c(grep("PCT_[0-9]*X", colnames(SeqData)), ncol(SeqData))])
+SeqDatam$coverage2=sapply(strsplit(as.character(SeqDatam$variable), "_"), function(x) x[2])
+SeqDatam$coverage3=as.numeric(substr(SeqDatam$coverage2, 1, nchar(SeqDatam$coverage2)-1))
+
+
+ggplot(SeqDatam, aes(x=coverage3, y=value, col=Sample))+geom_line()+theme_bw()+ggtitle("WGS coverage")+ylab("Percentage Reads")+xlab("Coverage X")+xlim(c(0, 75))
 ```
 
 <!--chapter:end:16-BICseqout.Rmd-->

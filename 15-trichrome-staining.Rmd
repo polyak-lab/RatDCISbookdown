@@ -112,12 +112,12 @@ ax1=colnames(vstEpInf)
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
-             inf=vstEpInf$Inflammation3[-which(is.na(t2))],
+             inf=vstEpInf$Inflammation2[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))])
 
-pdf("figure-outputs/5I_trichrome.pdf", height=5, width=4)
+#pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-dev.off()
+#dev.off()
 write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
 
 ```

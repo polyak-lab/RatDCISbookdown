@@ -1,0 +1,28 @@
+Code required to reproduce results from the study 'NMU-induced sprague dawley rat model of breast cancer treated with immunotherapy to prevent tumor progression' by Gil del Alcazar et al
+
+Note: Create a new folder in this directory and move all .Rmd/.yml/.html header files into it, and change working dirctory  prior to compile
+
+Folder Structure: (DO THIS BEFORE COMPILE)
+
+FOLDER:
+./markdownFiles/ (copy .Rmd/.html/.yml here)
+./data/
+./metadata/
+./rscript/
+
+CURRENT STRUCTURE:
+FOLDER:
+./data/
+./matadata/
+./rscript/
+index.Rmd
+etc
+etc
+
+
+NOTE: some annotation files are not provided, and can be downloaded from the indicated sources (See the first chapter of the Rbook)
+This includes gene sets from MSigDb, Metacore pathways (proprietary), and reference genome files
+
+NOTE: The following files are too large to upload
+data/WSI_data/locationData
+
