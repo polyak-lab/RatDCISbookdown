@@ -276,10 +276,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="epcam-inflammatory-vs-non-inflammatory-samples.html"><a href="epcam-inflammatory-vs-non-inflammatory-samples.html#luminal-only-non-inflammtory-samples-samples"><i class="fa fa-check"></i><b>14.5</b> Luminal-only non-inflammtory samples samples</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>15</b> Associate Epcam+ inflammatory with survival</a><ul>
-<li class="chapter" data-level="15.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.1</b> Associating CD74 with phenotype and outcome</a></li>
-<li class="chapter" data-level="15.2" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.2.1" data-path="associate-epcam-inflammatory-with-survival.html"><a href="associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.2.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>15</b> TCGA: Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="15.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="15.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.2.1</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -363,6 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
 <li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
 </ul></li>
+<li class="chapter" data-level="24.3" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>24.3</b> Summary of the sequencing depth</a></li>
 </ul></li>
 <li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
@@ -579,9 +580,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr class="even">
 <td>rn6cytoBand</td>
-<td><a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/cytoBand.txt.gz">ucsc server</a> of all cytoband locations</td>
+<td><a href="http://hgdownload.cse.ucsc.edu/goldenPath/rn6/database/cytoBand.txt.gz">ucsc server</a> of all cytoband locations</td>
 </tr>
 <tr class="odd">
+<td>rn6chrInfo</td>
+<td><a href="http://hgdownload.cse.ucsc.edu/goldenPath/rn6/database/chromInfo.txt.gz">ucsc server</a> of all chromosome sizes</td>
+</tr>
+<tr class="even">
 <td><a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">biomart</a></td>
 <td>conversion between gene symbol, ensbl and entrez was faciliated using biomart package</td>
 </tr>
@@ -627,7 +632,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="prerequisites.html#cb5-4"></a></span>
 <span id="cb5-5"><a href="prerequisites.html#cb5-5"></a><span class="kw">library</span>(biomaRt)</span>
 <span id="cb5-6"><a href="prerequisites.html#cb5-6"></a><span class="co">#library(refGenome)</span></span>
-<span id="cb5-7"><a href="prerequisites.html#cb5-7"></a>TS=<span class="kw">read.delim</span>(<span class="st">&quot;anntotations//hg38_allsymbols.txt&quot;</span>)</span>
+<span id="cb5-7"><a href="prerequisites.html#cb5-7"></a>TS=<span class="kw">read.delim</span>(<span class="st">&quot;../anntotations//hg38_allsymbols.txt&quot;</span>)</span>
 <span id="cb5-8"><a href="prerequisites.html#cb5-8"></a>TS=<span class="kw">as.character</span>(TS[ ,<span class="dv">1</span>])</span>
 <span id="cb5-9"><a href="prerequisites.html#cb5-9"></a>human =<span class="st"> </span><span class="kw">useMart</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;hsapiens_gene_ensembl&quot;</span>)</span>
 <span id="cb5-10"><a href="prerequisites.html#cb5-10"></a>mouse =<span class="st"> </span><span class="kw">useMart</span>(<span class="st">&quot;ensembl&quot;</span>, <span class="dt">dataset =</span> <span class="st">&quot;mmusculus_gene_ensembl&quot;</span>)</span>
@@ -787,7 +792,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-70"><a href="prerequisites.html#cb7-70"></a>RatAllImm=<span class="kw">na.omit</span>(<span class="kw">unique</span>(<span class="kw">c</span>(SymHum2Rat<span class="op">$</span>RGD.symbol[<span class="kw">match</span>(AllImmGenes, SymHum2Rat<span class="op">$</span>HGNC.symbol)], <span class="kw">as.character</span>(AllImmGenes2<span class="op">$</span>Gene.Symbol[<span class="kw">which</span>(AllImmGenes2<span class="op">$</span>Species<span class="op">!=</span><span class="dv">9606</span>)]))))</span>
 <span id="cb7-71"><a href="prerequisites.html#cb7-71"></a></span>
 <span id="cb7-72"><a href="prerequisites.html#cb7-72"></a><span class="co">## CIBERSORT specific rat genes</span></span>
-<span id="cb7-73"><a href="prerequisites.html#cb7-73"></a>lm22rat=<span class="kw">read.delim</span>(<span class="st">&quot;../anntotations/LM22_to_rnorvegicus_1.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<span id="cb7-73"><a href="prerequisites.html#cb7-73"></a><span class="co">#lm22rat=read.delim(&quot;../anntotations/LM22_to_rnorvegicus_1.txt&quot;, sep=&quot;\t&quot;)</span></span></code></pre></div>
 <div id="human-gene-homologs" class="section level4">
 <h4><span class="header-section-number">1.3.3.1</span> Human gene homologs</h4>
 <p>Below, lists of common mutations in cancer are loaded and the “homolog” in rat is determined using an in-house script. The steps involved are:</p>

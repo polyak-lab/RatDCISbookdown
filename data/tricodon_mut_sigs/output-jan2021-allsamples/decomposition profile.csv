@@ -1,0 +1,32 @@
+Sample Names, Global NMF Signatures, Similarity
+Sample BRCA::C1R-tumor, SBS1 (6.43%) & SBS5 (78.62%) & SBS11 (14.95%), 0.97
+Sample BRCA::C2N-tumor, SBS1 (6.54%) & SBS5 (84.07%) & SBS32 (9.38%), 0.97
+Sample BRCA::C2R1-tumor, SBS1 (6.14%) & SBS5 (81.09%) & SBS32 (12.77%), 0.97
+Sample BRCA::C2R2-tumor, SBS1 (7.45%) & SBS5 (92.55%), 0.96
+Sample BRCA::C2R3-tumor, SBS1 (6.96%) & SBS5 (81.54%) & SBS11 (11.50%), 0.97
+Sample BRCA::C4P-tumor, SBS1 (6.74%) & SBS5 (83.92%) & SBS32 (9.34%), 0.97
+Sample BRCA::D11N-tumor, SBS1 (6.66%) & SBS5 (79.97%) & SBS11 (13.37%), 0.97
+Sample BRCA::D14R-tumor, SBS1 (6.44%) & SBS5 (76.89%) & SBS11 (16.67%), 0.97
+Sample BRCA::D16N-tumor, SBS1 (6.26%) & SBS5 (75.13%) & SBS11 (18.61%), 0.97
+Sample BRCA::D16N2-tumor, SBS1 (6.29%) & SBS5 (81.01%) & SBS32 (12.70%), 0.97
+Sample BRCA::D16N3-tumor, SBS1 (6.08%) & SBS5 (80.27%) & SBS32 (13.65%), 0.97
+Sample BRCA::D16P-tumor, SBS1 (6.28%) & SBS5 (82.82%) & SBS32 (10.90%), 0.97
+Sample BRCA::D17N-tumor, SBS1 (7.04%) & SBS5 (78.26%) & SBS11 (14.70%), 0.97
+Sample BRCA::D18N-tumor, SBS1 (7.69%) & SBS5 (79.63%) & SBS11 (12.68%), 0.97
+Sample BRCA::D2N-tumor, SBS1 (6.84%) & SBS5 (75.32%) & SBS11 (17.84%), 0.98
+Sample BRCA::D3N-tumor, SBS1 (7.27%) & SBS5 (81.27%) & SBS11 (11.47%), 0.97
+Sample BRCA::D3R-tumor, SBS1 (6.17%) & SBS5 (82.19%) & SBS32 (11.64%), 0.97
+Sample BRCA::D4R-tumor, SBS1 (6.54%) & SBS5 (82.05%) & SBS11 (11.40%), 0.97
+Sample BRCA::D9N1-tumor, SBS1 (6.84%) & SBS5 (79.73%) & SBS11 (13.43%), 0.97
+Sample BRCA::D9N2-tumor, SBS1 (6.48%) & SBS5 (80.15%) & SBS32 (13.37%), 0.97
+Sample BRCA::D9R-tumor, SBS1 (8.05%) & SBS5 (91.95%), 0.97
+Sample BRCA::NMU1-tumor, SBS1 (5.88%) & SBS5 (71.22%) & SBS11 (22.90%), 0.98
+Sample BRCA::NMU12-tumor-LA, SBS1 (5.48%) & SBS5 (68.20%) & SBS7a (1.14%) & SBS7b (5.88%) & SBS7c (2.31%) & SBS7d (1.15%) & SBS32 (15.85%), 0.98
+Sample BRCA::NMU12-tumor-RL, SBS1 (5.55%) & SBS5 (73.31%) & SBS11 (21.14%), 0.97
+Sample BRCA::NMU13-tumor-LAL, SBS1 (5.78%) & SBS5 (78.47%) & SBS32 (15.75%), 0.97
+Sample BRCA::NMU13-tumor-RAU, SBS1 (6.35%) & SBS5 (76.64%) & SBS11 (17.01%), 0.97
+Sample BRCA::NMU13-tumor-RLL, SBS1 (6.88%) & SBS5 (80.39%) & SBS11 (12.73%), 0.97
+Sample BRCA::NMU14-tumor, SBS1 (7.25%) & SBS5 (83.73%) & SBS11 (9.02%), 0.97
+Sample BRCA::NMU2-tumor, SBS1 (7.08%) & SBS5 (83.84%) & SBS32 (9.07%), 0.97
+Sample BRCA::NMU5-tumor-LA, SBS1 (6.86%) & SBS5 (80.11%) & SBS11 (13.04%), 0.97
+Sample BRCA::NMU9-tumor-LL, SBS1 (6.07%) & SBS5 (82.31%) & SBS32 (11.62%), 0.97

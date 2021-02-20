@@ -10,7 +10,7 @@ write to file:
 * collapsed information on wsi/facs
 
 ```{r}
-write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+write.xlsx(Cdata, file=sprintf("../metadata/Ext_Data_Table_updated_%s.xlsx", Sys.Date()))
 
 x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
 head(x1)

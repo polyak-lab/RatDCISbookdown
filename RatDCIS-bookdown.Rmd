@@ -152,7 +152,8 @@ The following annotation data for the rn6 genome is required:
 |ref. genome| http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz|
 |refSeq annot|http://hgdownload.soe.ucsc.edu/goldenPath/rn6/bigZips/genes/rn6.refGene.gtf.gz|
 |gff3 file| for TRUST4 (ftp://ftp.ensembl.org/pub/release-100/gff3/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.100.gff3.gz)|
-|rn6cytoBand | [ucsc server](http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/cytoBand.txt.gz) of all cytoband locations  |
+|rn6cytoBand | [ucsc server](http://hgdownload.cse.ucsc.edu/goldenPath/rn6/database/cytoBand.txt.gz) of all cytoband locations  |
+|rn6chrInfo | [ucsc server](http://hgdownload.cse.ucsc.edu/goldenPath/rn6/database/chromInfo.txt.gz) of all chromosome sizes  |
 |[biomart](https://bioconductor.org/packages/release/bioc/html/biomaRt.html)| conversion between gene symbol, ensbl and entrez was faciliated using biomart package |
 
 Below is the summary of chromosome sizes and centromere locations:
@@ -191,7 +192,7 @@ Biomart was used to convert between rat, mouse and human gene symbols and ensemb
 
 library(biomaRt)
 #library(refGenome)
-TS=read.delim("anntotations//hg38_allsymbols.txt")
+TS=read.delim("../anntotations//hg38_allsymbols.txt")
 TS=as.character(TS[ ,1])
 human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
 mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
@@ -303,7 +304,7 @@ AllImmGenes=unique(c(as.character(AllImmGenes1$Symbol), as.character(AllImmGenes
 RatAllImm=na.omit(unique(c(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$HGNC.symbol)], as.character(AllImmGenes2$Gene.Symbol[which(AllImmGenes2$Species!=9606)]))))
 
 ## CIBERSORT specific rat genes
-lm22rat=read.delim("../anntotations/LM22_to_rnorvegicus_1.txt", sep="\t")
+#lm22rat=read.delim("../anntotations/LM22_to_rnorvegicus_1.txt", sep="\t")
 ```
 
 #### Human gene homologs
@@ -8807,7 +8808,7 @@ write to file:
 * collapsed information on wsi/facs
 
 ```{r}
-write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
+write.xlsx(Cdata, file=sprintf("../metadata/Ext_Data_Table_updated_%s.xlsx", Sys.Date()))
 
 x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
 head(x1)

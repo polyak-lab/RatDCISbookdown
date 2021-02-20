@@ -23,6 +23,10 @@ etc
 NOTE: some annotation files are not provided, and can be downloaded from the indicated sources (See the first chapter of the Rbook)
 This includes gene sets from MSigDb, Metacore pathways (proprietary), and reference genome files
 
-NOTE: The following files are too large to upload
+NOTE: The following files are too large or is hosted elsewhere and is not uploaded. Refer to corresponding author for access
 data/WSI_data/locationData
+data/TCGA/
+data/wholegenome_mutations/maf
+anntotations/dbSNP/
+data/haplotypeCaller/
 
