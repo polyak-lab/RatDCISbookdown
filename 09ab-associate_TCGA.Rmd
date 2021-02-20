@@ -343,9 +343,9 @@ head(colDataTCGA)
 
 TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnames(TCGArsem2))]), colDataTCGA, design=~TCGAvalcut)
 
-TCGAdeseq=DESeq(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
+TCGAdeseq=DESeq(TCGAdeseq)
 
-TCGAdeseqRes=results(TCGAdeseq)
+TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
 
 write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
