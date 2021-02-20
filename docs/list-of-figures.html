@@ -24,14 +24,14 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-02-19" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="writing-files-to-file.html"/>
+<link rel="prev" href="bicseqout.html"/>
 <link rel="next" href="extended-figures.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -356,6 +356,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
+<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
+<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -426,7 +437,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Fig 3D: <a href="cohort-characteristics.html#fig:3d">Histogram of growth rates of tumors</a></li>
 <li>Fig 3E: <a href="#3e">Contingency table growth rate and treatment</a></li>
 <li>Fig 3G: <a href="trichrome-staining.html#fig:3g">Trichrome staining growth rate and treatment</a></li>
-<li>Fig 3J: <a href="deseq-analysis-immunotherapygrowth-comparisons.html#fig:3jb">Differentially expressed genes in CD45 fraction</a></li>
+<li>Fig 3J: <a href="#fig:3jb">Differentially expressed genes in CD45 fraction</a></li>
 </ul>
 </div>
 <div id="figure-4-somehting" class="section level2 unnumbered">
@@ -435,7 +446,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Fig 4B: <a href="whole-slide-imaging.html#fig:4b">association of frequency with treatment and growth</a></li>
 <li>Fig 4C: <a href="spatial-statistics.html#fig:Fig4c">KNN distances</a></li>
 <li>Fig 4D: <a href="spatial-statistics.html#fig:if-growth">interacting fraction</a></li>
-<li>Fig 4E: <a href="spatial-statistics.html#fig:4e">MH index with CD8 growth</a></li>
+<li>Fig 4E: <a href="#fig:4e">MH index with CD8 growth</a></li>
 <li>Fig 4F: <a href="#fig:4f">Progression CIBERSORT TIMER</a></li>
 <li>Fig 4G: <a href="deseq-analysis-immunotherapygrowth-comparisons.html#fig:4g">volcano plot of DEG stable vs growing CD45</a></li>
 <li>Fig 4H: <a href="summary-of-gsea-runs.html#fig:4h">CD45 cells enriched pathways</a></li>
@@ -453,7 +464,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Fig 5G: <a href="epcam-inflammatory-vs-non-inflammatory-samples.html#fig:gsea-noninf-lum-branch">lum only non-inflamm growth vs stable hairball</a></li>
 <li>Fig 5H <a href="associate-epcam-inflammatory-with-survival.html#fig:5h">luminal signature associated with clinical variables</a></li>
 <li>Fig 5I <a href="associate-epcam-inflammatory-with-survival.html#fig:5i">OS and DFS for growing signature</a></li>
-<li>Fig 5J <a href="#fig:tcga-volcano">TCGA DEG for LumA samples</a></li>
+<li>Fig 5J <a href="associate-epcam-inflammatory-with-survival.html#fig:tcga-volcano">TCGA DEG for LumA samples</a></li>
 <li>Fig 5K <a href="associate-epcam-inflammatory-with-survival.html#fig:TCGA-gsea">TCGA HAIRBALL for LumA samples</a></li>
 </ul>
 </div>
@@ -463,7 +474,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="writing-files-to-file.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bicseqout.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="extended-figures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

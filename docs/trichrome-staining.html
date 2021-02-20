@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-02-19" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -356,6 +356,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
+<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
+<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -512,7 +523,24 @@ Figure 23.3: Trichrome with growth
 <span id="cb481-11"><a href="trichrome-staining.html#cb481-11"></a></span>
 <span id="cb481-12"><a href="trichrome-staining.html#cb481-12"></a>t2=<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">substr</span>( ax1, <span class="dv">1</span>, <span class="kw">nchar</span>(ax1)<span class="op">-</span><span class="dv">2</span>)), <span class="kw">rownames</span>(df.Spatial))</span>
 <span id="cb481-13"><a href="trichrome-staining.html#cb481-13"></a>t2</span>
-<span id="cb481-14"><a href="trichrome-staining.html#cb481-14"></a><span class="co">##  [1]  3  6  9 10 12 11 14 17 NA NA NA 24 29 31 35 37 49 NA 56 58</span></span></code></pre></div>
+<span id="cb481-14"><a href="trichrome-staining.html#cb481-14"></a><span class="co">##  [1]  3  6  9 10 12 11 14 17 NA NA NA 24 29 31 35 37 49 NA 56 58</span></span>
+<span id="cb481-15"><a href="trichrome-staining.html#cb481-15"></a></span>
+<span id="cb481-16"><a href="trichrome-staining.html#cb481-16"></a>newTab=<span class="kw">data.frame</span>(<span class="dt">trichrome=</span>df.Spatial[<span class="kw">na.omit</span>(t2), <span class="st">&quot;Trichrome&quot;</span>], </span>
+<span id="cb481-17"><a href="trichrome-staining.html#cb481-17"></a>             <span class="dt">inf=</span>vstEpInf<span class="op">$</span>Inflammation3[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))],</span>
+<span id="cb481-18"><a href="trichrome-staining.html#cb481-18"></a>             <span class="dt">names=</span>ax1[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))])</span>
+<span id="cb481-19"><a href="trichrome-staining.html#cb481-19"></a>             </span>
+<span id="cb481-20"><a href="trichrome-staining.html#cb481-20"></a><span class="kw">head</span>(newTab)</span>
+<span id="cb481-21"><a href="trichrome-staining.html#cb481-21"></a><span class="co">##   trichrome  inf     names</span></span>
+<span id="cb481-22"><a href="trichrome-staining.html#cb481-22"></a><span class="co">## 1 0.1766188  inf  10L_D_Ep</span></span>
+<span id="cb481-23"><a href="trichrome-staining.html#cb481-23"></a><span class="co">## 2        NA grow 10R_BL_Ep</span></span>
+<span id="cb481-24"><a href="trichrome-staining.html#cb481-24"></a><span class="co">## 3 0.1331813 grow  11L_B_Ep</span></span>
+<span id="cb481-25"><a href="trichrome-staining.html#cb481-25"></a><span class="co">## 4 0.3740436  inf  11N_D_Ep</span></span>
+<span id="cb481-26"><a href="trichrome-staining.html#cb481-26"></a><span class="co">## 5 0.1616192 grow  11R_D_Ep</span></span>
+<span id="cb481-27"><a href="trichrome-staining.html#cb481-27"></a><span class="co">## 6 0.1245987 grow  11R_C_Ep</span></span>
+<span id="cb481-28"><a href="trichrome-staining.html#cb481-28"></a></span>
+<span id="cb481-29"><a href="trichrome-staining.html#cb481-29"></a><span class="kw">ggplot</span>(newTab, <span class="kw">aes</span>(<span class="dt">y=</span>trichrome,<span class="dt">x=</span>inf))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-155-1.png" width="672" /></p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="trichrome-staining.html#cb482-1"></a><span class="kw">write.csv</span>(newTab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext5z_trichrome.csv&quot;</span>)</span></code></pre></div>
 </div>
 </div>
             </section>

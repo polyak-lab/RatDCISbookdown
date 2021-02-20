@@ -498,10 +498,13 @@ Other notes:
 Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing
 
 ```{r 4e, fig.cap="Fig4e MH index with CD8 growth"}
-#pdf("~/Desktop/4E-MH-summary-growth.pdf", height=5, width=7)
+
+pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
 
 p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
+
+dev.off()
 ```
 
 WE can condense these values based on growing vs stable cases:

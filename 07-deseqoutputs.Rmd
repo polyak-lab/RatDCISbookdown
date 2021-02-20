@@ -156,22 +156,19 @@ AllG2=rownames(Xa1)[which(rownames(Xa1)%in%RatAllImm)]
 Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
 colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
 
-
-#assay(CDvsd)<- limma::removeBatchEffect(assay(CDvsd))
-
-#Mat2=CDvsd[match(rownames(Xa1), rownames(CDvsd)), ]
-
 colSCols=ColMerge[ ,1][Mat2$Treatment]
 
-#pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=9, width=6)
+pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=7, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1],
           hclustfun = hclust.ave)
 
-#dev.off()
+dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 ```
+
+
 
 ```{r 3jb, fig.cap="IO vs any other treatment"}
 ## ALSO LOOK AT the pairwise comparisons and pull out those genes
@@ -179,9 +176,9 @@ ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
 bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
-G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
-G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
-G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>2)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>2)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>2)]
 
 AllG=unique(c(G1, G2, G3))
 
@@ -191,10 +188,10 @@ Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
 colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
 
 colSCols=ColMerge[ ,1][Mat2$Treatment]
-#pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
+pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
-#dev.off()
+dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
 ```

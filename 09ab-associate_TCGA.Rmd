@@ -357,26 +357,30 @@ TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2F
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
-pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
-with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+#pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
+with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
-dev.off()
+#dev.off()
 ```
+
 
 ```{r heatmap-tcga, fig.cap="because someone will ask for it"}
 vstTCGA=vst(assay(TCGAdeseq))
 
 ColSideCols=c("skyblue", "blue")[factor(TCGAdeseq$TCGAvalcut)]
 
-#ax1=assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ]
-#ax1[1:5, 1:5]
+ax1=vstTCGA[ match(rownames(TCGAdeseqRes2), rownames(vstTCGA)),  ]
+ax1[1:5, 1:5]
 
-#pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
 
-#heatmap.2(assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+heatmap.2(vstTCGA[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
 
-#dev.off()
+dev.off()
+
+
+boxplot(vstTCGA["CD8A", ]~TCGAdeseq$TCGAvalcut)
 
 ```
 

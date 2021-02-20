@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-02-19" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -356,6 +356,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
+<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
+<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -882,16 +893,15 @@ Other notes:</p>
 <div id="growth-2" class="section level3">
 <h3><span class="header-section-number">5.3.2</span> Growth</h3>
 <p>Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="spatial-statistics.html#cb90-1"></a><span class="co">#pdf(&quot;~/Desktop/4E-MH-summary-growth.pdf&quot;, height=5, width=7)</span></span>
-<span id="cb90-2"><a href="spatial-statistics.html#cb90-2"></a></span>
-<span id="cb90-3"><a href="spatial-statistics.html#cb90-3"></a>p&lt;-<span class="kw">ggplot</span>(A1, <span class="kw">aes</span>(<span class="dt">x=</span>gridsize, <span class="dt">y=</span>value, <span class="dt">col=</span>Growth))<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Var1)<span class="op">+</span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group=</span>L1))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;grid size&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Morisita Horn index&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;MH index with CD8: growth&quot;</span>)<span class="op">+</span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="kw">position_jitterdodge</span>(),<span class="dt">alpha=</span><span class="fl">0.3</span>)</span>
-<span id="cb90-4"><a href="spatial-statistics.html#cb90-4"></a><span class="kw">print</span>(p)</span></code></pre></div>
-<div class="figure"><span id="fig:4e"></span>
-<img src="RatDCIS-bookdown_files/figure-html/4e-1.png" alt="Fig4e MH index with CD8 growth" width="672" />
-<p class="caption">
-Figure 5.3: Fig4e MH index with CD8 growth
-</p>
-</div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="spatial-statistics.html#cb90-1"></a></span>
+<span id="cb90-2"><a href="spatial-statistics.html#cb90-2"></a><span class="kw">pdf</span>(<span class="st">&quot;figure-outputs/4E-MH-summary-growth.pdf&quot;</span>, <span class="dt">height=</span><span class="dv">5</span>, <span class="dt">width=</span><span class="dv">7</span>)</span>
+<span id="cb90-3"><a href="spatial-statistics.html#cb90-3"></a></span>
+<span id="cb90-4"><a href="spatial-statistics.html#cb90-4"></a>p&lt;-<span class="kw">ggplot</span>(A1, <span class="kw">aes</span>(<span class="dt">x=</span>gridsize, <span class="dt">y=</span>value, <span class="dt">col=</span>Growth))<span class="op">+</span><span class="kw">facet_grid</span>(<span class="op">~</span>Var1)<span class="op">+</span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group=</span>L1))<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;grid size&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Morisita Horn index&quot;</span>)<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;MH index with CD8: growth&quot;</span>)<span class="op">+</span><span class="kw">geom_point</span>(<span class="dt">position=</span><span class="kw">position_jitterdodge</span>(),<span class="dt">alpha=</span><span class="fl">0.3</span>)</span>
+<span id="cb90-5"><a href="spatial-statistics.html#cb90-5"></a><span class="kw">print</span>(p)</span>
+<span id="cb90-6"><a href="spatial-statistics.html#cb90-6"></a></span>
+<span id="cb90-7"><a href="spatial-statistics.html#cb90-7"></a><span class="kw">dev.off</span>()</span>
+<span id="cb90-8"><a href="spatial-statistics.html#cb90-8"></a><span class="co">## quartz_off_screen </span></span>
+<span id="cb90-9"><a href="spatial-statistics.html#cb90-9"></a><span class="co">##                 2</span></span></code></pre></div>
 <p>WE can condense these values based on growing vs stable cases:</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="spatial-statistics.html#cb91-1"></a></span>
 <span id="cb91-2"><a href="spatial-statistics.html#cb91-2"></a>pvals=<span class="kw">sapply</span>(<span class="kw">unique</span>(A3<span class="op">$</span>Var1), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(A3<span class="op">$</span>value[A3<span class="op">$</span>Var1<span class="op">==</span>x <span class="op">&amp;</span><span class="st"> </span>A3<span class="op">$</span>Growth<span class="op">==</span><span class="st">&quot;growing&quot;</span>], </span>
@@ -942,7 +952,7 @@ Figure 5.3: Fig4e MH index with CD8 growth
 <div class="figure"><span id="fig:Ext4h"></span>
 <img src="RatDCIS-bookdown_files/figure-html/Ext4h-1.png" alt="MH values with Treatment" width="672" />
 <p class="caption">
-Figure 5.4: MH values with Treatment
+Figure 5.3: MH values with Treatment
 </p>
 </div>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="spatial-statistics.html#cb96-1"></a></span>

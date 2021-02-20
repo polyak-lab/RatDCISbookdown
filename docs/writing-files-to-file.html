@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-02-19" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="trichrome-staining.html"/>
-<link rel="next" href="list-of-figures.html"/>
+<link rel="next" href="bicseqout.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -356,6 +356,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
+<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
+<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -403,153 +414,149 @@ write to file:</p>
 <li>colData information</li>
 <li>collapsed information on wsi/facs</li>
 </ul>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="writing-files-to-file.html#cb482-1"></a><span class="kw">write.xlsx</span>(Cdata, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../metadata/Carlos_samples_list_master_updated_%s.xlsx&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
-<span id="cb482-2"><a href="writing-files-to-file.html#cb482-2"></a></span>
-<span id="cb482-3"><a href="writing-files-to-file.html#cb482-3"></a>x1=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>,<span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))]</span>
-<span id="cb482-4"><a href="writing-files-to-file.html#cb482-4"></a><span class="kw">head</span>(x1)</span>
-<span id="cb482-5"><a href="writing-files-to-file.html#cb482-5"></a><span class="co">## [1] &quot;P24T1&quot; &quot;P24T2&quot; &quot;P24T3&quot; &quot;P25T1&quot; &quot;P25T2&quot; &quot;P26T1&quot;</span></span>
-<span id="cb482-6"><a href="writing-files-to-file.html#cb482-6"></a><span class="kw">write.csv</span>(df.Spatial, <span class="dt">file=</span><span class="st">&quot;nature-tables/summary_spatial_information.csv&quot;</span>)</span>
-<span id="cb482-7"><a href="writing-files-to-file.html#cb482-7"></a></span>
-<span id="cb482-8"><a href="writing-files-to-file.html#cb482-8"></a><span class="kw">colnames</span>(allstarFinal)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(allstarFinal), <span class="kw">rownames</span>(infoTableFinal))]</span>
-<span id="cb482-9"><a href="writing-files-to-file.html#cb482-9"></a>infoTableFinal2=infoTableFinal[ ,<span class="kw">c</span>(<span class="st">&quot;TumorIDnew&quot;</span>,<span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;CD8Frac&quot;</span>, <span class="st">&quot;TumSize&quot;</span>, <span class="st">&quot;Time.NMU2Sac&quot;</span>, </span>
-<span id="cb482-10"><a href="writing-files-to-file.html#cb482-10"></a>                                   <span class="st">&quot;Age.Injection&quot;</span>,<span class="st">&quot;Treatment&quot;</span>,<span class="st">&quot;Cohort&quot;</span>, <span class="st">&quot;SizeCat&quot;</span>)]</span>
-<span id="cb482-11"><a href="writing-files-to-file.html#cb482-11"></a><span class="kw">write.csv</span>(infoTableFinal2, <span class="dt">file=</span><span class="st">&quot;nature-tables/infoTableFinal2_output.csv&quot;</span>)</span>
-<span id="cb482-12"><a href="writing-files-to-file.html#cb482-12"></a><span class="kw">write.csv</span>(allstarFinal, <span class="dt">file=</span><span class="st">&quot;nature-tables/allstarFinal_output.csv&quot;</span>)</span>
-<span id="cb482-13"><a href="writing-files-to-file.html#cb482-13"></a></span>
-<span id="cb482-14"><a href="writing-files-to-file.html#cb482-14"></a></span>
-<span id="cb482-15"><a href="writing-files-to-file.html#cb482-15"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD8.TumSize&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
-<span id="cb482-16"><a href="writing-files-to-file.html#cb482-16"></a></span>
-<span id="cb482-17"><a href="writing-files-to-file.html#cb482-17"></a><span class="co"># colTestCD8=c(&quot;CD8.EpDomTiles&quot;,&quot;CD8.EpBoundingBox&quot;, &quot;CD8.TumSize&quot;, &quot;CD45.FACS&quot;, &quot;CD8.FACS&quot;, &quot;OverallCD8_Fig4c.Manual&quot;, &quot;TIL_Fig4d.Manual&quot;, )</span></span>
-<span id="cb482-18"><a href="writing-files-to-file.html#cb482-18"></a>indx1=<span class="kw">c</span>(<span class="st">&quot;CD8.WSI&quot;</span>, <span class="st">&quot;CD8Frac.WSI&quot;</span>, <span class="st">&quot;CD8_EPorSMARatio.WSI&quot;</span>,<span class="st">&quot;CD8_AnyEPRatio.WSI&quot;</span>, <span class="st">&quot;CD8_EPRatio.WSI&quot;</span>,<span class="st">&quot;CD8normTumSize&quot;</span>, <span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;log2CD8_EPorSMARatio.WSI&quot;</span>, <span class="st">&quot;log2CD8_EPRatio.WSI&quot;</span>)</span>
-<span id="cb482-19"><a href="writing-files-to-file.html#cb482-19"></a></span>
-<span id="cb482-20"><a href="writing-files-to-file.html#cb482-20"></a><span class="co"># df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), </span></span>
-<span id="cb482-21"><a href="writing-files-to-file.html#cb482-21"></a><span class="co">#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), </span></span>
-<span id="cb482-22"><a href="writing-files-to-file.html#cb482-22"></a><span class="co">#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),</span></span>
-<span id="cb482-23"><a href="writing-files-to-file.html#cb482-23"></a><span class="co">#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),</span></span>
-<span id="cb482-24"><a href="writing-files-to-file.html#cb482-24"></a><span class="co">#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),</span></span>
-<span id="cb482-25"><a href="writing-files-to-file.html#cb482-25"></a><span class="co">#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)</span></span>
-<span id="cb482-26"><a href="writing-files-to-file.html#cb482-26"></a><span class="co">#                )</span></span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="writing-files-to-file.html#cb483-1"></a><span class="kw">write.xlsx</span>(Cdata, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../metadata/Carlos_samples_list_master_updated_%s.xlsx&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
+<span id="cb483-2"><a href="writing-files-to-file.html#cb483-2"></a></span>
+<span id="cb483-3"><a href="writing-files-to-file.html#cb483-3"></a>x1=Cdata<span class="op">$</span>NewID[<span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>,<span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))]</span>
+<span id="cb483-4"><a href="writing-files-to-file.html#cb483-4"></a><span class="kw">head</span>(x1)</span>
+<span id="cb483-5"><a href="writing-files-to-file.html#cb483-5"></a><span class="co">## [1] &quot;P24T1&quot; &quot;P24T2&quot; &quot;P24T3&quot; &quot;P25T1&quot; &quot;P25T2&quot; &quot;P26T1&quot;</span></span>
+<span id="cb483-6"><a href="writing-files-to-file.html#cb483-6"></a><span class="kw">write.csv</span>(df.Spatial, <span class="dt">file=</span><span class="st">&quot;nature-tables/summary_spatial_information.csv&quot;</span>)</span>
+<span id="cb483-7"><a href="writing-files-to-file.html#cb483-7"></a></span>
+<span id="cb483-8"><a href="writing-files-to-file.html#cb483-8"></a><span class="kw">colnames</span>(allstarFinal)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(allstarFinal), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb483-9"><a href="writing-files-to-file.html#cb483-9"></a>infoTableFinal2=infoTableFinal[ ,<span class="kw">c</span>(<span class="st">&quot;TumorIDnew&quot;</span>,<span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;CD8Frac&quot;</span>, <span class="st">&quot;TumSize&quot;</span>, <span class="st">&quot;Time.NMU2Sac&quot;</span>, </span>
+<span id="cb483-10"><a href="writing-files-to-file.html#cb483-10"></a>                                   <span class="st">&quot;Age.Injection&quot;</span>,<span class="st">&quot;Treatment&quot;</span>,<span class="st">&quot;Cohort&quot;</span>, <span class="st">&quot;SizeCat&quot;</span>)]</span>
+<span id="cb483-11"><a href="writing-files-to-file.html#cb483-11"></a><span class="kw">write.csv</span>(infoTableFinal2, <span class="dt">file=</span><span class="st">&quot;nature-tables/infoTableFinal2_output.csv&quot;</span>)</span>
+<span id="cb483-12"><a href="writing-files-to-file.html#cb483-12"></a><span class="kw">write.csv</span>(allstarFinal, <span class="dt">file=</span><span class="st">&quot;nature-tables/allstarFinal_output.csv&quot;</span>)</span>
+<span id="cb483-13"><a href="writing-files-to-file.html#cb483-13"></a></span>
+<span id="cb483-14"><a href="writing-files-to-file.html#cb483-14"></a></span>
+<span id="cb483-15"><a href="writing-files-to-file.html#cb483-15"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD8.TumSize&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
+<span id="cb483-16"><a href="writing-files-to-file.html#cb483-16"></a></span>
+<span id="cb483-17"><a href="writing-files-to-file.html#cb483-17"></a><span class="co"># colTestCD8=c(&quot;CD8.EpDomTiles&quot;,&quot;CD8.EpBoundingBox&quot;, &quot;CD8.TumSize&quot;, &quot;CD45.FACS&quot;, &quot;CD8.FACS&quot;, &quot;OverallCD8_Fig4c.Manual&quot;, &quot;TIL_Fig4d.Manual&quot;, )</span></span>
+<span id="cb483-18"><a href="writing-files-to-file.html#cb483-18"></a>indx1=<span class="kw">c</span>(<span class="st">&quot;CD8.WSI&quot;</span>, <span class="st">&quot;CD8Frac.WSI&quot;</span>, <span class="st">&quot;CD8_EPorSMARatio.WSI&quot;</span>,<span class="st">&quot;CD8_AnyEPRatio.WSI&quot;</span>, <span class="st">&quot;CD8_EPRatio.WSI&quot;</span>,<span class="st">&quot;CD8normTumSize&quot;</span>, <span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;log2CD8_EPorSMARatio.WSI&quot;</span>, <span class="st">&quot;log2CD8_EPRatio.WSI&quot;</span>)</span>
+<span id="cb483-19"><a href="writing-files-to-file.html#cb483-19"></a></span>
+<span id="cb483-20"><a href="writing-files-to-file.html#cb483-20"></a><span class="co"># df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), </span></span>
+<span id="cb483-21"><a href="writing-files-to-file.html#cb483-21"></a><span class="co">#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), </span></span>
+<span id="cb483-22"><a href="writing-files-to-file.html#cb483-22"></a><span class="co">#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),</span></span>
+<span id="cb483-23"><a href="writing-files-to-file.html#cb483-23"></a><span class="co">#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),</span></span>
+<span id="cb483-24"><a href="writing-files-to-file.html#cb483-24"></a><span class="co">#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),</span></span>
+<span id="cb483-25"><a href="writing-files-to-file.html#cb483-25"></a><span class="co">#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)</span></span>
+<span id="cb483-26"><a href="writing-files-to-file.html#cb483-26"></a><span class="co">#                )</span></span></code></pre></div>
 <p>Below is the session info</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="writing-files-to-file.html#cb483-1"></a><span class="kw">sessionInfo</span>()</span>
-<span id="cb483-2"><a href="writing-files-to-file.html#cb483-2"></a><span class="co">## R version 4.0.2 (2020-06-22)</span></span>
-<span id="cb483-3"><a href="writing-files-to-file.html#cb483-3"></a><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
-<span id="cb483-4"><a href="writing-files-to-file.html#cb483-4"></a><span class="co">## Running under: macOS Catalina 10.15.7</span></span>
-<span id="cb483-5"><a href="writing-files-to-file.html#cb483-5"></a><span class="co">## </span></span>
-<span id="cb483-6"><a href="writing-files-to-file.html#cb483-6"></a><span class="co">## Matrix products: default</span></span>
-<span id="cb483-7"><a href="writing-files-to-file.html#cb483-7"></a><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span></span>
-<span id="cb483-8"><a href="writing-files-to-file.html#cb483-8"></a><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span></span>
-<span id="cb483-9"><a href="writing-files-to-file.html#cb483-9"></a><span class="co">## </span></span>
-<span id="cb483-10"><a href="writing-files-to-file.html#cb483-10"></a><span class="co">## locale:</span></span>
-<span id="cb483-11"><a href="writing-files-to-file.html#cb483-11"></a><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
-<span id="cb483-12"><a href="writing-files-to-file.html#cb483-12"></a><span class="co">## </span></span>
-<span id="cb483-13"><a href="writing-files-to-file.html#cb483-13"></a><span class="co">## attached base packages:</span></span>
-<span id="cb483-14"><a href="writing-files-to-file.html#cb483-14"></a><span class="co">##  [1] grid      stats4    parallel  stats     graphics  grDevices utils    </span></span>
-<span id="cb483-15"><a href="writing-files-to-file.html#cb483-15"></a><span class="co">##  [8] datasets  methods   base     </span></span>
-<span id="cb483-16"><a href="writing-files-to-file.html#cb483-16"></a><span class="co">## </span></span>
-<span id="cb483-17"><a href="writing-files-to-file.html#cb483-17"></a><span class="co">## other attached packages:</span></span>
-<span id="cb483-18"><a href="writing-files-to-file.html#cb483-18"></a><span class="co">##  [1] rmarkdown_2.6               org.Hs.eg.db_3.11.4        </span></span>
-<span id="cb483-19"><a href="writing-files-to-file.html#cb483-19"></a><span class="co">##  [3] pander_0.6.3                knitr_1.31                 </span></span>
-<span id="cb483-20"><a href="writing-files-to-file.html#cb483-20"></a><span class="co">##  [5] forestplot_1.10.1           checkmate_2.0.0            </span></span>
-<span id="cb483-21"><a href="writing-files-to-file.html#cb483-21"></a><span class="co">##  [7] magrittr_1.5                writexl_1.3.1              </span></span>
-<span id="cb483-22"><a href="writing-files-to-file.html#cb483-22"></a><span class="co">##  [9] xlsx_0.6.4.2                vcfR_1.12.0                </span></span>
-<span id="cb483-23"><a href="writing-files-to-file.html#cb483-23"></a><span class="co">## [11] tcR_2.3.2                   igraph_1.2.6               </span></span>
-<span id="cb483-24"><a href="writing-files-to-file.html#cb483-24"></a><span class="co">## [13] gridExtra_2.3               spatstat_1.64-1            </span></span>
-<span id="cb483-25"><a href="writing-files-to-file.html#cb483-25"></a><span class="co">## [15] rpart_4.1-15                nlme_3.1-149               </span></span>
-<span id="cb483-26"><a href="writing-files-to-file.html#cb483-26"></a><span class="co">## [17] spatstat.data_1.4-3         scales_1.1.1               </span></span>
-<span id="cb483-27"><a href="writing-files-to-file.html#cb483-27"></a><span class="co">## [19] RColorBrewer_1.1-2          reshape2_1.4.4             </span></span>
-<span id="cb483-28"><a href="writing-files-to-file.html#cb483-28"></a><span class="co">## [21] pamr_1.56.1                 survival_3.2-7             </span></span>
-<span id="cb483-29"><a href="writing-files-to-file.html#cb483-29"></a><span class="co">## [23] cluster_2.1.0               limma_3.44.3               </span></span>
-<span id="cb483-30"><a href="writing-files-to-file.html#cb483-30"></a><span class="co">## [25] kableExtra_1.2.1            HTSanalyzeR2_0.99.19       </span></span>
-<span id="cb483-31"><a href="writing-files-to-file.html#cb483-31"></a><span class="co">## [27] heatmap.plus_1.3            GSVA_1.36.3                </span></span>
-<span id="cb483-32"><a href="writing-files-to-file.html#cb483-32"></a><span class="co">## [29] GSEABase_1.50.1             graph_1.66.0               </span></span>
-<span id="cb483-33"><a href="writing-files-to-file.html#cb483-33"></a><span class="co">## [31] annotate_1.66.0             XML_3.99-0.5               </span></span>
-<span id="cb483-34"><a href="writing-files-to-file.html#cb483-34"></a><span class="co">## [33] gplots_3.1.0                ggplot2_3.3.2              </span></span>
-<span id="cb483-35"><a href="writing-files-to-file.html#cb483-35"></a><span class="co">## [35] GenVisR_1.20.0              EnsDb.Hsapiens.v86_2.99.0  </span></span>
-<span id="cb483-36"><a href="writing-files-to-file.html#cb483-36"></a><span class="co">## [37] ensembldb_2.12.1            AnnotationFilter_1.12.0    </span></span>
-<span id="cb483-37"><a href="writing-files-to-file.html#cb483-37"></a><span class="co">## [39] GenomicFeatures_1.40.1      AnnotationDbi_1.50.3       </span></span>
-<span id="cb483-38"><a href="writing-files-to-file.html#cb483-38"></a><span class="co">## [41] DT_0.16                     dplyr_1.0.2                </span></span>
-<span id="cb483-39"><a href="writing-files-to-file.html#cb483-39"></a><span class="co">## [43] DESeq2_1.28.1               SummarizedExperiment_1.18.2</span></span>
-<span id="cb483-40"><a href="writing-files-to-file.html#cb483-40"></a><span class="co">## [45] DelayedArray_0.14.1         matrixStats_0.57.0         </span></span>
-<span id="cb483-41"><a href="writing-files-to-file.html#cb483-41"></a><span class="co">## [47] Biobase_2.48.0              GenomicRanges_1.40.0       </span></span>
-<span id="cb483-42"><a href="writing-files-to-file.html#cb483-42"></a><span class="co">## [49] GenomeInfoDb_1.24.2         colorspace_1.4-1           </span></span>
-<span id="cb483-43"><a href="writing-files-to-file.html#cb483-43"></a><span class="co">## [51] Biostrings_2.56.0           XVector_0.28.0             </span></span>
-<span id="cb483-44"><a href="writing-files-to-file.html#cb483-44"></a><span class="co">## [53] IRanges_2.22.2              S4Vectors_0.26.1           </span></span>
-<span id="cb483-45"><a href="writing-files-to-file.html#cb483-45"></a><span class="co">## [55] biomaRt_2.44.4              beeswarm_0.2.3             </span></span>
-<span id="cb483-46"><a href="writing-files-to-file.html#cb483-46"></a><span class="co">## [57] AnnotationHub_2.20.2        BiocFileCache_1.12.1       </span></span>
-<span id="cb483-47"><a href="writing-files-to-file.html#cb483-47"></a><span class="co">## [59] dbplyr_1.4.4                BiocGenerics_0.34.0        </span></span>
-<span id="cb483-48"><a href="writing-files-to-file.html#cb483-48"></a><span class="co">## </span></span>
-<span id="cb483-49"><a href="writing-files-to-file.html#cb483-49"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span id="cb483-50"><a href="writing-files-to-file.html#cb483-50"></a><span class="co">##   [1] shinydashboard_0.7.1          tidyselect_1.1.0             </span></span>
-<span id="cb483-51"><a href="writing-files-to-file.html#cb483-51"></a><span class="co">##   [3] RSQLite_2.2.1                 htmlwidgets_1.5.2            </span></span>
-<span id="cb483-52"><a href="writing-files-to-file.html#cb483-52"></a><span class="co">##   [5] BiocParallel_1.22.0           gmp_0.6-1                    </span></span>
-<span id="cb483-53"><a href="writing-files-to-file.html#cb483-53"></a><span class="co">##   [7] munsell_0.5.0                 codetools_0.2-16             </span></span>
-<span id="cb483-54"><a href="writing-files-to-file.html#cb483-54"></a><span class="co">##   [9] preprocessCore_1.50.0         miniUI_0.1.1.1               </span></span>
-<span id="cb483-55"><a href="writing-files-to-file.html#cb483-55"></a><span class="co">##  [11] withr_2.3.0                   Category_2.54.0              </span></span>
-<span id="cb483-56"><a href="writing-files-to-file.html#cb483-56"></a><span class="co">##  [13] highr_0.8                     rstudioapi_0.11              </span></span>
-<span id="cb483-57"><a href="writing-files-to-file.html#cb483-57"></a><span class="co">##  [15] robustbase_0.93-6             splots_1.54.0                </span></span>
-<span id="cb483-58"><a href="writing-files-to-file.html#cb483-58"></a><span class="co">##  [17] tensor_1.5                    rJava_0.9-13                 </span></span>
-<span id="cb483-59"><a href="writing-files-to-file.html#cb483-59"></a><span class="co">##  [19] labeling_0.4.2                GenomeInfoDbData_1.2.3       </span></span>
-<span id="cb483-60"><a href="writing-files-to-file.html#cb483-60"></a><span class="co">##  [21] polyclip_1.10-0               hwriter_1.3.2                </span></span>
-<span id="cb483-61"><a href="writing-files-to-file.html#cb483-61"></a><span class="co">##  [23] farver_2.0.3                  bit64_4.0.5                  </span></span>
-<span id="cb483-62"><a href="writing-files-to-file.html#cb483-62"></a><span class="co">##  [25] vctrs_0.3.4                   generics_0.0.2               </span></span>
-<span id="cb483-63"><a href="writing-files-to-file.html#cb483-63"></a><span class="co">##  [27] xfun_0.21                     R6_2.4.1                     </span></span>
-<span id="cb483-64"><a href="writing-files-to-file.html#cb483-64"></a><span class="co">##  [29] locfit_1.5-9.4                msigdbr_7.2.1                </span></span>
-<span id="cb483-65"><a href="writing-files-to-file.html#cb483-65"></a><span class="co">##  [31] bitops_1.0-6                  spatstat.utils_1.17-0        </span></span>
-<span id="cb483-66"><a href="writing-files-to-file.html#cb483-66"></a><span class="co">##  [33] fgsea_1.14.0                  assertthat_0.2.1             </span></span>
-<span id="cb483-67"><a href="writing-files-to-file.html#cb483-67"></a><span class="co">##  [35] promises_1.1.1                pinfsc50_1.2.0               </span></span>
-<span id="cb483-68"><a href="writing-files-to-file.html#cb483-68"></a><span class="co">##  [37] gtable_0.3.0                  affy_1.66.0                  </span></span>
-<span id="cb483-69"><a href="writing-files-to-file.html#cb483-69"></a><span class="co">##  [39] goftest_1.2-2                 cellHTS2_2.52.0              </span></span>
-<span id="cb483-70"><a href="writing-files-to-file.html#cb483-70"></a><span class="co">##  [41] rlang_0.4.8                   genefilter_1.70.0            </span></span>
-<span id="cb483-71"><a href="writing-files-to-file.html#cb483-71"></a><span class="co">##  [43] splines_4.0.2                 rtracklayer_1.48.0           </span></span>
-<span id="cb483-72"><a href="writing-files-to-file.html#cb483-72"></a><span class="co">##  [45] lazyeval_0.2.2                abind_1.4-5                  </span></span>
-<span id="cb483-73"><a href="writing-files-to-file.html#cb483-73"></a><span class="co">##  [47] BiocManager_1.30.10           yaml_2.2.1                   </span></span>
-<span id="cb483-74"><a href="writing-files-to-file.html#cb483-74"></a><span class="co">##  [49] backports_1.1.10              httpuv_1.5.4                 </span></span>
-<span id="cb483-75"><a href="writing-files-to-file.html#cb483-75"></a><span class="co">##  [51] RBGL_1.64.0                   tools_4.0.2                  </span></span>
-<span id="cb483-76"><a href="writing-files-to-file.html#cb483-76"></a><span class="co">##  [53] bookdown_0.21                 affyio_1.58.0                </span></span>
-<span id="cb483-77"><a href="writing-files-to-file.html#cb483-77"></a><span class="co">##  [55] ellipsis_0.3.1                Rcpp_1.0.5                   </span></span>
-<span id="cb483-78"><a href="writing-files-to-file.html#cb483-78"></a><span class="co">##  [57] plyr_1.8.6                    progress_1.2.2               </span></span>
-<span id="cb483-79"><a href="writing-files-to-file.html#cb483-79"></a><span class="co">##  [59] zlibbioc_1.34.0               purrr_0.3.4                  </span></span>
-<span id="cb483-80"><a href="writing-files-to-file.html#cb483-80"></a><span class="co">##  [61] RCurl_1.98-1.2                prettyunits_1.1.1            </span></span>
-<span id="cb483-81"><a href="writing-files-to-file.html#cb483-81"></a><span class="co">##  [63] deldir_0.1-29                 openssl_1.4.3                </span></span>
-<span id="cb483-82"><a href="writing-files-to-file.html#cb483-82"></a><span class="co">##  [65] viridis_0.5.1                 data.table_1.13.2            </span></span>
-<span id="cb483-83"><a href="writing-files-to-file.html#cb483-83"></a><span class="co">##  [67] colourpicker_1.1.0            mvtnorm_1.1-1                </span></span>
-<span id="cb483-84"><a href="writing-files-to-file.html#cb483-84"></a><span class="co">##  [69] ProtGenerics_1.20.0           xlsxjars_0.6.1               </span></span>
-<span id="cb483-85"><a href="writing-files-to-file.html#cb483-85"></a><span class="co">##  [71] hms_0.5.3                     mime_0.9                     </span></span>
-<span id="cb483-86"><a href="writing-files-to-file.html#cb483-86"></a><span class="co">##  [73] evaluate_0.14                 xtable_1.8-4                 </span></span>
-<span id="cb483-87"><a href="writing-files-to-file.html#cb483-87"></a><span class="co">##  [75] compiler_4.0.2                tibble_3.0.4                 </span></span>
-<span id="cb483-88"><a href="writing-files-to-file.html#cb483-88"></a><span class="co">##  [77] KernSmooth_2.23-17            crayon_1.3.4                 </span></span>
-<span id="cb483-89"><a href="writing-files-to-file.html#cb483-89"></a><span class="co">##  [79] htmltools_0.5.0               mgcv_1.8-33                  </span></span>
-<span id="cb483-90"><a href="writing-files-to-file.html#cb483-90"></a><span class="co">##  [81] pcaPP_1.9-73                  later_1.1.0.1                </span></span>
-<span id="cb483-91"><a href="writing-files-to-file.html#cb483-91"></a><span class="co">##  [83] geneplotter_1.66.0            rrcov_1.5-5                  </span></span>
-<span id="cb483-92"><a href="writing-files-to-file.html#cb483-92"></a><span class="co">##  [85] DBI_1.1.0                     MASS_7.3-53                  </span></span>
-<span id="cb483-93"><a href="writing-files-to-file.html#cb483-93"></a><span class="co">##  [87] rappdirs_0.3.1                Matrix_1.2-18                </span></span>
-<span id="cb483-94"><a href="writing-files-to-file.html#cb483-94"></a><span class="co">##  [89] permute_0.9-5                 vsn_3.56.0                   </span></span>
-<span id="cb483-95"><a href="writing-files-to-file.html#cb483-95"></a><span class="co">##  [91] RankProd_3.14.0               pkgconfig_2.0.3              </span></span>
-<span id="cb483-96"><a href="writing-files-to-file.html#cb483-96"></a><span class="co">##  [93] GenomicAlignments_1.24.0      xml2_1.3.2                   </span></span>
-<span id="cb483-97"><a href="writing-files-to-file.html#cb483-97"></a><span class="co">##  [95] foreach_1.5.1                 prada_1.63.0                 </span></span>
-<span id="cb483-98"><a href="writing-files-to-file.html#cb483-98"></a><span class="co">##  [97] stringdist_0.9.6.3            webshot_0.5.2                </span></span>
-<span id="cb483-99"><a href="writing-files-to-file.html#cb483-99"></a><span class="co">##  [99] rvest_0.3.6                   BioNet_1.47.0                </span></span>
-<span id="cb483-100"><a href="writing-files-to-file.html#cb483-100"></a><span class="co">## [101] stringr_1.4.0                 VariantAnnotation_1.34.0     </span></span>
-<span id="cb483-101"><a href="writing-files-to-file.html#cb483-101"></a><span class="co">## [103] digest_0.6.26                 vegan_2.5-6                  </span></span>
-<span id="cb483-102"><a href="writing-files-to-file.html#cb483-102"></a><span class="co">## [105] fastmatch_1.1-0               curl_4.3                     </span></span>
-<span id="cb483-103"><a href="writing-files-to-file.html#cb483-103"></a><span class="co">## [107] shiny_1.5.0                   Rsamtools_2.4.0              </span></span>
-<span id="cb483-104"><a href="writing-files-to-file.html#cb483-104"></a><span class="co">## [109] gtools_3.8.2                  FField_0.1.0                 </span></span>
-<span id="cb483-105"><a href="writing-files-to-file.html#cb483-105"></a><span class="co">## [111] lifecycle_0.2.0               viridisLite_0.3.0            </span></span>
-<span id="cb483-106"><a href="writing-files-to-file.html#cb483-106"></a><span class="co">## [113] askpass_1.1                   BSgenome_1.56.0              </span></span>
-<span id="cb483-107"><a href="writing-files-to-file.html#cb483-107"></a><span class="co">## [115] pillar_1.4.6                  lattice_0.20-41              </span></span>
-<span id="cb483-108"><a href="writing-files-to-file.html#cb483-108"></a><span class="co">## [117] KEGGREST_1.28.0               fastmap_1.0.1                </span></span>
-<span id="cb483-109"><a href="writing-files-to-file.html#cb483-109"></a><span class="co">## [119] httr_1.4.2                    DEoptimR_1.0-8               </span></span>
-<span id="cb483-110"><a href="writing-files-to-file.html#cb483-110"></a><span class="co">## [121] GO.db_3.11.4                  interactiveDisplayBase_1.26.3</span></span>
-<span id="cb483-111"><a href="writing-files-to-file.html#cb483-111"></a><span class="co">## [123] glue_1.4.2                    png_0.1-7                    </span></span>
-<span id="cb483-112"><a href="writing-files-to-file.html#cb483-112"></a><span class="co">## [125] shinythemes_1.1.2             iterators_1.0.13             </span></span>
-<span id="cb483-113"><a href="writing-files-to-file.html#cb483-113"></a><span class="co">## [127] BiocVersion_3.11.1            bit_4.0.4                    </span></span>
-<span id="cb483-114"><a href="writing-files-to-file.html#cb483-114"></a><span class="co">## [129] stringi_1.5.3                 blob_1.2.1                   </span></span>
-<span id="cb483-115"><a href="writing-files-to-file.html#cb483-115"></a><span class="co">## [131] caTools_1.18.0                memoise_1.1.0                </span></span>
-<span id="cb483-116"><a href="writing-files-to-file.html#cb483-116"></a><span class="co">## [133] Rmpfr_0.8-1                   ape_5.4-1</span></span></code></pre></div>
-
-</div>
-
-
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="writing-files-to-file.html#cb484-1"></a><span class="kw">sessionInfo</span>()</span>
+<span id="cb484-2"><a href="writing-files-to-file.html#cb484-2"></a><span class="co">## R version 4.0.2 (2020-06-22)</span></span>
+<span id="cb484-3"><a href="writing-files-to-file.html#cb484-3"></a><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
+<span id="cb484-4"><a href="writing-files-to-file.html#cb484-4"></a><span class="co">## Running under: macOS Catalina 10.15.7</span></span>
+<span id="cb484-5"><a href="writing-files-to-file.html#cb484-5"></a><span class="co">## </span></span>
+<span id="cb484-6"><a href="writing-files-to-file.html#cb484-6"></a><span class="co">## Matrix products: default</span></span>
+<span id="cb484-7"><a href="writing-files-to-file.html#cb484-7"></a><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span></span>
+<span id="cb484-8"><a href="writing-files-to-file.html#cb484-8"></a><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span></span>
+<span id="cb484-9"><a href="writing-files-to-file.html#cb484-9"></a><span class="co">## </span></span>
+<span id="cb484-10"><a href="writing-files-to-file.html#cb484-10"></a><span class="co">## locale:</span></span>
+<span id="cb484-11"><a href="writing-files-to-file.html#cb484-11"></a><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span id="cb484-12"><a href="writing-files-to-file.html#cb484-12"></a><span class="co">## </span></span>
+<span id="cb484-13"><a href="writing-files-to-file.html#cb484-13"></a><span class="co">## attached base packages:</span></span>
+<span id="cb484-14"><a href="writing-files-to-file.html#cb484-14"></a><span class="co">##  [1] grid      stats4    parallel  stats     graphics  grDevices utils    </span></span>
+<span id="cb484-15"><a href="writing-files-to-file.html#cb484-15"></a><span class="co">##  [8] datasets  methods   base     </span></span>
+<span id="cb484-16"><a href="writing-files-to-file.html#cb484-16"></a><span class="co">## </span></span>
+<span id="cb484-17"><a href="writing-files-to-file.html#cb484-17"></a><span class="co">## other attached packages:</span></span>
+<span id="cb484-18"><a href="writing-files-to-file.html#cb484-18"></a><span class="co">##  [1] rmarkdown_2.6               org.Hs.eg.db_3.11.4        </span></span>
+<span id="cb484-19"><a href="writing-files-to-file.html#cb484-19"></a><span class="co">##  [3] pander_0.6.3                knitr_1.31                 </span></span>
+<span id="cb484-20"><a href="writing-files-to-file.html#cb484-20"></a><span class="co">##  [5] forestplot_1.10.1           checkmate_2.0.0            </span></span>
+<span id="cb484-21"><a href="writing-files-to-file.html#cb484-21"></a><span class="co">##  [7] magrittr_1.5                writexl_1.3.1              </span></span>
+<span id="cb484-22"><a href="writing-files-to-file.html#cb484-22"></a><span class="co">##  [9] xlsx_0.6.4.2                vcfR_1.12.0                </span></span>
+<span id="cb484-23"><a href="writing-files-to-file.html#cb484-23"></a><span class="co">## [11] tcR_2.3.2                   igraph_1.2.6               </span></span>
+<span id="cb484-24"><a href="writing-files-to-file.html#cb484-24"></a><span class="co">## [13] gridExtra_2.3               spatstat_1.64-1            </span></span>
+<span id="cb484-25"><a href="writing-files-to-file.html#cb484-25"></a><span class="co">## [15] rpart_4.1-15                nlme_3.1-149               </span></span>
+<span id="cb484-26"><a href="writing-files-to-file.html#cb484-26"></a><span class="co">## [17] spatstat.data_1.4-3         scales_1.1.1               </span></span>
+<span id="cb484-27"><a href="writing-files-to-file.html#cb484-27"></a><span class="co">## [19] RColorBrewer_1.1-2          reshape2_1.4.4             </span></span>
+<span id="cb484-28"><a href="writing-files-to-file.html#cb484-28"></a><span class="co">## [21] pamr_1.56.1                 survival_3.2-7             </span></span>
+<span id="cb484-29"><a href="writing-files-to-file.html#cb484-29"></a><span class="co">## [23] cluster_2.1.0               limma_3.44.3               </span></span>
+<span id="cb484-30"><a href="writing-files-to-file.html#cb484-30"></a><span class="co">## [25] kableExtra_1.2.1            HTSanalyzeR2_0.99.19       </span></span>
+<span id="cb484-31"><a href="writing-files-to-file.html#cb484-31"></a><span class="co">## [27] heatmap.plus_1.3            GSVA_1.36.3                </span></span>
+<span id="cb484-32"><a href="writing-files-to-file.html#cb484-32"></a><span class="co">## [29] GSEABase_1.50.1             graph_1.66.0               </span></span>
+<span id="cb484-33"><a href="writing-files-to-file.html#cb484-33"></a><span class="co">## [31] annotate_1.66.0             XML_3.99-0.5               </span></span>
+<span id="cb484-34"><a href="writing-files-to-file.html#cb484-34"></a><span class="co">## [33] gplots_3.1.0                ggplot2_3.3.2              </span></span>
+<span id="cb484-35"><a href="writing-files-to-file.html#cb484-35"></a><span class="co">## [35] GenVisR_1.20.0              EnsDb.Hsapiens.v86_2.99.0  </span></span>
+<span id="cb484-36"><a href="writing-files-to-file.html#cb484-36"></a><span class="co">## [37] ensembldb_2.12.1            AnnotationFilter_1.12.0    </span></span>
+<span id="cb484-37"><a href="writing-files-to-file.html#cb484-37"></a><span class="co">## [39] GenomicFeatures_1.40.1      AnnotationDbi_1.50.3       </span></span>
+<span id="cb484-38"><a href="writing-files-to-file.html#cb484-38"></a><span class="co">## [41] DT_0.16                     dplyr_1.0.2                </span></span>
+<span id="cb484-39"><a href="writing-files-to-file.html#cb484-39"></a><span class="co">## [43] DESeq2_1.28.1               SummarizedExperiment_1.18.2</span></span>
+<span id="cb484-40"><a href="writing-files-to-file.html#cb484-40"></a><span class="co">## [45] DelayedArray_0.14.1         matrixStats_0.57.0         </span></span>
+<span id="cb484-41"><a href="writing-files-to-file.html#cb484-41"></a><span class="co">## [47] Biobase_2.48.0              GenomicRanges_1.40.0       </span></span>
+<span id="cb484-42"><a href="writing-files-to-file.html#cb484-42"></a><span class="co">## [49] GenomeInfoDb_1.24.2         colorspace_1.4-1           </span></span>
+<span id="cb484-43"><a href="writing-files-to-file.html#cb484-43"></a><span class="co">## [51] Biostrings_2.56.0           XVector_0.28.0             </span></span>
+<span id="cb484-44"><a href="writing-files-to-file.html#cb484-44"></a><span class="co">## [53] IRanges_2.22.2              S4Vectors_0.26.1           </span></span>
+<span id="cb484-45"><a href="writing-files-to-file.html#cb484-45"></a><span class="co">## [55] biomaRt_2.44.4              beeswarm_0.2.3             </span></span>
+<span id="cb484-46"><a href="writing-files-to-file.html#cb484-46"></a><span class="co">## [57] AnnotationHub_2.20.2        BiocFileCache_1.12.1       </span></span>
+<span id="cb484-47"><a href="writing-files-to-file.html#cb484-47"></a><span class="co">## [59] dbplyr_1.4.4                BiocGenerics_0.34.0        </span></span>
+<span id="cb484-48"><a href="writing-files-to-file.html#cb484-48"></a><span class="co">## </span></span>
+<span id="cb484-49"><a href="writing-files-to-file.html#cb484-49"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span id="cb484-50"><a href="writing-files-to-file.html#cb484-50"></a><span class="co">##   [1] shinydashboard_0.7.1          tidyselect_1.1.0             </span></span>
+<span id="cb484-51"><a href="writing-files-to-file.html#cb484-51"></a><span class="co">##   [3] RSQLite_2.2.1                 htmlwidgets_1.5.2            </span></span>
+<span id="cb484-52"><a href="writing-files-to-file.html#cb484-52"></a><span class="co">##   [5] BiocParallel_1.22.0           gmp_0.6-1                    </span></span>
+<span id="cb484-53"><a href="writing-files-to-file.html#cb484-53"></a><span class="co">##   [7] munsell_0.5.0                 codetools_0.2-16             </span></span>
+<span id="cb484-54"><a href="writing-files-to-file.html#cb484-54"></a><span class="co">##   [9] preprocessCore_1.50.0         miniUI_0.1.1.1               </span></span>
+<span id="cb484-55"><a href="writing-files-to-file.html#cb484-55"></a><span class="co">##  [11] withr_2.3.0                   Category_2.54.0              </span></span>
+<span id="cb484-56"><a href="writing-files-to-file.html#cb484-56"></a><span class="co">##  [13] highr_0.8                     rstudioapi_0.11              </span></span>
+<span id="cb484-57"><a href="writing-files-to-file.html#cb484-57"></a><span class="co">##  [15] robustbase_0.93-6             splots_1.54.0                </span></span>
+<span id="cb484-58"><a href="writing-files-to-file.html#cb484-58"></a><span class="co">##  [17] tensor_1.5                    rJava_0.9-13                 </span></span>
+<span id="cb484-59"><a href="writing-files-to-file.html#cb484-59"></a><span class="co">##  [19] labeling_0.4.2                GenomeInfoDbData_1.2.3       </span></span>
+<span id="cb484-60"><a href="writing-files-to-file.html#cb484-60"></a><span class="co">##  [21] polyclip_1.10-0               hwriter_1.3.2                </span></span>
+<span id="cb484-61"><a href="writing-files-to-file.html#cb484-61"></a><span class="co">##  [23] farver_2.0.3                  bit64_4.0.5                  </span></span>
+<span id="cb484-62"><a href="writing-files-to-file.html#cb484-62"></a><span class="co">##  [25] vctrs_0.3.4                   generics_0.0.2               </span></span>
+<span id="cb484-63"><a href="writing-files-to-file.html#cb484-63"></a><span class="co">##  [27] xfun_0.21                     R6_2.4.1                     </span></span>
+<span id="cb484-64"><a href="writing-files-to-file.html#cb484-64"></a><span class="co">##  [29] locfit_1.5-9.4                msigdbr_7.2.1                </span></span>
+<span id="cb484-65"><a href="writing-files-to-file.html#cb484-65"></a><span class="co">##  [31] bitops_1.0-6                  spatstat.utils_1.17-0        </span></span>
+<span id="cb484-66"><a href="writing-files-to-file.html#cb484-66"></a><span class="co">##  [33] fgsea_1.14.0                  assertthat_0.2.1             </span></span>
+<span id="cb484-67"><a href="writing-files-to-file.html#cb484-67"></a><span class="co">##  [35] promises_1.1.1                pinfsc50_1.2.0               </span></span>
+<span id="cb484-68"><a href="writing-files-to-file.html#cb484-68"></a><span class="co">##  [37] gtable_0.3.0                  affy_1.66.0                  </span></span>
+<span id="cb484-69"><a href="writing-files-to-file.html#cb484-69"></a><span class="co">##  [39] goftest_1.2-2                 cellHTS2_2.52.0              </span></span>
+<span id="cb484-70"><a href="writing-files-to-file.html#cb484-70"></a><span class="co">##  [41] rlang_0.4.8                   genefilter_1.70.0            </span></span>
+<span id="cb484-71"><a href="writing-files-to-file.html#cb484-71"></a><span class="co">##  [43] splines_4.0.2                 rtracklayer_1.48.0           </span></span>
+<span id="cb484-72"><a href="writing-files-to-file.html#cb484-72"></a><span class="co">##  [45] lazyeval_0.2.2                abind_1.4-5                  </span></span>
+<span id="cb484-73"><a href="writing-files-to-file.html#cb484-73"></a><span class="co">##  [47] BiocManager_1.30.10           yaml_2.2.1                   </span></span>
+<span id="cb484-74"><a href="writing-files-to-file.html#cb484-74"></a><span class="co">##  [49] backports_1.1.10              httpuv_1.5.4                 </span></span>
+<span id="cb484-75"><a href="writing-files-to-file.html#cb484-75"></a><span class="co">##  [51] RBGL_1.64.0                   tools_4.0.2                  </span></span>
+<span id="cb484-76"><a href="writing-files-to-file.html#cb484-76"></a><span class="co">##  [53] bookdown_0.21                 affyio_1.58.0                </span></span>
+<span id="cb484-77"><a href="writing-files-to-file.html#cb484-77"></a><span class="co">##  [55] ellipsis_0.3.1                Rcpp_1.0.5                   </span></span>
+<span id="cb484-78"><a href="writing-files-to-file.html#cb484-78"></a><span class="co">##  [57] plyr_1.8.6                    progress_1.2.2               </span></span>
+<span id="cb484-79"><a href="writing-files-to-file.html#cb484-79"></a><span class="co">##  [59] zlibbioc_1.34.0               purrr_0.3.4                  </span></span>
+<span id="cb484-80"><a href="writing-files-to-file.html#cb484-80"></a><span class="co">##  [61] RCurl_1.98-1.2                prettyunits_1.1.1            </span></span>
+<span id="cb484-81"><a href="writing-files-to-file.html#cb484-81"></a><span class="co">##  [63] deldir_0.1-29                 openssl_1.4.3                </span></span>
+<span id="cb484-82"><a href="writing-files-to-file.html#cb484-82"></a><span class="co">##  [65] viridis_0.5.1                 data.table_1.13.2            </span></span>
+<span id="cb484-83"><a href="writing-files-to-file.html#cb484-83"></a><span class="co">##  [67] colourpicker_1.1.0            mvtnorm_1.1-1                </span></span>
+<span id="cb484-84"><a href="writing-files-to-file.html#cb484-84"></a><span class="co">##  [69] ProtGenerics_1.20.0           xlsxjars_0.6.1               </span></span>
+<span id="cb484-85"><a href="writing-files-to-file.html#cb484-85"></a><span class="co">##  [71] hms_0.5.3                     mime_0.9                     </span></span>
+<span id="cb484-86"><a href="writing-files-to-file.html#cb484-86"></a><span class="co">##  [73] evaluate_0.14                 xtable_1.8-4                 </span></span>
+<span id="cb484-87"><a href="writing-files-to-file.html#cb484-87"></a><span class="co">##  [75] compiler_4.0.2                tibble_3.0.4                 </span></span>
+<span id="cb484-88"><a href="writing-files-to-file.html#cb484-88"></a><span class="co">##  [77] KernSmooth_2.23-17            crayon_1.3.4                 </span></span>
+<span id="cb484-89"><a href="writing-files-to-file.html#cb484-89"></a><span class="co">##  [79] htmltools_0.5.0               mgcv_1.8-33                  </span></span>
+<span id="cb484-90"><a href="writing-files-to-file.html#cb484-90"></a><span class="co">##  [81] pcaPP_1.9-73                  later_1.1.0.1                </span></span>
+<span id="cb484-91"><a href="writing-files-to-file.html#cb484-91"></a><span class="co">##  [83] geneplotter_1.66.0            rrcov_1.5-5                  </span></span>
+<span id="cb484-92"><a href="writing-files-to-file.html#cb484-92"></a><span class="co">##  [85] DBI_1.1.0                     MASS_7.3-53                  </span></span>
+<span id="cb484-93"><a href="writing-files-to-file.html#cb484-93"></a><span class="co">##  [87] rappdirs_0.3.1                Matrix_1.2-18                </span></span>
+<span id="cb484-94"><a href="writing-files-to-file.html#cb484-94"></a><span class="co">##  [89] permute_0.9-5                 vsn_3.56.0                   </span></span>
+<span id="cb484-95"><a href="writing-files-to-file.html#cb484-95"></a><span class="co">##  [91] RankProd_3.14.0               pkgconfig_2.0.3              </span></span>
+<span id="cb484-96"><a href="writing-files-to-file.html#cb484-96"></a><span class="co">##  [93] GenomicAlignments_1.24.0      xml2_1.3.2                   </span></span>
+<span id="cb484-97"><a href="writing-files-to-file.html#cb484-97"></a><span class="co">##  [95] foreach_1.5.1                 prada_1.63.0                 </span></span>
+<span id="cb484-98"><a href="writing-files-to-file.html#cb484-98"></a><span class="co">##  [97] stringdist_0.9.6.3            webshot_0.5.2                </span></span>
+<span id="cb484-99"><a href="writing-files-to-file.html#cb484-99"></a><span class="co">##  [99] rvest_0.3.6                   BioNet_1.47.0                </span></span>
+<span id="cb484-100"><a href="writing-files-to-file.html#cb484-100"></a><span class="co">## [101] stringr_1.4.0                 VariantAnnotation_1.34.0     </span></span>
+<span id="cb484-101"><a href="writing-files-to-file.html#cb484-101"></a><span class="co">## [103] digest_0.6.26                 vegan_2.5-6                  </span></span>
+<span id="cb484-102"><a href="writing-files-to-file.html#cb484-102"></a><span class="co">## [105] fastmatch_1.1-0               curl_4.3                     </span></span>
+<span id="cb484-103"><a href="writing-files-to-file.html#cb484-103"></a><span class="co">## [107] shiny_1.5.0                   Rsamtools_2.4.0              </span></span>
+<span id="cb484-104"><a href="writing-files-to-file.html#cb484-104"></a><span class="co">## [109] gtools_3.8.2                  FField_0.1.0                 </span></span>
+<span id="cb484-105"><a href="writing-files-to-file.html#cb484-105"></a><span class="co">## [111] lifecycle_0.2.0               viridisLite_0.3.0            </span></span>
+<span id="cb484-106"><a href="writing-files-to-file.html#cb484-106"></a><span class="co">## [113] askpass_1.1                   BSgenome_1.56.0              </span></span>
+<span id="cb484-107"><a href="writing-files-to-file.html#cb484-107"></a><span class="co">## [115] pillar_1.4.6                  lattice_0.20-41              </span></span>
+<span id="cb484-108"><a href="writing-files-to-file.html#cb484-108"></a><span class="co">## [117] KEGGREST_1.28.0               fastmap_1.0.1                </span></span>
+<span id="cb484-109"><a href="writing-files-to-file.html#cb484-109"></a><span class="co">## [119] httr_1.4.2                    DEoptimR_1.0-8               </span></span>
+<span id="cb484-110"><a href="writing-files-to-file.html#cb484-110"></a><span class="co">## [121] GO.db_3.11.4                  interactiveDisplayBase_1.26.3</span></span>
+<span id="cb484-111"><a href="writing-files-to-file.html#cb484-111"></a><span class="co">## [123] glue_1.4.2                    png_0.1-7                    </span></span>
+<span id="cb484-112"><a href="writing-files-to-file.html#cb484-112"></a><span class="co">## [125] shinythemes_1.1.2             iterators_1.0.13             </span></span>
+<span id="cb484-113"><a href="writing-files-to-file.html#cb484-113"></a><span class="co">## [127] BiocVersion_3.11.1            bit_4.0.4                    </span></span>
+<span id="cb484-114"><a href="writing-files-to-file.html#cb484-114"></a><span class="co">## [129] stringi_1.5.3                 blob_1.2.1                   </span></span>
+<span id="cb484-115"><a href="writing-files-to-file.html#cb484-115"></a><span class="co">## [131] caTools_1.18.0                memoise_1.1.0                </span></span>
+<span id="cb484-116"><a href="writing-files-to-file.html#cb484-116"></a><span class="co">## [133] Rmpfr_0.8-1                   ape_5.4-1</span></span></code></pre></div>
 
 </div>
             </section>
@@ -558,7 +565,7 @@ write to file:</p>
         </div>
       </div>
 <a href="trichrome-staining.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="list-of-figures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bicseqout.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

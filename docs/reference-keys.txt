@@ -13,15 +13,12 @@ fig:4b
 fig:4b2
 fig:Fig4c
 fig:if-growth
-fig:4e
 fig:Ext4h
 fig:Ext3d
 fig:Ext3e
 fig:Ext3i-1
 fig:Ext3i-2
 fig:1f
-fig:3j
-fig:3jb
 fig:4g
 fig:5a
 fig:4h
@@ -42,6 +39,8 @@ fig:Ext5e-dfs
 fig:5i
 fig:5i-dfs
 fig:5h
+fig:tcga-volcano
+fig:heatmap-tcga
 fig:TCGA-gsea
 fig:Ext2d
 fig:2d
@@ -69,6 +68,7 @@ fig:trust-progression-2
 fig:trust-progression-3
 fig:4i-1
 fig:4i-2
+fig:4i-3
 fig:4ib
 fig:1j
 fig:Ext1j-1
@@ -243,4 +243,12 @@ associations-with-cd8-content
 associations-with-growth-and-treatment
 association-with-hyperinflammatory-status
 writing-files-to-file
+bicseqout
+move-to-combined-data-load-page
+annotation-files
+sample-data
+data-summary
+frequency-of-gains-and-losses-across-the-genome
+loci-which-have-a-hit-in-at-least-30-of-samples
+annotated-plot-of-genome-and-locations-of-genes
 list-of-figures

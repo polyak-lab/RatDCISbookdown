@@ -64,6 +64,7 @@ library(forestplot)
 library(GenVisR)
 library(GenomicFeatures)
 library(ggplot2)
+library(ggrepel)
 library(gplots)
 library(GSEABase)
 library(GSVA)
@@ -157,10 +158,11 @@ The following annotation data for the rn6 genome is required:
 Below is the summary of chromosome sizes and centromere locations:
 
 ```{r}
+chrInfo=read.delim("../anntotations/chromInfo_rat.txt", header=T)
 cytoInfo=read.delim("../anntotations/cytoBand_Rat2.txt", header=F, stringsAsFactors = F)
 colnames(cytoInfo)=c("chrom", "chromStart", "chromEnd", "name", "gieStain")
 GRcytoInfo=GRanges(seqnames=cytoInfo$V1, ranges=IRanges(start = cytoInfo$V2, end=cytoInfo$V3), cytoband=cytoInfo$V4)
-head(cytoInfo)
+head(GRcytoInfo)
 ```
 
 Below is an example of the gene annotation files
@@ -1716,10 +1718,13 @@ Other notes:
 Below are the MH indices with increasing grid-size for individual samples. In general, there is a subset of stable samples which have very high intermixing
 
 ```{r 4e, fig.cap="Fig4e MH index with CD8 growth"}
-#pdf("~/Desktop/4E-MH-summary-growth.pdf", height=5, width=7)
+
+pdf("figure-outputs/4E-MH-summary-growth.pdf", height=5, width=7)
 
 p<-ggplot(A1, aes(x=gridsize, y=value, col=Growth))+facet_grid(~Var1)+geom_line(aes(group=L1))+ylab("grid size")+ylab("Morisita Horn index")+ggtitle("MH index with CD8: growth")+geom_point(position=position_jitterdodge(),alpha=0.3)
 print(p)
+
+dev.off()
 ```
 
 WE can condense these values based on growing vs stable cases:
@@ -4143,22 +4148,19 @@ AllG2=rownames(Xa1)[which(rownames(Xa1)%in%RatAllImm)]
 Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
 colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
 
-
-#assay(CDvsd)<- limma::removeBatchEffect(assay(CDvsd))
-
-#Mat2=CDvsd[match(rownames(Xa1), rownames(CDvsd)), ]
-
 colSCols=ColMerge[ ,1][Mat2$Treatment]
 
-#pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=9, width=6)
+pdf("figure-outputs/FIgure3j_1_vs_all.pdf", height=7, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1],
           hclustfun = hclust.ave)
 
-#dev.off()
+dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 ```
+
+
 
 ```{r 3jb, fig.cap="IO vs any other treatment"}
 ## ALSO LOOK AT the pairwise comparisons and pull out those genes
@@ -4166,9 +4168,9 @@ ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
 bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
-G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
-G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
-G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>2)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>2)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>2)]
 
 AllG=unique(c(G1, G2, G3))
 
@@ -4178,10 +4180,10 @@ Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
 colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
 
 colSCols=ColMerge[ ,1][Mat2$Treatment]
-#pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
+pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
-#dev.off()
+dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
 ```
@@ -5508,7 +5510,7 @@ write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
 
 We can look below what the association with subtype is in KM curves:
 
-```{r Ext5e-os, fig.cap="OS CD74 by subtype" }
+```{r Ext5e-os, fig.cap="OS CD74 by subtype", fig.height=8}
 par(mfrow=c(2,2))
 
 Xind=c("Basal", "Her2", "LumA", "LumB")
@@ -5710,26 +5712,30 @@ TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2F
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
-pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
-with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+#pdf("figure-outputs/Fig5_TCGA_deg.pdf", height=8, width=8)
+with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
 with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
-dev.off()
+#dev.off()
 ```
+
 
 ```{r heatmap-tcga, fig.cap="because someone will ask for it"}
 vstTCGA=vst(assay(TCGAdeseq))
 
-#ColSideCols=c("skyblue", "blue")[TCGAdeseq$TCGAvalcut]
+ColSideCols=c("skyblue", "blue")[factor(TCGAdeseq$TCGAvalcut)]
 
-#ax1=assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ]
-#ax1[1:5, 1:5]
+ax1=vstTCGA[ match(rownames(TCGAdeseqRes2), rownames(vstTCGA)),  ]
+ax1[1:5, 1:5]
 
-#pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
+pdf("figure-outputs/Figure5_XX_heatmap_LumA_TCGA.pdf", height=15, width=10)
 
-#heatmap.2(assay(vstTCGA)[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
+heatmap.2(vstTCGA[ rownames(TCGAdeseqRes2),  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA TCGA")
 
-#dev.off()
+dev.off()
+
+
+boxplot(vstTCGA["CD8A", ]~TCGAdeseq$TCGAvalcut)
 
 ```
 
@@ -7234,10 +7240,21 @@ ann_text=data.frame(Glabel=round(AllP, 2),
                     Treatment=rep(c("LY", "PDL1", "PDL1+LY"), 4), 
                     variable=rep(yvals, each=3), value=0.7)
 
+print('P values for something')
+a1
+b1
+c1
 
-p=ggplot(TrustTab[CD45F2, ], aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+
-  scale_colour_manual(values=c(ColMerge[ ,1], "black"))+facet_grid(~variable)+theme_bw()
-#p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
+tablex=TrustTab[CD45F2, c("Treatment", "Growth", "TrustNclonotypes", 
+                          "TrustShannon", "TrustTop10", "TrustGini")]
+head(tablex)
+tablexM=melt(tablex)
+
+save(tablex, file="figure-outputs/figure-trust.Rdata")
+ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_point()+facet_grid(variable~., scale="free_y", space="free_y")+theme_bw()
+#+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
+
+
 
 boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Treatment"], main=paste("PDL1", round(a1[1],2), "LY", round(b1[1],2), "PDL1+LY", round(c1[1], 2)), xlab="treat", ylab="no clonotypes",
         col=ColMerge[ ,1])
@@ -8921,6 +8938,15 @@ ax1
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 t2
 
+newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
+             inf=vstEpInf$Inflammation3[-which(is.na(t2))],
+             names=ax1[-which(is.na(t2))])
+             
+head(newTab)
+
+ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
+write.csv(newTab, file="nature-tables/Ext5z_trichrome.csv")
+
 ```
 
 # Writing files to file
@@ -8971,6 +8997,175 @@ sessionInfo()
 ```
 
 <!--chapter:end:15-trichrome-staining.Rmd-->
+
+
+
+# BICseqout
+## Move to combined data load page
+
+### Annotation files
+
+Information on chromosome sizes, cytobands and centromere locations were obtained from the [UCSC genome browser](http://hgdownload.soe.ucsc.edu/goldenPath/rn6/database/).
+
+
+Create a TxDb object from a gtf file and save information 
+
+```{r, cache=T, message=F, warning=F, eval=F}
+txRn6=makeTxDbFromGFF("dontUpload/rn6_refGene.gtf",
+                        organism="Rattus norvegicus")
+txRn6<-genes(txRn6)
+```
+
+```{r, eval=F}
+AllCosmic=read.csv("anntotations/Census_COSMIC_Feb2020.csv")
+RatCosmic=unique(na.omit(SymHum2Rat$RGD.symbol[match(AllCosmic$Gene.Symbol, SymHum2Rat$HGNC.symbol)]))
+```
+
+```{r, eval=F}
+ImmPortGenes=read.csv("anntotations/ImmPort_Set.csv")
+InnateDBGenes=read.csv("anntotations/innatedb_curated_genes.csv")
+
+# convert to Rat genes
+AllImmGenes=unique(toupper(c(as.character(ImmPortGenes$Symbol), as.character(InnateDBGenes$Gene.Symbol))))
+RatAllImm=na.omit(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$HGNC.symbol)])
+```
+
+### Sample data
+
+Load BICseq2 data for all tested samples:
+
+```{r}
+allfiles=dir("../data/CNV_calls/","2_scale$", full.names = T)
+
+CNVL2=lapply(allfiles, function(x) read.delim(x, stringsAsFactors = F))
+meltCN=melt(CNVL2, measure.vars=c("log2.copyRatio"))
+AllDCN=data.frame(sampleID=meltCN$L1, chrom=substr(meltCN$chrom, 4, 5), start.pos=meltCN$start,
+                  end.pos=meltCN$end, n.probes=meltCN$binNum, mean=meltCN$value, 
+                  call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
+
+AllDCN2=data.frame(sample=meltCN$L1, chromosome=meltCN$chrom, start=meltCN$start,
+                  end=meltCN$end, n.probes=meltCN$binNum, segmean=2*2^(meltCN$value), 
+                  call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
+AllDCN2$chromosome=factor(AllDCN2$chromosome, levels=unique(AllDCN2$chromosome))
+
+CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call)
+
+# load all and save the temporary outputs to file to see how the parameters change
+# pdf("rslt/BICseq_summary_2scale.pdf", width=12, height=6)
+# cnFreq_mod(AllDCN2,CN_low_cutoff=1.4, CN_high_cutoff=2.8, genome=cytoInfo)
+# dev.off()
+```
+
+## Data Summary
+
+### Frequency of gains and losses across the genome
+
+```{r}
+# plot the frequencies
+Samp1=cnFreq_mod(AllDCN2,CN_low_cutoff=1.4, CN_high_cutoff=2.8, genome=cytoInfo)
+Samp1$plot
+```
+
+### Loci which have a hit in at least 30\% of samples
+
+```{r}
+# Filter out gain and loss regions
+LocationsA=Samp1$data[which(Samp1$data$gainProportion>0.3), ]
+LocationsA=LocationsA[order( LocationsA$chromosome, LocationsA$start),  ]
+LocAmerge=Merge_contig(LocationsA)
+
+LocationsB=Samp1$data[which(Samp1$data$lossProportion>0.3), ]
+LocationsB=LocationsB[order( LocationsB$chromosome, LocationsB$start),  ]
+LocBmerge=Merge_contig(LocationsB)
+
+# turn into a GRanges object
+
+LocAGRanges=GRanges(seqnames = LocAmerge$chromosome, ranges=IRanges(start=LocAmerge$start, end=LocAmerge$end), strand="*",
+                    sampleFrequency=LocAmerge$sampleFrequency, gainFrequency=LocAmerge$gainFrequency, lossFrequency=LocAmerge$lossFrequency, gainProportion=LocAmerge$gainProportion, lossProportion=LocAmerge$lossProportion)
+
+LocBGRanges=GRanges(seqnames = LocBmerge$chromosome, ranges=IRanges(start=LocBmerge$start, end=LocBmerge$end), strand="*",
+                    sampleFrequency=LocBmerge$sampleFrequency, gainFrequency=LocBmerge$gainFrequency, lossFrequency=LocBmerge$lossFrequency, gainProportion=LocBmerge$gainProportion, lossProportion=LocBmerge$lossProportion)
+
+# find the overlaps
+GainOLap=findOverlaps(LocAGRanges, txRn6)
+UniqueGainOlapRegions=unique(queryHits(GainOLap))
+GainGenes=sapply(unique(queryHits(GainOLap)), function(x) txRn6$gene_id[subjectHits(GainOLap[which(queryHits(GainOLap)==x)])])
+
+LossOLap=findOverlaps(LocBGRanges, txRn6)
+UniqueLossOlapRegions=unique(queryHits(LossOLap))
+LossGenes=sapply(unique(queryHits(LossOLap)), function(x) txRn6$gene_id[subjectHits(LossOLap[which(queryHits(LossOLap)==x)])])
+```
+
+Venn diagrams of the number of genes which intersect with the cosmic dataset
+
+```{r}
+OverviewG=unique(unlist(GainGenes))
+OverviewL=unique(unlist(LossGenes))
+
+par(mfrow=c(1,2))
+venn(list(CNVgains=OverviewG, cosmic=RatCosmic))
+venn(list(CNVloss=OverviewL, cosmic=RatCosmic))
+```
+
+The intersecting gene is `r intersect(OverviewL, RatCosmic)`
+
+Venn diagram of immune related genes:
+
+```{r}
+par(mfrow=c(1,2))
+venn(list(CNVgains=OverviewG, Immune=RatAllImm))
+venn(list(CNVloss=OverviewL, Immune=RatAllImm))
+```
+
+The gained genes are `r intersect(OverviewG, RatAllImm)`
+The lost genes are `r intersect(OverviewL, RatAllImm)`
+
+### Annotated plot of genome and locations of genes
+
+```{r}
+S2=Samp1$data
+S2=S2[order(S2$chromosome, S2$start), ]
+
+
+GG2=sapply(GainGenes, length)
+GG3=unlist(GainGenes)
+GG3[which(duplicated(GG3))]=""
+GG4=split(GG3, rep(c(1:length(GG2)), times=GG2))
+Ggenes=sapply(GG4, function(x) paste(x, sep="", collapse=" "))
+Ggenes=gsub("  ", "", Ggenes)
+Ggenes[which(Ggenes==" ")]=""
+Datx=rep("", nrow(Samp1$data))
+Datx[match(LocAmerge$start[UniqueGainOlapRegions], S2$start)]=Ggenes
+
+GG2=sapply(LossGenes, length)
+GG3=unlist(LossGenes)
+GG3[which(duplicated(GG3))]=""
+GG4=split(GG3, rep(c(1:length(GG2)), times=GG2))
+Lgenes=sapply(GG4, function(x) paste(x, sep="", collapse=" "))
+Lgenes[which(Lgenes==" ")]=""
+Daty=rep("", nrow(Samp1$data))
+Daty[match(LocBmerge$start[UniqueLossOlapRegions], S2$start)]=Lgenes
+
+## 
+#S2=Samp1$data
+#S2=S2[order(S2$chromosome, S2$start), ]
+S2$xLoc=S2$start+chrInfo$sumdist[match(S2$chromosome, chrInfo$Chromosome)]
+S2$width=S2$end-S2$start
+S2$label=Datx
+
+S3=S2
+S3$gainProportion=S3$lossProportion[1:nrow(S2)]*(-1)
+S3$label=Daty
+
+S4=rbind(cbind(S3, col="blue"), cbind(S2, col="red"))
+S4=S4[-which(S3$gainProportion==0), ]
+
+ggplot(S4, aes(x=xLoc, y=gainProportion, width=width*1.2, label=label, col=col))+geom_bar(stat = "identity")+geom_label_repel()+theme_bw()+xlim(0, chrInfo$sumdist2[22])+geom_vline(xintercept=chrInfo$sumdist2,col="grey")+scale_colour_manual(values=c("blue", "red"))+annotate("text", x=chrInfo$sumdist, y=rep(-1, 22), label=chrInfo$Chromosome, col="black")
+
+
+```
+
+<!--chapter:end:16-BICseqout.Rmd-->
 
 # (APPENDIX) Appendix {-} 
 

@@ -64,6 +64,7 @@ library(forestplot)
 library(GenVisR)
 library(GenomicFeatures)
 library(ggplot2)
+library(ggrepel)
 library(gplots)
 library(GSEABase)
 library(GSVA)
@@ -157,10 +158,11 @@ The following annotation data for the rn6 genome is required:
 Below is the summary of chromosome sizes and centromere locations:
 
 ```{r}
+chrInfo=read.delim("../anntotations/chromInfo_rat.txt", header=T)
 cytoInfo=read.delim("../anntotations/cytoBand_Rat2.txt", header=F, stringsAsFactors = F)
 colnames(cytoInfo)=c("chrom", "chromStart", "chromEnd", "name", "gieStain")
 GRcytoInfo=GRanges(seqnames=cytoInfo$V1, ranges=IRanges(start = cytoInfo$V2, end=cytoInfo$V3), cytoband=cytoInfo$V4)
-head(cytoInfo)
+head(GRcytoInfo)
 ```
 
 Below is an example of the gene annotation files

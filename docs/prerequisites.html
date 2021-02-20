@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-02-19" />
+<meta name="date" content="2021-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -356,6 +356,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>24</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="bicseqout.html"><a href="bicseqout.html"><i class="fa fa-check"></i><b>25</b> BICseqout</a><ul>
+<li class="chapter" data-level="25.1" data-path="bicseqout.html"><a href="bicseqout.html#move-to-combined-data-load-page"><i class="fa fa-check"></i><b>25.1</b> Move to combined data load page</a><ul>
+<li class="chapter" data-level="25.1.1" data-path="bicseqout.html"><a href="bicseqout.html#annotation-files"><i class="fa fa-check"></i><b>25.1.1</b> Annotation files</a></li>
+<li class="chapter" data-level="25.1.2" data-path="bicseqout.html"><a href="bicseqout.html#sample-data"><i class="fa fa-check"></i><b>25.1.2</b> Sample data</a></li>
+</ul></li>
+<li class="chapter" data-level="25.2" data-path="bicseqout.html"><a href="bicseqout.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="bicseqout.html"><a href="bicseqout.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="bicseqout.html"><a href="bicseqout.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="bicseqout.html"><a href="bicseqout.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -412,56 +423,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-12"><a href="prerequisites.html#cb1-12"></a><span class="kw">library</span>(GenVisR)</span>
 <span id="cb1-13"><a href="prerequisites.html#cb1-13"></a><span class="kw">library</span>(GenomicFeatures)</span>
 <span id="cb1-14"><a href="prerequisites.html#cb1-14"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-15"><a href="prerequisites.html#cb1-15"></a><span class="kw">library</span>(gplots)</span>
-<span id="cb1-16"><a href="prerequisites.html#cb1-16"></a><span class="kw">library</span>(GSEABase)</span>
-<span id="cb1-17"><a href="prerequisites.html#cb1-17"></a><span class="kw">library</span>(GSVA)</span>
-<span id="cb1-18"><a href="prerequisites.html#cb1-18"></a><span class="kw">library</span>(heatmap.plus)</span>
-<span id="cb1-19"><a href="prerequisites.html#cb1-19"></a><span class="kw">library</span>(HTSanalyzeR2)</span>
-<span id="cb1-20"><a href="prerequisites.html#cb1-20"></a><span class="kw">library</span>(kableExtra)</span>
-<span id="cb1-21"><a href="prerequisites.html#cb1-21"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb1-22"><a href="prerequisites.html#cb1-22"></a><span class="kw">library</span>(limma)</span>
-<span id="cb1-23"><a href="prerequisites.html#cb1-23"></a><span class="kw">library</span>(matrixStats)</span>
-<span id="cb1-24"><a href="prerequisites.html#cb1-24"></a><span class="kw">library</span>(pamr)</span>
-<span id="cb1-25"><a href="prerequisites.html#cb1-25"></a><span class="kw">library</span>(reshape2)</span>
-<span id="cb1-26"><a href="prerequisites.html#cb1-26"></a><span class="kw">library</span>(rmarkdown)</span>
-<span id="cb1-27"><a href="prerequisites.html#cb1-27"></a><span class="kw">library</span>(RColorBrewer)</span>
-<span id="cb1-28"><a href="prerequisites.html#cb1-28"></a><span class="kw">library</span>(scales)</span>
-<span id="cb1-29"><a href="prerequisites.html#cb1-29"></a><span class="kw">library</span>(spatstat)</span>
-<span id="cb1-30"><a href="prerequisites.html#cb1-30"></a><span class="kw">library</span>(tcR)</span>
-<span id="cb1-31"><a href="prerequisites.html#cb1-31"></a><span class="kw">library</span>(vcfR)</span>
-<span id="cb1-32"><a href="prerequisites.html#cb1-32"></a><span class="kw">library</span>(xlsx)</span>
-<span id="cb1-33"><a href="prerequisites.html#cb1-33"></a><span class="kw">library</span>(writexl)</span>
-<span id="cb1-34"><a href="prerequisites.html#cb1-34"></a></span>
-<span id="cb1-35"><a href="prerequisites.html#cb1-35"></a>DiffCols=<span class="kw">hue_pal</span>()(<span class="dv">8</span>)</span>
-<span id="cb1-36"><a href="prerequisites.html#cb1-36"></a><span class="kw">palette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Set1&quot;</span>))</span>
-<span id="cb1-37"><a href="prerequisites.html#cb1-37"></a>RdBu=<span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;RdBu&quot;</span>)</span>
-<span id="cb1-38"><a href="prerequisites.html#cb1-38"></a>SetCols=<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>)</span>
-<span id="cb1-39"><a href="prerequisites.html#cb1-39"></a></span>
+<span id="cb1-15"><a href="prerequisites.html#cb1-15"></a><span class="kw">library</span>(ggrepel)</span>
+<span id="cb1-16"><a href="prerequisites.html#cb1-16"></a><span class="kw">library</span>(gplots)</span>
+<span id="cb1-17"><a href="prerequisites.html#cb1-17"></a><span class="kw">library</span>(GSEABase)</span>
+<span id="cb1-18"><a href="prerequisites.html#cb1-18"></a><span class="kw">library</span>(GSVA)</span>
+<span id="cb1-19"><a href="prerequisites.html#cb1-19"></a><span class="kw">library</span>(heatmap.plus)</span>
+<span id="cb1-20"><a href="prerequisites.html#cb1-20"></a><span class="kw">library</span>(HTSanalyzeR2)</span>
+<span id="cb1-21"><a href="prerequisites.html#cb1-21"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb1-22"><a href="prerequisites.html#cb1-22"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb1-23"><a href="prerequisites.html#cb1-23"></a><span class="kw">library</span>(limma)</span>
+<span id="cb1-24"><a href="prerequisites.html#cb1-24"></a><span class="kw">library</span>(matrixStats)</span>
+<span id="cb1-25"><a href="prerequisites.html#cb1-25"></a><span class="kw">library</span>(pamr)</span>
+<span id="cb1-26"><a href="prerequisites.html#cb1-26"></a><span class="kw">library</span>(reshape2)</span>
+<span id="cb1-27"><a href="prerequisites.html#cb1-27"></a><span class="kw">library</span>(rmarkdown)</span>
+<span id="cb1-28"><a href="prerequisites.html#cb1-28"></a><span class="kw">library</span>(RColorBrewer)</span>
+<span id="cb1-29"><a href="prerequisites.html#cb1-29"></a><span class="kw">library</span>(scales)</span>
+<span id="cb1-30"><a href="prerequisites.html#cb1-30"></a><span class="kw">library</span>(spatstat)</span>
+<span id="cb1-31"><a href="prerequisites.html#cb1-31"></a><span class="kw">library</span>(tcR)</span>
+<span id="cb1-32"><a href="prerequisites.html#cb1-32"></a><span class="kw">library</span>(vcfR)</span>
+<span id="cb1-33"><a href="prerequisites.html#cb1-33"></a><span class="kw">library</span>(xlsx)</span>
+<span id="cb1-34"><a href="prerequisites.html#cb1-34"></a><span class="kw">library</span>(writexl)</span>
+<span id="cb1-35"><a href="prerequisites.html#cb1-35"></a></span>
+<span id="cb1-36"><a href="prerequisites.html#cb1-36"></a>DiffCols=<span class="kw">hue_pal</span>()(<span class="dv">8</span>)</span>
+<span id="cb1-37"><a href="prerequisites.html#cb1-37"></a><span class="kw">palette</span>(<span class="kw">brewer.pal</span>(<span class="dv">9</span>, <span class="st">&quot;Set1&quot;</span>))</span>
+<span id="cb1-38"><a href="prerequisites.html#cb1-38"></a>RdBu=<span class="kw">brewer.pal</span>(<span class="dv">11</span>, <span class="st">&quot;RdBu&quot;</span>)</span>
+<span id="cb1-39"><a href="prerequisites.html#cb1-39"></a>SetCols=<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>)</span>
 <span id="cb1-40"><a href="prerequisites.html#cb1-40"></a></span>
-<span id="cb1-41"><a href="prerequisites.html#cb1-41"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/cnFreq_fn.R&quot;</span>) <span class="co">#modified version of GenVisR</span></span>
-<span id="cb1-42"><a href="prerequisites.html#cb1-42"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/merge_contig.R&quot;</span>)</span>
-<span id="cb1-43"><a href="prerequisites.html#cb1-43"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/gseaCode.R&quot;</span>)</span>
-<span id="cb1-44"><a href="prerequisites.html#cb1-44"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/ContingencyTable.R&quot;</span>)</span>
-<span id="cb1-45"><a href="prerequisites.html#cb1-45"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/PvalueHeatMap.R&quot;</span>)</span>
-<span id="cb1-46"><a href="prerequisites.html#cb1-46"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/BootstrapShannonIdx.R&quot;</span>)</span>
-<span id="cb1-47"><a href="prerequisites.html#cb1-47"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/CreateRnor87db.R&quot;</span>)</span>
-<span id="cb1-48"><a href="prerequisites.html#cb1-48"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindRatAAHomolog.R&quot;</span>)</span>
-<span id="cb1-49"><a href="prerequisites.html#cb1-49"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindTriNucleotideContext.R&quot;</span>)</span>
-<span id="cb1-50"><a href="prerequisites.html#cb1-50"></a></span>
-<span id="cb1-51"><a href="prerequisites.html#cb1-51"></a>firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb1-52"><a href="prerequisites.html#cb1-52"></a>  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb1-53"><a href="prerequisites.html#cb1-53"></a>  x</span>
-<span id="cb1-54"><a href="prerequisites.html#cb1-54"></a>}</span>
-<span id="cb1-55"><a href="prerequisites.html#cb1-55"></a></span>
-<span id="cb1-56"><a href="prerequisites.html#cb1-56"></a>ColMerge=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;#FFC82F&quot;</span>, <span class="st">&quot;#FFEDBC&quot;</span>, <span class="st">&quot;#73FDFE&quot;</span>,<span class="st">&quot;#D2FFFF&quot;</span>, <span class="st">&quot;#FF41FF&quot;</span>, <span class="st">&quot;#FECAFF&quot;</span>, <span class="st">&quot;#5D5D5D&quot;</span>, <span class="st">&quot;#BEBEBE&quot;</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> T)</span>
-<span id="cb1-57"><a href="prerequisites.html#cb1-57"></a><span class="kw">rownames</span>(ColMerge)=<span class="kw">c</span>(<span class="st">&quot;LY&quot;</span>,<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>,<span class="st">&quot;Vehicle&quot;</span>)</span>
-<span id="cb1-58"><a href="prerequisites.html#cb1-58"></a>ColSize=<span class="kw">c</span>(<span class="st">&quot;#008E00&quot;</span>, <span class="st">&quot;#FF9300&quot;</span>)</span>
-<span id="cb1-59"><a href="prerequisites.html#cb1-59"></a><span class="kw">names</span>(ColSize)=<span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;big&quot;</span>)</span>
-<span id="cb1-60"><a href="prerequisites.html#cb1-60"></a>ColSizeb=ColSize[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>]</span>
-<span id="cb1-61"><a href="prerequisites.html#cb1-61"></a>ColSizec=<span class="kw">c</span>(ColSize[<span class="dv">2</span>], <span class="st">&quot;purple&quot;</span>, ColSize[<span class="dv">1</span>])</span>
-<span id="cb1-62"><a href="prerequisites.html#cb1-62"></a>hclust.ave &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">hclust</span>(x, <span class="dt">method=</span><span class="st">&quot;average&quot;</span>)</span>
-<span id="cb1-63"><a href="prerequisites.html#cb1-63"></a></span>
-<span id="cb1-64"><a href="prerequisites.html#cb1-64"></a>Hsedb&lt;-EnsDb.Hsapiens.v86</span></code></pre></div>
+<span id="cb1-41"><a href="prerequisites.html#cb1-41"></a></span>
+<span id="cb1-42"><a href="prerequisites.html#cb1-42"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/cnFreq_fn.R&quot;</span>) <span class="co">#modified version of GenVisR</span></span>
+<span id="cb1-43"><a href="prerequisites.html#cb1-43"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/merge_contig.R&quot;</span>)</span>
+<span id="cb1-44"><a href="prerequisites.html#cb1-44"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/gseaCode.R&quot;</span>)</span>
+<span id="cb1-45"><a href="prerequisites.html#cb1-45"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/ContingencyTable.R&quot;</span>)</span>
+<span id="cb1-46"><a href="prerequisites.html#cb1-46"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/PvalueHeatMap.R&quot;</span>)</span>
+<span id="cb1-47"><a href="prerequisites.html#cb1-47"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/BootstrapShannonIdx.R&quot;</span>)</span>
+<span id="cb1-48"><a href="prerequisites.html#cb1-48"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/CreateRnor87db.R&quot;</span>)</span>
+<span id="cb1-49"><a href="prerequisites.html#cb1-49"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindRatAAHomolog.R&quot;</span>)</span>
+<span id="cb1-50"><a href="prerequisites.html#cb1-50"></a><span class="kw">source</span>(<span class="st">&quot;../rscript/FindTriNucleotideContext.R&quot;</span>)</span>
+<span id="cb1-51"><a href="prerequisites.html#cb1-51"></a></span>
+<span id="cb1-52"><a href="prerequisites.html#cb1-52"></a>firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb1-53"><a href="prerequisites.html#cb1-53"></a>  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb1-54"><a href="prerequisites.html#cb1-54"></a>  x</span>
+<span id="cb1-55"><a href="prerequisites.html#cb1-55"></a>}</span>
+<span id="cb1-56"><a href="prerequisites.html#cb1-56"></a></span>
+<span id="cb1-57"><a href="prerequisites.html#cb1-57"></a>ColMerge=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;#FFC82F&quot;</span>, <span class="st">&quot;#FFEDBC&quot;</span>, <span class="st">&quot;#73FDFE&quot;</span>,<span class="st">&quot;#D2FFFF&quot;</span>, <span class="st">&quot;#FF41FF&quot;</span>, <span class="st">&quot;#FECAFF&quot;</span>, <span class="st">&quot;#5D5D5D&quot;</span>, <span class="st">&quot;#BEBEBE&quot;</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> T)</span>
+<span id="cb1-58"><a href="prerequisites.html#cb1-58"></a><span class="kw">rownames</span>(ColMerge)=<span class="kw">c</span>(<span class="st">&quot;LY&quot;</span>,<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>,<span class="st">&quot;Vehicle&quot;</span>)</span>
+<span id="cb1-59"><a href="prerequisites.html#cb1-59"></a>ColSize=<span class="kw">c</span>(<span class="st">&quot;#008E00&quot;</span>, <span class="st">&quot;#FF9300&quot;</span>)</span>
+<span id="cb1-60"><a href="prerequisites.html#cb1-60"></a><span class="kw">names</span>(ColSize)=<span class="kw">c</span>(<span class="st">&quot;small&quot;</span>, <span class="st">&quot;big&quot;</span>)</span>
+<span id="cb1-61"><a href="prerequisites.html#cb1-61"></a>ColSizeb=ColSize[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>]</span>
+<span id="cb1-62"><a href="prerequisites.html#cb1-62"></a>ColSizec=<span class="kw">c</span>(ColSize[<span class="dv">2</span>], <span class="st">&quot;purple&quot;</span>, ColSize[<span class="dv">1</span>])</span>
+<span id="cb1-63"><a href="prerequisites.html#cb1-63"></a>hclust.ave &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">hclust</span>(x, <span class="dt">method=</span><span class="st">&quot;average&quot;</span>)</span>
+<span id="cb1-64"><a href="prerequisites.html#cb1-64"></a></span>
+<span id="cb1-65"><a href="prerequisites.html#cb1-65"></a>Hsedb&lt;-EnsDb.Hsapiens.v86</span></code></pre></div>
 </div>
 <div id="external-software" class="section level2">
 <h2><span class="header-section-number">1.2</span> External software</h2>
@@ -578,17 +590,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Below is the summary of chromosome sizes and centromere locations:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1"></a>cytoInfo=<span class="kw">read.delim</span>(<span class="st">&quot;../anntotations/cytoBand_Rat2.txt&quot;</span>, <span class="dt">header=</span>F, <span class="dt">stringsAsFactors =</span> F)</span>
-<span id="cb2-2"><a href="prerequisites.html#cb2-2"></a><span class="kw">colnames</span>(cytoInfo)=<span class="kw">c</span>(<span class="st">&quot;chrom&quot;</span>, <span class="st">&quot;chromStart&quot;</span>, <span class="st">&quot;chromEnd&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;gieStain&quot;</span>)</span>
-<span id="cb2-3"><a href="prerequisites.html#cb2-3"></a>GRcytoInfo=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span>cytoInfo<span class="op">$</span>V1, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start =</span> cytoInfo<span class="op">$</span>V2, <span class="dt">end=</span>cytoInfo<span class="op">$</span>V3), <span class="dt">cytoband=</span>cytoInfo<span class="op">$</span>V4)</span>
-<span id="cb2-4"><a href="prerequisites.html#cb2-4"></a><span class="kw">head</span>(cytoInfo)</span>
-<span id="cb2-5"><a href="prerequisites.html#cb2-5"></a><span class="co">##   chrom chromStart chromEnd name gieStain</span></span>
-<span id="cb2-6"><a href="prerequisites.html#cb2-6"></a><span class="co">## 1  chr1          0 10704345  p13     gneg</span></span>
-<span id="cb2-7"><a href="prerequisites.html#cb2-7"></a><span class="co">## 2  chr1   10704345 25618263  p12     gvar</span></span>
-<span id="cb2-8"><a href="prerequisites.html#cb2-8"></a><span class="co">## 3  chr1   25618263 40652454  p11     gneg</span></span>
-<span id="cb2-9"><a href="prerequisites.html#cb2-9"></a><span class="co">## 4  chr1   40652454 51356799  q11     gpos</span></span>
-<span id="cb2-10"><a href="prerequisites.html#cb2-10"></a><span class="co">## 5  chr1   51356799 73607402  q12     gneg</span></span>
-<span id="cb2-11"><a href="prerequisites.html#cb2-11"></a><span class="co">## 6  chr1   73607402 95016091  q21     gpos</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1"></a>chrInfo=<span class="kw">read.delim</span>(<span class="st">&quot;../anntotations/chromInfo_rat.txt&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb2-2"><a href="prerequisites.html#cb2-2"></a>cytoInfo=<span class="kw">read.delim</span>(<span class="st">&quot;../anntotations/cytoBand_Rat2.txt&quot;</span>, <span class="dt">header=</span>F, <span class="dt">stringsAsFactors =</span> F)</span>
+<span id="cb2-3"><a href="prerequisites.html#cb2-3"></a><span class="kw">colnames</span>(cytoInfo)=<span class="kw">c</span>(<span class="st">&quot;chrom&quot;</span>, <span class="st">&quot;chromStart&quot;</span>, <span class="st">&quot;chromEnd&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;gieStain&quot;</span>)</span>
+<span id="cb2-4"><a href="prerequisites.html#cb2-4"></a>GRcytoInfo=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span>cytoInfo<span class="op">$</span>V1, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start =</span> cytoInfo<span class="op">$</span>V2, <span class="dt">end=</span>cytoInfo<span class="op">$</span>V3), <span class="dt">cytoband=</span>cytoInfo<span class="op">$</span>V4)</span>
+<span id="cb2-5"><a href="prerequisites.html#cb2-5"></a><span class="kw">head</span>(GRcytoInfo)</span>
+<span id="cb2-6"><a href="prerequisites.html#cb2-6"></a><span class="co">## GRanges object with 0 ranges and 0 metadata columns:</span></span>
+<span id="cb2-7"><a href="prerequisites.html#cb2-7"></a><span class="co">##    seqnames    ranges strand</span></span>
+<span id="cb2-8"><a href="prerequisites.html#cb2-8"></a><span class="co">##       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;</span></span>
+<span id="cb2-9"><a href="prerequisites.html#cb2-9"></a><span class="co">##   -------</span></span>
+<span id="cb2-10"><a href="prerequisites.html#cb2-10"></a><span class="co">##   seqinfo: no sequences</span></span></code></pre></div>
 <p>Below is an example of the gene annotation files</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="prerequisites.html#cb3-1"></a>txRn6=<span class="kw">makeTxDbFromGFF</span>(<span class="st">&quot;../anntotations/rn6_refGene.gtf&quot;</span>, <span class="dt">format=</span><span class="st">&quot;gtf&quot;</span>)</span>
 <span id="cb3-2"><a href="prerequisites.html#cb3-2"></a>txRn6=<span class="kw">genes</span>(txRn6)</span>

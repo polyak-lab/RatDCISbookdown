@@ -102,58 +102,21 @@ write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tabl
 We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples
 
 ```{r}
-vstEpInf$Inflammation3
+vstEpInf$Inflammation2
 ax1=colnames(vstEpInf)
 ax1
 
 t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 t2
 
-```
+newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
+             inf=vstEpInf$Inflammation3[-which(is.na(t2))],
+             names=ax1[-which(is.na(t2))])
+             
+head(newTab)
 
-# Writing files to file
-
-Update the metadata file:
-write to file:
-
-* updated ext data table
-* spatial information summary
-* star aligned table
-* colData information
-* collapsed information on wsi/facs
-
-```{r}
-write.xlsx(Cdata, file=sprintf("../metadata/Carlos_samples_list_master_updated_%s.xlsx", Sys.Date()))
-
-x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
-head(x1)
-write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
-
-colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
-infoTableFinal2=infoTableFinal[ ,c("TumorIDnew","Growth", "CD8Frac", "TumSize", "Time.NMU2Sac", 
-                                   "Age.Injection","Treatment","Cohort", "SizeCat")]
-write.csv(infoTableFinal2, file="nature-tables/infoTableFinal2_output.csv")
-write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
-
-
-colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
-
-# colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
-
-# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
-#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
-#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
-#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
-#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
-#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
-#                )
+ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
+write.csv(newTab, file="nature-tables/Ext5z_trichrome.csv")
 
 ```
 
-
-Below is the session info
-
-```{r}
-sessionInfo()
-```
