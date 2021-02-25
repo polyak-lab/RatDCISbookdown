@@ -33,6 +33,7 @@ fig:Epddsinflamm2
 fig:gsea-non-inflammatory-branch
 fig:Ext5j
 fig:EpddsLum
+fig:gsea-noninf-lum-branch
 fig:5d
 fig:5e
 fig:Ext5e-os

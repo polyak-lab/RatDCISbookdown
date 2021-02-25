@@ -475,7 +475,7 @@ write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing
 
 Quickly run GSEA for these samples:
 
-```{r gsea-noninf-lum-branch, fig.cap="luminal non inflammatory branch", results='hide'}
+```{r gsea-noninf-lum-branch, fig.cap="luminal non inflammatory branch"}
 
 EpGenes=rownames(vstLumRes)
 
