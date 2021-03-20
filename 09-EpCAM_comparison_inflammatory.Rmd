@@ -133,13 +133,13 @@ Statistics are below:
 
 ```{r Ext5d-ttest}
 print('assoc with cd8')
-#t.test(nTab$cd8~nTab$inf)
+t.test(nTab$cd8~nTab$inf)
 #table(nTab$cd8, nTab$inf)
 print('assoc with MH index')
-#t.test(nTab$MH~nTab$inf)
+t.test(nTab$MH~nTab$inf)
 #table(nTab$MH,nTab$inf)
 print('assoc with knn')
-#t.test(nTab$knn~nTab$inf)
+t.test(nTab$knn~nTab$inf)
 #table(nTab$knn~nTab$inf)
 
 nTab

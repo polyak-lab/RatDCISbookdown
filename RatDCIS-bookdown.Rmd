@@ -4024,6 +4024,8 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
+write.csv(epr, file="nature-tables/Supp2_ep_io_vs_nonio.csv")
+
 ```
 
 DN
@@ -4052,6 +4054,16 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
+write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
+
+ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+testout=cbind(ax1, bx1, cx1)
+write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
+
+
 ```
 
 CD45
@@ -4079,6 +4091,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 #dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
+write.csv(CDr, file="nature-tables/Supp3_cd45_io_vs_nonio.csv")
 ```
 
 
@@ -4088,6 +4101,9 @@ write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
 bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+xa=rownames(ax1)
+xb=rownames(bx1)
+xc=rownames(cx1)
 
 G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>2)]
 G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>2)]
@@ -4104,7 +4120,14 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 #pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
-dev.off()
+#dev.off()
+
+testout=cbind(ax1, bx1, cx1)
+write.csv(testout, file="nature-tables/Supp3_cd45_all_pairwise_treatments.csv")
+
+xa[100:105]
+xb[100:105]
+xc[100:105]
 
 #write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
 ```
@@ -4254,6 +4277,8 @@ with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
+
+write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
 ```
 
 ### CD fraction
@@ -4298,6 +4323,7 @@ with(subset(Epa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstEp$Growth)), col=RdBu[11:1], main="Ep genes")
 
+write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 ```
 
 
@@ -4655,13 +4681,13 @@ Statistics are below:
 
 ```{r Ext5d-ttest}
 print('assoc with cd8')
-#t.test(nTab$cd8~nTab$inf)
+t.test(nTab$cd8~nTab$inf)
 #table(nTab$cd8, nTab$inf)
 print('assoc with MH index')
-#t.test(nTab$MH~nTab$inf)
+t.test(nTab$MH~nTab$inf)
 #table(nTab$MH,nTab$inf)
 print('assoc with knn')
-#t.test(nTab$knn~nTab$inf)
+t.test(nTab$knn~nTab$inf)
 #table(nTab$knn~nTab$inf)
 
 nTab
@@ -5575,7 +5601,7 @@ heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], 
 
 #dev.off()
 
-write.csv(CD45res2, file=sprintf("outputs/DESeq/difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
+write.csv(CD45res, file=sprintf("nature-tables/Supp2_difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
 
 
 write.csv(t2, file="nature-tables/2d.csv")
@@ -5639,6 +5665,7 @@ for (i in TestGrp){
 
 #dev.off()
 
+write.csv(gscacd@result$GSEA.results$ProcessNetworks, file="nature-tables/Supp_3_cd45_big_small.csv")
 write.csv(Lx1, file="nature-tables/2e.csv")
 ```
 
@@ -5725,6 +5752,7 @@ boxplot(assay(vsd)["Creb1", match(colnames(EpddsChar), colnames(vsd))]~EpddsChar
         main="Creb1 gene small vs big vst expression")
 
 write.csv(Epres2, file=sprintf("nature-tables/1gl%s.csv", Sys.Date()))
+write.csv(Epres, file=sprintf("nature-tables/Supp2_A_DEGs.csv"))
 ```
 
 ### GSEA
@@ -5766,6 +5794,8 @@ TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessN
 gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term")
+
+write.csv(gscaep@result$GSEA.results$ProcessNetworks, file="nature-tables/Supp_2_B_GSEA.csv")
 ```
 
 We can also look at the results using barplots, as shown below
@@ -7204,7 +7234,7 @@ MeltCosmic=cbind(MeltCosmic, FindVarTest)
 
 
 save(MeltCosmic, file=sprintf("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount%s.RData", Sys.Date())) #, sep="\t", row.names=F)
-write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_w_human_homolog_VAFncount.csv", row.names = F, quote=F)
+write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_annotated_w_human_homolog_VAFncount.csv", row.names = F, quote=F)
 ```
 
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
@@ -7764,6 +7794,7 @@ Below is the above list refined according to cosmic specifc genes, and listing
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
+pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex.axis=0.7)
@@ -7771,7 +7802,7 @@ axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2,  cex.axis=0.
 text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
-
+dev.off()
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
@@ -7864,7 +7895,7 @@ heatmap.2(sign(SumTable2[, lx]), scale="none", trace="none", col=c("white", "sky
 
 
 write.csv(SumTable2[, lx], file="nature-tables/1l_samples_with_muttions.csv")
-
+rNames2[lx]
 # par(oma=c(2, 0,0,3))
 # # rNames=strsplit(colnames(SumTable3), "_")
 # # rNames2=sapply(rNames, function(x) x[1])

@@ -49,6 +49,8 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
+write.csv(epr, file="nature-tables/Supp2_ep_io_vs_nonio.csv")
+
 ```
 
 DN
@@ -77,6 +79,16 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
+write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
+
+ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+testout=cbind(ax1, bx1, cx1)
+write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
+
+
 ```
 
 CD45
@@ -104,6 +116,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 #dev.off()
 
 write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
+write.csv(CDr, file="nature-tables/Supp3_cd45_io_vs_nonio.csv")
 ```
 
 
@@ -113,6 +126,9 @@ write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
 bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+xa=rownames(ax1)
+xb=rownames(bx1)
+xc=rownames(cx1)
 
 G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>2)]
 G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>2)]
@@ -129,7 +145,14 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 #pdf("figure-outputs/FIgure3j_all_comparisons.pdf", height=9, width=6)
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
-dev.off()
+#dev.off()
+
+testout=cbind(ax1, bx1, cx1)
+write.csv(testout, file="nature-tables/Supp3_cd45_all_pairwise_treatments.csv")
+
+xa[100:105]
+xb[100:105]
+xc[100:105]
 
 #write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
 ```
@@ -279,6 +302,8 @@ with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
+
+write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
 ```
 
 ### CD fraction
@@ -323,6 +348,7 @@ with(subset(Epa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstEp$Growth)), col=RdBu[11:1], main="Ep genes")
 
+write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 ```
 
 

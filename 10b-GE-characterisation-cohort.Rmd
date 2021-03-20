@@ -112,7 +112,7 @@ heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], 
 
 #dev.off()
 
-write.csv(CD45res2, file=sprintf("outputs/DESeq/difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
+write.csv(CD45res, file=sprintf("nature-tables/Supp2_difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
 
 
 write.csv(t2, file="nature-tables/2d.csv")
@@ -176,6 +176,7 @@ for (i in TestGrp){
 
 #dev.off()
 
+write.csv(gscacd@result$GSEA.results$ProcessNetworks, file="nature-tables/Supp_3_cd45_big_small.csv")
 write.csv(Lx1, file="nature-tables/2e.csv")
 ```
 
@@ -262,6 +263,7 @@ boxplot(assay(vsd)["Creb1", match(colnames(EpddsChar), colnames(vsd))]~EpddsChar
         main="Creb1 gene small vs big vst expression")
 
 write.csv(Epres2, file=sprintf("nature-tables/1gl%s.csv", Sys.Date()))
+write.csv(Epres, file=sprintf("nature-tables/Supp2_A_DEGs.csv"))
 ```
 
 ### GSEA
@@ -303,6 +305,8 @@ TermsA[which(is.na(TermsA))]=substr(rownames(gscaep@result$GSEA.results$ProcessN
 gscaep@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
 viewEnrichMap(gscaep, gscs=c("ProcessNetworks"),
               allSig = TRUE, gsNameType="term")
+
+write.csv(gscaep@result$GSEA.results$ProcessNetworks, file="nature-tables/Supp_2_B_GSEA.csv")
 ```
 
 We can also look at the results using barplots, as shown below

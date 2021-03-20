@@ -184,7 +184,7 @@ MeltCosmic=cbind(MeltCosmic, FindVarTest)
 
 
 save(MeltCosmic, file=sprintf("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount%s.RData", Sys.Date())) #, sep="\t", row.names=F)
-write.csv(MeltCosmic, file="outputs/SupplementalTable_AllRatMutations_annotated_w_human_homolog_VAFncount.csv", row.names = F, quote=F)
+write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_annotated_w_human_homolog_VAFncount.csv", row.names = F, quote=F)
 ```
 
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
@@ -744,6 +744,8 @@ Below is the above list refined according to cosmic specifc genes, and listing
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
+pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
+palette(brewer.pal(8, "Set1"))
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex.axis=0.7)
@@ -751,7 +753,7 @@ axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2,  cex.axis=0.
 text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
-
+dev.off()
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
@@ -844,7 +846,7 @@ heatmap.2(sign(SumTable2[, lx]), scale="none", trace="none", col=c("white", "sky
 
 
 write.csv(SumTable2[, lx], file="nature-tables/1l_samples_with_muttions.csv")
-
+rNames2[lx]
 # par(oma=c(2, 0,0,3))
 # # rNames=strsplit(colnames(SumTable3), "_")
 # # rNames2=sapply(rNames, function(x) x[1])
