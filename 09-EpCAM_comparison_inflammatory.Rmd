@@ -306,6 +306,7 @@ GSEA1=gscaepInf1@result$GSEA.results$ProcessNetworks
 GSEA2=gscaepInf2@result$GSEA.results$ProcessNetworks
 GSEA3=gscaepInf3@result$GSEA.results$ProcessNetworks
 
+tempOut=cbind(GSEA1, GSEA2, GSEA3, file="nature-tables/Supp3_output_GSEA_tables_growing_stable.csv")
 
 lx1=unique(c(rownames(GSEA1)[which(GSEA1[ ,3]<0.05)],
       rownames(GSEA2)[which(GSEA2[ ,3]<0.05)],

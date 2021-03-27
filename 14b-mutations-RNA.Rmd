@@ -425,7 +425,7 @@ tempAnew=rGeneOut2b[, na.omit(match(NtopAb, colnames(rGeneOut2b)))]
 tempA=heatmap.2(sign(tempAnew))
 tempA=tempAnew[tempA$rowInd, tempA$colInd]
 
-HSAnew=hotspotLocExtract(tempA)
+#HSAnew=hotspotLocExtract(tempA)
 
 
 ## NtopB=which(NUnique>10)
@@ -437,7 +437,7 @@ tempBnew=rGeneOut2b[, na.omit(match(NtopB2, colnames(rGeneOut2b)))]
 tempB=heatmap.2(sign(tempBnew))
 tempB=tempBnew[tempB$rowInd, tempB$colInd]
 
-HSBnew=hotspotLocExtract(tempB)
+#HSBnew=hotspotLocExtract(tempB)
 
 #pdf("~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
 ## Commonly mutated Genes:
@@ -445,7 +445,7 @@ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempA), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempA)), colnames(tempA), las=2, cex.axis=0.5)
 axis(2, at=seq(0, 1, length=nrow(tempA)), rownames(tempA), las=2, cex.axis=0.5)
-text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
+#text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("top 118 mutations", side=3, line=-1, outer=T)
 #dev.off()
@@ -456,7 +456,7 @@ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempB), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempB)), colnames(tempB), las=2, cex.axis=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempB)), rownames(tempB), las=2, cex.axis=0.7)
-text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
+#text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Common COSMIC mutations", side=3, line=-1, outer=T)
 #dev.off()

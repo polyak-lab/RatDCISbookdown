@@ -7,8 +7,6 @@ fig:3b
 fig:3e
 fig:Ext3c
 fig:Ext4b
-fig:WSI-normalised-all-samples
-fig:Ext4c
 fig:4b
 fig:4b2
 fig:Fig4c
@@ -38,6 +36,10 @@ fig:5d
 fig:5e
 fig:Ext5e-os
 fig:Ext5e-dfs
+fig:5dAD
+fig:5eAD
+fig:Ext5e-osAD
+fig:Ext5e-dfsAD
 fig:5i
 fig:5i-dfs
 fig:5h
@@ -77,8 +79,6 @@ fig:1l-2
 fig:1l-3
 fig:1lb
 fig:3g
-fig:3gb-1
-fig:3gb-2
 fig:Ext5i
 fig:bicseq
 prerequisites
@@ -173,6 +173,7 @@ gsea
 luminal-only-non-inflammtory-samples-samples
 tcga-associate-epcam-inflammatory-with-survival
 associating-cd74-with-phenotype-and-outcome
+associating-admats10-with-phenotype-and-outcome
 signature-lum-cases-non-inflammatory-growing-vs-stable
 tcga-luma-high-vs-low-signatures
 deseq-analysis-characterisation-cohort-big-vs-small

@@ -85,7 +85,7 @@ names(NAidx)=colnames(SummaryData)
 colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox") #, "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
 
 CDsummary=matrix(NA, nrow=length(indx1), ncol=length(colTestCD8))
 rownames(CDsummary)=paste(indx1, " N=", NAidx[match(indx1, names(NAidx))], sep="")
@@ -166,41 +166,53 @@ ordV2=colnames(WSIvalFracs)
 ## match with meta data# get the sample Names
 CdataTID=gsub("_", "", Cdata$TumorID)
 l1=match(colnames(WSIvals), CdataTID)
-
+namesA=Cdata$NewID[l1]
+###
 Treat=Cdata$Treatment[l1]
 Growth=Cdata$Growth2[l1]
 WSImelt=melt(WSIvals)
-WSImelt$Var2=factor(WSImelt$Var2, levels=ordV)
+#WSImelt$Var2=factor(WSImelt$Var2, levels=ordV)
 WSImelt$treatment=Treat[match(WSImelt$Var2, colnames(WSIvals))]
 WSImelt$growth=Growth[match(WSImelt$Var2, colnames(WSIvals))]
+WSImelt$Name=namesA[match(WSImelt$Var2, colnames(WSIvals))]
+WSImelt$Name=factor(WSImelt$Name, levels=namesA)
 
 l2=match(colnames(WSIvalFracs), CdataTID)
+namesA=Cdata$NewID[l2]
 Treat=factor(Cdata$Treatment[l2])
 Growth=Cdata$Growth2[l2]
 WSIfracMelt=melt(WSIvalFracs)
-WSIfracMelt$Var2=factor(WSIfracMelt$Var2, levels=ordV2)
+#WSIfracMelt$Var2=factor(WSIfracMelt$Var2, levels=ordV2)
 WSIfracMelt$treatment=Treat[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
 WSIfracMelt$growth=Growth[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
+WSIfracMelt$Name=namesA[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
+WSIfracMelt$Name=factor(WSIfracMelt$Name, levels = namesA)
 
 
 #pdf(sprintf("rslt/WSI-analysis/summary_distributions_norm_cell_count_%s.pdf", Sys.Date()), width=9, height=5)
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
 ```
 
 Here, the same data is shown and normalised according to total cell count:
 
 ```{r WSI-normalised-all-samples, fig.height=5, fig.cap="WSI-normalised-all-samples"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+dev.off()
 ```
 
 ```{r Ext4c, fig.cap="association with treatment"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples-treatment.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+dev.off()
 ```
 
 ```{r Ext4c_pt2, fig.cap="association with growth"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples-growth2.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+dev.off()
 
 write.csv(WSIfracMelt, file="nature-tables/Ext4c-d.csv")
 ```

@@ -606,7 +606,9 @@ df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM
 df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
 
 t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
 t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+rownames(t2)=paste(rownames(t2), ".WSI", sep="")
 
 df.Spatial=cbind(df.Spatial, t(t2), t(t3))
 

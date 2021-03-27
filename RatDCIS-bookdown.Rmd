@@ -37,7 +37,7 @@ pre[class] {
 
 This is a summary of the tools and code required in the study: 'NMU-induced sprague dawley rat model of breast cancer treated with immunotherapy to prevent tumor progression' by Gil del Alcazar et al.
 
-The GEO accession code for RNA-data is GEOXXXXXX
+The GEO accession code for RNA-data is GSE167102. WGS will one day be available at SUB6887244.
 
 Figures generated in the manuscript will be listed in the appendix and it can be cross-referenced to the relevant sections in this document
 
@@ -381,8 +381,10 @@ Below we assess summary statistics on clinico-pathological features of this data
 ```{r}
 Cdata=xlsx::read.xlsx("../metadata/Extended Data Table1.xlsx", sheetIndex=1)
 
+Cdata$NewID[which(duplicated(Cdata$NewID)==T)]
 scroll_box(kable(Cdata[ ,1:20], format="html"),
          height="300px", width="100%")
+
 ```
 
 ## Size information
@@ -956,7 +958,7 @@ names(NAidx)=colnames(SummaryData)
 colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox") #, "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
 
 CDsummary=matrix(NA, nrow=length(indx1), ncol=length(colTestCD8))
 rownames(CDsummary)=paste(indx1, " N=", NAidx[match(indx1, names(NAidx))], sep="")
@@ -1037,41 +1039,53 @@ ordV2=colnames(WSIvalFracs)
 ## match with meta data# get the sample Names
 CdataTID=gsub("_", "", Cdata$TumorID)
 l1=match(colnames(WSIvals), CdataTID)
-
+namesA=Cdata$NewID[l1]
+###
 Treat=Cdata$Treatment[l1]
 Growth=Cdata$Growth2[l1]
 WSImelt=melt(WSIvals)
-WSImelt$Var2=factor(WSImelt$Var2, levels=ordV)
+#WSImelt$Var2=factor(WSImelt$Var2, levels=ordV)
 WSImelt$treatment=Treat[match(WSImelt$Var2, colnames(WSIvals))]
 WSImelt$growth=Growth[match(WSImelt$Var2, colnames(WSIvals))]
+WSImelt$Name=namesA[match(WSImelt$Var2, colnames(WSIvals))]
+WSImelt$Name=factor(WSImelt$Name, levels=namesA)
 
 l2=match(colnames(WSIvalFracs), CdataTID)
+namesA=Cdata$NewID[l2]
 Treat=factor(Cdata$Treatment[l2])
 Growth=Cdata$Growth2[l2]
 WSIfracMelt=melt(WSIvalFracs)
-WSIfracMelt$Var2=factor(WSIfracMelt$Var2, levels=ordV2)
+#WSIfracMelt$Var2=factor(WSIfracMelt$Var2, levels=ordV2)
 WSIfracMelt$treatment=Treat[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
 WSIfracMelt$growth=Growth[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
+WSIfracMelt$Name=namesA[match(WSIfracMelt$Var2, colnames(WSIvalFracs))]
+WSIfracMelt$Name=factor(WSIfracMelt$Name, levels = namesA)
 
 
 #pdf(sprintf("rslt/WSI-analysis/summary_distributions_norm_cell_count_%s.pdf", Sys.Date()), width=9, height=5)
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
-ggplot(WSImelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+ggplot(WSImelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
 ```
 
 Here, the same data is shown and normalised according to total cell count:
 
 ```{r WSI-normalised-all-samples, fig.height=5, fig.cap="WSI-normalised-all-samples"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by CD8")
+dev.off()
 ```
 
 ```{r Ext4c, fig.cap="association with treatment"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples-treatment.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~treatment, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by treatment")
+dev.off()
 ```
 
 ```{r Ext4c_pt2, fig.cap="association with growth"}
-ggplot(WSIfracMelt, aes(x=Var2, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+pdf("figure-outputs/Fig4_WSI-normalised-all-samples-growth2.pdf", width=8, height=5)
+ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
+dev.off()
 
 write.csv(WSIfracMelt, file="nature-tables/Ext4c-d.csv")
 ```
@@ -1826,7 +1840,9 @@ df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM
 df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
 
 t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
 t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+rownames(t2)=paste(rownames(t2), ".WSI", sep="")
 
 df.Spatial=cbind(df.Spatial, t(t2), t(t3))
 
@@ -4854,6 +4870,7 @@ GSEA1=gscaepInf1@result$GSEA.results$ProcessNetworks
 GSEA2=gscaepInf2@result$GSEA.results$ProcessNetworks
 GSEA3=gscaepInf3@result$GSEA.results$ProcessNetworks
 
+tempOut=cbind(GSEA1, GSEA2, GSEA3, file="nature-tables/Supp3_output_GSEA_tables_growing_stable.csv")
 
 lx1=unique(c(rownames(GSEA1)[which(GSEA1[ ,3]<0.05)],
       rownames(GSEA2)[which(GSEA2[ ,3]<0.05)],
@@ -5256,6 +5273,130 @@ for (i in Xind){
 }
 ```
 
+## Associating ADMATS10 with phenotype and outcome
+
+Do the same thing as above with the ADAMST10 scores
+
+Z-Scale ADAMTS10 scores prior to analysis:
+
+```{r 5dAD, fig.cap="ADAMTS10 assoc with patient data"}
+TCGAssgsea=scale(TCGArsem2[match("ADAMTS10", rownames(TCGArsem2)), ])
+tinfo$adamts10=TCGAssgsea
+#m1=match(colnames(TCGArsem2), BrClin$Patient.ID)
+
+#tinfo=data.frame(pam=BrClin$PAM50[m1], OSM=BrClin$Overall.Survival..Months.[m1],
+#                 OSS=BrClin$Overall.Survival.Status[m1], cd74=TCGAssgsea,
+#                 DFS=BrClin$Disease.Free.Status[m1],
+#                 DFM=BrClin$Disease.Free..Months.[m1],
+#                 Stage=BrClin$Stage[m1])
+
+#ThorssData=ThorssData[which(ThorssData$TCGA.Study=="BRCA"), ]
+
+#n1=match(rownames(tinfo), ThorssData$TCGA.Participant.Barcode)
+#tinfo$immSub=ThorssData$Immune.Subtype[n1]
+#tinfo$leukFrac=as.numeric(ThorssData$Leukocyte.Fraction[n1])
+#tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
+#tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
+
+
+#pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
+
+par(mfrow=c(2,3))
+boxplot(tinfo$adamts10~tinfo$pam, ylab="gene exp", main="PAM50")
+boxplot(tinfo$adamts10~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
+ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="pearson")
+smoothScatter(tinfo$adamts10, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="pearson")
+smoothScatter(tinfo$adamts10, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
+smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+hist(tinfo$adamts10)
+
+#dev.off()
+
+write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
+```
+
+We can also check if there is an association with survival:
+
+```{r}
+
+axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="Recurred/Progressed", 1, ifelse(tinfo$DFS=="DiseaseFree", 0, NA)))
+
+axO=Surv(tinfo$OSM, ifelse(tinfo$OSS=="DECEASED", 1, ifelse(tinfo$OSS=="LIVING", 0, NA)))
+
+SurvOSS=coxph(axO~tinfo$pam+tinfo$Stage+tinfo$adamts10)
+SurvDFS=coxph(axD~tinfo$pam+tinfo$Stage+tinfo$adamts10)
+
+ao=summary(SurvOSS)
+ao
+as=summary(SurvDFS)
+as
+```
+Note that CD74 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
+
+This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
+
+```{r 5eAD, fig.cap="forest plot ADAMTS10"}
+
+data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "CD74"),
+                X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
+                X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$cd74))),
+                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
+                     round(summary(SurvOSS)$coefficients[ 5:8,2],2)))
+
+mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
+mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
+
+#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
+
+forestplot(data1, mdata, xlog=T,
+           boxsize=0.5)
+
+#dev.off()
+
+write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot_adamts10.csv")
+
+```
+
+
+
+We can look below what the association with subtype is in KM curves:
+
+```{r Ext5e-osAD, fig.cap="OS CD74 by subtype", fig.height=8}
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="DECEASED", 1, ifelse(tinfo$OSS[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
+
+
+```{r Ext5e-dfsAD, fig.cap="DFS ADAMTS10 by subtype"}
+
+par(mfrow=c(2,2))
+
+for (i in Xind){
+   l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="Recurred/Progressed", 1, ifelse(tinfo$DFS[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
 
@@ -7231,7 +7372,7 @@ MeltCosmic$AAno[which(sapply(AAno, length)==1)]=as.numeric(as.character(unlist(A
 FindVarTest=FindHumanAAHomolog(MeltCosmic$Gene_Symbol, AAwt, MeltCosmic$AAno, AAmt)
 MeltCosmic=cbind(MeltCosmic, FindVarTest)
 
-
+dim(MeltCosmic)
 
 save(MeltCosmic, file=sprintf("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount%s.RData", Sys.Date())) #, sep="\t", row.names=F)
 write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_annotated_w_human_homolog_VAFncount.csv", row.names = F, quote=F)
@@ -7239,15 +7380,17 @@ write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_ann
 
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
 
-```{r}
+```{r loadOldVAFs, cache=T}
 load("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount2021-01-11.RData")
+
+dim(MeltCosmic)
 
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
 Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
 Xc=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(ChangList2$RatGene, ChangList2$RatAAno))
 x2=c(which(!is.na(Xb)), which(!is.na(Xc)))
 
-#head(MeltCosmic)
+head(MeltCosmic[ , 42:51])
 
 Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$AAno))
 Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
@@ -7701,7 +7844,7 @@ RowSC=ifelse(colnames(tempx)%in% c(RatCosmic, as.character(AllCancerPathwayGenes
 heatmap.2(tempx, Rowv = NA, Colv = NA,scale="none", trace="none", col=c("white", 1:4), ColSideColors=RowSC)
 # check if any of these are hotspot mutations
 Hotspots=MeltCosmic[which(!is.na(MeltCosmic$HumSequence)==T), ]
-#head(Hotspots)
+head(Hotspots)
 
 hotspotLocExtract=function(amat){
 HList=sapply(1:nrow(Hotspots), function(i) ifelse(amat[match(Hotspots$L1[i], rownames(amat)),match(Hotspots$Gene_Symbol[i], colnames(amat))]>0, 
@@ -7773,13 +7916,15 @@ top90genes=colnames(rGeneOut2)
 
 #pdf(sprintf("~/Desktop/summary_mutations_top90_human_homology_%s.pdf", Sys.Date()), width=14, height=7)
 
-par(mar = c(4, 8, 4, 2),  xpd = TRUE)
-image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
-axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex.axis=0.7)
-axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex.axis=0.7)
-text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
-legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
-mtext("top 90 mutations", side=3, line=-1, outer=T)
+hotspot1b
+
+ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
+ image(t(tempxb), col=c("white", 1:3), xaxt='n', yaxt='n')
+ axis(1, at=seq(0, 1, length=ncol(tempxb)), colnames(tempxb), las=2, cex.axis=0.7)
+ axis(2, at=seq(0, 1, length=nrow(tempxb)), rownames(tempxb), las=2, cex.axis=0.7)
+# text(na.omit(hotspot1b$Y-1)/(ncol(tempxb)-1), na.omit(hotspot1b$X-1)/(nrow(tempxb)-1) , "*")
+# legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
+# mtext("top 90 mutations", side=3, line=-1, outer=T)
 ```
 
 Below is the above list refined according to cosmic specifc genes, and listing 
@@ -7795,11 +7940,12 @@ Below is the above list refined according to cosmic specifc genes, and listing
 
 ## Plot by picking out cancer related genes
 pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
+palette(brewer.pal(8, "Set1"))
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempzb)), colnames(tempzb), las=2, cex.axis=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2,  cex.axis=0.7)
-text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
+#text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
 dev.off()
@@ -7808,7 +7954,7 @@ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempz2)), colnames(tempz2), las=2, cex.axis=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempz2)), rownames(tempz2), las=2, cex.axis=0.7)
-text(na.omit(hotspotzb2$Y-1)/(ncol(tempz2)-1), na.omit(hotspotzb2$X-1)/(nrow(tempz2)-1) , "*")
+#text(na.omit(hotspotzb2$Y-1)/(ncol(tempz2)-1), na.omit(hotspotzb2$X-1)/(nrow(tempz2)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 
 #dev.off()
@@ -8337,7 +8483,7 @@ tempAnew=rGeneOut2b[, na.omit(match(NtopAb, colnames(rGeneOut2b)))]
 tempA=heatmap.2(sign(tempAnew))
 tempA=tempAnew[tempA$rowInd, tempA$colInd]
 
-HSAnew=hotspotLocExtract(tempA)
+#HSAnew=hotspotLocExtract(tempA)
 
 
 ## NtopB=which(NUnique>10)
@@ -8349,7 +8495,7 @@ tempBnew=rGeneOut2b[, na.omit(match(NtopB2, colnames(rGeneOut2b)))]
 tempB=heatmap.2(sign(tempBnew))
 tempB=tempBnew[tempB$rowInd, tempB$colInd]
 
-HSBnew=hotspotLocExtract(tempB)
+#HSBnew=hotspotLocExtract(tempB)
 
 #pdf("~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf", height=7, width=13)
 ## Commonly mutated Genes:
@@ -8357,7 +8503,7 @@ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempA), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempA)), colnames(tempA), las=2, cex.axis=0.5)
 axis(2, at=seq(0, 1, length=nrow(tempA)), rownames(tempA), las=2, cex.axis=0.5)
-text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
+#text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("top 118 mutations", side=3, line=-1, outer=T)
 #dev.off()
@@ -8368,7 +8514,7 @@ par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempB), col=c("white", 1:4), xaxt='n', yaxt='n')
 axis(1, at=seq(0, 1, length=ncol(tempB)), colnames(tempB), las=2, cex.axis=0.7)
 axis(2, at=seq(0, 1, length=nrow(tempB)), rownames(tempB), las=2, cex.axis=0.7)
-text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
+#text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Common COSMIC mutations", side=3, line=-1, outer=T)
 #dev.off()
@@ -8630,10 +8776,10 @@ ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, 
 scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
 ```
 
-```{r 3gb, fig.cap="Trichrome with growth"}
+```{r 3gb, fig.cap="Trichrome with growth", eval=F}
 ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
- scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth", round(a1a, 2)))
-print(p)
+ scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth",)) # round(a1a, 2)))
+#print(p)
 
 write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
 
@@ -8841,8 +8987,13 @@ write to file:
 ```{r}
 write.xlsx(Cdata, file=sprintf("../metadata/Ext_Data_Table_updated_%s.xlsx", Sys.Date()))
 
-x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
-head(x1)
+#colnames(Cdata)
+
+x1=match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))
+df.Spatial$NewID=Cdata$NewID[x1]
+dfB=Cdata[x1, c("NewID", "TumorID","TumorAreaWSI", "Tumor.diameter.sac.mm", "CD45.Frac.FACS",	
+"DN.Frac.FACS",	"EpCAM.Frac.FACS")]
+
 write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
 
 colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
@@ -8855,15 +9006,33 @@ write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
 colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox")
 
-# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
-#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
-#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
-#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
-#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
-#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
-#                )
+df.Spatial2=merge(df.Spatial, dfB, by.x="NewID", by.y="NewID", all=T)
+#head(df.Spatial2)
+
+colnames(ProgSpecCD45)=gsub("_CD45", "", colnames(ProgSpecCD45))
+#colnames(ProgSpecCD45)=gsub("_", "", colnames(ProgSpecCD45))
+rownames(ProgSpecCD45)=ProgSpecCD45[ ,1]
+ProgSpecCD45B=t(ProgSpecCD45[grep("CD8",rownames(ProgSpecCD45)), -1 ])
+ProgSpecCD45B=data.frame(ProgSpecCD45B, sample=rownames(ProgSpecCD45B))
+#head(ProgSpecCD45B)
+
+df.Spatial3=merge(df.Spatial2, ProgSpecCD45B, by.x="TumorID", by.y="sample", all=T)
+
+head(df.Spatial3)
+
+## merge he data from df.Spatial with the data from 
+
+#df1=data.frame(CD8.WSI=df.Spatial$)
+
+ #  df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
+ #                 CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
+ #                 CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
+ #                 CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
+ #                 CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
+ #                 CD8normTumSize=(WSIvals[1,  ]/df.Spatial))
+ # #                )
 
 ```
 

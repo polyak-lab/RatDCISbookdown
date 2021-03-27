@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-03-17" />
+<meta name="date" content="2021-03-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -278,8 +278,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="15" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>15</b> TCGA: Associate Epcam+ inflammatory with survival</a><ul>
 <li class="chapter" data-level="15.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.1</b> Associating CD74 with phenotype and outcome</a></li>
-<li class="chapter" data-level="15.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.2.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#associating-admats10-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.2</b> Associating ADMATS10 with phenotype and outcome</a></li>
+<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.3.1</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -407,81 +408,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="stable-vs-growing-all-samples" class="section level2">
 <h2><span class="header-section-number">13.1</span> Stable vs growing: all samples</h2>
 <p>Below is a summary of growing vs stable comparisons using Process Networks:</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="summary-of-gsea-runs.html#cb232-1"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
-<span id="cb232-2"><a href="summary-of-gsea-runs.html#cb232-2"></a>e1=Epismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
-<span id="cb232-3"><a href="summary-of-gsea-runs.html#cb232-3"></a>c1=CDismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
-<span id="cb232-4"><a href="summary-of-gsea-runs.html#cb232-4"></a><span class="co">#</span></span>
-<span id="cb232-5"><a href="summary-of-gsea-runs.html#cb232-5"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb232-6"><a href="summary-of-gsea-runs.html#cb232-6"></a>es=<span class="kw">which</span>(e1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb232-7"><a href="summary-of-gsea-runs.html#cb232-7"></a>cs=<span class="kw">which</span>(c1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb232-8"><a href="summary-of-gsea-runs.html#cb232-8"></a></span>
-<span id="cb232-9"><a href="summary-of-gsea-runs.html#cb232-9"></a>AUnique=<span class="kw">c</span>(<span class="kw">rownames</span>(d1)[ds], <span class="kw">rownames</span>(e1)[es], <span class="kw">rownames</span>(c1)[cs])</span>
-<span id="cb232-10"><a href="summary-of-gsea-runs.html#cb232-10"></a>xalist=<span class="kw">unique</span>(AUnique)</span>
-<span id="cb232-11"><a href="summary-of-gsea-runs.html#cb232-11"></a></span>
-<span id="cb232-12"><a href="summary-of-gsea-runs.html#cb232-12"></a>tx=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">1</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">1</span>]),</span>
-<span id="cb232-13"><a href="summary-of-gsea-runs.html#cb232-13"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">1</span>]))</span>
-<span id="cb232-14"><a href="summary-of-gsea-runs.html#cb232-14"></a>tx2=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">2</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">2</span>]),</span>
-<span id="cb232-15"><a href="summary-of-gsea-runs.html#cb232-15"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">2</span>]))</span>
-<span id="cb232-16"><a href="summary-of-gsea-runs.html#cb232-16"></a>tx[<span class="kw">which</span>(tx2<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
-<span id="cb232-17"><a href="summary-of-gsea-runs.html#cb232-17"></a><span class="kw">rownames</span>(tx)=<span class="kw">substr</span>(xalist, <span class="dv">2</span>, <span class="dv">100</span>)</span>
-<span id="cb232-18"><a href="summary-of-gsea-runs.html#cb232-18"></a>txb=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(tx), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb232-19"><a href="summary-of-gsea-runs.html#cb232-19"></a>rCol=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(txb)]</span>
-<span id="cb232-20"><a href="summary-of-gsea-runs.html#cb232-20"></a><span class="kw">colnames</span>(tx)=<span class="kw">c</span>(<span class="st">&quot;DN&quot;</span>, <span class="st">&quot;Ep&quot;</span>, <span class="st">&quot;CD&quot;</span>)</span>
-<span id="cb232-21"><a href="summary-of-gsea-runs.html#cb232-21"></a></span>
-<span id="cb232-22"><a href="summary-of-gsea-runs.html#cb232-22"></a></span>
-<span id="cb232-23"><a href="summary-of-gsea-runs.html#cb232-23"></a><span class="co">#pdf(&quot;~/Desktop/5A-summary-pathways-process-networks.pdf&quot;, height=9, width=4)</span></span>
-<span id="cb232-24"><a href="summary-of-gsea-runs.html#cb232-24"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb232-25"><a href="summary-of-gsea-runs.html#cb232-25"></a>ax=<span class="kw">heatmap.2</span>(tx, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> rCol)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="summary-of-gsea-runs.html#cb231-1"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb231-2"><a href="summary-of-gsea-runs.html#cb231-2"></a>e1=Epismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb231-3"><a href="summary-of-gsea-runs.html#cb231-3"></a>c1=CDismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;stable_vs_growing NES&quot;</span>, <span class="st">&quot;stable_vs_growing padj&quot;</span>)]</span>
+<span id="cb231-4"><a href="summary-of-gsea-runs.html#cb231-4"></a><span class="co">#</span></span>
+<span id="cb231-5"><a href="summary-of-gsea-runs.html#cb231-5"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb231-6"><a href="summary-of-gsea-runs.html#cb231-6"></a>es=<span class="kw">which</span>(e1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb231-7"><a href="summary-of-gsea-runs.html#cb231-7"></a>cs=<span class="kw">which</span>(c1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb231-8"><a href="summary-of-gsea-runs.html#cb231-8"></a></span>
+<span id="cb231-9"><a href="summary-of-gsea-runs.html#cb231-9"></a>AUnique=<span class="kw">c</span>(<span class="kw">rownames</span>(d1)[ds], <span class="kw">rownames</span>(e1)[es], <span class="kw">rownames</span>(c1)[cs])</span>
+<span id="cb231-10"><a href="summary-of-gsea-runs.html#cb231-10"></a>xalist=<span class="kw">unique</span>(AUnique)</span>
+<span id="cb231-11"><a href="summary-of-gsea-runs.html#cb231-11"></a></span>
+<span id="cb231-12"><a href="summary-of-gsea-runs.html#cb231-12"></a>tx=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">1</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">1</span>]),</span>
+<span id="cb231-13"><a href="summary-of-gsea-runs.html#cb231-13"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">1</span>]))</span>
+<span id="cb231-14"><a href="summary-of-gsea-runs.html#cb231-14"></a>tx2=<span class="kw">cbind</span>(<span class="kw">as.numeric</span>(d1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(d1)), <span class="dv">2</span>]),<span class="kw">as.numeric</span>(e1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(e1)), <span class="dv">2</span>]),</span>
+<span id="cb231-15"><a href="summary-of-gsea-runs.html#cb231-15"></a>         <span class="kw">as.numeric</span>(c1[<span class="kw">match</span>(xalist, <span class="kw">rownames</span>(c1)), <span class="dv">2</span>]))</span>
+<span id="cb231-16"><a href="summary-of-gsea-runs.html#cb231-16"></a>tx[<span class="kw">which</span>(tx2<span class="op">&gt;</span><span class="fl">0.1</span>, <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb231-17"><a href="summary-of-gsea-runs.html#cb231-17"></a><span class="kw">rownames</span>(tx)=<span class="kw">substr</span>(xalist, <span class="dv">2</span>, <span class="dv">100</span>)</span>
+<span id="cb231-18"><a href="summary-of-gsea-runs.html#cb231-18"></a>txb=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(tx), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb231-19"><a href="summary-of-gsea-runs.html#cb231-19"></a>rCol=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(txb)]</span>
+<span id="cb231-20"><a href="summary-of-gsea-runs.html#cb231-20"></a><span class="kw">colnames</span>(tx)=<span class="kw">c</span>(<span class="st">&quot;DN&quot;</span>, <span class="st">&quot;Ep&quot;</span>, <span class="st">&quot;CD&quot;</span>)</span>
+<span id="cb231-21"><a href="summary-of-gsea-runs.html#cb231-21"></a></span>
+<span id="cb231-22"><a href="summary-of-gsea-runs.html#cb231-22"></a></span>
+<span id="cb231-23"><a href="summary-of-gsea-runs.html#cb231-23"></a><span class="co">#pdf(&quot;~/Desktop/5A-summary-pathways-process-networks.pdf&quot;, height=9, width=4)</span></span>
+<span id="cb231-24"><a href="summary-of-gsea-runs.html#cb231-24"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb231-25"><a href="summary-of-gsea-runs.html#cb231-25"></a>ax=<span class="kw">heatmap.2</span>(tx, <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> rCol)</span></code></pre></div>
 <div class="figure"><span id="fig:5a"></span>
 <img src="RatDCIS-bookdown_files/figure-html/5a-1.png" alt="GSEA summary stable growing" width="672" />
 <p class="caption">
 Figure 13.1: GSEA summary stable growing
 </p>
 </div>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="summary-of-gsea-runs.html#cb233-1"></a><span class="co">## re-order this?</span></span>
-<span id="cb233-2"><a href="summary-of-gsea-runs.html#cb233-2"></a>axb=ax<span class="op">$</span>carpet</span>
-<span id="cb233-3"><a href="summary-of-gsea-runs.html#cb233-3"></a>an2=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))]</span>
-<span id="cb233-4"><a href="summary-of-gsea-runs.html#cb233-4"></a><span class="kw">colnames</span>(axb)=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
-<span id="cb233-5"><a href="summary-of-gsea-runs.html#cb233-5"></a>rOrd=<span class="kw">order</span>(an2)</span></code></pre></div>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="summary-of-gsea-runs.html#cb234-1"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb234-2"><a href="summary-of-gsea-runs.html#cb234-2"></a><span class="kw">heatmap.2</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> an2[rOrd],</span>
-<span id="cb234-3"><a href="summary-of-gsea-runs.html#cb234-3"></a>             <span class="dt">Rowv =</span> <span class="ot">NA</span>, <span class="dt">main=</span><span class="st">&quot;stable red, growing blue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="summary-of-gsea-runs.html#cb232-1"></a><span class="co">## re-order this?</span></span>
+<span id="cb232-2"><a href="summary-of-gsea-runs.html#cb232-2"></a>axb=ax<span class="op">$</span>carpet</span>
+<span id="cb232-3"><a href="summary-of-gsea-runs.html#cb232-3"></a>an2=<span class="kw">c</span>(<span class="kw">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>), <span class="kw">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set2&quot;</span>))[<span class="kw">factor</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))]</span>
+<span id="cb232-4"><a href="summary-of-gsea-runs.html#cb232-4"></a><span class="kw">colnames</span>(axb)=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(axb), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb232-5"><a href="summary-of-gsea-runs.html#cb232-5"></a>rOrd=<span class="kw">order</span>(an2)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="summary-of-gsea-runs.html#cb233-1"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb233-2"><a href="summary-of-gsea-runs.html#cb233-2"></a><span class="kw">heatmap.2</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">trace =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">RowSideColors =</span> an2[rOrd],</span>
+<span id="cb233-3"><a href="summary-of-gsea-runs.html#cb233-3"></a>             <span class="dt">Rowv =</span> <span class="ot">NA</span>, <span class="dt">main=</span><span class="st">&quot;stable red, growing blue&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/5a-part2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="summary-of-gsea-runs.html#cb235-1"></a><span class="kw">dev.off</span>()</span>
-<span id="cb235-2"><a href="summary-of-gsea-runs.html#cb235-2"></a><span class="co">## null device </span></span>
-<span id="cb235-3"><a href="summary-of-gsea-runs.html#cb235-3"></a><span class="co">##           1</span></span>
-<span id="cb235-4"><a href="summary-of-gsea-runs.html#cb235-4"></a></span>
-<span id="cb235-5"><a href="summary-of-gsea-runs.html#cb235-5"></a></span>
-<span id="cb235-6"><a href="summary-of-gsea-runs.html#cb235-6"></a><span class="kw">write.csv</span>(tx, <span class="dt">file=</span><span class="st">&quot;nature-tables/5a.csv&quot;</span>)</span>
-<span id="cb235-7"><a href="summary-of-gsea-runs.html#cb235-7"></a><span class="kw">write.csv</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">file=</span><span class="st">&quot;nature-tables/5a_version2.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="summary-of-gsea-runs.html#cb234-1"></a><span class="kw">dev.off</span>()</span>
+<span id="cb234-2"><a href="summary-of-gsea-runs.html#cb234-2"></a><span class="co">## null device </span></span>
+<span id="cb234-3"><a href="summary-of-gsea-runs.html#cb234-3"></a><span class="co">##           1</span></span>
+<span id="cb234-4"><a href="summary-of-gsea-runs.html#cb234-4"></a></span>
+<span id="cb234-5"><a href="summary-of-gsea-runs.html#cb234-5"></a></span>
+<span id="cb234-6"><a href="summary-of-gsea-runs.html#cb234-6"></a><span class="kw">write.csv</span>(tx, <span class="dt">file=</span><span class="st">&quot;nature-tables/5a.csv&quot;</span>)</span>
+<span id="cb234-7"><a href="summary-of-gsea-runs.html#cb234-7"></a><span class="kw">write.csv</span>(<span class="kw">t</span>(axb[, rOrd]), <span class="dt">file=</span><span class="st">&quot;nature-tables/5a_version2.csv&quot;</span>)</span></code></pre></div>
 <div id="barplots-of-enriched-pathways" class="section level3">
 <h3><span class="header-section-number">13.1.1</span> barplots of enriched pathways</h3>
 <p>Below are the bar-plots for the enriched pathways in CD45 cells:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="summary-of-gsea-runs.html#cb236-1"></a>termA=c1[cs, ]</span>
-<span id="cb236-2"><a href="summary-of-gsea-runs.html#cb236-2"></a></span>
-<span id="cb236-3"><a href="summary-of-gsea-runs.html#cb236-3"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb236-4"><a href="summary-of-gsea-runs.html#cb236-4"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
-<span id="cb236-5"><a href="summary-of-gsea-runs.html#cb236-5"></a></span>
-<span id="cb236-6"><a href="summary-of-gsea-runs.html#cb236-6"></a>sigTerms=TermsA</span>
-<span id="cb236-7"><a href="summary-of-gsea-runs.html#cb236-7"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
-<span id="cb236-8"><a href="summary-of-gsea-runs.html#cb236-8"></a></span>
-<span id="cb236-9"><a href="summary-of-gsea-runs.html#cb236-9"></a><span class="co">## check whether this runs:</span></span>
-<span id="cb236-10"><a href="summary-of-gsea-runs.html#cb236-10"></a></span>
-<span id="cb236-11"><a href="summary-of-gsea-runs.html#cb236-11"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Apoptosis&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
-<span id="cb236-12"><a href="summary-of-gsea-runs.html#cb236-12"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Proliferation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
-<span id="cb236-13"><a href="summary-of-gsea-runs.html#cb236-13"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Translation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
-<span id="cb236-14"><a href="summary-of-gsea-runs.html#cb236-14"></a>testType=<span class="kw">c</span>(<span class="st">&quot;Inflammation&quot;</span>, <span class="st">&quot;Immune response&quot;</span>, <span class="st">&quot;Transcription&quot;</span>)</span>
-<span id="cb236-15"><a href="summary-of-gsea-runs.html#cb236-15"></a></span>
-<span id="cb236-16"><a href="summary-of-gsea-runs.html#cb236-16"></a><span class="co">#pdf(&quot;~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf&quot;, height=8, width=8)</span></span>
-<span id="cb236-17"><a href="summary-of-gsea-runs.html#cb236-17"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb236-18"><a href="summary-of-gsea-runs.html#cb236-18"></a><span class="cf">for</span> (i <span class="cf">in</span> testType){</span>
-<span id="cb236-19"><a href="summary-of-gsea-runs.html#cb236-19"></a>  <span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms[<span class="kw">which</span>(TermType<span class="op">==</span>i)], <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
-<span id="cb236-20"><a href="summary-of-gsea-runs.html#cb236-20"></a>          <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]))))</span>
-<span id="cb236-21"><a href="summary-of-gsea-runs.html#cb236-21"></a>}</span>
-<span id="cb236-22"><a href="summary-of-gsea-runs.html#cb236-22"></a></span>
-<span id="cb236-23"><a href="summary-of-gsea-runs.html#cb236-23"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
-<span id="cb236-24"><a href="summary-of-gsea-runs.html#cb236-24"></a></span>
-<span id="cb236-25"><a href="summary-of-gsea-runs.html#cb236-25"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/4h.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="summary-of-gsea-runs.html#cb235-1"></a>termA=c1[cs, ]</span>
+<span id="cb235-2"><a href="summary-of-gsea-runs.html#cb235-2"></a></span>
+<span id="cb235-3"><a href="summary-of-gsea-runs.html#cb235-3"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb235-4"><a href="summary-of-gsea-runs.html#cb235-4"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb235-5"><a href="summary-of-gsea-runs.html#cb235-5"></a></span>
+<span id="cb235-6"><a href="summary-of-gsea-runs.html#cb235-6"></a>sigTerms=TermsA</span>
+<span id="cb235-7"><a href="summary-of-gsea-runs.html#cb235-7"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
+<span id="cb235-8"><a href="summary-of-gsea-runs.html#cb235-8"></a></span>
+<span id="cb235-9"><a href="summary-of-gsea-runs.html#cb235-9"></a><span class="co">## check whether this runs:</span></span>
+<span id="cb235-10"><a href="summary-of-gsea-runs.html#cb235-10"></a></span>
+<span id="cb235-11"><a href="summary-of-gsea-runs.html#cb235-11"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Apoptosis&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb235-12"><a href="summary-of-gsea-runs.html#cb235-12"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Proliferation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb235-13"><a href="summary-of-gsea-runs.html#cb235-13"></a>TermType[<span class="kw">which</span>(TermType<span class="op">==</span><span class="st">&quot;Translation&quot;</span>)]=<span class="st">&quot;Transcription&quot;</span></span>
+<span id="cb235-14"><a href="summary-of-gsea-runs.html#cb235-14"></a>testType=<span class="kw">c</span>(<span class="st">&quot;Inflammation&quot;</span>, <span class="st">&quot;Immune response&quot;</span>, <span class="st">&quot;Transcription&quot;</span>)</span>
+<span id="cb235-15"><a href="summary-of-gsea-runs.html#cb235-15"></a></span>
+<span id="cb235-16"><a href="summary-of-gsea-runs.html#cb235-16"></a><span class="co">#pdf(&quot;~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf&quot;, height=8, width=8)</span></span>
+<span id="cb235-17"><a href="summary-of-gsea-runs.html#cb235-17"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb235-18"><a href="summary-of-gsea-runs.html#cb235-18"></a><span class="cf">for</span> (i <span class="cf">in</span> testType){</span>
+<span id="cb235-19"><a href="summary-of-gsea-runs.html#cb235-19"></a>  <span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms[<span class="kw">which</span>(TermType<span class="op">==</span>i)], <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
+<span id="cb235-20"><a href="summary-of-gsea-runs.html#cb235-20"></a>          <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[<span class="kw">which</span>(TermType<span class="op">==</span>i), <span class="dv">1</span>]))))</span>
+<span id="cb235-21"><a href="summary-of-gsea-runs.html#cb235-21"></a>}</span>
+<span id="cb235-22"><a href="summary-of-gsea-runs.html#cb235-22"></a></span>
+<span id="cb235-23"><a href="summary-of-gsea-runs.html#cb235-23"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
+<span id="cb235-24"><a href="summary-of-gsea-runs.html#cb235-24"></a></span>
+<span id="cb235-25"><a href="summary-of-gsea-runs.html#cb235-25"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/4h.csv&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:4h"></span>
 <img src="RatDCIS-bookdown_files/figure-html/4h-1.png" alt="CD45 cells enriched pathways" width="672" />
 <p class="caption">
@@ -493,43 +494,43 @@ Figure 13.2: CD45 cells enriched pathways
 <div id="comparisons-based-on-treatment" class="section level2">
 <h2><span class="header-section-number">13.2</span> Comparisons based on treatment</h2>
 <p>We can do the same analysis for the DN compartment, but for comparing treatment effect:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="summary-of-gsea-runs.html#cb237-1"></a></span>
-<span id="cb237-2"><a href="summary-of-gsea-runs.html#cb237-2"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;imm_vs_control NES&quot;</span>, <span class="st">&quot;imm_vs_control padj&quot;</span>)]</span>
-<span id="cb237-3"><a href="summary-of-gsea-runs.html#cb237-3"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb237-4"><a href="summary-of-gsea-runs.html#cb237-4"></a></span>
-<span id="cb237-5"><a href="summary-of-gsea-runs.html#cb237-5"></a>termA=d1[ds, ]</span>
-<span id="cb237-6"><a href="summary-of-gsea-runs.html#cb237-6"></a></span>
-<span id="cb237-7"><a href="summary-of-gsea-runs.html#cb237-7"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb237-8"><a href="summary-of-gsea-runs.html#cb237-8"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
-<span id="cb237-9"><a href="summary-of-gsea-runs.html#cb237-9"></a></span>
-<span id="cb237-10"><a href="summary-of-gsea-runs.html#cb237-10"></a>sigTerms=TermsA</span>
-<span id="cb237-11"><a href="summary-of-gsea-runs.html#cb237-11"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
-<span id="cb237-12"><a href="summary-of-gsea-runs.html#cb237-12"></a></span>
-<span id="cb237-13"><a href="summary-of-gsea-runs.html#cb237-13"></a><span class="co">## check whether this runs:</span></span>
-<span id="cb237-14"><a href="summary-of-gsea-runs.html#cb237-14"></a></span>
-<span id="cb237-15"><a href="summary-of-gsea-runs.html#cb237-15"></a><span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms, <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
-<span id="cb237-16"><a href="summary-of-gsea-runs.html#cb237-16"></a>         <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]))))</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="summary-of-gsea-runs.html#cb236-1"></a></span>
+<span id="cb236-2"><a href="summary-of-gsea-runs.html#cb236-2"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;imm_vs_control NES&quot;</span>, <span class="st">&quot;imm_vs_control padj&quot;</span>)]</span>
+<span id="cb236-3"><a href="summary-of-gsea-runs.html#cb236-3"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb236-4"><a href="summary-of-gsea-runs.html#cb236-4"></a></span>
+<span id="cb236-5"><a href="summary-of-gsea-runs.html#cb236-5"></a>termA=d1[ds, ]</span>
+<span id="cb236-6"><a href="summary-of-gsea-runs.html#cb236-6"></a></span>
+<span id="cb236-7"><a href="summary-of-gsea-runs.html#cb236-7"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb236-8"><a href="summary-of-gsea-runs.html#cb236-8"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb236-9"><a href="summary-of-gsea-runs.html#cb236-9"></a></span>
+<span id="cb236-10"><a href="summary-of-gsea-runs.html#cb236-10"></a>sigTerms=TermsA</span>
+<span id="cb236-11"><a href="summary-of-gsea-runs.html#cb236-11"></a>TermType=<span class="kw">substr</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>, <span class="dv">40</span>)</span>
+<span id="cb236-12"><a href="summary-of-gsea-runs.html#cb236-12"></a></span>
+<span id="cb236-13"><a href="summary-of-gsea-runs.html#cb236-13"></a><span class="co">## check whether this runs:</span></span>
+<span id="cb236-14"><a href="summary-of-gsea-runs.html#cb236-14"></a></span>
+<span id="cb236-15"><a href="summary-of-gsea-runs.html#cb236-15"></a><span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]), <span class="dt">names.arg =</span> sigTerms, <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
+<span id="cb236-16"><a href="summary-of-gsea-runs.html#cb236-16"></a>         <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]))))</span></code></pre></div>
 <div class="figure"><span id="fig:Ext3h"></span>
 <img src="RatDCIS-bookdown_files/figure-html/Ext3h-1.png" alt="DN assoc treatment GSEA" width="672" />
 <p class="caption">
 Figure 13.3: DN assoc treatment GSEA
 </p>
 </div>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="summary-of-gsea-runs.html#cb238-1"></a></span>
-<span id="cb238-2"><a href="summary-of-gsea-runs.html#cb238-2"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
-<span id="cb238-3"><a href="summary-of-gsea-runs.html#cb238-3"></a></span>
-<span id="cb238-4"><a href="summary-of-gsea-runs.html#cb238-4"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext3h.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="summary-of-gsea-runs.html#cb237-1"></a></span>
+<span id="cb237-2"><a href="summary-of-gsea-runs.html#cb237-2"></a>Ntab=<span class="kw">data.frame</span>(<span class="dt">TermType=</span>TermType, <span class="dt">sigTerm=</span>sigTerms, termA)</span>
+<span id="cb237-3"><a href="summary-of-gsea-runs.html#cb237-3"></a></span>
+<span id="cb237-4"><a href="summary-of-gsea-runs.html#cb237-4"></a><span class="kw">write.csv</span>(Ntab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext3h.csv&quot;</span>)</span></code></pre></div>
 <p>Also look at the output for combo treatment vs vehcile</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="summary-of-gsea-runs.html#cb239-1"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;PDL1+LY_vs_Vehicle NES&quot;</span>, <span class="st">&quot;PDL1+LY_vs_Vehicle padj&quot;</span>)]</span>
-<span id="cb239-2"><a href="summary-of-gsea-runs.html#cb239-2"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
-<span id="cb239-3"><a href="summary-of-gsea-runs.html#cb239-3"></a></span>
-<span id="cb239-4"><a href="summary-of-gsea-runs.html#cb239-4"></a>termA=d1[ds, ]</span>
-<span id="cb239-5"><a href="summary-of-gsea-runs.html#cb239-5"></a></span>
-<span id="cb239-6"><a href="summary-of-gsea-runs.html#cb239-6"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb239-7"><a href="summary-of-gsea-runs.html#cb239-7"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
-<span id="cb239-8"><a href="summary-of-gsea-runs.html#cb239-8"></a></span>
-<span id="cb239-9"><a href="summary-of-gsea-runs.html#cb239-9"></a><span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]), <span class="dt">names.arg =</span> TermsA, <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
-<span id="cb239-10"><a href="summary-of-gsea-runs.html#cb239-10"></a>         <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]))))</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="summary-of-gsea-runs.html#cb238-1"></a>d1=DNismr3<span class="op">$</span>ProcessNetworks[, <span class="kw">c</span>(<span class="st">&quot;PDL1+LY_vs_Vehicle NES&quot;</span>, <span class="st">&quot;PDL1+LY_vs_Vehicle padj&quot;</span>)]</span>
+<span id="cb238-2"><a href="summary-of-gsea-runs.html#cb238-2"></a>ds=<span class="kw">which</span>(d1[ ,<span class="dv">2</span>]<span class="op">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb238-3"><a href="summary-of-gsea-runs.html#cb238-3"></a></span>
+<span id="cb238-4"><a href="summary-of-gsea-runs.html#cb238-4"></a>termA=d1[ds, ]</span>
+<span id="cb238-5"><a href="summary-of-gsea-runs.html#cb238-5"></a></span>
+<span id="cb238-6"><a href="summary-of-gsea-runs.html#cb238-6"></a>TermsA=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(termA), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb238-7"><a href="summary-of-gsea-runs.html#cb238-7"></a>TermsA[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))]=<span class="kw">substr</span>(<span class="kw">rownames</span>(termA)[<span class="kw">which</span>(<span class="kw">is.na</span>(TermsA))], <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb238-8"><a href="summary-of-gsea-runs.html#cb238-8"></a></span>
+<span id="cb238-9"><a href="summary-of-gsea-runs.html#cb238-9"></a><span class="kw">barplot</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]), <span class="dt">names.arg =</span> TermsA, <span class="dt">horiz =</span> T, <span class="dt">las=</span><span class="dv">2</span>,</span>
+<span id="cb238-10"><a href="summary-of-gsea-runs.html#cb238-10"></a>         <span class="dt">xlab=</span><span class="st">&quot;NES&quot;</span>, <span class="dt">main=</span>testType, <span class="dt">col=</span><span class="kw">factor</span>(<span class="kw">sign</span>(<span class="kw">as.numeric</span>(termA[, <span class="dv">1</span>]))))</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-92-1.png" width="672" /></p>
 </div>
 <div id="pathways-of-interest-2" class="section level2">
@@ -553,62 +554,62 @@ Figure 13.3: DN assoc treatment GSEA
 <li>EMT</li>
 </ul>
 <p>Perform GSVA on these pathways</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="summary-of-gsea-runs.html#cb240-1"></a><span class="kw">load</span>(<span class="st">&quot;../anntotations/Metacore_extracted_Process_networks_nov2020.RData&quot;</span>)</span>
-<span id="cb240-2"><a href="summary-of-gsea-runs.html#cb240-2"></a></span>
-<span id="cb240-3"><a href="summary-of-gsea-runs.html#cb240-3"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(e1)[es], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
-<span id="cb240-4"><a href="summary-of-gsea-runs.html#cb240-4"></a></span>
-<span id="cb240-5"><a href="summary-of-gsea-runs.html#cb240-5"></a>rNames2=SymHum2Rat<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(<span class="kw">rownames</span>(allTPMFinal), SymHum2Rat<span class="op">$</span>RGD.symbol)]</span>
-<span id="cb240-6"><a href="summary-of-gsea-runs.html#cb240-6"></a>rNames2[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))]=<span class="kw">toupper</span>(<span class="kw">rownames</span>(allTPMFinal)[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))])</span>
-<span id="cb240-7"><a href="summary-of-gsea-runs.html#cb240-7"></a></span>
-<span id="cb240-8"><a href="summary-of-gsea-runs.html#cb240-8"></a></span>
-<span id="cb240-9"><a href="summary-of-gsea-runs.html#cb240-9"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstEp<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
-<span id="cb240-10"><a href="summary-of-gsea-runs.html#cb240-10"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
-<span id="cb240-11"><a href="summary-of-gsea-runs.html#cb240-11"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
-<span id="cb240-12"><a href="summary-of-gsea-runs.html#cb240-12"></a></span>
-<span id="cb240-13"><a href="summary-of-gsea-runs.html#cb240-13"></a></span>
-<span id="cb240-14"><a href="summary-of-gsea-runs.html#cb240-14"></a>gsva1=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
-<span id="cb240-15"><a href="summary-of-gsea-runs.html#cb240-15"></a></span>
-<span id="cb240-16"><a href="summary-of-gsea-runs.html#cb240-16"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva1), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva1[x, ]))</span>
-<span id="cb240-17"><a href="summary-of-gsea-runs.html#cb240-17"></a>a1=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
-<span id="cb240-18"><a href="summary-of-gsea-runs.html#cb240-18"></a></span>
-<span id="cb240-19"><a href="summary-of-gsea-runs.html#cb240-19"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(d1)[ds], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
-<span id="cb240-20"><a href="summary-of-gsea-runs.html#cb240-20"></a></span>
-<span id="cb240-21"><a href="summary-of-gsea-runs.html#cb240-21"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstDN<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
-<span id="cb240-22"><a href="summary-of-gsea-runs.html#cb240-22"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
-<span id="cb240-23"><a href="summary-of-gsea-runs.html#cb240-23"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
-<span id="cb240-24"><a href="summary-of-gsea-runs.html#cb240-24"></a></span>
-<span id="cb240-25"><a href="summary-of-gsea-runs.html#cb240-25"></a>gsva2=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
-<span id="cb240-26"><a href="summary-of-gsea-runs.html#cb240-26"></a></span>
-<span id="cb240-27"><a href="summary-of-gsea-runs.html#cb240-27"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva2), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva2[x, ]))</span>
-<span id="cb240-28"><a href="summary-of-gsea-runs.html#cb240-28"></a>a2=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
-<span id="cb240-29"><a href="summary-of-gsea-runs.html#cb240-29"></a></span>
-<span id="cb240-30"><a href="summary-of-gsea-runs.html#cb240-30"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(c1)[cs], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
-<span id="cb240-31"><a href="summary-of-gsea-runs.html#cb240-31"></a></span>
-<span id="cb240-32"><a href="summary-of-gsea-runs.html#cb240-32"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstCD<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
-<span id="cb240-33"><a href="summary-of-gsea-runs.html#cb240-33"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
-<span id="cb240-34"><a href="summary-of-gsea-runs.html#cb240-34"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
-<span id="cb240-35"><a href="summary-of-gsea-runs.html#cb240-35"></a></span>
-<span id="cb240-36"><a href="summary-of-gsea-runs.html#cb240-36"></a>gsva3=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
-<span id="cb240-37"><a href="summary-of-gsea-runs.html#cb240-37"></a></span>
-<span id="cb240-38"><a href="summary-of-gsea-runs.html#cb240-38"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva3), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva3[x, ]))</span>
-<span id="cb240-39"><a href="summary-of-gsea-runs.html#cb240-39"></a>a3=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
-<span id="cb240-40"><a href="summary-of-gsea-runs.html#cb240-40"></a></span>
-<span id="cb240-41"><a href="summary-of-gsea-runs.html#cb240-41"></a><span class="co">#pdf(&quot;~/Desktop/5B-ssgsea-scores.pdf&quot;, height=5, width=5)</span></span>
-<span id="cb240-42"><a href="summary-of-gsea-runs.html#cb240-42"></a></span>
-<span id="cb240-43"><a href="summary-of-gsea-runs.html#cb240-43"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb240-44"><a href="summary-of-gsea-runs.html#cb240-44"></a><span class="kw">heatmap.2</span>(gsva1[a1, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstEp<span class="op">$</span>Growth],</span>
-<span id="cb240-45"><a href="summary-of-gsea-runs.html#cb240-45"></a>          <span class="dt">main=</span><span class="st">&quot;Ep&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="summary-of-gsea-runs.html#cb239-1"></a><span class="kw">load</span>(<span class="st">&quot;../anntotations/Metacore_extracted_Process_networks_nov2020.RData&quot;</span>)</span>
+<span id="cb239-2"><a href="summary-of-gsea-runs.html#cb239-2"></a></span>
+<span id="cb239-3"><a href="summary-of-gsea-runs.html#cb239-3"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(e1)[es], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb239-4"><a href="summary-of-gsea-runs.html#cb239-4"></a></span>
+<span id="cb239-5"><a href="summary-of-gsea-runs.html#cb239-5"></a>rNames2=SymHum2Rat<span class="op">$</span>HGNC.symbol[<span class="kw">match</span>(<span class="kw">rownames</span>(allTPMFinal), SymHum2Rat<span class="op">$</span>RGD.symbol)]</span>
+<span id="cb239-6"><a href="summary-of-gsea-runs.html#cb239-6"></a>rNames2[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))]=<span class="kw">toupper</span>(<span class="kw">rownames</span>(allTPMFinal)[<span class="kw">which</span>(<span class="kw">is.na</span>(rNames2))])</span>
+<span id="cb239-7"><a href="summary-of-gsea-runs.html#cb239-7"></a></span>
+<span id="cb239-8"><a href="summary-of-gsea-runs.html#cb239-8"></a></span>
+<span id="cb239-9"><a href="summary-of-gsea-runs.html#cb239-9"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstEp<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb239-10"><a href="summary-of-gsea-runs.html#cb239-10"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb239-11"><a href="summary-of-gsea-runs.html#cb239-11"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb239-12"><a href="summary-of-gsea-runs.html#cb239-12"></a></span>
+<span id="cb239-13"><a href="summary-of-gsea-runs.html#cb239-13"></a></span>
+<span id="cb239-14"><a href="summary-of-gsea-runs.html#cb239-14"></a>gsva1=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb239-15"><a href="summary-of-gsea-runs.html#cb239-15"></a></span>
+<span id="cb239-16"><a href="summary-of-gsea-runs.html#cb239-16"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva1), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva1[x, ]))</span>
+<span id="cb239-17"><a href="summary-of-gsea-runs.html#cb239-17"></a>a1=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb239-18"><a href="summary-of-gsea-runs.html#cb239-18"></a></span>
+<span id="cb239-19"><a href="summary-of-gsea-runs.html#cb239-19"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(d1)[ds], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb239-20"><a href="summary-of-gsea-runs.html#cb239-20"></a></span>
+<span id="cb239-21"><a href="summary-of-gsea-runs.html#cb239-21"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstDN<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb239-22"><a href="summary-of-gsea-runs.html#cb239-22"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb239-23"><a href="summary-of-gsea-runs.html#cb239-23"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb239-24"><a href="summary-of-gsea-runs.html#cb239-24"></a></span>
+<span id="cb239-25"><a href="summary-of-gsea-runs.html#cb239-25"></a>gsva2=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb239-26"><a href="summary-of-gsea-runs.html#cb239-26"></a></span>
+<span id="cb239-27"><a href="summary-of-gsea-runs.html#cb239-27"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva2), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva2[x, ]))</span>
+<span id="cb239-28"><a href="summary-of-gsea-runs.html#cb239-28"></a>a2=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb239-29"><a href="summary-of-gsea-runs.html#cb239-29"></a></span>
+<span id="cb239-30"><a href="summary-of-gsea-runs.html#cb239-30"></a>sList=PathwayMapAllComp[<span class="kw">match</span>(<span class="kw">substr</span>(<span class="kw">rownames</span>(c1)[cs], <span class="dv">2</span>, <span class="dv">100</span>), <span class="kw">names</span>(PathwayMapAllComp))]</span>
+<span id="cb239-31"><a href="summary-of-gsea-runs.html#cb239-31"></a></span>
+<span id="cb239-32"><a href="summary-of-gsea-runs.html#cb239-32"></a>tpmTemp=allTPMFinal[ , <span class="kw">match</span>(vstCD<span class="op">$</span>SampleID, <span class="kw">colnames</span>(allTPMFinal))]</span>
+<span id="cb239-33"><a href="summary-of-gsea-runs.html#cb239-33"></a><span class="kw">colnames</span>(tpmTemp)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(tpmTemp), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb239-34"><a href="summary-of-gsea-runs.html#cb239-34"></a><span class="kw">rownames</span>(tpmTemp)=rNames2</span>
+<span id="cb239-35"><a href="summary-of-gsea-runs.html#cb239-35"></a></span>
+<span id="cb239-36"><a href="summary-of-gsea-runs.html#cb239-36"></a>gsva3=<span class="kw">gsva</span>(tpmTemp, sList, <span class="dt">method=</span><span class="st">&quot;ssgsea&quot;</span>, <span class="dt">ssgsea.norm=</span>T)</span>
+<span id="cb239-37"><a href="summary-of-gsea-runs.html#cb239-37"></a></span>
+<span id="cb239-38"><a href="summary-of-gsea-runs.html#cb239-38"></a>nx2=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(gsva3), <span class="cf">function</span>(x) <span class="kw">sd</span>(gsva3[x, ]))</span>
+<span id="cb239-39"><a href="summary-of-gsea-runs.html#cb239-39"></a>a3=<span class="kw">which</span>(nx2<span class="op">&gt;</span><span class="fl">0.03</span>)</span>
+<span id="cb239-40"><a href="summary-of-gsea-runs.html#cb239-40"></a></span>
+<span id="cb239-41"><a href="summary-of-gsea-runs.html#cb239-41"></a><span class="co">#pdf(&quot;~/Desktop/5B-ssgsea-scores.pdf&quot;, height=5, width=5)</span></span>
+<span id="cb239-42"><a href="summary-of-gsea-runs.html#cb239-42"></a></span>
+<span id="cb239-43"><a href="summary-of-gsea-runs.html#cb239-43"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb239-44"><a href="summary-of-gsea-runs.html#cb239-44"></a><span class="kw">heatmap.2</span>(gsva1[a1, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstEp<span class="op">$</span>Growth],</span>
+<span id="cb239-45"><a href="summary-of-gsea-runs.html#cb239-45"></a>          <span class="dt">main=</span><span class="st">&quot;Ep&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-1.png" width="672" /></p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="summary-of-gsea-runs.html#cb241-1"></a></span>
-<span id="cb241-2"><a href="summary-of-gsea-runs.html#cb241-2"></a><span class="kw">heatmap.2</span>(gsva2[a2, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstDN<span class="op">$</span>Growth],</span>
-<span id="cb241-3"><a href="summary-of-gsea-runs.html#cb241-3"></a>          <span class="dt">main=</span><span class="st">&quot;DN&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="summary-of-gsea-runs.html#cb240-1"></a></span>
+<span id="cb240-2"><a href="summary-of-gsea-runs.html#cb240-2"></a><span class="kw">heatmap.2</span>(gsva2[a2, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstDN<span class="op">$</span>Growth],</span>
+<span id="cb240-3"><a href="summary-of-gsea-runs.html#cb240-3"></a>          <span class="dt">main=</span><span class="st">&quot;DN&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-2.png" width="672" /></p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="summary-of-gsea-runs.html#cb242-1"></a></span>
-<span id="cb242-2"><a href="summary-of-gsea-runs.html#cb242-2"></a><span class="kw">heatmap.2</span>(gsva3[a3, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstCD<span class="op">$</span>Growth],</span>
-<span id="cb242-3"><a href="summary-of-gsea-runs.html#cb242-3"></a>          <span class="dt">main=</span><span class="st">&quot;CD&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="summary-of-gsea-runs.html#cb241-1"></a></span>
+<span id="cb241-2"><a href="summary-of-gsea-runs.html#cb241-2"></a><span class="kw">heatmap.2</span>(gsva3[a3, ], <span class="dt">col=</span>RdBu[<span class="dv">11</span><span class="op">:</span><span class="dv">1</span>], <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">ColSideColors =</span> ColSizeb[vstCD<span class="op">$</span>Growth],</span>
+<span id="cb241-3"><a href="summary-of-gsea-runs.html#cb241-3"></a>          <span class="dt">main=</span><span class="st">&quot;CD&quot;</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-93-3.png" width="672" /></p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="summary-of-gsea-runs.html#cb243-1"></a></span>
-<span id="cb243-2"><a href="summary-of-gsea-runs.html#cb243-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="summary-of-gsea-runs.html#cb242-1"></a></span>
+<span id="cb242-2"><a href="summary-of-gsea-runs.html#cb242-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
 
 </div>
 </div>

@@ -12,8 +12,13 @@ write to file:
 ```{r}
 write.xlsx(Cdata, file=sprintf("../metadata/Ext_Data_Table_updated_%s.xlsx", Sys.Date()))
 
-x1=Cdata$NewID[match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))]
-head(x1)
+#colnames(Cdata)
+
+x1=match(rownames(df.Spatial), gsub("_","", Cdata$TumorID))
+df.Spatial$NewID=Cdata$NewID[x1]
+dfB=Cdata[x1, c("NewID", "TumorID","TumorAreaWSI", "Tumor.diameter.sac.mm", "CD45.Frac.FACS",	
+"DN.Frac.FACS",	"EpCAM.Frac.FACS")]
+
 write.csv(df.Spatial, file="nature-tables/summary_spatial_information.csv")
 
 colnames(allstarFinal)=infoTableFinal$TumorIDnew[match(colnames(allstarFinal), rownames(infoTableFinal))]
@@ -26,15 +31,33 @@ write.csv(allstarFinal, file="nature-tables/allstarFinal_output.csv")
 colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
-indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox", "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
+indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnyEPRatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox")
 
-# df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
-#                #CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
-#                CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
-#                CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
-#                CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
-#                CD8normTumSize=(WSIvals[1,  ]/df.Spatial)
-#                )
+df.Spatial2=merge(df.Spatial, dfB, by.x="NewID", by.y="NewID", all=T)
+#head(df.Spatial2)
+
+colnames(ProgSpecCD45)=gsub("_CD45", "", colnames(ProgSpecCD45))
+#colnames(ProgSpecCD45)=gsub("_", "", colnames(ProgSpecCD45))
+rownames(ProgSpecCD45)=ProgSpecCD45[ ,1]
+ProgSpecCD45B=t(ProgSpecCD45[grep("CD8",rownames(ProgSpecCD45)), -1 ])
+ProgSpecCD45B=data.frame(ProgSpecCD45B, sample=rownames(ProgSpecCD45B))
+#head(ProgSpecCD45B)
+
+df.Spatial3=merge(df.Spatial2, ProgSpecCD45B, by.x="TumorID", by.y="sample", all=T)
+
+head(df.Spatial3)
+
+## merge he data from df.Spatial with the data from 
+
+#df1=data.frame(CD8.WSI=df.Spatial$)
+
+ #  df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), 
+ #                 CD8Frac.WSI=t(WSIvalFracs[ ,2]), 
+ #                 CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),
+ #                 CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),
+ #                 CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),
+ #                 CD8normTumSize=(WSIvals[1,  ]/df.Spatial))
+ # #                )
 
 ```
 

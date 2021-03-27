@@ -10,8 +10,10 @@ Below we assess summary statistics on clinico-pathological features of this data
 ```{r}
 Cdata=xlsx::read.xlsx("../metadata/Extended Data Table1.xlsx", sheetIndex=1)
 
+Cdata$NewID[which(duplicated(Cdata$NewID)==T)]
 scroll_box(kable(Cdata[ ,1:20], format="html"),
          height="300px", width="100%")
+
 ```
 
 ## Size information

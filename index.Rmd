@@ -37,7 +37,7 @@ pre[class] {
 
 This is a summary of the tools and code required in the study: 'NMU-induced sprague dawley rat model of breast cancer treated with immunotherapy to prevent tumor progression' by Gil del Alcazar et al.
 
-The GEO accession code for RNA-data is GEOXXXXXX
+The GEO accession code for RNA-data is GSE167102. WGS will one day be available at SUB6887244.
 
 Figures generated in the manuscript will be listed in the appendix and it can be cross-referenced to the relevant sections in this document
 

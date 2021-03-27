@@ -88,10 +88,10 @@ ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, 
 scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
 ```
 
-```{r 3gb, fig.cap="Trichrome with growth"}
+```{r 3gb, fig.cap="Trichrome with growth", eval=F}
 ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
- scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth", round(a1a, 2)))
-print(p)
+ scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth",)) # round(a1a, 2)))
+#print(p)
 
 write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
 

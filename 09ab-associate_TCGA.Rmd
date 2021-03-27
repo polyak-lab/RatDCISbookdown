@@ -187,6 +187,131 @@ for (i in Xind){
 }
 ```
 
+## Associating ADMATS10 with phenotype and outcome
+
+Do the same thing as above with the ADAMST10 scores
+
+Z-Scale ADAMTS10 scores prior to analysis:
+
+```{r 5dAD, fig.cap="ADAMTS10 assoc with patient data"}
+TCGAssgsea=scale(TCGArsem2[match("ADAMTS10", rownames(TCGArsem2)), ])
+tinfo$adamts10=TCGAssgsea
+
+#pdf("figure-outputs/Figure5_ADAMST10_output.pdf", height=7, width=9)
+
+par(mfrow=c(2,3))
+boxplot(tinfo$adamts10~tinfo$pam, ylab="gene exp", main="PAM50")
+boxplot(tinfo$adamts10~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
+ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="pearson")
+smoothScatter(tinfo$adamts10, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="pearson")
+smoothScatter(tinfo$adamts10, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
+smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+hist(tinfo$adamts10)
+
+
+write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
+```
+
+We can also check if there is an association with survival:
+
+```{r}
+
+axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="Recurred/Progressed", 1, ifelse(tinfo$DFS=="DiseaseFree", 0, NA)))
+
+axO=Surv(tinfo$OSM, ifelse(tinfo$OSS=="DECEASED", 1, ifelse(tinfo$OSS=="LIVING", 0, NA)))
+
+SurvOSS=coxph(axO~tinfo$pam+tinfo$Stage+tinfo$adamts10)
+SurvDFS=coxph(axD~tinfo$pam+tinfo$Stage+tinfo$adamts10)
+
+ao=summary(SurvOSS)
+ao
+as=summary(SurvDFS)
+as
+```
+Note that ADAMST10 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
+
+This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
+
+```{r 5eAD, fig.cap="forest plot ADAMTS10"}
+
+data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "ADAMST10"),
+                X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
+                X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$cd74))),
+                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
+                     round(summary(SurvOSS)$coefficients[ 5:8,2],2)))
+
+mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
+mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
+
+#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
+
+forestplot(data1, mdata, xlog=T,
+           boxsize=0.5)
+
+#dev.off()
+
+write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot_adamts10.csv")
+
+```
+
+
+
+We can look below what the association with subtype is in KM curves:
+
+```{r Ext5e-osAD, fig.cap="OS CD74 by subtype", fig.height=8}
+par(mfrow=c(2,2))
+
+Xind=c("Basal", "Her2", "LumA", "LumB")
+
+for (i in Xind){
+  l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="DECEASED", 1, ifelse(tinfo$OSS[l1]=="LIVING", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
+
+```{r Ext5e-dfsAD, fig.cap="DFS ADAMTS10 by subtype", fig.height=8}
+
+par(mfrow=c(2,2))
+
+for (i in Xind){
+   l1=which(tinfo$pam==i)
+  ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="Recurred/Progressed", 1, ifelse(tinfo$DFS[l1]=="DiseaseFree", 0, NA)))
+  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
+                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
+}
+```
+
+Redo survival and limit only to ER+ cases:
+
+```{r}
+tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")), ]
+
+axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="Recurred/Progressed", 1, ifelse(tinfoER$DFS=="DiseaseFree", 0, NA)))
+
+axO=Surv(tinfoER$OSM, ifelse(tinfoER$OSS=="DECEASED", 1, ifelse(tinfoER$OSS=="LIVING", 0, NA)))
+
+SurvOSS=coxph(axO~tinfoER$pam+tinfoER$Stage+tinfoER$adamts10)
+SurvDFS=coxph(axD~tinfoER$pam+tinfoER$Stage+tinfoER$adamts10)
+
+ao=summary(SurvOSS)
+ao
+as=summary(SurvDFS)
+as
+
+```
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
 

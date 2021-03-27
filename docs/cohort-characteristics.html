@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-03-17" />
+<meta name="date" content="2021-03-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -278,8 +278,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="15" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>15</b> TCGA: Associate Epcam+ inflammatory with survival</a><ul>
 <li class="chapter" data-level="15.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.1</b> Associating CD74 with phenotype and outcome</a></li>
-<li class="chapter" data-level="15.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.2</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.2.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#associating-admats10-with-phenotype-and-outcome"><i class="fa fa-check"></i><b>15.2</b> Associating ADMATS10 with phenotype and outcome</a></li>
+<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.3.1</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
@@ -413,8 +414,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cohort-characteristics.html#cb10-1"></a>Cdata=xlsx<span class="op">::</span><span class="kw">read.xlsx</span>(<span class="st">&quot;../metadata/Extended Data Table1.xlsx&quot;</span>, <span class="dt">sheetIndex=</span><span class="dv">1</span>)</span>
 <span id="cb10-2"><a href="cohort-characteristics.html#cb10-2"></a></span>
-<span id="cb10-3"><a href="cohort-characteristics.html#cb10-3"></a><span class="kw">scroll_box</span>(<span class="kw">kable</span>(Cdata[ ,<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>], <span class="dt">format=</span><span class="st">&quot;html&quot;</span>),</span>
-<span id="cb10-4"><a href="cohort-characteristics.html#cb10-4"></a>         <span class="dt">height=</span><span class="st">&quot;300px&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<span id="cb10-3"><a href="cohort-characteristics.html#cb10-3"></a>Cdata<span class="op">$</span>NewID[<span class="kw">which</span>(<span class="kw">duplicated</span>(Cdata<span class="op">$</span>NewID)<span class="op">==</span>T)]</span>
+<span id="cb10-4"><a href="cohort-characteristics.html#cb10-4"></a><span class="co">## [1] NA NA NA</span></span>
+<span id="cb10-5"><a href="cohort-characteristics.html#cb10-5"></a><span class="kw">scroll_box</span>(<span class="kw">kable</span>(Cdata[ ,<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>], <span class="dt">format=</span><span class="st">&quot;html&quot;</span>),</span>
+<span id="cb10-6"><a href="cohort-characteristics.html#cb10-6"></a>         <span class="dt">height=</span><span class="st">&quot;300px&quot;</span>, <span class="dt">width=</span><span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table>
 <thead>
@@ -1414,317 +1417,7 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-12R
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-12R3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-12N
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-13L
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-13R
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-P30T1
+P41T1
 </td>
 <td style="text-align:left;">
 13N_A
@@ -1786,7 +1479,7 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-P30T1
+P42T1
 </td>
 <td style="text-align:left;">
 14L_A
@@ -1848,7 +1541,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-P30T2
+P42T2
 </td>
 <td style="text-align:left;">
 14L_B
@@ -1910,7 +1603,7 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-P30T3
+P42T3
 </td>
 <td style="text-align:left;">
 14L_C
@@ -1972,7 +1665,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-P30T4
+P42T4
 </td>
 <td style="text-align:left;">
 14L_D
@@ -2282,7 +1975,7 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-P32T1
+P32T2
 </td>
 <td style="text-align:left;">
 14R_D
@@ -3274,130 +2967,6 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-18LN2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-18R4
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 P1T1
 </td>
 <td style="text-align:left;">
@@ -4262,68 +3831,6 @@ well differentiated mammary solid adenocarcinoma
 </td>
 <td style="text-align:left;">
 40.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-4L2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
 </td>
 </tr>
 <tr>
@@ -6126,130 +5633,6 @@ well differentiated mammary solid adenocarcinoma
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-9N
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-9R
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-no data
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 P23T1
 </td>
 <td style="text-align:left;">
@@ -6460,13 +5843,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -6478,7 +5861,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 35.0
@@ -6522,13 +5905,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -6540,7 +5923,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 5.0
@@ -6646,13 +6029,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -6664,7 +6047,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 8.0
@@ -6894,13 +6277,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -6912,7 +6295,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 3.0
@@ -6956,13 +6339,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -6974,7 +6357,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 5.0
@@ -7018,13 +6401,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7036,7 +6419,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 2.0
@@ -7080,13 +6463,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7098,7 +6481,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 6.0
@@ -7142,13 +6525,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7160,7 +6543,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 3.0
@@ -7204,13 +6587,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7222,7 +6605,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 3.0
@@ -7328,13 +6711,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7346,7 +6729,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 1.0
@@ -7390,13 +6773,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7408,7 +6791,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 2.0
@@ -7452,13 +6835,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7470,7 +6853,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 2.0
@@ -7514,13 +6897,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7532,7 +6915,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 2.0
@@ -7576,13 +6959,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7594,7 +6977,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 7.0
@@ -7638,13 +7021,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -7656,7 +7039,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 6.0
@@ -7892,7 +7275,7 @@ Untreated
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-01-10
 </td>
 <td style="text-align:left;">
 no data
@@ -7904,7 +7287,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+91
 </td>
 <td style="text-align:right;">
 NA
@@ -7954,7 +7337,7 @@ Untreated
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-01-10
 </td>
 <td style="text-align:left;">
 no data
@@ -7966,7 +7349,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+91
 </td>
 <td style="text-align:right;">
 NA
@@ -9784,440 +9167,6 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-1LB2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-1LD2
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-10N_3
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-12N
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-12R
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-13L
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-13R
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 C20T1
 </td>
 <td style="text-align:left;">
@@ -10260,7 +9209,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 16.0
@@ -10304,13 +9253,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -10322,7 +9271,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 9.0
@@ -10366,13 +9315,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -10384,7 +9333,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 1.0
@@ -10446,7 +9395,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 13.0
@@ -10490,13 +9439,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -10508,7 +9457,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 10.0
@@ -10570,7 +9519,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 9.0
@@ -10632,7 +9581,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 10.0
@@ -10694,7 +9643,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 17.0
@@ -10756,7 +9705,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 10.0
@@ -10800,13 +9749,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -10818,7 +9767,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 9.0
@@ -10880,7 +9829,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 30.0
@@ -10942,7 +9891,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 30.0
@@ -10986,13 +9935,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -11004,7 +9953,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 25.0
@@ -11066,7 +10015,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 10.0
@@ -11128,7 +10077,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 10.0
@@ -11190,7 +10139,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 20.0
@@ -11234,13 +10183,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -11252,7 +10201,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 3.0
@@ -11314,7 +10263,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 40.0
@@ -11358,13 +10307,13 @@ NA
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-05-26
 </td>
 <td style="text-align:left;">
 NA
 </td>
 <td style="text-align:left;">
-NA
+2017-08-21
 </td>
 <td style="text-align:left;">
 NA
@@ -11376,7 +10325,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 12.0
@@ -11438,7 +10387,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 30.0
@@ -11500,7 +10449,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 20.0
@@ -11562,7 +10511,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 20.0
@@ -11624,7 +10573,7 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+87
 </td>
 <td style="text-align:right;">
 17.0
@@ -11855,20 +10804,20 @@ Figure 2.5: Growth rate with respect to treatment
 <span id="cb27-3"><a href="cohort-characteristics.html#cb27-3"></a><span class="co">##   grow stable </span></span>
 <span id="cb27-4"><a href="cohort-characteristics.html#cb27-4"></a><span class="co">##     47     31</span></span>
 <span id="cb27-5"><a href="cohort-characteristics.html#cb27-5"></a><span class="kw">head</span>(d1)</span>
-<span id="cb27-6"><a href="cohort-characteristics.html#cb27-6"></a><span class="co">##    growthrate treatment  growth   color sample Nweeks Time.Tum2Sac Time.NMU2Sac</span></span>
-<span id="cb27-7"><a href="cohort-characteristics.html#cb27-7"></a><span class="co">## 1  3.54285714   Vehicle growing #5D5D5D   P5T1      6           41           84</span></span>
-<span id="cb27-8"><a href="cohort-characteristics.html#cb27-8"></a><span class="co">## 2 15.00000000   Vehicle growing #5D5D5D   P5T2      2           41           84</span></span>
-<span id="cb27-9"><a href="cohort-characteristics.html#cb27-9"></a><span class="co">## 3 20.00000000   Vehicle growing #5D5D5D   P5T3      2           41           84</span></span>
-<span id="cb27-10"><a href="cohort-characteristics.html#cb27-10"></a><span class="co">## 4 11.70000000   Vehicle growing #5D5D5D   P4T1      5           30           77</span></span>
-<span id="cb27-11"><a href="cohort-characteristics.html#cb27-11"></a><span class="co">## 5  0.02459016   Vehicle  stable #5D5D5D   P7T1      8           49          127</span></span>
-<span id="cb27-12"><a href="cohort-characteristics.html#cb27-12"></a><span class="co">## 6 -0.15163934   Vehicle  stable #5D5D5D   P7T2      8           49          127</span></span>
-<span id="cb27-13"><a href="cohort-characteristics.html#cb27-13"></a><span class="co">##   tum.size growthrate_cutoff2</span></span>
-<span id="cb27-14"><a href="cohort-characteristics.html#cb27-14"></a><span class="co">## 1       20            growing</span></span>
-<span id="cb27-15"><a href="cohort-characteristics.html#cb27-15"></a><span class="co">## 2       15            growing</span></span>
-<span id="cb27-16"><a href="cohort-characteristics.html#cb27-16"></a><span class="co">## 3       20            growing</span></span>
-<span id="cb27-17"><a href="cohort-characteristics.html#cb27-17"></a><span class="co">## 4       47            growing</span></span>
-<span id="cb27-18"><a href="cohort-characteristics.html#cb27-18"></a><span class="co">## 5        6             stable</span></span>
-<span id="cb27-19"><a href="cohort-characteristics.html#cb27-19"></a><span class="co">## 6        3             stable</span></span></code></pre></div>
+<span id="cb27-6"><a href="cohort-characteristics.html#cb27-6"></a><span class="co">##       growthrate treatment  growth   color sample Nweeks Time.Tum2Sac</span></span>
+<span id="cb27-7"><a href="cohort-characteristics.html#cb27-7"></a><span class="co">## P5T1  3.54285714   Vehicle growing #5D5D5D   P5T1      6           41</span></span>
+<span id="cb27-8"><a href="cohort-characteristics.html#cb27-8"></a><span class="co">## P5T2 15.00000000   Vehicle growing #5D5D5D   P5T2      2           41</span></span>
+<span id="cb27-9"><a href="cohort-characteristics.html#cb27-9"></a><span class="co">## P5T3 20.00000000   Vehicle growing #5D5D5D   P5T3      2           41</span></span>
+<span id="cb27-10"><a href="cohort-characteristics.html#cb27-10"></a><span class="co">## P4T1 11.70000000   Vehicle growing #5D5D5D   P4T1      5           30</span></span>
+<span id="cb27-11"><a href="cohort-characteristics.html#cb27-11"></a><span class="co">## P7T1  0.02459016   Vehicle  stable #5D5D5D   P7T1      8           49</span></span>
+<span id="cb27-12"><a href="cohort-characteristics.html#cb27-12"></a><span class="co">## P7T2 -0.15163934   Vehicle  stable #5D5D5D   P7T2      8           49</span></span>
+<span id="cb27-13"><a href="cohort-characteristics.html#cb27-13"></a><span class="co">##      Time.NMU2Sac tum.size growthrate_cutoff2</span></span>
+<span id="cb27-14"><a href="cohort-characteristics.html#cb27-14"></a><span class="co">## P5T1           84       20            growing</span></span>
+<span id="cb27-15"><a href="cohort-characteristics.html#cb27-15"></a><span class="co">## P5T2           84       15            growing</span></span>
+<span id="cb27-16"><a href="cohort-characteristics.html#cb27-16"></a><span class="co">## P5T3           84       20            growing</span></span>
+<span id="cb27-17"><a href="cohort-characteristics.html#cb27-17"></a><span class="co">## P4T1           77       47            growing</span></span>
+<span id="cb27-18"><a href="cohort-characteristics.html#cb27-18"></a><span class="co">## P7T1          127        6             stable</span></span>
+<span id="cb27-19"><a href="cohort-characteristics.html#cb27-19"></a><span class="co">## P7T2          127        3             stable</span></span></code></pre></div>
 <p>We can replot the previous graphs according to growth, and color code according to whether it is a fast or slow growing tumor</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="cohort-characteristics.html#cb28-1"></a><span class="kw">par</span>(<span class="dt">xpd=</span>T)</span>
 <span id="cb28-2"><a href="cohort-characteristics.html#cb28-2"></a></span>
