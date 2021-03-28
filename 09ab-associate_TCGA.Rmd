@@ -298,6 +298,7 @@ Redo survival and limit only to ER+ cases:
 
 ```{r}
 tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")), ]
+tinfoER$pam=factor(tinfoER$pam)
 
 axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="Recurred/Progressed", 1, ifelse(tinfoER$DFS=="DiseaseFree", 0, NA)))
 
@@ -310,6 +311,24 @@ ao=summary(SurvOSS)
 ao
 as=summary(SurvDFS)
 as
+
+```
+
+
+```{r}
+par(mfrow=c(2,3))
+boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
+boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
+ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
+smoothScatter(tinfoER$adamts10, log10(tinfoER$codingMut+1), xlab="gene exp", ylab="log10 mut")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="pearson")
+smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="leuk frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
+smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+hist(tinfoER$adamts10)
 
 ```
 

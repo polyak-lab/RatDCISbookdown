@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-03-27" />
+<meta name="date" content="2021-03-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -414,122 +414,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>A pixel classifier was used to estimate tumor content</li>
 </ul>
 <p>A snippet of the qupath script is shown below:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="trichrome-staining.html#cb485-1"></a><span class="co"># insert some text here</span></span>
-<span id="cb485-2"><a href="trichrome-staining.html#cb485-2"></a></span>
-<span id="cb485-3"><a href="trichrome-staining.html#cb485-3"></a><span class="kw">setImageType</span>(<span class="st">&#39;BRIGHTFIELD_H_DAB&#39;</span>);</span>
-<span id="cb485-4"><a href="trichrome-staining.html#cb485-4"></a><span class="kw">setColorDeconvolutionStains</span>(<span class="st">&#39;{&quot;Name&quot; : &quot;trichrome&quot;, &quot;Stain 1&quot; : &quot;Hematoxylin&quot;, &quot;Values 1&quot; : &quot;0.71695 0.66336 0.21432 &quot;, &quot;Stain 2&quot; : &quot;DAB&quot;, &quot;Values 2&quot; : &quot;0.46299 0.76212 0.45257 &quot;, &quot;Background&quot; : &quot; 255 255 255 &quot;}&#39;</span>);</span>
-<span id="cb485-5"><a href="trichrome-staining.html#cb485-5"></a><span class="kw">selectAnnotations</span>();</span>
-<span id="cb485-6"><a href="trichrome-staining.html#cb485-6"></a><span class="kw">addPixelClassifierMeasurements</span>(<span class="st">&quot;stroma_classifier_again&quot;</span>, <span class="st">&quot;stroma_classifier_again&quot;</span>)</span>
-<span id="cb485-7"><a href="trichrome-staining.html#cb485-7"></a><span class="kw">selectAnnotations</span>();</span>
-<span id="cb485-8"><a href="trichrome-staining.html#cb485-8"></a><span class="kw">addPixelClassifierMeasurements</span>(<span class="st">&quot;test_tumor&quot;</span>, <span class="st">&quot;test_tumor&quot;</span>)</span>
-<span id="cb485-9"><a href="trichrome-staining.html#cb485-9"></a></span>
-<span id="cb485-10"><a href="trichrome-staining.html#cb485-10"></a>def entry =<span class="st"> </span><span class="kw">getProjectEntry</span>()</span>
-<span id="cb485-11"><a href="trichrome-staining.html#cb485-11"></a>def name =<span class="st"> </span><span class="kw">entry.getImageName</span>() <span class="op">+</span><span class="st"> &#39;.txt&#39;</span></span>
-<span id="cb485-12"><a href="trichrome-staining.html#cb485-12"></a>def path =<span class="st"> </span><span class="kw">buildFilePath</span>(PROJECT_BASE_DIR, <span class="st">&#39;annotation results&#39;</span>)</span>
-<span id="cb485-13"><a href="trichrome-staining.html#cb485-13"></a><span class="kw">mkdirs</span>(path)</span>
-<span id="cb485-14"><a href="trichrome-staining.html#cb485-14"></a>path =<span class="st"> </span><span class="kw">buildFilePath</span>(path, name)</span>
-<span id="cb485-15"><a href="trichrome-staining.html#cb485-15"></a><span class="kw">saveAnnotationMeasurements</span>(path)</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="trichrome-staining.html#cb487-1"></a><span class="co"># insert some text here</span></span>
+<span id="cb487-2"><a href="trichrome-staining.html#cb487-2"></a></span>
+<span id="cb487-3"><a href="trichrome-staining.html#cb487-3"></a><span class="kw">setImageType</span>(<span class="st">&#39;BRIGHTFIELD_H_DAB&#39;</span>);</span>
+<span id="cb487-4"><a href="trichrome-staining.html#cb487-4"></a><span class="kw">setColorDeconvolutionStains</span>(<span class="st">&#39;{&quot;Name&quot; : &quot;trichrome&quot;, &quot;Stain 1&quot; : &quot;Hematoxylin&quot;, &quot;Values 1&quot; : &quot;0.71695 0.66336 0.21432 &quot;, &quot;Stain 2&quot; : &quot;DAB&quot;, &quot;Values 2&quot; : &quot;0.46299 0.76212 0.45257 &quot;, &quot;Background&quot; : &quot; 255 255 255 &quot;}&#39;</span>);</span>
+<span id="cb487-5"><a href="trichrome-staining.html#cb487-5"></a><span class="kw">selectAnnotations</span>();</span>
+<span id="cb487-6"><a href="trichrome-staining.html#cb487-6"></a><span class="kw">addPixelClassifierMeasurements</span>(<span class="st">&quot;stroma_classifier_again&quot;</span>, <span class="st">&quot;stroma_classifier_again&quot;</span>)</span>
+<span id="cb487-7"><a href="trichrome-staining.html#cb487-7"></a><span class="kw">selectAnnotations</span>();</span>
+<span id="cb487-8"><a href="trichrome-staining.html#cb487-8"></a><span class="kw">addPixelClassifierMeasurements</span>(<span class="st">&quot;test_tumor&quot;</span>, <span class="st">&quot;test_tumor&quot;</span>)</span>
+<span id="cb487-9"><a href="trichrome-staining.html#cb487-9"></a></span>
+<span id="cb487-10"><a href="trichrome-staining.html#cb487-10"></a>def entry =<span class="st"> </span><span class="kw">getProjectEntry</span>()</span>
+<span id="cb487-11"><a href="trichrome-staining.html#cb487-11"></a>def name =<span class="st"> </span><span class="kw">entry.getImageName</span>() <span class="op">+</span><span class="st"> &#39;.txt&#39;</span></span>
+<span id="cb487-12"><a href="trichrome-staining.html#cb487-12"></a>def path =<span class="st"> </span><span class="kw">buildFilePath</span>(PROJECT_BASE_DIR, <span class="st">&#39;annotation results&#39;</span>)</span>
+<span id="cb487-13"><a href="trichrome-staining.html#cb487-13"></a><span class="kw">mkdirs</span>(path)</span>
+<span id="cb487-14"><a href="trichrome-staining.html#cb487-14"></a>path =<span class="st"> </span><span class="kw">buildFilePath</span>(path, name)</span>
+<span id="cb487-15"><a href="trichrome-staining.html#cb487-15"></a><span class="kw">saveAnnotationMeasurements</span>(path)</span></code></pre></div>
 <div id="associations-with-cellular-fraction-wsi" class="section level2">
 <h2><span class="header-section-number">23.1</span> Associations with cellular fraction (wsi)</h2>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="trichrome-staining.html#cb486-1"></a><span class="co"># load the data</span></span>
-<span id="cb486-2"><a href="trichrome-staining.html#cb486-2"></a>TrichromeData=<span class="kw">read.xlsx</span>(<span class="st">&quot;../data/trichrome-staining-result.xls&quot;</span>, <span class="dv">1</span>)</span>
-<span id="cb486-3"><a href="trichrome-staining.html#cb486-3"></a>midx=<span class="kw">match</span>(TrichromeData<span class="op">$</span>SampleID, <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))</span>
-<span id="cb486-4"><a href="trichrome-staining.html#cb486-4"></a></span>
-<span id="cb486-5"><a href="trichrome-staining.html#cb486-5"></a>Cdata<span class="op">$</span>Trichrome=<span class="ot">NA</span></span>
-<span id="cb486-6"><a href="trichrome-staining.html#cb486-6"></a>Cdata<span class="op">$</span>Trichrome[<span class="kw">na.omit</span>(midx)]=TrichromeData<span class="op">$</span>Percentage.Stroma[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(midx))]</span>
-<span id="cb486-7"><a href="trichrome-staining.html#cb486-7"></a></span>
-<span id="cb486-8"><a href="trichrome-staining.html#cb486-8"></a>t2=WSIvalFracs[, <span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">colnames</span>(WSIvalFracs))]</span>
-<span id="cb486-9"><a href="trichrome-staining.html#cb486-9"></a></span>
-<span id="cb486-10"><a href="trichrome-staining.html#cb486-10"></a>df.Spatial=<span class="kw">cbind</span>(df.Spatial, <span class="kw">t</span>(t2))</span>
-<span id="cb486-11"><a href="trichrome-staining.html#cb486-11"></a></span>
-<span id="cb486-12"><a href="trichrome-staining.html#cb486-12"></a><span class="co">#head(df.Spatial)</span></span>
-<span id="cb486-13"><a href="trichrome-staining.html#cb486-13"></a></span>
-<span id="cb486-14"><a href="trichrome-staining.html#cb486-14"></a>df.Spatial<span class="op">$</span>Trichrome=<span class="ot">NA</span></span>
-<span id="cb486-15"><a href="trichrome-staining.html#cb486-15"></a>midx=<span class="kw">match</span>(TrichromeData<span class="op">$</span>SampleID, <span class="kw">rownames</span>(df.Spatial))</span>
-<span id="cb486-16"><a href="trichrome-staining.html#cb486-16"></a>df.Spatial<span class="op">$</span>Trichrome[<span class="kw">na.omit</span>(midx)]=TrichromeData<span class="op">$</span>Percentage.Stroma[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(midx))]</span>
-<span id="cb486-17"><a href="trichrome-staining.html#cb486-17"></a><span class="co"># plot associations</span></span>
-<span id="cb486-18"><a href="trichrome-staining.html#cb486-18"></a></span>
-<span id="cb486-19"><a href="trichrome-staining.html#cb486-19"></a>n2=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;EpCAM&quot;</span>, <span class="st">&quot;SMA&quot;</span>, <span class="st">&quot;Unclass&quot;</span>, <span class="st">&quot;EpCAM: SMA&quot;</span>)</span>
-<span id="cb486-20"><a href="trichrome-staining.html#cb486-20"></a></span>
-<span id="cb486-21"><a href="trichrome-staining.html#cb486-21"></a><span class="co">#pdf(&quot;~/Desktop/richrome-association-WSI-data-Calc2.pdf&quot;, width=6, height=5)</span></span>
-<span id="cb486-22"><a href="trichrome-staining.html#cb486-22"></a></span>
-<span id="cb486-23"><a href="trichrome-staining.html#cb486-23"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
-<span id="cb486-24"><a href="trichrome-staining.html#cb486-24"></a><span class="cf">for</span> (i <span class="cf">in</span> n2){</span>
-<span id="cb486-25"><a href="trichrome-staining.html#cb486-25"></a>   a1=<span class="kw">cor.test</span>(df.Spatial<span class="op">$</span>Trichrome, df.Spatial[ ,<span class="kw">match</span>(i, <span class="kw">colnames</span>(df.Spatial))], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
-<span id="cb486-26"><a href="trichrome-staining.html#cb486-26"></a>   n1=<span class="kw">paste</span>(i, <span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate,<span class="dv">1</span>), <span class="st">&quot;p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>))</span>
-<span id="cb486-27"><a href="trichrome-staining.html#cb486-27"></a>   <span class="kw">plot</span>(df.Spatial<span class="op">$</span>Trichrome, df.Spatial[ ,<span class="kw">match</span>(i, <span class="kw">colnames</span>(df.Spatial))], <span class="dt">main=</span>n1, <span class="dt">xlab=</span><span class="st">&quot;Trichrome&quot;</span>, <span class="dt">ylab=</span>i)</span>
-<span id="cb486-28"><a href="trichrome-staining.html#cb486-28"></a>}</span>
-<span id="cb486-29"><a href="trichrome-staining.html#cb486-29"></a></span>
-<span id="cb486-30"><a href="trichrome-staining.html#cb486-30"></a><span class="co">#dev.off()</span></span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="trichrome-staining.html#cb488-1"></a><span class="co"># load the data</span></span>
+<span id="cb488-2"><a href="trichrome-staining.html#cb488-2"></a>TrichromeData=<span class="kw">read.xlsx</span>(<span class="st">&quot;../data/trichrome-staining-result.xls&quot;</span>, <span class="dv">1</span>)</span>
+<span id="cb488-3"><a href="trichrome-staining.html#cb488-3"></a>midx=<span class="kw">match</span>(TrichromeData<span class="op">$</span>SampleID, <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))</span>
+<span id="cb488-4"><a href="trichrome-staining.html#cb488-4"></a></span>
+<span id="cb488-5"><a href="trichrome-staining.html#cb488-5"></a>Cdata<span class="op">$</span>Trichrome=<span class="ot">NA</span></span>
+<span id="cb488-6"><a href="trichrome-staining.html#cb488-6"></a>Cdata<span class="op">$</span>Trichrome[<span class="kw">na.omit</span>(midx)]=TrichromeData<span class="op">$</span>Percentage.Stroma[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(midx))]</span>
+<span id="cb488-7"><a href="trichrome-staining.html#cb488-7"></a></span>
+<span id="cb488-8"><a href="trichrome-staining.html#cb488-8"></a>t2=WSIvalFracs[, <span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">colnames</span>(WSIvalFracs))]</span>
+<span id="cb488-9"><a href="trichrome-staining.html#cb488-9"></a></span>
+<span id="cb488-10"><a href="trichrome-staining.html#cb488-10"></a>df.Spatial=<span class="kw">cbind</span>(df.Spatial, <span class="kw">t</span>(t2))</span>
+<span id="cb488-11"><a href="trichrome-staining.html#cb488-11"></a></span>
+<span id="cb488-12"><a href="trichrome-staining.html#cb488-12"></a><span class="co">#head(df.Spatial)</span></span>
+<span id="cb488-13"><a href="trichrome-staining.html#cb488-13"></a></span>
+<span id="cb488-14"><a href="trichrome-staining.html#cb488-14"></a>df.Spatial<span class="op">$</span>Trichrome=<span class="ot">NA</span></span>
+<span id="cb488-15"><a href="trichrome-staining.html#cb488-15"></a>midx=<span class="kw">match</span>(TrichromeData<span class="op">$</span>SampleID, <span class="kw">rownames</span>(df.Spatial))</span>
+<span id="cb488-16"><a href="trichrome-staining.html#cb488-16"></a>df.Spatial<span class="op">$</span>Trichrome[<span class="kw">na.omit</span>(midx)]=TrichromeData<span class="op">$</span>Percentage.Stroma[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(midx))]</span>
+<span id="cb488-17"><a href="trichrome-staining.html#cb488-17"></a><span class="co"># plot associations</span></span>
+<span id="cb488-18"><a href="trichrome-staining.html#cb488-18"></a></span>
+<span id="cb488-19"><a href="trichrome-staining.html#cb488-19"></a>n2=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;EpCAM&quot;</span>, <span class="st">&quot;SMA&quot;</span>, <span class="st">&quot;Unclass&quot;</span>, <span class="st">&quot;EpCAM: SMA&quot;</span>)</span>
+<span id="cb488-20"><a href="trichrome-staining.html#cb488-20"></a></span>
+<span id="cb488-21"><a href="trichrome-staining.html#cb488-21"></a><span class="co">#pdf(&quot;~/Desktop/richrome-association-WSI-data-Calc2.pdf&quot;, width=6, height=5)</span></span>
+<span id="cb488-22"><a href="trichrome-staining.html#cb488-22"></a></span>
+<span id="cb488-23"><a href="trichrome-staining.html#cb488-23"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb488-24"><a href="trichrome-staining.html#cb488-24"></a><span class="cf">for</span> (i <span class="cf">in</span> n2){</span>
+<span id="cb488-25"><a href="trichrome-staining.html#cb488-25"></a>   a1=<span class="kw">cor.test</span>(df.Spatial<span class="op">$</span>Trichrome, df.Spatial[ ,<span class="kw">match</span>(i, <span class="kw">colnames</span>(df.Spatial))], <span class="dt">use=</span><span class="st">&quot;complete&quot;</span>)</span>
+<span id="cb488-26"><a href="trichrome-staining.html#cb488-26"></a>   n1=<span class="kw">paste</span>(i, <span class="st">&quot;cor:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>estimate,<span class="dv">1</span>), <span class="st">&quot;p:&quot;</span>, <span class="kw">round</span>(a1<span class="op">$</span>p.value,<span class="dv">2</span>))</span>
+<span id="cb488-27"><a href="trichrome-staining.html#cb488-27"></a>   <span class="kw">plot</span>(df.Spatial<span class="op">$</span>Trichrome, df.Spatial[ ,<span class="kw">match</span>(i, <span class="kw">colnames</span>(df.Spatial))], <span class="dt">main=</span>n1, <span class="dt">xlab=</span><span class="st">&quot;Trichrome&quot;</span>, <span class="dt">ylab=</span>i)</span>
+<span id="cb488-28"><a href="trichrome-staining.html#cb488-28"></a>}</span>
+<span id="cb488-29"><a href="trichrome-staining.html#cb488-29"></a></span>
+<span id="cb488-30"><a href="trichrome-staining.html#cb488-30"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-160-1.png" width="672" /></p>
 </div>
 <div id="associations-with-cd8-content" class="section level2">
 <h2><span class="header-section-number">23.2</span> Associations with CD8 content</h2>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="trichrome-staining.html#cb487-1"></a></span>
-<span id="cb487-2"><a href="trichrome-staining.html#cb487-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb487-3"><a href="trichrome-staining.html#cb487-3"></a></span>
-<span id="cb487-4"><a href="trichrome-staining.html#cb487-4"></a>a1=<span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>IF.EpCAMcut)<span class="op">$</span>p.val</span>
-<span id="cb487-5"><a href="trichrome-staining.html#cb487-5"></a><span class="kw">boxplot</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>IF.EpCAMcut, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Ep int. fraction %s&quot;</span>, <span class="kw">round</span>(a1,<span class="dv">2</span>)))</span>
-<span id="cb487-6"><a href="trichrome-staining.html#cb487-6"></a>a1=<span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>CD8Fraccut)<span class="op">$</span>p.val</span>
-<span id="cb487-7"><a href="trichrome-staining.html#cb487-7"></a><span class="kw">boxplot</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>CD8Fraccut, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;CD8 fraction vs Trichrome %s&quot;</span>, <span class="kw">round</span>(a1,<span class="dv">2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="trichrome-staining.html#cb489-1"></a></span>
+<span id="cb489-2"><a href="trichrome-staining.html#cb489-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb489-3"><a href="trichrome-staining.html#cb489-3"></a></span>
+<span id="cb489-4"><a href="trichrome-staining.html#cb489-4"></a>a1=<span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>IF.EpCAMcut)<span class="op">$</span>p.val</span>
+<span id="cb489-5"><a href="trichrome-staining.html#cb489-5"></a><span class="kw">boxplot</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>IF.EpCAMcut, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;Ep int. fraction %s&quot;</span>, <span class="kw">round</span>(a1,<span class="dv">2</span>)))</span>
+<span id="cb489-6"><a href="trichrome-staining.html#cb489-6"></a>a1=<span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>CD8Fraccut)<span class="op">$</span>p.val</span>
+<span id="cb489-7"><a href="trichrome-staining.html#cb489-7"></a><span class="kw">boxplot</span>(df.Spatial<span class="op">$</span>Trichrome<span class="op">~</span>df.Spatial<span class="op">$</span>CD8Fraccut, <span class="dt">main=</span><span class="kw">sprintf</span>(<span class="st">&quot;CD8 fraction vs Trichrome %s&quot;</span>, <span class="kw">round</span>(a1,<span class="dv">2</span>)))</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/3gpre-1.png" width="672" /></p>
 </div>
 <div id="associations-with-growth-and-treatment" class="section level2">
 <h2><span class="header-section-number">23.3</span> Associations with growth and treatment</h2>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="trichrome-staining.html#cb488-1"></a><span class="co">#pdf(&quot;~/Desktop/testoutput.pdf&quot;, height=6, width=6)</span></span>
-<span id="cb488-2"><a href="trichrome-staining.html#cb488-2"></a>pv1=<span class="kw">sapply</span>(<span class="kw">c</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;LY&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome[<span class="kw">which</span>(df.Spatial<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, x))]<span class="op">~</span></span>
-<span id="cb488-3"><a href="trichrome-staining.html#cb488-3"></a><span class="st">           </span>df.Spatial<span class="op">$</span>Treatment[<span class="kw">which</span>(df.Spatial<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, x))])<span class="op">$</span>p.value)</span>
-<span id="cb488-4"><a href="trichrome-staining.html#cb488-4"></a><span class="kw">names</span>(pv1)=<span class="kw">c</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;LY&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>)</span>
-<span id="cb488-5"><a href="trichrome-staining.html#cb488-5"></a></span>
-<span id="cb488-6"><a href="trichrome-staining.html#cb488-6"></a><span class="kw">ggplot</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;Trichrome&quot;</span>)], <span class="kw">aes</span>(<span class="dt">x=</span>Treatment, <span class="dt">y=</span>Trichrome, <span class="dt">col=</span>Treatment))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_jitter</span>()<span class="op">+</span></span>
-<span id="cb488-7"><a href="trichrome-staining.html#cb488-7"></a><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>ColMerge[ ,<span class="dv">1</span>])<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="kw">paste</span>(<span class="kw">names</span>(pv1), <span class="kw">round</span>(pv1, <span class="dv">2</span>)), <span class="dt">collapse=</span><span class="st">&quot;;&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="trichrome-staining.html#cb490-1"></a><span class="co">#pdf(&quot;~/Desktop/testoutput.pdf&quot;, height=6, width=6)</span></span>
+<span id="cb490-2"><a href="trichrome-staining.html#cb490-2"></a>pv1=<span class="kw">sapply</span>(<span class="kw">c</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;LY&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>), <span class="cf">function</span>(x) <span class="kw">wilcox.test</span>(df.Spatial<span class="op">$</span>Trichrome[<span class="kw">which</span>(df.Spatial<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, x))]<span class="op">~</span></span>
+<span id="cb490-3"><a href="trichrome-staining.html#cb490-3"></a><span class="st">           </span>df.Spatial<span class="op">$</span>Treatment[<span class="kw">which</span>(df.Spatial<span class="op">$</span>Treatment<span class="op">%in%</span><span class="kw">c</span>(<span class="st">&quot;Vehicle&quot;</span>, x))])<span class="op">$</span>p.value)</span>
+<span id="cb490-4"><a href="trichrome-staining.html#cb490-4"></a><span class="kw">names</span>(pv1)=<span class="kw">c</span>(<span class="st">&quot;PDL1&quot;</span>, <span class="st">&quot;LY&quot;</span>, <span class="st">&quot;PDL1+LY&quot;</span>)</span>
+<span id="cb490-5"><a href="trichrome-staining.html#cb490-5"></a></span>
+<span id="cb490-6"><a href="trichrome-staining.html#cb490-6"></a><span class="kw">ggplot</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;Trichrome&quot;</span>)], <span class="kw">aes</span>(<span class="dt">x=</span>Treatment, <span class="dt">y=</span>Trichrome, <span class="dt">col=</span>Treatment))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_jitter</span>()<span class="op">+</span></span>
+<span id="cb490-7"><a href="trichrome-staining.html#cb490-7"></a><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>ColMerge[ ,<span class="dv">1</span>])<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="kw">paste</span>(<span class="kw">names</span>(pv1), <span class="kw">round</span>(pv1, <span class="dv">2</span>)), <span class="dt">collapse=</span><span class="st">&quot;;&quot;</span>))</span></code></pre></div>
 <div class="figure"><span id="fig:3g"></span>
 <img src="RatDCIS-bookdown_files/figure-html/3g-1.png" alt="Trichrome staining with treatment" width="672" />
 <p class="caption">
 Figure 23.1: Trichrome staining with treatment
 </p>
 </div>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="trichrome-staining.html#cb489-1"></a><span class="kw">ggplot</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Trichrome&quot;</span>, <span class="st">&quot;Growth&quot;</span>)], <span class="kw">aes</span>(<span class="dt">x=</span>Growth, <span class="dt">y=</span>Trichrome, <span class="dt">col=</span>Growth))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_jitter</span>()<span class="op">+</span></span>
-<span id="cb489-2"><a href="trichrome-staining.html#cb489-2"></a><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(ColSize, <span class="st">&quot;black&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;growth&quot;</span>,)) <span class="co"># round(a1a, 2)))</span></span>
-<span id="cb489-3"><a href="trichrome-staining.html#cb489-3"></a><span class="co">#print(p)</span></span>
-<span id="cb489-4"><a href="trichrome-staining.html#cb489-4"></a></span>
-<span id="cb489-5"><a href="trichrome-staining.html#cb489-5"></a><span class="kw">write.csv</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Trichrome&quot;</span>, <span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)], <span class="dt">file=</span><span class="st">&quot;nature-tables/3g_trichrome.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="trichrome-staining.html#cb491-1"></a><span class="kw">ggplot</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Trichrome&quot;</span>, <span class="st">&quot;Growth&quot;</span>)], <span class="kw">aes</span>(<span class="dt">x=</span>Growth, <span class="dt">y=</span>Trichrome, <span class="dt">col=</span>Growth))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_jitter</span>()<span class="op">+</span></span>
+<span id="cb491-2"><a href="trichrome-staining.html#cb491-2"></a><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(ColSize, <span class="st">&quot;black&quot;</span>))<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;growth&quot;</span>,)) <span class="co"># round(a1a, 2)))</span></span>
+<span id="cb491-3"><a href="trichrome-staining.html#cb491-3"></a><span class="co">#print(p)</span></span>
+<span id="cb491-4"><a href="trichrome-staining.html#cb491-4"></a></span>
+<span id="cb491-5"><a href="trichrome-staining.html#cb491-5"></a><span class="kw">write.csv</span>(df.Spatial[ ,<span class="kw">c</span>(<span class="st">&quot;Trichrome&quot;</span>, <span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;Treatment&quot;</span>)], <span class="dt">file=</span><span class="st">&quot;nature-tables/3g_trichrome.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="association-with-hyperinflammatory-status" class="section level2">
 <h2><span class="header-section-number">23.4</span> Association with hyperinflammatory status</h2>
 <p>We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="trichrome-staining.html#cb490-1"></a>vstEpInf<span class="op">$</span>Inflammation3</span>
-<span id="cb490-2"><a href="trichrome-staining.html#cb490-2"></a><span class="co">##  [1] inf  grow grow inf  grow grow grow grow grow grow grow grow grow grow inf </span></span>
-<span id="cb490-3"><a href="trichrome-staining.html#cb490-3"></a><span class="co">## [16] grow inf  grow inf  grow</span></span>
-<span id="cb490-4"><a href="trichrome-staining.html#cb490-4"></a><span class="co">## Levels: grow inf</span></span>
-<span id="cb490-5"><a href="trichrome-staining.html#cb490-5"></a>vstEpInf<span class="op">$</span>Inflammation2</span>
-<span id="cb490-6"><a href="trichrome-staining.html#cb490-6"></a><span class="co">##  [1] inf  grow grow inf  grow grow stab stab stab grow grow stab stab grow inf </span></span>
-<span id="cb490-7"><a href="trichrome-staining.html#cb490-7"></a><span class="co">## [16] grow inf  grow inf  grow</span></span>
-<span id="cb490-8"><a href="trichrome-staining.html#cb490-8"></a><span class="co">## Levels: grow inf stab</span></span>
-<span id="cb490-9"><a href="trichrome-staining.html#cb490-9"></a>vstEpInf<span class="op">$</span>Inflammation</span>
-<span id="cb490-10"><a href="trichrome-staining.html#cb490-10"></a><span class="co">##  [1] yes no  no  yes no  no  no  no  no  no  no  no  no  no  yes no  yes no  yes</span></span>
-<span id="cb490-11"><a href="trichrome-staining.html#cb490-11"></a><span class="co">## [20] no </span></span>
-<span id="cb490-12"><a href="trichrome-staining.html#cb490-12"></a><span class="co">## Levels: no yes</span></span>
-<span id="cb490-13"><a href="trichrome-staining.html#cb490-13"></a><span class="kw">save</span>(vstEpInf, <span class="dt">file=</span><span class="st">&quot;figure-outputs/temp_test.RData&quot;</span>)</span>
-<span id="cb490-14"><a href="trichrome-staining.html#cb490-14"></a></span>
-<span id="cb490-15"><a href="trichrome-staining.html#cb490-15"></a>ax1=<span class="kw">colnames</span>(vstEpInf)</span>
-<span id="cb490-16"><a href="trichrome-staining.html#cb490-16"></a></span>
-<span id="cb490-17"><a href="trichrome-staining.html#cb490-17"></a>t2=<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">substr</span>( ax1, <span class="dv">1</span>, <span class="kw">nchar</span>(ax1)<span class="op">-</span><span class="dv">2</span>)), <span class="kw">rownames</span>(df.Spatial))</span>
-<span id="cb490-18"><a href="trichrome-staining.html#cb490-18"></a></span>
-<span id="cb490-19"><a href="trichrome-staining.html#cb490-19"></a>newTab=<span class="kw">data.frame</span>(<span class="dt">trichrome=</span>df.Spatial[<span class="kw">na.omit</span>(t2), <span class="st">&quot;Trichrome&quot;</span>], </span>
-<span id="cb490-20"><a href="trichrome-staining.html#cb490-20"></a>             <span class="dt">inf=</span>vstEpInf<span class="op">$</span>Inflammation2[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))],</span>
-<span id="cb490-21"><a href="trichrome-staining.html#cb490-21"></a>             <span class="dt">names=</span>ax1[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))])</span>
-<span id="cb490-22"><a href="trichrome-staining.html#cb490-22"></a></span>
-<span id="cb490-23"><a href="trichrome-staining.html#cb490-23"></a><span class="co">#pdf(&quot;figure-outputs/EXT5I_trichrome.pdf&quot;, height=5, width=4)</span></span>
-<span id="cb490-24"><a href="trichrome-staining.html#cb490-24"></a><span class="kw">ggplot</span>(newTab, <span class="kw">aes</span>(<span class="dt">y=</span>trichrome,<span class="dt">x=</span>inf))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="trichrome-staining.html#cb492-1"></a>vstEpInf<span class="op">$</span>Inflammation3</span>
+<span id="cb492-2"><a href="trichrome-staining.html#cb492-2"></a><span class="co">##  [1] inf  grow grow inf  grow grow grow grow grow grow grow grow grow grow inf </span></span>
+<span id="cb492-3"><a href="trichrome-staining.html#cb492-3"></a><span class="co">## [16] grow inf  grow inf  grow</span></span>
+<span id="cb492-4"><a href="trichrome-staining.html#cb492-4"></a><span class="co">## Levels: grow inf</span></span>
+<span id="cb492-5"><a href="trichrome-staining.html#cb492-5"></a>vstEpInf<span class="op">$</span>Inflammation2</span>
+<span id="cb492-6"><a href="trichrome-staining.html#cb492-6"></a><span class="co">##  [1] inf  grow grow inf  grow grow stab stab stab grow grow stab stab grow inf </span></span>
+<span id="cb492-7"><a href="trichrome-staining.html#cb492-7"></a><span class="co">## [16] grow inf  grow inf  grow</span></span>
+<span id="cb492-8"><a href="trichrome-staining.html#cb492-8"></a><span class="co">## Levels: grow inf stab</span></span>
+<span id="cb492-9"><a href="trichrome-staining.html#cb492-9"></a>vstEpInf<span class="op">$</span>Inflammation</span>
+<span id="cb492-10"><a href="trichrome-staining.html#cb492-10"></a><span class="co">##  [1] yes no  no  yes no  no  no  no  no  no  no  no  no  no  yes no  yes no  yes</span></span>
+<span id="cb492-11"><a href="trichrome-staining.html#cb492-11"></a><span class="co">## [20] no </span></span>
+<span id="cb492-12"><a href="trichrome-staining.html#cb492-12"></a><span class="co">## Levels: no yes</span></span>
+<span id="cb492-13"><a href="trichrome-staining.html#cb492-13"></a><span class="kw">save</span>(vstEpInf, <span class="dt">file=</span><span class="st">&quot;figure-outputs/temp_test.RData&quot;</span>)</span>
+<span id="cb492-14"><a href="trichrome-staining.html#cb492-14"></a></span>
+<span id="cb492-15"><a href="trichrome-staining.html#cb492-15"></a>ax1=<span class="kw">colnames</span>(vstEpInf)</span>
+<span id="cb492-16"><a href="trichrome-staining.html#cb492-16"></a></span>
+<span id="cb492-17"><a href="trichrome-staining.html#cb492-17"></a>t2=<span class="kw">match</span>(<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">substr</span>( ax1, <span class="dv">1</span>, <span class="kw">nchar</span>(ax1)<span class="op">-</span><span class="dv">2</span>)), <span class="kw">rownames</span>(df.Spatial))</span>
+<span id="cb492-18"><a href="trichrome-staining.html#cb492-18"></a></span>
+<span id="cb492-19"><a href="trichrome-staining.html#cb492-19"></a>newTab=<span class="kw">data.frame</span>(<span class="dt">trichrome=</span>df.Spatial[<span class="kw">na.omit</span>(t2), <span class="st">&quot;Trichrome&quot;</span>], </span>
+<span id="cb492-20"><a href="trichrome-staining.html#cb492-20"></a>             <span class="dt">inf=</span>vstEpInf<span class="op">$</span>Inflammation2[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))],</span>
+<span id="cb492-21"><a href="trichrome-staining.html#cb492-21"></a>             <span class="dt">names=</span>ax1[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(t2))])</span>
+<span id="cb492-22"><a href="trichrome-staining.html#cb492-22"></a></span>
+<span id="cb492-23"><a href="trichrome-staining.html#cb492-23"></a><span class="co">#pdf(&quot;figure-outputs/EXT5I_trichrome.pdf&quot;, height=5, width=4)</span></span>
+<span id="cb492-24"><a href="trichrome-staining.html#cb492-24"></a><span class="kw">ggplot</span>(newTab, <span class="kw">aes</span>(<span class="dt">y=</span>trichrome,<span class="dt">x=</span>inf))<span class="op">+</span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span><span class="kw">theme_bw</span>()</span></code></pre></div>
 <div class="figure"><span id="fig:Ext5i"></span>
 <img src="RatDCIS-bookdown_files/figure-html/Ext5i-1.png" alt="association with hyperinflammation" width="672" />
 <p class="caption">
 Figure 23.2: association with hyperinflammation
 </p>
 </div>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="trichrome-staining.html#cb491-1"></a><span class="co">#dev.off()</span></span>
-<span id="cb491-2"><a href="trichrome-staining.html#cb491-2"></a><span class="kw">write.csv</span>(newTab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext5i_trichrome.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="trichrome-staining.html#cb493-1"></a><span class="co">#dev.off()</span></span>
+<span id="cb493-2"><a href="trichrome-staining.html#cb493-2"></a><span class="kw">write.csv</span>(newTab, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext5i_trichrome.csv&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

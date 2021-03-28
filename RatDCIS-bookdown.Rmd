@@ -5282,24 +5282,8 @@ Z-Scale ADAMTS10 scores prior to analysis:
 ```{r 5dAD, fig.cap="ADAMTS10 assoc with patient data"}
 TCGAssgsea=scale(TCGArsem2[match("ADAMTS10", rownames(TCGArsem2)), ])
 tinfo$adamts10=TCGAssgsea
-#m1=match(colnames(TCGArsem2), BrClin$Patient.ID)
 
-#tinfo=data.frame(pam=BrClin$PAM50[m1], OSM=BrClin$Overall.Survival..Months.[m1],
-#                 OSS=BrClin$Overall.Survival.Status[m1], cd74=TCGAssgsea,
-#                 DFS=BrClin$Disease.Free.Status[m1],
-#                 DFM=BrClin$Disease.Free..Months.[m1],
-#                 Stage=BrClin$Stage[m1])
-
-#ThorssData=ThorssData[which(ThorssData$TCGA.Study=="BRCA"), ]
-
-#n1=match(rownames(tinfo), ThorssData$TCGA.Participant.Barcode)
-#tinfo$immSub=ThorssData$Immune.Subtype[n1]
-#tinfo$leukFrac=as.numeric(ThorssData$Leukocyte.Fraction[n1])
-#tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
-#tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
-
-
-#pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
+#pdf("figure-outputs/Figure5_ADAMST10_output.pdf", height=7, width=9)
 
 par(mfrow=c(2,3))
 boxplot(tinfo$adamts10~tinfo$pam, ylab="gene exp", main="PAM50")
@@ -5315,7 +5299,6 @@ smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversi
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 hist(tinfo$adamts10)
 
-#dev.off()
 
 write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
 ```
@@ -5336,13 +5319,13 @@ ao
 as=summary(SurvDFS)
 as
 ```
-Note that CD74 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
+Note that ADAMST10 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
 
 This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
 
 ```{r 5eAD, fig.cap="forest plot ADAMTS10"}
 
-data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "CD74"),
+data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "ADAMST10"),
                 X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
                 X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$cd74))),
                 X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
@@ -5376,14 +5359,13 @@ for (i in Xind){
   ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="DECEASED", 1, ifelse(tinfo$OSS[l1]=="LIVING", 0, NA)))
   TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
-  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
   text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
                      round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
 }
 ```
 
-
-```{r Ext5e-dfsAD, fig.cap="DFS ADAMTS10 by subtype"}
+```{r Ext5e-dfsAD, fig.cap="DFS ADAMTS10 by subtype", fig.height=8}
 
 par(mfrow=c(2,2))
 
@@ -5392,10 +5374,48 @@ for (i in Xind){
   ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="Recurred/Progressed", 1, ifelse(tinfo$DFS[l1]=="DiseaseFree", 0, NA)))
   TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
-  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
   text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
                      round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
 }
+```
+
+Redo survival and limit only to ER+ cases:
+
+```{r}
+tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")), ]
+tinfoER$pam=factor(tinfoER$pam)
+
+axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="Recurred/Progressed", 1, ifelse(tinfoER$DFS=="DiseaseFree", 0, NA)))
+
+axO=Surv(tinfoER$OSM, ifelse(tinfoER$OSS=="DECEASED", 1, ifelse(tinfoER$OSS=="LIVING", 0, NA)))
+
+SurvOSS=coxph(axO~tinfoER$pam+tinfoER$Stage+tinfoER$adamts10)
+SurvDFS=coxph(axD~tinfoER$pam+tinfoER$Stage+tinfoER$adamts10)
+
+ao=summary(SurvOSS)
+ao
+as=summary(SurvDFS)
+as
+
+```
+
+
+```{r}
+par(mfrow=c(2,3))
+boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
+boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
+ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
+smoothScatter(tinfoER$adamts10, log10(tinfoER$codingMut+1), xlab="gene exp", ylab="log10 mut")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="pearson")
+smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="leuk frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
+smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+hist(tinfoER$adamts10)
+
 ```
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
