@@ -5357,7 +5357,7 @@ Xind=c("Basal", "Her2", "LumA", "LumB")
 for (i in Xind){
   l1=which(tinfo$pam==i)
   ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="DECEASED", 1, ifelse(tinfo$OSS[l1]=="LIVING", 0, NA)))
-  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$cd74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  TCGAvalCut=cut(tinfo$adamts10[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
   text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
@@ -5372,7 +5372,7 @@ par(mfrow=c(2,2))
 for (i in Xind){
    l1=which(tinfo$pam==i)
   ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="Recurred/Progressed", 1, ifelse(tinfo$DFS[l1]=="DiseaseFree", 0, NA)))
-  TCGAvalCut=cut(tinfo$cd74[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  TCGAvalCut=cut(tinfo$adamts10[l1], quantile(tinfo$adamts10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax1=summary(coxph(ax~TCGAvalCut+tinfo$Stage[l1]))
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
   text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
@@ -5417,6 +5417,27 @@ text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 hist(tinfoER$adamts10)
 
 ```
+
+Also check the forst plots
+
+```{r}
+data1=data.frame(X1=c("","PAM50", "",  "Stage", "","","", "ADAMST10"),
+                X2=c("","LumA", "LumB" ,"1", "2", "3", "4", ""),
+                X3=c("NSamp",  table(tinfoER$pam), table(tinfoER$Stage), length(na.omit(tinfoER$adamts10))),
+                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1,2],2), "",
+                     round(summary(SurvOSS)$coefficients[ 2:5,2],2)))
+
+mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
+mdata=rbind(NA,NA, mdata[1, ], NA, mdata[2:5, ])
+
+#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
+
+forestplot(data1, mdata, xlog=T,
+           boxsize=0.5)
+
+
+```
+
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
 
