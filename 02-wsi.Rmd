@@ -76,13 +76,13 @@ It appears that CD8 whole-slide imaging associates well with:
 * Some CD8 gene signature scores (mainly in EPC, TIMER)
 
 ```{r assoc-facs}
-SummaryData=read.csv("../metadata/new_SummaryData.csv", row.names = 1)
+SummaryData=read.csv("../metadata/summary_final_210330.csv", row.names = 1)
 
 ## CD summary
 NAidx=sapply(1:ncol(SummaryData), function(x) length(which(!is.na(SummaryData[, x]))))
 names(NAidx)=colnames(SummaryData)
 
-colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
+colTestCD8=c("CD8.EpBoundingBox", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
 indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox") #, "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
@@ -143,6 +143,11 @@ Cdata$SMAFraction[na.omit(lxmatch)]=WSIvalFracs[4, ]
 Cdata$UnclassFraction=NA
 Cdata$UnclassFraction[na.omit(lxmatch)]=WSIvalFracs[5, ]
 
+#write.csv(WSIvals, file="nature-tables/raw_WSI_values.csv")
+#write.csv(WSIvalFracs, file="nature-tables/raw_WSI_values_fractions.csv")
+
+df.Spatial=cbind(t(WSIvals), t(WSIvalFracs))
+colnames(df.Spatial)=c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass", paste(c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass"), "frac", sep=""))
 ```
 
 Here, we look at the raw distributions of the different cell types and see if there are associations with:

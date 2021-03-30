@@ -949,13 +949,13 @@ It appears that CD8 whole-slide imaging associates well with:
 * Some CD8 gene signature scores (mainly in EPC, TIMER)
 
 ```{r assoc-facs}
-SummaryData=read.csv("../metadata/new_SummaryData.csv", row.names = 1)
+SummaryData=read.csv("../metadata/summary_final_210330.csv", row.names = 1)
 
 ## CD summary
 NAidx=sapply(1:ncol(SummaryData), function(x) length(which(!is.na(SummaryData[, x]))))
 names(NAidx)=colnames(SummaryData)
 
-colTestCD8=c("CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
+colTestCD8=c("CD8.EpBoundingBox", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", "T.cell.CD8._TIMER", "T.cell.CD8._CIBERSORT","T.cell.CD8._CIBERSORT.ABS", "T.cell.CD8._EPIC")
 
 # colTestCD8=c("CD8.EpDomTiles","CD8.EpBoundingBox", "CD8.TumSize", "CD45.FACS", "CD8.FACS", "OverallCD8_Fig4c.Manual", "TIL_Fig4d.Manual", )
 indx1=c("CD8.WSI", "CD8Frac.WSI", "CD8_EPorSMARatio.WSI","CD8_AnySMARatio.WSI", "CD8_EPRatio.WSI","CD8normTumSize", "CD8.EpBoundingBox") #, "log2CD8_EPorSMARatio.WSI", "log2CD8_EPRatio.WSI")
@@ -1016,6 +1016,11 @@ Cdata$SMAFraction[na.omit(lxmatch)]=WSIvalFracs[4, ]
 Cdata$UnclassFraction=NA
 Cdata$UnclassFraction[na.omit(lxmatch)]=WSIvalFracs[5, ]
 
+#write.csv(WSIvals, file="nature-tables/raw_WSI_values.csv")
+#write.csv(WSIvalFracs, file="nature-tables/raw_WSI_values_fractions.csv")
+
+df.Spatial=cbind(t(WSIvals), t(WSIvalFracs))
+colnames(df.Spatial)=c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass", paste(c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass"), "frac", sep=""))
 ```
 
 Here, we look at the raw distributions of the different cell types and see if there are associations with:
@@ -1828,10 +1833,11 @@ Below is a table of the different metrics and their values for each sample
 ##
 # Combine the data from above into one file
 #
-df.Spatial=cbind(knnreshape[ , 1:9], IFreshape[ ,1:10], MHreshape[ , 1:9] )
-colnames(df.Spatial)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colnames(df.Spatial),sep=".")
-
-df.Spatial=cbind(df.Spatial,IFreshape[ ,11:14])
+df.temp=cbind(knnreshape[ , 1:9], IFreshape[ ,1:10], MHreshape[ , 1:9] )
+colnames(df.temp)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colnames(df.temp),sep=".")
+#colnames(df.Spatial)=paste()
+df.Spatial=cbind(df.Spatial, df.temp)
+#df.Spatial=cbind(df.Spatial,IFreshape[ ,11:14])
 df.Spatial$GrowthRate=Cdata$GrowthRate[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$TumSize=Cdata$Tumor.diameter.sac.mm[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$knn.EpCAMcut=cut(df.Spatial$knn.EpCAM, c(-1, median(df.Spatial$knn.EpCAM, na.rm = T), 1.2), c("low", "high"))
@@ -1839,12 +1845,12 @@ df.Spatial$MH.EpCAMcut=cut(df.Spatial$MH.EpCAM, c(-1, median(df.Spatial$MH.EpCAM
 df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
 
-t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
-rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
-t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
-rownames(t2)=paste(rownames(t2), ".WSI", sep="")
+#t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+#rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
+#t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+#rownames(t2)=paste(rownames(t2), ".WSI", sep="")
 
-df.Spatial=cbind(df.Spatial, t(t2), t(t3))
+#df.Spatial=cbind(df.Spatial, t(t2), t(t3))
 
 scroll_box(kable(df.Spatial, format="html"),
          height="300px", width="100%")
@@ -5168,9 +5174,11 @@ ThorssData=ThorssData[which(ThorssData$TCGA.Study=="BRCA"), ]
 n1=match(rownames(tinfo), ThorssData$TCGA.Participant.Barcode)
 tinfo$immSub=ThorssData$Immune.Subtype[n1]
 tinfo$leukFrac=as.numeric(ThorssData$Leukocyte.Fraction[n1])
+tinfo$strFrac=as.numeric(ThorssData$Stromal.Fraction[n1])
 tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
 tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
 
+head(tinfo)
 
 #pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
 
@@ -5297,7 +5305,10 @@ text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2))
 ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
 smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-hist(tinfo$adamts10)
+#hist(tinfo$adamts10)
+ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="pearson")
+smoothScatter(tinfo$adamts10, (tinfo$strFrac), xlab="gene exp", ylab="str frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
 
 write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
@@ -5383,7 +5394,8 @@ for (i in Xind){
 Redo survival and limit only to ER+ cases:
 
 ```{r}
-tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")), ]
+## make a change here
+tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")),  ]
 tinfoER$pam=factor(tinfoER$pam)
 
 axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="Recurred/Progressed", 1, ifelse(tinfoER$DFS=="DiseaseFree", 0, NA)))
@@ -5402,7 +5414,10 @@ as
 
 
 ```{r}
+pdf("figure-outputs/NEwpanelB.pdf", height=7, width=9)
+
 par(mfrow=c(2,3))
+
 boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
 ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
@@ -5414,13 +5429,22 @@ text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2))
 ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
 smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-hist(tinfoER$adamts10)
+ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+smoothScatter(tinfoER$adamts10, (tinfoER$strFrac), xlab="gene exp", ylab="str frac")
+#ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+#smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="str frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
+#text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+dev.off()
 ```
 
-Also check the forst plots
+Also check the forest plots
 
 ```{r}
+
+pdf("figure-outputs/NEwpanelB2.pdf", height=6, width=5)
+
 data1=data.frame(X1=c("","PAM50", "",  "Stage", "","","", "ADAMST10"),
                 X2=c("","LumA", "LumB" ,"1", "2", "3", "4", ""),
                 X3=c("NSamp",  table(tinfoER$pam), table(tinfoER$Stage), length(na.omit(tinfoER$adamts10))),
@@ -5435,7 +5459,7 @@ mdata=rbind(NA,NA, mdata[1, ], NA, mdata[2:5, ])
 forestplot(data1, mdata, xlog=T,
            boxsize=0.5)
 
-
+dev.off()
 ```
 
 
@@ -5451,7 +5475,9 @@ HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
 HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
 
 TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
-                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=F)
+
+TCGAssgsea=t(scale(t(TCGAssgsea)))
 
 par(mfrow=c(1,2))
 hist(TCGAssgsea[1, ], main="stable")
@@ -5459,7 +5485,7 @@ hist(TCGAssgsea[2, ], main="growing")
 plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="stable", ylab="growing")
 ```
 
-Below are the survival curves:
+Below are the survival curves for the stable signature:
 
 ```{r, fig.height=8}
 #pdf("figure-outputs/Fig5_survival_analysis_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
@@ -5470,7 +5496,7 @@ Xind=c("Basal", "Her2", "LumA", "LumB")
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
    axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -5484,7 +5510,7 @@ for (i in Xind){
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
   axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -5496,7 +5522,7 @@ for (i in Xind){
 }
 ```
 
-Below are firstly the OS curves for the growing signature
+The OS curves for the growing signature
 
 ```{r 5i, fig.cap="OS: growing signature", fig.height=8}
 par(mfrow=c(2,2))
@@ -5505,7 +5531,7 @@ Xind=c("Basal", "Her2", "LumA", "LumB")
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
    axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -5525,17 +5551,27 @@ par(mfrow=c(2,2))
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
    axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+   
   axc=summary(axb)
-  
+  axc
   TCGAvalCut=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
     text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
   
 }
+
+ l1=which(BrClin$PAM50=="LumA")
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+   axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+   summary(axb)
+
+   hist(TCGAssgsea[2, lx2])
+   
 ```
 
 The gene lists are 
@@ -5551,7 +5587,7 @@ Growing:
 
 We can see whether this signature associates with leukocyte content and TCR diversity in the TCGA cohort:
 
-```{r 5h, fig.cap="luminal signature associated with clinical variables"}
+```{r 5h, fig.cap="luminal signature associated with clinical variables", fig.height=8}
 
 l1=which(BrClin$PAM50=="LumA")
 lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
@@ -5560,18 +5596,23 @@ lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
 
 newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
                       leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
+                      str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
                       TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
                       immSub=ThorssData$Immune.Subtype[lx3])
 
 
-#pdf("figure-outputs/Fig5_assoc_growing_stable_signature.pdf", height=6, width=9)
-par(mfrow=c(1,2))
+pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
+par(mfrow=c(2,2))
 ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
+text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="pearson")
+smoothScatter(newinfoTab$TCGA, newinfoTab$str)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+dev.off()
 ```
 
 As well as whether it associates with any of the previously identified immune subtypes:
@@ -8842,15 +8883,26 @@ t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
              inf=vstEpInf$Inflammation2[-which(is.na(t2))],
-             names=ax1[-which(is.na(t2))])
+             names=ax1[-which(is.na(t2))],
+             names2=rownames(df.Spatial)[na.omit(t2)])
 
 #pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
 #dev.off()
 write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
-
 ```
 
+Also check the encapsulated status?
+
+```{r}
+head(newTab)
+newTab$trichrome_pc=Cdata$Trichrome_encapsulation.[match(newTab$names2, gsub("_", "", Cdata$TumorID))]
+newTab$trichrome_pc[which(newTab$trichrome_pc=="lots")]=1
+newTab$trichrome_pc=as.numeric(newTab$trichrome_pc)
+pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
+ggplot(newTab, aes(y=trichrome_pc,x=inf))+geom_boxplot()+geom_jitter(col="grey")+theme_bw()
+dev.off()
+```
 
 <!--chapter:end:15-trichrome-staining.Rmd-->
 
@@ -9057,11 +9109,15 @@ colnames(ProgSpecCD45)=gsub("_CD45", "", colnames(ProgSpecCD45))
 rownames(ProgSpecCD45)=ProgSpecCD45[ ,1]
 ProgSpecCD45B=t(ProgSpecCD45[grep("CD8",rownames(ProgSpecCD45)), -1 ])
 ProgSpecCD45B=data.frame(ProgSpecCD45B, sample=rownames(ProgSpecCD45B))
-#head(ProgSpecCD45B)
 
 df.Spatial3=merge(df.Spatial2, ProgSpecCD45B, by.x="TumorID", by.y="sample", all=T)
+df.Spatial3$TumorID2=gsub("_", "", df.Spatial3$TumorID)
 
-head(df.Spatial3)
+SummaryData$TumorID2=rownames(SummaryData)
+
+df.Spatial4=merge(df.Spatial3, SummaryData[ ,c(6:8,17:19, ncol(SummaryData))], by.x="TumorID2", by.y="TumorID2", all=T)
+
+write.csv(df.Spatial4, file="../metadata/summary_new_210330.csv")
 
 ## merge he data from df.Spatial with the data from 
 

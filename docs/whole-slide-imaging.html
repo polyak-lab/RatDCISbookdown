@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-03-28" />
+<meta name="date" content="2021-03-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -468,13 +468,13 @@ UPDATE THE CIBERSORT INFORMATION. </span></p>
 <li>Manual scoring (Fig 4) of CD8 cells</li>
 <li>Some CD8 gene signature scores (mainly in EPC, TIMER)</li>
 </ul>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="whole-slide-imaging.html#cb44-1"></a>SummaryData=<span class="kw">read.csv</span>(<span class="st">&quot;../metadata/new_SummaryData.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="whole-slide-imaging.html#cb44-1"></a>SummaryData=<span class="kw">read.csv</span>(<span class="st">&quot;../metadata/summary_final_210330.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
 <span id="cb44-2"><a href="whole-slide-imaging.html#cb44-2"></a></span>
 <span id="cb44-3"><a href="whole-slide-imaging.html#cb44-3"></a><span class="co">## CD summary</span></span>
 <span id="cb44-4"><a href="whole-slide-imaging.html#cb44-4"></a>NAidx=<span class="kw">sapply</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(SummaryData), <span class="cf">function</span>(x) <span class="kw">length</span>(<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(SummaryData[, x]))))</span>
 <span id="cb44-5"><a href="whole-slide-imaging.html#cb44-5"></a><span class="kw">names</span>(NAidx)=<span class="kw">colnames</span>(SummaryData)</span>
 <span id="cb44-6"><a href="whole-slide-imaging.html#cb44-6"></a></span>
-<span id="cb44-7"><a href="whole-slide-imaging.html#cb44-7"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD8.TumSize&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
+<span id="cb44-7"><a href="whole-slide-imaging.html#cb44-7"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
 <span id="cb44-8"><a href="whole-slide-imaging.html#cb44-8"></a></span>
 <span id="cb44-9"><a href="whole-slide-imaging.html#cb44-9"></a><span class="co"># colTestCD8=c(&quot;CD8.EpDomTiles&quot;,&quot;CD8.EpBoundingBox&quot;, &quot;CD8.TumSize&quot;, &quot;CD45.FACS&quot;, &quot;CD8.FACS&quot;, &quot;OverallCD8_Fig4c.Manual&quot;, &quot;TIL_Fig4d.Manual&quot;, )</span></span>
 <span id="cb44-10"><a href="whole-slide-imaging.html#cb44-10"></a>indx1=<span class="kw">c</span>(<span class="st">&quot;CD8.WSI&quot;</span>, <span class="st">&quot;CD8Frac.WSI&quot;</span>, <span class="st">&quot;CD8_EPorSMARatio.WSI&quot;</span>,<span class="st">&quot;CD8_AnySMARatio.WSI&quot;</span>, <span class="st">&quot;CD8_EPRatio.WSI&quot;</span>,<span class="st">&quot;CD8normTumSize&quot;</span>, <span class="st">&quot;CD8.EpBoundingBox&quot;</span>) <span class="co">#, &quot;log2CD8_EPorSMARatio.WSI&quot;, &quot;log2CD8_EPRatio.WSI&quot;)</span></span>
@@ -532,7 +532,13 @@ Figure 4.1: association with facs
 <span id="cb47-16"><a href="whole-slide-imaging.html#cb47-16"></a>Cdata<span class="op">$</span>SMAFraction[<span class="kw">na.omit</span>(lxmatch)]=WSIvalFracs[<span class="dv">4</span>, ]</span>
 <span id="cb47-17"><a href="whole-slide-imaging.html#cb47-17"></a></span>
 <span id="cb47-18"><a href="whole-slide-imaging.html#cb47-18"></a>Cdata<span class="op">$</span>UnclassFraction=<span class="ot">NA</span></span>
-<span id="cb47-19"><a href="whole-slide-imaging.html#cb47-19"></a>Cdata<span class="op">$</span>UnclassFraction[<span class="kw">na.omit</span>(lxmatch)]=WSIvalFracs[<span class="dv">5</span>, ]</span></code></pre></div>
+<span id="cb47-19"><a href="whole-slide-imaging.html#cb47-19"></a>Cdata<span class="op">$</span>UnclassFraction[<span class="kw">na.omit</span>(lxmatch)]=WSIvalFracs[<span class="dv">5</span>, ]</span>
+<span id="cb47-20"><a href="whole-slide-imaging.html#cb47-20"></a></span>
+<span id="cb47-21"><a href="whole-slide-imaging.html#cb47-21"></a><span class="co">#write.csv(WSIvals, file=&quot;nature-tables/raw_WSI_values.csv&quot;)</span></span>
+<span id="cb47-22"><a href="whole-slide-imaging.html#cb47-22"></a><span class="co">#write.csv(WSIvalFracs, file=&quot;nature-tables/raw_WSI_values_fractions.csv&quot;)</span></span>
+<span id="cb47-23"><a href="whole-slide-imaging.html#cb47-23"></a></span>
+<span id="cb47-24"><a href="whole-slide-imaging.html#cb47-24"></a>df.Spatial=<span class="kw">cbind</span>(<span class="kw">t</span>(WSIvals), <span class="kw">t</span>(WSIvalFracs))</span>
+<span id="cb47-25"><a href="whole-slide-imaging.html#cb47-25"></a><span class="kw">colnames</span>(df.Spatial)=<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;EpCAM&quot;</span>, <span class="st">&quot;EpCAM:SMA&quot;</span>, <span class="st">&quot;SMA&quot;</span>, <span class="st">&quot;Unclass&quot;</span>, <span class="kw">paste</span>(<span class="kw">c</span>(<span class="st">&quot;CD8&quot;</span>, <span class="st">&quot;EpCAM&quot;</span>, <span class="st">&quot;EpCAM:SMA&quot;</span>, <span class="st">&quot;SMA&quot;</span>, <span class="st">&quot;Unclass&quot;</span>), <span class="st">&quot;frac&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</span></code></pre></div>
 <p>Here, we look at the raw distributions of the different cell types and see if there are associations with:</p>
 <ul>
 <li>tumor size</li>

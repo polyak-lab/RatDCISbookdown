@@ -41,8 +41,8 @@ fig:5eAD
 fig:Ext5e-osAD
 fig:Ext5e-dfsAD
 fig:5i
-fig:5i-dfs
-fig:5h
+fig:5i-dfs-1
+fig:5i-dfs-2
 fig:tcga-volcano
 fig:heatmap-tcga
 fig:TCGA-gsea

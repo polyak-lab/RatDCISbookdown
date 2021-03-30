@@ -41,11 +41,15 @@ colnames(ProgSpecCD45)=gsub("_CD45", "", colnames(ProgSpecCD45))
 rownames(ProgSpecCD45)=ProgSpecCD45[ ,1]
 ProgSpecCD45B=t(ProgSpecCD45[grep("CD8",rownames(ProgSpecCD45)), -1 ])
 ProgSpecCD45B=data.frame(ProgSpecCD45B, sample=rownames(ProgSpecCD45B))
-#head(ProgSpecCD45B)
 
 df.Spatial3=merge(df.Spatial2, ProgSpecCD45B, by.x="TumorID", by.y="sample", all=T)
+df.Spatial3$TumorID2=gsub("_", "", df.Spatial3$TumorID)
 
-head(df.Spatial3)
+SummaryData$TumorID2=rownames(SummaryData)
+
+df.Spatial4=merge(df.Spatial3, SummaryData[ ,c(6:8,17:19, ncol(SummaryData))], by.x="TumorID2", by.y="TumorID2", all=T)
+
+write.csv(df.Spatial4, file="../metadata/summary_new_210330.csv")
 
 ## merge he data from df.Spatial with the data from 
 

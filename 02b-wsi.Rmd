@@ -594,10 +594,11 @@ Below is a table of the different metrics and their values for each sample
 ##
 # Combine the data from above into one file
 #
-df.Spatial=cbind(knnreshape[ , 1:9], IFreshape[ ,1:10], MHreshape[ , 1:9] )
-colnames(df.Spatial)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colnames(df.Spatial),sep=".")
-
-df.Spatial=cbind(df.Spatial,IFreshape[ ,11:14])
+df.temp=cbind(knnreshape[ , 1:9], IFreshape[ ,1:10], MHreshape[ , 1:9] )
+colnames(df.temp)=paste(rep(c("knn", "IF", "MH"), times=c(9, 10, 9)), colnames(df.temp),sep=".")
+#colnames(df.Spatial)=paste()
+df.Spatial=cbind(df.Spatial, df.temp)
+#df.Spatial=cbind(df.Spatial,IFreshape[ ,11:14])
 df.Spatial$GrowthRate=Cdata$GrowthRate[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$TumSize=Cdata$Tumor.diameter.sac.mm[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
 df.Spatial$knn.EpCAMcut=cut(df.Spatial$knn.EpCAM, c(-1, median(df.Spatial$knn.EpCAM, na.rm = T), 1.2), c("low", "high"))
@@ -605,12 +606,12 @@ df.Spatial$MH.EpCAMcut=cut(df.Spatial$MH.EpCAM, c(-1, median(df.Spatial$MH.EpCAM
 df.Spatial$IF.EpCAMcut=cut(df.Spatial$IF.EpCAM, c(-1, median(df.Spatial$IF.EpCAM, na.rm = T), 1.2), c("low", "high"))
 df.Spatial$CD8Fraccut=cut(df.Spatial$CD8frac, c(-1, median(df.Spatial$CD8frac, na.rm = T), 1.2), c("low", "high"))
 
-t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
-rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
-t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
-rownames(t2)=paste(rownames(t2), ".WSI", sep="")
+#t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+#rownames(t2)=paste(rownames(t2), "Frac.WSI", sep="")
+#t3=WSIvals[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
+#rownames(t2)=paste(rownames(t2), ".WSI", sep="")
 
-df.Spatial=cbind(df.Spatial, t(t2), t(t3))
+#df.Spatial=cbind(df.Spatial, t(t2), t(t3))
 
 scroll_box(kable(df.Spatial, format="html"),
          height="300px", width="100%")

@@ -82,9 +82,11 @@ ThorssData=ThorssData[which(ThorssData$TCGA.Study=="BRCA"), ]
 n1=match(rownames(tinfo), ThorssData$TCGA.Participant.Barcode)
 tinfo$immSub=ThorssData$Immune.Subtype[n1]
 tinfo$leukFrac=as.numeric(ThorssData$Leukocyte.Fraction[n1])
+tinfo$strFrac=as.numeric(ThorssData$Stromal.Fraction[n1])
 tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
 tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
 
+head(tinfo)
 
 #pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
 
@@ -211,7 +213,10 @@ text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2))
 ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
 smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-hist(tinfo$adamts10)
+#hist(tinfo$adamts10)
+ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="pearson")
+smoothScatter(tinfo$adamts10, (tinfo$strFrac), xlab="gene exp", ylab="str frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
 
 write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
@@ -297,7 +302,8 @@ for (i in Xind){
 Redo survival and limit only to ER+ cases:
 
 ```{r}
-tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")), ]
+## make a change here
+tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")),  ]
 tinfoER$pam=factor(tinfoER$pam)
 
 axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="Recurred/Progressed", 1, ifelse(tinfoER$DFS=="DiseaseFree", 0, NA)))
@@ -316,7 +322,10 @@ as
 
 
 ```{r}
+pdf("figure-outputs/NEwpanelB.pdf", height=7, width=9)
+
 par(mfrow=c(2,3))
+
 boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
 ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
@@ -328,13 +337,22 @@ text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2))
 ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
 smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-hist(tinfoER$adamts10)
+ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+smoothScatter(tinfoER$adamts10, (tinfoER$strFrac), xlab="gene exp", ylab="str frac")
+#ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+#smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="str frac")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
+#text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+dev.off()
 ```
 
-Also check the forst plots
+Also check the forest plots
 
 ```{r}
+
+pdf("figure-outputs/NEwpanelB2.pdf", height=6, width=5)
+
 data1=data.frame(X1=c("","PAM50", "",  "Stage", "","","", "ADAMST10"),
                 X2=c("","LumA", "LumB" ,"1", "2", "3", "4", ""),
                 X3=c("NSamp",  table(tinfoER$pam), table(tinfoER$Stage), length(na.omit(tinfoER$adamts10))),
@@ -349,7 +367,7 @@ mdata=rbind(NA,NA, mdata[1, ], NA, mdata[2:5, ])
 forestplot(data1, mdata, xlog=T,
            boxsize=0.5)
 
-
+dev.off()
 ```
 
 
@@ -365,7 +383,9 @@ HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
 HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
 
 TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
-                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=T)
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=F)
+
+TCGAssgsea=t(scale(t(TCGAssgsea)))
 
 par(mfrow=c(1,2))
 hist(TCGAssgsea[1, ], main="stable")
@@ -373,7 +393,7 @@ hist(TCGAssgsea[2, ], main="growing")
 plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="stable", ylab="growing")
 ```
 
-Below are the survival curves:
+Below are the survival curves for the stable signature:
 
 ```{r, fig.height=8}
 #pdf("figure-outputs/Fig5_survival_analysis_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
@@ -384,7 +404,7 @@ Xind=c("Basal", "Her2", "LumA", "LumB")
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
    axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -398,7 +418,7 @@ for (i in Xind){
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-  lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
   axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -410,7 +430,7 @@ for (i in Xind){
 }
 ```
 
-Below are firstly the OS curves for the growing signature
+The OS curves for the growing signature
 
 ```{r 5i, fig.cap="OS: growing signature", fig.height=8}
 par(mfrow=c(2,2))
@@ -419,7 +439,7 @@ Xind=c("Basal", "Her2", "LumA", "LumB")
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
    axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
@@ -439,17 +459,27 @@ par(mfrow=c(2,2))
 
 for (i in Xind){
   l1=which(BrClin$PAM50==i)
-   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
   ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
    axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+   
   axc=summary(axb)
-  
+  axc
   TCGAvalCut=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
     text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
   
 }
+
+ l1=which(BrClin$PAM50=="LumA")
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+   axb=coxph(ax~TCGAssgsea[2, lx2]+BrClin$Stage[l1])
+   summary(axb)
+
+   hist(TCGAssgsea[2, lx2])
+   
 ```
 
 The gene lists are 
@@ -465,7 +495,7 @@ Growing:
 
 We can see whether this signature associates with leukocyte content and TCR diversity in the TCGA cohort:
 
-```{r 5h, fig.cap="luminal signature associated with clinical variables"}
+```{r 5h, fig.cap="luminal signature associated with clinical variables", fig.height=8}
 
 l1=which(BrClin$PAM50=="LumA")
 lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
@@ -474,18 +504,23 @@ lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
 
 newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
                       leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
+                      str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
                       TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
                       immSub=ThorssData$Immune.Subtype[lx3])
 
 
-#pdf("figure-outputs/Fig5_assoc_growing_stable_signature.pdf", height=6, width=9)
-par(mfrow=c(1,2))
+pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
+par(mfrow=c(2,2))
 ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
+text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="pearson")
+smoothScatter(newinfoTab$TCGA, newinfoTab$str)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+dev.off()
 ```
 
 As well as whether it associates with any of the previously identified immune subtypes:

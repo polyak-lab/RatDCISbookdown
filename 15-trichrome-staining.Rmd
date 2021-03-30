@@ -113,12 +113,23 @@ t2=match(gsub("_", "", substr( ax1, 1, nchar(ax1)-2)), rownames(df.Spatial))
 
 newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"], 
              inf=vstEpInf$Inflammation2[-which(is.na(t2))],
-             names=ax1[-which(is.na(t2))])
+             names=ax1[-which(is.na(t2))],
+             names2=rownames(df.Spatial)[na.omit(t2)])
 
 #pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
 #dev.off()
 write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
-
 ```
 
+Also check the encapsulated status?
+
+```{r}
+head(newTab)
+newTab$trichrome_pc=Cdata$Trichrome_encapsulation.[match(newTab$names2, gsub("_", "", Cdata$TumorID))]
+newTab$trichrome_pc[which(newTab$trichrome_pc=="lots")]=1
+newTab$trichrome_pc=as.numeric(newTab$trichrome_pc)
+pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
+ggplot(newTab, aes(y=trichrome_pc,x=inf))+geom_boxplot()+geom_jitter(col="grey")+theme_bw()
+dev.off()
+```
