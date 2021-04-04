@@ -11,9 +11,9 @@ Below we assess summary statistics on clinico-pathological features of this data
 Cdata=xlsx::read.xlsx("../metadata/Extended Data Table1.xlsx", sheetIndex=1)
 
 Cdata$NewID[which(duplicated(Cdata$NewID)==T)]
-scroll_box(kable(Cdata[ ,1:20], format="html"),
-         height="300px", width="100%")
 
+DT::datatable(Cdata[ ,1:20],rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
 
 ## Size information
@@ -37,7 +37,7 @@ Note that in the characterisation cohort, samples are selected for SAC at differ
 
 ```{r Ext1c, fig.cap="growth of tumors over time"}
 
-#pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
+pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
 
 am1=lm(Cdata$Tumor.diameter.sac.mm[which(Cdata$Cohort=="Characterisation")]~
          Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")])
@@ -51,11 +51,11 @@ text(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")])+5,
      Cdata$NewID[which(Cdata$Cohort=="Characterisation")], cex=0.7)
 abline(am1)
 legend("topright", levels(factor(Cdata$Char.Cohort.Batch)), col=c(1:3), lwd=2)
-#dev.off()
+dev.off()
 
-write.csv(cbind(Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")], 
+DT::datatable(cbind(Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")], 
                 Cdata$Tumor.diameter.sac.mm[which(Cdata$Cohort=="Characterisation")],
-                Cdata$Char.Cohort.Batch[which(Cdata$Cohort=="Characterisation")]), file="nature-tables/Ext1c.csv")
+                Cdata$Char.Cohort.Batch[which(Cdata$Cohort=="Characterisation")]), rownames=F, class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'))) 
 ```
 
 Plot of number of tumors per rat
@@ -64,10 +64,9 @@ Plot of number of tumors per rat
 Nx1=table(Cdata$Rat_ID[which(Cdata$Cohort=="Characterisation")])
 X2=Cdata$Char.Cohort.Batch[match(names(Nx1), Cdata$Rat_ID)]
 t2temp=data.frame(count=as.numeric(Nx1), cohort=X2)
-#pdf("figure-outputs/Figure-1b-again.pdf", height=5, width=5)
 beeswarm(jitter(as.vector(Nx1))~X2, col=c(1:3))
-#dev.off()
-write.csv(t2temp, file="nature-tables/Ext1a-b.csv")
+DT::datatable(t2temp, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
 
 ## Calculating growth rates
@@ -125,7 +124,8 @@ TreatType=Cdata$Treatment[match(colnames(GrowthRaw),Cdata$NewID)]
 GrowthRaw2=rbind(TreatType, GrowthRaw)
 colnames(GrowthRaw2)[1]="Time(weeks)"
 
-write.csv( GrowthRaw2, file="nature-tables/3b.csv")
+DT::datatable(GrowthRaw2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
 
 Notably, there are a few samples which grow but then regress. These are plotted below
@@ -149,7 +149,9 @@ for (i in 1:length(mx)){
 
 GrowthRaw3=GrowthRaw2[ ,c(1, mx)]
 
-write.csv(GrowthRaw3, file="nature-tables/Ext5a.csv")
+DT::datatable(GrowthRaw3, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#write.csv(GrowthRaw3, file="nature-tables/Ext5a.csv")
 ```
 
 
@@ -192,7 +194,10 @@ d1$treatment=factor(d1$treatment, levels=c("Vehicle", "PDL1", "LY","PDL1+LY"))
 ```{r 3c, fig.cap="Growth rate with respect to treatment"}
 ggplot(d1, aes(x=treatment, y=growthrate, col=treatment))+geom_boxplot()+geom_jitter()+
   scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
-write.csv(d1, file="nature-tables/Fig3c-d.csv")
+
+DT::datatable(d1, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#write.csv(d1, file="nature-tables/Fig3c-d.csv")
 ```
 
 We can calculate the p.values below, using a wilcox test. The growth rates comparing the treatment to the controls are:
@@ -318,7 +323,9 @@ We can also plot by treatment:
 ```{r Ext3c-treat}
 ggplot(Ltab2, aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+facet_grid(~variable)+
   scale_color_manual(values=c(ColMerge[ ,1]))+theme_bw()
-write.csv(Ltab2, file="nature-tables/Ext3c.csv")
+DT::datatable(Ltab2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#write.csv(Ltab2, file="nature-tables/Ext3c.csv")
 ```
 
 ## FACS data

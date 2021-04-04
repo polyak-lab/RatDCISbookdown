@@ -53,7 +53,11 @@ a2
 SaveOutput=a2$data
 SaveOutput$sample=infoTableFinal$TumorIDnew[match(SaveOutput$name, rownames(infoTableFinal))]
 
-write.csv(SaveOutput, file="nature-tables/Ext3d.csv")
+DT::datatable(SaveOutput, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
+#write.csv(SaveOutput, file="nature-tables/Ext3d.csv")
 ```
 
 We can also visualise PCA plots specifically for CD45, DN or Ep samples
@@ -103,7 +107,11 @@ We can also remove the CD45 fraction to see if there is a good separation betwee
               ColSideColors =brewer.pal(3, "Set1")[factor(ColSideCol[-grep("CD45", colnames(RatExpr2))])] )
 
 
- write.csv(RatExpr2, file="nature-tables/Ext3e.csv")
+DT::datatable(RatExpr2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
+ #write.csv(RatExpr2, file="nature-tables/Ext3e.csv")
  
 #dev.off()
 ```

@@ -45,17 +45,6 @@ BrClin$Disease.Free.Status[which(BrClin$Disease.Free..Months.>=60)]="Disease Fre
 
 ```
 
-
-```{r, eval=F}
-## Load the old file
-Nickold=read.csv("outputs/EpCAM_IFNg_low_growing_vs_stable.filtered.csv", row.names = 1)
-
-GlistGrowing=rownames(Nickold)[which(sign(Nickold$log2FoldChange)<0 & Nickold$baseMean>100)]
-Glistnon=rownames(Nickold)[which(sign(Nickold$log2FoldChange)>0 & Nickold$baseMean>100)]
-
-#alist=results(vstLumRes)
-```
-
 ## Associating CD74 with phenotype and outcome
 
 The Thorsson data has pre-calculated scores for:
@@ -86,10 +75,6 @@ tinfo$strFrac=as.numeric(ThorssData$Stromal.Fraction[n1])
 tinfo$codingMut=as.numeric(ThorssData$Nonsilent.Mutation.Rate[n1])
 tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
 
-head(tinfo)
-
-#pdf("figure-outputs/Figure5_CD74_output.pdf", height=7, width=9)
-
 par(mfrow=c(2,3))
 boxplot(tinfo$cd74~tinfo$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfo$cd74~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
@@ -104,9 +89,7 @@ smoothScatter(tinfo$cd74, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 hist(tinfo$cd74)
 
-#dev.off()
-
-write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
+#write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
 ```
 
 We can also check if there is an association with survival:
@@ -145,9 +128,10 @@ mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
 forestplot(data1, mdata, xlog=T,
            boxsize=0.5)
 
-#dev.off()
+#write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
 
-write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
+DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
@@ -193,9 +177,11 @@ for (i in Xind){
 
 Do the same thing as above with the ADAMST10 scores
 
+### All samples
+
 Z-Scale ADAMTS10 scores prior to analysis:
 
-```{r 5dAD, fig.cap="ADAMTS10 assoc with patient data"}
+```{r adamst10, fig.cap="ADAMTS10 assoc with patient data"}
 TCGAssgsea=scale(TCGArsem2[match("ADAMTS10", rownames(TCGArsem2)), ])
 tinfo$adamts10=TCGAssgsea
 
@@ -218,13 +204,14 @@ ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="pearson")
 smoothScatter(tinfo$adamts10, (tinfo$strFrac), xlab="gene exp", ylab="str frac")
 text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
+DT::datatable(tinfo, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
 ```
 
 We can also check if there is an association with survival:
 
-```{r}
+```{r adamst-surv}
 
 axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="Recurred/Progressed", 1, ifelse(tinfo$DFS=="DiseaseFree", 0, NA)))
 
@@ -242,7 +229,7 @@ Note that ADAMST10 is associated with survival: The harzards ratio is `r ao$coef
 
 This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
 
-```{r 5eAD, fig.cap="forest plot ADAMTS10"}
+```{r adamst10-forestplot, fig.cap="forest plot ADAMTS10"}
 
 data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "ADAMST10"),
                 X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
@@ -259,11 +246,13 @@ forestplot(data1, mdata, xlog=T,
            boxsize=0.5)
 
 #dev.off()
+#write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot_adamts10.csv")
 
-write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot_adamts10.csv")
+DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 
 ```
-
 
 
 We can look below what the association with subtype is in KM curves:
@@ -299,6 +288,8 @@ for (i in Xind){
 }
 ```
 
+### Redone using only ER cases
+
 Redo survival and limit only to ER+ cases:
 
 ```{r}
@@ -322,7 +313,7 @@ as
 
 
 ```{r}
-pdf("figure-outputs/NEwpanelB.pdf", height=7, width=9)
+#pdf("figure-outputs/NEwpanelB.pdf", height=7, width=9)
 
 par(mfrow=c(2,3))
 
@@ -339,19 +330,16 @@ smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR div
 text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
 smoothScatter(tinfoER$adamts10, (tinfoER$strFrac), xlab="gene exp", ylab="str frac")
-#ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
-#smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="str frac")
 text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 
-#text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-dev.off()
+DT::datatable(tinfoER, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Also check the forest plots
 
-```{r}
-
-pdf("figure-outputs/NEwpanelB2.pdf", height=6, width=5)
+```{r Ext5f, fig.cap="Adamts10 expression survival analysis, ER only "}
 
 data1=data.frame(X1=c("","PAM50", "",  "Stage", "","","", "ADAMST10"),
                 X2=c("","LumA", "LumB" ,"1", "2", "3", "4", ""),
@@ -367,13 +355,17 @@ mdata=rbind(NA,NA, mdata[1, ], NA, mdata[2:5, ])
 forestplot(data1, mdata, xlog=T,
            boxsize=0.5)
 
-dev.off()
+DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
 
-Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples
+Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples.
+
+
 
 ```{r, results='hide'}
 GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
@@ -391,7 +383,13 @@ par(mfrow=c(1,2))
 hist(TCGAssgsea[1, ], main="stable")
 hist(TCGAssgsea[2, ], main="growing")
 plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="stable", ylab="growing")
+
+
+write.csv("nature-tables/Supplemental_table5.csv")
 ```
+
+The Growing signature genes are `r Glistnon`
+and stable are `r GlistGrowing`.
 
 Below are the survival curves for the stable signature:
 
@@ -428,6 +426,13 @@ for (i in Xind){
   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
 }
+
+
+test=survfit(ax~TCGAvalCut)
+test
+#DT::datatable(as.data.frame(test), rownames=F, class='cell-border stripe',
+#         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 The OS curves for the growing signature
@@ -495,7 +500,7 @@ Growing:
 
 We can see whether this signature associates with leukocyte content and TCR diversity in the TCGA cohort:
 
-```{r 5h, fig.cap="luminal signature associated with clinical variables", fig.height=8}
+```{r Ext5i-growing, fig.cap="luminal signature associated with clinical variables", fig.height=8}
 
 l1=which(BrClin$PAM50=="LumA")
 lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
@@ -509,7 +514,7 @@ newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
                       immSub=ThorssData$Immune.Subtype[lx3])
 
 
-pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
+#pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
 par(mfrow=c(2,2))
 ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
@@ -520,7 +525,12 @@ text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2
 ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
 smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-dev.off()
+#dev.off()
+
+DT::datatable(newinfoTab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
 ```
 
 As well as whether it associates with any of the previously identified immune subtypes:
@@ -547,10 +557,14 @@ TCGAdeseq=DESeq(TCGAdeseq)
 
 TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
 
-write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
+#write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
 TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
                                  & TCGAdeseqRes$baseMean>100), ]
+
+DT::datatable(as.data.frame(TCGAdeseqRes), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 We can plot the differential genes here in a volcano plot:

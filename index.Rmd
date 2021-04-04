@@ -162,7 +162,7 @@ Below is the summary of chromosome sizes and centromere locations:
 chrInfo=read.delim("../anntotations/chromInfo_rat.txt", header=T)
 cytoInfo=read.delim("../anntotations/cytoBand_Rat2.txt", header=F, stringsAsFactors = F)
 colnames(cytoInfo)=c("chrom", "chromStart", "chromEnd", "name", "gieStain")
-GRcytoInfo=GRanges(seqnames=cytoInfo$V1, ranges=IRanges(start = cytoInfo$V2, end=cytoInfo$V3), cytoband=cytoInfo$V4)
+GRcytoInfo=GRanges(seqnames=cytoInfo$chrom, ranges=IRanges(start = cytoInfo$chromStart, end=cytoInfo$chromEnd), cytoband=cytoInfo$name)
 head(GRcytoInfo)
 ```
 

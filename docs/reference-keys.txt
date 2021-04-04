@@ -36,13 +36,15 @@ fig:5d
 fig:5e
 fig:Ext5e-os
 fig:Ext5e-dfs
-fig:5dAD
-fig:5eAD
+fig:adamst10
+fig:adamst10-forestplot
 fig:Ext5e-osAD
 fig:Ext5e-dfsAD
+fig:Ext5f
 fig:5i
 fig:5i-dfs-1
 fig:5i-dfs-2
+fig:Ext5i-growing
 fig:tcga-volcano
 fig:heatmap-tcga
 fig:TCGA-gsea
@@ -59,6 +61,7 @@ fig:Ext2f
 fig:Ext5b
 fig:2f-1
 fig:2f-2
+fig:2f-3
 fig:2fplot
 fig:4f
 fig:2h
@@ -67,6 +70,7 @@ fig:trust-progression-1
 fig:trust-progression-2
 fig:trust-progression-3
 fig:4i
+fig:4ib
 fig:1j
 fig:Ext1j
 fig:Ext1k
@@ -153,8 +157,7 @@ cd45-samples
 epithelial-samples
 deseq-analysis-immunotherapygrowth-comparisons
 summary-of-comparisons
-deseq-any-treatment-vs-control
-epcam-samples
+deseq-immunotherapy
 growing-vs-stable-emphasis
 dn-fraction
 cd-fraction
@@ -174,6 +177,8 @@ luminal-only-non-inflammtory-samples-samples
 tcga-associate-epcam-inflammatory-with-survival
 associating-cd74-with-phenotype-and-outcome
 associating-admats10-with-phenotype-and-outcome
+all-samples
+redone-using-only-er-cases
 signature-lum-cases-non-inflammatory-growing-vs-stable
 tcga-luma-high-vs-low-signatures
 deseq-analysis-characterisation-cohort-big-vs-small

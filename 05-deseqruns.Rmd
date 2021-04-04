@@ -33,8 +33,8 @@ resDNeprslt2$CellMarker=ifelse(rownames(resDNeprslt2)%in%unlist(GeneListRat), 1,
 resDNeprslt2=resDNeprslt2[order(resDNeprslt2$CellMarker, abs(resDNeprslt2$log2FoldChange), decreasing = T), ]
 
 
-scroll_box(kable(resDNeprslt2, format="html"),
-         height="300px", width="100%")
+DT::datatable(as.data.frame(resDNeprslt2), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 HighExprGenes=rownames(resDNeprslt2)[which(resDNeprslt2$baseMean>100 & resDNeprslt2$log2FoldChange<0) ]
 
@@ -69,36 +69,13 @@ colOutput$Var2=factor(colOutput$Var2, levels=unique(colOutput$Var2))
 #write.csv(resDNeprslt2, file=sprintf("outputs/DESeq/difference_between_DN_Ep(ref)_samples_%s.csv", Sys.Date()))
 ```
 
-
-
-```{r, eval=F}
-#Note that there seems to be two main groups of Ep cells:
-#The first one is enriched for canonical tumour progression pathways: eg. expression of wnt, fox1a etc.
-#The second one doesnt seem to have as high expression of these genes, but have high immune related signalling pathways.
-#We can append this information into the overall data file and determine whether there is an association with growth or treatment
-
-a2=heatmap.2(t2[ ,grep("Ep", colnames(t2))], trace="none", col=RdBu[11:1], scale="row", main="Enriched in Ep genes", ColSideColors = TableCols[2, grep("Ep", colnames(t2))])
-ac=as.hclust(a2$colDendrogram)
-ad=cutree(ac, 3)
-#table(ad)
-head(ad)
-
-infoTableFinal$EpCAMsubtype=NA
-infoTableFinal$EpCAMsubtype[match(names(ad), rownames(infoTableFinal))]=ad
-
-table(infoTableFinal$EpCAMsubtype, infoTableFinal$Growth)
-table(infoTableFinal$EpCAMsubtype, infoTableFinal$Treatment)
-table(infoTableFinal$EpCAMsubtype, infoTableFinal$SpatialManual)
-
-```
-
 ## No. samples in comparisons
 
 Separate out the tables into CD45, DN and Ep fractions. 
 Below, we check the number of samples in each subgroup, based on
 
 1. Treatment
-3. growth rate
+2. growth rate
 3. fraction
 
 
@@ -246,8 +223,6 @@ DNddscd8=DNdds[ ,which(!is.na(DNdds$CD8FracCut))]
 design(DNddscd8)=~CD8FracCut+factor(Batch)
 DNddscd8=DESeq(DNddscd8)
 
-
-
 save(Epdds, EpddsTreat,CDdds, CDddsTreat, DNdds, DNddsTreat,
     EpddsGrowth, CDddsGrowth, DNddsGrowth, 
       DNddscd8,  DNddsStrMH,
@@ -274,7 +249,7 @@ These are separated based on cell type
 
 ### EpCAM
 
-We see that treatment nor growth separates out these samples
+We see that treatment nor growth separates out these samples. Below is a pca plot of the result, we can also print out the tables for each comparison
 
 ```{r}
 Epdds$cd8MH=paste(Epdds$CD8FracCut, Epdds$MHcut)
@@ -288,18 +263,10 @@ plotPCA(vsdLimmaEp, c("Growth"))+scale_color_manual(values=c(ColSizeb, "#31A354"
 a2=plotPCA(vsdLimmaEp, c("Treatment"))+theme_bw()+ggtitle("Treatment Ep")+scale_color_manual(values=c(ColMerge[ ,1], "#5D5D5D"))
 a2
 
-write.csv(a2$data, file="nature-tables/3i_epcam.csv")
+DT::datatable(a2$data, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-#plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
-#plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
-#plotPCA(vstEp, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment + growth")
-#plotPCA(vstEp, intgroup=c("MHcut"))+geom_text(aes(label=Epdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: MH ep to stroma index")
-#plotPCA(vstEp, intgroup=c("CD8FracCut"))+geom_text(aes(label=Epdds$CD8FracCut),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
-
-#pdf("figure-outputs/Ext3j-cor-plot.pdf", height=6, width = 6)
-
-#plotPCA(vstEp, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
-
+#write.csv(a2$data, file="nature-tables/3i_epcam.csv")
 
 ```
 
@@ -321,20 +288,9 @@ ax1=plotPCA(vsdLimmaCD, c("Batch"), returnData=T)
 plotPCA(vsdLimmaCD, c("Growth"))+scale_color_manual(values=c(ColSizeb, "#31A354"))+theme_bw()+ggtitle("Growth CD45")
 a2=plotPCA(vsdLimmaCD, c("Treatment"))+theme_bw()+ggtitle("Treatment CD45")+scale_color_manual(values=c(ColMerge[,1], "#5D5D5D"))
 a2
-write.csv(a2$data, file="nature-tables/3i_cd45.csv")
-
-
-# plotPCA(vstCD, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment")
-# plotPCA(vstCD, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment + growth")
-# plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=CDdds$TumSize),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: growth: kinetics vs final tum size")
-# plotPCA(vstCD, intgroup=c("MHcut"))+geom_text(aes(label=CDdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 treatment MH value")
-# plotPCA(vstCD, intgroup=c("CD8FracCut"))+geom_text(aes(label=CDdds$CD8FracCut),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
-# 
-# 
-# #pdf("~/Desktop/FigS2-cd45-pca-cor-plot.pdf", height=6, width = 6)
-# 
-# plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
-
+DT::datatable(a2$data, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#write.csv(a2$data, file="nature-tables/3i_cd45.csv")
 
 ```
 
@@ -349,31 +305,16 @@ vstDN$Treatment2=ifelse(vstDN$Treatment=="Vehicle", "no", "imm")
 vsdLimmaDN=vstDN
 
 assay(vsdLimmaDN)<- limma::removeBatchEffect(assay(vsdLimmaDN),vstDN$Batch)
-# library(cluster)
-# PAMx=pam(t(assay(vsdLimmaCD)), 2)
-# autoplot(PAMx )
-# 
-# 
+
 ax1=plotPCA(vsdLimmaDN, c("Batch"), returnData=T)
 plotPCA(vsdLimmaDN, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth DN")
 a2=plotPCA(vsdLimmaDN, c("Treatment"))+theme_bw()+ggtitle("Treatment DN")+scale_color_manual(values=c(ColMerge[,1], "#5D5D5D"))
-a2
-write.csv(a2$data, file="nature-tables/3i_dn.csv")
+
+DT::datatable(a2$data, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
-
-
-# plotPCA(vstDN, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment ")
-# plotPCA(vstDN, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment + growth")
-# plotPCA(vstDN, intgroup=c("Growth"))+geom_text(aes(label=DNdds$TumSize),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: growth: kinetics vs final tum size")
-# plotPCA(vstDN, intgroup=c("MHcut"))+geom_text(aes(label=DNdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN treatment (immune vs control) + growth")
-# plotPCA(vstDN, intgroup=c("CD8FracCut"))+geom_text(aes(label=DNdds$CD8FracCut),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
-# #dev.off()
-
-
-#pdf("~/Desktop/FigS3-dn-pca-cor-plot.pdf", height=6, width = 6)
-
-# plotPCA(vstDN, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+#write.csv(a2$data, file="nature-tables/3i_dn.csv")
 
 ```
 
@@ -384,22 +325,26 @@ Below are pearson correlation plots of the samples in each comparison, colored b
 ```{r}
 Xa1=cor(assay(vsdLimmaEp))
 heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstEp$Growth], trace="none", main="Ep")
-#dev.off()
-write.csv(Xa1, file="nature-tables/Ext3j.csv")
+
+DT::datatable(Xa1, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#write.csv(Xa1, file="nature-tables/Ext3j.csv")
 
 
 Xa1=cor(assay(vsdLimmaCD))
 heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstCD$Growth], trace="none", main="CD45")
+DT::datatable(Xa1, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(Xa1, file="nature-tables/FIgS2-cd45-pca-cor-plot.csv")
+#write.csv(Xa1, file="nature-tables/FIgS2-cd45-pca-cor-plot.csv")
 
 
 Xa1=cor(assay(vsdLimmaDN))
 heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstDN$Growth], trace="none", main="DN")
 
 #dev.off()
+DT::datatable(Xa1, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(Xa1, file="nature-tables/DNsamples_progression_similarity.csv")
-
-
+#write.csv(Xa1, file="nature-tables/DNsamples_progression_similarity.csv")
 ```

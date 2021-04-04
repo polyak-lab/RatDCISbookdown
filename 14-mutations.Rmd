@@ -192,25 +192,24 @@ From this analysis, below are the genes with mutations in known human hotpot mut
 ```{r loadOldVAFs, cache=T}
 load("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount2021-01-11.RData")
 
-dim(MeltCosmic)
-
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
 Xb=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(BList$RatGene,BList$RatAAno))
 Xc=match(paste(MeltCosmic$Gene_Symbol, MeltCosmic$AAno), paste(ChangList2$RatGene, ChangList2$RatAAno))
 x2=c(which(!is.na(Xb)), which(!is.na(Xc)))
 
-head(MeltCosmic[ , 42:51])
+BList[(na.omit(Xb)), ]
+ChangList2[(na.omit(Xc)), ]
 
 Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$AAno))
 Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
 x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
 x4=unique(c(x2, x3))
-kable(head(MeltCosmic))
+kable(MeltCosmic[x4, c(1,5,6)])
+
+BList[(na.omit(Xb)), ]
+ChangList2[(na.omit(Xc)), ]
 
 
-x2
-x3
-x4
 ```
 
 And here, we plot the frequency of these different mutations
@@ -242,7 +241,10 @@ barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations ", las=2
 tableout=data.frame(gene=names(T2[ind2]), ncount=T2[ind2], freq=T2[ind2]/31,
                     humanHom=ifelse(names(T2[ind2])%in%ttemp, 1, 0))
 
-write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
+#write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
+DT::datatable(tableout, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 
 ```
 
@@ -287,7 +289,10 @@ TotTabl$nam2=factor(TotTabl$nam2, levels=levelNam)
 ggplot(TotTabl, aes(x=nam2, y=val/43.423804, fill=variant))+geom_bar(stat="identity")+scale_fill_manual(values=c("black", brewer.pal(9, "Set1")))+theme_bw()+theme(axis.text.x=element_text(angle=90))+ylab("Number of coding mutations/Mb")+ggtitle("sorted by increasing tumor size at sac")
 #dev.off()
 
-write.csv(TotTabl, file="nature-tables/1i.csv")
+#write.csv(TotTabl, file="nature-tables/1i.csv")
+DT::datatable(TotTabl, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 We can also see whether any of these correlate with size, but didn't find associations as shown below:
@@ -849,8 +854,8 @@ heatmap.2(sign(SumTable2[, lx]), scale="none", trace="none", col=c("white", "sky
           ColSideColors = cCols[lx], Colv = NA)
 
 
-write.csv(SumTable2[, lx], file="nature-tables/1l_samples_with_muttions.csv")
-rNames2[lx]
+write.csv(cbind(SumTable2[, lx],rNames2[lx]), file="nature-tables/1l_samples_with_muttions.csv")
+#rNames2[lx]
 # par(oma=c(2, 0,0,3))
 # # rNames=strsplit(colnames(SumTable3), "_")
 # # rNames2=sapply(rNames, function(x) x[1])

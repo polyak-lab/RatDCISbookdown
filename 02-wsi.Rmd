@@ -148,6 +148,10 @@ Cdata$UnclassFraction[na.omit(lxmatch)]=WSIvalFracs[5, ]
 
 df.Spatial=cbind(t(WSIvals), t(WSIvalFracs))
 colnames(df.Spatial)=c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass", paste(c("CD8", "EpCAM", "EpCAM:SMA", "SMA", "Unclass"), "frac", sep=""))
+
+DT::datatable(df.Spatial, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Here, we look at the raw distributions of the different cell types and see if there are associations with:
@@ -219,7 +223,10 @@ pdf("figure-outputs/Fig4_WSI-normalised-all-samples-growth2.pdf", width=8, heigh
 ggplot(WSIfracMelt, aes(x=Name, y=value, fill=Var1))+geom_bar(stat="identity")+facet_grid(~growth, space="free_x", scale="free_x")+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle("ordered by growth")
 dev.off()
 
-write.csv(WSIfracMelt, file="nature-tables/Ext4c-d.csv")
+DT::datatable(WSIfracMelt, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+#write.csv(WSIfracMelt, file="nature-tables/Ext4c-d.csv")
 ```
 
 ## Associate composition with other covariates
@@ -250,10 +257,10 @@ ggplot(WSIfracMelt, aes(x=Var1, y=value, col=(treatment)))+geom_boxplot()+geom_p
   ggtitle(paste(paste(names(nOutA), round(nOutA,2), collapse=" ;"),paste(names(nOutB), round(nOutB,2), collapse=" ;"),paste(names(nOutC), round(nOutC,2), collapse=" ;") ) )
 
 #dev.off()
+DT::datatable(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], file="nature-tables/4b.csv")
-#write.csv(WSIfracMelt, file="nature-tables/4b.csv")
-
+#write.csv(WSIfracMelt[-which(is.na(WSIfracMelt$growth)), ], file="nature-tables/4b.csv")
 ```
 
 P values when comparing to the vehicle for each comparison:

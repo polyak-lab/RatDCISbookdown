@@ -76,8 +76,6 @@ heatmap.2(gsva2[a2, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors
 heatmap.2(gsva3[a3, ], col=RdBu[11:1], scale="none", trace="none", ColSideColors = ColSizeb[vstCD$Growth],
           main="CD")
 
-#dev.off()
-
 ```
 
 ## DEG: inflammatory vs non-inflammatory
@@ -106,6 +104,10 @@ colnames(vstEp)=infoTableFinal$TumorIDnew[match(colnames(vstEp), rownames(infoTa
 heatmap.2(assay(vstEp)[sigGenes, ], col=RdBu[11:1], trace="none", scale = "row", ColSideColors = ColSizeb[vstEpInf$Growth], hclustfun = hclust.ave)
 
 write.csv(assay(vstEp)[sigGenes, ], file="nature-tables/Ext5c_heatmap.csc")
+
+DT::datatable(as.data.frame(vstEpInfRes), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 There are `r length(which(sigGenes%in%RatAllImm))` genes which differentiates these two, which includes `r sigGenes[which(sigGenes%in%RatAllImm)]`.
@@ -121,12 +123,14 @@ nTabmelt=melt(nTab, measure.vars = c("cd8", "knn", "MH"))
 
 ggplot(data=nTabmelt, aes(x=inf, y=value))+geom_boxplot()+geom_point()+theme_bw()+facet_wrap(~variable, scale="free")
 
-write.csv(nTabmelt, file="nature-tables/Ext5d.csv")
+#write.csv(nTabmelt, file="nature-tables/Ext5d.csv")
 
 Cdata$Inflammation=NA
 Cdata$Inflammation=vstEpInf$Inflammation2[match(Cdata$NewID, colnames(vstEp))]
 
-nTab
+DT::datatable(nTab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Statistics are below:
@@ -142,7 +146,6 @@ print('assoc with knn')
 t.test(nTab$knn~nTab$inf)
 #table(nTab$knn~nTab$inf)
 
-nTab
 ```
 
 ## Finding 3 signatures for 3 branches
@@ -357,7 +360,7 @@ plot(ResA$log2FoldChange, -log10(ResA$padj), pch=20, col="black",
 
 text(ResAb$log2FoldChange, -log10(ResAb$padj), rownames(ResAb), col="red")
 
-write.csv(ResA, file="nature-tables/5f.csv")
+#write.csv(ResA, file="nature-tables/5f.csv")
 ```
 
 Followed by the heatmap for this analysis
@@ -367,10 +370,6 @@ vst2=vst(EpddsInflam)
 
 heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
           ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
-# heatmap.2(assay(vstEp)[match(rownames(ResAb), rownames(vstEp)), ], col=RdBu[11:1], 
-#           ColSideColors = ColSizeb[vstEp$Growth], trace="none", scale="row")
-
-#dev.off()
 
 #write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
 ```
@@ -451,7 +450,6 @@ write.csv(tab2, file="nature-tables/Ext5j_transcriptional_heterigeneity.csv")
 
 We removed all the basal samples and did the same comparison:
 
-
 ```{r EpddsLum, fig.cap="DEG non-inflamm Lum only"}
 Epdds$HR=Cdata$HR_status[match(substr(colnames(Epdds), 1, nchar(colnames(Epdds))-3), Cdata$TumorID)]
 vstLumOnly=Epdds[, which(Epdds$HR=="Lum")]
@@ -471,7 +469,9 @@ ColSideCols=ColSizeb[vstLumOnly$Growth]
 heatmap.2(assay(vsdLumvst)[ genes2,  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="Ep genes")
 #dev.off()
 
-write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing_vs_stable.csv")
+#write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing_vs_stable.csv")
+DT::datatable(as.data.frame(vstLumRes), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
 
 Quickly run GSEA for these samples:

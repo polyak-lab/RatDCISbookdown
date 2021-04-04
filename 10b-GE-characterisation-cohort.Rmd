@@ -22,14 +22,17 @@ CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, 
 
 a1x=rowSums(counts(CD45ddsChar))
 a1b=apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))
- # par(mfrow=c(1,2))
- # hist(log10(a1x+1), main="log10 total counts")
- # hist((a1b+1), main="Non-zero entries")
+
 sd1vals=mean(log10(a1x+1))-sd(log10(a1x+1))
 keep=which(rowSums(counts(CD45ddsChar))>10^sd1vals)
 keep2=which(apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))> (ncol(CD45ddsChar)/2))
 CD45ddsChar=CD45ddsChar[intersect(keep, keep2), ]
 CD45ddsChar=DESeq(CD45ddsChar)
+
+A1=results(CD45ddsChar)
+DT::datatable(as.data.frame(A1), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 ### PCA plot
@@ -38,7 +41,6 @@ First, have a look at the samples in a PCA plot: do they separate based on size:
 
 ```{r}
 
-#pdf("~/Desktop/S2C-CD45-characterisation-PCA-outcome.pdf", width=6, height=6)
 
 vst1=vst(CD45ddsChar)
 
@@ -62,8 +64,10 @@ heatmap.2(t1, Colv = t1r, Rowv = t1r, trace="none", col=RdBu[11:1])
 
 rownames(t1)=infoTableFinal$TumorIDnew[match(rownames(t1), rownames(infoTableFinal))]
 colnames(t1)=rownames(t1)
-write.csv(t1, file="nature-tables/Ext2d.csv")
-#dev.off()
+#write.csv(t1, file="nature-tables/Ext2d.csv")
+DT::datatable(t1, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 ### Differential Gene Expression
@@ -78,9 +82,6 @@ CD45res=results(CD45ddsChar, contrast=c("SizeCat", "big", "small"))
 CD45res2=CD45res[which(CD45res$padj<0.05 & abs(CD45res$log2FoldChange)>1.5 &
                              CD45res$baseMean>100), ]
 
-scroll_box(kable(CD45res2, format="html"),
-         height="300px", width="100%")
-
 #pdf("~/Desktop/DESeq-small-vs-largeCD45-characterisation.pdf", height=6, width=6)
 namId=which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(CD45res2))
 namIdN=rownames(vsd)[namId]
@@ -94,6 +95,10 @@ CD45res3=CD45res[match(namIdN, rownames(CD45res)), ]
 plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
      main="small (-ve) vs large (+ve)")
 text(CD45res3$log2FoldChange, -log10(CD45res3$padj), rownames(CD45res3), col="red")
+
+DT::datatable(as.data.frame(CD45res2), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 We can also visualise this in a heatmap below, showing immune specific differentially expressed genes:
@@ -109,11 +114,6 @@ t2=assay(vsd)[namId, match(colnames(CD45ddsChar), colnames(vsd))]
 colnames(t2)=infoTableFinal$TumorIDnew[match(colnames(t2), rownames(t2))]
 
 heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="immune genes DEG")
-
-#dev.off()
-
-write.csv(CD45res, file=sprintf("nature-tables/Supp2_difference_between_cd45characterisation-big-small%s.csv", Sys.Date()))
-
 
 write.csv(t2, file="nature-tables/2d.csv")
 ```
@@ -374,7 +374,6 @@ boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 ImmSuppAPCRat=sapply(ImmSuppAPC, function(x) na.omit(SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)]))
 
 vstB=assay(vst1)[match(unlist(ImmSuppAPCRat), rownames(vst1)), ]
-#colnames(vstB)=infoTableFinal$TumorIDnew[match(colnames(vstB), rownames(infoTableFinal))]
 ColSideCols=rep(c("red", "blue", "purple"), times=sapply(ImmSuppAPCRat, length))
 
 rmx=which(is.na(vstB[ ,1]))
@@ -382,7 +381,17 @@ rmx=which(is.na(vstB[ ,1]))
 heatmap.2(vstB[-rmx, ], col=RdBu[11:1], scale="none", trace="none", 
           RowSideColors = ColSideCols[-rmx], hclustfun = hclust.ave)
 
-write.csv(vstB[-rmx, ], file="nature-tables/Ext2f_checkpoint_expression.csv")
+
+## Also do this using TPM values
+valuesB=allTPMFinal[ match(unlist(ImmSuppAPCRat), rownames(allTPMFinal)), match(colnames(vstB), colnames(allTPMFinal))]
+
+
+DT::datatable(as.data.frame(valuesB), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
+
+#write.csv(vstB[-rmx, ], file="nature-tables/Ext2f_checkpoint_expression.csv")
 
 ```
 

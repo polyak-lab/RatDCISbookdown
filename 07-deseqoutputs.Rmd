@@ -25,9 +25,11 @@ Spatial Patterns | CD45, Ep
 Spatial, high cd8 | all cases
 
 
-## DESeq: any treatment vs control
+## DESeq: immunotherapy
 
-What are the differential genes if we compare any immunotherapy to the control arm?
+What are the differential genes if we compare 
+1. All immunotherapy vs the control arm?
+2. all pairwise comparisons: (each immunotherapy to the control arm?)
 
 First look at the epithelial fraction:
 
@@ -49,13 +51,23 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
-write.csv(epr, file="nature-tables/Supp2_ep_io_vs_nonio.csv")
+DT::datatable(as.data.frame(epr), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+## all pairwise comparisons:
+ax1=results(EpddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(EpddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(EpddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+testout=cbind(ax1, bx1, cx1)
+DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 
 ```
 
-DN
-
-List of markers from xcell:
+DN: two data tables are shown: first is any immunotherapy vs the vechicle.
+The second shows all pairwise comparisons in the order LY, PDL1, combo 
 
 ```{r}
 xcellgenes=readxl::read_xlsx("../anntotations/xcell_genes.xlsx", sheet=1)
@@ -79,19 +91,28 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
-write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
+DT::datatable(as.data.frame(DNr), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+#write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
 
 ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
 bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
 testout=cbind(ax1, bx1, cx1)
-write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
+DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+#write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
 
 
 ```
 
-CD45
+CD45: three data tables are shown: 
+first are values used in the heatmap
+second is any immunotherapy vs the vechicle.
+third shows all pairwise comparisons in the order LY, PDL1, combo 
 
 ```{r 3j, fig.cap="CD45 IO vs non-IO"}
 # CDddsTreatB=CDddsTreat
@@ -114,12 +135,17 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
           hclustfun = hclust.ave)
 
 #dev.off()
+#DT::datatable(as.data.frame(Mat2), rownames=F, class='cell-border stripe',
+#          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
-write.csv(CDr, file="nature-tables/Supp3_cd45_io_vs_nonio.csv")
+#write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
+
+DT::datatable(as.data.frame(CDr), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
+#write.csv(CDr, file="nature-tables/Supp3_cd45_io_vs_nonio.csv")
 ```
-
-
 
 ```{r 3jb, fig.cap="IO vs any other treatment"}
 ## ALSO LOOK AT the pairwise comparisons and pull out those genes
@@ -148,140 +174,14 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 #dev.off()
 
 testout=cbind(ax1, bx1, cx1)
-write.csv(testout, file="nature-tables/Supp3_cd45_all_pairwise_treatments.csv")
 
-xa[100:105]
-xb[100:105]
-xc[100:105]
+DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-#write.csv(assay(Mat2), file="nature-tables/Figure3j_all_comparisons.csv")
+
+#write.csv(testout, file="nature-tables/Supp3_cd45_all_pairwise_treatments.csv")
 ```
 
-### EPCAM samples
-
-Note that there are a subset of samples different from the other based on CD8, growth and MH index (6RB, 3NB, 10LD, 8LD, 11ND) but these parameters don't group the other samples well
-
-
-There is a small subset of samples which have high expression of CCLs and based on the top variable genes, there seems to be three types of epithelial cases. 
-
-```{r, eval=F}
-SampleFrac="Ep"
-
-allEpGenes=unlist(EpCompSig)
-allEpTab=table(allEpGenes)
-EpGenesList=names(allEpTab)[which(allEpTab>1)]
-#EpGenesList=EpGenesList[-grep("LOC", EpGenesList)]
-#EpGenesList=EpGenesList[-grep("RGD", EpGenesList)]
-# also, remove all samples which have a base mean less than 10
-x1=EpComp4[[1]]$baseMean[match(EpGenesList, EpComp4[[1]]$Gene)]
-x2=which(x1>100)
-vstEp=vst(Epdds, blind=T)
-
-#EpddsTreatG$Comp8_v2=factor(paste(EpddsTreatG$Treatment, EpddsTreatG$Growth))
-
-ColsideCols=hue_pal()(2)[Epdds$CD8FracCut]
-ColsideColsB=hue_pal()(4)[Epdds$Treatment]
-ColsideColsC=hue_pal()(2)[Epdds$Growth]
-ColsideColsD=hue_pal()(2)[Epdds$MHcut]
-
-colTable=rbind(ColsideCols, ColsideColsB, ColsideColsC, ColsideColsD)
-rownames(colTable)=c("CD8", "Treatment", "growth", "MH")
-
-#pdf(sprintf("rslt/DESeq/DEseq_comparisons_%s.pdf", SampleFrac), width=7, height=10)
-
-sampleDist=dist(t(assay(vstEp)))
-sampleDistMatrix <- as.matrix(sampleDist)
-heatmap.plus(sampleDistMatrix, trace="none", scale="none", col=brewer.pal(9, "Blues")[9:1], ColSideColors = t(colTable), main=sprintf("Similarity between %s samples", SampleFrac))
-
-# Take the top 150 variable genes 
-# compute the sds for each genes
-sds = rowSds(assay(vstEp))
-means=rowMeans(assay(vstEp))
-CVs=sds/means
-CVs=CVs[-which(means<7)]
-sds2=sort(CVs, decreasing = T)
-
-heatmap.plus(assay(vstEp)[names(sds2)[1:100], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable), main=sprintf("top 100 variable genes all %s samples", SampleFrac))
-
-
-heatmap.plus(assay(vstEp)[EpGenesList[x2], ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),
-          main=sprintf("DEG at least 2 %s samples", SampleFrac))
-
-# Make a table for these genes
-FCvalues=matrix(NA, nrow=length(x2), ncol=length(EpComp4))
-
-for (i in 1:length(EpComp4)){
-  FCvalues[ ,i]=EpComp4[[i]]$log2FoldChange[match(EpGenesList[x2], EpComp4[[i]]$Gene)]
-}
-
-colnames(FCvalues)=names(EpComp4)
-rownames(FCvalues)=EpGenesList[x2]
-
-
-# for each list pick the top 50 diff genes FC>2 and baseman > 50
-glist=NA
-for (i in 1:length(EpComp4)){
-  glist=c(glist, EpComp4[[i]]$Gene[which(EpComp4[[i]]$padj<0.1 & abs(EpComp4[[i]]$log2FoldChange)>2 & EpComp4[[i]]$baseMean>25)])
-}
-
-ColsideCols=SetCols[EpddsTreatG$Comp8]
-
-glistmod=unique(glist)
-glistmod=glistmod[-grep("LOC", glistmod)]
-glistmod=na.omit(glistmod[-grep("RGD", glistmod)])
-
-#heatmap.plus(assay(vstEp)[glistmod, ], trace="none", scale="row", col=RdBu[11:1], ColSideColors = t(colTable),  main=sprintf("All DEG %s samples", SampleFrac))
-```
-
-We can also view this in the form of what is highly expressed in each comparison. Below is a heatmap of the fold changes:
-
-```{r, eval=F}
-# distance of the samples to one another
-par(oma=c(1,0,0,0))
-heatmap.2(FCvalues, trace="none", scale="row", col=RdBu[11:1], 
-          main=sprintf("All comparisons %s, log2FC for each gene", SampleFrac))
-#dev.off()
-```
-
-Below, we visualise the enrichment scores using different gene sets and 
-
-```{r, eval=F}
-## GSEA results temp.
-pdf("~/Desktop/Fig5Gene_set_enrichment.pdf", height=10, width=10)
-
-#Epismr3=ismr4
-
-#pdf(sprintf("rslt/DESeq/GSEA_signature_comparisons_%s.pdf", SampleFrac), width=10, height=12)
-
-for (i in 1:length(Epismr3)){
-  x1=Epismr3[[i]]
-  # find padj<0.1
-  idx2=lapply(seq(3, ncol(x1), by=2), function(x) which(as.numeric(as.character(x1[ ,x]))<0.01))
-  unList=table(unlist(idx2))
-  #pickThese=names(unList)#[which(unList>1)]
-  pickThese2=names(unList)[which(unList>1)]
-  
-  if (length(pickThese2)>100){
-    temp=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-    temp2=sapply(temp, function(x) as.numeric(as.character(x)))
-    temp2=rowSds(abs(temp2))
-    names(temp2)=pickThese2
-    temp2=sort(temp2, decreasing = T)
-    pickThese2=names(temp2)[1:100]
-  }
-  
-  x23=x1[as.numeric(pickThese2), seq(2, ncol(x1), by=2)]
-  
-  x234=sapply(x23, function(x) as.numeric(as.character(x)))
-  rownames(x234)=rownames(x23)
-  
-  par(oma=c(2,0,0,2))
-  heatmap.2(x234, col=RdBu[11:1], scale="none", trace="none", main=sprintf("%s pathways %s fraction", 
-                                                                           names(Epismr3)[i], SampleFrac))
-}
-
-dev.off()
-```
 
 ## Growing vs stable emphasis
 
@@ -303,7 +203,10 @@ with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
 
-write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
+DT::datatable(as.data.frame(DNa1), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+#write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
 ```
 
 ### CD fraction
@@ -318,7 +221,11 @@ with(CDa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Sta
 with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
 with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
 
-write.csv(CDa1, file="nature-tables/4g.csv")
+#write.csv(CDa1, file="nature-tables/4g.csv")
+
+DT::datatable(as.data.frame(CDa1), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Here are a bunch of heatmaps, which are then separated by wehther genes are downregulated (growing specific) or upregulated (stable specific)
@@ -348,7 +255,11 @@ with(subset(Epa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstEp$Growth)), col=RdBu[11:1], main="Ep genes")
 
-write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
+#write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
+
+DT::datatable(as.data.frame(Epa1), rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 

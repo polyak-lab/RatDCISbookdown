@@ -217,7 +217,11 @@ a1=sapply(unique(CharTemp$Calc), function(x) wilcox.test(CharTemp$Val[CharTemp$C
 p=ggplot(CharTemp, aes(x=Batch, y=Val))+geom_boxplot()+facet_grid(~Calc)+ggtitle(sprintf("wilcox pval: Gini %s, Shannon %s, Top10 = %s", round(a1[2],2), round(a1[1],2), round(a1[3],2)))+geom_jitter(col="grey")+theme_bw()
 print(p)
 
-write.csv(CharTemp, file="nature-tables/2h.csv")
+#write.csv(CharTemp, file="nature-tables/2h.csv")
+
+DT::datatable(CharTemp, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Next, we check whether this could be attributed to the total number of clones. Here is a plot which assesses whether these are similar or different
@@ -243,7 +247,10 @@ CharTemp2$size=midx
 
 ggplot(CharTemp2, aes(x=size, y=Val))+geom_point()+facet_grid(~Calc)+theme_bw()
 
-write.csv(CharTemp2, file="nature-tables/Ext2e.csv")
+#write.csv(CharTemp2, file="nature-tables/Ext2e.csv")
+DT::datatable(CharTemp2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 
@@ -268,8 +275,10 @@ head(Nclonotypes2)
 p=ggplot(ProgTemp, aes(x=Growth, y=Val))+geom_boxplot()+facet_grid(~Calc)+ggtitle(sprintf("wilcox pval: Gini %s, Shannon %s, Top10 = %s", round(a1[2],2), round(a1[1],2), round(a1[3],2)))+geom_jitter(col="grey")+theme_bw()
 print(p)
 
+DT::datatable(ProgTemp, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
-write.csv(ProgTemp, file="nature-tables/4i_clonotypes.csv")
+#write.csv(ProgTemp, file="nature-tables/4i_clonotypes.csv")
 
 
 # a1=sapply(unique(Nclonotypes2$Var2), function(x) wilcox.test(Nclonotypes2$value[Nclonotypes2$Var2==x & Nclonotypes2$Case=="tumor"], Nclonotypes2$value[Nclonotypes2$Var2==x & Nclonotypes2$Case=="mammary"])$p.value)
@@ -369,7 +378,10 @@ tablexM=melt(tablex)
 
 ggplot(tablexM, aes(x=Treatment, y=value, col=Treatment))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColMerge[ ,1], "black"))+theme_bw()
 
-write.csv(tablexM, file="nature-tables/4i_trust-treatment.csv")
+#write.csv(tablexM, file="nature-tables/4i_trust-treatment.csv")
+DT::datatable(tablexM, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 ```{r}
@@ -383,18 +395,13 @@ c1
 
 
 ```{r 4ib, fig.cap="trust growth"}
-pdf("figure-outputs/4I_BCR_clonotypes.pdf", height=8, width=5)
+#pdf("figure-outputs/4I_BCR_clonotypes.pdf", height=8, width=5)
 
 ggplot(tablexM, aes(x=Growth, y=value, col=Growth))+geom_boxplot()+geom_point()+facet_wrap(~variable, scales="free")+scale_colour_manual(values=c(ColSizeb, "black"))+theme_bw()
-dev.off()
+#dev.off()
 #par(mfrow=c(2,2))
 
 a1=sapply(yvals, function(x) wilcox.test(TrustTab[CD45F2 ,x]~TrustTab[CD45F2, "Growth"])$p.value)
-#boxplot(TrustTab[CD45F2 ,c("TrustNclonotypes")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # clonotypes %s", round(a1[1], 2)), xlab="growth", ylab="no clonotypes", col=ColSizeb)
-#boxplot(TrustTab[CD45F2 ,c("TrustShannon")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: BCR # shan %s", round(a1[2], 2)), xlab="growth", ylab="shannon", col=ColSizeb)
-#boxplot(TrustTab[CD45F2 ,c("TrustGini")]~TrustTab[CD45F2, "Growth"], main=sprintf("Growth: Gini %s", round(a1[3], 2)),         ylab="gini", xlab="growth", col=ColSizeb)
-#boxplot(TrustTab[CD45F2 ,c("TrustTop10")]~TrustTab[CD45F2, "Growth"],  main=sprintf("Growth: Top10", round(a1[4], 2)),ylab="top10 clonotypes", xlab="growth", col=ColSizeb)
-
 
 print('p values here')
 a1

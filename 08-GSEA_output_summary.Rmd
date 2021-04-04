@@ -43,11 +43,20 @@ rOrd=order(an2)
 par(oma=c(1, 1, 1, 5))
 heatmap.2(t(axb[, rOrd]), col=RdBu[11:1], trace = "none", scale = "none", RowSideColors = an2[rOrd],
              Rowv = NA, main="stable red, growing blue")
-dev.off()
+#dev.off()
 
+d1$names=rownames(d1)
+e1$names=rownames(e1)
+c1$names=rownames(c1)
 
-write.csv(tx, file="nature-tables/5a.csv")
-write.csv(t(axb[, rOrd]), file="nature-tables/5a_version2.csv")
+All1=merge(d1, e1, by.x="names", by.y="names", all=T)
+All2=merge(All1, c1, by.x="names", by.y="names", all=T)
+
+#write.csv(tx, file="nature-tables/5a.csv")
+#write.csv(t(axb[, rOrd]), file="nature-tables/5a_version2.csv")
+
+DT::datatable(All2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
 
 
@@ -79,8 +88,11 @@ for (i in testType){
 }
 
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
+#write.csv(Ntab, file="nature-tables/4h.csv")
 
-write.csv(Ntab, file="nature-tables/4h.csv")
+DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 
@@ -108,7 +120,10 @@ barplot(as.numeric(termA[, 1]), names.arg = sigTerms, horiz = T, las=2,
 
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 
-write.csv(Ntab, file="nature-tables/Ext3h.csv")
+#write.csv(Ntab, file="nature-tables/Ext3h.csv")
+DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Also look at the output for combo treatment vs vehcile
@@ -124,8 +139,6 @@ TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50
 
 barplot(as.numeric(termA[, 1]), names.arg = TermsA, horiz = T, las=2,
          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
-
-
 ```
 
 

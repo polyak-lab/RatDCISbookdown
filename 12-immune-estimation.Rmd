@@ -108,10 +108,12 @@ for (i in 1:ncol(ax1)){
   text((mx-1)/(length(t2)-1), 1 , "*")
  }
 
-write.csv(df2, file="nature-tables/2f_correlation_coefficients_pvalues.csv")
+#write.csv(df2, file="nature-tables/2f_correlation_coefficients_pvalues.csv")
 #write.csv(ax1, file="nature-tables/2f_correlation_coefficients.csv")
 
-#dev.off()
+DT::datatable(df2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 These accompany the following plots with individual samples:
@@ -498,7 +500,9 @@ wilP=sapply(1:nrow(T2mTab), function(x) wilcox.test(T2mTab[x, ]~ sizeInfoCut)$p.
 
   #dev.off()
 
-write.csv(T1melt, file="nature-tables/4f_image.csv")
+#write.csv(T1melt, file="nature-tables/4f_image.csv")
+DT::datatable(T1melt, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
@@ -598,28 +602,13 @@ print(p)
 ```{r, fig.width=8}
 CompTest2=do.call(rbind, CompTest)
  
-write.csv(CompTest2, file=sprintf("outputs/p_values_differences_treatment_growth_infiltration_%s.csv", Sys.Date()))
-
-scroll_box(kable(CompTest2, format="html"),
-         height="300px", width="100%")
+#write.csv(CompTest2, file=sprintf("outputs/p_values_differences_treatment_growth_infiltration_%s.csv", Sys.Date()))
 
 CompTest2=data.frame(CompTest2)
-# CompTest2$Method=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[2])
-# CompTest2$CellType=sapply(strsplit(rownames(CompTest2), "_"), function(x) x[1])
-# 
-# x2=unique(CompTest2$CellType[which(duplicated(CompTest2$CellType))])
-# 
-# CompTest3=CompTest2[which(CompTest2$CellType%in%x2), ]
-# CompTest3melt=melt(CompTest3)
-# 
-# CompTest3melt$P2=ifelse(CompTest3melt$value<0.05, "**", ifelse(CompTest3melt$value<0.1, "*", "ns"))
-# 
-# 
-# 
-# p=ggplot(CompTest3melt, aes(x=CellType, y=Method, fill=P2))+geom_tile()+facet_wrap(~variable)+theme(axis.text.x = element_text(angle = 90, hjust = 1))+ylab("No. differential genes")+scale_fill_manual(values=c("#084594", "#2171b5", "#deebf7"))+ggtitle("p values of comparisons")
-# print(p)
 
-##dev.off()
+DT::datatable(CompTest2, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 

@@ -99,12 +99,12 @@ Here we have a links to the list of the figures in this study
 
 ## Extended data 5{-}
 
-* Ext Fig5A [growth profiles of inflammatory tumors](#fig:5xta)
-* Ext Fig 5B: [Expression of inflammatory genes across samples](#fig:Ext5b)
+* Ext Fig 5A: [Expression of inflammatory genes across samples](#fig:Ext5b)
+* Ext Fig 5B [growth profiles of inflammatory tumors](#fig:5xta)
 * Ext Fig 5C: [Differential gene exp inflammatory vs non-inflammatory](#fig:Ext5c)
 * Ext Fig 5D: [association signature with WSI](#fig:Ext5d)
-* Ext Fig 5E: [Survival plots TCGA and CD74 by subtype](#fig:Ext5e-os)
-* Ext Fig 5F: [DEG all inflammatory removed](#fig:Epddsinflamm)
-* Ext Fig 5G [non-inflammatory branch hairball](#fig:gsea-non-inflammatory-branch)
-* Ext Fig 5I: [Trichrome association with inflammation and growth rate](#fig:Ext5i)
-* Ext Fig 5J: [Transcriptional heterogeneity](#fig:Ext5j)
+* Ext Fig 5E: [Collagen content in growing vs stable](#fig:Ext5i)
+* Ext Fig 5F: [Forest plot TCGA luminal ADAMTS10](#fig:Ext5f)
+* Ext Fig 5G [ADAMST10 expression associated with clinical variables](#fig:Ext5g)
+* Ext Fig 5I-J: [Associating growing signature with clinical variables](#fig:Ext5i-growing)
+* Ext Fig 5K: [TCGA DEG for LumA samples](#fig:tcga-volcano)

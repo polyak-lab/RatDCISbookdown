@@ -93,7 +93,9 @@ ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Gr
  scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth",)) # round(a1a, 2)))
 #print(p)
 
-write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
+#write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
+DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
@@ -119,7 +121,10 @@ newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"],
 #pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
 #dev.off()
-write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
+#write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
+DT::datatable(newTab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
 ```
 
 Also check the encapsulated status?
