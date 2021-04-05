@@ -57,7 +57,9 @@ fig:Ext1g
 fig:1g
 fig:1gheatmap-1
 fig:1gheatmap-2
-fig:Ext2f
+fig:Ext2f-1
+fig:Ext2f-2
+fig:Ext2f-3
 fig:Ext5b
 fig:2f-1
 fig:2f-2
@@ -82,7 +84,11 @@ fig:1l-1
 fig:1l-2
 fig:1l-3
 fig:1lb
-fig:3g
+fig:3g-1
+fig:3g-2
+fig:3gb-1
+fig:3gb-2
+fig:3gb-3
 fig:Ext5i
 fig:bicseq
 prerequisites
@@ -219,7 +225,7 @@ annotate-the-data-with-human-common-variants
 plots
 quick-overview
 coding-variants-tmb
-coding-variants
+comparison-with-rat-mutational-datasets
 sites-which-are-commonly-mutated
 overview-of-the-mutations
 all-mutations

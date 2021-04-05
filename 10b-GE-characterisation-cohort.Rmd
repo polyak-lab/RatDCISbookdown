@@ -31,7 +31,7 @@ CD45ddsChar=DESeq(CD45ddsChar)
 
 A1=results(CD45ddsChar)
 DT::datatable(as.data.frame(A1), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -66,7 +66,7 @@ rownames(t1)=infoTableFinal$TumorIDnew[match(rownames(t1), rownames(infoTableFin
 colnames(t1)=rownames(t1)
 #write.csv(t1, file="nature-tables/Ext2d.csv")
 DT::datatable(t1, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -97,7 +97,7 @@ plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
 text(CD45res3$log2FoldChange, -log10(CD45res3$padj), rownames(CD45res3), col="red")
 
 DT::datatable(as.data.frame(CD45res2), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -370,7 +370,7 @@ boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 ### Check expression of checkpoint proteins
 
 ```{r Ext2f, fig.cap="checkpoint proteins expressed in epithelial samples"}
-
+#pdf("figure-outputs/Supp2_checkpoint.pdf", height=5, width=5)
 ImmSuppAPCRat=sapply(ImmSuppAPC, function(x) na.omit(SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)]))
 
 vstB=assay(vst1)[match(unlist(ImmSuppAPCRat), rownames(vst1)), ]
@@ -384,10 +384,14 @@ heatmap.2(vstB[-rmx, ], col=RdBu[11:1], scale="none", trace="none",
 
 ## Also do this using TPM values
 valuesB=allTPMFinal[ match(unlist(ImmSuppAPCRat), rownames(allTPMFinal)), match(colnames(vstB), colnames(allTPMFinal))]
+colnames(valuesB)=infoTableFinal$TumorIDnew[match(colnames(valuesB), rownames(infoTableFinal))]
 
+heatmap.2(log10(valuesB[ -rmx, ]+1), col=RdBu[11:1], scale="none", trace="none", 
+          RowSideColors = ColSideCols[-rmx], hclustfun = hclust.ave)
 
-DT::datatable(as.data.frame(valuesB), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#dev.off()
+DT::datatable(as.data.frame(valuesB), rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 
 

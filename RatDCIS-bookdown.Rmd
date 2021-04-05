@@ -408,7 +408,7 @@ Note that in the characterisation cohort, samples are selected for SAC at differ
 
 ```{r Ext1c, fig.cap="growth of tumors over time"}
 
-pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
+#pdf("~/Desktop/S1B_size_oveR_time.pdf", width=6, height=5)
 
 am1=lm(Cdata$Tumor.diameter.sac.mm[which(Cdata$Cohort=="Characterisation")]~
          Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")])
@@ -421,8 +421,8 @@ text(jitter(Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")])+5,
      jitter(Cdata$Tumor.diameter.sac.mm[which(Cdata$Cohort=="Characterisation")])+1,
      Cdata$NewID[which(Cdata$Cohort=="Characterisation")], cex=0.7)
 abline(am1)
-legend("topright", levels(factor(Cdata$Char.Cohort.Batch)), col=c(1:3), lwd=2)
-dev.off()
+legend("topright", levels(factor(Cdata$Char.Cohort.Batch)), col=c(1:4), lwd=2)
+#dev.off()
 
 DT::datatable(cbind(Cdata$Time.NMU2Sac[which(Cdata$Cohort=="Characterisation")], 
                 Cdata$Tumor.diameter.sac.mm[which(Cdata$Cohort=="Characterisation")],
@@ -435,7 +435,7 @@ Plot of number of tumors per rat
 Nx1=table(Cdata$Rat_ID[which(Cdata$Cohort=="Characterisation")])
 X2=Cdata$Char.Cohort.Batch[match(names(Nx1), Cdata$Rat_ID)]
 t2temp=data.frame(count=as.numeric(Nx1), cohort=X2)
-beeswarm(jitter(as.vector(Nx1))~X2, col=c(1:3))
+beeswarm(jitter(as.vector(Nx1))~X2, col=c(1:4), pch=19)
 DT::datatable(t2temp, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 ```
@@ -1375,7 +1375,7 @@ knnTemp1b=knnTemp1[which(knnTemp1$knn=="knn3"), ]
 # save data to file
 knnTemp1$sample=Cdata$NewID[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
 DT::datatable(knnTemp1[which(knnTemp1$knn=="knn3"), c(2:5, 10:13)], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 #write.csv(knnTemp1[which(knnTemp1$knn=="knn3"), c(2:5, 10:13)], file="nature-tables/Fig4c_Ext4e.csv")
 ```
 
@@ -1593,7 +1593,7 @@ for (i in 1:9){
 ```
 
 
-```{r, fig.height=4, eval=F}
+```{r, fig.height=4}
 
 # Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases. 
 par(mfrow=c(1,2))
@@ -1626,15 +1626,14 @@ t2=IFmelt[which(IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15) 
 
 pval2=sapply(ctypes, function(x) wilcox.test(t2$value[t2$NearestNeighbor==x & t2$Growth=="growing" ], t2$value[t2$NearestNeighbor==x & t2$Growth=="stable" ])$p.value)
 
-ann_text=data.frame(Glabel=round(pval2,2), NearestNeighbor=(ctypes ), Growth="stable", value=0.7)
+ann_text=data.frame(Glabel=round(pval2,3), NearestNeighbor=(ctypes ), Growth="stable", value=0.7)
 
 p=ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Growth, y=value, col=Growth))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")+theme_bw()+geom_point(position=position_jitterdodge(),alpha=0.3)+scale_color_manual(values=c(ColSizeb, "black"))
 p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
 
 DT::datatable(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , c(2:4, 6, 8:9, 12)], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-#write.csv(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , c(2:4, 6, 8:9, 12)], file="nature-tables/Fig4d-suppf.csv")
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
+pval2
 ```
 
 
@@ -1776,7 +1775,7 @@ ggplot(A3, aes(x=Growth, y=value, col=Growth))+facet_grid(~Var1)+geom_boxplot()+
 #dev.off()
 
 DT::datatable(A3, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 #write.csv(A3, file="nature-tables/Fig4e-Ext4h.csv")
 ```
@@ -1951,7 +1950,7 @@ MHreshape$Infil=A3$SpatialManual[match(rownames(MHreshape), A3$L1)]
 
 colnames(MHreshape)=paste(varsearch, colnames(MHreshape), sep=".")
 DT::datatable(MHreshape, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 #write.csv(MHreshape, file=sprintf("outputs/%s_MH_comparisons_gridsize250.csv", varsearch))
 
 # pdf(sprintf("rslt/WSI-analysis/MHplots_spatial_growth_treatment_%s_celltype_%s.pdf", varsearch, Sys.Date()), height=7, width=12)
@@ -3589,7 +3588,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
-DT::datatable(as.data.frame(epr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(epr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ## all pairwise comparisons:
@@ -3598,7 +3597,7 @@ bx1=results(EpddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(EpddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
 testout=cbind(ax1, bx1, cx1)
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -3629,7 +3628,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
-DT::datatable(as.data.frame(DNr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(DNr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 #write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
@@ -3639,7 +3638,7 @@ bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
 testout=cbind(ax1, bx1, cx1)
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 #write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
@@ -3678,7 +3677,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 
 #write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 
-DT::datatable(as.data.frame(CDr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(CDr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -3713,7 +3712,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 
 testout=cbind(ax1, bx1, cx1)
 
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -3741,8 +3740,8 @@ with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
 
-DT::datatable(as.data.frame(DNa1), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(as.data.frame(DNa1), rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'),scrollX=T))
 
 #write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
 ```
@@ -3761,7 +3760,7 @@ with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 #write.csv(CDa1, file="nature-tables/4g.csv")
 
-DT::datatable(as.data.frame(CDa1), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(CDa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
@@ -3795,7 +3794,7 @@ heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = 
 
 #write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 
-DT::datatable(as.data.frame(Epa1), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(Epa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
@@ -4635,15 +4634,15 @@ tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
 par(mfrow=c(2,3))
 boxplot(tinfo$cd74~tinfo$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfo$cd74~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$cd74, log10(tinfo$codingMut+1), method="pearson")
+ax=cor.test(tinfo$cd74, log10(tinfo$codingMut+1), method="spearman")
 smoothScatter(tinfo$cd74, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$cd74, tinfo$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$cd74, tinfo$leukFrac, method="spearman")
 smoothScatter(tinfo$cd74, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$cd74, tinfo$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$cd74, tinfo$TCRshann, method="spearman")
 smoothScatter(tinfo$cd74, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 hist(tinfo$cd74)
 
 #write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
@@ -4747,19 +4746,19 @@ tinfo$adamts10=TCGAssgsea
 par(mfrow=c(2,3))
 boxplot(tinfo$adamts10~tinfo$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfo$adamts10~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="pearson")
+ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="spearman")
 smoothScatter(tinfo$adamts10, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="spearman")
 smoothScatter(tinfo$adamts10, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="spearman")
 smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 #hist(tinfo$adamts10)
-ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="pearson")
+ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="spearman")
 smoothScatter(tinfo$adamts10, (tinfo$strFrac), xlab="gene exp", ylab="str frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 
 DT::datatable(tinfo, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
@@ -4876,18 +4875,18 @@ par(mfrow=c(2,3))
 
 boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
+ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="spearman")
 smoothScatter(tinfoER$adamts10, log10(tinfoER$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="spearman")
 smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="spearman")
 smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="spearman")
 smoothScatter(tinfoER$adamts10, (tinfoER$strFrac), xlab="gene exp", ylab="str frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 
 DT::datatable(tinfoER, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
@@ -4967,6 +4966,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 
@@ -4982,11 +4983,11 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+  legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
 }
 
 
-test=survfit(ax~TCGAvalCut)
-test
 #DT::datatable(as.data.frame(test), rownames=F, class='cell-border stripe',
 #         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
@@ -5010,6 +5011,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 ```
@@ -5031,6 +5034,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
     text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+    legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 
@@ -5073,19 +5078,19 @@ newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
 
 #pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
 par(mfrow=c(2,2))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$str)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 #dev.off()
 
-DT::datatable(newinfoTab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(newinfoTab, rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
 
 
 ```
@@ -5112,25 +5117,28 @@ TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnam
 
 TCGAdeseq=DESeq(TCGAdeseq)
 
-TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
+TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "O", "L"))
 
 #write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
 TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
                                  & TCGAdeseqRes$baseMean>100), ]
 
-DT::datatable(as.data.frame(TCGAdeseqRes), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+A1=as.data.frame(TCGAdeseqRes)
 
+DT::datatable(A1, rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
+write.csv(TCGAdeseqRes, file="nature-tables/TCGA_stable_growing.csv")
 ```
 
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
 #pdf("figure-outputs/Fig5J_TCGA_deg.pdf", height=8, width=8)
-with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
+with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (-) vs high (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(TCGAdeseqRes, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+text(TCGAdeseqRes2$log2FoldChange+0.02, -log10(TCGAdeseqRes2$padj)+0.05, rownames(TCGAdeseqRes2))
+#with(subset(TCGAdeseqRes, padj<0.05 & abs(log2FoldChange)>2), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes), pch=20, col="red", cex=0.75))
 #dev.off()
 ```
 
@@ -5222,7 +5230,7 @@ CD45ddsChar=DESeq(CD45ddsChar)
 
 A1=results(CD45ddsChar)
 DT::datatable(as.data.frame(A1), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -5257,7 +5265,7 @@ rownames(t1)=infoTableFinal$TumorIDnew[match(rownames(t1), rownames(infoTableFin
 colnames(t1)=rownames(t1)
 #write.csv(t1, file="nature-tables/Ext2d.csv")
 DT::datatable(t1, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -5288,7 +5296,7 @@ plot(CD45res$log2FoldChange, -log10(CD45res$padj), pch=20, col="black",
 text(CD45res3$log2FoldChange, -log10(CD45res3$padj), rownames(CD45res3), col="red")
 
 DT::datatable(as.data.frame(CD45res2), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -5561,7 +5569,7 @@ boxplot(testOut["Cell adhesion_Cell-matrix interactions", ]~vst1$SizeCat)
 ### Check expression of checkpoint proteins
 
 ```{r Ext2f, fig.cap="checkpoint proteins expressed in epithelial samples"}
-
+#pdf("figure-outputs/Supp2_checkpoint.pdf", height=5, width=5)
 ImmSuppAPCRat=sapply(ImmSuppAPC, function(x) na.omit(SymHum2Rat$RGD.symbol[match(x, SymHum2Rat$HGNC.symbol)]))
 
 vstB=assay(vst1)[match(unlist(ImmSuppAPCRat), rownames(vst1)), ]
@@ -5575,10 +5583,14 @@ heatmap.2(vstB[-rmx, ], col=RdBu[11:1], scale="none", trace="none",
 
 ## Also do this using TPM values
 valuesB=allTPMFinal[ match(unlist(ImmSuppAPCRat), rownames(allTPMFinal)), match(colnames(vstB), colnames(allTPMFinal))]
+colnames(valuesB)=infoTableFinal$TumorIDnew[match(colnames(valuesB), rownames(infoTableFinal))]
 
+heatmap.2(log10(valuesB[ -rmx, ]+1), col=RdBu[11:1], scale="none", trace="none", 
+          RowSideColors = ColSideCols[-rmx], hclustfun = hclust.ave)
 
-DT::datatable(as.data.frame(valuesB), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#dev.off()
+DT::datatable(as.data.frame(valuesB), rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 
 
@@ -6920,7 +6932,7 @@ plot(SBSprofb$Age, SBSprofb$SBS32+SBSprofb$SBS11, ylab="SBS 32 or 11 score", xla
 
 ```
 
-### Annotate the data with human common variants
+## Annotate the data with human common variants
 
 ```{r, find-mut-variant, cache=T, eval=F}
 ## The following is run independently and saved to fle
@@ -6947,6 +6959,7 @@ write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_ann
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
 
 ```{r loadOldVAFs, cache=T}
+
 load("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount2021-01-11.RData")
 
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
@@ -6961,7 +6974,8 @@ Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$A
 Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
 x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
 x4=unique(c(x2, x3))
-kable(MeltCosmic[x4, c(1,5,6)])
+DT::datatable(MeltCosmic[x4, c(1,5,6)], rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 BList[(na.omit(Xb)), ]
 ChangList2[(na.omit(Xc)), ]
@@ -7001,8 +7015,28 @@ tableout=data.frame(gene=names(T2[ind2]), ncount=T2[ind2], freq=T2[ind2]/31,
 #write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
 DT::datatable(tableout, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+```
 
+We can also use the [cosmic mutational database](https://cancer.sanger.ac.uk/cmc/home) to see whether any of these mutations overlap: (version 92)
 
+```{r cosmic-mut, cache=T}
+Cmut=read.delim("../anntotations/cmc_export.v92.tsv")
+
+```
+
+Edit the stuff here:
+
+```{r eval-cmut}
+Ax1=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(Cmut$GENE_NAME, Cmut$AA_MUT_START))
+Ax1
+head(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno))
+head(paste(Cmut$GENE_NAME, Cmut$AA_MUT_START))
+tempA=Cmut[ na.omit(Ax1), c("GENE_NAME","Mutation.CDS", "Mutation.AA", "CLINVAR_CLNSIG")]
+DT::datatable(tempA, 
+              rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+write.csv(tempA, file="nature-tables/CosmicMutCensus_mutations.csv")
 ```
 
 ## Plots
@@ -7156,7 +7190,7 @@ see (https://www.biostars.org/p/11105/)
 samtools view -u -q 30 -f 0x2 aln.bam | coverageBed -abam stdin -b exons.bed > exons.bed.proper.q30.coverage
 ```
 
-## Coding variants
+## Comparison with rat mutational datasets
 
 ### Sites which are commonly mutated?
 
@@ -7355,7 +7389,7 @@ WGSplot=WGSplot[-which(is.na(WGSplot$value)), ]
 ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gene))+facet_grid(~variable)+geom_point()+
   geom_text(size=(WGSplot$Cosmic+3), col="black", nudge_y=0.01)+xlab("Cohort frequency")+ylab("Database frequency")+theme_bw()+theme(legend.position="bottom")+ggtitle("all genes compared to Harlan Frequencies")
 
- kable(WGSplot[WGSplot$Cosmic==1, ])
+DT::datatable(WGSplot[WGSplot$Cosmic==1, ],class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -7510,7 +7544,7 @@ Below is the above list refined according to cosmic specifc genes, and listing
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
-pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
+#pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
 palette(brewer.pal(8, "Set1"))
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
@@ -7519,7 +7553,7 @@ axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2,  cex.axis=0.
 #text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
-dev.off()
+#dev.off()
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')
@@ -8302,7 +8336,6 @@ t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
 
 df.Spatial=cbind(df.Spatial, t(t2))
 
-#head(df.Spatial)
 
 df.Spatial$Trichrome=NA
 midx=match(TrichromeData$SampleID, rownames(df.Spatial))
@@ -8325,7 +8358,8 @@ for (i in n2){
 
 ## Associations with CD8 content
 
-```{r 3gpre, fig.height=6}
+
+```{r 3gpre, fig.height=6, eval=T}
 
 par(mfrow=c(1,2))
 
@@ -8338,23 +8372,40 @@ boxplot(df.Spatial$Trichrome~df.Spatial$CD8Fraccut, main=sprintf("CD8 fraction v
 ## Associations with growth and treatment
 
 ```{r 3g, fig.cap="Trichrome staining with treatment"}
-#pdf("~/Desktop/testoutput.pdf", height=6, width=6)
+df.Spatial$Growth=Cdata$Tumor.Growth[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$Treatment=Cdata$Treatment[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$NewID=Cdata$Treatment[match(rownames(df.Spatial), gsub("_", "", Cdata$NewID))]
+df.Spatial$trichrome_pc=Cdata$Trichrome_encapsulation.[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+
 pv1=sapply(c("PDL1", "LY", "PDL1+LY"), function(x) wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Treatment%in%c("Vehicle", x))]~
            df.Spatial$Treatment[which(df.Spatial$Treatment%in%c("Vehicle", x))])$p.value)
 names(pv1)=c("PDL1", "LY", "PDL1+LY")
 
 ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, col=Treatment))+geom_boxplot()+geom_jitter()+
 scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+
+ggplot(df.Spatial[ ,c("Treatment", "trichrome_pc")], aes(x=Treatment, y=trichrome_pc, col=Treatment))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+
 ```
 
-```{r 3gb, fig.cap="Trichrome with growth", eval=F}
-ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
- scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth",)) # round(a1a, 2)))
+```{r 3gb, fig.cap="Trichrome with growth"}
+
+a1=df.Spatial[ ,match(c("Trichrome", "Growth", "trichrome_pc"), colnames(df.Spatial))]
+a1a=wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Growth=="growing")],
+           df.Spatial$Trichrome[which(df.Spatial$Growth=="stable")])
+a1a
+
+ggplot(a1, aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle("growth") # round(a1a, 2)))
+
+ggplot(a1, aes(x=Growth, y=trichrome_pc, col=Growth))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle("growth") # round(a1a, 2)))
+
 #print(p)
 
 #write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
-DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment", "trichrome_pc")], rownames=F, class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -8376,26 +8427,25 @@ newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"],
              inf=vstEpInf$Inflammation2[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))],
              names2=rownames(df.Spatial)[na.omit(t2)])
-
+wilcox.test(newTab$trichrome[newTab$inf=="grow"], newTab$trichrome[newTab$inf!="grow"])
 #pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-#dev.off()
-#write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
-DT::datatable(newTab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
 ```
 
 Also check the encapsulated status?
 
 ```{r}
-head(newTab)
 newTab$trichrome_pc=Cdata$Trichrome_encapsulation.[match(newTab$names2, gsub("_", "", Cdata$TumorID))]
 newTab$trichrome_pc[which(newTab$trichrome_pc=="lots")]=1
 newTab$trichrome_pc=as.numeric(newTab$trichrome_pc)
-pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
+#pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome_pc,x=inf))+geom_boxplot()+geom_jitter(col="grey")+theme_bw()
-dev.off()
+
+wilcox.test(newTab$trichrome_pc[newTab$inf=="grow"], newTab$trichrome_pc[newTab$inf!="grow"])
+DT::datatable(newTab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
 ```
 
 <!--chapter:end:15-trichrome-staining.Rmd-->

@@ -163,7 +163,7 @@ plot(SBSprofb$Age, SBSprofb$SBS32+SBSprofb$SBS11, ylab="SBS 32 or 11 score", xla
 
 ```
 
-### Annotate the data with human common variants
+## Annotate the data with human common variants
 
 ```{r, find-mut-variant, cache=T, eval=F}
 ## The following is run independently and saved to fle
@@ -190,6 +190,7 @@ write.csv(MeltCosmic, file="nature-tables/SupplementalTable4_AllRatMutations_ann
 From this analysis, below are the genes with mutations in known human hotpot mutations in common genes
 
 ```{r loadOldVAFs, cache=T}
+
 load("outputs/MeltCosmic_coding_genes_WGS_rat_VAFncount2021-01-11.RData")
 
 Xa=which(MeltCosmic$Gene_Symbol %in% BList$RatGene)
@@ -204,7 +205,8 @@ Xb=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(BList$Gene,BList$A
 Xc=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(ChangList2$Gene, ChangList2$AAno))
 x3=c(which(!is.na(Xb)), which(!is.na(Xc)))
 x4=unique(c(x2, x3))
-kable(MeltCosmic[x4, c(1,5,6)])
+DT::datatable(MeltCosmic[x4, c(1,5,6)], rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 BList[(na.omit(Xb)), ]
 ChangList2[(na.omit(Xc)), ]
@@ -244,8 +246,28 @@ tableout=data.frame(gene=names(T2[ind2]), ncount=T2[ind2], freq=T2[ind2]/31,
 #write.csv(tableout, file="nature-tables/Ext1k_maybe.csv")
 DT::datatable(tableout, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+```
 
+We can also use the [cosmic mutational database](https://cancer.sanger.ac.uk/cmc/home) to see whether any of these mutations overlap: (version 92)
 
+```{r cosmic-mut, cache=T}
+Cmut=read.delim("../anntotations/cmc_export.v92.tsv")
+
+```
+
+Edit the stuff here:
+
+```{r eval-cmut}
+Ax1=match(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno), paste(Cmut$GENE_NAME, Cmut$AA_MUT_START))
+Ax1
+head(paste(MeltCosmic$HumGene, MeltCosmic$HumAAno))
+head(paste(Cmut$GENE_NAME, Cmut$AA_MUT_START))
+tempA=Cmut[ na.omit(Ax1), c("GENE_NAME","Mutation.CDS", "Mutation.AA", "CLINVAR_CLNSIG")]
+DT::datatable(tempA, 
+              rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+write.csv(tempA, file="nature-tables/CosmicMutCensus_mutations.csv")
 ```
 
 ## Plots
@@ -399,7 +421,7 @@ see (https://www.biostars.org/p/11105/)
 samtools view -u -q 30 -f 0x2 aln.bam | coverageBed -abam stdin -b exons.bed > exons.bed.proper.q30.coverage
 ```
 
-## Coding variants
+## Comparison with rat mutational datasets
 
 ### Sites which are commonly mutated?
 
@@ -598,7 +620,7 @@ WGSplot=WGSplot[-which(is.na(WGSplot$value)), ]
 ggplot(WGSplot, aes(x=freq.Freq/16, y=value, col=VariantClass, label=WGSplot$gene))+facet_grid(~variable)+geom_point()+
   geom_text(size=(WGSplot$Cosmic+3), col="black", nudge_y=0.01)+xlab("Cohort frequency")+ylab("Database frequency")+theme_bw()+theme(legend.position="bottom")+ggtitle("all genes compared to Harlan Frequencies")
 
- kable(WGSplot[WGSplot$Cosmic==1, ])
+DT::datatable(WGSplot[WGSplot$Cosmic==1, ],class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -753,7 +775,7 @@ Below is the above list refined according to cosmic specifc genes, and listing
 # mtext(" 'Hotspot' mutations only", side=3, line=-1, outer=T)
 
 ## Plot by picking out cancer related genes
-pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
+#pdf("figure-outputs/1k_redo.pdf", height=7.5, width=17.3)
 palette(brewer.pal(8, "Set1"))
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempzb), col=c("white", 1:4), xaxt='n', yaxt='n')
@@ -762,7 +784,7 @@ axis(2, at=seq(0, 1, length=nrow(tempzb)), rownames(tempzb), las=2,  cex.axis=0.
 #text(na.omit(hotspotzb$Y-1)/(ncol(tempzb)-1), na.omit(hotspotzb$X-1)/(nrow(tempzb)-1) , "*")
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 mtext("Cancer related genes", side=3, line=-1, outer=T)
-dev.off()
+#dev.off()
 
 par(mar = c(4, 8, 4, 2),  xpd = TRUE)
 image(t(tempz2), col=c("white", 1:4), xaxt='n', yaxt='n')

@@ -51,7 +51,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
-DT::datatable(as.data.frame(epr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(epr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ## all pairwise comparisons:
@@ -60,7 +60,7 @@ bx1=results(EpddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(EpddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
 testout=cbind(ax1, bx1, cx1)
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -91,7 +91,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
-DT::datatable(as.data.frame(DNr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(DNr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 #write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
@@ -101,7 +101,7 @@ bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
 cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
 
 testout=cbind(ax1, bx1, cx1)
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 #write.csv(testout, file="nature-tables/Supp3_dn_all_pairwise_treatments.csv")
@@ -140,7 +140,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 
 #write.csv(assay(Mat2), file="nature-tables/Figure3j_1_vs_all.csv")
 
-DT::datatable(as.data.frame(CDr), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(CDr), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -175,7 +175,7 @@ heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=
 
 testout=cbind(ax1, bx1, cx1)
 
-DT::datatable(as.data.frame(testout), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(testout), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 
@@ -203,8 +203,8 @@ with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
 
-DT::datatable(as.data.frame(DNa1), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(as.data.frame(DNa1), rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'),scrollX=T))
 
 #write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
 ```
@@ -223,7 +223,7 @@ with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05,
 
 #write.csv(CDa1, file="nature-tables/4g.csv")
 
-DT::datatable(as.data.frame(CDa1), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(CDa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
@@ -257,7 +257,7 @@ heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = 
 
 #write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 
-DT::datatable(as.data.frame(Epa1), rownames=F, class='cell-border stripe',
+DT::datatable(as.data.frame(Epa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```

@@ -122,7 +122,7 @@ knnTemp1b=knnTemp1[which(knnTemp1$knn=="knn3"), ]
 # save data to file
 knnTemp1$sample=Cdata$NewID[match(knnTemp1$L1, gsub("_", "", Cdata$TumorID))]
 DT::datatable(knnTemp1[which(knnTemp1$knn=="knn3"), c(2:5, 10:13)], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 #write.csv(knnTemp1[which(knnTemp1$knn=="knn3"), c(2:5, 10:13)], file="nature-tables/Fig4c_Ext4e.csv")
 ```
 
@@ -340,7 +340,7 @@ for (i in 1:9){
 ```
 
 
-```{r, fig.height=4, eval=F}
+```{r, fig.height=4}
 
 # Again, association between CD8 content and interacting fraction was observed ONLY in the growing samples or restricted cases. 
 par(mfrow=c(1,2))
@@ -373,15 +373,14 @@ t2=IFmelt[which(IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15) 
 
 pval2=sapply(ctypes, function(x) wilcox.test(t2$value[t2$NearestNeighbor==x & t2$Growth=="growing" ], t2$value[t2$NearestNeighbor==x & t2$Growth=="stable" ])$p.value)
 
-ann_text=data.frame(Glabel=round(pval2,2), NearestNeighbor=(ctypes ), Growth="stable", value=0.7)
+ann_text=data.frame(Glabel=round(pval2,3), NearestNeighbor=(ctypes ), Growth="stable", value=0.7)
 
 p=ggplot(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , ], aes(x=Growth, y=value, col=Growth))+facet_grid(~NearestNeighbor)+geom_boxplot()+ylab("Interacting Fraction")+xlab("Distance in microns")+ggtitle("Interacting fraction, knn3, dist=15")+theme_bw()+geom_point(position=position_jitterdodge(),alpha=0.3)+scale_color_manual(values=c(ColSizeb, "black"))
 p+geom_text(data=ann_text, mapping=aes(x=2, y=0.75, label=Glabel))
 
 DT::datatable(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , c(2:4, 6, 8:9, 12)], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-#write.csv(IFmelt[IFmelt$Reference=="CD8" & IFmelt$knn=="knn3" & IFmelt$Dist==15 , c(2:4, 6, 8:9, 12)], file="nature-tables/Fig4d-suppf.csv")
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
+pval2
 ```
 
 
@@ -523,7 +522,7 @@ ggplot(A3, aes(x=Growth, y=value, col=Growth))+facet_grid(~Var1)+geom_boxplot()+
 #dev.off()
 
 DT::datatable(A3, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 #write.csv(A3, file="nature-tables/Fig4e-Ext4h.csv")
 ```
@@ -698,7 +697,7 @@ MHreshape$Infil=A3$SpatialManual[match(rownames(MHreshape), A3$L1)]
 
 colnames(MHreshape)=paste(varsearch, colnames(MHreshape), sep=".")
 DT::datatable(MHreshape, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 #write.csv(MHreshape, file=sprintf("outputs/%s_MH_comparisons_gridsize250.csv", varsearch))
 
 # pdf(sprintf("rslt/WSI-analysis/MHplots_spatial_growth_treatment_%s_celltype_%s.pdf", varsearch, Sys.Date()), height=7, width=12)

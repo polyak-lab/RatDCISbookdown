@@ -78,15 +78,15 @@ tinfo$TCRshann=as.numeric(ThorssData$TCR.Shannon[n1])
 par(mfrow=c(2,3))
 boxplot(tinfo$cd74~tinfo$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfo$cd74~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$cd74, log10(tinfo$codingMut+1), method="pearson")
+ax=cor.test(tinfo$cd74, log10(tinfo$codingMut+1), method="spearman")
 smoothScatter(tinfo$cd74, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$cd74, tinfo$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$cd74, tinfo$leukFrac, method="spearman")
 smoothScatter(tinfo$cd74, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$cd74, tinfo$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$cd74, tinfo$TCRshann, method="spearman")
 smoothScatter(tinfo$cd74, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 hist(tinfo$cd74)
 
 #write.csv(tinfo, file="nature-tables/5d-TCGA_data.csv")
@@ -190,19 +190,19 @@ tinfo$adamts10=TCGAssgsea
 par(mfrow=c(2,3))
 boxplot(tinfo$adamts10~tinfo$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfo$adamts10~tinfo$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="pearson")
+ax=cor.test(tinfo$adamts10, log10(tinfo$codingMut+1), method="spearman")
 smoothScatter(tinfo$adamts10, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$adamts10, tinfo$leukFrac, method="spearman")
 smoothScatter(tinfo$adamts10, (tinfo$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfo$adamts10, tinfo$TCRshann, method="spearman")
 smoothScatter(tinfo$adamts10, tinfo$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 #hist(tinfo$adamts10)
-ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="pearson")
+ax=cor.test(tinfo$adamts10, tinfo$strFrac, method="spearman")
 smoothScatter(tinfo$adamts10, (tinfo$strFrac), xlab="gene exp", ylab="str frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 
 DT::datatable(tinfo, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
@@ -319,18 +319,18 @@ par(mfrow=c(2,3))
 
 boxplot(tinfoER$adamts10~tinfoER$pam, ylab="gene exp", main="PAM50")
 boxplot(tinfoER$adamts10~tinfoER$immSub, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="pearson")
+ax=cor.test(tinfoER$adamts10, log10(tinfoER$codingMut+1), method="spearman")
 smoothScatter(tinfoER$adamts10, log10(tinfoER$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="pearson")
+text(4,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$leukFrac, method="spearman")
 smoothScatter(tinfoER$adamts10, (tinfoER$leukFrac), xlab="gene exp", ylab="leuk frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="pearson")
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$TCRshann, method="spearman")
 smoothScatter(tinfoER$adamts10, tinfoER$TCRshann, xlab="gene exp", ylab="TCR diversity")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="pearson")
+text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
+ax=cor.test(tinfoER$adamts10, tinfoER$strFrac, method="spearman")
 smoothScatter(tinfoER$adamts10, (tinfoER$strFrac), xlab="gene exp", ylab="str frac")
-text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
+text(4,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
 
 DT::datatable(tinfoER, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
@@ -410,6 +410,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 
@@ -425,11 +427,11 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+  legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
 }
 
 
-test=survfit(ax~TCGAvalCut)
-test
 #DT::datatable(as.data.frame(test), rownames=F, class='cell-border stripe',
 #         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
@@ -453,6 +455,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 ```
@@ -474,6 +478,8 @@ for (i in Xind){
   ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
     text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+    legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
   
 }
 
@@ -516,19 +522,19 @@ newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
 
 #pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
 par(mfrow=c(2,2))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$str)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="pearson")
+ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="spearman")
 smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
 #dev.off()
 
-DT::datatable(newinfoTab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(newinfoTab, rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
 
 
 ```
@@ -555,25 +561,28 @@ TCGAdeseq=DESeqDataSetFromMatrix(round(TCGArsem2[ ,match(colDataTCGA$pat, colnam
 
 TCGAdeseq=DESeq(TCGAdeseq)
 
-TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "L", "O"))
+TCGAdeseqRes=results(TCGAdeseq, contrast=c("TCGAvalcut", "O", "L"))
 
 #write.csv(TCGAdeseqRes, file="nature-tables/5J_TCGA.csv")
 
 TCGAdeseqRes2=TCGAdeseqRes[which(TCGAdeseqRes$padj<0.05 & abs(TCGAdeseqRes$log2FoldChange)>1.5 
                                  & TCGAdeseqRes$baseMean>100), ]
 
-DT::datatable(as.data.frame(TCGAdeseqRes), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+A1=as.data.frame(TCGAdeseqRes)
 
+DT::datatable(A1, rownames=T, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
+write.csv(TCGAdeseqRes, file="nature-tables/TCGA_stable_growing.csv")
 ```
 
 We can plot the differential genes here in a volcano plot:
 
 ```{r tcga-volcano, fig.cap="yet another volcano plot"}
 #pdf("figure-outputs/Fig5J_TCGA_deg.pdf", height=8, width=8)
-with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (+) vs high (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(TCGAdeseqRes, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes2), pch=20, col="red", cex=0.75))
+with(TCGAdeseqRes, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Low exp (-) vs high (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(TCGAdeseqRes, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+text(TCGAdeseqRes2$log2FoldChange+0.02, -log10(TCGAdeseqRes2$padj)+0.05, rownames(TCGAdeseqRes2))
+#with(subset(TCGAdeseqRes, padj<0.05 & abs(log2FoldChange)>2), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(TCGAdeseqRes), pch=20, col="red", cex=0.75))
 #dev.off()
 ```
 

@@ -43,7 +43,6 @@ t2=WSIvalFracs[, match(rownames(df.Spatial), colnames(WSIvalFracs))]
 
 df.Spatial=cbind(df.Spatial, t(t2))
 
-#head(df.Spatial)
 
 df.Spatial$Trichrome=NA
 midx=match(TrichromeData$SampleID, rownames(df.Spatial))
@@ -66,7 +65,8 @@ for (i in n2){
 
 ## Associations with CD8 content
 
-```{r 3gpre, fig.height=6}
+
+```{r 3gpre, fig.height=6, eval=T}
 
 par(mfrow=c(1,2))
 
@@ -79,23 +79,40 @@ boxplot(df.Spatial$Trichrome~df.Spatial$CD8Fraccut, main=sprintf("CD8 fraction v
 ## Associations with growth and treatment
 
 ```{r 3g, fig.cap="Trichrome staining with treatment"}
-#pdf("~/Desktop/testoutput.pdf", height=6, width=6)
+df.Spatial$Growth=Cdata$Tumor.Growth[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$Treatment=Cdata$Treatment[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+df.Spatial$NewID=Cdata$Treatment[match(rownames(df.Spatial), gsub("_", "", Cdata$NewID))]
+df.Spatial$trichrome_pc=Cdata$Trichrome_encapsulation.[match(rownames(df.Spatial), gsub("_", "", Cdata$TumorID))]
+
 pv1=sapply(c("PDL1", "LY", "PDL1+LY"), function(x) wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Treatment%in%c("Vehicle", x))]~
            df.Spatial$Treatment[which(df.Spatial$Treatment%in%c("Vehicle", x))])$p.value)
 names(pv1)=c("PDL1", "LY", "PDL1+LY")
 
 ggplot(df.Spatial[ ,c("Treatment", "Trichrome")], aes(x=Treatment, y=Trichrome, col=Treatment))+geom_boxplot()+geom_jitter()+
 scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+
+ggplot(df.Spatial[ ,c("Treatment", "trichrome_pc")], aes(x=Treatment, y=trichrome_pc, col=Treatment))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=ColMerge[ ,1])+theme_bw()+ggtitle(paste(paste(names(pv1), round(pv1, 2)), collapse=";"))
+
 ```
 
-```{r 3gb, fig.cap="Trichrome with growth", eval=F}
-ggplot(df.Spatial[ ,c("Trichrome", "Growth")], aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
- scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle(paste("growth",)) # round(a1a, 2)))
+```{r 3gb, fig.cap="Trichrome with growth"}
+
+a1=df.Spatial[ ,match(c("Trichrome", "Growth", "trichrome_pc"), colnames(df.Spatial))]
+a1a=wilcox.test(df.Spatial$Trichrome[which(df.Spatial$Growth=="growing")],
+           df.Spatial$Trichrome[which(df.Spatial$Growth=="stable")])
+a1a
+
+ggplot(a1, aes(x=Growth, y=Trichrome, col=Growth))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle("growth") # round(a1a, 2)))
+
+ggplot(a1, aes(x=Growth, y=trichrome_pc, col=Growth))+geom_boxplot()+geom_jitter()+
+scale_color_manual(values=c(ColSize, "black"))+theme_bw()+ggtitle("growth") # round(a1a, 2)))
+
 #print(p)
 
 #write.csv(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], file="nature-tables/3g_trichrome.csv")
-DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment")], rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment", "trichrome_pc")], rownames=F, class='cell-border stripe', extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 
@@ -117,24 +134,23 @@ newTab=data.frame(trichrome=df.Spatial[na.omit(t2), "Trichrome"],
              inf=vstEpInf$Inflammation2[-which(is.na(t2))],
              names=ax1[-which(is.na(t2))],
              names2=rownames(df.Spatial)[na.omit(t2)])
-
+wilcox.test(newTab$trichrome[newTab$inf=="grow"], newTab$trichrome[newTab$inf!="grow"])
 #pdf("figure-outputs/EXT5I_trichrome.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome,x=inf))+geom_boxplot()+geom_point()+theme_bw()
-#dev.off()
-#write.csv(newTab, file="nature-tables/Ext5i_trichrome.csv")
-DT::datatable(newTab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
 ```
 
 Also check the encapsulated status?
 
 ```{r}
-head(newTab)
 newTab$trichrome_pc=Cdata$Trichrome_encapsulation.[match(newTab$names2, gsub("_", "", Cdata$TumorID))]
 newTab$trichrome_pc[which(newTab$trichrome_pc=="lots")]=1
 newTab$trichrome_pc=as.numeric(newTab$trichrome_pc)
-pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
+#pdf("figure-outputs/EXT5I_trichrome_pt2.pdf", height=5, width=4)
 ggplot(newTab, aes(y=trichrome_pc,x=inf))+geom_boxplot()+geom_jitter(col="grey")+theme_bw()
-dev.off()
+
+wilcox.test(newTab$trichrome_pc[newTab$inf=="grow"], newTab$trichrome_pc[newTab$inf!="grow"])
+DT::datatable(newTab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+
 ```
