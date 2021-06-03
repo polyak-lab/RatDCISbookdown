@@ -1,5 +1,8 @@
 Code required to reproduce results from the study 'NMU-induced sprague dawley rat model of breast cancer treated with immunotherapy to prevent tumor progression' by Gil del Alcazar et al
 
+The compiled bookdown document can be found at https://polyak-lab.github.io/RatDCISbookdown/
+
+
 Note: Create a new folder in this directory and move all .Rmd/.yml/.html header files into it, and change working dirctory  prior to compile
 
 Folder Structure: (DO THIS BEFORE COMPILE)
