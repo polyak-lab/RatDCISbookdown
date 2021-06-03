@@ -99,7 +99,7 @@ vstEpInfRes=results(vstEpInf)
 sigGenes=rownames(vstEpInfRes)[which(vstEpInfRes$padj<0.05 & abs(vstEpInfRes$log2FoldChange)>2.5 & 
                  vstEpInfRes$baseMean>200)]
 
-colnames(vstEp)=infoTableFinal$TumorIDnew[match(colnames(vstEp), rownames(infoTableFinal))]
+#colnames(vstEp)=infoTableFinal$TumorIDnew[match(colnames(vstEp), rownames(infoTableFinal))]
 
 heatmap.2(assay(vstEp)[sigGenes, ], col=RdBu[11:1], trace="none", scale = "row", ColSideColors = ColSizeb[vstEpInf$Growth], hclustfun = hclust.ave)
 
@@ -253,10 +253,10 @@ for (i in 1:3){
 ```
 
 
-
 GSEA for the above 3 groups?
 
 ```{r gsea-1-v-all-ep, results='hide', message=F}
+load("../anntotations/ListofGeneSets2.RData")
 
 l1=SymHum2Rat$HGNC.symbol[match(rownames(vstEpInfRes1), SymHum2Rat$RGD.symbol)]
 l2=Rat2Hum$HGNC.symbol[match(rownames(vstEpInfRes1), Rat2Hum$RGD.symbol)]
@@ -346,11 +346,11 @@ Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep") #,"2N__Ep", "
 
 EpddsInflam=EpddsGrowth
 EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
-
+design(EpddsInflam)=~GrowthRate
 EpddsInflam=DESeq(EpddsInflam)
 
-ResA=results(EpddsInflam, contrast = c("Growth", "stable", "growing"))
-ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5), ]
+ResA=results(EpddsInflam, name="GrowthRate") #contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>0.25 & ResA$baseMean>80), ]
 
 
 #pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
@@ -403,7 +403,7 @@ names(fcTab)=EpGenesConv
                            exponent=1), 
                            doGSOA = F)
   
-A1=summarize(gscaepInf)  
+A1=HTSanalyzeR2::summarize(gscaepInf)  
 
 PNresultsef=gscaepInf@result$GSEA.results$ProcessNetworks
 
@@ -453,7 +453,7 @@ We removed all the basal samples and did the same comparison:
 ```{r EpddsLum, fig.cap="DEG non-inflamm Lum only"}
 Epdds$HR=Cdata$HR_status[match(substr(colnames(Epdds), 1, nchar(colnames(Epdds))-3), Cdata$TumorID)]
 vstLumOnly=Epdds[, which(Epdds$HR=="Lum")]
-design(vstLumOnly)=~Growth
+design(vstLumOnly)=~GrowthRate
 vstLumOnly=DESeq(vstLumOnly)
 colnames(Epdds)
 
@@ -461,13 +461,19 @@ vstLumRes=results(vstLumOnly)
 vsdLumvst=vst(vstLumOnly)
 
 write.csv(vstLumRes, file="nature-tables/5j_lumonly_ep_growing_vs_stable.csv")
-genes2=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
+genes2=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>0.20 & vstLumRes$baseMean>100)]
 
-ColSideCols=ColSizeb[vstLumOnly$Growth]
-#pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
+GlistGrowing=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)>0.20 & vstLumRes$baseMean>100)]
+Glistnon=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)<(-0.20) & vstLumRes$baseMean>100)]
 
-heatmap.2(assay(vsdLumvst)[ genes2,  ], scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="Ep genes")
-#dev.off()
+write.csv(GlistGrowing,file="figure-outputs/lumsig_posFC.csv" )
+write.csv(Glistnon,file="figure-outputs/lumsig_negFC.csv" )
+
+ColSideCols=cut(vstLumOnly$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M", "O1", "O2"))
+pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
+
+heatmap.2(assay(vsdLumvst)[ genes2,  ], scale="row", trace="none", ColSideColors = brewer.pal(4, "Greens")[ColSideCols], col=RdBu[11:1], main="Ep genes")
+dev.off()
 
 #write.csv(assay(vsdLumvst)[ genes2,  ], file="nature-tables/5xx_lum_only_growing_vs_stable.csv")
 DT::datatable(as.data.frame(vstLumRes), rownames=F, class='cell-border stripe',
@@ -501,7 +507,7 @@ names(fcTab)=EpGenesConv
                            exponent=1), 
                            doGSOA = F)
   
-A1=summarize(gscaepNI_lum)  
+A1=HTSanalyzeR2::summarize(gscaepNI_lum)  
 
 PNresultsef=gscaepNI_lum@result$GSEA.results$ProcessNetworks
 

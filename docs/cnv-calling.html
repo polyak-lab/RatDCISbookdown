@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 24 CNV calling | NMU-induced rat tumor models for I/O</title>
+  <title>Chapter 25 CNV calling | NMU-induced rat tumor models for I/O</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 24 CNV calling | NMU-induced rat tumor models for I/O" />
+  <meta property="og:title" content="Chapter 25 CNV calling | NMU-induced rat tumor models for I/O" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 24 CNV calling | NMU-induced rat tumor models for I/O" />
+  <meta name="twitter:title" content="Chapter 25 CNV calling | NMU-induced rat tumor models for I/O" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-04-05" />
+<meta name="date" content="2021-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -195,8 +195,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html"><i class="fa fa-check"></i><b>2</b> Cohort characteristics</a><ul>
 <li class="chapter" data-level="2.1" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
 <li class="chapter" data-level="2.2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
-<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#km-curves-for-survival"><i class="fa fa-check"></i><b>2.3</b> KM curves for survival</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.4</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.5</b> FACS data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html"><i class="fa fa-check"></i><b>3</b> Cohort Summary Table</a><ul>
 <li class="chapter" data-level="3.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#total-number-of-samples"><i class="fa fa-check"></i><b>3.1</b> Total number of samples</a></li>
@@ -294,94 +295,109 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#all-samples"><i class="fa fa-check"></i><b>15.2.1</b> All samples</a></li>
 <li class="chapter" data-level="15.2.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases"><i class="fa fa-check"></i><b>15.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.3.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.3.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a></li>
+<li class="chapter" data-level="15.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint"><i class="fa fa-check"></i><b>15.4</b> Comparison to oncotype and mammaprint</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#overall-survival"><i class="fa fa-check"></i><b>15.4.1</b> Overall survival</a></li>
+<li class="chapter" data-level="15.4.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#dfs-survival"><i class="fa fa-check"></i><b>15.4.2</b> DFS survival</a></li>
+<li class="chapter" data-level="15.4.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redo-the-survival-plots-based-on-luminal-cases-only"><i class="fa fa-check"></i><b>15.4.3</b> Redo the survival plots based on Luminal cases only</a></li>
+<li class="chapter" data-level="15.4.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.4.4</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
-<li class="chapter" data-level="16.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>16.1</b> CD45 samples</a><ul>
-<li class="chapter" data-level="16.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>16.1.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>16.1.2</b> Differential Gene Expression</a></li>
-<li class="chapter" data-level="16.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>16.1.3</b> GSEA</a></li>
+<li class="chapter" data-level="16" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>16</b> METABRIC: Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="16.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="16.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-admats10-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.2</b> Associating ADMATS10 with phenotype and outcome</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#all-samples-1"><i class="fa fa-check"></i><b>16.2.1</b> All samples</a></li>
+<li class="chapter" data-level="16.2.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases-1"><i class="fa fa-check"></i><b>16.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="16.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>16.2</b> Epithelial samples</a><ul>
-<li class="chapter" data-level="16.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>16.2.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>16.2.2</b> GSEA</a></li>
-<li class="chapter" data-level="16.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.2.3</b> Check expression of checkpoint proteins</a></li>
+<li class="chapter" data-level="16.3" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable-1"><i class="fa fa-check"></i><b>16.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#met-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>16.3.1</b> MET: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>17</b> Signature analysis</a><ul>
-<li class="chapter" data-level="17.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>17.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="17.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>17.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="17.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>17.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="17.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>17.1.3</b> MHC presentation proteins</a></li>
-<li class="chapter" data-level="17.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>17.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+<li class="chapter" data-level="17" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>17</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="17.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>17.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>17.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>17.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="17.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>17.1.3</b> GSEA</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>17.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>17.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>17.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="17.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>17.2.3</b> Check expression of checkpoint proteins</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>18</b> Immune estimation</a><ul>
-<li class="chapter" data-level="18.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>18.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="18.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>18.2</b> characterisation cohort: assoc with size</a></li>
-<li class="chapter" data-level="18.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>18.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="18.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>18.4</b> Progression cohort</a></li>
-<li class="chapter" data-level="18.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>18.5</b> Clinical associations</a><ul>
-<li class="chapter" data-level="18.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>18.5.1</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="18.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>18.5.2</b> Association with Growth</a></li>
+<li class="chapter" data-level="18" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>18</b> Signature analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>18.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>18.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="18.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>18.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="18.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>18.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="18.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>18.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
 </ul></li>
-<li class="chapter" data-level="18.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>18.6</b> Summary of the outcome</a></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>19</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="19.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>19.1</b> Processing summary</a></li>
-<li class="chapter" data-level="19.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>19.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="19.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>19.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="19.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>19.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="19.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>19.5</b> Associate with clinicopathological data (progression)</a></li>
-<li class="chapter" data-level="19.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>19.6</b> Associate with signature scores</a></li>
+<li class="chapter" data-level="19" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>19</b> Immune estimation</a><ul>
+<li class="chapter" data-level="19.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>19.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="19.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>19.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="19.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>19.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="19.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>19.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="19.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>19.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>19.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="19.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>19.5.2</b> Association with Growth</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>20</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="20.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>20.1</b> Data</a><ul>
-<li class="chapter" data-level="20.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>20.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="19.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>19.6</b> Summary of the outcome</a></li>
 </ul></li>
-<li class="chapter" data-level="20.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>20.2</b> Annotate the data with human common variants</a></li>
-<li class="chapter" data-level="20.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>20.3</b> Plots</a><ul>
-<li class="chapter" data-level="20.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>20.3.1</b> Quick overview</a></li>
-<li class="chapter" data-level="20.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>20.3.2</b> Coding variants &amp; TMB</a></li>
+<li class="chapter" data-level="20" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>20</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="20.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>20.1</b> Processing summary</a></li>
+<li class="chapter" data-level="20.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>20.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="20.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>20.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="20.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>20.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="20.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>20.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="20.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>20.6</b> Associate with signature scores</a></li>
 </ul></li>
-<li class="chapter" data-level="20.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>20.4</b> Comparison with rat mutational datasets</a><ul>
-<li class="chapter" data-level="20.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>20.4.1</b> Sites which are commonly mutated?</a></li>
+<li class="chapter" data-level="21" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>21</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="21.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>21.1</b> Data</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>21.1.1</b> Extract mutation signatures</a></li>
 </ul></li>
-<li class="chapter" data-level="20.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>20.5</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="20.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>20.5.1</b> All mutations</a></li>
+<li class="chapter" data-level="21.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>21.2</b> Annotate the data with human common variants</a></li>
+<li class="chapter" data-level="21.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>21.3</b> Plots</a><ul>
+<li class="chapter" data-level="21.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>21.3.1</b> Quick overview</a></li>
+<li class="chapter" data-level="21.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>21.3.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="20.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>20.6</b> Metacore analysis of commonly mutated pathways</a></li>
+<li class="chapter" data-level="21.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>21.4</b> Comparison with rat mutational datasets</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>21.4.1</b> Sites which are commonly mutated?</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>21</b> Mutations in RNA</a><ul>
-<li class="chapter" data-level="21.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>21.1</b> Haplotype caller</a></li>
-<li class="chapter" data-level="21.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>21.2</b> Load files</a></li>
-<li class="chapter" data-level="21.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>21.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
-<li class="chapter" data-level="21.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>21.4</b> Find coding mutations which are specific to ep cells</a></li>
-<li class="chapter" data-level="21.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>21.5</b> Filtering WGS data based on CD45 data</a></li>
+<li class="chapter" data-level="21.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>21.5</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="21.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>21.5.1</b> All mutations</a></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>22</b> Mutations in progression cohort</a><ul>
-<li class="chapter" data-level="22.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>22.1</b> Summary of common mutations:</a></li>
-<li class="chapter" data-level="22.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>22.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="22.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>22.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>21.6</b> Metacore analysis of commonly mutated pathways</a></li>
 </ul></li>
-<li class="chapter" data-level="23" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>23</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="23.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>23.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="23.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>23.2</b> Associations with CD8 content</a></li>
-<li class="chapter" data-level="23.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>23.3</b> Associations with growth and treatment</a></li>
-<li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
+<li class="chapter" data-level="22" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>22</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="22.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>22.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="22.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>22.2</b> Load files</a></li>
+<li class="chapter" data-level="22.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>22.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="22.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>22.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="22.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>22.5</b> Filtering WGS data based on CD45 data</a></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>24</b> CNV calling</a><ul>
-<li class="chapter" data-level="24.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>24.1</b> Sample data</a></li>
-<li class="chapter" data-level="24.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>24.2</b> Data Summary</a><ul>
-<li class="chapter" data-level="24.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>24.2.1</b> Frequency of gains and losses across the genome</a></li>
-<li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
-<li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
+<li class="chapter" data-level="23" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>23</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="23.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>23.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="23.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>23.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="23.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>23.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
 </ul></li>
-<li class="chapter" data-level="24.3" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>24.3</b> Summary of the sequencing depth</a></li>
+<li class="chapter" data-level="24" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>24</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="24.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>24.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="24.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>24.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="24.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>24.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="24.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>24.4</b> Association with hyperinflammatory status</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
+<li class="chapter" data-level="25" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>25</b> CNV calling</a><ul>
+<li class="chapter" data-level="25.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>25.1</b> Sample data</a></li>
+<li class="chapter" data-level="25.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="cnv-calling.html"><a href="cnv-calling.html#samples-with-cnvs-in-breast-related-genes"><i class="fa fa-check"></i><b>25.3</b> Samples with CNVs in breast-related genes</a></li>
+<li class="chapter" data-level="25.4" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>25.4</b> Summary of the sequencing depth</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>26</b> Writing files to file</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -419,144 +435,218 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="cnv-calling" class="section level1">
-<h1><span class="header-section-number">Chapter 24</span> CNV calling</h1>
+<h1><span class="header-section-number">Chapter 25</span> CNV calling</h1>
 <p>CNV calling was performed with BICseq</p>
 <div id="sample-data" class="section level2">
-<h2><span class="header-section-number">24.1</span> Sample data</h2>
+<h2><span class="header-section-number">25.1</span> Sample data</h2>
 <p>Load BICseq2 data for all tested samples:</p>
-<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="cnv-calling.html#cb520-1"></a>allfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/CNV_calls/&quot;</span>,<span class="st">&quot;2_scale$&quot;</span>, <span class="dt">full.names =</span> T)</span>
-<span id="cb520-2"><a href="cnv-calling.html#cb520-2"></a></span>
-<span id="cb520-3"><a href="cnv-calling.html#cb520-3"></a>CNVL2=<span class="kw">lapply</span>(allfiles, <span class="cf">function</span>(x) <span class="kw">read.delim</span>(x, <span class="dt">stringsAsFactors =</span> F))</span>
-<span id="cb520-4"><a href="cnv-calling.html#cb520-4"></a>meltCN=<span class="kw">melt</span>(CNVL2, <span class="dt">measure.vars=</span><span class="kw">c</span>(<span class="st">&quot;log2.copyRatio&quot;</span>))</span>
-<span id="cb520-5"><a href="cnv-calling.html#cb520-5"></a>AllDCN=<span class="kw">data.frame</span>(<span class="dt">sampleID=</span>meltCN<span class="op">$</span>L1, <span class="dt">chrom=</span><span class="kw">substr</span>(meltCN<span class="op">$</span>chrom, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">start.pos=</span>meltCN<span class="op">$</span>start,</span>
-<span id="cb520-6"><a href="cnv-calling.html#cb520-6"></a>                  <span class="dt">end.pos=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">mean=</span>meltCN<span class="op">$</span>value, </span>
-<span id="cb520-7"><a href="cnv-calling.html#cb520-7"></a>                  <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
-<span id="cb520-8"><a href="cnv-calling.html#cb520-8"></a></span>
-<span id="cb520-9"><a href="cnv-calling.html#cb520-9"></a>AllDCN2=<span class="kw">data.frame</span>(<span class="dt">sample=</span>meltCN<span class="op">$</span>L1, <span class="dt">chromosome=</span>meltCN<span class="op">$</span>chrom, <span class="dt">start=</span>meltCN<span class="op">$</span>start,</span>
-<span id="cb520-10"><a href="cnv-calling.html#cb520-10"></a>                  <span class="dt">end=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">segmean=</span><span class="dv">2</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span>(meltCN<span class="op">$</span>value), </span>
-<span id="cb520-11"><a href="cnv-calling.html#cb520-11"></a>                  <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
-<span id="cb520-12"><a href="cnv-calling.html#cb520-12"></a>AllDCN2<span class="op">$</span>chromosome=<span class="kw">factor</span>(AllDCN2<span class="op">$</span>chromosome, <span class="dt">levels=</span><span class="kw">unique</span>(AllDCN2<span class="op">$</span>chromosome))</span>
-<span id="cb520-13"><a href="cnv-calling.html#cb520-13"></a></span>
-<span id="cb520-14"><a href="cnv-calling.html#cb520-14"></a>CNVGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> AllDCN<span class="op">$</span>chrom, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>AllDCN<span class="op">$</span>start.pos, <span class="dt">end=</span>AllDCN<span class="op">$</span>end.pos), <span class="dt">copy_ratio=</span>AllDCN<span class="op">$</span>mean, <span class="dt">call=</span>AllDCN<span class="op">$</span>call)</span></code></pre></div>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="cnv-calling.html#cb567-1"></a>allfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/CNV_calls/&quot;</span>,<span class="st">&quot;2_scale$&quot;</span>, <span class="dt">full.names =</span> T)</span>
+<span id="cb567-2"><a href="cnv-calling.html#cb567-2"></a></span>
+<span id="cb567-3"><a href="cnv-calling.html#cb567-3"></a>CNVL2=<span class="kw">lapply</span>(allfiles, <span class="cf">function</span>(x) <span class="kw">read.delim</span>(x, <span class="dt">stringsAsFactors =</span> F))</span>
+<span id="cb567-4"><a href="cnv-calling.html#cb567-4"></a><span class="kw">names</span>(CNVL2)=<span class="kw">unlist</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(allfiles, <span class="st">&quot;//|_cnv&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</span>
+<span id="cb567-5"><a href="cnv-calling.html#cb567-5"></a>meltCN=<span class="kw">melt</span>(CNVL2, <span class="dt">measure.vars=</span><span class="kw">c</span>(<span class="st">&quot;log2.copyRatio&quot;</span>))</span>
+<span id="cb567-6"><a href="cnv-calling.html#cb567-6"></a>AllDCN=<span class="kw">data.frame</span>(<span class="dt">sampleID=</span>meltCN<span class="op">$</span>L1, <span class="dt">chrom=</span><span class="kw">substr</span>(meltCN<span class="op">$</span>chrom, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">start.pos=</span>meltCN<span class="op">$</span>start,</span>
+<span id="cb567-7"><a href="cnv-calling.html#cb567-7"></a>                   <span class="dt">end.pos=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">mean=</span>meltCN<span class="op">$</span>value, </span>
+<span id="cb567-8"><a href="cnv-calling.html#cb567-8"></a>                   <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
+<span id="cb567-9"><a href="cnv-calling.html#cb567-9"></a></span>
+<span id="cb567-10"><a href="cnv-calling.html#cb567-10"></a>AllDCN2=<span class="kw">data.frame</span>(<span class="dt">sample=</span>meltCN<span class="op">$</span>L1, <span class="dt">chromosome=</span>meltCN<span class="op">$</span>chrom, <span class="dt">start=</span>meltCN<span class="op">$</span>start,</span>
+<span id="cb567-11"><a href="cnv-calling.html#cb567-11"></a>                  <span class="dt">end=</span>meltCN<span class="op">$</span>end, <span class="dt">n.probes=</span>meltCN<span class="op">$</span>binNum, <span class="dt">segmean=</span><span class="dv">2</span><span class="op">*</span><span class="dv">2</span><span class="op">^</span>(meltCN<span class="op">$</span>value), </span>
+<span id="cb567-12"><a href="cnv-calling.html#cb567-12"></a>                  <span class="dt">call=</span><span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&gt;</span><span class="fl">0.3</span>, <span class="st">&quot;+&quot;</span>, <span class="kw">ifelse</span>(meltCN<span class="op">$</span>value<span class="op">&lt;</span>(<span class="op">-</span><span class="fl">0.3</span>), <span class="st">&quot;-&quot;</span>, <span class="st">&quot;0&quot;</span>)))</span>
+<span id="cb567-13"><a href="cnv-calling.html#cb567-13"></a>AllDCN2<span class="op">$</span>chromosome=<span class="kw">factor</span>(AllDCN2<span class="op">$</span>chromosome, <span class="dt">levels=</span><span class="kw">unique</span>(AllDCN2<span class="op">$</span>chromosome))</span>
+<span id="cb567-14"><a href="cnv-calling.html#cb567-14"></a></span>
+<span id="cb567-15"><a href="cnv-calling.html#cb567-15"></a>CNVGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> AllDCN2<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>AllDCN2<span class="op">$</span>start, <span class="dt">end=</span>AllDCN2<span class="op">$</span>end), <span class="dt">segmean=</span>AllDCN2<span class="op">$</span>segmean, <span class="dt">call=</span>AllDCN2<span class="op">$</span>call, <span class="dt">sample=</span>AllDCN2<span class="op">$</span>sample)</span></code></pre></div>
 </div>
 <div id="data-summary" class="section level2">
-<h2><span class="header-section-number">24.2</span> Data Summary</h2>
+<h2><span class="header-section-number">25.2</span> Data Summary</h2>
 <div id="frequency-of-gains-and-losses-across-the-genome" class="section level3">
-<h3><span class="header-section-number">24.2.1</span> Frequency of gains and losses across the genome</h3>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="cnv-calling.html#cb521-1"></a><span class="co"># plot the frequencies</span></span>
-<span id="cb521-2"><a href="cnv-calling.html#cb521-2"></a>Samp1=<span class="kw">cnFreq_mod</span>(AllDCN2,<span class="dt">CN_low_cutoff=</span><span class="fl">1.4</span>, <span class="dt">CN_high_cutoff=</span><span class="fl">2.8</span>, <span class="dt">genome=</span>cytoInfo)</span>
-<span id="cb521-3"><a href="cnv-calling.html#cb521-3"></a>Samp1<span class="op">$</span>plot</span></code></pre></div>
+<h3><span class="header-section-number">25.2.1</span> Frequency of gains and losses across the genome</h3>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="cnv-calling.html#cb568-1"></a><span class="co"># plot the frequencies</span></span>
+<span id="cb568-2"><a href="cnv-calling.html#cb568-2"></a>Samp1=<span class="kw">cnFreq_mod</span>(AllDCN2,<span class="dt">CN_low_cutoff=</span><span class="fl">1.4</span>, <span class="dt">CN_high_cutoff=</span><span class="fl">2.8</span>, <span class="dt">genome=</span>cytoInfo)</span>
+<span id="cb568-3"><a href="cnv-calling.html#cb568-3"></a>Samp1<span class="op">$</span>plot</span></code></pre></div>
 <div class="figure"><span id="fig:bicseq"></span>
 <img src="RatDCIS-bookdown_files/figure-html/bicseq-1.png" alt="summary of regions of frequent gains and losses" width="672" />
 <p class="caption">
-Figure 24.1: summary of regions of frequent gains and losses
+Figure 25.1: summary of regions of frequent gains and losses
 </p>
 </div>
-<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="cnv-calling.html#cb522-1"></a></span>
-<span id="cb522-2"><a href="cnv-calling.html#cb522-2"></a><span class="kw">write.csv</span>(Samp1<span class="op">$</span>data, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext1l_CNV_frequencies.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="cnv-calling.html#cb569-1"></a></span>
+<span id="cb569-2"><a href="cnv-calling.html#cb569-2"></a><span class="kw">write.csv</span>(Samp1<span class="op">$</span>data, <span class="dt">file=</span><span class="st">&quot;nature-tables/Ext1l_CNV_frequencies.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="loci-which-have-a-hit-in-at-least-30-of-samples" class="section level3">
-<h3><span class="header-section-number">24.2.2</span> Loci which have a hit in at least 30% of samples</h3>
-<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="cnv-calling.html#cb523-1"></a><span class="co"># Filter out gain and loss regions</span></span>
-<span id="cb523-2"><a href="cnv-calling.html#cb523-2"></a>LocationsA=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>gainProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
-<span id="cb523-3"><a href="cnv-calling.html#cb523-3"></a>LocationsA=LocationsA[<span class="kw">order</span>( LocationsA<span class="op">$</span>chromosome, LocationsA<span class="op">$</span>start),  ]</span>
-<span id="cb523-4"><a href="cnv-calling.html#cb523-4"></a>LocAmerge=<span class="kw">Merge_contig</span>(LocationsA)</span>
-<span id="cb523-5"><a href="cnv-calling.html#cb523-5"></a></span>
-<span id="cb523-6"><a href="cnv-calling.html#cb523-6"></a>LocationsB=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>lossProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
-<span id="cb523-7"><a href="cnv-calling.html#cb523-7"></a>LocationsB=LocationsB[<span class="kw">order</span>( LocationsB<span class="op">$</span>chromosome, LocationsB<span class="op">$</span>start),  ]</span>
-<span id="cb523-8"><a href="cnv-calling.html#cb523-8"></a>LocBmerge=<span class="kw">Merge_contig</span>(LocationsB)</span>
-<span id="cb523-9"><a href="cnv-calling.html#cb523-9"></a></span>
-<span id="cb523-10"><a href="cnv-calling.html#cb523-10"></a><span class="co"># turn into a GRanges object</span></span>
-<span id="cb523-11"><a href="cnv-calling.html#cb523-11"></a></span>
-<span id="cb523-12"><a href="cnv-calling.html#cb523-12"></a>LocAGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocAmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocAmerge<span class="op">$</span>start, <span class="dt">end=</span>LocAmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
-<span id="cb523-13"><a href="cnv-calling.html#cb523-13"></a>                    <span class="dt">sampleFrequency=</span>LocAmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocAmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocAmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocAmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocAmerge<span class="op">$</span>lossProportion)</span>
-<span id="cb523-14"><a href="cnv-calling.html#cb523-14"></a></span>
-<span id="cb523-15"><a href="cnv-calling.html#cb523-15"></a>LocBGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocBmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocBmerge<span class="op">$</span>start, <span class="dt">end=</span>LocBmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
-<span id="cb523-16"><a href="cnv-calling.html#cb523-16"></a>                    <span class="dt">sampleFrequency=</span>LocBmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocBmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocBmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocBmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocBmerge<span class="op">$</span>lossProportion)</span>
-<span id="cb523-17"><a href="cnv-calling.html#cb523-17"></a></span>
-<span id="cb523-18"><a href="cnv-calling.html#cb523-18"></a><span class="co"># find the overlaps</span></span>
-<span id="cb523-19"><a href="cnv-calling.html#cb523-19"></a>GainOLap=<span class="kw">findOverlaps</span>(LocAGRanges, txRn6)</span>
-<span id="cb523-20"><a href="cnv-calling.html#cb523-20"></a>UniqueGainOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap))</span>
-<span id="cb523-21"><a href="cnv-calling.html#cb523-21"></a>GainGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(GainOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(GainOLap)<span class="op">==</span>x)])])</span>
-<span id="cb523-22"><a href="cnv-calling.html#cb523-22"></a></span>
-<span id="cb523-23"><a href="cnv-calling.html#cb523-23"></a>LossOLap=<span class="kw">findOverlaps</span>(LocBGRanges, txRn6)</span>
-<span id="cb523-24"><a href="cnv-calling.html#cb523-24"></a>UniqueLossOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap))</span>
-<span id="cb523-25"><a href="cnv-calling.html#cb523-25"></a>LossGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(LossOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(LossOLap)<span class="op">==</span>x)])])</span></code></pre></div>
+<h3><span class="header-section-number">25.2.2</span> Loci which have a hit in at least 30% of samples</h3>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="cnv-calling.html#cb570-1"></a><span class="co"># Filter out gain and loss regions</span></span>
+<span id="cb570-2"><a href="cnv-calling.html#cb570-2"></a>LocationsA=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>gainProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
+<span id="cb570-3"><a href="cnv-calling.html#cb570-3"></a>LocationsA=LocationsA[<span class="kw">order</span>( LocationsA<span class="op">$</span>chromosome, LocationsA<span class="op">$</span>start),  ]</span>
+<span id="cb570-4"><a href="cnv-calling.html#cb570-4"></a>LocAmerge=<span class="kw">Merge_contig</span>(LocationsA)</span>
+<span id="cb570-5"><a href="cnv-calling.html#cb570-5"></a></span>
+<span id="cb570-6"><a href="cnv-calling.html#cb570-6"></a>LocationsB=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>lossProportion<span class="op">&gt;</span><span class="fl">0.3</span>), ]</span>
+<span id="cb570-7"><a href="cnv-calling.html#cb570-7"></a>LocationsB=LocationsB[<span class="kw">order</span>( LocationsB<span class="op">$</span>chromosome, LocationsB<span class="op">$</span>start),  ]</span>
+<span id="cb570-8"><a href="cnv-calling.html#cb570-8"></a>LocBmerge=<span class="kw">Merge_contig</span>(LocationsB)</span>
+<span id="cb570-9"><a href="cnv-calling.html#cb570-9"></a></span>
+<span id="cb570-10"><a href="cnv-calling.html#cb570-10"></a><span class="co"># turn into a GRanges object</span></span>
+<span id="cb570-11"><a href="cnv-calling.html#cb570-11"></a></span>
+<span id="cb570-12"><a href="cnv-calling.html#cb570-12"></a>LocAGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocAmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocAmerge<span class="op">$</span>start, <span class="dt">end=</span>LocAmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
+<span id="cb570-13"><a href="cnv-calling.html#cb570-13"></a>                    <span class="dt">sampleFrequency=</span>LocAmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocAmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocAmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocAmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocAmerge<span class="op">$</span>lossProportion)</span>
+<span id="cb570-14"><a href="cnv-calling.html#cb570-14"></a></span>
+<span id="cb570-15"><a href="cnv-calling.html#cb570-15"></a>LocBGRanges=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> LocBmerge<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>LocBmerge<span class="op">$</span>start, <span class="dt">end=</span>LocBmerge<span class="op">$</span>end), <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>,</span>
+<span id="cb570-16"><a href="cnv-calling.html#cb570-16"></a>                    <span class="dt">sampleFrequency=</span>LocBmerge<span class="op">$</span>sampleFrequency, <span class="dt">gainFrequency=</span>LocBmerge<span class="op">$</span>gainFrequency, <span class="dt">lossFrequency=</span>LocBmerge<span class="op">$</span>lossFrequency, <span class="dt">gainProportion=</span>LocBmerge<span class="op">$</span>gainProportion, <span class="dt">lossProportion=</span>LocBmerge<span class="op">$</span>lossProportion)</span>
+<span id="cb570-17"><a href="cnv-calling.html#cb570-17"></a></span>
+<span id="cb570-18"><a href="cnv-calling.html#cb570-18"></a><span class="co"># find the overlaps</span></span>
+<span id="cb570-19"><a href="cnv-calling.html#cb570-19"></a>GainOLap=<span class="kw">findOverlaps</span>(LocAGRanges, txRn6)</span>
+<span id="cb570-20"><a href="cnv-calling.html#cb570-20"></a>UniqueGainOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap))</span>
+<span id="cb570-21"><a href="cnv-calling.html#cb570-21"></a>GainGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(GainOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(GainOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(GainOLap)<span class="op">==</span>x)])])</span>
+<span id="cb570-22"><a href="cnv-calling.html#cb570-22"></a></span>
+<span id="cb570-23"><a href="cnv-calling.html#cb570-23"></a>LossOLap=<span class="kw">findOverlaps</span>(LocBGRanges, txRn6)</span>
+<span id="cb570-24"><a href="cnv-calling.html#cb570-24"></a>UniqueLossOlapRegions=<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap))</span>
+<span id="cb570-25"><a href="cnv-calling.html#cb570-25"></a>LossGenes=<span class="kw">sapply</span>(<span class="kw">unique</span>(<span class="kw">queryHits</span>(LossOLap)), <span class="cf">function</span>(x) txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(LossOLap[<span class="kw">which</span>(<span class="kw">queryHits</span>(LossOLap)<span class="op">==</span>x)])])</span></code></pre></div>
 <p>Venn diagrams of the number of genes which intersect with the cosmic dataset</p>
-<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="cnv-calling.html#cb524-1"></a>OverviewG=<span class="kw">unique</span>(<span class="kw">unlist</span>(GainGenes))</span>
-<span id="cb524-2"><a href="cnv-calling.html#cb524-2"></a>OverviewL=<span class="kw">unique</span>(<span class="kw">unlist</span>(LossGenes))</span>
-<span id="cb524-3"><a href="cnv-calling.html#cb524-3"></a></span>
-<span id="cb524-4"><a href="cnv-calling.html#cb524-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb524-5"><a href="cnv-calling.html#cb524-5"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">cosmic=</span>RatCosmic))</span>
-<span id="cb524-6"><a href="cnv-calling.html#cb524-6"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">cosmic=</span>RatCosmic))</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-149-1.png" width="672" /></p>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="cnv-calling.html#cb571-1"></a>OverviewG=<span class="kw">unique</span>(<span class="kw">unlist</span>(GainGenes))</span>
+<span id="cb571-2"><a href="cnv-calling.html#cb571-2"></a>OverviewL=<span class="kw">unique</span>(<span class="kw">unlist</span>(LossGenes))</span>
+<span id="cb571-3"><a href="cnv-calling.html#cb571-3"></a></span>
+<span id="cb571-4"><a href="cnv-calling.html#cb571-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb571-5"><a href="cnv-calling.html#cb571-5"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">cosmic=</span>RatCosmic))</span>
+<span id="cb571-6"><a href="cnv-calling.html#cb571-6"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">cosmic=</span>RatCosmic))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-167-1.png" width="672" /></p>
 <p>The intersecting gene is Lrp1b, Grin2a</p>
 <p>Venn diagram of immune related genes:</p>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="cnv-calling.html#cb525-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb525-2"><a href="cnv-calling.html#cb525-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">Immune=</span>RatAllImm))</span>
-<span id="cb525-3"><a href="cnv-calling.html#cb525-3"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">Immune=</span>RatAllImm))</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-150-1.png" width="672" /></p>
+<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="cnv-calling.html#cb572-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb572-2"><a href="cnv-calling.html#cb572-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVgains=</span>OverviewG, <span class="dt">Immune=</span>RatAllImm))</span>
+<span id="cb572-3"><a href="cnv-calling.html#cb572-3"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">CNVloss=</span>OverviewL, <span class="dt">Immune=</span>RatAllImm))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-168-1.png" width="672" /></p>
 <p>The gained genes are Mir295-2, Scarb1
 The lost genes are Ccl28, Mff, Pdcd1, Arrb2, Mx2</p>
 </div>
 <div id="annotated-plot-of-genome-and-locations-of-genes" class="section level3">
-<h3><span class="header-section-number">24.2.3</span> Annotated plot of genome and locations of genes</h3>
-<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="cnv-calling.html#cb526-1"></a>S2=Samp1<span class="op">$</span>data</span>
-<span id="cb526-2"><a href="cnv-calling.html#cb526-2"></a>S2=S2[<span class="kw">order</span>(S2<span class="op">$</span>chromosome, S2<span class="op">$</span>start), ]</span>
-<span id="cb526-3"><a href="cnv-calling.html#cb526-3"></a></span>
-<span id="cb526-4"><a href="cnv-calling.html#cb526-4"></a></span>
-<span id="cb526-5"><a href="cnv-calling.html#cb526-5"></a>GG2=<span class="kw">sapply</span>(GainGenes, length)</span>
-<span id="cb526-6"><a href="cnv-calling.html#cb526-6"></a>GG3=<span class="kw">unlist</span>(GainGenes)</span>
-<span id="cb526-7"><a href="cnv-calling.html#cb526-7"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
-<span id="cb526-8"><a href="cnv-calling.html#cb526-8"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
-<span id="cb526-9"><a href="cnv-calling.html#cb526-9"></a>Ggenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
-<span id="cb526-10"><a href="cnv-calling.html#cb526-10"></a>Ggenes=<span class="kw">gsub</span>(<span class="st">&quot;  &quot;</span>, <span class="st">&quot;&quot;</span>, Ggenes)</span>
-<span id="cb526-11"><a href="cnv-calling.html#cb526-11"></a>Ggenes[<span class="kw">which</span>(Ggenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
-<span id="cb526-12"><a href="cnv-calling.html#cb526-12"></a>Datx=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
-<span id="cb526-13"><a href="cnv-calling.html#cb526-13"></a>Datx[<span class="kw">match</span>(LocAmerge<span class="op">$</span>start[UniqueGainOlapRegions], S2<span class="op">$</span>start)]=Ggenes</span>
-<span id="cb526-14"><a href="cnv-calling.html#cb526-14"></a></span>
-<span id="cb526-15"><a href="cnv-calling.html#cb526-15"></a>GG2=<span class="kw">sapply</span>(LossGenes, length)</span>
-<span id="cb526-16"><a href="cnv-calling.html#cb526-16"></a>GG3=<span class="kw">unlist</span>(LossGenes)</span>
-<span id="cb526-17"><a href="cnv-calling.html#cb526-17"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
-<span id="cb526-18"><a href="cnv-calling.html#cb526-18"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
-<span id="cb526-19"><a href="cnv-calling.html#cb526-19"></a>Lgenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
-<span id="cb526-20"><a href="cnv-calling.html#cb526-20"></a>Lgenes[<span class="kw">which</span>(Lgenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
-<span id="cb526-21"><a href="cnv-calling.html#cb526-21"></a>Daty=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
-<span id="cb526-22"><a href="cnv-calling.html#cb526-22"></a>Daty[<span class="kw">match</span>(LocBmerge<span class="op">$</span>start[UniqueLossOlapRegions], S2<span class="op">$</span>start)]=Lgenes</span>
-<span id="cb526-23"><a href="cnv-calling.html#cb526-23"></a></span>
-<span id="cb526-24"><a href="cnv-calling.html#cb526-24"></a><span class="co">## </span></span>
-<span id="cb526-25"><a href="cnv-calling.html#cb526-25"></a><span class="co">#S2=Samp1$data</span></span>
-<span id="cb526-26"><a href="cnv-calling.html#cb526-26"></a><span class="co">#S2=S2[order(S2$chromosome, S2$start), ]</span></span>
-<span id="cb526-27"><a href="cnv-calling.html#cb526-27"></a>S2<span class="op">$</span>xLoc=S2<span class="op">$</span>start<span class="op">+</span>chrInfo<span class="op">$</span>sumdist[<span class="kw">match</span>(S2<span class="op">$</span>chromosome, chrInfo<span class="op">$</span>Chromosome)]</span>
-<span id="cb526-28"><a href="cnv-calling.html#cb526-28"></a>S2<span class="op">$</span>width=S2<span class="op">$</span>end<span class="op">-</span>S2<span class="op">$</span>start</span>
-<span id="cb526-29"><a href="cnv-calling.html#cb526-29"></a>S2<span class="op">$</span>label=Datx</span>
-<span id="cb526-30"><a href="cnv-calling.html#cb526-30"></a></span>
-<span id="cb526-31"><a href="cnv-calling.html#cb526-31"></a>S3=S2</span>
-<span id="cb526-32"><a href="cnv-calling.html#cb526-32"></a>S3<span class="op">$</span>gainProportion=S3<span class="op">$</span>lossProportion[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(S2)]<span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb526-33"><a href="cnv-calling.html#cb526-33"></a>S3<span class="op">$</span>label=Daty</span>
-<span id="cb526-34"><a href="cnv-calling.html#cb526-34"></a></span>
-<span id="cb526-35"><a href="cnv-calling.html#cb526-35"></a>S4=<span class="kw">rbind</span>(<span class="kw">cbind</span>(S3, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>), <span class="kw">cbind</span>(S2, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>))</span>
-<span id="cb526-36"><a href="cnv-calling.html#cb526-36"></a>S4=S4[<span class="op">-</span><span class="kw">which</span>(S3<span class="op">$</span>gainProportion<span class="op">==</span><span class="dv">0</span>), ]</span>
-<span id="cb526-37"><a href="cnv-calling.html#cb526-37"></a></span>
-<span id="cb526-38"><a href="cnv-calling.html#cb526-38"></a><span class="kw">ggplot</span>(S4, <span class="kw">aes</span>(<span class="dt">x=</span>xLoc, <span class="dt">y=</span>gainProportion, <span class="dt">width=</span>width<span class="op">*</span><span class="fl">1.2</span>, <span class="dt">label=</span>label, <span class="dt">col=</span>col))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">geom_label_repel</span>()<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">xlim</span>(<span class="dv">0</span>, chrInfo<span class="op">$</span>sumdist2[<span class="dv">22</span>])<span class="op">+</span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>chrInfo<span class="op">$</span>sumdist2,<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">scale_colour_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span>chrInfo<span class="op">$</span>sumdist, <span class="dt">y=</span><span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">22</span>), <span class="dt">label=</span>chrInfo<span class="op">$</span>Chromosome, <span class="dt">col=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-151-1.png" width="672" /></p>
+<h3><span class="header-section-number">25.2.3</span> Annotated plot of genome and locations of genes</h3>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="cnv-calling.html#cb573-1"></a>S2=Samp1<span class="op">$</span>data</span>
+<span id="cb573-2"><a href="cnv-calling.html#cb573-2"></a>S2=S2[<span class="kw">order</span>(S2<span class="op">$</span>chromosome, S2<span class="op">$</span>start), ]</span>
+<span id="cb573-3"><a href="cnv-calling.html#cb573-3"></a></span>
+<span id="cb573-4"><a href="cnv-calling.html#cb573-4"></a></span>
+<span id="cb573-5"><a href="cnv-calling.html#cb573-5"></a>GG2=<span class="kw">sapply</span>(GainGenes, length)</span>
+<span id="cb573-6"><a href="cnv-calling.html#cb573-6"></a>GG3=<span class="kw">unlist</span>(GainGenes)</span>
+<span id="cb573-7"><a href="cnv-calling.html#cb573-7"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
+<span id="cb573-8"><a href="cnv-calling.html#cb573-8"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
+<span id="cb573-9"><a href="cnv-calling.html#cb573-9"></a>Ggenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
+<span id="cb573-10"><a href="cnv-calling.html#cb573-10"></a>Ggenes=<span class="kw">gsub</span>(<span class="st">&quot;  &quot;</span>, <span class="st">&quot;&quot;</span>, Ggenes)</span>
+<span id="cb573-11"><a href="cnv-calling.html#cb573-11"></a>Ggenes[<span class="kw">which</span>(Ggenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb573-12"><a href="cnv-calling.html#cb573-12"></a>Datx=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
+<span id="cb573-13"><a href="cnv-calling.html#cb573-13"></a>Datx[<span class="kw">match</span>(LocAmerge<span class="op">$</span>start[UniqueGainOlapRegions], S2<span class="op">$</span>start)]=Ggenes</span>
+<span id="cb573-14"><a href="cnv-calling.html#cb573-14"></a></span>
+<span id="cb573-15"><a href="cnv-calling.html#cb573-15"></a>GG2=<span class="kw">sapply</span>(LossGenes, length)</span>
+<span id="cb573-16"><a href="cnv-calling.html#cb573-16"></a>GG3=<span class="kw">unlist</span>(LossGenes)</span>
+<span id="cb573-17"><a href="cnv-calling.html#cb573-17"></a>GG3[<span class="kw">which</span>(<span class="kw">duplicated</span>(GG3))]=<span class="st">&quot;&quot;</span></span>
+<span id="cb573-18"><a href="cnv-calling.html#cb573-18"></a>GG4=<span class="kw">split</span>(GG3, <span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(GG2)), <span class="dt">times=</span>GG2))</span>
+<span id="cb573-19"><a href="cnv-calling.html#cb573-19"></a>Lgenes=<span class="kw">sapply</span>(GG4, <span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>))</span>
+<span id="cb573-20"><a href="cnv-calling.html#cb573-20"></a>Lgenes[<span class="kw">which</span>(Lgenes<span class="op">==</span><span class="st">&quot; &quot;</span>)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb573-21"><a href="cnv-calling.html#cb573-21"></a>Daty=<span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">nrow</span>(Samp1<span class="op">$</span>data))</span>
+<span id="cb573-22"><a href="cnv-calling.html#cb573-22"></a>Daty[<span class="kw">match</span>(LocBmerge<span class="op">$</span>start[UniqueLossOlapRegions], S2<span class="op">$</span>start)]=Lgenes</span>
+<span id="cb573-23"><a href="cnv-calling.html#cb573-23"></a></span>
+<span id="cb573-24"><a href="cnv-calling.html#cb573-24"></a><span class="co">## </span></span>
+<span id="cb573-25"><a href="cnv-calling.html#cb573-25"></a><span class="co">#S2=Samp1$data</span></span>
+<span id="cb573-26"><a href="cnv-calling.html#cb573-26"></a><span class="co">#S2=S2[order(S2$chromosome, S2$start), ]</span></span>
+<span id="cb573-27"><a href="cnv-calling.html#cb573-27"></a>S2<span class="op">$</span>xLoc=S2<span class="op">$</span>start<span class="op">+</span>chrInfo<span class="op">$</span>sumdist[<span class="kw">match</span>(S2<span class="op">$</span>chromosome, chrInfo<span class="op">$</span>Chromosome)]</span>
+<span id="cb573-28"><a href="cnv-calling.html#cb573-28"></a>S2<span class="op">$</span>width=S2<span class="op">$</span>end<span class="op">-</span>S2<span class="op">$</span>start</span>
+<span id="cb573-29"><a href="cnv-calling.html#cb573-29"></a>S2<span class="op">$</span>label=Datx</span>
+<span id="cb573-30"><a href="cnv-calling.html#cb573-30"></a></span>
+<span id="cb573-31"><a href="cnv-calling.html#cb573-31"></a>S3=S2</span>
+<span id="cb573-32"><a href="cnv-calling.html#cb573-32"></a>S3<span class="op">$</span>gainProportion=S3<span class="op">$</span>lossProportion[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(S2)]<span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb573-33"><a href="cnv-calling.html#cb573-33"></a>S3<span class="op">$</span>label=Daty</span>
+<span id="cb573-34"><a href="cnv-calling.html#cb573-34"></a></span>
+<span id="cb573-35"><a href="cnv-calling.html#cb573-35"></a>S4=<span class="kw">rbind</span>(<span class="kw">cbind</span>(S3, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>), <span class="kw">cbind</span>(S2, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>))</span>
+<span id="cb573-36"><a href="cnv-calling.html#cb573-36"></a>S4=S4[<span class="op">-</span><span class="kw">which</span>(S3<span class="op">$</span>gainProportion<span class="op">==</span><span class="dv">0</span>), ]</span>
+<span id="cb573-37"><a href="cnv-calling.html#cb573-37"></a></span>
+<span id="cb573-38"><a href="cnv-calling.html#cb573-38"></a><span class="kw">ggplot</span>(S4, <span class="kw">aes</span>(<span class="dt">x=</span>xLoc, <span class="dt">y=</span>gainProportion, <span class="dt">width=</span>width<span class="op">*</span><span class="fl">1.2</span>, <span class="dt">label=</span>label, <span class="dt">col=</span>col))<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="kw">geom_label_repel</span>()<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">xlim</span>(<span class="dv">0</span>, chrInfo<span class="op">$</span>sumdist2[<span class="dv">22</span>])<span class="op">+</span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span>chrInfo<span class="op">$</span>sumdist2,<span class="dt">col=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span><span class="kw">scale_colour_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span>chrInfo<span class="op">$</span>sumdist, <span class="dt">y=</span><span class="kw">rep</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">22</span>), <span class="dt">label=</span>chrInfo<span class="op">$</span>Chromosome, <span class="dt">col=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-169-1.png" width="672" /></p>
 </div>
+</div>
+<div id="samples-with-cnvs-in-breast-related-genes" class="section level2">
+<h2><span class="header-section-number">25.3</span> Samples with CNVs in breast-related genes</h2>
+<p>Below is the plot showing the breast-related mutations as well as CNVs added</p>
+<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="cnv-calling.html#cb574-1"></a>ttemp=CNVGRanges[<span class="kw">which</span>(CNVGRanges<span class="op">$</span>call<span class="op">!=</span><span class="dv">0</span>)]</span>
+<span id="cb574-2"><a href="cnv-calling.html#cb574-2"></a>Bsamples=txRn6[<span class="kw">which</span>(txRn6<span class="op">$</span>gene_id<span class="op">%in%</span><span class="kw">c</span>(RatBreastCosmic, OtherBreast))]</span>
+<span id="cb574-3"><a href="cnv-calling.html#cb574-3"></a>olaps=<span class="kw">findOverlaps</span>(Bsamples,ttemp)</span>
+<span id="cb574-4"><a href="cnv-calling.html#cb574-4"></a>ttemp<span class="op">$</span>gene=<span class="ot">NA</span></span>
+<span id="cb574-5"><a href="cnv-calling.html#cb574-5"></a>ttemp<span class="op">$</span>gene[<span class="kw">subjectHits</span>(olaps)]=Bsamples<span class="op">$</span>gene_id[<span class="kw">queryHits</span>(olaps)]</span>
+<span id="cb574-6"><a href="cnv-calling.html#cb574-6"></a>ttemp<span class="op">$</span>NewID=<span class="kw">sapply</span>(ttemp<span class="op">$</span>sample, <span class="cf">function</span>(x) Cdata<span class="op">$</span>NewID[<span class="kw">grep</span>(x, Cdata<span class="op">$</span>WGS)])</span>
+<span id="cb574-7"><a href="cnv-calling.html#cb574-7"></a></span>
+<span id="cb574-8"><a href="cnv-calling.html#cb574-8"></a>x1=<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(ttemp<span class="op">$</span>gene))</span>
+<span id="cb574-9"><a href="cnv-calling.html#cb574-9"></a>l1=<span class="kw">match</span>(ttemp<span class="op">$</span>gene[x1], <span class="kw">colnames</span>(X2b))</span>
+<span id="cb574-10"><a href="cnv-calling.html#cb574-10"></a>lnew=<span class="kw">unique</span>(ttemp<span class="op">$</span>gene[x1[<span class="kw">which</span>(<span class="kw">is.na</span>(l1))]])</span>
+<span id="cb574-11"><a href="cnv-calling.html#cb574-11"></a></span>
+<span id="cb574-12"><a href="cnv-calling.html#cb574-12"></a>X2b=<span class="kw">cbind</span>(X2b, <span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">ncol=</span><span class="kw">length</span>(lnew), <span class="dt">nrow=</span><span class="kw">nrow</span>(X2b)))</span>
+<span id="cb574-13"><a href="cnv-calling.html#cb574-13"></a><span class="kw">colnames</span>(X2b)[(<span class="kw">ncol</span>(X2b)<span class="op">-</span><span class="kw">length</span>(lnew)<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span><span class="kw">ncol</span>(X2b)]=lnew</span>
+<span id="cb574-14"><a href="cnv-calling.html#cb574-14"></a></span>
+<span id="cb574-15"><a href="cnv-calling.html#cb574-15"></a></span>
+<span id="cb574-16"><a href="cnv-calling.html#cb574-16"></a>l1=<span class="kw">match</span>(ttemp<span class="op">$</span>gene[x1], <span class="kw">colnames</span>(X2b))</span>
+<span id="cb574-17"><a href="cnv-calling.html#cb574-17"></a>l2=<span class="kw">match</span>(ttemp<span class="op">$</span>NewID[x1], <span class="kw">rownames</span>(X2b))</span>
+<span id="cb574-18"><a href="cnv-calling.html#cb574-18"></a></span>
+<span id="cb574-19"><a href="cnv-calling.html#cb574-19"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(l1)){</span>
+<span id="cb574-20"><a href="cnv-calling.html#cb574-20"></a>  X2b[l2[i],l1[i]]=<span class="kw">ifelse</span>(ttemp<span class="op">$</span>call[x1[i]]<span class="op">==</span><span class="st">&quot;+&quot;</span>, <span class="dv">5</span>, <span class="dv">4</span>)</span>
+<span id="cb574-21"><a href="cnv-calling.html#cb574-21"></a>}</span>
+<span id="cb574-22"><a href="cnv-calling.html#cb574-22"></a></span>
+<span id="cb574-23"><a href="cnv-calling.html#cb574-23"></a>l2=<span class="kw">rowSums</span>(<span class="kw">sign</span>(X2b))</span>
+<span id="cb574-24"><a href="cnv-calling.html#cb574-24"></a>l3=<span class="kw">colSums</span>(<span class="kw">sign</span>(X2b))</span>
+<span id="cb574-25"><a href="cnv-calling.html#cb574-25"></a></span>
+<span id="cb574-26"><a href="cnv-calling.html#cb574-26"></a><span class="kw">heatmap.2</span>(X2b[<span class="kw">order</span>(l2),<span class="kw">order</span>(l3) ], <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>,  <span class="dv">3</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">2</span><span class="op">:</span><span class="dv">1</span>), <span class="dt">scale=</span><span class="st">&quot;none&quot;</span>, <span class="dt">trace=</span><span class="st">&quot;none&quot;</span>, <span class="dt">sepcolor=</span><span class="st">&quot;grey85&quot;</span>, <span class="dt">colsep=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(X2b)), <span class="dt">rowsep=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(X2b)), <span class="dt">sepwidth=</span><span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-170-1.png" width="672" /></p>
+<p>Matching the frequency data with genes</p>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="cnv-calling.html#cb575-1"></a>S1GR=<span class="kw">GRanges</span>(<span class="dt">seqnames =</span> Samp1<span class="op">$</span>data<span class="op">$</span>chromosome, <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>Samp1<span class="op">$</span>data<span class="op">$</span>start, <span class="dt">end=</span>Samp1<span class="op">$</span>data<span class="op">$</span>end))</span>
+<span id="cb575-2"><a href="cnv-calling.html#cb575-2"></a>olaps=<span class="kw">findOverlaps</span>(S1GR, txRn6)</span>
+<span id="cb575-3"><a href="cnv-calling.html#cb575-3"></a>Samp1<span class="op">$</span>data<span class="op">$</span>gene=<span class="ot">NA</span></span>
+<span id="cb575-4"><a href="cnv-calling.html#cb575-4"></a>Samp1<span class="op">$</span>data<span class="op">$</span>gene[<span class="kw">queryHits</span>(olaps)]=txRn6<span class="op">$</span>gene_id[<span class="kw">subjectHits</span>(olaps)]</span>
+<span id="cb575-5"><a href="cnv-calling.html#cb575-5"></a></span>
+<span id="cb575-6"><a href="cnv-calling.html#cb575-6"></a>gid=<span class="kw">unique</span>(<span class="kw">na.omit</span>(Samp1<span class="op">$</span>data<span class="op">$</span>gene))</span>
+<span id="cb575-7"><a href="cnv-calling.html#cb575-7"></a></span>
+<span id="cb575-8"><a href="cnv-calling.html#cb575-8"></a>Tabix=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow=</span><span class="kw">length</span>(gid), <span class="dt">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb575-9"><a href="cnv-calling.html#cb575-9"></a><span class="kw">rownames</span>(Tabix)=gid</span>
+<span id="cb575-10"><a href="cnv-calling.html#cb575-10"></a></span>
+<span id="cb575-11"><a href="cnv-calling.html#cb575-11"></a><span class="cf">for</span> (i <span class="cf">in</span> gid){</span>
+<span id="cb575-12"><a href="cnv-calling.html#cb575-12"></a>  m1=Samp1<span class="op">$</span>data[<span class="kw">which</span>(Samp1<span class="op">$</span>data<span class="op">$</span>gene<span class="op">==</span>i), ]</span>
+<span id="cb575-13"><a href="cnv-calling.html#cb575-13"></a>  Tabix[i, ]=<span class="kw">colMedians</span>(<span class="kw">data.matrix</span>(m1[ , <span class="dv">7</span><span class="op">:</span><span class="dv">8</span>]))</span>
+<span id="cb575-14"><a href="cnv-calling.html#cb575-14"></a>  </span>
+<span id="cb575-15"><a href="cnv-calling.html#cb575-15"></a>}</span>
+<span id="cb575-16"><a href="cnv-calling.html#cb575-16"></a></span>
+<span id="cb575-17"><a href="cnv-calling.html#cb575-17"></a><span class="kw">rownames</span>(Tabix)=<span class="kw">toupper</span>(<span class="kw">rownames</span>(Tabix))</span>
+<span id="cb575-18"><a href="cnv-calling.html#cb575-18"></a></span>
+<span id="cb575-19"><a href="cnv-calling.html#cb575-19"></a>Tabix=Tabix[<span class="kw">order</span>(<span class="kw">rownames</span>(Tabix)), ]</span>
+<span id="cb575-20"><a href="cnv-calling.html#cb575-20"></a>Tabix=Tabix[<span class="op">-</span><span class="kw">which</span>(<span class="kw">rowSums</span>(Tabix)<span class="op">==</span><span class="dv">0</span>), ]</span>
+<span id="cb575-21"><a href="cnv-calling.html#cb575-21"></a></span>
+<span id="cb575-22"><a href="cnv-calling.html#cb575-22"></a>lx=<span class="kw">match</span>( <span class="kw">names</span>(rGene2), <span class="kw">rownames</span>(Tabix))</span>
+<span id="cb575-23"><a href="cnv-calling.html#cb575-23"></a></span>
+<span id="cb575-24"><a href="cnv-calling.html#cb575-24"></a>df2=<span class="kw">data.frame</span>(<span class="dt">mut=</span>rGene2, <span class="dt">gain=</span>Tabix[ lx,<span class="dv">1</span>], <span class="dt">loss=</span>Tabix[lx, <span class="dv">2</span>])</span>
+<span id="cb575-25"><a href="cnv-calling.html#cb575-25"></a></span>
+<span id="cb575-26"><a href="cnv-calling.html#cb575-26"></a>lx2=<span class="kw">match</span>(<span class="kw">rownames</span>(Tabix), <span class="kw">names</span>(rGene2))</span>
+<span id="cb575-27"><a href="cnv-calling.html#cb575-27"></a></span>
+<span id="cb575-28"><a href="cnv-calling.html#cb575-28"></a>df3=<span class="kw">data.frame</span>(<span class="dt">mut=</span><span class="dv">0</span>, <span class="dt">gain=</span>Tabix[<span class="kw">which</span>(<span class="kw">is.na</span>(lx2)),<span class="dv">1</span>], <span class="dt">loss=</span>Tabix[<span class="kw">which</span>(<span class="kw">is.na</span>(lx2)),<span class="dv">2</span>])</span>
+<span id="cb575-29"><a href="cnv-calling.html#cb575-29"></a></span>
+<span id="cb575-30"><a href="cnv-calling.html#cb575-30"></a>dfAll=<span class="kw">rbind</span>(df2, df3)</span>
+<span id="cb575-31"><a href="cnv-calling.html#cb575-31"></a></span>
+<span id="cb575-32"><a href="cnv-calling.html#cb575-32"></a></span>
+<span id="cb575-33"><a href="cnv-calling.html#cb575-33"></a><span class="co">#mx=which(rownames(dfAll)%in%AllCosmic$Gene.Symbol)</span></span>
+<span id="cb575-34"><a href="cnv-calling.html#cb575-34"></a>dfAll[<span class="kw">which</span>(<span class="kw">is.na</span>(dfAll), <span class="dt">arr.ind=</span>T)]=<span class="dv">0</span></span>
+<span id="cb575-35"><a href="cnv-calling.html#cb575-35"></a>dfAll=dfAll<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb575-36"><a href="cnv-calling.html#cb575-36"></a>dfAll[ ,<span class="dv">3</span>]=dfAll[ ,<span class="dv">3</span>]<span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb575-37"><a href="cnv-calling.html#cb575-37"></a>dfAll<span class="op">$</span>gene=<span class="kw">rownames</span>(dfAll)</span>
+<span id="cb575-38"><a href="cnv-calling.html#cb575-38"></a></span>
+<span id="cb575-39"><a href="cnv-calling.html#cb575-39"></a>dfAll=dfAll[ ,<span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]</span>
+<span id="cb575-40"><a href="cnv-calling.html#cb575-40"></a>mx=<span class="kw">which</span>(dfAll<span class="op">$</span>gene<span class="op">%in%</span>AllCosmic<span class="op">$</span>Gene.Symbol)</span>
+<span id="cb575-41"><a href="cnv-calling.html#cb575-41"></a><span class="kw">write.table</span>(dfAll[mx, ], <span class="dt">file=</span><span class="st">&quot;nature-tables/outputs_pathway_map_cosmic.txt&quot;</span>, <span class="dt">quote =</span> F, <span class="dt">row.names =</span> F, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 </div>
 <div id="summary-of-the-sequencing-depth" class="section level2">
-<h2><span class="header-section-number">24.3</span> Summary of the sequencing depth</h2>
+<h2><span class="header-section-number">25.4</span> Summary of the sequencing depth</h2>
 <p>Below, do a quick summary of the WGS data: what is the coverage, and plot the percentage mapping of the coverage:</p>
-<div class="sourceCode" id="cb527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb527-1"><a href="cnv-calling.html#cb527-1"></a>SeqData=<span class="kw">read.delim</span>(<span class="st">&quot;../data/wholegenome_mutations/summary_Sequencing_output.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb527-2"><a href="cnv-calling.html#cb527-2"></a></span>
-<span id="cb527-3"><a href="cnv-calling.html#cb527-3"></a><span class="kw">hist</span>(SeqData<span class="op">$</span>MEAN_COVERAGE, <span class="dt">breaks=</span><span class="dv">10</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-152-1.png" width="672" /></p>
+<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="cnv-calling.html#cb576-1"></a>SeqData=<span class="kw">read.delim</span>(<span class="st">&quot;../data/wholegenome_mutations/summary_Sequencing_output.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb576-2"><a href="cnv-calling.html#cb576-2"></a></span>
+<span id="cb576-3"><a href="cnv-calling.html#cb576-3"></a><span class="kw">hist</span>(SeqData<span class="op">$</span>MEAN_COVERAGE, <span class="dt">breaks=</span><span class="dv">10</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-172-1.png" width="672" /></p>
 <p>Also, extract the information about coverage:</p>
-<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="cnv-calling.html#cb528-1"></a>SeqDatam=<span class="kw">melt</span>(SeqData[ ,<span class="kw">c</span>(<span class="kw">grep</span>(<span class="st">&quot;PCT_[0-9]*X&quot;</span>, <span class="kw">colnames</span>(SeqData)), <span class="kw">ncol</span>(SeqData))])</span>
-<span id="cb528-2"><a href="cnv-calling.html#cb528-2"></a>SeqDatam<span class="op">$</span>coverage2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(SeqDatam<span class="op">$</span>variable), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb528-3"><a href="cnv-calling.html#cb528-3"></a>SeqDatam<span class="op">$</span>coverage3=<span class="kw">as.numeric</span>(<span class="kw">substr</span>(SeqDatam<span class="op">$</span>coverage2, <span class="dv">1</span>, <span class="kw">nchar</span>(SeqDatam<span class="op">$</span>coverage2)<span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb528-4"><a href="cnv-calling.html#cb528-4"></a></span>
-<span id="cb528-5"><a href="cnv-calling.html#cb528-5"></a></span>
-<span id="cb528-6"><a href="cnv-calling.html#cb528-6"></a><span class="kw">ggplot</span>(SeqDatam, <span class="kw">aes</span>(<span class="dt">x=</span>coverage3, <span class="dt">y=</span>value, <span class="dt">col=</span>Sample))<span class="op">+</span><span class="kw">geom_line</span>()<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;WGS coverage&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Reads&quot;</span>)<span class="op">+</span><span class="kw">xlab</span>(<span class="st">&quot;Coverage X&quot;</span>)<span class="op">+</span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">75</span>))</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-153-1.png" width="672" /></p>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="cnv-calling.html#cb577-1"></a>SeqDatam=<span class="kw">melt</span>(SeqData[ ,<span class="kw">c</span>(<span class="kw">grep</span>(<span class="st">&quot;PCT_[0-9]*X&quot;</span>, <span class="kw">colnames</span>(SeqData)), <span class="kw">ncol</span>(SeqData))])</span>
+<span id="cb577-2"><a href="cnv-calling.html#cb577-2"></a>SeqDatam<span class="op">$</span>coverage2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">as.character</span>(SeqDatam<span class="op">$</span>variable), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb577-3"><a href="cnv-calling.html#cb577-3"></a>SeqDatam<span class="op">$</span>coverage3=<span class="kw">as.numeric</span>(<span class="kw">substr</span>(SeqDatam<span class="op">$</span>coverage2, <span class="dv">1</span>, <span class="kw">nchar</span>(SeqDatam<span class="op">$</span>coverage2)<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb577-4"><a href="cnv-calling.html#cb577-4"></a></span>
+<span id="cb577-5"><a href="cnv-calling.html#cb577-5"></a></span>
+<span id="cb577-6"><a href="cnv-calling.html#cb577-6"></a><span class="kw">ggplot</span>(SeqDatam, <span class="kw">aes</span>(<span class="dt">x=</span>coverage3, <span class="dt">y=</span>value, <span class="dt">col=</span>Sample))<span class="op">+</span><span class="kw">geom_line</span>()<span class="op">+</span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">ggtitle</span>(<span class="st">&quot;WGS coverage&quot;</span>)<span class="op">+</span><span class="kw">ylab</span>(<span class="st">&quot;Percentage Reads&quot;</span>)<span class="op">+</span><span class="kw">xlab</span>(<span class="st">&quot;Coverage X&quot;</span>)<span class="op">+</span><span class="kw">xlim</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">75</span>))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-173-1.png" width="672" /></p>
 
 </div>
 </div>

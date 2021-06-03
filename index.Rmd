@@ -80,6 +80,7 @@ library(rmarkdown)
 library(RColorBrewer)
 library(scales)
 library(spatstat)
+library(survival)
 library(tcR)
 library(vcfR)
 library(xlsx)
@@ -192,7 +193,7 @@ Biomart was used to convert between rat, mouse and human gene symbols and ensemb
 
 library(biomaRt)
 #library(refGenome)
-TS=read.delim("../anntotations//hg38_allsymbols.txt")
+TS=read.delim("~/Documents/metacore-hack/hg38_allsymbols.txt")
 TS=as.character(TS[ ,1])
 human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
 mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
@@ -305,6 +306,12 @@ RatAllImm=na.omit(unique(c(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$H
 
 ## CIBERSORT specific rat genes
 #lm22rat=read.delim("../anntotations/LM22_to_rnorvegicus_1.txt", sep="\t")
+
+# Oncoprint
+Oncoprint=read.csv("../anntotations/Onco_Mamma.csv")
+Oncoprint=lapply(1:ncol(Oncoprint), function(x) setdiff(unique(Oncoprint[ ,x]), ""))
+names(Oncoprint)=c("Oncotype", "Mammaprint")
+
 ```
 
 #### Human gene homologs

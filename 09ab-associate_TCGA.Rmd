@@ -2,7 +2,7 @@
 
 Associate the signature with outcome in TCGA: Load in TCGA right now
 
-```{r}
+```{r read-TCGA, cache=T}
 TCGArsem=read.delim("../data/TCGA/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt", sep="\t")
 rownames(TCGArsem)=TCGArsem[ ,1]
 TCGArsem=TCGArsem[, grep("01A", colnames(TCGArsem))]
@@ -363,19 +363,20 @@ DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
 
 ## Signature: Lum cases non-inflammatory: growing vs stable
 
-Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples.
+Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples. We compare this to the oncotypedx list of genes and mammaprint
 
 
 
 ```{r, results='hide'}
-GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
-Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+#GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+#Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
 
 HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
 HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
 
 TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
-                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=F)
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)],
+                                  Onco=Oncoprint[[1]], Mamma=Oncoprint[[2]]), method="ssgsea", ssgsea.norm=F)
 
 TCGAssgsea=t(scale(t(TCGAssgsea)))
 
@@ -384,17 +385,21 @@ hist(TCGAssgsea[1, ], main="stable")
 hist(TCGAssgsea[2, ], main="growing")
 plot(TCGAssgsea[1, ], TCGAssgsea[2, ], xlab="stable", ylab="growing")
 
+## also compare with onco or mamma print
+
+plot(TCGAssgsea[1, ], TCGAssgsea[3, ], xlab="stable", ylab="oncotype")
+plot(TCGAssgsea[1, ], TCGAssgsea[4, ], xlab="stable", ylab="mammaprint")
+
 
 write.csv("nature-tables/Supplemental_table5.csv")
 ```
 
-The Growing signature genes are `r Glistnon`
-and stable are `r GlistGrowing`.
+The Growing signature genes (positive coefficient) are `r GlistGrowing` and stable (negative coefficient) are `r Glistnon`.
 
-Below are the survival curves for the stable signature:
+Below are the survival curves for the growing signature:
 
 ```{r, fig.height=8}
-#pdf("figure-outputs/Fig5_survival_analysis_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
+pdf("figure-outputs/Fig5_survival_analysis__poslist_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
 
 par(mfrow=c(2,2))
 
@@ -407,7 +412,7 @@ for (i in Xind){
    axb=coxph(ax~TCGAssgsea[1, lx2]+BrClin$Stage[l1])
   axc=summary(axb)
   TCGAvalCut=cut(TCGAssgsea[1, lx2], quantile(TCGAssgsea[1, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
    legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
@@ -424,22 +429,26 @@ for (i in Xind){
   axc=summary(axb)
   
   TCGAvalCut=cut(TCGAssgsea[1, lx2], quantile(TCGAssgsea[1, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
           pch=19)
 }
 
+dev.off()
 
 #DT::datatable(as.data.frame(test), rownames=F, class='cell-border stripe',
 #         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
-The OS curves for the growing signature
+The OS curves for the stable signature
 
 ```{r 5i, fig.cap="OS: growing signature", fig.height=8}
+
+pdf("figure-outputs/Fig5_survival_analysis__neglist_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
+
 par(mfrow=c(2,2))
 
 Xind=c("Basal", "Her2", "LumA", "LumB")
@@ -452,16 +461,21 @@ for (i in Xind){
   axc=summary(axb)
   
   TCGAvalCut=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum stab"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
                       round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
    legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
           pch=19)
   
 }
+
+dev.off()
+
+ax=cut(TCGAssgsea[2, lx2], quantile(TCGAssgsea[2, lx2], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+table(ax)
 ```
 
-Followed by the DFS plots for this signature
+Followed by the DFS plots for stable signature
 
 ```{r 5i-dfs, fig.cap="DFS forgrowing signature", fig.height=8}
 par(mfrow=c(2,2))
@@ -493,16 +507,41 @@ for (i in Xind){
    
 ```
 
-The gene lists are 
+Combined signature:
 
-Stable:
+```{r}
+pdf("figure-outputs/Fig5_survival_analysis_growing_subtract_stab_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
 
-`r GlistGrowing` 
 
-Growing:
+par(mfrow=c(2,2))
 
-`r Glistnon`
+for (i in Xind){
+  l1=which(BrClin$PAM50==i)
+   lx2=match(BrClin$Patient.ID[l1], colnames(TCGArsem2))
+  ax=Surv(BrClin$Disease.Free..Months.[l1], ifelse(BrClin$Disease.Free.Status[l1]=="Recurred/Progressed", 1, ifelse(BrClin$Disease.Free.Status[l1]=="DiseaseFree", 0, NA)))
+  tval=TCGAssgsea[1, lx2]-TCGAssgsea[2, lx2]
+   axb=coxph(ax~tval+BrClin$Stage[l1])
+  axc=summary(axb)
+  TCGAvalCut=cut(tval, quantile(tval, c(0, 0.33, 0.67, 1)), c("L","M", "P"))
+  ax2=plot(survfit(ax~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
+    text(10, 0, sprintf("HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
+                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
+    legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)
+    
+    ay=Surv(BrClin$Overall.Survival..Months.[l1], ifelse(BrClin$Overall.Survival.Status[l1]=="DECEASED", 1, ifelse(BrClin$Overall.Survival.Status[l1]=="LIVING", 0, NA)))
+   ayb=coxph(ay~tval+BrClin$Stage[l1])  
+   ayc=summary(ayb)
+    ax2=plot(survfit(ay~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
+   text(10, 0, sprintf("HR=%s (%s-%s), p=%s", round(ayc$coefficients[1,2], 2),
+                      round(ayc$conf.int[1,3],2), round(ayc$conf.int[1,4],2),round(ayc$logtest[3],2 )))
+   legend("topleft",paste(c("L", "M", "H"), summary(TCGAvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
+          pch=19)  
+  
+}
 
+dev.off()
+```
 
 We can see whether this signature associates with leukocyte content and TCR diversity in the TCGA cohort:
 
@@ -513,25 +552,33 @@ lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
 
 lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
 
-newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
+newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAstab=TCGAssgsea[2, lx2],
+                      TCGAgrow=TCGAssgsea[1, lx2],
+                      TCGAcomb=TCGAssgsea[1, lx2]-TCGAssgsea[2, lx2],
+                      Onco=TCGAssgsea[3, lx2],
+                      Mamma=TCGAssgsea[4, lx2],
+                      OSM=BrClin$Overall.Survival..Months.[l1],
+                      OSS=BrClin$Overall.Survival.Status[l1], DFS=BrClin$Disease.Free.Status[l1],
+                 DFM=BrClin$Disease.Free..Months.[l1],
+                 Stage=BrClin$Stage[l1],
                       leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
                       str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
                       TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
                       immSub=ThorssData$Immune.Subtype[lx3])
 
 
-#pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
+pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
 par(mfrow=c(2,2))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$leuk, method="spearman")
-smoothScatter(newinfoTab$TCGA, newinfoTab$leuk)
+ax=cor.test(newinfoTab$TCGAcomb, newinfoTab$leuk, method="spearman")
+smoothScatter(newinfoTab$TCGAcomb, newinfoTab$leuk)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$str, method="spearman")
-smoothScatter(newinfoTab$TCGA, newinfoTab$str)
+ax=cor.test(newinfoTab$TCGAcomb, newinfoTab$str, method="spearman")
+smoothScatter(newinfoTab$TCGAcomb, newinfoTab$str)
 text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$TCGA, newinfoTab$TCRshann, method="spearman")
-smoothScatter(newinfoTab$TCGA, newinfoTab$TCRshann)
+ax=cor.test(newinfoTab$TCGAcomb, newinfoTab$TCRshann, method="spearman")
+smoothScatter(newinfoTab$TCGAcomb, newinfoTab$TCRshann)
 text(0.6,5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-#dev.off()
+dev.off()
 
 DT::datatable(newinfoTab, rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
@@ -542,8 +589,109 @@ DT::datatable(newinfoTab, rownames=T, class='cell-border stripe',
 As well as whether it associates with any of the previously identified immune subtypes:
 
 ```{r thorrs-subtypes}
-ggplot(newinfoTab, aes(x=immSub, y=TCGAval))+geom_boxplot()+geom_point()+theme_bw()
+ggplot(newinfoTab, aes(x=immSub, y=TCGAstab))+geom_boxplot()+geom_point()+theme_bw()
 write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
+```
+
+## Comparison to oncotype and mammaprint 
+
+Finally, see how these compare to oncotype or mammaprint.
+
+We can do this two ways:
+
+### Overall survival
+
+1. Run survival ~ Oncotype/Mamma/Growing + PAM50 + Stage
+
+```{r}
+SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
+SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
+
+model1=coxph(SurvOS~TCGAgrow+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAgrow+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAgrow+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAgrow+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+2. Also try the growing signature:
+
+```{r}
+model1=coxph(SurvOS~TCGAstab+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAstab+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAstab+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAstab+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+3. Combine the signatures such that it is Growing - Stable
+
+```{r}
+model1=coxph(SurvOS~TCGAcomb+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAcomb+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAcomb+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAcomb+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+### DFS survival
+
+1. Run survival ~ Oncotype/Mamma/Growing + PAM50 + Stage
+
+```{r}
+#SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
+SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
+
+model1=coxph(SurvDFS~TCGAgrow+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAgrow+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAgrow+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAgrow+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+2. Also try the growing signature:
+
+```{r}
+model1=coxph(SurvDFS~TCGAstab+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAstab+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAstab+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAstab+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+3. Combine the signatures such that it is Growing - Stable
+
+```{r}
+model1=coxph(SurvDFS~TCGAcomb+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAcomb+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAcomb+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAcomb+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+### Redo the survival plots based on Luminal cases only
+
+```{r}
+
+
 ```
 
 ### TCGA: LumA high vs low signatures
@@ -551,7 +699,7 @@ write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
 We can pull out the samples here which have high vs low signature (in the lumA group) and perform differential gene expression analysis on these cases:
 
 ```{r TCGA-deseq}
-newinfoTab$TCGAvalcut=cut(newinfoTab$TCGAval,  quantile(newinfoTab$TCGAval, c(0, 0.33, 0.67, 1) ), c("L", "M", "O"))
+newinfoTab$TCGAvalcut=cut(newinfoTab$TCGAstab,  quantile(newinfoTab$TCGAstab, c(0, 0.33, 0.67, 1) ), c("L", "M", "O"))
 
 colDataTCGA=newinfoTab[which(newinfoTab$TCGAvalcut!="M"), ]
 

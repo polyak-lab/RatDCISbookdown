@@ -230,7 +230,32 @@ barplot(T2[ind2]/31, ylim=c(0, 1), main="most frequent coding mutations with hum
 
 ttemp=names(T2[ind2])
 ```
+Also filter these to breast specific aberrations:  CHECK THIS
 
+```{r}
+MeltComicB=MeltCosmic[which(MeltCosmic$Gene_Symbol%in%RatBreastCosmic), ]
+
+idx=which(!is.na(MeltComicB$HumAAno))
+Nx=paste(MeltComicB$Gene[idx], MeltComicB$AAno[idx])
+T2a=sort(table(Nx), decreasing = T)
+#head(T2)
+
+head(T2a)
+
+T2b=sort(table(MeltComicB$Gene_Symbol), decreasing = T)
+
+head(T2b)
+
+#pdf("~/Desktop/Frequency_of_mutations.pdf", height=6, width=9)
+# par(mfrow=c(1,2))
+# barplot(T2a/31, ylim=c(0, 0.2), main="most frequent BRCA with human homolog", las=2)
+# barplot(T2b/31, ylim=c(0, 0.2), main="most frequent coding BRCA mutations", las=2)
+
+#dev.off()
+
+ttemp=names(T2[ind2])
+
+```
 
 ```{r}
 Nx=paste(MeltCosmic$Gene, MeltCosmic$AAno)
@@ -382,31 +407,25 @@ ax1=lapply(sort(SearchVars), function(x) cor.test(TotTabl[TotTabl$variant==x , "
 pvals=sapply(ax1, function(x) x$p.value)
 cors=sapply(ax1, function(x) x$estimate)
 
+## FIGURE OUT WHAT"S WRONG
+# # p value calculation: figure out the latency and penetrance
+# pvalOutputs=sapply(c("NCodingMut", "TMB", "TotalMut","Tum.size",
+#                      "NsynFreq") , function(x) t.test(Ntot2[ Ntot2$cohort!="cohort-2",x]~ Ntot2$cohort[Ntot2$cohort!="cohort-2"])$p.value)
+# # cohort size calculation
+# corOutputs=sapply(c("NCodingMut", "TMB", "TotalMut",
+#                      "NsynFreq") , function(x) cor.test(Ntot2[ ,x], Ntot2$Tum.size)$p.value)
+# ann_text2 <- data.frame(lab=paste("p=", round(pvalOutputs, 2)), val=1, Size=5, cohort="latency-4",
+#                         variable=c("NCodingMut", "TMB", "TotalMut", "Tum.size","NsynFreq"))
 
-# p value calculation: figure out the latency and penetrance
-
-pvalOutputs=sapply(c("NCodingMut", "TMB", "TotalMut","Tum.size",
-                     "NsynFreq") , function(x) t.test(Ntot2[ Ntot2$cohort!="cohort-2",x]~ Ntot2$cohort[Ntot2$cohort!="cohort-2"])$p.value)
-
-# cohort size calculation
-corOutputs=sapply(c("NCodingMut", "TMB", "TotalMut",
-                     "NsynFreq") , function(x) cor.test(Ntot2[ ,x], Ntot2$Tum.size)$p.value)
-
-
-#pdf("~/Desktop/Supp_1G-H_WGS_mutations_assoc_clinico.pdf", width=8, height=5)
-
-ann_text2 <- data.frame(lab=paste("p=", round(pvalOutputs, 2)), val=1, Size=5, cohort="latency-4",
-                        variable=c("NCodingMut", "TMB", "TotalMut", "Tum.size","NsynFreq"))
-
-ggplot(Ntot2melt, aes(x=cohort, y=value, col=cohort))+geom_boxplot()+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))+geom_text(data=ann_text2, aes(label=lab, x=1, y=0))
+ggplot(Ntot2melt, aes(x=cohort, y=value, col=cohort))+geom_boxplot()+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))#+geom_text(data=ann_text2, aes(label=lab, x=1, y=0))
 ```
 
 ```{r}
-ann_text2 <- data.frame(lab=paste("p=", round(corOutputs, 2)), val=1, Size=5, cohort="latency-4",
-                        variable=c("NCodingMut", "TMB", "TotalMut",
-                     "NsynFreq"))
+# ann_text2 <- data.frame(lab=paste("p=", round(corOutputs, 2)), val=1, Size=5, cohort="latency-4",
+#                         variable=c("NCodingMut", "TMB", "TotalMut",
+#                      "NsynFreq"))
 
-ggplot(Ntot2melt, aes(x=size2, y=value, col=cohort))+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))+geom_text(data=ann_text2, aes(label=lab, x=10, y=0))
+ggplot(Ntot2melt, aes(x=size2, y=value, col=cohort))+geom_point()+facet_wrap(~variable, scale="free_y")+theme_bw()+theme(axis.text.x=element_text(angle=90))#+geom_text(data=ann_text2, aes(label=lab, x=10, y=0))
 #dev.off()
 
 write.csv(Ntot2melt, file = "nature-tables/Ext1h-i.csv")
@@ -466,7 +485,7 @@ Note that the nihRats package may not be required here. We probably just want th
 
 ```{r, load-snps-database, cache=T, message=F, warning=F, results='hide'}
 # loading known list of rat snp sites
-nihRats=read.vcfR("../anntotations/dbSNP/rat_10116_00-All.wchr.SDsort.vcf.gz")
+nihRats=read.vcfR("../anntotations/rat_10116_00-All.wchr.SDsort.vcf.gz")
 #nihRats@fix[ ,1]=paste("chr", nihRats@fix[ ,1], sep="")
 r=regexpr("[a-z]+_[a-z]+",nihRats@fix[ ,8]) #ANN=[A-Z]\\|
 ModType=rep(NA, length(nihRats@fix[ ,8]))
@@ -794,6 +813,19 @@ axis(2, at=seq(0, 1, length=nrow(tempz2)), rownames(tempz2), las=2, cex.axis=0.7
 legend("top", inset = c(-0.5, -0.15),    legend = c("missense","frameshift", "Nonsense", "splice", "hotspot human"),  pch = c(19, 19, 19,19, 8),  col = c(1:4, "black"), horiz = T)
 
 #dev.off()
+```
+Extract breast-cancer related information:
+
+```{r}
+OtherBreast=c("Kmt2d", "Kmt2c", "Gata3", "Pten")
+X2=rGeneOut2[, na.omit(match(c(RatBreastCosmic, OtherBreast), colnames(rGeneOut2)))]
+rownames(X2)=Cdata$NewID[sapply(rownames(X2), function(x) grep(x, Cdata$WGS))]
+X2b=X2[order(X2[ ,1], X2[ ,2], X2[ ,7], X2[ ,17], X2[ ,11]),]
+heatmap.2(X2b, col=c("white", 1:4), scale="none", trace="none", sepcolor="grey85", colsep=c(1:ncol(X2b)), rowsep=c(1:nrow(X2b)), sepwidth=c(0.005, 0.005))
+
+# Also save this information to file for pathway maps:
+rGene2=colSums(sign(rGeneOut2))/nrow(rGeneOut2)
+names(rGene2)=toupper(names(rGene2))
 ```
 
 ## Metacore analysis of commonly mutated pathways
