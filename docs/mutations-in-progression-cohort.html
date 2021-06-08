@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-06-03" />
+<meta name="date" content="2021-06-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -299,8 +299,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint"><i class="fa fa-check"></i><b>15.4</b> Comparison to oncotype and mammaprint</a><ul>
 <li class="chapter" data-level="15.4.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#overall-survival"><i class="fa fa-check"></i><b>15.4.1</b> Overall survival</a></li>
 <li class="chapter" data-level="15.4.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#dfs-survival"><i class="fa fa-check"></i><b>15.4.2</b> DFS survival</a></li>
-<li class="chapter" data-level="15.4.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redo-the-survival-plots-based-on-luminal-cases-only"><i class="fa fa-check"></i><b>15.4.3</b> Redo the survival plots based on Luminal cases only</a></li>
-<li class="chapter" data-level="15.4.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.4.4</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.4.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.4.3</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>16</b> METABRIC: Associate Epcam+ inflammatory with survival</a><ul>
@@ -381,7 +380,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="23" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>23</b> Mutations in progression cohort</a><ul>
 <li class="chapter" data-level="23.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>23.1</b> Summary of common mutations:</a></li>
 <li class="chapter" data-level="23.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>23.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="23.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>23.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="23.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-ep-specific"><i class="fa fa-check"></i><b>23.3</b> Also look at the top RNA-mutations with are Ep specific</a></li>
 </ul></li>
 <li class="chapter" data-level="24" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>24</b> Trichrome staining</a><ul>
 <li class="chapter" data-level="24.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>24.1</b> Associations with cellular fraction (wsi)</a></li>
@@ -438,151 +437,162 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="mutations-in-progression-cohort" class="section level1">
 <h1><span class="header-section-number">Chapter 23</span> Mutations in progression cohort</h1>
-<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="mutations-in-progression-cohort.html#cb550-1"></a>hfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/haplotypeCaller/output_HaplotypeCaller_May/progression/&quot;</span>,</span>
-<span id="cb550-2"><a href="mutations-in-progression-cohort.html#cb550-2"></a>           <span class="dt">pattern=</span><span class="st">&quot;.txt&quot;</span>, <span class="dt">full.names =</span> T)</span>
-<span id="cb550-3"><a href="mutations-in-progression-cohort.html#cb550-3"></a></span>
-<span id="cb550-4"><a href="mutations-in-progression-cohort.html#cb550-4"></a>allHfilesP=<span class="kw">list</span>()</span>
-<span id="cb550-5"><a href="mutations-in-progression-cohort.html#cb550-5"></a>allCodingHaploP=<span class="kw">list</span>()</span>
-<span id="cb550-6"><a href="mutations-in-progression-cohort.html#cb550-6"></a>allCosmicHaploP=<span class="kw">list</span>()</span>
-<span id="cb550-7"><a href="mutations-in-progression-cohort.html#cb550-7"></a></span>
-<span id="cb550-8"><a href="mutations-in-progression-cohort.html#cb550-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(hfiles)){</span>
-<span id="cb550-9"><a href="mutations-in-progression-cohort.html#cb550-9"></a>A1=<span class="kw">read.delim</span>(hfiles[i], <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactors =</span> F)</span>
-<span id="cb550-10"><a href="mutations-in-progression-cohort.html#cb550-10"></a>A1[<span class="kw">which</span>(A1<span class="op">==</span>(<span class="op">-</span><span class="dv">1</span>), <span class="dt">arr.ind=</span>T)]=<span class="st">&quot;&quot;</span></span>
-<span id="cb550-11"><a href="mutations-in-progression-cohort.html#cb550-11"></a></span>
-<span id="cb550-12"><a href="mutations-in-progression-cohort.html#cb550-12"></a>cNames=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">27</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb550-13"><a href="mutations-in-progression-cohort.html#cb550-13"></a>cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]=<span class="kw">paste</span>(<span class="kw">c</span>(<span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;NMD&quot;</span>, <span class="st">&quot;NMD&quot;</span>), cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>], <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
-<span id="cb550-14"><a href="mutations-in-progression-cohort.html#cb550-14"></a><span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">28</span>]=<span class="kw">c</span>(cNames, <span class="st">&quot;GEN&quot;</span>)</span>
-<span id="cb550-15"><a href="mutations-in-progression-cohort.html#cb550-15"></a></span>
-<span id="cb550-16"><a href="mutations-in-progression-cohort.html#cb550-16"></a>GEN2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(A1<span class="op">$</span>GEN, <span class="st">&quot;:&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb550-17"><a href="mutations-in-progression-cohort.html#cb550-17"></a>gRef=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb550-18"><a href="mutations-in-progression-cohort.html#cb550-18"></a>gAlt=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
-<span id="cb550-19"><a href="mutations-in-progression-cohort.html#cb550-19"></a></span>
-<span id="cb550-20"><a href="mutations-in-progression-cohort.html#cb550-20"></a>A1<span class="op">$</span>n_ref=<span class="kw">as.numeric</span>(gRef)</span>
-<span id="cb550-21"><a href="mutations-in-progression-cohort.html#cb550-21"></a>A1<span class="op">$</span>n_alt=<span class="kw">as.numeric</span>(gAlt)</span>
-<span id="cb550-22"><a href="mutations-in-progression-cohort.html#cb550-22"></a>A1<span class="op">$</span>VAF=A1<span class="op">$</span>n_alt<span class="op">/</span>(A1<span class="op">$</span>n_alt<span class="op">+</span>A1<span class="op">$</span>n_ref)</span>
-<span id="cb550-23"><a href="mutations-in-progression-cohort.html#cb550-23"></a></span>
-<span id="cb550-24"><a href="mutations-in-progression-cohort.html#cb550-24"></a>allHfilesP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb550-25"><a href="mutations-in-progression-cohort.html#cb550-25"></a>allCodingHaploP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>HGVS_P<span class="op">!=</span><span class="st">&quot;&quot;</span> <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb550-26"><a href="mutations-in-progression-cohort.html#cb550-26"></a>allCosmicHaploP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>GENE<span class="op">%in%</span>RatCosmic <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb550-27"><a href="mutations-in-progression-cohort.html#cb550-27"></a>}</span>
-<span id="cb550-28"><a href="mutations-in-progression-cohort.html#cb550-28"></a></span>
-<span id="cb550-29"><a href="mutations-in-progression-cohort.html#cb550-29"></a><span class="co">## names of the files</span></span>
-<span id="cb550-30"><a href="mutations-in-progression-cohort.html#cb550-30"></a></span>
-<span id="cb550-31"><a href="mutations-in-progression-cohort.html#cb550-31"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(hfiles, <span class="st">&quot;_filt_HCR_ann_siftB.txt&quot;</span>)) <span class="co">#remove HCR where not needed</span></span>
-<span id="cb550-32"><a href="mutations-in-progression-cohort.html#cb550-32"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(fNam, <span class="st">&quot;.vcf.g&quot;</span>))</span>
-<span id="cb550-33"><a href="mutations-in-progression-cohort.html#cb550-33"></a>fNam2=<span class="kw">paste</span>(fNam, <span class="st">&quot;.fastq.gz&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb550-34"><a href="mutations-in-progression-cohort.html#cb550-34"></a>fNam2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(fNam2, <span class="st">&quot;/&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
-<span id="cb550-35"><a href="mutations-in-progression-cohort.html#cb550-35"></a>idx1=infoTableFinal<span class="op">$</span>SampleID[<span class="kw">match</span>(fNam2, infoTableFinal<span class="op">$</span>FqFile)]</span>
-<span id="cb550-36"><a href="mutations-in-progression-cohort.html#cb550-36"></a>idx1[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]=fNam2[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]</span>
-<span id="cb550-37"><a href="mutations-in-progression-cohort.html#cb550-37"></a>idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)]=<span class="kw">substr</span>(idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)],<span class="dv">10</span>, <span class="dv">21</span>) </span>
-<span id="cb550-38"><a href="mutations-in-progression-cohort.html#cb550-38"></a><span class="co"># sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep=&quot;_&quot;)</span></span>
-<span id="cb550-39"><a href="mutations-in-progression-cohort.html#cb550-39"></a></span>
-<span id="cb550-40"><a href="mutations-in-progression-cohort.html#cb550-40"></a><span class="kw">names</span>(allHfilesP)=idx1</span>
-<span id="cb550-41"><a href="mutations-in-progression-cohort.html#cb550-41"></a><span class="kw">names</span>(allCodingHaploP)=idx1</span>
-<span id="cb550-42"><a href="mutations-in-progression-cohort.html#cb550-42"></a><span class="kw">names</span>(allCosmicHaploP)=idx1</span>
-<span id="cb550-43"><a href="mutations-in-progression-cohort.html#cb550-43"></a><span class="co"># remove the samples which do not pass QC</span></span>
-<span id="cb550-44"><a href="mutations-in-progression-cohort.html#cb550-44"></a>idx2rm=<span class="kw">setdiff</span>(<span class="kw">grep</span>(<span class="st">&quot;fastq.gz&quot;</span>, idx1), <span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1))</span>
-<span id="cb550-45"><a href="mutations-in-progression-cohort.html#cb550-45"></a></span>
-<span id="cb550-46"><a href="mutations-in-progression-cohort.html#cb550-46"></a><span class="co">## write all these lists to file</span></span>
-<span id="cb550-47"><a href="mutations-in-progression-cohort.html#cb550-47"></a>allHfilesP=allHfilesP[<span class="op">-</span>idx2rm]</span>
-<span id="cb550-48"><a href="mutations-in-progression-cohort.html#cb550-48"></a>allCodingHaploP=allCodingHaploP[<span class="op">-</span>idx2rm]</span>
-<span id="cb550-49"><a href="mutations-in-progression-cohort.html#cb550-49"></a>allCosmicHaploP=allCosmicHaploP[<span class="op">-</span>idx2rm]</span>
-<span id="cb550-50"><a href="mutations-in-progression-cohort.html#cb550-50"></a></span>
-<span id="cb550-51"><a href="mutations-in-progression-cohort.html#cb550-51"></a><span class="kw">save</span>(allHfilesP,allCodingHaploP, allCodingHaploP,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/HaplotypeVariants_progression_all_%s.Rdata&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="mutations-in-progression-cohort.html#cb551-1"></a>hfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/haplotypeCaller/output_HaplotypeCaller_May/progression/&quot;</span>,</span>
+<span id="cb551-2"><a href="mutations-in-progression-cohort.html#cb551-2"></a>           <span class="dt">pattern=</span><span class="st">&quot;.txt&quot;</span>, <span class="dt">full.names =</span> T)</span>
+<span id="cb551-3"><a href="mutations-in-progression-cohort.html#cb551-3"></a></span>
+<span id="cb551-4"><a href="mutations-in-progression-cohort.html#cb551-4"></a>allHfilesP=<span class="kw">list</span>()</span>
+<span id="cb551-5"><a href="mutations-in-progression-cohort.html#cb551-5"></a>allCodingHaploP=<span class="kw">list</span>()</span>
+<span id="cb551-6"><a href="mutations-in-progression-cohort.html#cb551-6"></a>allCosmicHaploP=<span class="kw">list</span>()</span>
+<span id="cb551-7"><a href="mutations-in-progression-cohort.html#cb551-7"></a></span>
+<span id="cb551-8"><a href="mutations-in-progression-cohort.html#cb551-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(hfiles)){</span>
+<span id="cb551-9"><a href="mutations-in-progression-cohort.html#cb551-9"></a>A1=<span class="kw">read.delim</span>(hfiles[i], <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactors =</span> F)</span>
+<span id="cb551-10"><a href="mutations-in-progression-cohort.html#cb551-10"></a>A1[<span class="kw">which</span>(A1<span class="op">==</span>(<span class="op">-</span><span class="dv">1</span>), <span class="dt">arr.ind=</span>T)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb551-11"><a href="mutations-in-progression-cohort.html#cb551-11"></a></span>
+<span id="cb551-12"><a href="mutations-in-progression-cohort.html#cb551-12"></a>cNames=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">27</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb551-13"><a href="mutations-in-progression-cohort.html#cb551-13"></a>cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]=<span class="kw">paste</span>(<span class="kw">c</span>(<span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;NMD&quot;</span>, <span class="st">&quot;NMD&quot;</span>), cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>], <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb551-14"><a href="mutations-in-progression-cohort.html#cb551-14"></a><span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">28</span>]=<span class="kw">c</span>(cNames, <span class="st">&quot;GEN&quot;</span>)</span>
+<span id="cb551-15"><a href="mutations-in-progression-cohort.html#cb551-15"></a></span>
+<span id="cb551-16"><a href="mutations-in-progression-cohort.html#cb551-16"></a>GEN2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(A1<span class="op">$</span>GEN, <span class="st">&quot;:&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb551-17"><a href="mutations-in-progression-cohort.html#cb551-17"></a>gRef=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb551-18"><a href="mutations-in-progression-cohort.html#cb551-18"></a>gAlt=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb551-19"><a href="mutations-in-progression-cohort.html#cb551-19"></a></span>
+<span id="cb551-20"><a href="mutations-in-progression-cohort.html#cb551-20"></a>A1<span class="op">$</span>n_ref=<span class="kw">as.numeric</span>(gRef)</span>
+<span id="cb551-21"><a href="mutations-in-progression-cohort.html#cb551-21"></a>A1<span class="op">$</span>n_alt=<span class="kw">as.numeric</span>(gAlt)</span>
+<span id="cb551-22"><a href="mutations-in-progression-cohort.html#cb551-22"></a>A1<span class="op">$</span>VAF=A1<span class="op">$</span>n_alt<span class="op">/</span>(A1<span class="op">$</span>n_alt<span class="op">+</span>A1<span class="op">$</span>n_ref)</span>
+<span id="cb551-23"><a href="mutations-in-progression-cohort.html#cb551-23"></a></span>
+<span id="cb551-24"><a href="mutations-in-progression-cohort.html#cb551-24"></a>allHfilesP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb551-25"><a href="mutations-in-progression-cohort.html#cb551-25"></a>allCodingHaploP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>HGVS_P<span class="op">!=</span><span class="st">&quot;&quot;</span> <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb551-26"><a href="mutations-in-progression-cohort.html#cb551-26"></a>allCosmicHaploP[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>GENE<span class="op">%in%</span>RatCosmic <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb551-27"><a href="mutations-in-progression-cohort.html#cb551-27"></a>}</span>
+<span id="cb551-28"><a href="mutations-in-progression-cohort.html#cb551-28"></a></span>
+<span id="cb551-29"><a href="mutations-in-progression-cohort.html#cb551-29"></a><span class="co">## names of the files</span></span>
+<span id="cb551-30"><a href="mutations-in-progression-cohort.html#cb551-30"></a></span>
+<span id="cb551-31"><a href="mutations-in-progression-cohort.html#cb551-31"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(hfiles, <span class="st">&quot;_filt_HCR_ann_siftB.txt&quot;</span>)) <span class="co">#remove HCR where not needed</span></span>
+<span id="cb551-32"><a href="mutations-in-progression-cohort.html#cb551-32"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(fNam, <span class="st">&quot;.vcf.g&quot;</span>))</span>
+<span id="cb551-33"><a href="mutations-in-progression-cohort.html#cb551-33"></a>fNam2=<span class="kw">paste</span>(fNam, <span class="st">&quot;.fastq.gz&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb551-34"><a href="mutations-in-progression-cohort.html#cb551-34"></a>fNam2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(fNam2, <span class="st">&quot;/&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb551-35"><a href="mutations-in-progression-cohort.html#cb551-35"></a>idx1=infoTableFinal<span class="op">$</span>SampleID[<span class="kw">match</span>(fNam2, infoTableFinal<span class="op">$</span>FqFile)]</span>
+<span id="cb551-36"><a href="mutations-in-progression-cohort.html#cb551-36"></a>idx1[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]=fNam2[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]</span>
+<span id="cb551-37"><a href="mutations-in-progression-cohort.html#cb551-37"></a>idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)]=<span class="kw">substr</span>(idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)],<span class="dv">10</span>, <span class="dv">21</span>) </span>
+<span id="cb551-38"><a href="mutations-in-progression-cohort.html#cb551-38"></a><span class="co"># sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep=&quot;_&quot;)</span></span>
+<span id="cb551-39"><a href="mutations-in-progression-cohort.html#cb551-39"></a></span>
+<span id="cb551-40"><a href="mutations-in-progression-cohort.html#cb551-40"></a><span class="kw">names</span>(allHfilesP)=idx1</span>
+<span id="cb551-41"><a href="mutations-in-progression-cohort.html#cb551-41"></a><span class="kw">names</span>(allCodingHaploP)=idx1</span>
+<span id="cb551-42"><a href="mutations-in-progression-cohort.html#cb551-42"></a><span class="kw">names</span>(allCosmicHaploP)=idx1</span>
+<span id="cb551-43"><a href="mutations-in-progression-cohort.html#cb551-43"></a><span class="co"># remove the samples which do not pass QC</span></span>
+<span id="cb551-44"><a href="mutations-in-progression-cohort.html#cb551-44"></a>idx2rm=<span class="kw">setdiff</span>(<span class="kw">grep</span>(<span class="st">&quot;fastq.gz&quot;</span>, idx1), <span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1))</span>
+<span id="cb551-45"><a href="mutations-in-progression-cohort.html#cb551-45"></a></span>
+<span id="cb551-46"><a href="mutations-in-progression-cohort.html#cb551-46"></a><span class="co">## write all these lists to file</span></span>
+<span id="cb551-47"><a href="mutations-in-progression-cohort.html#cb551-47"></a>allHfilesP=allHfilesP[<span class="op">-</span>idx2rm]</span>
+<span id="cb551-48"><a href="mutations-in-progression-cohort.html#cb551-48"></a>allCodingHaploP=allCodingHaploP[<span class="op">-</span>idx2rm]</span>
+<span id="cb551-49"><a href="mutations-in-progression-cohort.html#cb551-49"></a>allCosmicHaploP=allCosmicHaploP[<span class="op">-</span>idx2rm]</span>
+<span id="cb551-50"><a href="mutations-in-progression-cohort.html#cb551-50"></a></span>
+<span id="cb551-51"><a href="mutations-in-progression-cohort.html#cb551-51"></a><span class="kw">save</span>(allHfilesP,allCodingHaploP, allCodingHaploP,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/HaplotypeVariants_progression_all_%s.Rdata&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 <div id="summary-of-common-mutations" class="section level2">
 <h2><span class="header-section-number">23.1</span> Summary of common mutations:</h2>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="mutations-in-progression-cohort.html#cb551-1"></a>MallCodingHaploP=<span class="kw">melt</span>(allCodingHaploP,  <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
-<span id="cb551-2"><a href="mutations-in-progression-cohort.html#cb551-2"></a>MallCodingHaploP<span class="op">$</span>mutPos=<span class="kw">paste</span>(MallCodingHaploP<span class="op">$</span>GENE, MallCodingHaploP<span class="op">$</span>value)</span>
-<span id="cb551-3"><a href="mutations-in-progression-cohort.html#cb551-3"></a></span>
-<span id="cb551-4"><a href="mutations-in-progression-cohort.html#cb551-4"></a>VarTypes=<span class="kw">c</span>(<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;missense&quot;</span>, <span class="st">&quot;start_lost&quot;</span>, <span class="st">&quot;stop_gained&quot;</span>, <span class="st">&quot;nonsense&quot;</span>, <span class="st">&quot;stop_retained&quot;</span>)</span>
-<span id="cb551-5"><a href="mutations-in-progression-cohort.html#cb551-5"></a>n2=<span class="kw">unique</span>(<span class="kw">unlist</span>(<span class="kw">sapply</span>(VarTypes, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, MallCodingHaploP<span class="op">$</span>ANNOTATION))))</span>
-<span id="cb551-6"><a href="mutations-in-progression-cohort.html#cb551-6"></a>MallCodingHaploFuncP=MallCodingHaploP[ n2, ]</span>
-<span id="cb551-7"><a href="mutations-in-progression-cohort.html#cb551-7"></a><span class="co">## Look at epithealial samples</span></span></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="mutations-in-progression-cohort.html#cb552-1"></a>MallCodingHaploP=<span class="kw">melt</span>(allCodingHaploP,  <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb552-2"><a href="mutations-in-progression-cohort.html#cb552-2"></a>MallCodingHaploP<span class="op">$</span>mutPos=<span class="kw">paste</span>(MallCodingHaploP<span class="op">$</span>GENE, MallCodingHaploP<span class="op">$</span>value)</span>
+<span id="cb552-3"><a href="mutations-in-progression-cohort.html#cb552-3"></a></span>
+<span id="cb552-4"><a href="mutations-in-progression-cohort.html#cb552-4"></a>VarTypes=<span class="kw">c</span>(<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;missense&quot;</span>, <span class="st">&quot;start_lost&quot;</span>, <span class="st">&quot;stop_gained&quot;</span>, <span class="st">&quot;nonsense&quot;</span>, <span class="st">&quot;stop_retained&quot;</span>)</span>
+<span id="cb552-5"><a href="mutations-in-progression-cohort.html#cb552-5"></a>n2=<span class="kw">unique</span>(<span class="kw">unlist</span>(<span class="kw">sapply</span>(VarTypes, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, MallCodingHaploP<span class="op">$</span>ANNOTATION))))</span>
+<span id="cb552-6"><a href="mutations-in-progression-cohort.html#cb552-6"></a>MallCodingHaploFuncP=MallCodingHaploP[ n2, ]</span>
+<span id="cb552-7"><a href="mutations-in-progression-cohort.html#cb552-7"></a><span class="co">## Look at epithealial samples</span></span></code></pre></div>
 <p>look at topCOSMIC:</p>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="mutations-in-progression-cohort.html#cb552-1"></a></span>
-<span id="cb552-2"><a href="mutations-in-progression-cohort.html#cb552-2"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
-<span id="cb552-3"><a href="mutations-in-progression-cohort.html#cb552-3"></a>MallEpi=MallCodingHaploFuncP[xa, ]</span>
-<span id="cb552-4"><a href="mutations-in-progression-cohort.html#cb552-4"></a>EpVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
-<span id="cb552-5"><a href="mutations-in-progression-cohort.html#cb552-5"></a>EpVarNames=<span class="kw">names</span>(EpVarList)</span>
-<span id="cb552-6"><a href="mutations-in-progression-cohort.html#cb552-6"></a>EpVarN2=<span class="kw">names</span>(EpVarList[<span class="kw">which</span>(EpVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
-<span id="cb552-7"><a href="mutations-in-progression-cohort.html#cb552-7"></a>EpVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
-<span id="cb552-8"><a href="mutations-in-progression-cohort.html#cb552-8"></a>EpLoc=<span class="kw">names</span>(EpVarListB)[<span class="kw">which</span>(EpVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb552-9"><a href="mutations-in-progression-cohort.html#cb552-9"></a></span>
-<span id="cb552-10"><a href="mutations-in-progression-cohort.html#cb552-10"></a><span class="co">## Look at CD45 samples</span></span>
-<span id="cb552-11"><a href="mutations-in-progression-cohort.html#cb552-11"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
-<span id="cb552-12"><a href="mutations-in-progression-cohort.html#cb552-12"></a>CDVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
-<span id="cb552-13"><a href="mutations-in-progression-cohort.html#cb552-13"></a>CDVarNames=<span class="kw">names</span>(CDVarList)</span>
-<span id="cb552-14"><a href="mutations-in-progression-cohort.html#cb552-14"></a>CDVarN2=<span class="kw">names</span>(CDVarList[<span class="kw">which</span>(CDVarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
-<span id="cb552-15"><a href="mutations-in-progression-cohort.html#cb552-15"></a>CDVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
-<span id="cb552-16"><a href="mutations-in-progression-cohort.html#cb552-16"></a>CDLoc=<span class="kw">names</span>(CDVarListB)[<span class="kw">which</span>(CDVarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
-<span id="cb552-17"><a href="mutations-in-progression-cohort.html#cb552-17"></a></span>
-<span id="cb552-18"><a href="mutations-in-progression-cohort.html#cb552-18"></a><span class="co">## Look at DN samples</span></span>
-<span id="cb552-19"><a href="mutations-in-progression-cohort.html#cb552-19"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
-<span id="cb552-20"><a href="mutations-in-progression-cohort.html#cb552-20"></a>DNVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
-<span id="cb552-21"><a href="mutations-in-progression-cohort.html#cb552-21"></a>DNVarNames=<span class="kw">names</span>(DNVarList)</span>
-<span id="cb552-22"><a href="mutations-in-progression-cohort.html#cb552-22"></a>DNVarN2=<span class="kw">names</span>(DNVarList[<span class="kw">which</span>(DNVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
-<span id="cb552-23"><a href="mutations-in-progression-cohort.html#cb552-23"></a>DNVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
-<span id="cb552-24"><a href="mutations-in-progression-cohort.html#cb552-24"></a>DNLoc=<span class="kw">names</span>(DNVarListB)[<span class="kw">which</span>(DNVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb552-25"><a href="mutations-in-progression-cohort.html#cb552-25"></a></span>
-<span id="cb552-26"><a href="mutations-in-progression-cohort.html#cb552-26"></a><span class="co">#pdf(&quot;~/Desktop/Supp5-progression-RNA-specific-mutations-gene-level.pdf&quot;, height=6, width=6)</span></span>
-<span id="cb552-27"><a href="mutations-in-progression-cohort.html#cb552-27"></a></span>
-<span id="cb552-28"><a href="mutations-in-progression-cohort.html#cb552-28"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarNames, <span class="dt">CD45=</span>CDVarNames, <span class="dt">DN=</span>DNVarNames))</span>
-<span id="cb552-29"><a href="mutations-in-progression-cohort.html#cb552-29"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes w mutations overlapping in different fractions&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
 <div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="mutations-in-progression-cohort.html#cb553-1"></a></span>
-<span id="cb553-2"><a href="mutations-in-progression-cohort.html#cb553-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarN2, <span class="dt">CD45=</span>CDVarN2, <span class="dt">DN=</span>DNVarN2))</span>
-<span id="cb553-3"><a href="mutations-in-progression-cohort.html#cb553-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-162-2.png" width="672" /></p>
+<span id="cb553-2"><a href="mutations-in-progression-cohort.html#cb553-2"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
+<span id="cb553-3"><a href="mutations-in-progression-cohort.html#cb553-3"></a>MallEpi=MallCodingHaploFuncP[xa, ]</span>
+<span id="cb553-4"><a href="mutations-in-progression-cohort.html#cb553-4"></a>EpVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
+<span id="cb553-5"><a href="mutations-in-progression-cohort.html#cb553-5"></a>EpVarNames=<span class="kw">names</span>(EpVarList)</span>
+<span id="cb553-6"><a href="mutations-in-progression-cohort.html#cb553-6"></a>EpVarN2=<span class="kw">names</span>(EpVarList[<span class="kw">which</span>(EpVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
+<span id="cb553-7"><a href="mutations-in-progression-cohort.html#cb553-7"></a>EpVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
+<span id="cb553-8"><a href="mutations-in-progression-cohort.html#cb553-8"></a>EpLoc=<span class="kw">names</span>(EpVarListB)[<span class="kw">which</span>(EpVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb553-9"><a href="mutations-in-progression-cohort.html#cb553-9"></a></span>
+<span id="cb553-10"><a href="mutations-in-progression-cohort.html#cb553-10"></a><span class="co">## Look at CD45 samples</span></span>
+<span id="cb553-11"><a href="mutations-in-progression-cohort.html#cb553-11"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
+<span id="cb553-12"><a href="mutations-in-progression-cohort.html#cb553-12"></a>CDVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
+<span id="cb553-13"><a href="mutations-in-progression-cohort.html#cb553-13"></a>CDVarNames=<span class="kw">names</span>(CDVarList)</span>
+<span id="cb553-14"><a href="mutations-in-progression-cohort.html#cb553-14"></a>CDVarN2=<span class="kw">names</span>(CDVarList[<span class="kw">which</span>(CDVarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
+<span id="cb553-15"><a href="mutations-in-progression-cohort.html#cb553-15"></a>CDVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
+<span id="cb553-16"><a href="mutations-in-progression-cohort.html#cb553-16"></a>CDLoc=<span class="kw">names</span>(CDVarListB)[<span class="kw">which</span>(CDVarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
+<span id="cb553-17"><a href="mutations-in-progression-cohort.html#cb553-17"></a></span>
+<span id="cb553-18"><a href="mutations-in-progression-cohort.html#cb553-18"></a><span class="co">## Look at DN samples</span></span>
+<span id="cb553-19"><a href="mutations-in-progression-cohort.html#cb553-19"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, MallCodingHaploFuncP<span class="op">$</span>L1)</span>
+<span id="cb553-20"><a href="mutations-in-progression-cohort.html#cb553-20"></a>DNVarList=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>GENE[xa])</span>
+<span id="cb553-21"><a href="mutations-in-progression-cohort.html#cb553-21"></a>DNVarNames=<span class="kw">names</span>(DNVarList)</span>
+<span id="cb553-22"><a href="mutations-in-progression-cohort.html#cb553-22"></a>DNVarN2=<span class="kw">names</span>(DNVarList[<span class="kw">which</span>(DNVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
+<span id="cb553-23"><a href="mutations-in-progression-cohort.html#cb553-23"></a>DNVarListB=<span class="kw">table</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos[xa])</span>
+<span id="cb553-24"><a href="mutations-in-progression-cohort.html#cb553-24"></a>DNLoc=<span class="kw">names</span>(DNVarListB)[<span class="kw">which</span>(DNVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb553-25"><a href="mutations-in-progression-cohort.html#cb553-25"></a></span>
+<span id="cb553-26"><a href="mutations-in-progression-cohort.html#cb553-26"></a><span class="co">#pdf(&quot;~/Desktop/Supp5-progression-RNA-specific-mutations-gene-level.pdf&quot;, height=6, width=6)</span></span>
+<span id="cb553-27"><a href="mutations-in-progression-cohort.html#cb553-27"></a></span>
+<span id="cb553-28"><a href="mutations-in-progression-cohort.html#cb553-28"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarNames, <span class="dt">CD45=</span>CDVarNames, <span class="dt">DN=</span>DNVarNames))</span>
+<span id="cb553-29"><a href="mutations-in-progression-cohort.html#cb553-29"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes w mutations overlapping in different fractions&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-1.png" width="672" /></p>
 <div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="mutations-in-progression-cohort.html#cb554-1"></a></span>
-<span id="cb554-2"><a href="mutations-in-progression-cohort.html#cb554-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpLoc, <span class="dt">CD45=</span>CDLoc, <span class="dt">DN=</span>DNLoc))</span>
-<span id="cb554-3"><a href="mutations-in-progression-cohort.html#cb554-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no locations with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-162-3.png" width="672" /></p>
+<span id="cb554-2"><a href="mutations-in-progression-cohort.html#cb554-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarN2, <span class="dt">CD45=</span>CDVarN2, <span class="dt">DN=</span>DNVarN2))</span>
+<span id="cb554-3"><a href="mutations-in-progression-cohort.html#cb554-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-2.png" width="672" /></p>
 <div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="mutations-in-progression-cohort.html#cb555-1"></a></span>
-<span id="cb555-2"><a href="mutations-in-progression-cohort.html#cb555-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<span id="cb555-2"><a href="mutations-in-progression-cohort.html#cb555-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpLoc, <span class="dt">CD45=</span>CDLoc, <span class="dt">DN=</span>DNLoc))</span>
+<span id="cb555-3"><a href="mutations-in-progression-cohort.html#cb555-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no locations with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-161-3.png" width="672" /></p>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="mutations-in-progression-cohort.html#cb556-1"></a></span>
+<span id="cb556-2"><a href="mutations-in-progression-cohort.html#cb556-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
 </div>
 <div id="look-at-the-common-mutations-cosmic-ones" class="section level2">
 <h2><span class="header-section-number">23.2</span> Look at the common mutations (cosmic ones)</h2>
-<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="mutations-in-progression-cohort.html#cb556-1"></a>MallCodingHaploFuncPC=MallCodingHaploFuncP[<span class="kw">which</span>(MallCodingHaploFuncP<span class="op">$</span>GENE<span class="op">%in%</span>topCOSMIC), ]</span>
-<span id="cb556-2"><a href="mutations-in-progression-cohort.html#cb556-2"></a></span>
-<span id="cb556-3"><a href="mutations-in-progression-cohort.html#cb556-3"></a>xab=<span class="kw">unique</span>(MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION)</span>
-<span id="cb556-4"><a href="mutations-in-progression-cohort.html#cb556-4"></a></span>
-<span id="cb556-5"><a href="mutations-in-progression-cohort.html#cb556-5"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION[<span class="kw">grep</span>(<span class="st">&quot;frameshift_variant&quot;</span>,MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION )]=<span class="st">&quot;frameshift_variant&quot;</span></span>
-<span id="cb556-6"><a href="mutations-in-progression-cohort.html#cb556-6"></a></span>
-<span id="cb556-7"><a href="mutations-in-progression-cohort.html#cb556-7"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION[<span class="kw">grep</span>(<span class="st">&quot;missense_variant&quot;</span>,MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION )]=<span class="st">&quot;missense_variant&quot;</span></span>
-<span id="cb556-8"><a href="mutations-in-progression-cohort.html#cb556-8"></a></span>
-<span id="cb556-9"><a href="mutations-in-progression-cohort.html#cb556-9"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION=<span class="kw">as.numeric</span>(<span class="kw">factor</span>(MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION))</span>
-<span id="cb556-10"><a href="mutations-in-progression-cohort.html#cb556-10"></a></span>
-<span id="cb556-11"><a href="mutations-in-progression-cohort.html#cb556-11"></a>AcastTab=<span class="kw">acast</span>(MallCodingHaploFuncPC[ ,<span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;GENE&quot;</span>, <span class="st">&quot;ANNOTATION&quot;</span>)], </span>
-<span id="cb556-12"><a href="mutations-in-progression-cohort.html#cb556-12"></a>               L1<span class="op">~</span>GENE, <span class="dt">fun.aggregate =</span> max)</span>
-<span id="cb556-13"><a href="mutations-in-progression-cohort.html#cb556-13"></a>AcastTab[<span class="kw">which</span>(AcastTab<span class="op">==</span><span class="st">&quot;-Inf&quot;</span>, <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
-<span id="cb556-14"><a href="mutations-in-progression-cohort.html#cb556-14"></a></span>
-<span id="cb556-15"><a href="mutations-in-progression-cohort.html#cb556-15"></a>indx=<span class="kw">rownames</span>(AcastTab)[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab))]</span>
-<span id="cb556-16"><a href="mutations-in-progression-cohort.html#cb556-16"></a>indx=<span class="kw">substr</span>(indx, <span class="dv">1</span>, <span class="kw">nchar</span>(indx)<span class="op">-</span><span class="dv">3</span>)</span>
-<span id="cb556-17"><a href="mutations-in-progression-cohort.html#cb556-17"></a></span>
-<span id="cb556-18"><a href="mutations-in-progression-cohort.html#cb556-18"></a>n2=<span class="kw">unlist</span>(<span class="kw">sapply</span>(indx, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, <span class="kw">rownames</span>(AcastTab))))</span>
-<span id="cb556-19"><a href="mutations-in-progression-cohort.html#cb556-19"></a></span>
-<span id="cb556-20"><a href="mutations-in-progression-cohort.html#cb556-20"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])</span>
-<span id="cb556-21"><a href="mutations-in-progression-cohort.html#cb556-21"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb556-22"><a href="mutations-in-progression-cohort.html#cb556-22"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])<span class="op">*</span><span class="dv">3</span></span>
-<span id="cb556-23"><a href="mutations-in-progression-cohort.html#cb556-23"></a></span>
-<span id="cb556-24"><a href="mutations-in-progression-cohort.html#cb556-24"></a><span class="co">#pdf(&quot;~/Desktop/FigureS3_biphasic_mutations_again.pdf&quot;, height=12, width=15)</span></span>
-<span id="cb556-25"><a href="mutations-in-progression-cohort.html#cb556-25"></a></span>
-<span id="cb556-26"><a href="mutations-in-progression-cohort.html#cb556-26"></a><span class="kw">image</span>(AcastTab[n2, ], <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>))</span>
-<span id="cb556-27"><a href="mutations-in-progression-cohort.html#cb556-27"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(AcastTab[n2, ])), <span class="kw">rownames</span>(AcastTab[n2, ]), <span class="dt">las=</span><span class="dv">2</span>)</span>
-<span id="cb556-28"><a href="mutations-in-progression-cohort.html#cb556-28"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(AcastTab)), <span class="kw">colnames</span>(AcastTab), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="mutations-in-progression-cohort.html#cb557-1"></a>MallCodingHaploFuncPC=MallCodingHaploFuncP[<span class="kw">which</span>(MallCodingHaploFuncP<span class="op">$</span>GENE<span class="op">%in%</span>topCOSMIC), ]</span>
+<span id="cb557-2"><a href="mutations-in-progression-cohort.html#cb557-2"></a></span>
+<span id="cb557-3"><a href="mutations-in-progression-cohort.html#cb557-3"></a>xab=<span class="kw">unique</span>(MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION)</span>
+<span id="cb557-4"><a href="mutations-in-progression-cohort.html#cb557-4"></a></span>
+<span id="cb557-5"><a href="mutations-in-progression-cohort.html#cb557-5"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION[<span class="kw">grep</span>(<span class="st">&quot;frameshift_variant&quot;</span>,MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION )]=<span class="st">&quot;frameshift_variant&quot;</span></span>
+<span id="cb557-6"><a href="mutations-in-progression-cohort.html#cb557-6"></a></span>
+<span id="cb557-7"><a href="mutations-in-progression-cohort.html#cb557-7"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION[<span class="kw">grep</span>(<span class="st">&quot;missense_variant&quot;</span>,MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION )]=<span class="st">&quot;missense_variant&quot;</span></span>
+<span id="cb557-8"><a href="mutations-in-progression-cohort.html#cb557-8"></a></span>
+<span id="cb557-9"><a href="mutations-in-progression-cohort.html#cb557-9"></a>MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION=<span class="kw">as.numeric</span>(<span class="kw">factor</span>(MallCodingHaploFuncPC<span class="op">$</span>ANNOTATION))</span>
+<span id="cb557-10"><a href="mutations-in-progression-cohort.html#cb557-10"></a></span>
+<span id="cb557-11"><a href="mutations-in-progression-cohort.html#cb557-11"></a>AcastTab=<span class="kw">acast</span>(MallCodingHaploFuncPC[ ,<span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;GENE&quot;</span>, <span class="st">&quot;ANNOTATION&quot;</span>)], </span>
+<span id="cb557-12"><a href="mutations-in-progression-cohort.html#cb557-12"></a>               L1<span class="op">~</span>GENE, <span class="dt">fun.aggregate =</span> max)</span>
+<span id="cb557-13"><a href="mutations-in-progression-cohort.html#cb557-13"></a>AcastTab[<span class="kw">which</span>(AcastTab<span class="op">==</span><span class="st">&quot;-Inf&quot;</span>, <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb557-14"><a href="mutations-in-progression-cohort.html#cb557-14"></a></span>
+<span id="cb557-15"><a href="mutations-in-progression-cohort.html#cb557-15"></a>indx=<span class="kw">rownames</span>(AcastTab)[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab))]</span>
+<span id="cb557-16"><a href="mutations-in-progression-cohort.html#cb557-16"></a>indx=<span class="kw">substr</span>(indx, <span class="dv">1</span>, <span class="kw">nchar</span>(indx)<span class="op">-</span><span class="dv">3</span>)</span>
+<span id="cb557-17"><a href="mutations-in-progression-cohort.html#cb557-17"></a></span>
+<span id="cb557-18"><a href="mutations-in-progression-cohort.html#cb557-18"></a>n2=<span class="kw">unlist</span>(<span class="kw">sapply</span>(indx, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, <span class="kw">rownames</span>(AcastTab))))</span>
+<span id="cb557-19"><a href="mutations-in-progression-cohort.html#cb557-19"></a>AcastTab2=AcastTab</span>
+<span id="cb557-20"><a href="mutations-in-progression-cohort.html#cb557-20"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])</span>
+<span id="cb557-21"><a href="mutations-in-progression-cohort.html#cb557-21"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;DN&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb557-22"><a href="mutations-in-progression-cohort.html#cb557-22"></a>AcastTab[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]=<span class="kw">sign</span>(AcastTab[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ])<span class="op">*</span><span class="dv">3</span></span>
+<span id="cb557-23"><a href="mutations-in-progression-cohort.html#cb557-23"></a></span>
+<span id="cb557-24"><a href="mutations-in-progression-cohort.html#cb557-24"></a><span class="co">#pdf(&quot;~/Desktop/FigureS3_biphasic_mutations_again.pdf&quot;, height=12, width=15)</span></span>
+<span id="cb557-25"><a href="mutations-in-progression-cohort.html#cb557-25"></a></span>
+<span id="cb557-26"><a href="mutations-in-progression-cohort.html#cb557-26"></a><span class="kw">image</span>(AcastTab[n2, ], <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>))</span>
+<span id="cb557-27"><a href="mutations-in-progression-cohort.html#cb557-27"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(AcastTab[n2, ])), <span class="kw">rownames</span>(AcastTab[n2, ]), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb557-28"><a href="mutations-in-progression-cohort.html#cb557-28"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(AcastTab)), <span class="kw">colnames</span>(AcastTab), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-162-1.png" width="672" /></p>
+<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="mutations-in-progression-cohort.html#cb558-1"></a></span>
+<span id="cb558-2"><a href="mutations-in-progression-cohort.html#cb558-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<p>View the above using only the Epcam samples:</p>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="mutations-in-progression-cohort.html#cb559-1"></a>Acast2=AcastTab2[<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(AcastTab)), ]</span>
+<span id="cb559-2"><a href="mutations-in-progression-cohort.html#cb559-2"></a>rS=<span class="kw">colSums</span>(Acast2)</span>
+<span id="cb559-3"><a href="mutations-in-progression-cohort.html#cb559-3"></a>Acast2=Acast2[ ,<span class="op">-</span><span class="kw">which</span>(rS<span class="op">==</span><span class="dv">0</span>)]</span>
+<span id="cb559-4"><a href="mutations-in-progression-cohort.html#cb559-4"></a></span>
+<span id="cb559-5"><a href="mutations-in-progression-cohort.html#cb559-5"></a><span class="kw">image</span>(Acast2, <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>))</span>
+<span id="cb559-6"><a href="mutations-in-progression-cohort.html#cb559-6"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Acast2)), <span class="kw">rownames</span>(Acast2), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb559-7"><a href="mutations-in-progression-cohort.html#cb559-7"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Acast2)), <span class="kw">colnames</span>(Acast2), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-163-1.png" width="672" /></p>
-<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="mutations-in-progression-cohort.html#cb557-1"></a></span>
-<span id="cb557-2"><a href="mutations-in-progression-cohort.html#cb557-2"></a><span class="co">#dev.off()</span></span></code></pre></div>
 </div>
-<div id="also-look-at-the-top-rna-mutations-with-are-epdn-specific" class="section level2">
-<h2><span class="header-section-number">23.3</span> Also look at the top RNA-mutations with are Ep/DN specific</h2>
-<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="mutations-in-progression-cohort.html#cb558-1"></a>gListN=<span class="kw">setdiff</span>(<span class="kw">unique</span>(<span class="kw">c</span>(EpLoc, DNLoc)), CDLoc)</span>
-<span id="cb558-2"><a href="mutations-in-progression-cohort.html#cb558-2"></a>gListNsplit=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(gListN,<span class="st">&quot; &quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb558-3"><a href="mutations-in-progression-cohort.html#cb558-3"></a></span>
-<span id="cb558-4"><a href="mutations-in-progression-cohort.html#cb558-4"></a><span class="co"># gene list new</span></span>
-<span id="cb558-5"><a href="mutations-in-progression-cohort.html#cb558-5"></a>gnew=<span class="kw">which</span>(gListNsplit<span class="op">%in%</span>RatCosmic)</span>
-<span id="cb558-6"><a href="mutations-in-progression-cohort.html#cb558-6"></a>gListNsub=gListN[gnew]</span>
-<span id="cb558-7"><a href="mutations-in-progression-cohort.html#cb558-7"></a>IndN=MallCodingHaploFuncP[<span class="kw">which</span>(MallCodingHaploFuncP<span class="op">$</span>mutPos<span class="op">%in%</span>gListNsub), ]</span></code></pre></div>
+<div id="also-look-at-the-top-rna-mutations-with-are-ep-specific" class="section level2">
+<h2><span class="header-section-number">23.3</span> Also look at the top RNA-mutations with are Ep specific</h2>
+<p>Look at the following set of genes which have been reported to be mutated in the epithelial samples based on RNAsequencing</p>
+<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="mutations-in-progression-cohort.html#cb560-1"></a>GeneList=<span class="kw">c</span>(<span class="st">&quot;Atm&quot;</span>, <span class="st">&quot;Tert&quot;</span>, <span class="st">&quot;Ncor2&quot;</span>, <span class="st">&quot;Epha3&quot;</span>, <span class="st">&quot;Arid1a&quot;</span>, <span class="st">&quot;Tp53&quot;</span>, <span class="st">&quot;Pten&quot;</span>, <span class="st">&quot;Pik3ca&quot;</span>, <span class="st">&quot;Pik3r1&quot;</span>, <span class="st">&quot;Esr1&quot;</span>, <span class="st">&quot;Ctcf&quot;</span>, <span class="st">&quot;Brca1&quot;</span>, <span class="st">&quot;Brca2&quot;</span>, <span class="st">&quot;Notch1&quot;</span>, <span class="st">&quot;Kmt2d&quot;</span>, <span class="st">&quot;Foxa1&quot;</span>, <span class="st">&quot;Gata3&quot;</span>, <span class="st">&quot;Mdm4&quot;</span>, <span class="st">&quot;Ccne1&quot;</span>)</span>
+<span id="cb560-2"><a href="mutations-in-progression-cohort.html#cb560-2"></a></span>
+<span id="cb560-3"><a href="mutations-in-progression-cohort.html#cb560-3"></a>ax1=<span class="kw">match</span>(GeneList, <span class="kw">colnames</span>(Acast2))</span>
+<span id="cb560-4"><a href="mutations-in-progression-cohort.html#cb560-4"></a></span>
+<span id="cb560-5"><a href="mutations-in-progression-cohort.html#cb560-5"></a><span class="kw">image</span>(Acast2[ ,ax1], <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;forestgreen&quot;</span>))</span>
+<span id="cb560-6"><a href="mutations-in-progression-cohort.html#cb560-6"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Acast2)), <span class="kw">rownames</span>(Acast2), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb560-7"><a href="mutations-in-progression-cohort.html#cb560-7"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Acast2)), <span class="kw">colnames</span>(Acast2), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-164-1.png" width="672" /></p>
 
 </div>
 </div>

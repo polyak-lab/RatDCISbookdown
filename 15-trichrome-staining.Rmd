@@ -120,7 +120,9 @@ Trichrome encapsulation
 
 ```{r}
 df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="lots")]=1
-wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
+df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="0% ignore")]=NA
+df.Spatial$trichrome_pc
+#wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
 ```
 
 ## Association with hyperinflammatory status

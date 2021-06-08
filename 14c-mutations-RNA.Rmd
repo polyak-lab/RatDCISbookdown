@@ -60,7 +60,7 @@ save(allHfilesP,allCodingHaploP, allCodingHaploP,  file=sprintf("outputs/Haploty
 MallCodingHaploP=melt(allCodingHaploP,  measure.var="POS")
 MallCodingHaploP$mutPos=paste(MallCodingHaploP$GENE, MallCodingHaploP$value)
 
-VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained")
+VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained", "splice")
 n2=unique(unlist(sapply(VarTypes, function(x) grep(x, MallCodingHaploP$ANNOTATION))))
 MallCodingHaploFuncP=MallCodingHaploP[ n2, ]
 ## Look at epithealial samples
@@ -111,8 +111,21 @@ mtext("no locations with overlapping variants in 2+ samples")
 
 ## Look at the common mutations (cosmic ones)
 
+color coding:
+1. splice
+2. frameshift
+3. missense
+4. stop-gained
+
+Look for genes which we reported to be common in this cohort previously, as well as the breast-cancer specific ones
+
 ```{r}
-MallCodingHaploFuncPC=MallCodingHaploFuncP[which(MallCodingHaploFuncP$GENE%in%topCOSMIC), ]
+GeneList=c("Atm", "Tert", "Ncor2", "Epha3", "Arid1a", "Tp53", "Pten", "Pik3ca", "Pik3r1", "Esr1", "Ctcf", "Brca1", "Brca2", "Notch1", "Kmt2d", "Foxa1", "Gata3", "Mdm4", "Ccne1")
+
+
+MallCodingHaploFuncPC=MallCodingHaploFuncP[which(MallCodingHaploFuncP$GENE%in%c(topCOSMIC, GeneList)), ]
+
+MallCodingHaploFuncPC=MallCodingHaploFuncPC[which(MallCodingHaploFuncPC$FILTER=="PASS"), ]
 
 xab=unique(MallCodingHaploFuncPC$ANNOTATION)
 
@@ -120,7 +133,7 @@ MallCodingHaploFuncPC$ANNOTATION[grep("frameshift_variant",MallCodingHaploFuncPC
 
 MallCodingHaploFuncPC$ANNOTATION[grep("missense_variant",MallCodingHaploFuncPC$ANNOTATION )]="missense_variant"
 
-MallCodingHaploFuncPC$ANNOTATION=as.numeric(factor(MallCodingHaploFuncPC$ANNOTATION))
+MallCodingHaploFuncPC$ANNOTATION=as.numeric(factor(MallCodingHaploFuncPC$ANNOTATION, levels=c("splice_region_variant&synonymous_variant", "frameshift_variant", "missense_variant", "stop_gained")))
 
 AcastTab=acast(MallCodingHaploFuncPC[ ,c("L1", "GENE", "ANNOTATION")], 
                L1~GENE, fun.aggregate = max)
@@ -130,7 +143,7 @@ indx=rownames(AcastTab)[grep("Ep", rownames(AcastTab))]
 indx=substr(indx, 1, nchar(indx)-3)
 
 n2=unlist(sapply(indx, function(x) grep(x, rownames(AcastTab))))
-
+AcastTab2=AcastTab
 AcastTab[grep("CD45", rownames(AcastTab)), ]=sign(AcastTab[grep("CD45", rownames(AcastTab)), ])
 AcastTab[grep("DN", rownames(AcastTab)), ]=sign(AcastTab[grep("DN", rownames(AcastTab)), ])*2
 AcastTab[grep("Ep", rownames(AcastTab)), ]=sign(AcastTab[grep("Ep", rownames(AcastTab)), ])*3
@@ -144,18 +157,71 @@ axis(2, at=seq(0, 1, length=ncol(AcastTab)), colnames(AcastTab), las=2)
 #dev.off()
 ```
 
-## Also look at the top RNA-mutations with are Ep/DN specific
+View the above using only the Epcam samples:
+
+```{r summary-mutations-rna-Ep}
+Acast2=AcastTab2[grep("Ep", rownames(AcastTab)), ]
+rS=colSums(Acast2)
+Acast2=Acast2[ ,-which(rS==0)]
+
+#pdf("~/Desktop/FigureS3_common_mutations_again.pdf", height=12, width=12)
+# also group this according to growing vs stable
+m2=melt(Acast2)
+head(m2)
+m2$growth=Cdata$Tumor.Growth[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$Treatment=Cdata$Treatment[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$newid=Cdata$NewID[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+Candidates=c("Polg", "Foxa1", "Ncor2", "Atm")
+pvals=rep(NA, length(Candidates))
+for (i in 1:length(Candidates)){
+  xa=table(m2$value[which(m2$Var2==Candidates[i])], m2$growth[which(m2$Var2==Candidates[i])])
+   pvals[i]=fisher.test(xa)$p.value
+}
+
+```
+
+Repeat in the DN samples
+
+```{r summary-mutations-rna-DN}
+Acast2=AcastTab2[grep("DN", rownames(AcastTab)), ]
+rS=colSums(Acast2)
+Acast2=Acast2[ ,-which(rS==0)]
+
+#pdf("~/Desktop/FigureS3_common_mutations_again.pdf", height=12, width=12)
+# also group this according to growing vs stable
+m2=melt(Acast2)
+head(m2)
+m2$growth=Cdata$Tumor.Growth[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$Treatment=Cdata$Treatment[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$newid=Cdata$NewID[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
 
 
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
+pvals=rep(NA, length(Candidates))
+x1=table(m2$growth[which(m2$Var2==Candidates[1])])
+for (i in 1:length(Candidates)){
+  xa=prop.test(c(
+    length(which(m2$value[which(m2$growth=="growing" & m2$Var2==Candidates[i])]>0)), 
+    length(which(m2$value[which(m2$growth=="stable" & m2$Var2==Candidates[i])]>0))), x1)
+   pvals[i]=xa$p.value
+}
 
-```{r}
-gListN=setdiff(unique(c(EpLoc, DNLoc)), CDLoc)
-gListNsplit=sapply(strsplit(gListN," "), function(x) x[1])
+pvals
 
-# gene list new
-gnew=which(gListNsplit%in%RatCosmic)
-gListNsub=gListN[gnew]
-IndN=MallCodingHaploFuncP[which(MallCodingHaploFuncP$mutPos%in%gListNsub), ]
-
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
+pvals=rep(NA, length(Candidates))
+for (i in 1:length(Candidates)){
+  xa=table(m2$value[which(m2$Var2==Candidates[i])], m2$growth[which(m2$Var2==Candidates[i])])
+   pvals[i]=fisher.test(xa)$p.value
+}
 
 ```

@@ -204,7 +204,6 @@ signature-lum-cases-non-inflammatory-growing-vs-stable
 comparison-to-oncotype-and-mammaprint
 overall-survival
 dfs-survival
-redo-the-survival-plots-based-on-luminal-cases-only
 tcga-luma-high-vs-low-signatures
 metabric-associate-epcam-inflammatory-with-survival
 associating-cd74-with-phenotype-and-outcome-1
@@ -267,7 +266,7 @@ filtering-wgs-data-based-on-cd45-data
 mutations-in-progression-cohort
 summary-of-common-mutations
 look-at-the-common-mutations-cosmic-ones
-also-look-at-the-top-rna-mutations-with-are-epdn-specific
+also-look-at-the-top-rna-mutations-with-are-ep-specific
 trichrome-staining
 associations-with-cellular-fraction-wsi
 associations-with-cd8-content

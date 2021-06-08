@@ -311,10 +311,7 @@ RatAllImm=na.omit(unique(c(SymHum2Rat$RGD.symbol[match(AllImmGenes, SymHum2Rat$H
 Oncoprint=read.csv("../anntotations/Onco_Mamma.csv")
 Oncoprint=lapply(1:ncol(Oncoprint), function(x) setdiff(unique(Oncoprint[ ,x]), ""))
 names(Oncoprint)=c("Oncotype", "Mammaprint")
-<<<<<<< HEAD
-=======
 
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 ```
 
 #### Human gene homologs
@@ -4438,6 +4435,7 @@ for (i in 1:3){
 GSEA for the above 3 groups?
 
 ```{r gsea-1-v-all-ep, results='hide', message=F}
+
 load("../anntotations/ListofGeneSets2.RData")
 
 l1=SymHum2Rat$HGNC.symbol[match(rownames(vstEpInfRes1), SymHum2Rat$RGD.symbol)]
@@ -4445,7 +4443,7 @@ l2=Rat2Hum$HGNC.symbol[match(rownames(vstEpInfRes1), Rat2Hum$RGD.symbol)]
 l3=Mouse2Hum$HGNC.symbol[match(rownames(vstEpInfRes1), Mouse2Hum$MGI.symbol)]
 EpGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, rownames(vstEpInfRes1))))
 
-
+##
 ## run 1
 hits=EpGenesConv[match(res1genes, rownames(vstEpInfRes1))]
 fcTab=vstEpInfRes1$log2FoldChange
@@ -4645,7 +4643,6 @@ vsdLumvst=vst(vstLumOnly)
 write.csv(vstLumRes, file="nature-tables/5j_lumonly_ep_growing_vs_stable.csv")
 genes2=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>0.20 & vstLumRes$baseMean>100)]
 
-<<<<<<< HEAD
 GlistGrowing=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
 Glistnon=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)<(-1.5) & vstLumRes$baseMean>100)]
 write.csv(GlistGrowing,file="figure-outputs/lumsig_posFC.csv" )
@@ -4653,16 +4650,6 @@ write.csv(Glistnon,file="figure-outputs/lumsig_negFC.csv" )
 
 ColSideCols=ColSizeb[vstLumOnly$Growth]
 #pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
-=======
-GlistGrowing=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)>0.20 & vstLumRes$baseMean>100)]
-Glistnon=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)<(-0.20) & vstLumRes$baseMean>100)]
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
-
-write.csv(GlistGrowing,file="figure-outputs/lumsig_posFC.csv" )
-write.csv(Glistnon,file="figure-outputs/lumsig_negFC.csv" )
-
-ColSideCols=cut(vstLumOnly$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M", "O1", "O2"))
-pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
 
 heatmap.2(assay(vsdLumvst)[ genes2,  ], scale="row", trace="none", ColSideColors = brewer.pal(4, "Greens")[ColSideCols], col=RdBu[11:1], main="Ep genes")
 dev.off()
@@ -5272,23 +5259,16 @@ lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
 
 lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
 
-<<<<<<< HEAD
+
 newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
                       TCGAstab=TCGAssgsea[1, lx2],
-                      TCGAcomb=TCGAssgsea[1, lx2]-TCGAssgsea[2, lx2],
-                      Onco=TCGAssgsea[3, lx2],
-                      Mamma=TCGAssgsea[4, lx2],
-=======
-newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAstab=TCGAssgsea[2, lx2],
-                      TCGAgrow=TCGAssgsea[1, lx2],
-                      TCGAcomb=TCGAssgsea[1, lx2]-TCGAssgsea[2, lx2],
+                      TCGAcomb=TCGAssgsea[2, lx2]-TCGAssgsea[1, lx2],
                       Onco=TCGAssgsea[3, lx2],
                       Mamma=TCGAssgsea[4, lx2],
                       OSM=BrClin$Overall.Survival..Months.[l1],
                       OSS=BrClin$Overall.Survival.Status[l1], DFS=BrClin$Disease.Free.Status[l1],
                  DFM=BrClin$Disease.Free..Months.[l1],
                  Stage=BrClin$Stage[l1],
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
                       leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
                       str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
                       TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
@@ -5334,10 +5314,7 @@ We can do this two ways:
 ```{r}
 SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
 SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
-<<<<<<< HEAD
-=======
 
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 model1=coxph(SurvOS~TCGAgrow+Stage, data=newinfoTab)
 summary(model1)
 model2=coxph(SurvOS~TCGAgrow+Onco+Stage, data=newinfoTab)
@@ -5381,10 +5358,7 @@ summary(model3)
 ```{r}
 #SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
 SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
-<<<<<<< HEAD
-=======
 
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 model1=coxph(SurvDFS~TCGAgrow+Stage, data=newinfoTab)
 summary(model1)
 model2=coxph(SurvDFS~TCGAgrow+Onco+Stage, data=newinfoTab)
@@ -5421,15 +5395,6 @@ model3=coxph(SurvDFS~TCGAcomb+Mamma+Onco+Stage, data=newinfoTab)
 summary(model3)
 ```
 
-<<<<<<< HEAD
-=======
-### Redo the survival plots based on Luminal cases only
-
-```{r}
-
-
-```
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 
 ### TCGA: LumA high vs low signatures
 
@@ -5527,696 +5492,6 @@ write.csv(gscaTCGA@result$GSEA.results$ProcessNetworks, file="nature-tables/5k_T
 <!--chapter:end:09ab-associate_TCGA.Rmd-->
 
 # METABRIC: Associate Epcam+ inflammatory with survival
-<<<<<<< HEAD
-
-Associate the signature with outcome in MET: Load in MET right now
-
-```{r}
-#load("../data/METABRIC/GE_19215x1992_sym_MADscaled.RData")
-# RNA data here
-METrsem=read.delim("../data/METABRIC/data_mRNA_median_all_sample_Zscores.txt", sep="\t")
-#METb=read.delim("../data/METABRIC/data_mRNA_median_all_sample_Zscores.txt", sep="\t")
-#METrsem=read.delim("../data/MET/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt", sep="\t")
-rownames(METrsem)=METrsem[ ,1]
-METrsem=METrsem[ ,-c(1:2)]
-colnames(METrsem)=gsub("\\.", "-", colnames(METrsem))
-
-# load the clinical information
-METclin=read.delim("../data/METABRIC/brca_metabric_clinical_data.tsv", sep="\t")
-METclin$Sample.ID=gsub("-", "", METclin$Sample.ID)
-M2=read.delim("../data/METABRIC/ali_2016_supplement_data.txt", sep="\t")
-
-METclin=merge(METclin, M2, by.x="Sample.ID", by.y="inputsample", all.x=T)
-
-boxplot(METclin$Relapse.Free.Status..Months.~METclin$Chemotherapy+METclin$X3.Gene.classifier.subtype)
-```
-
-
-Edit the clinical data to make sure data is censored at 60 months (5 years) for easier comparisons
-
-
-```{r}
-#m1=match(colnames(METssgsea), METclin$Patient.ID)
-METclin$Overall.Survival..Months.=as.numeric(METclin$Overall.Survival..Months.)
-METclin$Relapse.Free.Status..Months.=as.numeric(METclin$Relapse.Free.Status..Months.)
-METclin$Overall.Survival.Status[which(METclin$Overall.Survival..Months.>=60)]="0:LIVING"
-METclin$Overall.Survival..Months.[which(METclin$Overall.Survival..Months.>=60)]=60
-METclin$Pam50...Claudin.low.subtype[which(METclin$Pam50...Claudin.low.subtype=="NC")]=NA
-METclin$Relapse.Free.Status[which(METclin$Relapse.Free.Status..Months.>=60)]="0:Not Recurred"
-METclin$Relapse.Free.Status..Months.[which(METclin$Relapse.Free.Status..Months.>=60)]=60
-
-```
-
-## Associating CD74 with phenotype and outcome
-
-The Thorsson data has pre-calculated scores for:
-
-* immune subtypes
-* leukocyte fractins
-* proportion of data with coding mutations
-* TCR shannon index
-
-Z-Scale CD74 scores prior to analysis:
-
-```{r 5dmet, fig.cap="CD74 assoc with patient data"}
-#METssgsea=scale(METrsem[match("CD74", rownames(METrsem)), ])
-m1=match(colnames(METrsem), METclin$Patient.ID)
-
-tinfo=data.frame(pam=METclin$Pam50...Claudin.low.subtype[m1], OSM=as.numeric(METclin$Overall.Survival..Months.[m1]),
-                 pam2=METclin$Pam50...Claudin.low.subtype[m1],
-                 OSS=METclin$Overall.Survival.Status[m1], cd74=t(METrsem["CD74",  ]),
-                 DFS=METclin$Relapse.Free.Status[m1],
-                 DFM=as.numeric(METclin$Relapse.Free.Status..Months.[m1]),
-                 Stage=METclin$Tumor.Stage[m1],
-                 Size=METclin$Tumor.Size[m1],
-                 CD8=METclin$tcellscd8[m1],
-                 cytolytic=METclin$cyt_mb[m1],
-                 cellularity=METclin$Cellularity[m1],
-                 codingMut=METclin$Mutation.Count[m1])
-tinfo$pam2[which(tinfo$pam2=="claudin-low")]="Basal"
-
-par(mfrow=c(2,3))
-boxplot(tinfo$CD74~tinfo$pam, ylab="gene exp", main="PAM50")
-boxplot(tinfo$CD74~tinfo$cellularity, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$CD74, log10(tinfo$codingMut+1), method="spearman")
-smoothScatter(tinfo$CD74, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(-3,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-ax=cor.test(tinfo$CD74, tinfo$CD8, method="spearman")
-smoothScatter(tinfo$CD74, (tinfo$CD8), xlab="gene exp", ylab="CD8 frac")
-text(-3,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-
-ax=cor.test(tinfo$CD74, tinfo$cytolytic, method="spearman")
-smoothScatter(tinfo$CD74, (tinfo$cytolytic), xlab="gene exp", ylab="cytMB")
-text(-3,10, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-
-hist(tinfo$CD74)
-
-#write.csv(tinfo, file="nature-tables/5d-MET_data.csv")
-```
-
-We can also check if there is an association with survival:
-
-```{r}
-axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="1:Recurred", 1, ifelse(tinfo$DFS=="0:Not Recurred", 0, NA)))
-
-axO=Surv(tinfo$OSM, ifelse(tinfo$OSS=="1:DECEASED", 1, ifelse(tinfo$OSS=="0:LIVING", 0, NA)))
-
-SurvOSS=coxph(axO~tinfo$pam2+factor(tinfo$Stage)+tinfo$CD74)
-SurvDFS=coxph(axD~tinfo$pam2+tinfo$Stage+tinfo$CD74)
-
-ao=summary(SurvOSS)
-ao
-as=summary(SurvDFS)
-as
-```
-Note that CD74 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
-
-This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
-
-```{r 5emet, fig.cap="forest plot CD74", eval=F}
-
-data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "CD74"),
-                X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
-                X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$CD74))),
-                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
-                     round(summary(SurvOSS)$coefficients[ 5:8,2],2)))
-
-mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
-mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
-
-#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
-
-forestplot(data1, mdata, xlog=T,
-           boxsize=0.5)
-
-#write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot.csv")
-
-DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-```
-
-
-
-
-
-We can look below what the association with subtype is in KM curves:
-
-```{r Ext5e-osmet, fig.cap="OS CD74 by subtype", fig.height=8}
-par(mfrow=c(2,2))
-
-Xind=c("Basal", "Her2", "LumA", "LumB")
-
-for (i in Xind){
-  l1=which(tinfo$pam==i)
-  ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="1:DECEASED", 1, ifelse(tinfo$OSS[l1]=="0:LIVING", 0, NA)))
-  METvalCut=cut(tinfo$CD74[l1], quantile(tinfo$CD74[l1], c(0, 0.33, 0.67, 1), na.rm=T), c("L","M", "P"))
-  ax1=summary(coxph(ax~METvalCut+factor(tinfo$Stage[l1])))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
-  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
-                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
-}
-```
-
-
-```{r Ext5e-met, fig.cap="DFS CD74 by subtype"}
-
-par(mfrow=c(2,2))
-
-for (i in Xind){
-   l1=which(tinfo$pam==i)
-  ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="1:Recurred", 1, ifelse(tinfo$DFS[l1]=="0:Not Recurred", 0, NA)))
-  METvalCut=cut(tinfo$CD74[l1], quantile(tinfo$CD74[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax1=summary(coxph(ax~METvalCut+tinfo$Stage[l1]))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "CD74 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
-  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
-                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
-}
-```
-
-## Associating ADMATS10 with phenotype and outcome
-
-Do the same thing as above with the ADAMTS10 scores
-
-### All samples
-
-Z-Scale ADAMTS10 scores prior to analysis:
-
-```{r ADAMTS10met, fig.cap="ADAMTS10 assoc with patient data"}
-#METssgsea=scale(METrsem[match("ADAMTS10", rownames(METrsem)), ])
-tinfo$ADAMTS10=t(METrsem[match("ADAMTS10", rownames(METrsem)), ])
-
-#pdf("figure-outputs/Figure5_ADAMTS10_output.pdf", height=7, width=9)
-
-par(mfrow=c(2,3))
-
-boxplot(tinfo$ADAMTS10~tinfo$pam, ylab="gene exp", main="PAM50")
-boxplot(tinfo$ADAMTS10~tinfo$cellularity, ylab="gene exp", main="Immune sbtype")
-ax=cor.test(tinfo$ADAMTS10, log10(tinfo$codingMut+1), method="spearman")
-smoothScatter(tinfo$ADAMTS10, log10(tinfo$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(-3,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-ax=cor.test(tinfo$ADAMTS10, tinfo$CD8, method="spearman")
-smoothScatter(tinfo$ADAMTS10, (tinfo$CD8), xlab="gene exp", ylab="leuk frac")
-text(-3,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-ax=cor.test(tinfo$ADAMTS10, tinfo$cytolytic, method="spearman")
-smoothScatter(tinfo$ADAMTS10, tinfo$cytolytic, xlab="gene exp", ylab="cytolytic score")
-text(4,1, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-hist(tinfo$ADAMTS10)
-
-DT::datatable(tinfo, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-```
-
-We can also check if there is an association with survival:
-
-```{r adamst-survmet}
-tinfo$pam2=tinfo$pam
-tinfo$pam2[which(tinfo$pam2=="claudin-low")]="Basal"
-
-axD=Surv(tinfo$DFM, ifelse(tinfo$DFS=="1:Recurred", 1, ifelse(tinfo$DFS=="0:Not Recurred", 0, NA)))
-
-axO=Surv(tinfo$OSM, ifelse(tinfo$OSS=="1:DECEASED", 1, ifelse(tinfo$OSS=="0:LIVING", 0, NA)))
-
-SurvOSS=coxph(axO~tinfo$pam2+tinfo$Stage+tinfo$ADAMTS10)
-SurvDFS=coxph(axD~tinfo$pam2+tinfo$Stage+tinfo$ADAMTS10)
-
-ao=summary(SurvOSS)
-ao
-as=summary(SurvDFS)
-as
-```
-Note that ADAMTS10 is associated with survival: The harzards ratio is `r ao$coefficients[5,2]` (95CI:`r ao$conf.int[ 5,3:4]`), p value `r ao$logtest[3]`. 
-
-This means that this is associated with survival regardless of subtype. We can look at these values in forestplots
-
-```{r ADAMTS10-forestplotmet, fig.cap="forest plot ADAMTS10", eval=F}
-
-data1=data.frame(X1=c("","PAM50", "", "", "", "", "Stage", "","","", "ADAMTS10"),
-                X2=c("","Basal", "Her2", "LumA", "LumB", "Normal" ,"1", "2", "3", "4", ""),
-                X3=c("NSamp",  table(tinfo$pam), table(tinfo$Stage), length(na.omit(tinfo$CD74))),
-                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1:4,2],2), "",
-                     round(summary(SurvOSS)$coefficients[ 5:8,2],2)))
-
-mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
-mdata=rbind(NA,NA, mdata[1:4, ], NA, mdata[5:8, ])
-
-#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
-
-forestplot(data1, mdata, xlog=T,
-           boxsize=0.5)
-
-#dev.off()
-#write.csv(cbind(data1, mdata), file="nature-tables/5e_forest_plot_ADAMTS10.csv")
-
-DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-
-```
-
-
-We can look below what the association with subtype is in KM curves:
-
-```{r Ext5e-osADmet, fig.cap="OS CD74 by subtype", fig.height=8}
-par(mfrow=c(2,2))
-
-Xind=c("Basal", "Her2", "LumA", "LumB")
-
-for (i in Xind){
-  l1=which(tinfo$pam==i)
-  ax=Surv(tinfo$OSM[l1], ifelse(tinfo$OSS[l1]=="1:DECEASED", 1, ifelse(tinfo$OSS[l1]=="0:LIVING", 0, NA)))
-  METvalCut=cut(tinfo$ADAMTS10[l1], quantile(tinfo$ADAMTS10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax1=summary(coxph(ax~METvalCut+tinfo$Stage[l1]))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
-  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
-                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
-}
-```
-
-```{r Ext5e-dfsADmet, fig.cap="DFS ADAMTS10 by subtype", fig.height=8}
-
-par(mfrow=c(2,2))
-
-for (i in Xind){
-   l1=which(tinfo$pam==i)
-  ax=Surv(tinfo$DFM[l1], ifelse(tinfo$DFS[l1]=="1:Recurred", 1, ifelse(tinfo$DFS[l1]=="0:Not Recurred", 0, NA)))
-  METvalCut=cut(tinfo$ADAMTS10[l1], quantile(tinfo$ADAMTS10[l1], c(0, 0.33, 0.67, 1)), c("L","M", "P"))
-  ax1=summary(coxph(ax~METvalCut+tinfo$Stage[l1]))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "ADAMTS10 gene exp"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
-  text(20, 0.2, sprintf("HR:%s (%s-%s) p=%s", round(ax1$coefficients[2,2 ],2), 
-                     round(ax1$conf.int[2,3 ],2), round(ax1$conf.int[2, 4],2),round(ax1$logtest[3],2)))
-}
-```
-
-### Redone using only ER cases
-
-Redo survival and limit only to ER+ cases:
-
-```{r}
-## make a change here
-tinfoER=tinfo[which(tinfo$pam%in%c("LumA", "LumB")),  ]
-tinfoER$pam=factor(tinfoER$pam)
-
-axD=Surv(tinfoER$DFM, ifelse(tinfoER$DFS=="1:Recurred", 1, ifelse(tinfoER$DFS=="0:Not Recurred", 0, NA)))
-
-axO=Surv(tinfoER$OSM, ifelse(tinfoER$OSS=="1:DECEASED", 1, ifelse(tinfoER$OSS=="0:LIVING", 0, NA)))
-
-SurvOSS=coxph(axO~tinfoER$pam+tinfoER$Stage+tinfoER$ADAMTS10)
-SurvDFS=coxph(axD~tinfoER$pam+tinfoER$Stage+tinfoER$ADAMTS10)
-
-ao=summary(SurvOSS)
-ao
-as=summary(SurvDFS)
-as
-
-```
-
-
-```{r}
-#pdf("figure-outputs/NEwpanelB.pdf", height=7, width=9)
-
-par(mfrow=c(2,3))
-
-boxplot(tinfoER$ADAMTS10~tinfoER$pam, ylab="gene exp", main="PAM50")
-boxplot(tinfoER$ADAMTS10~tinfoER$cellularity, ylab="gene exp", main="cellularity")
-ax=cor.test(tinfoER$ADAMTS10, log10(tinfoER$codingMut+1), method="spearman")
-smoothScatter(tinfoER$ADAMTS10, log10(tinfoER$codingMut+1), xlab="gene exp", ylab="log10 mut")
-text(-3,0.5, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-ax=cor.test(tinfoER$ADAMTS10, tinfoER$CD8, method="spearman")
-smoothScatter(tinfoER$ADAMTS10, (tinfoER$CD8), xlab="gene exp", ylab="leuk frac")
-text(-3,0.2, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-ax=cor.test(tinfoER$ADAMTS10, tinfoER$cytolytic, method="spearman")
-smoothScatter(tinfoER$ADAMTS10, tinfoER$cytolytic, xlab="gene exp", ylab="cytolytic score")
-text(-3,8, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 3)))
-hist(tinfoER$ADAMTS10)
-
-
-DT::datatable(tinfoER, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-```
-
-Also check the forest plots
-
-```{r Ext5fmet, fig.cap="ADAMTS10 expression survival analysis, ER only ", eval=F}
-
-data1=data.frame(X1=c("","PAM50", "",  "Stage", "","","", "ADAMTS10"),
-                X2=c("","LumA", "LumB" ,"1", "2", "3", "4", ""),
-                X3=c("NSamp",  table(tinfoER$pam), table(tinfoER$Stage), length(na.omit(tinfoER$ADAMTS10))),
-                X4=c("HR", "", round(summary(SurvOSS)$coefficients[ 1,2],2), "",
-                     round(summary(SurvOSS)$coefficients[ 2:5,2],2)))
-
-mdata=data.frame(summary(SurvOSS)$conf.int[ ,c(1,3:4)])
-mdata=rbind(NA,NA, mdata[1, ], NA, mdata[2:5, ])
-
-#pdf("figure-outputs/Figure5_CD74_forestplot.pdf", width=5, height=5)
-
-forestplot(data1, mdata, xlog=T,
-           boxsize=0.5)
-
-DT::datatable(cbind(data1, mdata), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-```
-
-
-## Signature: Lum cases non-inflammatory: growing vs stable
-
-Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples.
-
-
-```{r, results='hide'}
-#GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
-#Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
-
-#HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
-#HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
-
-METssgsea=gsva(data.matrix(METrsem), list(grow=na.omit(HumGeneList2), 
-                                                stab=na.omit(Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]),  Onco=Oncoprint[[1]], Mamma=Oncoprint[[2]]), method="ssgsea", ssgsea.norm=F)
-
-METssgsea=t(scale(t(METssgsea)))
-
-par(mfrow=c(1,2))
-hist(METssgsea[1, ], main="stable")
-hist(METssgsea[2, ], main="growing")
-plot(METssgsea[1, ], METssgsea[2, ], xlab="stable", ylab="growing")
-
-
-write.csv("nature-tables/Supplemental_table5met.csv")
-```
-
-The Growing signature genes are `r Glistnon`
-and stable are `r GlistGrowing`.
-
-Below are the survival curves for the stable signature:
-
-```{r, fig.height=8}
-#pdf("figure-outputs/Fig5_survival_analysis_Lum_samples_baseMean_greater100.pdf", height=8, width = 8)
-
-par(mfrow=c(2,2))
-
-Xind=c("Basal", "Her2", "LumA", "LumB")
-
-for (i in Xind){
-  l1=which(METclin$Pam50...Claudin.low.subtype==i)
-  lx2=match(METclin$Patient.ID[l1], colnames(METrsem))
-  ax=Surv(METclin$Overall.Survival..Months.[l1], ifelse(METclin$Overall.Survival.Status[l1]=="1:DECEASED", 1, ifelse(METclin$Overall.Survival.Status[l1]=="0:LIVING", 0, NA)))
-   axb=coxph(ax~METssgsea[1, lx2]+METclin$Tumor.Stage[l1])
-  axc=summary(axb)
-  METvalCut=cut(METssgsea[1, lx2], quantile(METssgsea[1, lx2], c(0, 0.33, 0.67, 1), na.rm=T), c("L","M", "P"))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
-   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
-                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
-   legend("topleft",paste(c("L", "M", "H"), summary(METvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
-          pch=19)
-  
-}
-
-
-for (i in Xind){
-  l1=which(METclin$Pam50...Claudin.low.subtype==i)
-  lx2=match(METclin$Patient.ID[l1], colnames(METrsem))
-  ax=Surv(METclin$Relapse.Free.Status..Months.[l1], ifelse(METclin$Relapse.Free.Status[l1]=="1:Recurred", 1, ifelse(METclin$Relapse.Free.Status[l1]=="0:Not Recurred", 0, NA)))
-  axb=coxph(ax~METssgsea[1, lx2]+METclin$Tumor.Stage[l1])
-  axc=summary(axb)
-  
-  METvalCut=cut(METssgsea[1, lx2], quantile(METssgsea[1, lx2], c(0, 0.33, 0.67, 1), na.rm=T), c("L","M", "P"))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
-  text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
-                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
-  legend("topleft",paste(c("L", "M", "H"), summary(METvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
-          pch=19)
-}
-
-
-#DT::datatable(as.data.frame(test), rownames=F, class='cell-border stripe',
-#         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
-
-```
-
-The OS curves for the growing signature
-
-```{r 5imet, fig.cap="OS: growing signature", fig.height=8}
-par(mfrow=c(2,2))
-
-Xind=c("Basal", "Her2", "LumA", "LumB")
-
-for (i in Xind){
-  l1=which(METclin$Pam50...Claudin.low.subtype==i)
-   lx2=match(METclin$Patient.ID[l1], colnames(METrsem))
-  ax=Surv(METclin$Overall.Survival..Months.[l1], ifelse(METclin$Overall.Survival.Status[l1]=="1:DECEASED", 1, ifelse(METclin$Overall.Survival.Status[l1]=="0:LIVING", 0, NA)))
-   axb=coxph(ax~METssgsea[2, lx2]+METclin$Tumor.Stage[l1])
-  axc=summary(axb)
-  
-  METvalCut=cut(METssgsea[2, lx2], quantile(METssgsea[2, lx2], c(0, 0.33, 0.67, 1), na.rm=T), c("L","M", "P"))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time", ylab="OS", mark.time=T)
-   text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
-                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
-   legend("topleft",paste(c("L", "M", "H"), summary(METvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
-          pch=19)
-  
-}
-```
-
-Followed by the DFS plots for this signature
-
-```{r 5i-dfsmet, fig.cap="DFS forgrowing signature", fig.height=8}
-par(mfrow=c(2,2))
-
-for (i in Xind){
-  l1=which(METclin$Pam50...Claudin.low.subtype==i)
-   lx2=match(METclin$Patient.ID[l1], colnames(METrsem))
-  ax=Surv(METclin$Relapse.Free.Status..Months.[l1], ifelse(METclin$Relapse.Free.Status[l1]=="1:Recurred", 1, ifelse(METclin$Relapse.Free.Status[l1]=="0:Not Recurred", 0, NA)))
-   axb=coxph(ax~METssgsea[2, lx2]+METclin$Tumor.Stage[l1])
-   
-  axc=summary(axb)
-  axc
-  METvalCut=cut(METssgsea[2, lx2], quantile(METssgsea[2, lx2], c(0, 0.33, 0.67, 1), na.rm=T), c("L","M", "P"))
-  ax2=plot(survfit(ax~METvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="DFS", mark.time=T)
-    text(10, 0, sprintf("univ. cts. var. HR=%s (%s-%s), p=%s", round(axc$coefficients[1,2], 2),
-                      round(axc$conf.int[1,3],2), round(axc$conf.int[1,4],2),round(axc$logtest[3],2 )))
-    legend("topleft",paste(c("L", "M", "H"), summary(METvalCut)), col=brewer.pal(3, "Blues"), lwd=1,
-          pch=19)
-  
-}
-
- l1=which(METclin$Pam50...Claudin.low.subtype=="LumA")
- lx2=match(METclin$Patient.ID[l1], colnames(METssgsea))
-  ax=Surv(METclin$Relapse.Free.Status..Months.[l1], ifelse(METclin$Relapse.Free.Status[l1]=="1:Recurred", 1, ifelse(METclin$Relapse.Free.Status[l1]=="0:Not Recurred", 0, NA)))
-   axb=coxph(ax~METssgsea[2, lx2]+METclin$Tumor.Stage[l1])
-   summary(axb)
-
-   hist(METssgsea[2, lx2])
-   
-```
-
-The gene lists are 
-
-Stable:
-
-`r GlistGrowing` 
-
-Growing:
-
-`r Glistnon`
-
-
-We can see whether this signature associates with leukocyte content and TCR diversity in the MET cohort:
-
-```{r Ext5i-growingmet, fig.cap="luminal signature associated with clinical variables", fig.height=8}
-
-m1=which(METclin$Pam50...Claudin.low.subtype=="LumA")
-l1=match(METclin$Patient.ID[m1], colnames(METssgsea))
-
-#lx3=match(METclin$Patient.ID[l1], ThorssData$MET.Participant.Barcode)
-
-#newinfoTab=data.frame(pat=METclin$Patient.ID[l1], METval=METssgsea[2, lx2],
-#                      leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
-#                      str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
-#                      TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
-#                      immSub=ThorssData$Immune.Subtype[lx3])
-
-newinfoTab=data.frame(pat=METclin$Patient.ID[m1],
-                      pam=METclin$Pam50...Claudin.low.subtype[m1], 
-                      METstab=METssgsea[2, l1],
-                      METgrow=METssgsea[1, l1],
-                      METcomb=METssgsea[1, l1]-METssgsea[2, l1],
-                      OSM=METclin$Overall.Survival..Months.[m1],
-                      Mamma=METssgsea[4, l1],
-                      Onco=METssgsea[3, l1],
-                 OSS=METclin$Overall.Survival.Status[m1],
-                 DFS=METclin$Relapse.Free.Status[m1],
-                 DFM=METclin$Relapse.Free.Status..Months.[m1],
-                 Stage=METclin$Tumor.Stage[m1],
-                 Size=METclin$Tumor.Size[m1],
-                 CD8=METclin$tcellscd8[m1],
-                 cytolytic=METclin$cyt_mb[m1],
-                 cellularity=METclin$Cellularity[m1],
-                 codingMut=METclin$Mutation.Count[m1])
-
-#pdf("figure-outputs/NewpanelC.pdf", height=8, width=9)
-par(mfrow=c(2,2))
-ax=cor.test(newinfoTab$METcomb, newinfoTab$CD8, method="spearman")
-smoothScatter(newinfoTab$METcomb, newinfoTab$CD8)
-text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-ax=cor.test(newinfoTab$METcomb, newinfoTab$cytolytic, method="spearman")
-smoothScatter(newinfoTab$METcomb, newinfoTab$cytolytic)
-text(0.6,0.6, sprintf("cor=%s, p=%s", round(ax$estimate, 2), round(ax$p.value, 2)))
-
-#dev.off()
-
-DT::datatable(newinfoTab, rownames=T, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
-```
-
-## Comparison to oncotype and mammaprint 
-
-Finally, see how these compare to oncotype or mammaprint.
-
-We can do this two ways:
-
-### Overall survival
-
-1. Run survival ~ Oncotype/Mamma/Growing + PAM50 + Stage
-
-```{r}
-SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="0:LIVING", 0, 1))
-SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="0:Not Recurred", 0,ifelse(newinfoTab$DFS=="1:Recurred", 1, NA) ))
-
-model1=coxph(SurvOS~METgrow+Stage, data=newinfoTab)
-summary(model1)
-model2=coxph(SurvOS~METgrow+Onco+Stage, data=newinfoTab)
-summary(model2)
-model3=coxph(SurvOS~METgrow+Mamma+Stage, data=newinfoTab)
-summary(model3)
-model3=coxph(SurvOS~METgrow+Mamma+Onco+Stage, data=newinfoTab)
-summary(model3)
-```
-
-2. Also try the growing signature:
-
-```{r}
-model1=coxph(SurvOS~METstab+Stage, data=newinfoTab)
-summary(model1)
-model2=coxph(SurvOS~METstab+Onco+Stage, data=newinfoTab)
-summary(model2)
-model3=coxph(SurvOS~METstab+Mamma+Stage, data=newinfoTab)
-summary(model3)
-model3=coxph(SurvOS~METstab+Mamma+Onco+Stage, data=newinfoTab)
-summary(model3)
-```
-
-3. Combined signature:
-
-```{r}
-model1=coxph(SurvOS~METcomb+Stage, data=newinfoTab)
-summary(model1)
-model2=coxph(SurvOS~METcomb+Onco+Stage, data=newinfoTab)
-summary(model2)
-model3=coxph(SurvOS~METcomb+Mamma+Stage, data=newinfoTab)
-summary(model3)
-model3=coxph(SurvOS~METcomb+Mamma+Onco+Stage, data=newinfoTab)
-summary(model3)
-```
-
-### MET: LumA high vs low signatures
-
-We can pull out the samples here which have high vs low signature (in the lumA group) and perform differential gene expression analysis on these cases: Need to rerun this section usng limma
-
-```{r MET-limma}
-newinfoTab$METvalcut=cut(newinfoTab$METcomb,  quantile(newinfoTab$METcomb, c(0, 0.33, 0.67, 1), na.rm=T ), c("L", "M", "O"))
-
-colDataMET=newinfoTab[which(newinfoTab$METvalcut!="M"), ]
-
-#head(colDataMET)
-#METdeseq=DESeqDataSetFromMatrix(METrsem[ ,match(colDataMET$pat, colnames(METrsem))], colDataMET, design=~METvalcut)
-METlimma=lmFit(METrsem[ ,match(colDataMET$pat, colnames(METrsem))], design = model.matrix( ~ 0 + factor(colDataMET$METvalcut)))
-METlimma <- eBayes(METlimma)
-Output=topTable(METlimma , coef=2, number=nrow(METrsem))
-Output2=topTable(METlimma , coef=2, number=nrow(METrsem), p.value=0.05, lfc=0.5)
-#results <- decideTests(METlimma)
-
-#write.csv(METdeseqRes, file="nature-tables/5J_MET.csv")
-A1=as.data.frame(Output)
-
-DT::datatable(A1, rownames=T, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), Xscroll=T))
-write.csv(A1, file="nature-tables/MET_stable_growing.csv")
-```
-
-We can plot the differential genes here in a volcano plot:
-
-```{r MET-volcano, fig.cap="yet another volcano plot"}
-#pdf("figure-outputs/Fig5J_MET_deg.pdf", height=8, width=8)
-with(Output, plot(logFC, -log10(adj.P.Val), pch=20, main="Volcano plot: Low exp (-) vs high (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(Output, adj.P.Val<0.05 & abs(logFC)>0.5), points(logFC, -log10(adj.P.Val), pch=20, col="red", cex=0.5))
-text(Output2$logFC+0.02, -log10(Output2$adj.P.Val)+0.05, rownames(Output2), col="red")
-#with(subset(METdeseqRes, padj<0.05 & abs(log2FoldChange)>2), text(log2FoldChange+0.05, -log10(padj)+0.05, rownames(METdeseqRes), pch=20, col="red", cex=0.75))
-#dev.off()
-```
-
-
-```{r heatmap-MET, fig.cap="because someone will ask for it"}
-#vstMET=vst(assay(METdeseq))
-
-ColSideCols=c("skyblue", "blue")[factor(colDataMET$METvalcut)]
-
-ax1=METrsem[ match(rownames(Output2), rownames(METrsem)),  match(colDataMET$pat, colnames(METrsem))]
-
-#pdf("figure-outputs/Figure5J_XX_heatmap_LumA_MET.pdf", height=15, width=10)
-
-heatmap.2(data.matrix(ax1), scale="row", trace="none", ColSideColors = ColSideCols, col=RdBu[11:1], main="LumA MET")
-```
-
-
-Run gsea here
-
-```{r MET-gsea, fig.cap="pointless MET hairball"}
-
-## why doesnt this work
-
-load("../anntotations/ListofGeneSets2.RData")
-
-hits=rownames(Output2)
-fcTab=Output$logFC
-
-names(fcTab)=rownames(Output)
-  gscaMET=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
-   gscaMET<- preprocess( gscaMET, species="Hs", initialIDs="SYMBOL",
-                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
-                    orderAbsValue=FALSE)
-   gscaMET <- analyze( gscaMET, 
-                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
-                           nPermutations=100, minGeneSetSize=5,
-                           exponent=1), 
-                           doGSOA = F)
-   
-save( gscaMET, file="figure-outputs/MET_hairball.RData")
-   
-TermsA=sapply(strsplit(rownames(gscaMET@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
-TermsA[which(is.na(TermsA))]=substr(rownames(gscaMET@result$GSEA.results$ProcessNetworks)[which(is.na(TermsA))], 2, 50)
-
-## check whether this runs:
-gscaMET@result$GSEA.results$ProcessNetworks$Gene.Set.Term=TermsA
-viewEnrichMap(gscaMET, gscs=c("ProcessNetworks"),
-              allSig = TRUE, gsNameType="term" )
-
-write.csv(gscaMET@result$GSEA.results$ProcessNetworks, file="nature-tables/5k_MET_lumA_GSEA.csv")
-```
-
-
-<!--chapter:end:09ac-associate_METABRIC.Rmd-->
-
-# DESeq analysis: Characterisation cohort (big vs small)
-
-This document sets up DESeq runs to compare:
-
-* CD45 samples
-* Ep samples
-=======
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 
 Associate the signature with outcome in MET: Load in MET right now
 
@@ -9997,7 +9272,7 @@ indx=rownames(AcastTab)[grep("Ep", rownames(AcastTab))]
 indx=substr(indx, 1, nchar(indx)-3)
 
 n2=unlist(sapply(indx, function(x) grep(x, rownames(AcastTab))))
-
+AcastTab2=AcastTab
 AcastTab[grep("CD45", rownames(AcastTab)), ]=sign(AcastTab[grep("CD45", rownames(AcastTab)), ])
 AcastTab[grep("DN", rownames(AcastTab)), ]=sign(AcastTab[grep("DN", rownames(AcastTab)), ])*2
 AcastTab[grep("Ep", rownames(AcastTab)), ]=sign(AcastTab[grep("Ep", rownames(AcastTab)), ])*3
@@ -10011,18 +9286,32 @@ axis(2, at=seq(0, 1, length=ncol(AcastTab)), colnames(AcastTab), las=2)
 #dev.off()
 ```
 
-## Also look at the top RNA-mutations with are Ep/DN specific
-
-
+View the above using only the Epcam samples:
 
 ```{r}
-gListN=setdiff(unique(c(EpLoc, DNLoc)), CDLoc)
-gListNsplit=sapply(strsplit(gListN," "), function(x) x[1])
+Acast2=AcastTab2[grep("Ep", rownames(AcastTab)), ]
+rS=colSums(Acast2)
+Acast2=Acast2[ ,-which(rS==0)]
 
-# gene list new
-gnew=which(gListNsplit%in%RatCosmic)
-gListNsub=gListN[gnew]
-IndN=MallCodingHaploFuncP[which(MallCodingHaploFuncP$mutPos%in%gListNsub), ]
+image(Acast2, xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
+axis(1, at=seq(0, 1, length=nrow(Acast2)), rownames(Acast2), las=2)
+axis(2, at=seq(0, 1, length=ncol(Acast2)), colnames(Acast2), las=2)
+
+```
+
+
+## Also look at the top RNA-mutations with are Ep specific
+
+Look at the following set of genes which have been reported to be mutated in the epithelial samples based on RNAsequencing
+
+```{r}
+GeneList=c("Atm", "Tert", "Ncor2", "Epha3", "Arid1a", "Tp53", "Pten", "Pik3ca", "Pik3r1", "Esr1", "Ctcf", "Brca1", "Brca2", "Notch1", "Kmt2d", "Foxa1", "Gata3", "Mdm4", "Ccne1")
+
+ax1=match(GeneList, colnames(Acast2))
+
+image(Acast2[ ,ax1], xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
+axis(1, at=seq(0, 1, length=nrow(Acast2)), rownames(Acast2), las=2)
+axis(2, at=seq(0, 1, length=ncol(Acast2)), colnames(Acast2), las=2)
 
 
 ```
@@ -10151,7 +9440,8 @@ Trichrome encapsulation
 
 ```{r}
 df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="lots")]=1
-wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
+df.Spatial$trichrome_pc
+#wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
 ```
 
 ## Association with hyperinflammatory status
@@ -10209,6 +9499,7 @@ allfiles=dir("../data/CNV_calls/","2_scale$", full.names = T)
 CNVL2=lapply(allfiles, function(x) read.delim(x, stringsAsFactors = F))
 names(CNVL2)=unlist(sapply(strsplit(allfiles, "//|_cnv"), function(x) x[2]))
 meltCN=melt(CNVL2, measure.vars=c("log2.copyRatio"))
+
 AllDCN=data.frame(sampleID=meltCN$L1, chrom=substr(meltCN$chrom, 4, 5), start.pos=meltCN$start,
                    end.pos=meltCN$end, n.probes=meltCN$binNum, mean=meltCN$value, 
                    call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
@@ -10216,14 +9507,13 @@ AllDCN=data.frame(sampleID=meltCN$L1, chrom=substr(meltCN$chrom, 4, 5), start.po
 AllDCN2=data.frame(sample=meltCN$L1, chromosome=meltCN$chrom, start=meltCN$start,
                   end=meltCN$end, n.probes=meltCN$binNum, segmean=2*2^(meltCN$value), 
                   call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
+
 AllDCN2$chromosome=factor(AllDCN2$chromosome, levels=unique(AllDCN2$chromosome))
 
-<<<<<<< HEAD
-CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call, sample=AllDCN2$sample)
-=======
+#CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call, sample=AllDCN2$sample)
+
 CNVGRanges=GRanges(seqnames = AllDCN2$chromosome, ranges=IRanges(start=AllDCN2$start, end=AllDCN2$end), segmean=AllDCN2$segmean, call=AllDCN2$call, sample=AllDCN2$sample)
 
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 ```
 
 ## Data Summary
@@ -10347,7 +9637,7 @@ olaps=findOverlaps(Bsamples,ttemp)
 ttemp$gene=NA
 ttemp$gene[subjectHits(olaps)]=Bsamples$gene_id[queryHits(olaps)]
 ttemp$NewID=sapply(ttemp$sample, function(x) Cdata$NewID[grep(x, Cdata$WGS)])
-<<<<<<< HEAD
+
 x1=which(!is.na(ttemp$gene))
 l1=match(ttemp$gene[x1], colnames(X2b))
 lnew=unique(ttemp$gene[x1[which(is.na(l1))]])
@@ -10361,29 +9651,7 @@ for (i in 1:length(l1)){
 l2=rowSums(sign(X2b))
 l3=colSums(sign(X2b))
 heatmap.2(X2b[order(l2),order(l3) ], col=c("white",  3:5, 2:1), scale="none", trace="none", sepcolor="grey85", colsep=c(1:ncol(X2b)), rowsep=c(1:nrow(X2b)), sepwidth=c(0.005, 0.005))
-=======
 
-x1=which(!is.na(ttemp$gene))
-l1=match(ttemp$gene[x1], colnames(X2b))
-lnew=unique(ttemp$gene[x1[which(is.na(l1))]])
-
-X2b=cbind(X2b, matrix(0, ncol=length(lnew), nrow=nrow(X2b)))
-colnames(X2b)[(ncol(X2b)-length(lnew)+1):ncol(X2b)]=lnew
-
-
-l1=match(ttemp$gene[x1], colnames(X2b))
-l2=match(ttemp$NewID[x1], rownames(X2b))
-
-for (i in 1:length(l1)){
-  X2b[l2[i],l1[i]]=ifelse(ttemp$call[x1[i]]=="+", 5, 4)
-}
-
-l2=rowSums(sign(X2b))
-l3=colSums(sign(X2b))
-
-heatmap.2(X2b[order(l2),order(l3) ], col=c("white",  3:5, 2:1), scale="none", trace="none", sepcolor="grey85", colsep=c(1:ncol(X2b)), rowsep=c(1:nrow(X2b)), sepwidth=c(0.005, 0.005))
-
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 ```
 
 Matching the frequency data with genes
@@ -10393,33 +9661,17 @@ S1GR=GRanges(seqnames = Samp1$data$chromosome, ranges=IRanges(start=Samp1$data$s
 olaps=findOverlaps(S1GR, txRn6)
 Samp1$data$gene=NA
 Samp1$data$gene[queryHits(olaps)]=txRn6$gene_id[subjectHits(olaps)]
-<<<<<<< HEAD
+
 gid=unique(na.omit(Samp1$data$gene))
 Tabix=matrix(0, nrow=length(gid), ncol=2)
 rownames(Tabix)=gid
-=======
 
-gid=unique(na.omit(Samp1$data$gene))
-
-Tabix=matrix(0, nrow=length(gid), ncol=2)
-rownames(Tabix)=gid
-
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 for (i in gid){
   m1=Samp1$data[which(Samp1$data$gene==i), ]
   Tabix[i, ]=colMedians(data.matrix(m1[ , 7:8]))
   
 }
-<<<<<<< HEAD
-rownames(Tabix)=toupper(rownames(Tabix))
-Tabix=Tabix[order(rownames(Tabix)), ]
-Tabix=Tabix[-which(rowSums(Tabix)==0), ]
-lx=match( names(rGene2), rownames(Tabix))
-df2=data.frame(mut=rGene2, gain=Tabix[ lx,1], loss=Tabix[lx, 2])
-lx2=match(rownames(Tabix), names(rGene2))
-df3=data.frame(mut=0, gain=Tabix[which(is.na(lx2)),1], loss=Tabix[which(is.na(lx2)),2])
-dfAll=rbind(df2, df3)
-=======
+
 
 rownames(Tabix)=toupper(rownames(Tabix))
 
@@ -10436,26 +9688,17 @@ df3=data.frame(mut=0, gain=Tabix[which(is.na(lx2)),1], loss=Tabix[which(is.na(lx
 
 dfAll=rbind(df2, df3)
 
-
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 #mx=which(rownames(dfAll)%in%AllCosmic$Gene.Symbol)
 dfAll[which(is.na(dfAll), arr.ind=T)]=0
 dfAll=dfAll*100
 dfAll[ ,3]=dfAll[ ,3]*(-1)
 dfAll$gene=rownames(dfAll)
-<<<<<<< HEAD
-=======
 
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 dfAll=dfAll[ ,c(4, 1:3)]
 mx=which(dfAll$gene%in%AllCosmic$Gene.Symbol)
 write.table(dfAll[mx, ], file="nature-tables/outputs_pathway_map_cosmic.txt", quote = F, row.names = F, sep="\t")
 ```
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 13ab65ea5f934862ef9c12e95357e1931225f8b2
 ## Summary of the sequencing depth
 
 Below, do a quick summary of the WGS data: what is the coverage, and plot the percentage mapping of the coverage:
