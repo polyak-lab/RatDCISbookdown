@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 21 Mutations in RNA | NMU-induced rat tumor models for I/O</title>
+  <title>Chapter 22 Mutations in RNA | NMU-induced rat tumor models for I/O</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 21 Mutations in RNA | NMU-induced rat tumor models for I/O" />
+  <meta property="og:title" content="Chapter 22 Mutations in RNA | NMU-induced rat tumor models for I/O" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 21 Mutations in RNA | NMU-induced rat tumor models for I/O" />
+  <meta name="twitter:title" content="Chapter 22 Mutations in RNA | NMU-induced rat tumor models for I/O" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-04-05" />
+<meta name="date" content="2021-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -195,8 +195,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html"><i class="fa fa-check"></i><b>2</b> Cohort characteristics</a><ul>
 <li class="chapter" data-level="2.1" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
 <li class="chapter" data-level="2.2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
-<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#km-curves-for-survival"><i class="fa fa-check"></i><b>2.3</b> KM curves for survival</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.4</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.5</b> FACS data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html"><i class="fa fa-check"></i><b>3</b> Cohort Summary Table</a><ul>
 <li class="chapter" data-level="3.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#total-number-of-samples"><i class="fa fa-check"></i><b>3.1</b> Total number of samples</a></li>
@@ -294,94 +295,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#all-samples"><i class="fa fa-check"></i><b>15.2.1</b> All samples</a></li>
 <li class="chapter" data-level="15.2.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases"><i class="fa fa-check"></i><b>15.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.3.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.3.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a></li>
+<li class="chapter" data-level="15.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint"><i class="fa fa-check"></i><b>15.4</b> Comparison to oncotype and mammaprint</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#overall-survival"><i class="fa fa-check"></i><b>15.4.1</b> Overall survival</a></li>
+<li class="chapter" data-level="15.4.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#dfs-survival"><i class="fa fa-check"></i><b>15.4.2</b> DFS survival</a></li>
+<li class="chapter" data-level="15.4.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redo-the-survival-plots-based-on-luminal-cases-only"><i class="fa fa-check"></i><b>15.4.3</b> Redo the survival plots based on Luminal cases only</a></li>
+<li class="chapter" data-level="15.4.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.4.4</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
-<li class="chapter" data-level="16.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>16.1</b> CD45 samples</a><ul>
-<li class="chapter" data-level="16.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>16.1.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>16.1.2</b> Differential Gene Expression</a></li>
-<li class="chapter" data-level="16.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>16.1.3</b> GSEA</a></li>
+<li class="chapter" data-level="16" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>16</b> METABRIC: Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="16.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="16.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-admats10-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.2</b> Associating ADMATS10 with phenotype and outcome</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#all-samples-1"><i class="fa fa-check"></i><b>16.2.1</b> All samples</a></li>
+<li class="chapter" data-level="16.2.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases-1"><i class="fa fa-check"></i><b>16.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="16.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>16.2</b> Epithelial samples</a><ul>
-<li class="chapter" data-level="16.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>16.2.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>16.2.2</b> GSEA</a></li>
-<li class="chapter" data-level="16.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.2.3</b> Check expression of checkpoint proteins</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>17</b> Signature analysis</a><ul>
-<li class="chapter" data-level="17.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>17.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="17.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>17.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="17.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>17.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="17.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>17.1.3</b> MHC presentation proteins</a></li>
-<li class="chapter" data-level="17.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>17.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+<li class="chapter" data-level="16.3" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable-1"><i class="fa fa-check"></i><b>16.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a></li>
+<li class="chapter" data-level="16.4" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint-1"><i class="fa fa-check"></i><b>16.4</b> Comparison to oncotype and mammaprint</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#overall-survival-1"><i class="fa fa-check"></i><b>16.4.1</b> Overall survival</a></li>
+<li class="chapter" data-level="16.4.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#met-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>16.4.2</b> MET: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>18</b> Immune estimation</a><ul>
-<li class="chapter" data-level="18.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>18.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="18.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>18.2</b> characterisation cohort: assoc with size</a></li>
-<li class="chapter" data-level="18.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>18.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="18.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>18.4</b> Progression cohort</a></li>
-<li class="chapter" data-level="18.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>18.5</b> Clinical associations</a><ul>
-<li class="chapter" data-level="18.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>18.5.1</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="18.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>18.5.2</b> Association with Growth</a></li>
+<li class="chapter" data-level="17" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>17</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="17.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>17.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>17.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>17.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="17.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>17.1.3</b> GSEA</a></li>
 </ul></li>
-<li class="chapter" data-level="18.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>18.6</b> Summary of the outcome</a></li>
+<li class="chapter" data-level="17.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>17.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>17.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>17.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="17.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>17.2.3</b> Check expression of checkpoint proteins</a></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>19</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="19.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>19.1</b> Processing summary</a></li>
-<li class="chapter" data-level="19.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>19.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="19.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>19.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="19.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>19.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="19.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>19.5</b> Associate with clinicopathological data (progression)</a></li>
-<li class="chapter" data-level="19.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>19.6</b> Associate with signature scores</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>20</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="20.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>20.1</b> Data</a><ul>
-<li class="chapter" data-level="20.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>20.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="18" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>18</b> Signature analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>18.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>18.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="18.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>18.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="18.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>18.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="18.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>18.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
 </ul></li>
-<li class="chapter" data-level="20.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>20.2</b> Annotate the data with human common variants</a></li>
-<li class="chapter" data-level="20.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>20.3</b> Plots</a><ul>
-<li class="chapter" data-level="20.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>20.3.1</b> Quick overview</a></li>
-<li class="chapter" data-level="20.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>20.3.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="20.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>20.4</b> Comparison with rat mutational datasets</a><ul>
-<li class="chapter" data-level="20.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>20.4.1</b> Sites which are commonly mutated?</a></li>
+<li class="chapter" data-level="19" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>19</b> Immune estimation</a><ul>
+<li class="chapter" data-level="19.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>19.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="19.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>19.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="19.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>19.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="19.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>19.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="19.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>19.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>19.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="19.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>19.5.2</b> Association with Growth</a></li>
 </ul></li>
-<li class="chapter" data-level="20.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>20.5</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="20.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>20.5.1</b> All mutations</a></li>
+<li class="chapter" data-level="19.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>19.6</b> Summary of the outcome</a></li>
 </ul></li>
-<li class="chapter" data-level="20.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>20.6</b> Metacore analysis of commonly mutated pathways</a></li>
+<li class="chapter" data-level="20" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>20</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="20.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>20.1</b> Processing summary</a></li>
+<li class="chapter" data-level="20.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>20.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="20.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>20.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="20.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>20.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="20.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>20.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="20.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>20.6</b> Associate with signature scores</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>21</b> Mutations in RNA</a><ul>
-<li class="chapter" data-level="21.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>21.1</b> Haplotype caller</a></li>
-<li class="chapter" data-level="21.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>21.2</b> Load files</a></li>
-<li class="chapter" data-level="21.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>21.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
-<li class="chapter" data-level="21.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>21.4</b> Find coding mutations which are specific to ep cells</a></li>
-<li class="chapter" data-level="21.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>21.5</b> Filtering WGS data based on CD45 data</a></li>
+<li class="chapter" data-level="21" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>21</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="21.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>21.1</b> Data</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>21.1.1</b> Extract mutation signatures</a></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>22</b> Mutations in progression cohort</a><ul>
-<li class="chapter" data-level="22.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>22.1</b> Summary of common mutations:</a></li>
-<li class="chapter" data-level="22.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>22.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="22.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>22.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>21.2</b> Annotate the data with human common variants</a></li>
+<li class="chapter" data-level="21.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>21.3</b> Plots</a><ul>
+<li class="chapter" data-level="21.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>21.3.1</b> Quick overview</a></li>
+<li class="chapter" data-level="21.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>21.3.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="23" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>23</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="23.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>23.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="23.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>23.2</b> Associations with CD8 content</a></li>
-<li class="chapter" data-level="23.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>23.3</b> Associations with growth and treatment</a></li>
-<li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
+<li class="chapter" data-level="21.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>21.4</b> Comparison with rat mutational datasets</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>21.4.1</b> Sites which are commonly mutated?</a></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>24</b> CNV calling</a><ul>
-<li class="chapter" data-level="24.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>24.1</b> Sample data</a></li>
-<li class="chapter" data-level="24.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>24.2</b> Data Summary</a><ul>
-<li class="chapter" data-level="24.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>24.2.1</b> Frequency of gains and losses across the genome</a></li>
-<li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
-<li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
+<li class="chapter" data-level="21.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>21.5</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="21.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>21.5.1</b> All mutations</a></li>
 </ul></li>
-<li class="chapter" data-level="24.3" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>24.3</b> Summary of the sequencing depth</a></li>
+<li class="chapter" data-level="21.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>21.6</b> Metacore analysis of commonly mutated pathways</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
+<li class="chapter" data-level="22" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>22</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="22.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>22.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="22.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>22.2</b> Load files</a></li>
+<li class="chapter" data-level="22.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>22.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="22.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>22.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="22.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>22.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>23</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="23.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>23.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="23.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>23.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="23.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>23.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>24</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="24.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>24.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="24.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>24.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="24.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>24.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="24.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>24.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>25</b> CNV calling</a><ul>
+<li class="chapter" data-level="25.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>25.1</b> Sample data</a></li>
+<li class="chapter" data-level="25.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="cnv-calling.html"><a href="cnv-calling.html#samples-with-cnvs-in-breast-related-genes"><i class="fa fa-check"></i><b>25.3</b> Samples with CNVs in breast-related genes</a></li>
+<li class="chapter" data-level="25.4" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>25.4</b> Summary of the sequencing depth</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>26</b> Writing files to file</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -419,10 +437,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mutations-in-rna" class="section level1">
-<h1><span class="header-section-number">Chapter 21</span> Mutations in RNA</h1>
+<h1><span class="header-section-number">Chapter 22</span> Mutations in RNA</h1>
 <p>In this section, we will check RNA data for the common mutations identified in the previous section. Some of these mutations could be uncharacterised polymoprphisms, and if this is the case, we will see in both CD45 and Epithelial fractions</p>
 <div id="haplotype-caller" class="section level2">
-<h2><span class="header-section-number">21.1</span> Haplotype caller</h2>
+<h2><span class="header-section-number">22.1</span> Haplotype caller</h2>
 <p>Mutational calling from RNA data was performed using haplotype caller. The key steps are:</p>
 <ol style="list-style-type: decimal">
 <li>run haplotype caller</li>
@@ -431,94 +449,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Note that a dbSNP file is needed to filter for polymorphisms. We have used the <a href="https://www.biorxiv.org/content/10.1101/412924v1.full">harlan variants</a> to perform filtering due to similarity in population frequencies in the previous section</p>
 <p>An example of the code is shown here:</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="mutations-in-rna.html#cb481-1"></a> <span class="co"># pipeline</span></span>
-<span id="cb481-2"><a href="mutations-in-rna.html#cb481-2"></a></span>
-<span id="cb481-3"><a href="mutations-in-rna.html#cb481-3"></a><span class="co"># 1. run haplotyper</span></span>
-<span id="cb481-4"><a href="mutations-in-rna.html#cb481-4"></a><span class="co"># A. Assemble BAM files</span></span>
-<span id="cb481-5"><a href="mutations-in-rna.html#cb481-5"></a>Inputs<span class="op">:</span><span class="st"> </span></span>
-<span id="cb481-6"><a href="mutations-in-rna.html#cb481-6"></a><span class="st">  </span><span class="er">$</span><span class="dv">1</span> fastq <span class="kw">file</span> (<span class="cf">if</span> paired end, <span class="op">$</span><span class="dv">2</span> will be the other)</span>
-<span id="cb481-7"><a href="mutations-in-rna.html#cb481-7"></a>  <span class="op">$</span><span class="dv">2</span> aligned bam</span>
-<span id="cb481-8"><a href="mutations-in-rna.html#cb481-8"></a><span class="co"># fastq to unaligned BAM</span></span>
-<span id="cb481-9"><a href="mutations-in-rna.html#cb481-9"></a>java <span class="op">-</span>jar <span class="op">$</span>PICARD<span class="op">/</span>picard<span class="dv">-2</span>.<span class="dv">8</span>.<span class="fl">0.</span>jar FastqToSam F1=<span class="er">$</span><span class="dv">1</span> O=<span class="er">$</span>uBAM\</span>
-<span id="cb481-10"><a href="mutations-in-rna.html#cb481-10"></a><span class="co">## for paired end:</span></span>
-<span id="cb481-11"><a href="mutations-in-rna.html#cb481-11"></a><span class="co"># java -jar $PICARD/picard-2.8.0.jar FastqToSam F1=$1 F2=$2 O=$uBAM \</span></span>
-<span id="cb481-12"><a href="mutations-in-rna.html#cb481-12"></a></span>
-<span id="cb481-13"><a href="mutations-in-rna.html#cb481-13"></a><span class="co"># change read groups in aligned BAM file to ensure uniqueness</span></span>
-<span id="cb481-14"><a href="mutations-in-rna.html#cb481-14"></a>java <span class="op">-</span>jar <span class="op">$</span>PICARD<span class="op">/</span>picard<span class="dv">-2</span>.<span class="dv">8</span>.<span class="fl">0.</span>jar AddOrReplaceReadGroups \</span>
-<span id="cb481-15"><a href="mutations-in-rna.html#cb481-15"></a>     I=<span class="st"> </span><span class="er">$</span><span class="dv">2</span> \</span>
-<span id="cb481-16"><a href="mutations-in-rna.html#cb481-16"></a>     O=<span class="st"> &quot;${2/.bam/ARG.bam}&quot;</span> \</span>
-<span id="cb481-17"><a href="mutations-in-rna.html#cb481-17"></a>     ID=<span class="er">$</span>baseName2 \</span>
-<span id="cb481-18"><a href="mutations-in-rna.html#cb481-18"></a>     LB=library \</span>
-<span id="cb481-19"><a href="mutations-in-rna.html#cb481-19"></a>     PL=illumina \</span>
-<span id="cb481-20"><a href="mutations-in-rna.html#cb481-20"></a>     PU=hiseq2000 \</span>
-<span id="cb481-21"><a href="mutations-in-rna.html#cb481-21"></a>     SM=<span class="er">$</span>baseName2 \</span>
-<span id="cb481-22"><a href="mutations-in-rna.html#cb481-22"></a>     CN=MFBC \</span>
-<span id="cb481-23"><a href="mutations-in-rna.html#cb481-23"></a>     DT=<span class="dv">2018-08</span><span class="op">-</span>20T00<span class="op">:</span><span class="dv">00</span><span class="op">:</span><span class="dv">00-0400</span></span>
-<span id="cb481-24"><a href="mutations-in-rna.html#cb481-24"></a><span class="co"># merge files</span></span>
-<span id="cb481-25"><a href="mutations-in-rna.html#cb481-25"></a>gatk MergeBamAlignment \</span>
-<span id="cb481-26"><a href="mutations-in-rna.html#cb481-26"></a><span class="op">--</span>REFERENCE_SEQUENCE ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-27"><a href="mutations-in-rna.html#cb481-27"></a><span class="op">--</span>UNMAPPED_BAM <span class="op">$</span>uBAM \</span>
-<span id="cb481-28"><a href="mutations-in-rna.html#cb481-28"></a><span class="op">--</span>ALIGNED_BAM <span class="st">&quot;${2/.bam/ARG.bam}&quot;</span> \</span>
-<span id="cb481-29"><a href="mutations-in-rna.html#cb481-29"></a><span class="op">--</span>OUTPUT <span class="op">$</span>mBAM \</span>
-<span id="cb481-30"><a href="mutations-in-rna.html#cb481-30"></a><span class="op">--</span>INCLUDE_SECONDARY_ALIGNMENTS false \</span>
-<span id="cb481-31"><a href="mutations-in-rna.html#cb481-31"></a><span class="op">--</span>PAIRED_RUN true \</span>
-<span id="cb481-32"><a href="mutations-in-rna.html#cb481-32"></a><span class="op">--</span>VALIDATION_STRINGENCY SILENT</span>
-<span id="cb481-33"><a href="mutations-in-rna.html#cb481-33"></a></span>
-<span id="cb481-34"><a href="mutations-in-rna.html#cb481-34"></a><span class="co">#B. Mark duplicates</span></span>
-<span id="cb481-35"><a href="mutations-in-rna.html#cb481-35"></a>gatk MarkDuplicates \</span>
-<span id="cb481-36"><a href="mutations-in-rna.html#cb481-36"></a>        <span class="op">--</span>INPUT <span class="op">$</span>mBAM \</span>
-<span id="cb481-37"><a href="mutations-in-rna.html#cb481-37"></a>        <span class="op">--</span>OUTPUT <span class="op">$</span>dBAM \</span>
-<span id="cb481-38"><a href="mutations-in-rna.html#cb481-38"></a>        <span class="op">--</span>CREATE_INDEX true \</span>
-<span id="cb481-39"><a href="mutations-in-rna.html#cb481-39"></a>        <span class="op">--</span>VALIDATION_STRINGENCY SILENT \</span>
-<span id="cb481-40"><a href="mutations-in-rna.html#cb481-40"></a>        <span class="op">--</span>METRICS_FILE <span class="op">$</span>{outName}.metrics</span>
-<span id="cb481-41"><a href="mutations-in-rna.html#cb481-41"></a><span class="co">#C. Split sigar reads</span></span>
-<span id="cb481-42"><a href="mutations-in-rna.html#cb481-42"></a>gatk SplitNCigarReads \</span>
-<span id="cb481-43"><a href="mutations-in-rna.html#cb481-43"></a>     <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-44"><a href="mutations-in-rna.html#cb481-44"></a>     <span class="op">-</span>I <span class="op">$</span>dBAM \</span>
-<span id="cb481-45"><a href="mutations-in-rna.html#cb481-45"></a>     <span class="op">-</span>O <span class="op">$</span>cBAM \</span>
-<span id="cb481-46"><a href="mutations-in-rna.html#cb481-46"></a></span>
-<span id="cb481-47"><a href="mutations-in-rna.html#cb481-47"></a><span class="co">#D. Base recalibration</span></span>
-<span id="cb481-48"><a href="mutations-in-rna.html#cb481-48"></a>gatk BaseRecalibrator \</span>
-<span id="cb481-49"><a href="mutations-in-rna.html#cb481-49"></a>             <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-50"><a href="mutations-in-rna.html#cb481-50"></a>             <span class="op">-</span>I <span class="op">$</span>cBAM \</span>
-<span id="cb481-51"><a href="mutations-in-rna.html#cb481-51"></a>             <span class="op">-</span>O <span class="op">$</span>{outName}_recalibration \</span>
-<span id="cb481-52"><a href="mutations-in-rna.html#cb481-52"></a>             <span class="op">-</span>known<span class="op">-</span>sites harlan_snps_mod_<span class="dv">1-5</span><span class="fl">-2020.</span>SDsort.vcf.gz </span>
-<span id="cb481-53"><a href="mutations-in-rna.html#cb481-53"></a></span>
-<span id="cb481-54"><a href="mutations-in-rna.html#cb481-54"></a>gatk ApplyBQSR \</span>
-<span id="cb481-55"><a href="mutations-in-rna.html#cb481-55"></a>             <span class="op">--</span>add<span class="op">-</span>output<span class="op">-</span>sam<span class="op">-</span>program<span class="op">-</span>record \</span>
-<span id="cb481-56"><a href="mutations-in-rna.html#cb481-56"></a>             <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-57"><a href="mutations-in-rna.html#cb481-57"></a>             <span class="op">-</span>I <span class="op">$</span>cBAM \</span>
-<span id="cb481-58"><a href="mutations-in-rna.html#cb481-58"></a>             <span class="op">--</span>use<span class="op">-</span>original<span class="op">-</span>qualities \</span>
-<span id="cb481-59"><a href="mutations-in-rna.html#cb481-59"></a>             <span class="op">-</span>O <span class="op">$</span>bBAM \</span>
-<span id="cb481-60"><a href="mutations-in-rna.html#cb481-60"></a>             <span class="op">--</span>bqsr<span class="op">-</span>recal<span class="op">-</span>file <span class="op">$</span>{outName}_recalibration</span>
-<span id="cb481-61"><a href="mutations-in-rna.html#cb481-61"></a></span>
-<span id="cb481-62"><a href="mutations-in-rna.html#cb481-62"></a><span class="co">#E. Haplotype calling</span></span>
-<span id="cb481-63"><a href="mutations-in-rna.html#cb481-63"></a>gatk HaplotypeCaller \</span>
-<span id="cb481-64"><a href="mutations-in-rna.html#cb481-64"></a> <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-65"><a href="mutations-in-rna.html#cb481-65"></a> <span class="op">-</span>I <span class="op">$</span>bBAM \</span>
-<span id="cb481-66"><a href="mutations-in-rna.html#cb481-66"></a> <span class="op">-</span>L ..<span class="op">/</span>Alignment<span class="op">/</span>rn6_refGene_intervals.bed \</span>
-<span id="cb481-67"><a href="mutations-in-rna.html#cb481-67"></a> <span class="op">-</span>O <span class="op">$</span>{outName}HCR.vcf.gz  \</span>
-<span id="cb481-68"><a href="mutations-in-rna.html#cb481-68"></a> <span class="op">--</span>dont<span class="op">-</span>use<span class="op">-</span>soft<span class="op">-</span>clipped<span class="op">-</span>bases true \</span>
-<span id="cb481-69"><a href="mutations-in-rna.html#cb481-69"></a> <span class="op">--</span>standard<span class="op">-</span>min<span class="op">-</span>confidence<span class="op">-</span>threshold<span class="op">-</span><span class="cf">for</span><span class="op">-</span>calling <span class="dv">20</span> \</span>
-<span id="cb481-70"><a href="mutations-in-rna.html#cb481-70"></a> <span class="op">--</span>dbsnp all_rat_snps_<span class="fl">0504.</span>SD.vcf.gz</span>
-<span id="cb481-71"><a href="mutations-in-rna.html#cb481-71"></a></span>
-<span id="cb481-72"><a href="mutations-in-rna.html#cb481-72"></a><span class="co"># F. Filtering</span></span>
-<span id="cb481-73"><a href="mutations-in-rna.html#cb481-73"></a>gatk VariantFiltration \</span>
-<span id="cb481-74"><a href="mutations-in-rna.html#cb481-74"></a> <span class="op">--</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
-<span id="cb481-75"><a href="mutations-in-rna.html#cb481-75"></a> <span class="op">--</span>V <span class="op">$</span>{outName}HCR.vcf.gz \</span>
-<span id="cb481-76"><a href="mutations-in-rna.html#cb481-76"></a> <span class="op">--</span>window <span class="dv">35</span> \</span>
-<span id="cb481-77"><a href="mutations-in-rna.html#cb481-77"></a> <span class="op">--</span>cluster <span class="dv">3</span> \</span>
-<span id="cb481-78"><a href="mutations-in-rna.html#cb481-78"></a> <span class="op">--</span>filter<span class="op">-</span>name <span class="st">&quot;FS&quot;</span> \</span>
-<span id="cb481-79"><a href="mutations-in-rna.html#cb481-79"></a> <span class="op">--</span>filter <span class="st">&quot;FS &gt; 30.0&quot;</span> \</span>
-<span id="cb481-80"><a href="mutations-in-rna.html#cb481-80"></a> <span class="op">--</span>filter<span class="op">-</span>name <span class="st">&quot;QD&quot;</span> \</span>
-<span id="cb481-81"><a href="mutations-in-rna.html#cb481-81"></a> <span class="op">--</span>filter <span class="st">&quot;QD &lt; 2.0&quot;</span> \</span>
-<span id="cb481-82"><a href="mutations-in-rna.html#cb481-82"></a> <span class="op">-</span>O <span class="op">$</span>{outName}_filt_HCR</span>
-<span id="cb481-83"><a href="mutations-in-rna.html#cb481-83"></a></span>
-<span id="cb481-84"><a href="mutations-in-rna.html#cb481-84"></a><span class="co"># 2. run SnpEff to annotate</span></span>
-<span id="cb481-85"><a href="mutations-in-rna.html#cb481-85"></a>java <span class="op">-</span>jar <span class="op">$</span>SNPEFF<span class="op">/</span>snpEff.jar <span class="op">-</span>v Rnor_<span class="dv">6</span>.<span class="fl">0.86</span> <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>carlos_data<span class="op">/</span><span class="dv">20191030</span>_Ep_NMU1_CGDA7428_S1_R1_<span class="dv">001</span>_filt <span class="op">&gt;</span><span class="st"> </span><span class="er">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>carlos_data<span class="op">/</span><span class="dv">20191030</span>_Ep_NMU1_CGDA7428_S1_R1_<span class="dv">001</span>_filt_ann</span>
-<span id="cb481-86"><a href="mutations-in-rna.html#cb481-86"></a></span>
-<span id="cb481-87"><a href="mutations-in-rna.html#cb481-87"></a><span class="co"># 3. run SnpSift to save as a .txt file that can be easily read</span></span>
-<span id="cb481-88"><a href="mutations-in-rna.html#cb481-88"></a>cat <span class="op">$</span>f <span class="op">|</span><span class="st"> </span><span class="er">$</span>SNPEFF<span class="op">/</span>scripts<span class="op">/</span>vcfEffOnePerLine.pl <span class="op">|</span><span class="st"> </span>java <span class="op">-</span>jar <span class="op">$</span>SNPEFF<span class="op">/</span>SnpSift.jar extractFields <span class="op">-</span>e <span class="st">&quot;&quot;</span> <span class="op">-</span><span class="st"> </span>CHROM POS ID REF ALT QUAL FILTER AF AC DP MQ  <span class="st">&quot;ANN[*].ANNOTATION&quot;</span> <span class="st">&quot;ANN[*].GENE&quot;</span> <span class="st">&quot;ANN[*].GENEID&quot;</span> <span class="st">&quot;ANN[*].BIOTYPE&quot;</span> <span class="st">&quot;ANN[*].HGVS_C&quot;</span> <span class="st">&quot;ANN[*].HGVS_P&quot;</span> <span class="st">&quot;ANN[*].CDNA_POS&quot;</span> <span class="st">&quot;ANN[*].CDNA_LEN&quot;</span> <span class="st">&quot;ANN[*].CDS_POS&quot;</span> <span class="st">&quot;ANN[*].CDS_LEN&quot;</span> <span class="st">&quot;ANN[*].AA_POS&quot;</span> <span class="st">&quot;ANN[*].AA_LEN&quot;</span> <span class="st">&quot;NMD[*].NUMTR&quot;</span> <span class="st">&quot;NMD[*].PERC&quot;</span> <span class="st">&quot;GEN[*]&quot;</span> <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>ofile</span></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="mutations-in-rna.html#cb531-1"></a> <span class="co"># pipeline</span></span>
+<span id="cb531-2"><a href="mutations-in-rna.html#cb531-2"></a></span>
+<span id="cb531-3"><a href="mutations-in-rna.html#cb531-3"></a><span class="co"># 1. run haplotyper</span></span>
+<span id="cb531-4"><a href="mutations-in-rna.html#cb531-4"></a><span class="co"># A. Assemble BAM files</span></span>
+<span id="cb531-5"><a href="mutations-in-rna.html#cb531-5"></a>Inputs<span class="op">:</span><span class="st"> </span></span>
+<span id="cb531-6"><a href="mutations-in-rna.html#cb531-6"></a><span class="st">  </span><span class="er">$</span><span class="dv">1</span> fastq <span class="kw">file</span> (<span class="cf">if</span> paired end, <span class="op">$</span><span class="dv">2</span> will be the other)</span>
+<span id="cb531-7"><a href="mutations-in-rna.html#cb531-7"></a>  <span class="op">$</span><span class="dv">2</span> aligned bam</span>
+<span id="cb531-8"><a href="mutations-in-rna.html#cb531-8"></a><span class="co"># fastq to unaligned BAM</span></span>
+<span id="cb531-9"><a href="mutations-in-rna.html#cb531-9"></a>java <span class="op">-</span>jar <span class="op">$</span>PICARD<span class="op">/</span>picard<span class="dv">-2</span>.<span class="dv">8</span>.<span class="fl">0.</span>jar FastqToSam F1=<span class="er">$</span><span class="dv">1</span> O=<span class="er">$</span>uBAM\</span>
+<span id="cb531-10"><a href="mutations-in-rna.html#cb531-10"></a><span class="co">## for paired end:</span></span>
+<span id="cb531-11"><a href="mutations-in-rna.html#cb531-11"></a><span class="co"># java -jar $PICARD/picard-2.8.0.jar FastqToSam F1=$1 F2=$2 O=$uBAM \</span></span>
+<span id="cb531-12"><a href="mutations-in-rna.html#cb531-12"></a></span>
+<span id="cb531-13"><a href="mutations-in-rna.html#cb531-13"></a><span class="co"># change read groups in aligned BAM file to ensure uniqueness</span></span>
+<span id="cb531-14"><a href="mutations-in-rna.html#cb531-14"></a>java <span class="op">-</span>jar <span class="op">$</span>PICARD<span class="op">/</span>picard<span class="dv">-2</span>.<span class="dv">8</span>.<span class="fl">0.</span>jar AddOrReplaceReadGroups \</span>
+<span id="cb531-15"><a href="mutations-in-rna.html#cb531-15"></a>     I=<span class="st"> </span><span class="er">$</span><span class="dv">2</span> \</span>
+<span id="cb531-16"><a href="mutations-in-rna.html#cb531-16"></a>     O=<span class="st"> &quot;${2/.bam/ARG.bam}&quot;</span> \</span>
+<span id="cb531-17"><a href="mutations-in-rna.html#cb531-17"></a>     ID=<span class="er">$</span>baseName2 \</span>
+<span id="cb531-18"><a href="mutations-in-rna.html#cb531-18"></a>     LB=library \</span>
+<span id="cb531-19"><a href="mutations-in-rna.html#cb531-19"></a>     PL=illumina \</span>
+<span id="cb531-20"><a href="mutations-in-rna.html#cb531-20"></a>     PU=hiseq2000 \</span>
+<span id="cb531-21"><a href="mutations-in-rna.html#cb531-21"></a>     SM=<span class="er">$</span>baseName2 \</span>
+<span id="cb531-22"><a href="mutations-in-rna.html#cb531-22"></a>     CN=MFBC \</span>
+<span id="cb531-23"><a href="mutations-in-rna.html#cb531-23"></a>     DT=<span class="dv">2018-08</span><span class="op">-</span>20T00<span class="op">:</span><span class="dv">00</span><span class="op">:</span><span class="dv">00-0400</span></span>
+<span id="cb531-24"><a href="mutations-in-rna.html#cb531-24"></a><span class="co"># merge files</span></span>
+<span id="cb531-25"><a href="mutations-in-rna.html#cb531-25"></a>gatk MergeBamAlignment \</span>
+<span id="cb531-26"><a href="mutations-in-rna.html#cb531-26"></a><span class="op">--</span>REFERENCE_SEQUENCE ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-27"><a href="mutations-in-rna.html#cb531-27"></a><span class="op">--</span>UNMAPPED_BAM <span class="op">$</span>uBAM \</span>
+<span id="cb531-28"><a href="mutations-in-rna.html#cb531-28"></a><span class="op">--</span>ALIGNED_BAM <span class="st">&quot;${2/.bam/ARG.bam}&quot;</span> \</span>
+<span id="cb531-29"><a href="mutations-in-rna.html#cb531-29"></a><span class="op">--</span>OUTPUT <span class="op">$</span>mBAM \</span>
+<span id="cb531-30"><a href="mutations-in-rna.html#cb531-30"></a><span class="op">--</span>INCLUDE_SECONDARY_ALIGNMENTS false \</span>
+<span id="cb531-31"><a href="mutations-in-rna.html#cb531-31"></a><span class="op">--</span>PAIRED_RUN true \</span>
+<span id="cb531-32"><a href="mutations-in-rna.html#cb531-32"></a><span class="op">--</span>VALIDATION_STRINGENCY SILENT</span>
+<span id="cb531-33"><a href="mutations-in-rna.html#cb531-33"></a></span>
+<span id="cb531-34"><a href="mutations-in-rna.html#cb531-34"></a><span class="co">#B. Mark duplicates</span></span>
+<span id="cb531-35"><a href="mutations-in-rna.html#cb531-35"></a>gatk MarkDuplicates \</span>
+<span id="cb531-36"><a href="mutations-in-rna.html#cb531-36"></a>        <span class="op">--</span>INPUT <span class="op">$</span>mBAM \</span>
+<span id="cb531-37"><a href="mutations-in-rna.html#cb531-37"></a>        <span class="op">--</span>OUTPUT <span class="op">$</span>dBAM \</span>
+<span id="cb531-38"><a href="mutations-in-rna.html#cb531-38"></a>        <span class="op">--</span>CREATE_INDEX true \</span>
+<span id="cb531-39"><a href="mutations-in-rna.html#cb531-39"></a>        <span class="op">--</span>VALIDATION_STRINGENCY SILENT \</span>
+<span id="cb531-40"><a href="mutations-in-rna.html#cb531-40"></a>        <span class="op">--</span>METRICS_FILE <span class="op">$</span>{outName}.metrics</span>
+<span id="cb531-41"><a href="mutations-in-rna.html#cb531-41"></a><span class="co">#C. Split sigar reads</span></span>
+<span id="cb531-42"><a href="mutations-in-rna.html#cb531-42"></a>gatk SplitNCigarReads \</span>
+<span id="cb531-43"><a href="mutations-in-rna.html#cb531-43"></a>     <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-44"><a href="mutations-in-rna.html#cb531-44"></a>     <span class="op">-</span>I <span class="op">$</span>dBAM \</span>
+<span id="cb531-45"><a href="mutations-in-rna.html#cb531-45"></a>     <span class="op">-</span>O <span class="op">$</span>cBAM \</span>
+<span id="cb531-46"><a href="mutations-in-rna.html#cb531-46"></a></span>
+<span id="cb531-47"><a href="mutations-in-rna.html#cb531-47"></a><span class="co">#D. Base recalibration</span></span>
+<span id="cb531-48"><a href="mutations-in-rna.html#cb531-48"></a>gatk BaseRecalibrator \</span>
+<span id="cb531-49"><a href="mutations-in-rna.html#cb531-49"></a>             <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-50"><a href="mutations-in-rna.html#cb531-50"></a>             <span class="op">-</span>I <span class="op">$</span>cBAM \</span>
+<span id="cb531-51"><a href="mutations-in-rna.html#cb531-51"></a>             <span class="op">-</span>O <span class="op">$</span>{outName}_recalibration \</span>
+<span id="cb531-52"><a href="mutations-in-rna.html#cb531-52"></a>             <span class="op">-</span>known<span class="op">-</span>sites harlan_snps_mod_<span class="dv">1-5</span><span class="fl">-2020.</span>SDsort.vcf.gz </span>
+<span id="cb531-53"><a href="mutations-in-rna.html#cb531-53"></a></span>
+<span id="cb531-54"><a href="mutations-in-rna.html#cb531-54"></a>gatk ApplyBQSR \</span>
+<span id="cb531-55"><a href="mutations-in-rna.html#cb531-55"></a>             <span class="op">--</span>add<span class="op">-</span>output<span class="op">-</span>sam<span class="op">-</span>program<span class="op">-</span>record \</span>
+<span id="cb531-56"><a href="mutations-in-rna.html#cb531-56"></a>             <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-57"><a href="mutations-in-rna.html#cb531-57"></a>             <span class="op">-</span>I <span class="op">$</span>cBAM \</span>
+<span id="cb531-58"><a href="mutations-in-rna.html#cb531-58"></a>             <span class="op">--</span>use<span class="op">-</span>original<span class="op">-</span>qualities \</span>
+<span id="cb531-59"><a href="mutations-in-rna.html#cb531-59"></a>             <span class="op">-</span>O <span class="op">$</span>bBAM \</span>
+<span id="cb531-60"><a href="mutations-in-rna.html#cb531-60"></a>             <span class="op">--</span>bqsr<span class="op">-</span>recal<span class="op">-</span>file <span class="op">$</span>{outName}_recalibration</span>
+<span id="cb531-61"><a href="mutations-in-rna.html#cb531-61"></a></span>
+<span id="cb531-62"><a href="mutations-in-rna.html#cb531-62"></a><span class="co">#E. Haplotype calling</span></span>
+<span id="cb531-63"><a href="mutations-in-rna.html#cb531-63"></a>gatk HaplotypeCaller \</span>
+<span id="cb531-64"><a href="mutations-in-rna.html#cb531-64"></a> <span class="op">-</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-65"><a href="mutations-in-rna.html#cb531-65"></a> <span class="op">-</span>I <span class="op">$</span>bBAM \</span>
+<span id="cb531-66"><a href="mutations-in-rna.html#cb531-66"></a> <span class="op">-</span>L ..<span class="op">/</span>Alignment<span class="op">/</span>rn6_refGene_intervals.bed \</span>
+<span id="cb531-67"><a href="mutations-in-rna.html#cb531-67"></a> <span class="op">-</span>O <span class="op">$</span>{outName}HCR.vcf.gz  \</span>
+<span id="cb531-68"><a href="mutations-in-rna.html#cb531-68"></a> <span class="op">--</span>dont<span class="op">-</span>use<span class="op">-</span>soft<span class="op">-</span>clipped<span class="op">-</span>bases true \</span>
+<span id="cb531-69"><a href="mutations-in-rna.html#cb531-69"></a> <span class="op">--</span>standard<span class="op">-</span>min<span class="op">-</span>confidence<span class="op">-</span>threshold<span class="op">-</span><span class="cf">for</span><span class="op">-</span>calling <span class="dv">20</span> \</span>
+<span id="cb531-70"><a href="mutations-in-rna.html#cb531-70"></a> <span class="op">--</span>dbsnp all_rat_snps_<span class="fl">0504.</span>SD.vcf.gz</span>
+<span id="cb531-71"><a href="mutations-in-rna.html#cb531-71"></a></span>
+<span id="cb531-72"><a href="mutations-in-rna.html#cb531-72"></a><span class="co"># F. Filtering</span></span>
+<span id="cb531-73"><a href="mutations-in-rna.html#cb531-73"></a>gatk VariantFiltration \</span>
+<span id="cb531-74"><a href="mutations-in-rna.html#cb531-74"></a> <span class="op">--</span>R ..<span class="op">/</span>Alignment<span class="op">/</span>rn6.fa \</span>
+<span id="cb531-75"><a href="mutations-in-rna.html#cb531-75"></a> <span class="op">--</span>V <span class="op">$</span>{outName}HCR.vcf.gz \</span>
+<span id="cb531-76"><a href="mutations-in-rna.html#cb531-76"></a> <span class="op">--</span>window <span class="dv">35</span> \</span>
+<span id="cb531-77"><a href="mutations-in-rna.html#cb531-77"></a> <span class="op">--</span>cluster <span class="dv">3</span> \</span>
+<span id="cb531-78"><a href="mutations-in-rna.html#cb531-78"></a> <span class="op">--</span>filter<span class="op">-</span>name <span class="st">&quot;FS&quot;</span> \</span>
+<span id="cb531-79"><a href="mutations-in-rna.html#cb531-79"></a> <span class="op">--</span>filter <span class="st">&quot;FS &gt; 30.0&quot;</span> \</span>
+<span id="cb531-80"><a href="mutations-in-rna.html#cb531-80"></a> <span class="op">--</span>filter<span class="op">-</span>name <span class="st">&quot;QD&quot;</span> \</span>
+<span id="cb531-81"><a href="mutations-in-rna.html#cb531-81"></a> <span class="op">--</span>filter <span class="st">&quot;QD &lt; 2.0&quot;</span> \</span>
+<span id="cb531-82"><a href="mutations-in-rna.html#cb531-82"></a> <span class="op">-</span>O <span class="op">$</span>{outName}_filt_HCR</span>
+<span id="cb531-83"><a href="mutations-in-rna.html#cb531-83"></a></span>
+<span id="cb531-84"><a href="mutations-in-rna.html#cb531-84"></a><span class="co"># 2. run SnpEff to annotate</span></span>
+<span id="cb531-85"><a href="mutations-in-rna.html#cb531-85"></a>java <span class="op">-</span>jar <span class="op">$</span>SNPEFF<span class="op">/</span>snpEff.jar <span class="op">-</span>v Rnor_<span class="dv">6</span>.<span class="fl">0.86</span> <span class="op">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>carlos_data<span class="op">/</span><span class="dv">20191030</span>_Ep_NMU1_CGDA7428_S1_R1_<span class="dv">001</span>_filt <span class="op">&gt;</span><span class="st"> </span><span class="er">/</span>n<span class="op">/</span>scratch2<span class="op">/</span>at268<span class="op">/</span>carlos_data<span class="op">/</span><span class="dv">20191030</span>_Ep_NMU1_CGDA7428_S1_R1_<span class="dv">001</span>_filt_ann</span>
+<span id="cb531-86"><a href="mutations-in-rna.html#cb531-86"></a></span>
+<span id="cb531-87"><a href="mutations-in-rna.html#cb531-87"></a><span class="co"># 3. run SnpSift to save as a .txt file that can be easily read</span></span>
+<span id="cb531-88"><a href="mutations-in-rna.html#cb531-88"></a>cat <span class="op">$</span>f <span class="op">|</span><span class="st"> </span><span class="er">$</span>SNPEFF<span class="op">/</span>scripts<span class="op">/</span>vcfEffOnePerLine.pl <span class="op">|</span><span class="st"> </span>java <span class="op">-</span>jar <span class="op">$</span>SNPEFF<span class="op">/</span>SnpSift.jar extractFields <span class="op">-</span>e <span class="st">&quot;&quot;</span> <span class="op">-</span><span class="st"> </span>CHROM POS ID REF ALT QUAL FILTER AF AC DP MQ  <span class="st">&quot;ANN[*].ANNOTATION&quot;</span> <span class="st">&quot;ANN[*].GENE&quot;</span> <span class="st">&quot;ANN[*].GENEID&quot;</span> <span class="st">&quot;ANN[*].BIOTYPE&quot;</span> <span class="st">&quot;ANN[*].HGVS_C&quot;</span> <span class="st">&quot;ANN[*].HGVS_P&quot;</span> <span class="st">&quot;ANN[*].CDNA_POS&quot;</span> <span class="st">&quot;ANN[*].CDNA_LEN&quot;</span> <span class="st">&quot;ANN[*].CDS_POS&quot;</span> <span class="st">&quot;ANN[*].CDS_LEN&quot;</span> <span class="st">&quot;ANN[*].AA_POS&quot;</span> <span class="st">&quot;ANN[*].AA_LEN&quot;</span> <span class="st">&quot;NMD[*].NUMTR&quot;</span> <span class="st">&quot;NMD[*].PERC&quot;</span> <span class="st">&quot;GEN[*]&quot;</span> <span class="op">&gt;</span><span class="st"> </span><span class="er">$</span>ofile</span></code></pre></div>
 <p>From processing the mutational information:</p>
 <p>Header information - Genotypes:
 GT: genotype
@@ -558,310 +576,310 @@ AA.pos / AA.length 339/394</p>
 <p>AC=2;AF=1.00;AN=2;BaseQRankSum=1.593;ClippingRankSum=0.000;DP=9;ExcessHet=3.0103;FS=0.000;MLEAC=2;MLEAF=1.00;MQ=60.00;MQRankSum=0.000;QD=33.20;ReadPosRankSum=0.765;SOR=1.609;ANN=AT|frameshift_variant&amp;stop_gained|HIGH|Pacs1|ENSRNOG00000020350|transcript|ENSRNOT00000027632.5|protein_coding|3/24|c.464dupA|p.Tyr155fs|464/2886|464/2886|155/961||;LOF=(Pacs1|ENSRNOG00000020350|1|1.00);NMD=(Pacs1|ENSRNOG00000020350|1|1.00)</p>
 </div>
 <div id="load-files" class="section level2">
-<h2><span class="header-section-number">21.2</span> Load files</h2>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="mutations-in-rna.html#cb482-1"></a>hfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/haplotypeCaller/output_HaplotypeCaller_May/characterisation/&quot;</span>,</span>
-<span id="cb482-2"><a href="mutations-in-rna.html#cb482-2"></a>           <span class="dt">pattern=</span><span class="st">&quot;.txt&quot;</span>, <span class="dt">full.names =</span> T)</span>
-<span id="cb482-3"><a href="mutations-in-rna.html#cb482-3"></a></span>
-<span id="cb482-4"><a href="mutations-in-rna.html#cb482-4"></a>allHfiles=<span class="kw">list</span>()</span>
-<span id="cb482-5"><a href="mutations-in-rna.html#cb482-5"></a>allCodingHaplo=<span class="kw">list</span>()</span>
-<span id="cb482-6"><a href="mutations-in-rna.html#cb482-6"></a>allCosmicHaplo=<span class="kw">list</span>()</span>
-<span id="cb482-7"><a href="mutations-in-rna.html#cb482-7"></a></span>
-<span id="cb482-8"><a href="mutations-in-rna.html#cb482-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(hfiles)){</span>
-<span id="cb482-9"><a href="mutations-in-rna.html#cb482-9"></a>A1=<span class="kw">read.delim</span>(hfiles[i], <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactors =</span> F)</span>
-<span id="cb482-10"><a href="mutations-in-rna.html#cb482-10"></a>A1[<span class="kw">which</span>(A1<span class="op">==</span>(<span class="op">-</span><span class="dv">1</span>), <span class="dt">arr.ind=</span>T)]=<span class="st">&quot;&quot;</span></span>
-<span id="cb482-11"><a href="mutations-in-rna.html#cb482-11"></a></span>
-<span id="cb482-12"><a href="mutations-in-rna.html#cb482-12"></a>cNames=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">27</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb482-13"><a href="mutations-in-rna.html#cb482-13"></a>cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]=<span class="kw">paste</span>(<span class="kw">c</span>(<span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;NMD&quot;</span>, <span class="st">&quot;NMD&quot;</span>), cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>], <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
-<span id="cb482-14"><a href="mutations-in-rna.html#cb482-14"></a><span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">28</span>]=<span class="kw">c</span>(cNames, <span class="st">&quot;GEN&quot;</span>)</span>
-<span id="cb482-15"><a href="mutations-in-rna.html#cb482-15"></a></span>
-<span id="cb482-16"><a href="mutations-in-rna.html#cb482-16"></a>GEN2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(A1<span class="op">$</span>GEN, <span class="st">&quot;:&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
-<span id="cb482-17"><a href="mutations-in-rna.html#cb482-17"></a>gRef=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb482-18"><a href="mutations-in-rna.html#cb482-18"></a>gAlt=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
-<span id="cb482-19"><a href="mutations-in-rna.html#cb482-19"></a></span>
-<span id="cb482-20"><a href="mutations-in-rna.html#cb482-20"></a>A1<span class="op">$</span>n_ref=<span class="kw">as.numeric</span>(gRef)</span>
-<span id="cb482-21"><a href="mutations-in-rna.html#cb482-21"></a>A1<span class="op">$</span>n_alt=<span class="kw">as.numeric</span>(gAlt)</span>
-<span id="cb482-22"><a href="mutations-in-rna.html#cb482-22"></a>A1<span class="op">$</span>VAF=A1<span class="op">$</span>n_alt<span class="op">/</span>(A1<span class="op">$</span>n_alt<span class="op">+</span>A1<span class="op">$</span>n_ref)</span>
-<span id="cb482-23"><a href="mutations-in-rna.html#cb482-23"></a></span>
-<span id="cb482-24"><a href="mutations-in-rna.html#cb482-24"></a>allHfiles[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb482-25"><a href="mutations-in-rna.html#cb482-25"></a>allCodingHaplo[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>HGVS_P<span class="op">!=</span><span class="st">&quot;&quot;</span> <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb482-26"><a href="mutations-in-rna.html#cb482-26"></a>allCosmicHaplo[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>GENE<span class="op">%in%</span>RatCosmic <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
-<span id="cb482-27"><a href="mutations-in-rna.html#cb482-27"></a>}</span>
-<span id="cb482-28"><a href="mutations-in-rna.html#cb482-28"></a></span>
-<span id="cb482-29"><a href="mutations-in-rna.html#cb482-29"></a><span class="co">## names of the files</span></span>
-<span id="cb482-30"><a href="mutations-in-rna.html#cb482-30"></a></span>
-<span id="cb482-31"><a href="mutations-in-rna.html#cb482-31"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(hfiles, <span class="st">&quot;_filt_HCR_ann_siftB.txt&quot;</span>)) <span class="co">#remove HCR where not needed</span></span>
-<span id="cb482-32"><a href="mutations-in-rna.html#cb482-32"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(fNam, <span class="st">&quot;.vcf.g&quot;</span>))</span>
-<span id="cb482-33"><a href="mutations-in-rna.html#cb482-33"></a>fNam2=<span class="kw">paste</span>(fNam, <span class="st">&quot;.fastq.gz&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb482-34"><a href="mutations-in-rna.html#cb482-34"></a>fNam2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(fNam2, <span class="st">&quot;/&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
-<span id="cb482-35"><a href="mutations-in-rna.html#cb482-35"></a>idx1=infoTableFinal<span class="op">$</span>SampleID[<span class="kw">match</span>(fNam2, infoTableFinal<span class="op">$</span>FqFile)]</span>
-<span id="cb482-36"><a href="mutations-in-rna.html#cb482-36"></a>idx1[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]=fNam2[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]</span>
-<span id="cb482-37"><a href="mutations-in-rna.html#cb482-37"></a>idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)]=<span class="kw">substr</span>(idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)],<span class="dv">10</span>, <span class="dv">21</span>) </span>
-<span id="cb482-38"><a href="mutations-in-rna.html#cb482-38"></a><span class="co"># sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep=&quot;_&quot;)</span></span>
-<span id="cb482-39"><a href="mutations-in-rna.html#cb482-39"></a></span>
-<span id="cb482-40"><a href="mutations-in-rna.html#cb482-40"></a><span class="kw">names</span>(allHfiles)=idx1</span>
-<span id="cb482-41"><a href="mutations-in-rna.html#cb482-41"></a><span class="kw">names</span>(allCodingHaplo)=idx1</span>
-<span id="cb482-42"><a href="mutations-in-rna.html#cb482-42"></a><span class="kw">names</span>(allCosmicHaplo)=idx1</span>
-<span id="cb482-43"><a href="mutations-in-rna.html#cb482-43"></a><span class="co"># remove the samples which do not pass QC</span></span>
-<span id="cb482-44"><a href="mutations-in-rna.html#cb482-44"></a>idx2rm=<span class="kw">setdiff</span>(<span class="kw">grep</span>(<span class="st">&quot;fastq.gz&quot;</span>, idx1), <span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1))</span>
-<span id="cb482-45"><a href="mutations-in-rna.html#cb482-45"></a></span>
-<span id="cb482-46"><a href="mutations-in-rna.html#cb482-46"></a><span class="co">## write all these lists to file</span></span>
-<span id="cb482-47"><a href="mutations-in-rna.html#cb482-47"></a>allHfiles=allHfiles[<span class="op">-</span>idx2rm]</span>
-<span id="cb482-48"><a href="mutations-in-rna.html#cb482-48"></a>allCodingHaplo=allCodingHaplo[<span class="op">-</span>idx2rm]</span>
-<span id="cb482-49"><a href="mutations-in-rna.html#cb482-49"></a>allCosmicHaplo=allCosmicHaplo[<span class="op">-</span>idx2rm]</span>
-<span id="cb482-50"><a href="mutations-in-rna.html#cb482-50"></a></span>
-<span id="cb482-51"><a href="mutations-in-rna.html#cb482-51"></a><span class="kw">save</span>(allHfiles,allCodingHaplo, allCodingHaplo,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/HaplotypeVariants_characterisation_all_%s.Rdata&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
+<h2><span class="header-section-number">22.2</span> Load files</h2>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="mutations-in-rna.html#cb532-1"></a>hfiles=<span class="kw">dir</span>(<span class="st">&quot;../data/haplotypeCaller/output_HaplotypeCaller_May/characterisation/&quot;</span>,</span>
+<span id="cb532-2"><a href="mutations-in-rna.html#cb532-2"></a>           <span class="dt">pattern=</span><span class="st">&quot;.txt&quot;</span>, <span class="dt">full.names =</span> T)</span>
+<span id="cb532-3"><a href="mutations-in-rna.html#cb532-3"></a></span>
+<span id="cb532-4"><a href="mutations-in-rna.html#cb532-4"></a>allHfiles=<span class="kw">list</span>()</span>
+<span id="cb532-5"><a href="mutations-in-rna.html#cb532-5"></a>allCodingHaplo=<span class="kw">list</span>()</span>
+<span id="cb532-6"><a href="mutations-in-rna.html#cb532-6"></a>allCosmicHaplo=<span class="kw">list</span>()</span>
+<span id="cb532-7"><a href="mutations-in-rna.html#cb532-7"></a></span>
+<span id="cb532-8"><a href="mutations-in-rna.html#cb532-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(hfiles)){</span>
+<span id="cb532-9"><a href="mutations-in-rna.html#cb532-9"></a>A1=<span class="kw">read.delim</span>(hfiles[i], <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">stringsAsFactors =</span> F)</span>
+<span id="cb532-10"><a href="mutations-in-rna.html#cb532-10"></a>A1[<span class="kw">which</span>(A1<span class="op">==</span>(<span class="op">-</span><span class="dv">1</span>), <span class="dt">arr.ind=</span>T)]=<span class="st">&quot;&quot;</span></span>
+<span id="cb532-11"><a href="mutations-in-rna.html#cb532-11"></a></span>
+<span id="cb532-12"><a href="mutations-in-rna.html#cb532-12"></a>cNames=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">27</span>], <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.</span><span class="ch">\\</span><span class="st">.&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb532-13"><a href="mutations-in-rna.html#cb532-13"></a>cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>]=<span class="kw">paste</span>(<span class="kw">c</span>(<span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;LOF&quot;</span>, <span class="st">&quot;NMD&quot;</span>, <span class="st">&quot;NMD&quot;</span>), cNames[<span class="dv">13</span><span class="op">:</span><span class="dv">16</span>], <span class="dt">sep=</span><span class="st">&quot;.&quot;</span>)</span>
+<span id="cb532-14"><a href="mutations-in-rna.html#cb532-14"></a><span class="kw">colnames</span>(A1)[<span class="dv">12</span><span class="op">:</span><span class="dv">28</span>]=<span class="kw">c</span>(cNames, <span class="st">&quot;GEN&quot;</span>)</span>
+<span id="cb532-15"><a href="mutations-in-rna.html#cb532-15"></a></span>
+<span id="cb532-16"><a href="mutations-in-rna.html#cb532-16"></a>GEN2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(A1<span class="op">$</span>GEN, <span class="st">&quot;:&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>])</span>
+<span id="cb532-17"><a href="mutations-in-rna.html#cb532-17"></a>gRef=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb532-18"><a href="mutations-in-rna.html#cb532-18"></a>gAlt=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(GEN2, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb532-19"><a href="mutations-in-rna.html#cb532-19"></a></span>
+<span id="cb532-20"><a href="mutations-in-rna.html#cb532-20"></a>A1<span class="op">$</span>n_ref=<span class="kw">as.numeric</span>(gRef)</span>
+<span id="cb532-21"><a href="mutations-in-rna.html#cb532-21"></a>A1<span class="op">$</span>n_alt=<span class="kw">as.numeric</span>(gAlt)</span>
+<span id="cb532-22"><a href="mutations-in-rna.html#cb532-22"></a>A1<span class="op">$</span>VAF=A1<span class="op">$</span>n_alt<span class="op">/</span>(A1<span class="op">$</span>n_alt<span class="op">+</span>A1<span class="op">$</span>n_ref)</span>
+<span id="cb532-23"><a href="mutations-in-rna.html#cb532-23"></a></span>
+<span id="cb532-24"><a href="mutations-in-rna.html#cb532-24"></a>allHfiles[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb532-25"><a href="mutations-in-rna.html#cb532-25"></a>allCodingHaplo[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>HGVS_P<span class="op">!=</span><span class="st">&quot;&quot;</span> <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb532-26"><a href="mutations-in-rna.html#cb532-26"></a>allCosmicHaplo[[i]]=A1[<span class="kw">which</span>(A1<span class="op">$</span>GENE<span class="op">%in%</span>RatCosmic <span class="op">&amp;</span><span class="st"> </span>A1<span class="op">$</span>n_ref<span class="op">+</span>A1<span class="op">$</span>n_alt<span class="op">&gt;</span><span class="dv">10</span>), ]</span>
+<span id="cb532-27"><a href="mutations-in-rna.html#cb532-27"></a>}</span>
+<span id="cb532-28"><a href="mutations-in-rna.html#cb532-28"></a></span>
+<span id="cb532-29"><a href="mutations-in-rna.html#cb532-29"></a><span class="co">## names of the files</span></span>
+<span id="cb532-30"><a href="mutations-in-rna.html#cb532-30"></a></span>
+<span id="cb532-31"><a href="mutations-in-rna.html#cb532-31"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(hfiles, <span class="st">&quot;_filt_HCR_ann_siftB.txt&quot;</span>)) <span class="co">#remove HCR where not needed</span></span>
+<span id="cb532-32"><a href="mutations-in-rna.html#cb532-32"></a>fNam=<span class="kw">unlist</span>(<span class="kw">strsplit</span>(fNam, <span class="st">&quot;.vcf.g&quot;</span>))</span>
+<span id="cb532-33"><a href="mutations-in-rna.html#cb532-33"></a>fNam2=<span class="kw">paste</span>(fNam, <span class="st">&quot;.fastq.gz&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb532-34"><a href="mutations-in-rna.html#cb532-34"></a>fNam2=<span class="kw">sapply</span>(<span class="kw">strsplit</span>(fNam2, <span class="st">&quot;/&quot;</span>), <span class="cf">function</span>(x) x[<span class="kw">length</span>(x)])</span>
+<span id="cb532-35"><a href="mutations-in-rna.html#cb532-35"></a>idx1=infoTableFinal<span class="op">$</span>SampleID[<span class="kw">match</span>(fNam2, infoTableFinal<span class="op">$</span>FqFile)]</span>
+<span id="cb532-36"><a href="mutations-in-rna.html#cb532-36"></a>idx1[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]=fNam2[<span class="kw">which</span>(<span class="kw">is.na</span>(idx1))]</span>
+<span id="cb532-37"><a href="mutations-in-rna.html#cb532-37"></a>idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)]=<span class="kw">substr</span>(idx1[<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1)],<span class="dv">10</span>, <span class="dv">21</span>) </span>
+<span id="cb532-38"><a href="mutations-in-rna.html#cb532-38"></a><span class="co"># sNames=paste(tempAnnot$Rat_ID[idx1],tempAnnot$Location[idx1],  tempAnnot$Fraction[idx1], sep=&quot;_&quot;)</span></span>
+<span id="cb532-39"><a href="mutations-in-rna.html#cb532-39"></a></span>
+<span id="cb532-40"><a href="mutations-in-rna.html#cb532-40"></a><span class="kw">names</span>(allHfiles)=idx1</span>
+<span id="cb532-41"><a href="mutations-in-rna.html#cb532-41"></a><span class="kw">names</span>(allCodingHaplo)=idx1</span>
+<span id="cb532-42"><a href="mutations-in-rna.html#cb532-42"></a><span class="kw">names</span>(allCosmicHaplo)=idx1</span>
+<span id="cb532-43"><a href="mutations-in-rna.html#cb532-43"></a><span class="co"># remove the samples which do not pass QC</span></span>
+<span id="cb532-44"><a href="mutations-in-rna.html#cb532-44"></a>idx2rm=<span class="kw">setdiff</span>(<span class="kw">grep</span>(<span class="st">&quot;fastq.gz&quot;</span>, idx1), <span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, idx1))</span>
+<span id="cb532-45"><a href="mutations-in-rna.html#cb532-45"></a></span>
+<span id="cb532-46"><a href="mutations-in-rna.html#cb532-46"></a><span class="co">## write all these lists to file</span></span>
+<span id="cb532-47"><a href="mutations-in-rna.html#cb532-47"></a>allHfiles=allHfiles[<span class="op">-</span>idx2rm]</span>
+<span id="cb532-48"><a href="mutations-in-rna.html#cb532-48"></a>allCodingHaplo=allCodingHaplo[<span class="op">-</span>idx2rm]</span>
+<span id="cb532-49"><a href="mutations-in-rna.html#cb532-49"></a>allCosmicHaplo=allCosmicHaplo[<span class="op">-</span>idx2rm]</span>
+<span id="cb532-50"><a href="mutations-in-rna.html#cb532-50"></a></span>
+<span id="cb532-51"><a href="mutations-in-rna.html#cb532-51"></a><span class="kw">save</span>(allHfiles,allCodingHaplo, allCodingHaplo,  <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;outputs/HaplotypeVariants_characterisation_all_%s.Rdata&quot;</span>, <span class="kw">Sys.Date</span>()))</span></code></pre></div>
 </div>
 <div id="identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data" class="section level2">
-<h2><span class="header-section-number">21.3</span> Identifying polymorphisms: compare frequencies in CD45 and Ep data</h2>
+<h2><span class="header-section-number">22.3</span> Identifying polymorphisms: compare frequencies in CD45 and Ep data</h2>
 <p>Search for whether mutations in the cosmic set is present in the RNA data. We will firstly look at the 90 most common genes, and then repeat the same for the top cosmic genes.</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="mutations-in-rna.html#cb483-1"></a><span class="co"># replace topN with topCOSMIC</span></span>
-<span id="cb483-2"><a href="mutations-in-rna.html#cb483-2"></a><span class="co"># templace tempxb with tempz2</span></span>
-<span id="cb483-3"><a href="mutations-in-rna.html#cb483-3"></a></span>
-<span id="cb483-4"><a href="mutations-in-rna.html#cb483-4"></a>MeltWGSCoding<span class="op">$</span>mutPos=<span class="kw">paste</span>(MeltWGSCoding<span class="op">$</span>Gene_Symbol, MeltWGSCoding<span class="op">$</span>Start_Position)</span>
-<span id="cb483-5"><a href="mutations-in-rna.html#cb483-5"></a>MeltWGSCodingB<span class="op">$</span>mutPos=<span class="kw">paste</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol, MeltWGSCodingB<span class="op">$</span>Start_Position)</span>
-<span id="cb483-6"><a href="mutations-in-rna.html#cb483-6"></a>MallCodingHaplo=<span class="kw">melt</span>(allCodingHaplo,  <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
-<span id="cb483-7"><a href="mutations-in-rna.html#cb483-7"></a>MallCodingHaplo<span class="op">$</span>mutPos=<span class="kw">paste</span>(MallCodingHaplo<span class="op">$</span>GENE, MallCodingHaplo<span class="op">$</span>value)</span></code></pre></div>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="mutations-in-rna.html#cb484-1"></a>xb=<span class="kw">sort</span>(<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>mutPos[MeltWGSCodingB<span class="op">$</span>Gene_Symbol<span class="op">%in%</span>topCOSMIC]), <span class="dt">decreasing =</span> T)</span>
-<span id="cb484-2"><a href="mutations-in-rna.html#cb484-2"></a></span>
-<span id="cb484-3"><a href="mutations-in-rna.html#cb484-3"></a>allCoding_top90=<span class="kw">lapply</span>(allCodingHaplo, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">paste</span>(x<span class="op">$</span>GENE, x<span class="op">$</span>POS)<span class="op">%in%</span><span class="kw">names</span>(xb)), ])</span>
-<span id="cb484-4"><a href="mutations-in-rna.html#cb484-4"></a></span>
-<span id="cb484-5"><a href="mutations-in-rna.html#cb484-5"></a>mallCoding90=<span class="kw">melt</span>(allCoding_top90, <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
-<span id="cb484-6"><a href="mutations-in-rna.html#cb484-6"></a>mallCoding90<span class="op">$</span>mutUnique=<span class="kw">paste</span>(mallCoding90<span class="op">$</span>GENE, mallCoding90<span class="op">$</span>value)</span>
-<span id="cb484-7"><a href="mutations-in-rna.html#cb484-7"></a></span>
-<span id="cb484-8"><a href="mutations-in-rna.html#cb484-8"></a>x1=<span class="kw">table</span>(mallCoding90<span class="op">$</span>mutUnique)</span>
-<span id="cb484-9"><a href="mutations-in-rna.html#cb484-9"></a></span>
-<span id="cb484-10"><a href="mutations-in-rna.html#cb484-10"></a>tabN=<span class="kw">acast</span>(mallCoding90[ , <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;GENE&quot;</span>)],L1<span class="op">~</span>GENE)</span>
-<span id="cb484-11"><a href="mutations-in-rna.html#cb484-11"></a><span class="co">#heatmap.2(tabN, Colv = NA, trace=&quot;none&quot;, scale=&quot;none&quot;, col=c(&quot;white&quot;, brewer.pal(5, &quot;Blues&quot;)))</span></span>
-<span id="cb484-12"><a href="mutations-in-rna.html#cb484-12"></a>cNamesMatch=<span class="kw">match</span>(<span class="kw">colnames</span>(tabN), <span class="kw">colnames</span>(tempz2))</span>
-<span id="cb484-13"><a href="mutations-in-rna.html#cb484-13"></a></span>
-<span id="cb484-14"><a href="mutations-in-rna.html#cb484-14"></a>tabN2=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow=</span><span class="kw">nrow</span>(tabN), <span class="dt">ncol=</span><span class="kw">ncol</span>(tempz2))</span>
-<span id="cb484-15"><a href="mutations-in-rna.html#cb484-15"></a>tabN2[ ,cNamesMatch]=tabN</span>
-<span id="cb484-16"><a href="mutations-in-rna.html#cb484-16"></a><span class="kw">colnames</span>(tabN2)=<span class="kw">colnames</span>(tempz2)</span>
-<span id="cb484-17"><a href="mutations-in-rna.html#cb484-17"></a><span class="kw">rownames</span>(tabN2)=<span class="kw">rownames</span>(tabN)</span>
-<span id="cb484-18"><a href="mutations-in-rna.html#cb484-18"></a>id2=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
-<span id="cb484-19"><a href="mutations-in-rna.html#cb484-19"></a>id3=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
-<span id="cb484-20"><a href="mutations-in-rna.html#cb484-20"></a>id4=<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
-<span id="cb484-21"><a href="mutations-in-rna.html#cb484-21"></a>tabN2[id2, ]=<span class="kw">sign</span>(tabN2[id2, ])</span>
-<span id="cb484-22"><a href="mutations-in-rna.html#cb484-22"></a>tabN2[id3, ]=<span class="kw">sign</span>(tabN2[id3, ])<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb484-23"><a href="mutations-in-rna.html#cb484-23"></a>tabN2[id4, ]=<span class="kw">sign</span>(tabN2[id4, ])<span class="op">*</span><span class="dv">3</span></span>
-<span id="cb484-24"><a href="mutations-in-rna.html#cb484-24"></a>tabN2=tabN2[<span class="kw">c</span>(id2, id3, id4), ]</span>
-<span id="cb484-25"><a href="mutations-in-rna.html#cb484-25"></a></span>
-<span id="cb484-26"><a href="mutations-in-rna.html#cb484-26"></a></span>
-<span id="cb484-27"><a href="mutations-in-rna.html#cb484-27"></a><span class="co">#heatmap.2(tabN2, Colv = NA, Rowv = NA, trace=&quot;none&quot;, scale=&quot;none&quot;, col=c(&quot;white&quot;, brewer.pal(5, &quot;Blues&quot;)))</span></span>
-<span id="cb484-28"><a href="mutations-in-rna.html#cb484-28"></a></span>
-<span id="cb484-29"><a href="mutations-in-rna.html#cb484-29"></a><span class="kw">image</span>(<span class="kw">t</span>((tabN2)), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
-<span id="cb484-30"><a href="mutations-in-rna.html#cb484-30"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempz2)), <span class="kw">colnames</span>(tempz2), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
-<span id="cb484-31"><a href="mutations-in-rna.html#cb484-31"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tabN2)), <span class="kw">rownames</span>(tabN2), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-1.png" width="672" /></p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="mutations-in-rna.html#cb485-1"></a></span>
-<span id="cb485-2"><a href="mutations-in-rna.html#cb485-2"></a>lx2=<span class="kw">sapply</span>(allCoding_top90, nrow)</span>
-<span id="cb485-3"><a href="mutations-in-rna.html#cb485-3"></a></span>
-<span id="cb485-4"><a href="mutations-in-rna.html#cb485-4"></a><span class="kw">barplot</span>(lx2, <span class="dt">ylab=</span><span class="st">&quot;no# mutations in top 90 genes&quot;</span>, <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-135-2.png" width="672" /></p>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="mutations-in-rna.html#cb533-1"></a><span class="co"># replace topN with topCOSMIC</span></span>
+<span id="cb533-2"><a href="mutations-in-rna.html#cb533-2"></a><span class="co"># templace tempxb with tempz2</span></span>
+<span id="cb533-3"><a href="mutations-in-rna.html#cb533-3"></a></span>
+<span id="cb533-4"><a href="mutations-in-rna.html#cb533-4"></a>MeltWGSCoding<span class="op">$</span>mutPos=<span class="kw">paste</span>(MeltWGSCoding<span class="op">$</span>Gene_Symbol, MeltWGSCoding<span class="op">$</span>Start_Position)</span>
+<span id="cb533-5"><a href="mutations-in-rna.html#cb533-5"></a>MeltWGSCodingB<span class="op">$</span>mutPos=<span class="kw">paste</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol, MeltWGSCodingB<span class="op">$</span>Start_Position)</span>
+<span id="cb533-6"><a href="mutations-in-rna.html#cb533-6"></a>MallCodingHaplo=<span class="kw">melt</span>(allCodingHaplo,  <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb533-7"><a href="mutations-in-rna.html#cb533-7"></a>MallCodingHaplo<span class="op">$</span>mutPos=<span class="kw">paste</span>(MallCodingHaplo<span class="op">$</span>GENE, MallCodingHaplo<span class="op">$</span>value)</span></code></pre></div>
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="mutations-in-rna.html#cb534-1"></a>xb=<span class="kw">sort</span>(<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>mutPos[MeltWGSCodingB<span class="op">$</span>Gene_Symbol<span class="op">%in%</span>topCOSMIC]), <span class="dt">decreasing =</span> T)</span>
+<span id="cb534-2"><a href="mutations-in-rna.html#cb534-2"></a></span>
+<span id="cb534-3"><a href="mutations-in-rna.html#cb534-3"></a>allCoding_top90=<span class="kw">lapply</span>(allCodingHaplo, <span class="cf">function</span>(x) x[<span class="kw">which</span>(<span class="kw">paste</span>(x<span class="op">$</span>GENE, x<span class="op">$</span>POS)<span class="op">%in%</span><span class="kw">names</span>(xb)), ])</span>
+<span id="cb534-4"><a href="mutations-in-rna.html#cb534-4"></a></span>
+<span id="cb534-5"><a href="mutations-in-rna.html#cb534-5"></a>mallCoding90=<span class="kw">melt</span>(allCoding_top90, <span class="dt">measure.var=</span><span class="st">&quot;POS&quot;</span>)</span>
+<span id="cb534-6"><a href="mutations-in-rna.html#cb534-6"></a>mallCoding90<span class="op">$</span>mutUnique=<span class="kw">paste</span>(mallCoding90<span class="op">$</span>GENE, mallCoding90<span class="op">$</span>value)</span>
+<span id="cb534-7"><a href="mutations-in-rna.html#cb534-7"></a></span>
+<span id="cb534-8"><a href="mutations-in-rna.html#cb534-8"></a>x1=<span class="kw">table</span>(mallCoding90<span class="op">$</span>mutUnique)</span>
+<span id="cb534-9"><a href="mutations-in-rna.html#cb534-9"></a></span>
+<span id="cb534-10"><a href="mutations-in-rna.html#cb534-10"></a>tabN=<span class="kw">acast</span>(mallCoding90[ , <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;GENE&quot;</span>)],L1<span class="op">~</span>GENE)</span>
+<span id="cb534-11"><a href="mutations-in-rna.html#cb534-11"></a><span class="co">#heatmap.2(tabN, Colv = NA, trace=&quot;none&quot;, scale=&quot;none&quot;, col=c(&quot;white&quot;, brewer.pal(5, &quot;Blues&quot;)))</span></span>
+<span id="cb534-12"><a href="mutations-in-rna.html#cb534-12"></a>cNamesMatch=<span class="kw">match</span>(<span class="kw">colnames</span>(tabN), <span class="kw">colnames</span>(tempz2))</span>
+<span id="cb534-13"><a href="mutations-in-rna.html#cb534-13"></a></span>
+<span id="cb534-14"><a href="mutations-in-rna.html#cb534-14"></a>tabN2=<span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow=</span><span class="kw">nrow</span>(tabN), <span class="dt">ncol=</span><span class="kw">ncol</span>(tempz2))</span>
+<span id="cb534-15"><a href="mutations-in-rna.html#cb534-15"></a>tabN2[ ,cNamesMatch]=tabN</span>
+<span id="cb534-16"><a href="mutations-in-rna.html#cb534-16"></a><span class="kw">colnames</span>(tabN2)=<span class="kw">colnames</span>(tempz2)</span>
+<span id="cb534-17"><a href="mutations-in-rna.html#cb534-17"></a><span class="kw">rownames</span>(tabN2)=<span class="kw">rownames</span>(tabN)</span>
+<span id="cb534-18"><a href="mutations-in-rna.html#cb534-18"></a>id2=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
+<span id="cb534-19"><a href="mutations-in-rna.html#cb534-19"></a>id3=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
+<span id="cb534-20"><a href="mutations-in-rna.html#cb534-20"></a>id4=<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, <span class="kw">rownames</span>(tabN))</span>
+<span id="cb534-21"><a href="mutations-in-rna.html#cb534-21"></a>tabN2[id2, ]=<span class="kw">sign</span>(tabN2[id2, ])</span>
+<span id="cb534-22"><a href="mutations-in-rna.html#cb534-22"></a>tabN2[id3, ]=<span class="kw">sign</span>(tabN2[id3, ])<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb534-23"><a href="mutations-in-rna.html#cb534-23"></a>tabN2[id4, ]=<span class="kw">sign</span>(tabN2[id4, ])<span class="op">*</span><span class="dv">3</span></span>
+<span id="cb534-24"><a href="mutations-in-rna.html#cb534-24"></a>tabN2=tabN2[<span class="kw">c</span>(id2, id3, id4), ]</span>
+<span id="cb534-25"><a href="mutations-in-rna.html#cb534-25"></a></span>
+<span id="cb534-26"><a href="mutations-in-rna.html#cb534-26"></a></span>
+<span id="cb534-27"><a href="mutations-in-rna.html#cb534-27"></a><span class="co">#heatmap.2(tabN2, Colv = NA, Rowv = NA, trace=&quot;none&quot;, scale=&quot;none&quot;, col=c(&quot;white&quot;, brewer.pal(5, &quot;Blues&quot;)))</span></span>
+<span id="cb534-28"><a href="mutations-in-rna.html#cb534-28"></a></span>
+<span id="cb534-29"><a href="mutations-in-rna.html#cb534-29"></a><span class="kw">image</span>(<span class="kw">t</span>((tabN2)), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
+<span id="cb534-30"><a href="mutations-in-rna.html#cb534-30"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempz2)), <span class="kw">colnames</span>(tempz2), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
+<span id="cb534-31"><a href="mutations-in-rna.html#cb534-31"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tabN2)), <span class="kw">rownames</span>(tabN2), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-1.png" width="672" /></p>
+<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="mutations-in-rna.html#cb535-1"></a></span>
+<span id="cb535-2"><a href="mutations-in-rna.html#cb535-2"></a>lx2=<span class="kw">sapply</span>(allCoding_top90, nrow)</span>
+<span id="cb535-3"><a href="mutations-in-rna.html#cb535-3"></a></span>
+<span id="cb535-4"><a href="mutations-in-rna.html#cb535-4"></a><span class="kw">barplot</span>(lx2, <span class="dt">ylab=</span><span class="st">&quot;no# mutations in top 90 genes&quot;</span>, <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-156-2.png" width="672" /></p>
 </div>
 <div id="find-coding-mutations-which-are-specific-to-ep-cells" class="section level2">
-<h2><span class="header-section-number">21.4</span> Find coding mutations which are specific to ep cells</h2>
+<h2><span class="header-section-number">22.4</span> Find coding mutations which are specific to ep cells</h2>
 <p>Here, look for mutations from RNA which are present in the epithelial cells specific</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="mutations-in-rna.html#cb486-1"></a>VarTypes=<span class="kw">c</span>(<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;missense&quot;</span>, <span class="st">&quot;start_lost&quot;</span>, <span class="st">&quot;stop_gained&quot;</span>, <span class="st">&quot;nonsense&quot;</span>, <span class="st">&quot;stop_retained&quot;</span>)</span>
-<span id="cb486-2"><a href="mutations-in-rna.html#cb486-2"></a>n2=<span class="kw">unique</span>(<span class="kw">unlist</span>(<span class="kw">sapply</span>(VarTypes, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, MallCodingHaplo<span class="op">$</span>ANNOTATION))))</span>
-<span id="cb486-3"><a href="mutations-in-rna.html#cb486-3"></a>MallCodingHaploFunc=MallCodingHaplo[ n2, ]</span>
-<span id="cb486-4"><a href="mutations-in-rna.html#cb486-4"></a><span class="co">## Look at epithealial samples</span></span>
-<span id="cb486-5"><a href="mutations-in-rna.html#cb486-5"></a></span>
-<span id="cb486-6"><a href="mutations-in-rna.html#cb486-6"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
-<span id="cb486-7"><a href="mutations-in-rna.html#cb486-7"></a>MallEpi=MallCodingHaploFunc[xa, ]</span>
-<span id="cb486-8"><a href="mutations-in-rna.html#cb486-8"></a>EpVarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
-<span id="cb486-9"><a href="mutations-in-rna.html#cb486-9"></a>EpVarNames=<span class="kw">names</span>(EpVarList)</span>
-<span id="cb486-10"><a href="mutations-in-rna.html#cb486-10"></a>EpVarN2=<span class="kw">names</span>(EpVarList[<span class="kw">which</span>(EpVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
-<span id="cb486-11"><a href="mutations-in-rna.html#cb486-11"></a>EpVarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
-<span id="cb486-12"><a href="mutations-in-rna.html#cb486-12"></a>EpLoc=<span class="kw">names</span>(EpVarListB)[<span class="kw">which</span>(EpVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb486-13"><a href="mutations-in-rna.html#cb486-13"></a></span>
-<span id="cb486-14"><a href="mutations-in-rna.html#cb486-14"></a><span class="co">## Look at CD45 samples</span></span>
-<span id="cb486-15"><a href="mutations-in-rna.html#cb486-15"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
-<span id="cb486-16"><a href="mutations-in-rna.html#cb486-16"></a>CDVarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
-<span id="cb486-17"><a href="mutations-in-rna.html#cb486-17"></a>CDVarNames=<span class="kw">names</span>(CDVarList)</span>
-<span id="cb486-18"><a href="mutations-in-rna.html#cb486-18"></a>CDVarN2=<span class="kw">names</span>(CDVarList[<span class="kw">which</span>(CDVarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
-<span id="cb486-19"><a href="mutations-in-rna.html#cb486-19"></a>CDVarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
-<span id="cb486-20"><a href="mutations-in-rna.html#cb486-20"></a>CDLoc=<span class="kw">names</span>(CDVarListB)[<span class="kw">which</span>(CDVarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
-<span id="cb486-21"><a href="mutations-in-rna.html#cb486-21"></a></span>
-<span id="cb486-22"><a href="mutations-in-rna.html#cb486-22"></a></span>
-<span id="cb486-23"><a href="mutations-in-rna.html#cb486-23"></a><span class="co">## Look at CD45 normal</span></span>
-<span id="cb486-24"><a href="mutations-in-rna.html#cb486-24"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
-<span id="cb486-25"><a href="mutations-in-rna.html#cb486-25"></a>nCD45VarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
-<span id="cb486-26"><a href="mutations-in-rna.html#cb486-26"></a>nCD45VarNames=<span class="kw">names</span>(nCD45VarList)</span>
-<span id="cb486-27"><a href="mutations-in-rna.html#cb486-27"></a>nCD45VarN2=<span class="kw">names</span>(nCD45VarList[<span class="kw">which</span>(nCD45VarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
-<span id="cb486-28"><a href="mutations-in-rna.html#cb486-28"></a>nCD45VarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
-<span id="cb486-29"><a href="mutations-in-rna.html#cb486-29"></a>nCDLoc=<span class="kw">names</span>(nCD45VarListB)[<span class="kw">which</span>(nCD45VarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
-<span id="cb486-30"><a href="mutations-in-rna.html#cb486-30"></a></span>
-<span id="cb486-31"><a href="mutations-in-rna.html#cb486-31"></a><span class="co">## List of ep-spec variants</span></span>
-<span id="cb486-32"><a href="mutations-in-rna.html#cb486-32"></a>eplist1=<span class="kw">setdiff</span>(<span class="kw">setdiff</span>(EpVarN2, CDVarN2), nCD45VarN2)</span>
-<span id="cb486-33"><a href="mutations-in-rna.html#cb486-33"></a><span class="co">## Obtain the list of Ep-specific variants and cross-reference with genomic data</span></span>
-<span id="cb486-34"><a href="mutations-in-rna.html#cb486-34"></a>WGSListgenes=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol)</span>
-<span id="cb486-35"><a href="mutations-in-rna.html#cb486-35"></a>WGSListgenes=<span class="kw">names</span>(WGSListgenes)[<span class="kw">which</span>(WGSListgenes<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb486-36"><a href="mutations-in-rna.html#cb486-36"></a></span>
-<span id="cb486-37"><a href="mutations-in-rna.html#cb486-37"></a>RList=MallEpi[<span class="kw">which</span>(MallEpi<span class="op">$</span>GENE<span class="op">%in%</span>eplist1), ]</span>
-<span id="cb486-38"><a href="mutations-in-rna.html#cb486-38"></a>Rlist2=<span class="kw">table</span>(RList<span class="op">$</span>mutPos)</span>
-<span id="cb486-39"><a href="mutations-in-rna.html#cb486-39"></a>Rlist2=<span class="kw">names</span>(Rlist2)[<span class="kw">which</span>(Rlist2<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb486-40"><a href="mutations-in-rna.html#cb486-40"></a></span>
-<span id="cb486-41"><a href="mutations-in-rna.html#cb486-41"></a>WGSList=<span class="kw">paste</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol, MeltWGSCodingB<span class="op">$</span>Start_Position)</span>
-<span id="cb486-42"><a href="mutations-in-rna.html#cb486-42"></a>t2=<span class="kw">table</span>(WGSList)</span>
-<span id="cb486-43"><a href="mutations-in-rna.html#cb486-43"></a>WGSList=<span class="kw">names</span>(t2)[<span class="kw">which</span>(t2<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb486-44"><a href="mutations-in-rna.html#cb486-44"></a>mutlist=<span class="kw">intersect</span>(Rlist2, WGSList)</span>
-<span id="cb486-45"><a href="mutations-in-rna.html#cb486-45"></a></span>
-<span id="cb486-46"><a href="mutations-in-rna.html#cb486-46"></a><span class="co">#pdf(&quot;~/Desktop/RNA-specific-mutations-gene-level.pdf&quot;, height=6, width=6)</span></span>
-<span id="cb486-47"><a href="mutations-in-rna.html#cb486-47"></a></span>
-<span id="cb486-48"><a href="mutations-in-rna.html#cb486-48"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarNames, <span class="dt">CD45=</span>CDVarNames, <span class="dt">nCD45=</span>nCD45VarNames))</span>
-<span id="cb486-49"><a href="mutations-in-rna.html#cb486-49"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes w mutations overlapping in different fractions&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-136-1.png" width="672" /></p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="mutations-in-rna.html#cb487-1"></a></span>
-<span id="cb487-2"><a href="mutations-in-rna.html#cb487-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarN2, <span class="dt">CD45=</span>CDVarN2, <span class="dt">nCD45=</span>nCD45VarN2))</span>
-<span id="cb487-3"><a href="mutations-in-rna.html#cb487-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-136-2.png" width="672" /></p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="mutations-in-rna.html#cb488-1"></a></span>
-<span id="cb488-2"><a href="mutations-in-rna.html#cb488-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep_RNA=</span>eplist1, <span class="dt">Ep_WGS=</span>WGSListgenes))</span>
-<span id="cb488-3"><a href="mutations-in-rna.html#cb488-3"></a><span class="kw">mtext</span>(<span class="st">&quot;No genes with overlaps in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-136-3.png" width="672" /></p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="mutations-in-rna.html#cb489-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="mutations-in-rna.html#cb536-1"></a>VarTypes=<span class="kw">c</span>(<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;missense&quot;</span>, <span class="st">&quot;start_lost&quot;</span>, <span class="st">&quot;stop_gained&quot;</span>, <span class="st">&quot;nonsense&quot;</span>, <span class="st">&quot;stop_retained&quot;</span>)</span>
+<span id="cb536-2"><a href="mutations-in-rna.html#cb536-2"></a>n2=<span class="kw">unique</span>(<span class="kw">unlist</span>(<span class="kw">sapply</span>(VarTypes, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, MallCodingHaplo<span class="op">$</span>ANNOTATION))))</span>
+<span id="cb536-3"><a href="mutations-in-rna.html#cb536-3"></a>MallCodingHaploFunc=MallCodingHaplo[ n2, ]</span>
+<span id="cb536-4"><a href="mutations-in-rna.html#cb536-4"></a><span class="co">## Look at epithealial samples</span></span>
+<span id="cb536-5"><a href="mutations-in-rna.html#cb536-5"></a></span>
+<span id="cb536-6"><a href="mutations-in-rna.html#cb536-6"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;Ep&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
+<span id="cb536-7"><a href="mutations-in-rna.html#cb536-7"></a>MallEpi=MallCodingHaploFunc[xa, ]</span>
+<span id="cb536-8"><a href="mutations-in-rna.html#cb536-8"></a>EpVarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
+<span id="cb536-9"><a href="mutations-in-rna.html#cb536-9"></a>EpVarNames=<span class="kw">names</span>(EpVarList)</span>
+<span id="cb536-10"><a href="mutations-in-rna.html#cb536-10"></a>EpVarN2=<span class="kw">names</span>(EpVarList[<span class="kw">which</span>(EpVarList<span class="op">&gt;</span><span class="dv">1</span>)])</span>
+<span id="cb536-11"><a href="mutations-in-rna.html#cb536-11"></a>EpVarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
+<span id="cb536-12"><a href="mutations-in-rna.html#cb536-12"></a>EpLoc=<span class="kw">names</span>(EpVarListB)[<span class="kw">which</span>(EpVarListB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb536-13"><a href="mutations-in-rna.html#cb536-13"></a></span>
+<span id="cb536-14"><a href="mutations-in-rna.html#cb536-14"></a><span class="co">## Look at CD45 samples</span></span>
+<span id="cb536-15"><a href="mutations-in-rna.html#cb536-15"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45$&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
+<span id="cb536-16"><a href="mutations-in-rna.html#cb536-16"></a>CDVarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
+<span id="cb536-17"><a href="mutations-in-rna.html#cb536-17"></a>CDVarNames=<span class="kw">names</span>(CDVarList)</span>
+<span id="cb536-18"><a href="mutations-in-rna.html#cb536-18"></a>CDVarN2=<span class="kw">names</span>(CDVarList[<span class="kw">which</span>(CDVarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
+<span id="cb536-19"><a href="mutations-in-rna.html#cb536-19"></a>CDVarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
+<span id="cb536-20"><a href="mutations-in-rna.html#cb536-20"></a>CDLoc=<span class="kw">names</span>(CDVarListB)[<span class="kw">which</span>(CDVarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
+<span id="cb536-21"><a href="mutations-in-rna.html#cb536-21"></a></span>
+<span id="cb536-22"><a href="mutations-in-rna.html#cb536-22"></a></span>
+<span id="cb536-23"><a href="mutations-in-rna.html#cb536-23"></a><span class="co">## Look at CD45 normal</span></span>
+<span id="cb536-24"><a href="mutations-in-rna.html#cb536-24"></a>xa=<span class="kw">grep</span>(<span class="st">&quot;CD45plus&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
+<span id="cb536-25"><a href="mutations-in-rna.html#cb536-25"></a>nCD45VarList=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>GENE[xa])</span>
+<span id="cb536-26"><a href="mutations-in-rna.html#cb536-26"></a>nCD45VarNames=<span class="kw">names</span>(nCD45VarList)</span>
+<span id="cb536-27"><a href="mutations-in-rna.html#cb536-27"></a>nCD45VarN2=<span class="kw">names</span>(nCD45VarList[<span class="kw">which</span>(nCD45VarList<span class="op">&gt;=</span><span class="dv">1</span>)])</span>
+<span id="cb536-28"><a href="mutations-in-rna.html#cb536-28"></a>nCD45VarListB=<span class="kw">table</span>(MallCodingHaploFunc<span class="op">$</span>mutPos[xa])</span>
+<span id="cb536-29"><a href="mutations-in-rna.html#cb536-29"></a>nCDLoc=<span class="kw">names</span>(nCD45VarListB)[<span class="kw">which</span>(nCD45VarListB<span class="op">&gt;=</span><span class="dv">1</span>)]</span>
+<span id="cb536-30"><a href="mutations-in-rna.html#cb536-30"></a></span>
+<span id="cb536-31"><a href="mutations-in-rna.html#cb536-31"></a><span class="co">## List of ep-spec variants</span></span>
+<span id="cb536-32"><a href="mutations-in-rna.html#cb536-32"></a>eplist1=<span class="kw">setdiff</span>(<span class="kw">setdiff</span>(EpVarN2, CDVarN2), nCD45VarN2)</span>
+<span id="cb536-33"><a href="mutations-in-rna.html#cb536-33"></a><span class="co">## Obtain the list of Ep-specific variants and cross-reference with genomic data</span></span>
+<span id="cb536-34"><a href="mutations-in-rna.html#cb536-34"></a>WGSListgenes=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol)</span>
+<span id="cb536-35"><a href="mutations-in-rna.html#cb536-35"></a>WGSListgenes=<span class="kw">names</span>(WGSListgenes)[<span class="kw">which</span>(WGSListgenes<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb536-36"><a href="mutations-in-rna.html#cb536-36"></a></span>
+<span id="cb536-37"><a href="mutations-in-rna.html#cb536-37"></a>RList=MallEpi[<span class="kw">which</span>(MallEpi<span class="op">$</span>GENE<span class="op">%in%</span>eplist1), ]</span>
+<span id="cb536-38"><a href="mutations-in-rna.html#cb536-38"></a>Rlist2=<span class="kw">table</span>(RList<span class="op">$</span>mutPos)</span>
+<span id="cb536-39"><a href="mutations-in-rna.html#cb536-39"></a>Rlist2=<span class="kw">names</span>(Rlist2)[<span class="kw">which</span>(Rlist2<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb536-40"><a href="mutations-in-rna.html#cb536-40"></a></span>
+<span id="cb536-41"><a href="mutations-in-rna.html#cb536-41"></a>WGSList=<span class="kw">paste</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol, MeltWGSCodingB<span class="op">$</span>Start_Position)</span>
+<span id="cb536-42"><a href="mutations-in-rna.html#cb536-42"></a>t2=<span class="kw">table</span>(WGSList)</span>
+<span id="cb536-43"><a href="mutations-in-rna.html#cb536-43"></a>WGSList=<span class="kw">names</span>(t2)[<span class="kw">which</span>(t2<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb536-44"><a href="mutations-in-rna.html#cb536-44"></a>mutlist=<span class="kw">intersect</span>(Rlist2, WGSList)</span>
+<span id="cb536-45"><a href="mutations-in-rna.html#cb536-45"></a></span>
+<span id="cb536-46"><a href="mutations-in-rna.html#cb536-46"></a><span class="co">#pdf(&quot;~/Desktop/RNA-specific-mutations-gene-level.pdf&quot;, height=6, width=6)</span></span>
+<span id="cb536-47"><a href="mutations-in-rna.html#cb536-47"></a></span>
+<span id="cb536-48"><a href="mutations-in-rna.html#cb536-48"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarNames, <span class="dt">CD45=</span>CDVarNames, <span class="dt">nCD45=</span>nCD45VarNames))</span>
+<span id="cb536-49"><a href="mutations-in-rna.html#cb536-49"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes w mutations overlapping in different fractions&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-1.png" width="672" /></p>
+<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="mutations-in-rna.html#cb537-1"></a></span>
+<span id="cb537-2"><a href="mutations-in-rna.html#cb537-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpVarN2, <span class="dt">CD45=</span>CDVarN2, <span class="dt">nCD45=</span>nCD45VarN2))</span>
+<span id="cb537-3"><a href="mutations-in-rna.html#cb537-3"></a><span class="kw">mtext</span>(<span class="st">&quot;no genes with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-2.png" width="672" /></p>
+<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="mutations-in-rna.html#cb538-1"></a></span>
+<span id="cb538-2"><a href="mutations-in-rna.html#cb538-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep_RNA=</span>eplist1, <span class="dt">Ep_WGS=</span>WGSListgenes))</span>
+<span id="cb538-3"><a href="mutations-in-rna.html#cb538-3"></a><span class="kw">mtext</span>(<span class="st">&quot;No genes with overlaps in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-157-3.png" width="672" /></p>
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="mutations-in-rna.html#cb539-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <p>Location specific mutations:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="mutations-in-rna.html#cb490-1"></a><span class="co">#pdf(&quot;~/Desktop/RNA-specific-mutations-location-level.pdf&quot;, height=7, width=10)</span></span>
-<span id="cb490-2"><a href="mutations-in-rna.html#cb490-2"></a></span>
-<span id="cb490-3"><a href="mutations-in-rna.html#cb490-3"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpLoc, <span class="dt">CD45=</span>CDLoc, <span class="dt">nCD45=</span>nCDLoc))</span>
-<span id="cb490-4"><a href="mutations-in-rna.html#cb490-4"></a><span class="kw">mtext</span>(<span class="st">&quot;no locations with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-137-1.png" width="672" /></p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="mutations-in-rna.html#cb491-1"></a></span>
-<span id="cb491-2"><a href="mutations-in-rna.html#cb491-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep_RNA=</span>Rlist2, <span class="dt">Ep_WGS=</span>WGSList))</span>
-<span id="cb491-3"><a href="mutations-in-rna.html#cb491-3"></a><span class="kw">mtext</span>(<span class="st">&quot;No ep. specifc locations with overlaps in 2+ samples&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-137-2.png" width="672" /></p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="mutations-in-rna.html#cb492-1"></a></span>
-<span id="cb492-2"><a href="mutations-in-rna.html#cb492-2"></a><span class="co"># plots of mutational frequencies of the locations in A1</span></span>
-<span id="cb492-3"><a href="mutations-in-rna.html#cb492-3"></a>Ttemp=<span class="kw">acast</span>(MallCodingHaploFunc[<span class="kw">which</span>(MallCodingHaploFunc<span class="op">$</span>mutPos<span class="op">%in%</span>mutlist), <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;mutPos&quot;</span>)], mutPos<span class="op">~</span>L1)</span>
-<span id="cb492-4"><a href="mutations-in-rna.html#cb492-4"></a>Ttemp=<span class="kw">cbind</span>(Ttemp, <span class="dv">0</span>)</span>
-<span id="cb492-5"><a href="mutations-in-rna.html#cb492-5"></a><span class="kw">colnames</span>(Ttemp)[<span class="kw">ncol</span>(Ttemp)]=<span class="st">&quot;NMU13_LAU_Ep&quot;</span></span>
-<span id="cb492-6"><a href="mutations-in-rna.html#cb492-6"></a></span>
-<span id="cb492-7"><a href="mutations-in-rna.html#cb492-7"></a>ax2=<span class="kw">setdiff</span>(<span class="kw">unique</span>(MallEpi<span class="op">$</span>L1), <span class="kw">colnames</span>(Ttemp))</span>
-<span id="cb492-8"><a href="mutations-in-rna.html#cb492-8"></a></span>
-<span id="cb492-9"><a href="mutations-in-rna.html#cb492-9"></a>Wtemp=<span class="kw">acast</span>(MeltWGSCoding[<span class="kw">which</span>(MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutlist), <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;mutPos&quot;</span>, <span class="st">&quot;Start_Position&quot;</span>)],mutPos<span class="op">~</span>L1)</span>
-<span id="cb492-10"><a href="mutations-in-rna.html#cb492-10"></a>Wtemp[<span class="kw">which</span>(<span class="kw">is.na</span>(Wtemp), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
-<span id="cb492-11"><a href="mutations-in-rna.html#cb492-11"></a></span>
-<span id="cb492-12"><a href="mutations-in-rna.html#cb492-12"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb492-13"><a href="mutations-in-rna.html#cb492-13"></a><span class="kw">image</span>(<span class="kw">sign</span>((Ttemp)), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;darkblue&quot;</span>), <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb492-14"><a href="mutations-in-rna.html#cb492-14"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Ttemp)),<span class="kw">rownames</span>(Ttemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
-<span id="cb492-15"><a href="mutations-in-rna.html#cb492-15"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Ttemp)),<span class="kw">colnames</span>(Ttemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
-<span id="cb492-16"><a href="mutations-in-rna.html#cb492-16"></a><span class="kw">mtext</span>(<span class="st">&quot;Mutations in RNA &amp; in WGS data&quot;</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-137-3.png" width="672" /></p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="mutations-in-rna.html#cb493-1"></a></span>
-<span id="cb493-2"><a href="mutations-in-rna.html#cb493-2"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb493-3"><a href="mutations-in-rna.html#cb493-3"></a><span class="kw">image</span>(<span class="kw">sign</span>(Wtemp), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;darkblue&quot;</span>), <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb493-4"><a href="mutations-in-rna.html#cb493-4"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Wtemp)),<span class="kw">rownames</span>(Wtemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
-<span id="cb493-5"><a href="mutations-in-rna.html#cb493-5"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Wtemp)),<span class="kw">colnames</span>(Wtemp), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-137-4.png" width="672" /></p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="mutations-in-rna.html#cb494-1"></a></span>
-<span id="cb494-2"><a href="mutations-in-rna.html#cb494-2"></a><span class="co"># mtext(&quot;Mutations in WGS data&quot;)</span></span>
-<span id="cb494-3"><a href="mutations-in-rna.html#cb494-3"></a><span class="co"># par(oma=c(2,2,2,5))</span></span>
-<span id="cb494-4"><a href="mutations-in-rna.html#cb494-4"></a><span class="co"># heatmap.2(t(ExprVSD), trace=&quot;none&quot;, scale=&quot;none&quot;, Rowv = NA, Colv = NA, col=RdBu[11:1],</span></span>
-<span id="cb494-5"><a href="mutations-in-rna.html#cb494-5"></a><span class="co">#           main=&quot;gene expression, vst transformed&quot;)</span></span>
-<span id="cb494-6"><a href="mutations-in-rna.html#cb494-6"></a><span class="co"># heatmap.2(t(ExprVSD), trace=&quot;none&quot;, scale=&quot;col&quot;, Rowv = NA, Colv = NA, col=RdBu[11:1],</span></span>
-<span id="cb494-7"><a href="mutations-in-rna.html#cb494-7"></a><span class="co">#           main=&quot;gene expression, col scaled&quot;)</span></span>
-<span id="cb494-8"><a href="mutations-in-rna.html#cb494-8"></a><span class="co"># </span></span>
-<span id="cb494-9"><a href="mutations-in-rna.html#cb494-9"></a><span class="co"># # calculate the correlation between mutation and expression</span></span>
-<span id="cb494-10"><a href="mutations-in-rna.html#cb494-10"></a><span class="co"># </span></span>
-<span id="cb494-11"><a href="mutations-in-rna.html#cb494-11"></a><span class="co"># mvals=rep(NA, nrow(ExprVSD))</span></span>
-<span id="cb494-12"><a href="mutations-in-rna.html#cb494-12"></a><span class="co"># names(mvals)=rownames(ExprVSD)</span></span>
-<span id="cb494-13"><a href="mutations-in-rna.html#cb494-13"></a><span class="co"># mvalsP=mvals</span></span>
-<span id="cb494-14"><a href="mutations-in-rna.html#cb494-14"></a><span class="co"># </span></span>
-<span id="cb494-15"><a href="mutations-in-rna.html#cb494-15"></a><span class="co"># x1=match(colnames(ExprVSD), colnames(Ttemp))</span></span>
-<span id="cb494-16"><a href="mutations-in-rna.html#cb494-16"></a><span class="co"># for (i in 1:length(mvals)){</span></span>
-<span id="cb494-17"><a href="mutations-in-rna.html#cb494-17"></a><span class="co">#   ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link=&quot;logit&quot;))</span></span>
-<span id="cb494-18"><a href="mutations-in-rna.html#cb494-18"></a><span class="co">#   mvals[i]=coefficients(ax1)[2]</span></span>
-<span id="cb494-19"><a href="mutations-in-rna.html#cb494-19"></a><span class="co">#   mvalsP[i]=summary(ax1)$coefficients[2,4]</span></span>
-<span id="cb494-20"><a href="mutations-in-rna.html#cb494-20"></a><span class="co"># }</span></span>
-<span id="cb494-21"><a href="mutations-in-rna.html#cb494-21"></a><span class="co"># </span></span>
-<span id="cb494-22"><a href="mutations-in-rna.html#cb494-22"></a><span class="co"># barplot(mvalsP,las=2, ylab = &quot;P value of association bw mutation and expression&quot;)</span></span>
-<span id="cb494-23"><a href="mutations-in-rna.html#cb494-23"></a></span>
-<span id="cb494-24"><a href="mutations-in-rna.html#cb494-24"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="mutations-in-rna.html#cb540-1"></a><span class="co">#pdf(&quot;~/Desktop/RNA-specific-mutations-location-level.pdf&quot;, height=7, width=10)</span></span>
+<span id="cb540-2"><a href="mutations-in-rna.html#cb540-2"></a></span>
+<span id="cb540-3"><a href="mutations-in-rna.html#cb540-3"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep=</span>EpLoc, <span class="dt">CD45=</span>CDLoc, <span class="dt">nCD45=</span>nCDLoc))</span>
+<span id="cb540-4"><a href="mutations-in-rna.html#cb540-4"></a><span class="kw">mtext</span>(<span class="st">&quot;no locations with overlapping variants in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-158-1.png" width="672" /></p>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="mutations-in-rna.html#cb541-1"></a></span>
+<span id="cb541-2"><a href="mutations-in-rna.html#cb541-2"></a><span class="kw">venn</span>(<span class="kw">list</span>(<span class="dt">Ep_RNA=</span>Rlist2, <span class="dt">Ep_WGS=</span>WGSList))</span>
+<span id="cb541-3"><a href="mutations-in-rna.html#cb541-3"></a><span class="kw">mtext</span>(<span class="st">&quot;No ep. specifc locations with overlaps in 2+ samples&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-158-2.png" width="672" /></p>
+<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="mutations-in-rna.html#cb542-1"></a></span>
+<span id="cb542-2"><a href="mutations-in-rna.html#cb542-2"></a><span class="co"># plots of mutational frequencies of the locations in A1</span></span>
+<span id="cb542-3"><a href="mutations-in-rna.html#cb542-3"></a>Ttemp=<span class="kw">acast</span>(MallCodingHaploFunc[<span class="kw">which</span>(MallCodingHaploFunc<span class="op">$</span>mutPos<span class="op">%in%</span>mutlist), <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;mutPos&quot;</span>)], mutPos<span class="op">~</span>L1)</span>
+<span id="cb542-4"><a href="mutations-in-rna.html#cb542-4"></a>Ttemp=<span class="kw">cbind</span>(Ttemp, <span class="dv">0</span>)</span>
+<span id="cb542-5"><a href="mutations-in-rna.html#cb542-5"></a><span class="kw">colnames</span>(Ttemp)[<span class="kw">ncol</span>(Ttemp)]=<span class="st">&quot;NMU13_LAU_Ep&quot;</span></span>
+<span id="cb542-6"><a href="mutations-in-rna.html#cb542-6"></a></span>
+<span id="cb542-7"><a href="mutations-in-rna.html#cb542-7"></a>ax2=<span class="kw">setdiff</span>(<span class="kw">unique</span>(MallEpi<span class="op">$</span>L1), <span class="kw">colnames</span>(Ttemp))</span>
+<span id="cb542-8"><a href="mutations-in-rna.html#cb542-8"></a></span>
+<span id="cb542-9"><a href="mutations-in-rna.html#cb542-9"></a>Wtemp=<span class="kw">acast</span>(MeltWGSCoding[<span class="kw">which</span>(MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutlist), <span class="kw">c</span>(<span class="st">&quot;L1&quot;</span>, <span class="st">&quot;mutPos&quot;</span>, <span class="st">&quot;Start_Position&quot;</span>)],mutPos<span class="op">~</span>L1)</span>
+<span id="cb542-10"><a href="mutations-in-rna.html#cb542-10"></a>Wtemp[<span class="kw">which</span>(<span class="kw">is.na</span>(Wtemp), <span class="dt">arr.ind =</span> T)]=<span class="dv">0</span></span>
+<span id="cb542-11"><a href="mutations-in-rna.html#cb542-11"></a></span>
+<span id="cb542-12"><a href="mutations-in-rna.html#cb542-12"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb542-13"><a href="mutations-in-rna.html#cb542-13"></a><span class="kw">image</span>(<span class="kw">sign</span>((Ttemp)), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;darkblue&quot;</span>), <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb542-14"><a href="mutations-in-rna.html#cb542-14"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Ttemp)),<span class="kw">rownames</span>(Ttemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb542-15"><a href="mutations-in-rna.html#cb542-15"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Ttemp)),<span class="kw">colnames</span>(Ttemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb542-16"><a href="mutations-in-rna.html#cb542-16"></a><span class="kw">mtext</span>(<span class="st">&quot;Mutations in RNA &amp; in WGS data&quot;</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-158-3.png" width="672" /></p>
+<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="mutations-in-rna.html#cb543-1"></a></span>
+<span id="cb543-2"><a href="mutations-in-rna.html#cb543-2"></a><span class="kw">par</span>(<span class="dt">oma=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb543-3"><a href="mutations-in-rna.html#cb543-3"></a><span class="kw">image</span>(<span class="kw">sign</span>(Wtemp), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;darkblue&quot;</span>), <span class="dt">xaxt=</span><span class="st">&quot;none&quot;</span>, <span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb543-4"><a href="mutations-in-rna.html#cb543-4"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(Wtemp)),<span class="kw">rownames</span>(Wtemp), <span class="dt">las=</span><span class="dv">2</span>)</span>
+<span id="cb543-5"><a href="mutations-in-rna.html#cb543-5"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(Wtemp)),<span class="kw">colnames</span>(Wtemp), <span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-158-4.png" width="672" /></p>
+<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="mutations-in-rna.html#cb544-1"></a></span>
+<span id="cb544-2"><a href="mutations-in-rna.html#cb544-2"></a><span class="co"># mtext(&quot;Mutations in WGS data&quot;)</span></span>
+<span id="cb544-3"><a href="mutations-in-rna.html#cb544-3"></a><span class="co"># par(oma=c(2,2,2,5))</span></span>
+<span id="cb544-4"><a href="mutations-in-rna.html#cb544-4"></a><span class="co"># heatmap.2(t(ExprVSD), trace=&quot;none&quot;, scale=&quot;none&quot;, Rowv = NA, Colv = NA, col=RdBu[11:1],</span></span>
+<span id="cb544-5"><a href="mutations-in-rna.html#cb544-5"></a><span class="co">#           main=&quot;gene expression, vst transformed&quot;)</span></span>
+<span id="cb544-6"><a href="mutations-in-rna.html#cb544-6"></a><span class="co"># heatmap.2(t(ExprVSD), trace=&quot;none&quot;, scale=&quot;col&quot;, Rowv = NA, Colv = NA, col=RdBu[11:1],</span></span>
+<span id="cb544-7"><a href="mutations-in-rna.html#cb544-7"></a><span class="co">#           main=&quot;gene expression, col scaled&quot;)</span></span>
+<span id="cb544-8"><a href="mutations-in-rna.html#cb544-8"></a><span class="co"># </span></span>
+<span id="cb544-9"><a href="mutations-in-rna.html#cb544-9"></a><span class="co"># # calculate the correlation between mutation and expression</span></span>
+<span id="cb544-10"><a href="mutations-in-rna.html#cb544-10"></a><span class="co"># </span></span>
+<span id="cb544-11"><a href="mutations-in-rna.html#cb544-11"></a><span class="co"># mvals=rep(NA, nrow(ExprVSD))</span></span>
+<span id="cb544-12"><a href="mutations-in-rna.html#cb544-12"></a><span class="co"># names(mvals)=rownames(ExprVSD)</span></span>
+<span id="cb544-13"><a href="mutations-in-rna.html#cb544-13"></a><span class="co"># mvalsP=mvals</span></span>
+<span id="cb544-14"><a href="mutations-in-rna.html#cb544-14"></a><span class="co"># </span></span>
+<span id="cb544-15"><a href="mutations-in-rna.html#cb544-15"></a><span class="co"># x1=match(colnames(ExprVSD), colnames(Ttemp))</span></span>
+<span id="cb544-16"><a href="mutations-in-rna.html#cb544-16"></a><span class="co"># for (i in 1:length(mvals)){</span></span>
+<span id="cb544-17"><a href="mutations-in-rna.html#cb544-17"></a><span class="co">#   ax1=glm(sign(Ttemp[i, x1])~ExprVSD[i, ], family =binomial(link=&quot;logit&quot;))</span></span>
+<span id="cb544-18"><a href="mutations-in-rna.html#cb544-18"></a><span class="co">#   mvals[i]=coefficients(ax1)[2]</span></span>
+<span id="cb544-19"><a href="mutations-in-rna.html#cb544-19"></a><span class="co">#   mvalsP[i]=summary(ax1)$coefficients[2,4]</span></span>
+<span id="cb544-20"><a href="mutations-in-rna.html#cb544-20"></a><span class="co"># }</span></span>
+<span id="cb544-21"><a href="mutations-in-rna.html#cb544-21"></a><span class="co"># </span></span>
+<span id="cb544-22"><a href="mutations-in-rna.html#cb544-22"></a><span class="co"># barplot(mvalsP,las=2, ylab = &quot;P value of association bw mutation and expression&quot;)</span></span>
+<span id="cb544-23"><a href="mutations-in-rna.html#cb544-23"></a></span>
+<span id="cb544-24"><a href="mutations-in-rna.html#cb544-24"></a><span class="co">#dev.off()</span></span></code></pre></div>
 <p>There are 6 mutations which are found in both the RNA and WGS data (2+ samples, not found in RNAseq)</p>
 </div>
 <div id="filtering-wgs-data-based-on-cd45-data" class="section level2">
-<h2><span class="header-section-number">21.5</span> Filtering WGS data based on CD45 data</h2>
+<h2><span class="header-section-number">22.5</span> Filtering WGS data based on CD45 data</h2>
 <ul>
 <li>Use the entire list for WGS</li>
 <li>Find mutations in CD45 (either) and remove</li>
 </ul>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="mutations-in-rna.html#cb495-1"></a><span class="co">#head(MeltWGSCoding)</span></span>
-<span id="cb495-2"><a href="mutations-in-rna.html#cb495-2"></a><span class="co">#head(MallCodingHaploFunc)</span></span>
-<span id="cb495-3"><a href="mutations-in-rna.html#cb495-3"></a></span>
-<span id="cb495-4"><a href="mutations-in-rna.html#cb495-4"></a>lx1=<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
-<span id="cb495-5"><a href="mutations-in-rna.html#cb495-5"></a></span>
-<span id="cb495-6"><a href="mutations-in-rna.html#cb495-6"></a>mutDiff=<span class="kw">setdiff</span>(MeltWGSCodingB<span class="op">$</span>mutPos, MallCodingHaploFunc<span class="op">$</span>mutPos[lx1])</span>
-<span id="cb495-7"><a href="mutations-in-rna.html#cb495-7"></a></span>
-<span id="cb495-8"><a href="mutations-in-rna.html#cb495-8"></a>NUnique=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>mutPos[MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutDiff])</span>
-<span id="cb495-9"><a href="mutations-in-rna.html#cb495-9"></a>NUniqueB=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol[MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutDiff])</span>
-<span id="cb495-10"><a href="mutations-in-rna.html#cb495-10"></a></span>
-<span id="cb495-11"><a href="mutations-in-rna.html#cb495-11"></a></span>
-<span id="cb495-12"><a href="mutations-in-rna.html#cb495-12"></a>rGeneOut=<span class="kw">acast</span>(MeltWGSCodingB[ MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span><span class="kw">names</span>(NUnique),<span class="kw">c</span>(<span class="st">&quot;Gene_Symbol&quot;</span>, <span class="st">&quot;L1&quot;</span>, <span class="st">&quot;Variant_Classification&quot;</span>)], L1<span class="op">~</span>Gene_Symbol, </span>
-<span id="cb495-13"><a href="mutations-in-rna.html#cb495-13"></a>               <span class="dt">value.var=</span><span class="st">&quot;Variant_Classification&quot;</span>, <span class="dt">fun.aggregate=</span><span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>))</span>
-<span id="cb495-14"><a href="mutations-in-rna.html#cb495-14"></a></span>
-<span id="cb495-15"><a href="mutations-in-rna.html#cb495-15"></a>mxl=<span class="kw">unique</span>(<span class="kw">as.vector</span>(rGeneOut))</span>
-<span id="cb495-16"><a href="mutations-in-rna.html#cb495-16"></a>rGeneOut2b=rGeneOut</span>
-<span id="cb495-17"><a href="mutations-in-rna.html#cb495-17"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Nonsense&quot;</span>,rGeneOut2b)]=<span class="dv">3</span></span>
-<span id="cb495-18"><a href="mutations-in-rna.html#cb495-18"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Frame_Shift&quot;</span>,rGeneOut2b)]=<span class="dv">2</span></span>
-<span id="cb495-19"><a href="mutations-in-rna.html#cb495-19"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Missense_&quot;</span>, rGeneOut2b)]=<span class="dv">1</span></span>
-<span id="cb495-20"><a href="mutations-in-rna.html#cb495-20"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Splice_&quot;</span>, rGeneOut2b)]=<span class="dv">4</span></span>
-<span id="cb495-21"><a href="mutations-in-rna.html#cb495-21"></a>rGeneOut2b[<span class="kw">which</span>(rGeneOut2b<span class="op">==</span><span class="st">&quot;&quot;</span>)]=<span class="dv">0</span></span>
-<span id="cb495-22"><a href="mutations-in-rna.html#cb495-22"></a></span>
-<span id="cb495-23"><a href="mutations-in-rna.html#cb495-23"></a>rGeneOut2b=<span class="kw">apply</span>(rGeneOut2b, <span class="dv">2</span>, as.numeric)</span>
-<span id="cb495-24"><a href="mutations-in-rna.html#cb495-24"></a><span class="kw">rownames</span>(rGeneOut2b)=<span class="kw">rownames</span>(rGeneOut)</span>
-<span id="cb495-25"><a href="mutations-in-rna.html#cb495-25"></a></span>
-<span id="cb495-26"><a href="mutations-in-rna.html#cb495-26"></a>rmThese=<span class="kw">c</span>(<span class="st">&quot;^AABR&quot;</span>, <span class="st">&quot;^Olr&quot;</span>, <span class="st">&quot;^LOC&quot;</span>, <span class="st">&quot;^AC[0-9]+&quot;</span>, <span class="st">&quot;^RGD&quot;</span>, <span class="st">&quot;^Rpl&quot;</span>, <span class="st">&quot;^1700&quot;</span>, <span class="st">&quot;^RT1&quot;</span>, <span class="st">&quot;^ENSRNOG&quot;</span>, <span class="st">&quot;^Vom2&quot;</span>)</span>
-<span id="cb495-27"><a href="mutations-in-rna.html#cb495-27"></a>rmList=<span class="kw">unlist</span>(<span class="kw">sapply</span>(rmThese, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, <span class="kw">colnames</span>(rGeneOut2b))))</span>
-<span id="cb495-28"><a href="mutations-in-rna.html#cb495-28"></a>rGeneOut2b=rGeneOut2b[ ,<span class="op">-</span>rmList]</span>
-<span id="cb495-29"><a href="mutations-in-rna.html#cb495-29"></a></span>
-<span id="cb495-30"><a href="mutations-in-rna.html#cb495-30"></a></span>
-<span id="cb495-31"><a href="mutations-in-rna.html#cb495-31"></a>NtopA=<span class="kw">names</span>(NUnique)[<span class="kw">which</span>(NUnique<span class="op">&gt;</span><span class="dv">6</span>)]</span>
-<span id="cb495-32"><a href="mutations-in-rna.html#cb495-32"></a>NtopAb=<span class="kw">unique</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(NtopA, <span class="st">&quot; &quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))</span>
-<span id="cb495-33"><a href="mutations-in-rna.html#cb495-33"></a>tempAnew=rGeneOut2b[, <span class="kw">na.omit</span>(<span class="kw">match</span>(NtopAb, <span class="kw">colnames</span>(rGeneOut2b)))]</span>
-<span id="cb495-34"><a href="mutations-in-rna.html#cb495-34"></a></span>
-<span id="cb495-35"><a href="mutations-in-rna.html#cb495-35"></a>tempA=<span class="kw">heatmap.2</span>(<span class="kw">sign</span>(tempAnew))</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-1.png" width="672" /></p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="mutations-in-rna.html#cb496-1"></a>tempA=tempAnew[tempA<span class="op">$</span>rowInd, tempA<span class="op">$</span>colInd]</span>
-<span id="cb496-2"><a href="mutations-in-rna.html#cb496-2"></a></span>
-<span id="cb496-3"><a href="mutations-in-rna.html#cb496-3"></a><span class="co">#HSAnew=hotspotLocExtract(tempA)</span></span>
-<span id="cb496-4"><a href="mutations-in-rna.html#cb496-4"></a></span>
-<span id="cb496-5"><a href="mutations-in-rna.html#cb496-5"></a></span>
-<span id="cb496-6"><a href="mutations-in-rna.html#cb496-6"></a><span class="co">## NtopB=which(NUnique&gt;10)</span></span>
-<span id="cb496-7"><a href="mutations-in-rna.html#cb496-7"></a>NtopB=<span class="kw">names</span>(NUniqueB)[<span class="kw">which</span>(NUniqueB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
-<span id="cb496-8"><a href="mutations-in-rna.html#cb496-8"></a>NtopB2=NtopB[NtopB<span class="op">%in%</span>RatCosmic]</span>
-<span id="cb496-9"><a href="mutations-in-rna.html#cb496-9"></a></span>
-<span id="cb496-10"><a href="mutations-in-rna.html#cb496-10"></a>tempBnew=rGeneOut2b[, <span class="kw">na.omit</span>(<span class="kw">match</span>(NtopB2, <span class="kw">colnames</span>(rGeneOut2b)))]</span>
-<span id="cb496-11"><a href="mutations-in-rna.html#cb496-11"></a></span>
-<span id="cb496-12"><a href="mutations-in-rna.html#cb496-12"></a>tempB=<span class="kw">heatmap.2</span>(<span class="kw">sign</span>(tempBnew))</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-2.png" width="672" /></p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="mutations-in-rna.html#cb497-1"></a>tempB=tempBnew[tempB<span class="op">$</span>rowInd, tempB<span class="op">$</span>colInd]</span>
-<span id="cb497-2"><a href="mutations-in-rna.html#cb497-2"></a></span>
-<span id="cb497-3"><a href="mutations-in-rna.html#cb497-3"></a><span class="co">#HSBnew=hotspotLocExtract(tempB)</span></span>
-<span id="cb497-4"><a href="mutations-in-rna.html#cb497-4"></a></span>
-<span id="cb497-5"><a href="mutations-in-rna.html#cb497-5"></a><span class="co">#pdf(&quot;~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf&quot;, height=7, width=13)</span></span>
-<span id="cb497-6"><a href="mutations-in-rna.html#cb497-6"></a><span class="co">## Commonly mutated Genes:</span></span>
-<span id="cb497-7"><a href="mutations-in-rna.html#cb497-7"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb497-8"><a href="mutations-in-rna.html#cb497-8"></a><span class="kw">image</span>(<span class="kw">t</span>(tempA), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
-<span id="cb497-9"><a href="mutations-in-rna.html#cb497-9"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempA)), <span class="kw">colnames</span>(tempA), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.5</span>)</span>
-<span id="cb497-10"><a href="mutations-in-rna.html#cb497-10"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tempA)), <span class="kw">rownames</span>(tempA), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.5</span>)</span>
-<span id="cb497-11"><a href="mutations-in-rna.html#cb497-11"></a><span class="co">#text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , &quot;*&quot;)</span></span>
-<span id="cb497-12"><a href="mutations-in-rna.html#cb497-12"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.15</span>),    <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;missense&quot;</span>,<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;Nonsense&quot;</span>, <span class="st">&quot;splice&quot;</span>, <span class="st">&quot;hotspot human&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>, <span class="dv">8</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">horiz =</span> T)</span>
-<span id="cb497-13"><a href="mutations-in-rna.html#cb497-13"></a><span class="kw">mtext</span>(<span class="st">&quot;top 118 mutations&quot;</span>, <span class="dt">side=</span><span class="dv">3</span>, <span class="dt">line=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">outer=</span>T)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-3.png" width="672" /></p>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="mutations-in-rna.html#cb498-1"></a><span class="co">#dev.off()</span></span>
-<span id="cb498-2"><a href="mutations-in-rna.html#cb498-2"></a></span>
-<span id="cb498-3"><a href="mutations-in-rna.html#cb498-3"></a><span class="co">#pdf(&quot;~/Desktop/WGS-COSMIC-mutations-not-in-CD45-RNA.pdf&quot;, height=7, width=13)</span></span>
-<span id="cb498-4"><a href="mutations-in-rna.html#cb498-4"></a><span class="co">## Commonly mutated Genes:</span></span>
-<span id="cb498-5"><a href="mutations-in-rna.html#cb498-5"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb498-6"><a href="mutations-in-rna.html#cb498-6"></a><span class="kw">image</span>(<span class="kw">t</span>(tempB), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
-<span id="cb498-7"><a href="mutations-in-rna.html#cb498-7"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempB)), <span class="kw">colnames</span>(tempB), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
-<span id="cb498-8"><a href="mutations-in-rna.html#cb498-8"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tempB)), <span class="kw">rownames</span>(tempB), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
-<span id="cb498-9"><a href="mutations-in-rna.html#cb498-9"></a><span class="co">#text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , &quot;*&quot;)</span></span>
-<span id="cb498-10"><a href="mutations-in-rna.html#cb498-10"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.15</span>),    <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;missense&quot;</span>,<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;Nonsense&quot;</span>, <span class="st">&quot;splice&quot;</span>, <span class="st">&quot;hotspot human&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>, <span class="dv">8</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">horiz =</span> T)</span>
-<span id="cb498-11"><a href="mutations-in-rna.html#cb498-11"></a><span class="kw">mtext</span>(<span class="st">&quot;Common COSMIC mutations&quot;</span>, <span class="dt">side=</span><span class="dv">3</span>, <span class="dt">line=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">outer=</span>T)</span></code></pre></div>
-<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-138-4.png" width="672" /></p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="mutations-in-rna.html#cb499-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="mutations-in-rna.html#cb545-1"></a><span class="co">#head(MeltWGSCoding)</span></span>
+<span id="cb545-2"><a href="mutations-in-rna.html#cb545-2"></a><span class="co">#head(MallCodingHaploFunc)</span></span>
+<span id="cb545-3"><a href="mutations-in-rna.html#cb545-3"></a></span>
+<span id="cb545-4"><a href="mutations-in-rna.html#cb545-4"></a>lx1=<span class="kw">grep</span>(<span class="st">&quot;CD45&quot;</span>, MallCodingHaploFunc<span class="op">$</span>L1)</span>
+<span id="cb545-5"><a href="mutations-in-rna.html#cb545-5"></a></span>
+<span id="cb545-6"><a href="mutations-in-rna.html#cb545-6"></a>mutDiff=<span class="kw">setdiff</span>(MeltWGSCodingB<span class="op">$</span>mutPos, MallCodingHaploFunc<span class="op">$</span>mutPos[lx1])</span>
+<span id="cb545-7"><a href="mutations-in-rna.html#cb545-7"></a></span>
+<span id="cb545-8"><a href="mutations-in-rna.html#cb545-8"></a>NUnique=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>mutPos[MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutDiff])</span>
+<span id="cb545-9"><a href="mutations-in-rna.html#cb545-9"></a>NUniqueB=<span class="kw">table</span>(MeltWGSCodingB<span class="op">$</span>Gene_Symbol[MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span>mutDiff])</span>
+<span id="cb545-10"><a href="mutations-in-rna.html#cb545-10"></a></span>
+<span id="cb545-11"><a href="mutations-in-rna.html#cb545-11"></a></span>
+<span id="cb545-12"><a href="mutations-in-rna.html#cb545-12"></a>rGeneOut=<span class="kw">acast</span>(MeltWGSCodingB[ MeltWGSCodingB<span class="op">$</span>mutPos<span class="op">%in%</span><span class="kw">names</span>(NUnique),<span class="kw">c</span>(<span class="st">&quot;Gene_Symbol&quot;</span>, <span class="st">&quot;L1&quot;</span>, <span class="st">&quot;Variant_Classification&quot;</span>)], L1<span class="op">~</span>Gene_Symbol, </span>
+<span id="cb545-13"><a href="mutations-in-rna.html#cb545-13"></a>               <span class="dt">value.var=</span><span class="st">&quot;Variant_Classification&quot;</span>, <span class="dt">fun.aggregate=</span><span class="cf">function</span>(x) <span class="kw">paste</span>(x, <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>))</span>
+<span id="cb545-14"><a href="mutations-in-rna.html#cb545-14"></a></span>
+<span id="cb545-15"><a href="mutations-in-rna.html#cb545-15"></a>mxl=<span class="kw">unique</span>(<span class="kw">as.vector</span>(rGeneOut))</span>
+<span id="cb545-16"><a href="mutations-in-rna.html#cb545-16"></a>rGeneOut2b=rGeneOut</span>
+<span id="cb545-17"><a href="mutations-in-rna.html#cb545-17"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Nonsense&quot;</span>,rGeneOut2b)]=<span class="dv">3</span></span>
+<span id="cb545-18"><a href="mutations-in-rna.html#cb545-18"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Frame_Shift&quot;</span>,rGeneOut2b)]=<span class="dv">2</span></span>
+<span id="cb545-19"><a href="mutations-in-rna.html#cb545-19"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Missense_&quot;</span>, rGeneOut2b)]=<span class="dv">1</span></span>
+<span id="cb545-20"><a href="mutations-in-rna.html#cb545-20"></a>rGeneOut2b[<span class="kw">grep</span>(<span class="st">&quot;Splice_&quot;</span>, rGeneOut2b)]=<span class="dv">4</span></span>
+<span id="cb545-21"><a href="mutations-in-rna.html#cb545-21"></a>rGeneOut2b[<span class="kw">which</span>(rGeneOut2b<span class="op">==</span><span class="st">&quot;&quot;</span>)]=<span class="dv">0</span></span>
+<span id="cb545-22"><a href="mutations-in-rna.html#cb545-22"></a></span>
+<span id="cb545-23"><a href="mutations-in-rna.html#cb545-23"></a>rGeneOut2b=<span class="kw">apply</span>(rGeneOut2b, <span class="dv">2</span>, as.numeric)</span>
+<span id="cb545-24"><a href="mutations-in-rna.html#cb545-24"></a><span class="kw">rownames</span>(rGeneOut2b)=<span class="kw">rownames</span>(rGeneOut)</span>
+<span id="cb545-25"><a href="mutations-in-rna.html#cb545-25"></a></span>
+<span id="cb545-26"><a href="mutations-in-rna.html#cb545-26"></a>rmThese=<span class="kw">c</span>(<span class="st">&quot;^AABR&quot;</span>, <span class="st">&quot;^Olr&quot;</span>, <span class="st">&quot;^LOC&quot;</span>, <span class="st">&quot;^AC[0-9]+&quot;</span>, <span class="st">&quot;^RGD&quot;</span>, <span class="st">&quot;^Rpl&quot;</span>, <span class="st">&quot;^1700&quot;</span>, <span class="st">&quot;^RT1&quot;</span>, <span class="st">&quot;^ENSRNOG&quot;</span>, <span class="st">&quot;^Vom2&quot;</span>)</span>
+<span id="cb545-27"><a href="mutations-in-rna.html#cb545-27"></a>rmList=<span class="kw">unlist</span>(<span class="kw">sapply</span>(rmThese, <span class="cf">function</span>(x) <span class="kw">grep</span>(x, <span class="kw">colnames</span>(rGeneOut2b))))</span>
+<span id="cb545-28"><a href="mutations-in-rna.html#cb545-28"></a>rGeneOut2b=rGeneOut2b[ ,<span class="op">-</span>rmList]</span>
+<span id="cb545-29"><a href="mutations-in-rna.html#cb545-29"></a></span>
+<span id="cb545-30"><a href="mutations-in-rna.html#cb545-30"></a></span>
+<span id="cb545-31"><a href="mutations-in-rna.html#cb545-31"></a>NtopA=<span class="kw">names</span>(NUnique)[<span class="kw">which</span>(NUnique<span class="op">&gt;</span><span class="dv">6</span>)]</span>
+<span id="cb545-32"><a href="mutations-in-rna.html#cb545-32"></a>NtopAb=<span class="kw">unique</span>(<span class="kw">sapply</span>(<span class="kw">strsplit</span>(NtopA, <span class="st">&quot; &quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))</span>
+<span id="cb545-33"><a href="mutations-in-rna.html#cb545-33"></a>tempAnew=rGeneOut2b[, <span class="kw">na.omit</span>(<span class="kw">match</span>(NtopAb, <span class="kw">colnames</span>(rGeneOut2b)))]</span>
+<span id="cb545-34"><a href="mutations-in-rna.html#cb545-34"></a></span>
+<span id="cb545-35"><a href="mutations-in-rna.html#cb545-35"></a>tempA=<span class="kw">heatmap.2</span>(<span class="kw">sign</span>(tempAnew))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-1.png" width="672" /></p>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="mutations-in-rna.html#cb546-1"></a>tempA=tempAnew[tempA<span class="op">$</span>rowInd, tempA<span class="op">$</span>colInd]</span>
+<span id="cb546-2"><a href="mutations-in-rna.html#cb546-2"></a></span>
+<span id="cb546-3"><a href="mutations-in-rna.html#cb546-3"></a><span class="co">#HSAnew=hotspotLocExtract(tempA)</span></span>
+<span id="cb546-4"><a href="mutations-in-rna.html#cb546-4"></a></span>
+<span id="cb546-5"><a href="mutations-in-rna.html#cb546-5"></a></span>
+<span id="cb546-6"><a href="mutations-in-rna.html#cb546-6"></a><span class="co">## NtopB=which(NUnique&gt;10)</span></span>
+<span id="cb546-7"><a href="mutations-in-rna.html#cb546-7"></a>NtopB=<span class="kw">names</span>(NUniqueB)[<span class="kw">which</span>(NUniqueB<span class="op">&gt;</span><span class="dv">1</span>)]</span>
+<span id="cb546-8"><a href="mutations-in-rna.html#cb546-8"></a>NtopB2=NtopB[NtopB<span class="op">%in%</span>RatCosmic]</span>
+<span id="cb546-9"><a href="mutations-in-rna.html#cb546-9"></a></span>
+<span id="cb546-10"><a href="mutations-in-rna.html#cb546-10"></a>tempBnew=rGeneOut2b[, <span class="kw">na.omit</span>(<span class="kw">match</span>(NtopB2, <span class="kw">colnames</span>(rGeneOut2b)))]</span>
+<span id="cb546-11"><a href="mutations-in-rna.html#cb546-11"></a></span>
+<span id="cb546-12"><a href="mutations-in-rna.html#cb546-12"></a>tempB=<span class="kw">heatmap.2</span>(<span class="kw">sign</span>(tempBnew))</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-2.png" width="672" /></p>
+<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="mutations-in-rna.html#cb547-1"></a>tempB=tempBnew[tempB<span class="op">$</span>rowInd, tempB<span class="op">$</span>colInd]</span>
+<span id="cb547-2"><a href="mutations-in-rna.html#cb547-2"></a></span>
+<span id="cb547-3"><a href="mutations-in-rna.html#cb547-3"></a><span class="co">#HSBnew=hotspotLocExtract(tempB)</span></span>
+<span id="cb547-4"><a href="mutations-in-rna.html#cb547-4"></a></span>
+<span id="cb547-5"><a href="mutations-in-rna.html#cb547-5"></a><span class="co">#pdf(&quot;~/Desktop/WGS-coding-mutations-not-in-CD45-RNA.pdf&quot;, height=7, width=13)</span></span>
+<span id="cb547-6"><a href="mutations-in-rna.html#cb547-6"></a><span class="co">## Commonly mutated Genes:</span></span>
+<span id="cb547-7"><a href="mutations-in-rna.html#cb547-7"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb547-8"><a href="mutations-in-rna.html#cb547-8"></a><span class="kw">image</span>(<span class="kw">t</span>(tempA), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
+<span id="cb547-9"><a href="mutations-in-rna.html#cb547-9"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempA)), <span class="kw">colnames</span>(tempA), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.5</span>)</span>
+<span id="cb547-10"><a href="mutations-in-rna.html#cb547-10"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tempA)), <span class="kw">rownames</span>(tempA), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.5</span>)</span>
+<span id="cb547-11"><a href="mutations-in-rna.html#cb547-11"></a><span class="co">#text(na.omit(HSAnew$Y-1)/(ncol(tempA)-1), na.omit(HSAnew$X-1)/(nrow(tempA)-1) , &quot;*&quot;)</span></span>
+<span id="cb547-12"><a href="mutations-in-rna.html#cb547-12"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.15</span>),    <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;missense&quot;</span>,<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;Nonsense&quot;</span>, <span class="st">&quot;splice&quot;</span>, <span class="st">&quot;hotspot human&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>, <span class="dv">8</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">horiz =</span> T)</span>
+<span id="cb547-13"><a href="mutations-in-rna.html#cb547-13"></a><span class="kw">mtext</span>(<span class="st">&quot;top 118 mutations&quot;</span>, <span class="dt">side=</span><span class="dv">3</span>, <span class="dt">line=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">outer=</span>T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-3.png" width="672" /></p>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="mutations-in-rna.html#cb548-1"></a><span class="co">#dev.off()</span></span>
+<span id="cb548-2"><a href="mutations-in-rna.html#cb548-2"></a></span>
+<span id="cb548-3"><a href="mutations-in-rna.html#cb548-3"></a><span class="co">#pdf(&quot;~/Desktop/WGS-COSMIC-mutations-not-in-CD45-RNA.pdf&quot;, height=7, width=13)</span></span>
+<span id="cb548-4"><a href="mutations-in-rna.html#cb548-4"></a><span class="co">## Commonly mutated Genes:</span></span>
+<span id="cb548-5"><a href="mutations-in-rna.html#cb548-5"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>),  <span class="dt">xpd =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb548-6"><a href="mutations-in-rna.html#cb548-6"></a><span class="kw">image</span>(<span class="kw">t</span>(tempB), <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">xaxt=</span><span class="st">&#39;n&#39;</span>, <span class="dt">yaxt=</span><span class="st">&#39;n&#39;</span>)</span>
+<span id="cb548-7"><a href="mutations-in-rna.html#cb548-7"></a><span class="kw">axis</span>(<span class="dv">1</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">ncol</span>(tempB)), <span class="kw">colnames</span>(tempB), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
+<span id="cb548-8"><a href="mutations-in-rna.html#cb548-8"></a><span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">at=</span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length=</span><span class="kw">nrow</span>(tempB)), <span class="kw">rownames</span>(tempB), <span class="dt">las=</span><span class="dv">2</span>, <span class="dt">cex.axis=</span><span class="fl">0.7</span>)</span>
+<span id="cb548-9"><a href="mutations-in-rna.html#cb548-9"></a><span class="co">#text(na.omit(HSBnew$Y-1)/(ncol(tempB)-1), na.omit(HSBnew$X-1)/(nrow(tempB)-1) , &quot;*&quot;)</span></span>
+<span id="cb548-10"><a href="mutations-in-rna.html#cb548-10"></a><span class="kw">legend</span>(<span class="st">&quot;top&quot;</span>, <span class="dt">inset =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.15</span>),    <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;missense&quot;</span>,<span class="st">&quot;frameshift&quot;</span>, <span class="st">&quot;Nonsense&quot;</span>, <span class="st">&quot;splice&quot;</span>, <span class="st">&quot;hotspot human&quot;</span>),  <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">19</span>, <span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>, <span class="dv">8</span>),  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">horiz =</span> T)</span>
+<span id="cb548-11"><a href="mutations-in-rna.html#cb548-11"></a><span class="kw">mtext</span>(<span class="st">&quot;Common COSMIC mutations&quot;</span>, <span class="dt">side=</span><span class="dv">3</span>, <span class="dt">line=</span><span class="op">-</span><span class="dv">1</span>, <span class="dt">outer=</span>T)</span></code></pre></div>
+<p><img src="RatDCIS-bookdown_files/figure-html/unnamed-chunk-159-4.png" width="672" /></p>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="mutations-in-rna.html#cb549-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
 
 </div>
 </div>

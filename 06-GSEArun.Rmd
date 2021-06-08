@@ -36,7 +36,6 @@ names(fcTab)=epGenesConv
 ```
 
 ```{r}
-
 EpComp4=list()
 EpCompSig=list()
 UpDn1=matrix(NA, nrow=2, ncol=7)
@@ -60,7 +59,7 @@ UpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
              length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
 }
 
-Eres5=results(EpddsGrowth, contrast=c("Growth", "stable", "growing"))
+Eres5=results(EpddsGrowth, name="GrowthRate")
 EpComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 EpCompSig[[5]]=g1
@@ -214,7 +213,7 @@ CDUpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
 }
 
 
-Eres5=results(CDddsGrowth, contrast=c("Growth", "stable", "growing"))
+Eres5=results(CDddsGrowth, name="GrowthRate")
 CDComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 CDCompSig[[5]]=g1
@@ -336,7 +335,7 @@ DNUpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
 
 
 #
-Eres5=results(DNddsGrowth, contrast=c("Growth", "stable", "growing"))
+Eres5=results(DNddsGrowth, name="GrowthRate")
 DNComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 DNCompSig[[5]]=g1

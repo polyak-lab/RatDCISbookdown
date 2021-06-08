@@ -296,10 +296,51 @@ Cdata$Growth2=d1$growthrate_cutoff2[match(Cdata$NewID, d1$sample)]
 Cdata$GrowthRate=d1$growthrate[match(Cdata$NewID, d1$sample)]
 ```
 
+
+
+## KM curves for survival
+
+Rats were given a treatment once tumors were first palpated. Below, we report a cox proportional model for time from which tumors were first detectd to date of sacrifice. Since subtype information is not available for all samples (only the ones that we have managed to profile, exclude this data)
+
+```{r}
+Pdat=Cdata[which(Cdata$Cohort=="Progression"), ]
+ev=rep(1,nrow(Pdat) )
+ev[which(Pdat$Time.Tumor2Sac.days>110)]=0
+days2=ifelse(Pdat$Time.Tumor2Sac.days>100, 110, Pdat$Time.Tumor2Sac.days)
+ssurv=Surv(days2, ev)
+Pdat$Treatment=factor(Pdat$Treatment, levels=c("Vehicle",  "LY", "PDL1","PDL1+LY"))
+ax=coxph(ssurv~Pdat$Treatment)
+summary(ax)
+plot(survfit(ssurv~Pdat$Treatment), col=ColMerge[c(4, 1:3) ,1], ylab="overall survival", xlab="time (days)", mark.time=T)
+legend("topright", c("0.49(0.25-0.95)", "0.64(0.33-1.21)", "0.63(0.35-1.14)"), lwd=1 , col=ColMerge[ 1:3, 1])
+
+
+```
+
+Can also use the growth rate data to evaluate the time point at which a tumor increases by 30% in size or more 
+
+```{r}
+cutoff=GrowthRaw[1, ]*1.3
+Stime=sapply(1:length(cutoff), function(x) which(as.numeric(GrowthRaw[ ,x])>as.numeric(cutoff[x]))[1])
+Sevent=ifelse(Stime<15, 1, 0)
+Sevent[which(is.na(Stime))]=0
+Stime[which(is.na(Stime))]=15
+Stime[which(Stime>15)]=15
+
+midx=match(colnames(GrowthRaw), Pdat$NewID)
+
+ss=Surv(Stime[-1]*7, Sevent[-1])
+summary(ax)
+ax=coxph(ss~Pdat$Treatment[na.omit(midx)])
+plot(survfit(ss~Pdat$Treatment[na.omit(midx)]), col=ColMerge[c(4, 1:3) ,1], ylab="DFS", xlab="time (days)", mark.time = T)
+legend("topright", c("0.51(0.27-0.95)", "0.45(0.22-0.93)", "0.53(0.29-0.97)"), lwd=1 , col=ColMerge[ 1:3, 1])
+```
+
+
 ## FACS data (DN/CD45/EpCAM)
 
 ```{r Ext3c, fig.cap="Ext3c: FACS data"}
-Ltab1=Cdata[ ,c("Tumor.Growth", "DN.Frac.FACS", "CD45.Frac.FACS", "EpCAM.Frac.FACS", "Treatment")]
+Ltab1=Cdata[ ,c("Tumor.Growth", "DN.Frac.FACS", "CD45.Frac.FACS", "EpCAM.Frac.FACS", "Treatment", "GrowthRate")]
 Ltab2=melt(Ltab1, measure.vars = c("DN.Frac.FACS", "CD45.Frac.FACS", "EpCAM.Frac.FACS"))
 Ltab2=Ltab2[-which(is.na(Ltab2$value)|is.na(Ltab2$Tumor.Growth)), ]
 Ltab2$Tumor.Growth=factor(Ltab2$Tumor.Growth)
@@ -316,6 +357,15 @@ Assess any significance below:
 wilcox.test(as.numeric(Ltab1$CD45.Frac.FACS)~Ltab1$Tumor.Growth)
 wilcox.test(as.numeric(Ltab1$DN.Frac.FACS)~Ltab1$Tumor.Growth)
 wilcox.test(as.numeric(Ltab1$EpCAM.Frac.FACS)~Ltab1$Tumor.Growth)
+```
+Also check if it correlates with raw growth rates:
+
+```{r}
+corVals=sapply(2:4, function(x) cor.test(Ltab1$GrowthRate, as.numeric(Ltab1[ ,x]), method = "spearman"))
+
+ggplot(Ltab2, aes(x=value, y=GrowthRate))+geom_point()+facet_grid(~variable)+theme_bw()+geom_smooth(method=lm)
+
+corVals[3:4, ]
 ```
 
 We can also plot by treatment:

@@ -122,7 +122,7 @@ Compare:
 
 1. Treatment (EpddsTreat)
 2. Any immunotherapy treatment (Epdds)
-3. Growth alone: (EpddsGrowth)
+3. Growth alone: (EpddsGrowth) - change this to numeric
 4. MH index: (EpddsStrMH)
 5. CD8 content (EpddsCD8)
 
@@ -148,7 +148,7 @@ design(EpddsTreat)=~Treatment+factor(Batch)
 EpddsTreat=DESeq(EpddsTreat)
 # 3. ep
 EpddsGrowth=Epdds
-design(EpddsGrowth)=~Growth+factor(Batch)  ## error is here!
+design(EpddsGrowth)=~GrowthRate+factor(Batch)  ## error is here!
 EpddsGrowth=DESeq(EpddsGrowth)
 # 4. ep
 EpddsStrMH=Epdds[ ,which(!is.na(Epdds$MHcut))]
@@ -179,7 +179,7 @@ CDddsTreat=DESeq(CDddsTreat)
 
 # 3. Cd45
 CDddsGrowth=CDdds
-design(CDddsGrowth)=~Growth+factor(Batch)
+design(CDddsGrowth)=~GrowthRate+factor(Batch)
 CDddsGrowth=DESeq(CDddsGrowth)
 #4
 CDddsStrMH=CDdds[ ,which(!is.na(CDdds$MHcut))]
@@ -212,7 +212,7 @@ design(DNddsTreat)=~Treatment+factor(Batch)
 DNddsTreat=DESeq(DNddsTreat)
 
 DNddsGrowth=DNdds
-design(DNddsGrowth)=~Growth+factor(Batch)
+design(DNddsGrowth)=~(GrowthRate)+factor(Batch)
 DNddsGrowth=DESeq(DNddsGrowth)
 
 DNddsStrMH=DNdds[ ,which(!is.na(DNdds$MHcut))]

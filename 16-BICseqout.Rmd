@@ -2,8 +2,6 @@
 
 CNV calling was performed with BICseq
 
-
-
 ## Sample data
 
 Load BICseq2 data for all tested samples:
@@ -14,16 +12,21 @@ allfiles=dir("../data/CNV_calls/","2_scale$", full.names = T)
 CNVL2=lapply(allfiles, function(x) read.delim(x, stringsAsFactors = F))
 names(CNVL2)=unlist(sapply(strsplit(allfiles, "//|_cnv"), function(x) x[2]))
 meltCN=melt(CNVL2, measure.vars=c("log2.copyRatio"))
+
 AllDCN=data.frame(sampleID=meltCN$L1, chrom=substr(meltCN$chrom, 4, 5), start.pos=meltCN$start,
-                  end.pos=meltCN$end, n.probes=meltCN$binNum, mean=meltCN$value, 
-                  call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
+                   end.pos=meltCN$end, n.probes=meltCN$binNum, mean=meltCN$value, 
+                   call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
 
 AllDCN2=data.frame(sample=meltCN$L1, chromosome=meltCN$chrom, start=meltCN$start,
                   end=meltCN$end, n.probes=meltCN$binNum, segmean=2*2^(meltCN$value), 
                   call=ifelse(meltCN$value>0.3, "+", ifelse(meltCN$value<(-0.3), "-", "0")))
+
 AllDCN2$chromosome=factor(AllDCN2$chromosome, levels=unique(AllDCN2$chromosome))
 
-CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call, sample=AllDCN2$sample)
+#CNVGRanges=GRanges(seqnames = AllDCN$chrom, ranges=IRanges(start=AllDCN$start.pos, end=AllDCN$end.pos), copy_ratio=AllDCN$mean, call=AllDCN$call, sample=AllDCN2$sample)
+
+CNVGRanges=GRanges(seqnames = AllDCN2$chromosome, ranges=IRanges(start=AllDCN2$start, end=AllDCN2$end), segmean=AllDCN2$segmean, call=AllDCN2$call, sample=AllDCN2$sample)
+
 ```
 
 ## Data Summary
@@ -147,6 +150,7 @@ olaps=findOverlaps(Bsamples,ttemp)
 ttemp$gene=NA
 ttemp$gene[subjectHits(olaps)]=Bsamples$gene_id[queryHits(olaps)]
 ttemp$NewID=sapply(ttemp$sample, function(x) Cdata$NewID[grep(x, Cdata$WGS)])
+
 x1=which(!is.na(ttemp$gene))
 l1=match(ttemp$gene[x1], colnames(X2b))
 lnew=unique(ttemp$gene[x1[which(is.na(l1))]])
@@ -160,6 +164,7 @@ for (i in 1:length(l1)){
 l2=rowSums(sign(X2b))
 l3=colSums(sign(X2b))
 heatmap.2(X2b[order(l2),order(l3) ], col=c("white",  3:5, 2:1), scale="none", trace="none", sepcolor="grey85", colsep=c(1:ncol(X2b)), rowsep=c(1:nrow(X2b)), sepwidth=c(0.005, 0.005))
+
 ```
 
 Matching the frequency data with genes
@@ -169,32 +174,43 @@ S1GR=GRanges(seqnames = Samp1$data$chromosome, ranges=IRanges(start=Samp1$data$s
 olaps=findOverlaps(S1GR, txRn6)
 Samp1$data$gene=NA
 Samp1$data$gene[queryHits(olaps)]=txRn6$gene_id[subjectHits(olaps)]
+
 gid=unique(na.omit(Samp1$data$gene))
 Tabix=matrix(0, nrow=length(gid), ncol=2)
 rownames(Tabix)=gid
+
 for (i in gid){
   m1=Samp1$data[which(Samp1$data$gene==i), ]
   Tabix[i, ]=colMedians(data.matrix(m1[ , 7:8]))
   
 }
+
+
 rownames(Tabix)=toupper(rownames(Tabix))
+
 Tabix=Tabix[order(rownames(Tabix)), ]
 Tabix=Tabix[-which(rowSums(Tabix)==0), ]
+
 lx=match( names(rGene2), rownames(Tabix))
+
 df2=data.frame(mut=rGene2, gain=Tabix[ lx,1], loss=Tabix[lx, 2])
+
 lx2=match(rownames(Tabix), names(rGene2))
+
 df3=data.frame(mut=0, gain=Tabix[which(is.na(lx2)),1], loss=Tabix[which(is.na(lx2)),2])
+
 dfAll=rbind(df2, df3)
+
 #mx=which(rownames(dfAll)%in%AllCosmic$Gene.Symbol)
 dfAll[which(is.na(dfAll), arr.ind=T)]=0
 dfAll=dfAll*100
 dfAll[ ,3]=dfAll[ ,3]*(-1)
 dfAll$gene=rownames(dfAll)
+
 dfAll=dfAll[ ,c(4, 1:3)]
 mx=which(dfAll$gene%in%AllCosmic$Gene.Symbol)
 write.table(dfAll[mx, ], file="nature-tables/outputs_pathway_map_cosmic.txt", quote = F, row.names = F, sep="\t")
 ```
-
 
 ## Summary of the sequencing depth
 

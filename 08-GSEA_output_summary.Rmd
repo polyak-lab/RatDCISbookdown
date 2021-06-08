@@ -40,7 +40,7 @@ rOrd=order(an2)
 
 
 ```{r 5a-part2}
-par(oma=c(1, 1, 1, 5))
+par(oma=c(1, 1, 1, 3))
 heatmap.2(t(axb[, rOrd]), col=RdBu[11:1], trace = "none", scale = "none", RowSideColors = an2[rOrd],
              Rowv = NA, main="stable red, growing blue")
 #dev.off()
@@ -78,23 +78,93 @@ TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
 TermType[which(TermType=="Apoptosis")]="Transcription"
 TermType[which(TermType=="Proliferation")]="Transcription"
 TermType[which(TermType=="Translation")]="Transcription"
-testType=c("Inflammation", "Immune response", "Transcription")
+testType=c("Inflammation", "Immune response", "Transcription", "Transport")
 
-#pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf", height=8, width=8)
-par(oma=c(2, 5, 0,0), mfrow=c(2,2))
-for (i in testType){
-  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
-          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[which(TermType==i), 1]))))
-}
+pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-CD45.pdf", height=8, width=8)
+#par(oma=c(2, 3, 0,0), mfrow=c(2,2))
+#for (i in testType){
+#  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
+#          xlab="NES", main=i, col=factor(sign(as.numeric(termA[which(TermType==i), 1]))))
+#}
 
+a1=order(termA[ ,1])
+barplot(as.numeric(termA[a1, 1]), names.arg = sigTerms[a1], horiz = T, las=2, xlab="NES", main="GSEA rslt grow-stable", col=factor(sign(as.numeric(termA[a1, 1]))))
+dev.off()
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
-#write.csv(Ntab, file="nature-tables/4h.csv")
+write.csv(Ntab, file="nature-tables/4h.csv")
 
 DT::datatable(Ntab, rownames=F, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
+```{r 4hDN, fig.cap="DN cells enriched pathways"}
+termA=d1[ds, ]
+
+TermsA=sapply(strsplit(rownames(termA), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50)
+
+sigTerms=TermsA
+TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
+
+## check whether this runs:
+
+TermType[which(TermType=="Apoptosis")]="Transcription"
+TermType[which(TermType=="Proliferation")]="Transcription"
+TermType[which(TermType=="Translation")]="Transcription"
+testType=c("Inflammation", "Immune response", "Transcription", "Transport")
+
+pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-DN.pdf", height=8, width=8)
+#par(oma=c(2, 3, 0,0), mfrow=c(2,2))
+#for (i in testType){
+#  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
+#          xlab="NES", main=i, col=factor(sign(as.numeric(termA[which(TermType==i), 1]))))
+#}
+
+a1=order(termA[ ,1])
+barplot(as.numeric(termA[a1, 1]), names.arg = sigTerms[a1], horiz = T, las=2, xlab="NES", main="GSEA rslt grow-stable", col=factor(sign(as.numeric(termA[a1, 1]))))
+dev.off()
+Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
+write.csv(Ntab, file="nature-tables/4hDN.csv")
+
+DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+```
+
+```{r 4hEp, fig.cap="Ep cells enriched pathways"}
+termA=e1[es, ]
+
+TermsA=sapply(strsplit(rownames(termA), "_"), function(x) x[2])
+TermsA[which(is.na(TermsA))]=substr(rownames(termA)[which(is.na(TermsA))], 2, 50)
+
+sigTerms=TermsA
+TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
+
+## check whether this runs:
+
+TermType[which(TermType=="Apoptosis")]="Transcription"
+TermType[which(TermType=="Proliferation")]="Transcription"
+TermType[which(TermType=="Translation")]="Transcription"
+testType=c("Inflammation", "Immune response", "Transcription", "Transport")
+
+pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-EP.pdf", height=8, width=8)
+#par(oma=c(2, 3, 0,0), mfrow=c(2,2))
+#for (i in testType){
+#  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
+#          xlab="NES", main=i, col=factor(sign(as.numeric(termA[which(TermType==i), 1]))))
+#}
+
+a1=order(termA[ ,1])
+barplot(as.numeric(termA[a1, 1]), names.arg = sigTerms[a1], horiz = T, las=2, xlab="NES", main="GSEA rslt grow-stable", col=factor(sign(as.numeric(termA[a1, 1]))))
+dev.off()
+Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
+write.csv(Ntab, file="nature-tables/4hEP.csv")
+
+DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+
+```
 
 ## Comparisons based on treatment
 
@@ -114,10 +184,10 @@ sigTerms=TermsA
 TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
 
 ## check whether this runs:
-
+pdf("figure-outputs/Ext3h.pdf", height=7, width=7)
 barplot(as.numeric(termA[, 1]), names.arg = sigTerms, horiz = T, las=2,
          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
-
+dev.off()
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 
 #write.csv(Ntab, file="nature-tables/Ext3h.csv")

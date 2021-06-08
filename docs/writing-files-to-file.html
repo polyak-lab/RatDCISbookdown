@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 25 Writing files to file | NMU-induced rat tumor models for I/O</title>
+  <title>Chapter 26 Writing files to file | NMU-induced rat tumor models for I/O</title>
   <meta name="description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 25 Writing files to file | NMU-induced rat tumor models for I/O" />
+  <meta property="og:title" content="Chapter 26 Writing files to file | NMU-induced rat tumor models for I/O" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://polyak-lab.github.io/RatDCISbookdown/" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="polyak-lab/RatDCISbookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 25 Writing files to file | NMU-induced rat tumor models for I/O" />
+  <meta name="twitter:title" content="Chapter 26 Writing files to file | NMU-induced rat tumor models for I/O" />
   
   <meta name="twitter:description" content="This is a summary of the code required in the study: ‘NMU-induced rat tumor models for I/O’" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Anne Trinh" />
 
 
-<meta name="date" content="2021-04-05" />
+<meta name="date" content="2021-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -195,8 +195,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html"><i class="fa fa-check"></i><b>2</b> Cohort characteristics</a><ul>
 <li class="chapter" data-level="2.1" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#size-information"><i class="fa fa-check"></i><b>2.1</b> Size information</a></li>
 <li class="chapter" data-level="2.2" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#calculating-growth-rates"><i class="fa fa-check"></i><b>2.2</b> Calculating growth rates</a></li>
-<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.3</b> FACS data (DN/CD45/EpCAM)</a></li>
-<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.4</b> FACS data</a></li>
+<li class="chapter" data-level="2.3" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#km-curves-for-survival"><i class="fa fa-check"></i><b>2.3</b> KM curves for survival</a></li>
+<li class="chapter" data-level="2.4" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data-dncd45epcam"><i class="fa fa-check"></i><b>2.4</b> FACS data (DN/CD45/EpCAM)</a></li>
+<li class="chapter" data-level="2.5" data-path="cohort-characteristics.html"><a href="cohort-characteristics.html#facs-data"><i class="fa fa-check"></i><b>2.5</b> FACS data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html"><i class="fa fa-check"></i><b>3</b> Cohort Summary Table</a><ul>
 <li class="chapter" data-level="3.1" data-path="cohort-summary-table.html"><a href="cohort-summary-table.html#total-number-of-samples"><i class="fa fa-check"></i><b>3.1</b> Total number of samples</a></li>
@@ -294,94 +295,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="15.2.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#all-samples"><i class="fa fa-check"></i><b>15.2.1</b> All samples</a></li>
 <li class="chapter" data-level="15.2.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases"><i class="fa fa-check"></i><b>15.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a><ul>
-<li class="chapter" data-level="15.3.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.3.1</b> TCGA: LumA high vs low signatures</a></li>
+<li class="chapter" data-level="15.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable"><i class="fa fa-check"></i><b>15.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a></li>
+<li class="chapter" data-level="15.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint"><i class="fa fa-check"></i><b>15.4</b> Comparison to oncotype and mammaprint</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#overall-survival"><i class="fa fa-check"></i><b>15.4.1</b> Overall survival</a></li>
+<li class="chapter" data-level="15.4.2" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#dfs-survival"><i class="fa fa-check"></i><b>15.4.2</b> DFS survival</a></li>
+<li class="chapter" data-level="15.4.3" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#redo-the-survival-plots-based-on-luminal-cases-only"><i class="fa fa-check"></i><b>15.4.3</b> Redo the survival plots based on Luminal cases only</a></li>
+<li class="chapter" data-level="15.4.4" data-path="tcga-associate-epcam-inflammatory-with-survival.html"><a href="tcga-associate-epcam-inflammatory-with-survival.html#tcga-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>15.4.4</b> TCGA: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>16</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
-<li class="chapter" data-level="16.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>16.1</b> CD45 samples</a><ul>
-<li class="chapter" data-level="16.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>16.1.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>16.1.2</b> Differential Gene Expression</a></li>
-<li class="chapter" data-level="16.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>16.1.3</b> GSEA</a></li>
+<li class="chapter" data-level="16" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html"><i class="fa fa-check"></i><b>16</b> METABRIC: Associate Epcam+ inflammatory with survival</a><ul>
+<li class="chapter" data-level="16.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-cd74-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.1</b> Associating CD74 with phenotype and outcome</a></li>
+<li class="chapter" data-level="16.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#associating-admats10-with-phenotype-and-outcome-1"><i class="fa fa-check"></i><b>16.2</b> Associating ADMATS10 with phenotype and outcome</a><ul>
+<li class="chapter" data-level="16.2.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#all-samples-1"><i class="fa fa-check"></i><b>16.2.1</b> All samples</a></li>
+<li class="chapter" data-level="16.2.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#redone-using-only-er-cases-1"><i class="fa fa-check"></i><b>16.2.2</b> Redone using only ER cases</a></li>
 </ul></li>
-<li class="chapter" data-level="16.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>16.2</b> Epithelial samples</a><ul>
-<li class="chapter" data-level="16.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>16.2.1</b> PCA plot</a></li>
-<li class="chapter" data-level="16.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>16.2.2</b> GSEA</a></li>
-<li class="chapter" data-level="16.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>16.2.3</b> Check expression of checkpoint proteins</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>17</b> Signature analysis</a><ul>
-<li class="chapter" data-level="17.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>17.1</b> MHC signature analysis</a><ul>
-<li class="chapter" data-level="17.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>17.1.1</b> MHC-I</a></li>
-<li class="chapter" data-level="17.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>17.1.2</b> MHC-II</a></li>
-<li class="chapter" data-level="17.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>17.1.3</b> MHC presentation proteins</a></li>
-<li class="chapter" data-level="17.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>17.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
+<li class="chapter" data-level="16.3" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#signature-lum-cases-non-inflammatory-growing-vs-stable-1"><i class="fa fa-check"></i><b>16.3</b> Signature: Lum cases non-inflammatory: growing vs stable</a></li>
+<li class="chapter" data-level="16.4" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#comparison-to-oncotype-and-mammaprint-1"><i class="fa fa-check"></i><b>16.4</b> Comparison to oncotype and mammaprint</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#overall-survival-1"><i class="fa fa-check"></i><b>16.4.1</b> Overall survival</a></li>
+<li class="chapter" data-level="16.4.2" data-path="metabric-associate-epcam-inflammatory-with-survival.html"><a href="metabric-associate-epcam-inflammatory-with-survival.html#met-luma-high-vs-low-signatures"><i class="fa fa-check"></i><b>16.4.2</b> MET: LumA high vs low signatures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>18</b> Immune estimation</a><ul>
-<li class="chapter" data-level="18.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>18.1</b> Overview of the cell types</a></li>
-<li class="chapter" data-level="18.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>18.2</b> characterisation cohort: assoc with size</a></li>
-<li class="chapter" data-level="18.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>18.3</b> Comparison with FACS data</a></li>
-<li class="chapter" data-level="18.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>18.4</b> Progression cohort</a></li>
-<li class="chapter" data-level="18.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>18.5</b> Clinical associations</a><ul>
-<li class="chapter" data-level="18.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>18.5.1</b> Associate with Treatment</a></li>
-<li class="chapter" data-level="18.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>18.5.2</b> Association with Growth</a></li>
+<li class="chapter" data-level="17" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html"><i class="fa fa-check"></i><b>17</b> DESeq analysis: Characterisation cohort (big vs small)</a><ul>
+<li class="chapter" data-level="17.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#cd45-samples-1"><i class="fa fa-check"></i><b>17.1</b> CD45 samples</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot"><i class="fa fa-check"></i><b>17.1.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.1.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#differential-gene-expression"><i class="fa fa-check"></i><b>17.1.2</b> Differential Gene Expression</a></li>
+<li class="chapter" data-level="17.1.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-1"><i class="fa fa-check"></i><b>17.1.3</b> GSEA</a></li>
 </ul></li>
-<li class="chapter" data-level="18.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>18.6</b> Summary of the outcome</a></li>
+<li class="chapter" data-level="17.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#epithelial-samples-1"><i class="fa fa-check"></i><b>17.2</b> Epithelial samples</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#pca-plot-1"><i class="fa fa-check"></i><b>17.2.1</b> PCA plot</a></li>
+<li class="chapter" data-level="17.2.2" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#gsea-2"><i class="fa fa-check"></i><b>17.2.2</b> GSEA</a></li>
+<li class="chapter" data-level="17.2.3" data-path="deseq-analysis-characterisation-cohort-big-vs-small.html"><a href="deseq-analysis-characterisation-cohort-big-vs-small.html#check-expression-of-checkpoint-proteins"><i class="fa fa-check"></i><b>17.2.3</b> Check expression of checkpoint proteins</a></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>19</b> BCR clonotype analysis</a><ul>
-<li class="chapter" data-level="19.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>19.1</b> Processing summary</a></li>
-<li class="chapter" data-level="19.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>19.2</b> Summary Stats</a></li>
-<li class="chapter" data-level="19.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>19.3</b> Diversity metrics</a></li>
-<li class="chapter" data-level="19.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>19.4</b> Compare the characterisation cohort</a></li>
-<li class="chapter" data-level="19.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>19.5</b> Associate with clinicopathological data (progression)</a></li>
-<li class="chapter" data-level="19.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>19.6</b> Associate with signature scores</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>20</b> Whole Genome Sequencing Mutations</a><ul>
-<li class="chapter" data-level="20.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>20.1</b> Data</a><ul>
-<li class="chapter" data-level="20.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>20.1.1</b> Extract mutation signatures</a></li>
+<li class="chapter" data-level="18" data-path="signature-analysis.html"><a href="signature-analysis.html"><i class="fa fa-check"></i><b>18</b> Signature analysis</a><ul>
+<li class="chapter" data-level="18.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-signature-analysis"><i class="fa fa-check"></i><b>18.1</b> MHC signature analysis</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-i"><i class="fa fa-check"></i><b>18.1.1</b> MHC-I</a></li>
+<li class="chapter" data-level="18.1.2" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-ii"><i class="fa fa-check"></i><b>18.1.2</b> MHC-II</a></li>
+<li class="chapter" data-level="18.1.3" data-path="signature-analysis.html"><a href="signature-analysis.html#mhc-presentation-proteins"><i class="fa fa-check"></i><b>18.1.3</b> MHC presentation proteins</a></li>
+<li class="chapter" data-level="18.1.4" data-path="signature-analysis.html"><a href="signature-analysis.html#inflammation-related-genes-il6-jak-stat-and-tnfnfkb"><i class="fa fa-check"></i><b>18.1.4</b> inflammation related genes: IL6-JAK-STAT and TNF/NFKB</a></li>
 </ul></li>
-<li class="chapter" data-level="20.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>20.2</b> Annotate the data with human common variants</a></li>
-<li class="chapter" data-level="20.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>20.3</b> Plots</a><ul>
-<li class="chapter" data-level="20.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>20.3.1</b> Quick overview</a></li>
-<li class="chapter" data-level="20.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>20.3.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="20.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>20.4</b> Comparison with rat mutational datasets</a><ul>
-<li class="chapter" data-level="20.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>20.4.1</b> Sites which are commonly mutated?</a></li>
+<li class="chapter" data-level="19" data-path="immune-estimation.html"><a href="immune-estimation.html"><i class="fa fa-check"></i><b>19</b> Immune estimation</a><ul>
+<li class="chapter" data-level="19.1" data-path="immune-estimation.html"><a href="immune-estimation.html#overview-of-the-cell-types"><i class="fa fa-check"></i><b>19.1</b> Overview of the cell types</a></li>
+<li class="chapter" data-level="19.2" data-path="immune-estimation.html"><a href="immune-estimation.html#characterisation-cohort-assoc-with-size"><i class="fa fa-check"></i><b>19.2</b> characterisation cohort: assoc with size</a></li>
+<li class="chapter" data-level="19.3" data-path="immune-estimation.html"><a href="immune-estimation.html#comparison-with-facs-data"><i class="fa fa-check"></i><b>19.3</b> Comparison with FACS data</a></li>
+<li class="chapter" data-level="19.4" data-path="immune-estimation.html"><a href="immune-estimation.html#progression-cohort-1"><i class="fa fa-check"></i><b>19.4</b> Progression cohort</a></li>
+<li class="chapter" data-level="19.5" data-path="immune-estimation.html"><a href="immune-estimation.html#clinical-associations"><i class="fa fa-check"></i><b>19.5</b> Clinical associations</a><ul>
+<li class="chapter" data-level="19.5.1" data-path="immune-estimation.html"><a href="immune-estimation.html#associate-with-treatment"><i class="fa fa-check"></i><b>19.5.1</b> Associate with Treatment</a></li>
+<li class="chapter" data-level="19.5.2" data-path="immune-estimation.html"><a href="immune-estimation.html#association-with-growth"><i class="fa fa-check"></i><b>19.5.2</b> Association with Growth</a></li>
 </ul></li>
-<li class="chapter" data-level="20.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>20.5</b> Overview of the mutations</a><ul>
-<li class="chapter" data-level="20.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>20.5.1</b> All mutations</a></li>
+<li class="chapter" data-level="19.6" data-path="immune-estimation.html"><a href="immune-estimation.html#summary-of-the-outcome"><i class="fa fa-check"></i><b>19.6</b> Summary of the outcome</a></li>
 </ul></li>
-<li class="chapter" data-level="20.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>20.6</b> Metacore analysis of commonly mutated pathways</a></li>
+<li class="chapter" data-level="20" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html"><i class="fa fa-check"></i><b>20</b> BCR clonotype analysis</a><ul>
+<li class="chapter" data-level="20.1" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#processing-summary"><i class="fa fa-check"></i><b>20.1</b> Processing summary</a></li>
+<li class="chapter" data-level="20.2" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#summary-stats"><i class="fa fa-check"></i><b>20.2</b> Summary Stats</a></li>
+<li class="chapter" data-level="20.3" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#diversity-metrics"><i class="fa fa-check"></i><b>20.3</b> Diversity metrics</a></li>
+<li class="chapter" data-level="20.4" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#compare-the-characterisation-cohort"><i class="fa fa-check"></i><b>20.4</b> Compare the characterisation cohort</a></li>
+<li class="chapter" data-level="20.5" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-clinicopathological-data-progression"><i class="fa fa-check"></i><b>20.5</b> Associate with clinicopathological data (progression)</a></li>
+<li class="chapter" data-level="20.6" data-path="bcr-clonotype-analysis.html"><a href="bcr-clonotype-analysis.html#associate-with-signature-scores"><i class="fa fa-check"></i><b>20.6</b> Associate with signature scores</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>21</b> Mutations in RNA</a><ul>
-<li class="chapter" data-level="21.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>21.1</b> Haplotype caller</a></li>
-<li class="chapter" data-level="21.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>21.2</b> Load files</a></li>
-<li class="chapter" data-level="21.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>21.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
-<li class="chapter" data-level="21.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>21.4</b> Find coding mutations which are specific to ep cells</a></li>
-<li class="chapter" data-level="21.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>21.5</b> Filtering WGS data based on CD45 data</a></li>
+<li class="chapter" data-level="21" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html"><i class="fa fa-check"></i><b>21</b> Whole Genome Sequencing Mutations</a><ul>
+<li class="chapter" data-level="21.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#data"><i class="fa fa-check"></i><b>21.1</b> Data</a><ul>
+<li class="chapter" data-level="21.1.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#extract-mutation-signatures"><i class="fa fa-check"></i><b>21.1.1</b> Extract mutation signatures</a></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>22</b> Mutations in progression cohort</a><ul>
-<li class="chapter" data-level="22.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>22.1</b> Summary of common mutations:</a></li>
-<li class="chapter" data-level="22.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>22.2</b> Look at the common mutations (cosmic ones)</a></li>
-<li class="chapter" data-level="22.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>22.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+<li class="chapter" data-level="21.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#annotate-the-data-with-human-common-variants"><i class="fa fa-check"></i><b>21.2</b> Annotate the data with human common variants</a></li>
+<li class="chapter" data-level="21.3" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#plots"><i class="fa fa-check"></i><b>21.3</b> Plots</a><ul>
+<li class="chapter" data-level="21.3.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#quick-overview"><i class="fa fa-check"></i><b>21.3.1</b> Quick overview</a></li>
+<li class="chapter" data-level="21.3.2" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#coding-variants-tmb"><i class="fa fa-check"></i><b>21.3.2</b> Coding variants &amp; TMB</a></li>
 </ul></li>
-<li class="chapter" data-level="23" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>23</b> Trichrome staining</a><ul>
-<li class="chapter" data-level="23.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>23.1</b> Associations with cellular fraction (wsi)</a></li>
-<li class="chapter" data-level="23.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>23.2</b> Associations with CD8 content</a></li>
-<li class="chapter" data-level="23.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>23.3</b> Associations with growth and treatment</a></li>
-<li class="chapter" data-level="23.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>23.4</b> Association with hyperinflammatory status</a></li>
+<li class="chapter" data-level="21.4" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#comparison-with-rat-mutational-datasets"><i class="fa fa-check"></i><b>21.4</b> Comparison with rat mutational datasets</a><ul>
+<li class="chapter" data-level="21.4.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#sites-which-are-commonly-mutated"><i class="fa fa-check"></i><b>21.4.1</b> Sites which are commonly mutated?</a></li>
 </ul></li>
-<li class="chapter" data-level="24" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>24</b> CNV calling</a><ul>
-<li class="chapter" data-level="24.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>24.1</b> Sample data</a></li>
-<li class="chapter" data-level="24.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>24.2</b> Data Summary</a><ul>
-<li class="chapter" data-level="24.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>24.2.1</b> Frequency of gains and losses across the genome</a></li>
-<li class="chapter" data-level="24.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>24.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
-<li class="chapter" data-level="24.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>24.2.3</b> Annotated plot of genome and locations of genes</a></li>
+<li class="chapter" data-level="21.5" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#overview-of-the-mutations"><i class="fa fa-check"></i><b>21.5</b> Overview of the mutations</a><ul>
+<li class="chapter" data-level="21.5.1" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#all-mutations"><i class="fa fa-check"></i><b>21.5.1</b> All mutations</a></li>
 </ul></li>
-<li class="chapter" data-level="24.3" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>24.3</b> Summary of the sequencing depth</a></li>
+<li class="chapter" data-level="21.6" data-path="whole-genome-sequencing-mutations.html"><a href="whole-genome-sequencing-mutations.html#metacore-analysis-of-commonly-mutated-pathways"><i class="fa fa-check"></i><b>21.6</b> Metacore analysis of commonly mutated pathways</a></li>
 </ul></li>
-<li class="chapter" data-level="25" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>25</b> Writing files to file</a></li>
+<li class="chapter" data-level="22" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html"><i class="fa fa-check"></i><b>22</b> Mutations in RNA</a><ul>
+<li class="chapter" data-level="22.1" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#haplotype-caller"><i class="fa fa-check"></i><b>22.1</b> Haplotype caller</a></li>
+<li class="chapter" data-level="22.2" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#load-files"><i class="fa fa-check"></i><b>22.2</b> Load files</a></li>
+<li class="chapter" data-level="22.3" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data"><i class="fa fa-check"></i><b>22.3</b> Identifying polymorphisms: compare frequencies in CD45 and Ep data</a></li>
+<li class="chapter" data-level="22.4" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#find-coding-mutations-which-are-specific-to-ep-cells"><i class="fa fa-check"></i><b>22.4</b> Find coding mutations which are specific to ep cells</a></li>
+<li class="chapter" data-level="22.5" data-path="mutations-in-rna.html"><a href="mutations-in-rna.html#filtering-wgs-data-based-on-cd45-data"><i class="fa fa-check"></i><b>22.5</b> Filtering WGS data based on CD45 data</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html"><i class="fa fa-check"></i><b>23</b> Mutations in progression cohort</a><ul>
+<li class="chapter" data-level="23.1" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#summary-of-common-mutations"><i class="fa fa-check"></i><b>23.1</b> Summary of common mutations:</a></li>
+<li class="chapter" data-level="23.2" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#look-at-the-common-mutations-cosmic-ones"><i class="fa fa-check"></i><b>23.2</b> Look at the common mutations (cosmic ones)</a></li>
+<li class="chapter" data-level="23.3" data-path="mutations-in-progression-cohort.html"><a href="mutations-in-progression-cohort.html#also-look-at-the-top-rna-mutations-with-are-epdn-specific"><i class="fa fa-check"></i><b>23.3</b> Also look at the top RNA-mutations with are Ep/DN specific</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="trichrome-staining.html"><a href="trichrome-staining.html"><i class="fa fa-check"></i><b>24</b> Trichrome staining</a><ul>
+<li class="chapter" data-level="24.1" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cellular-fraction-wsi"><i class="fa fa-check"></i><b>24.1</b> Associations with cellular fraction (wsi)</a></li>
+<li class="chapter" data-level="24.2" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-cd8-content"><i class="fa fa-check"></i><b>24.2</b> Associations with CD8 content</a></li>
+<li class="chapter" data-level="24.3" data-path="trichrome-staining.html"><a href="trichrome-staining.html#associations-with-growth-and-treatment"><i class="fa fa-check"></i><b>24.3</b> Associations with growth and treatment</a></li>
+<li class="chapter" data-level="24.4" data-path="trichrome-staining.html"><a href="trichrome-staining.html#association-with-hyperinflammatory-status"><i class="fa fa-check"></i><b>24.4</b> Association with hyperinflammatory status</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="cnv-calling.html"><a href="cnv-calling.html"><i class="fa fa-check"></i><b>25</b> CNV calling</a><ul>
+<li class="chapter" data-level="25.1" data-path="cnv-calling.html"><a href="cnv-calling.html#sample-data"><i class="fa fa-check"></i><b>25.1</b> Sample data</a></li>
+<li class="chapter" data-level="25.2" data-path="cnv-calling.html"><a href="cnv-calling.html#data-summary"><i class="fa fa-check"></i><b>25.2</b> Data Summary</a><ul>
+<li class="chapter" data-level="25.2.1" data-path="cnv-calling.html"><a href="cnv-calling.html#frequency-of-gains-and-losses-across-the-genome"><i class="fa fa-check"></i><b>25.2.1</b> Frequency of gains and losses across the genome</a></li>
+<li class="chapter" data-level="25.2.2" data-path="cnv-calling.html"><a href="cnv-calling.html#loci-which-have-a-hit-in-at-least-30-of-samples"><i class="fa fa-check"></i><b>25.2.2</b> Loci which have a hit in at least 30% of samples</a></li>
+<li class="chapter" data-level="25.2.3" data-path="cnv-calling.html"><a href="cnv-calling.html#annotated-plot-of-genome-and-locations-of-genes"><i class="fa fa-check"></i><b>25.2.3</b> Annotated plot of genome and locations of genes</a></li>
+</ul></li>
+<li class="chapter" data-level="25.3" data-path="cnv-calling.html"><a href="cnv-calling.html#samples-with-cnvs-in-breast-related-genes"><i class="fa fa-check"></i><b>25.3</b> Samples with CNVs in breast-related genes</a></li>
+<li class="chapter" data-level="25.4" data-path="cnv-calling.html"><a href="cnv-calling.html#summary-of-the-sequencing-depth"><i class="fa fa-check"></i><b>25.4</b> Summary of the sequencing depth</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="writing-files-to-file.html"><a href="writing-files-to-file.html"><i class="fa fa-check"></i><b>26</b> Writing files to file</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i><b>A</b> List of Figures</a><ul>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html#main-figures"><i class="fa fa-check"></i>Main Figures</a></li>
@@ -419,7 +437,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="writing-files-to-file" class="section level1">
-<h1><span class="header-section-number">Chapter 25</span> Writing files to file</h1>
+<h1><span class="header-section-number">Chapter 26</span> Writing files to file</h1>
 <p>Update the metadata file:
 write to file:</p>
 <ul>
@@ -429,177 +447,139 @@ write to file:</p>
 <li>colData information</li>
 <li>collapsed information on wsi/facs</li>
 </ul>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="writing-files-to-file.html#cb529-1"></a><span class="kw">write.xlsx</span>(Cdata, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../metadata/Ext_Data_Table_updated_%s.xlsx&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
-<span id="cb529-2"><a href="writing-files-to-file.html#cb529-2"></a></span>
-<span id="cb529-3"><a href="writing-files-to-file.html#cb529-3"></a><span class="co">#colnames(Cdata)</span></span>
-<span id="cb529-4"><a href="writing-files-to-file.html#cb529-4"></a></span>
-<span id="cb529-5"><a href="writing-files-to-file.html#cb529-5"></a>x1=<span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>,<span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))</span>
-<span id="cb529-6"><a href="writing-files-to-file.html#cb529-6"></a>df.Spatial<span class="op">$</span>NewID=Cdata<span class="op">$</span>NewID[x1]</span>
-<span id="cb529-7"><a href="writing-files-to-file.html#cb529-7"></a>dfB=Cdata[x1, <span class="kw">c</span>(<span class="st">&quot;NewID&quot;</span>, <span class="st">&quot;TumorID&quot;</span>,<span class="st">&quot;TumorAreaWSI&quot;</span>, <span class="st">&quot;Tumor.diameter.sac.mm&quot;</span>, <span class="st">&quot;CD45.Frac.FACS&quot;</span>,   </span>
-<span id="cb529-8"><a href="writing-files-to-file.html#cb529-8"></a><span class="st">&quot;DN.Frac.FACS&quot;</span>, <span class="st">&quot;EpCAM.Frac.FACS&quot;</span>)]</span>
-<span id="cb529-9"><a href="writing-files-to-file.html#cb529-9"></a></span>
-<span id="cb529-10"><a href="writing-files-to-file.html#cb529-10"></a><span class="kw">write.csv</span>(df.Spatial, <span class="dt">file=</span><span class="st">&quot;nature-tables/summary_spatial_information.csv&quot;</span>)</span>
-<span id="cb529-11"><a href="writing-files-to-file.html#cb529-11"></a></span>
-<span id="cb529-12"><a href="writing-files-to-file.html#cb529-12"></a><span class="kw">colnames</span>(allstarFinal)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(allstarFinal), <span class="kw">rownames</span>(infoTableFinal))]</span>
-<span id="cb529-13"><a href="writing-files-to-file.html#cb529-13"></a>infoTableFinal2=infoTableFinal[ ,<span class="kw">c</span>(<span class="st">&quot;TumorIDnew&quot;</span>,<span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;CD8Frac&quot;</span>, <span class="st">&quot;TumSize&quot;</span>, <span class="st">&quot;Time.NMU2Sac&quot;</span>, </span>
-<span id="cb529-14"><a href="writing-files-to-file.html#cb529-14"></a>                                   <span class="st">&quot;Age.Injection&quot;</span>,<span class="st">&quot;Treatment&quot;</span>,<span class="st">&quot;Cohort&quot;</span>, <span class="st">&quot;SizeCat&quot;</span>)]</span>
-<span id="cb529-15"><a href="writing-files-to-file.html#cb529-15"></a><span class="kw">write.csv</span>(infoTableFinal2, <span class="dt">file=</span><span class="st">&quot;nature-tables/infoTableFinal2_output.csv&quot;</span>)</span>
-<span id="cb529-16"><a href="writing-files-to-file.html#cb529-16"></a><span class="kw">write.csv</span>(allstarFinal, <span class="dt">file=</span><span class="st">&quot;nature-tables/allstarFinal_output.csv&quot;</span>)</span>
-<span id="cb529-17"><a href="writing-files-to-file.html#cb529-17"></a></span>
-<span id="cb529-18"><a href="writing-files-to-file.html#cb529-18"></a></span>
-<span id="cb529-19"><a href="writing-files-to-file.html#cb529-19"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD8.TumSize&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
-<span id="cb529-20"><a href="writing-files-to-file.html#cb529-20"></a></span>
-<span id="cb529-21"><a href="writing-files-to-file.html#cb529-21"></a><span class="co"># colTestCD8=c(&quot;CD8.EpDomTiles&quot;,&quot;CD8.EpBoundingBox&quot;, &quot;CD8.TumSize&quot;, &quot;CD45.FACS&quot;, &quot;CD8.FACS&quot;, &quot;OverallCD8_Fig4c.Manual&quot;, &quot;TIL_Fig4d.Manual&quot;, )</span></span>
-<span id="cb529-22"><a href="writing-files-to-file.html#cb529-22"></a>indx1=<span class="kw">c</span>(<span class="st">&quot;CD8.WSI&quot;</span>, <span class="st">&quot;CD8Frac.WSI&quot;</span>, <span class="st">&quot;CD8_EPorSMARatio.WSI&quot;</span>,<span class="st">&quot;CD8_AnyEPRatio.WSI&quot;</span>, <span class="st">&quot;CD8_EPRatio.WSI&quot;</span>,<span class="st">&quot;CD8normTumSize&quot;</span>, <span class="st">&quot;CD8.EpBoundingBox&quot;</span>)</span>
-<span id="cb529-23"><a href="writing-files-to-file.html#cb529-23"></a></span>
-<span id="cb529-24"><a href="writing-files-to-file.html#cb529-24"></a>df.Spatial2=<span class="kw">merge</span>(df.Spatial, dfB, <span class="dt">by.x=</span><span class="st">&quot;NewID&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;NewID&quot;</span>, <span class="dt">all=</span>T)</span>
-<span id="cb529-25"><a href="writing-files-to-file.html#cb529-25"></a><span class="co">#head(df.Spatial2)</span></span>
-<span id="cb529-26"><a href="writing-files-to-file.html#cb529-26"></a></span>
-<span id="cb529-27"><a href="writing-files-to-file.html#cb529-27"></a><span class="kw">colnames</span>(ProgSpecCD45)=<span class="kw">gsub</span>(<span class="st">&quot;_CD45&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">colnames</span>(ProgSpecCD45))</span>
-<span id="cb529-28"><a href="writing-files-to-file.html#cb529-28"></a><span class="co">#colnames(ProgSpecCD45)=gsub(&quot;_&quot;, &quot;&quot;, colnames(ProgSpecCD45))</span></span>
-<span id="cb529-29"><a href="writing-files-to-file.html#cb529-29"></a><span class="kw">rownames</span>(ProgSpecCD45)=ProgSpecCD45[ ,<span class="dv">1</span>]</span>
-<span id="cb529-30"><a href="writing-files-to-file.html#cb529-30"></a>ProgSpecCD45B=<span class="kw">t</span>(ProgSpecCD45[<span class="kw">grep</span>(<span class="st">&quot;CD8&quot;</span>,<span class="kw">rownames</span>(ProgSpecCD45)), <span class="dv">-1</span> ])</span>
-<span id="cb529-31"><a href="writing-files-to-file.html#cb529-31"></a>ProgSpecCD45B=<span class="kw">data.frame</span>(ProgSpecCD45B, <span class="dt">sample=</span><span class="kw">rownames</span>(ProgSpecCD45B))</span>
-<span id="cb529-32"><a href="writing-files-to-file.html#cb529-32"></a></span>
-<span id="cb529-33"><a href="writing-files-to-file.html#cb529-33"></a>df.Spatial3=<span class="kw">merge</span>(df.Spatial2, ProgSpecCD45B, <span class="dt">by.x=</span><span class="st">&quot;TumorID&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;sample&quot;</span>, <span class="dt">all=</span>T)</span>
-<span id="cb529-34"><a href="writing-files-to-file.html#cb529-34"></a>df.Spatial3<span class="op">$</span>TumorID2=<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, df.Spatial3<span class="op">$</span>TumorID)</span>
-<span id="cb529-35"><a href="writing-files-to-file.html#cb529-35"></a></span>
-<span id="cb529-36"><a href="writing-files-to-file.html#cb529-36"></a>SummaryData<span class="op">$</span>TumorID2=<span class="kw">rownames</span>(SummaryData)</span>
-<span id="cb529-37"><a href="writing-files-to-file.html#cb529-37"></a></span>
-<span id="cb529-38"><a href="writing-files-to-file.html#cb529-38"></a>df.Spatial4=<span class="kw">merge</span>(df.Spatial3, SummaryData[ ,<span class="kw">c</span>(<span class="dv">6</span><span class="op">:</span><span class="dv">8</span>,<span class="dv">17</span><span class="op">:</span><span class="dv">19</span>, <span class="kw">ncol</span>(SummaryData))], <span class="dt">by.x=</span><span class="st">&quot;TumorID2&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;TumorID2&quot;</span>, <span class="dt">all=</span>T)</span>
-<span id="cb529-39"><a href="writing-files-to-file.html#cb529-39"></a></span>
-<span id="cb529-40"><a href="writing-files-to-file.html#cb529-40"></a><span class="kw">write.csv</span>(df.Spatial4, <span class="dt">file=</span><span class="st">&quot;../metadata/summary_new_210330.csv&quot;</span>)</span>
-<span id="cb529-41"><a href="writing-files-to-file.html#cb529-41"></a></span>
-<span id="cb529-42"><a href="writing-files-to-file.html#cb529-42"></a><span class="co">## merge he data from df.Spatial with the data from </span></span>
-<span id="cb529-43"><a href="writing-files-to-file.html#cb529-43"></a></span>
-<span id="cb529-44"><a href="writing-files-to-file.html#cb529-44"></a><span class="co">#df1=data.frame(CD8.WSI=df.Spatial$)</span></span>
-<span id="cb529-45"><a href="writing-files-to-file.html#cb529-45"></a></span>
-<span id="cb529-46"><a href="writing-files-to-file.html#cb529-46"></a> <span class="co">#  df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), </span></span>
-<span id="cb529-47"><a href="writing-files-to-file.html#cb529-47"></a> <span class="co">#                 CD8Frac.WSI=t(WSIvalFracs[ ,2]), </span></span>
-<span id="cb529-48"><a href="writing-files-to-file.html#cb529-48"></a> <span class="co">#                 CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),</span></span>
-<span id="cb529-49"><a href="writing-files-to-file.html#cb529-49"></a> <span class="co">#                 CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),</span></span>
-<span id="cb529-50"><a href="writing-files-to-file.html#cb529-50"></a> <span class="co">#                 CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),</span></span>
-<span id="cb529-51"><a href="writing-files-to-file.html#cb529-51"></a> <span class="co">#                 CD8normTumSize=(WSIvals[1,  ]/df.Spatial))</span></span>
-<span id="cb529-52"><a href="writing-files-to-file.html#cb529-52"></a> <span class="co"># #                )</span></span></code></pre></div>
+<div class="sourceCode" id="cb581"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb581-1"><a href="writing-files-to-file.html#cb581-1"></a><span class="kw">write.xlsx</span>(Cdata, <span class="dt">file=</span><span class="kw">sprintf</span>(<span class="st">&quot;../metadata/Ext_Data_Table_updated_%s.xlsx&quot;</span>, <span class="kw">Sys.Date</span>()))</span>
+<span id="cb581-2"><a href="writing-files-to-file.html#cb581-2"></a></span>
+<span id="cb581-3"><a href="writing-files-to-file.html#cb581-3"></a><span class="co">#colnames(Cdata)</span></span>
+<span id="cb581-4"><a href="writing-files-to-file.html#cb581-4"></a></span>
+<span id="cb581-5"><a href="writing-files-to-file.html#cb581-5"></a>x1=<span class="kw">match</span>(<span class="kw">rownames</span>(df.Spatial), <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>,<span class="st">&quot;&quot;</span>, Cdata<span class="op">$</span>TumorID))</span>
+<span id="cb581-6"><a href="writing-files-to-file.html#cb581-6"></a>df.Spatial<span class="op">$</span>NewID=Cdata<span class="op">$</span>NewID[x1]</span>
+<span id="cb581-7"><a href="writing-files-to-file.html#cb581-7"></a>dfB=Cdata[x1, <span class="kw">c</span>(<span class="st">&quot;NewID&quot;</span>, <span class="st">&quot;TumorID&quot;</span>,<span class="st">&quot;TumorAreaWSI&quot;</span>, <span class="st">&quot;Tumor.diameter.sac.mm&quot;</span>, <span class="st">&quot;CD45.Frac.FACS&quot;</span>,   </span>
+<span id="cb581-8"><a href="writing-files-to-file.html#cb581-8"></a><span class="st">&quot;DN.Frac.FACS&quot;</span>, <span class="st">&quot;EpCAM.Frac.FACS&quot;</span>)]</span>
+<span id="cb581-9"><a href="writing-files-to-file.html#cb581-9"></a></span>
+<span id="cb581-10"><a href="writing-files-to-file.html#cb581-10"></a><span class="kw">write.csv</span>(df.Spatial, <span class="dt">file=</span><span class="st">&quot;nature-tables/summary_spatial_information.csv&quot;</span>)</span>
+<span id="cb581-11"><a href="writing-files-to-file.html#cb581-11"></a></span>
+<span id="cb581-12"><a href="writing-files-to-file.html#cb581-12"></a><span class="kw">colnames</span>(allstarFinal)=infoTableFinal<span class="op">$</span>TumorIDnew[<span class="kw">match</span>(<span class="kw">colnames</span>(allstarFinal), <span class="kw">rownames</span>(infoTableFinal))]</span>
+<span id="cb581-13"><a href="writing-files-to-file.html#cb581-13"></a>infoTableFinal2=infoTableFinal[ ,<span class="kw">c</span>(<span class="st">&quot;TumorIDnew&quot;</span>,<span class="st">&quot;Growth&quot;</span>, <span class="st">&quot;CD8Frac&quot;</span>, <span class="st">&quot;TumSize&quot;</span>, <span class="st">&quot;Time.NMU2Sac&quot;</span>, </span>
+<span id="cb581-14"><a href="writing-files-to-file.html#cb581-14"></a>                                   <span class="st">&quot;Age.Injection&quot;</span>,<span class="st">&quot;Treatment&quot;</span>,<span class="st">&quot;Cohort&quot;</span>, <span class="st">&quot;SizeCat&quot;</span>)]</span>
+<span id="cb581-15"><a href="writing-files-to-file.html#cb581-15"></a><span class="kw">write.csv</span>(infoTableFinal2, <span class="dt">file=</span><span class="st">&quot;nature-tables/infoTableFinal2_output.csv&quot;</span>)</span>
+<span id="cb581-16"><a href="writing-files-to-file.html#cb581-16"></a><span class="kw">write.csv</span>(allstarFinal, <span class="dt">file=</span><span class="st">&quot;nature-tables/allstarFinal_output.csv&quot;</span>)</span>
+<span id="cb581-17"><a href="writing-files-to-file.html#cb581-17"></a></span>
+<span id="cb581-18"><a href="writing-files-to-file.html#cb581-18"></a></span>
+<span id="cb581-19"><a href="writing-files-to-file.html#cb581-19"></a>colTestCD8=<span class="kw">c</span>(<span class="st">&quot;CD8.EpBoundingBox&quot;</span>, <span class="st">&quot;CD8.TumSize&quot;</span>, <span class="st">&quot;CD45.FACS&quot;</span>, <span class="st">&quot;CD8.FACS&quot;</span>, <span class="st">&quot;OverallCD8_Fig4c.Manual&quot;</span>, <span class="st">&quot;TIL_Fig4d.Manual&quot;</span>, <span class="st">&quot;T.cell.CD8._TIMER&quot;</span>, <span class="st">&quot;T.cell.CD8._CIBERSORT&quot;</span>,<span class="st">&quot;T.cell.CD8._CIBERSORT.ABS&quot;</span>, <span class="st">&quot;T.cell.CD8._EPIC&quot;</span>)</span>
+<span id="cb581-20"><a href="writing-files-to-file.html#cb581-20"></a></span>
+<span id="cb581-21"><a href="writing-files-to-file.html#cb581-21"></a><span class="co"># colTestCD8=c(&quot;CD8.EpDomTiles&quot;,&quot;CD8.EpBoundingBox&quot;, &quot;CD8.TumSize&quot;, &quot;CD45.FACS&quot;, &quot;CD8.FACS&quot;, &quot;OverallCD8_Fig4c.Manual&quot;, &quot;TIL_Fig4d.Manual&quot;, )</span></span>
+<span id="cb581-22"><a href="writing-files-to-file.html#cb581-22"></a>indx1=<span class="kw">c</span>(<span class="st">&quot;CD8.WSI&quot;</span>, <span class="st">&quot;CD8Frac.WSI&quot;</span>, <span class="st">&quot;CD8_EPorSMARatio.WSI&quot;</span>,<span class="st">&quot;CD8_AnyEPRatio.WSI&quot;</span>, <span class="st">&quot;CD8_EPRatio.WSI&quot;</span>,<span class="st">&quot;CD8normTumSize&quot;</span>, <span class="st">&quot;CD8.EpBoundingBox&quot;</span>)</span>
+<span id="cb581-23"><a href="writing-files-to-file.html#cb581-23"></a></span>
+<span id="cb581-24"><a href="writing-files-to-file.html#cb581-24"></a>df.Spatial2=<span class="kw">merge</span>(df.Spatial, dfB, <span class="dt">by.x=</span><span class="st">&quot;NewID&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;NewID&quot;</span>, <span class="dt">all=</span>T)</span>
+<span id="cb581-25"><a href="writing-files-to-file.html#cb581-25"></a><span class="co">#head(df.Spatial2)</span></span>
+<span id="cb581-26"><a href="writing-files-to-file.html#cb581-26"></a></span>
+<span id="cb581-27"><a href="writing-files-to-file.html#cb581-27"></a><span class="kw">colnames</span>(ProgSpecCD45)=<span class="kw">gsub</span>(<span class="st">&quot;_CD45&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="kw">colnames</span>(ProgSpecCD45))</span>
+<span id="cb581-28"><a href="writing-files-to-file.html#cb581-28"></a><span class="co">#colnames(ProgSpecCD45)=gsub(&quot;_&quot;, &quot;&quot;, colnames(ProgSpecCD45))</span></span>
+<span id="cb581-29"><a href="writing-files-to-file.html#cb581-29"></a><span class="kw">rownames</span>(ProgSpecCD45)=ProgSpecCD45[ ,<span class="dv">1</span>]</span>
+<span id="cb581-30"><a href="writing-files-to-file.html#cb581-30"></a>ProgSpecCD45B=<span class="kw">t</span>(ProgSpecCD45[<span class="kw">grep</span>(<span class="st">&quot;CD8&quot;</span>,<span class="kw">rownames</span>(ProgSpecCD45)), <span class="dv">-1</span> ])</span>
+<span id="cb581-31"><a href="writing-files-to-file.html#cb581-31"></a>ProgSpecCD45B=<span class="kw">data.frame</span>(ProgSpecCD45B, <span class="dt">sample=</span><span class="kw">rownames</span>(ProgSpecCD45B))</span>
+<span id="cb581-32"><a href="writing-files-to-file.html#cb581-32"></a></span>
+<span id="cb581-33"><a href="writing-files-to-file.html#cb581-33"></a>df.Spatial3=<span class="kw">merge</span>(df.Spatial2, ProgSpecCD45B, <span class="dt">by.x=</span><span class="st">&quot;TumorID&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;sample&quot;</span>, <span class="dt">all=</span>T)</span>
+<span id="cb581-34"><a href="writing-files-to-file.html#cb581-34"></a>df.Spatial3<span class="op">$</span>TumorID2=<span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot;&quot;</span>, df.Spatial3<span class="op">$</span>TumorID)</span>
+<span id="cb581-35"><a href="writing-files-to-file.html#cb581-35"></a></span>
+<span id="cb581-36"><a href="writing-files-to-file.html#cb581-36"></a>SummaryData<span class="op">$</span>TumorID2=<span class="kw">rownames</span>(SummaryData)</span>
+<span id="cb581-37"><a href="writing-files-to-file.html#cb581-37"></a></span>
+<span id="cb581-38"><a href="writing-files-to-file.html#cb581-38"></a>df.Spatial4=<span class="kw">merge</span>(df.Spatial3, SummaryData[ ,<span class="kw">c</span>(<span class="dv">6</span><span class="op">:</span><span class="dv">8</span>,<span class="dv">17</span><span class="op">:</span><span class="dv">19</span>, <span class="kw">ncol</span>(SummaryData))], <span class="dt">by.x=</span><span class="st">&quot;TumorID2&quot;</span>, <span class="dt">by.y=</span><span class="st">&quot;TumorID2&quot;</span>, <span class="dt">all=</span>T)</span>
+<span id="cb581-39"><a href="writing-files-to-file.html#cb581-39"></a></span>
+<span id="cb581-40"><a href="writing-files-to-file.html#cb581-40"></a><span class="kw">write.csv</span>(df.Spatial4, <span class="dt">file=</span><span class="st">&quot;../metadata/summary_new_210330.csv&quot;</span>)</span>
+<span id="cb581-41"><a href="writing-files-to-file.html#cb581-41"></a></span>
+<span id="cb581-42"><a href="writing-files-to-file.html#cb581-42"></a><span class="co">## merge he data from df.Spatial with the data from </span></span>
+<span id="cb581-43"><a href="writing-files-to-file.html#cb581-43"></a></span>
+<span id="cb581-44"><a href="writing-files-to-file.html#cb581-44"></a><span class="co">#df1=data.frame(CD8.WSI=df.Spatial$)</span></span>
+<span id="cb581-45"><a href="writing-files-to-file.html#cb581-45"></a></span>
+<span id="cb581-46"><a href="writing-files-to-file.html#cb581-46"></a> <span class="co">#  df2=data.frame(CD8.WSI=t(WSIvals[ 1, ]), </span></span>
+<span id="cb581-47"><a href="writing-files-to-file.html#cb581-47"></a> <span class="co">#                 CD8Frac.WSI=t(WSIvalFracs[ ,2]), </span></span>
+<span id="cb581-48"><a href="writing-files-to-file.html#cb581-48"></a> <span class="co">#                 CD8_EPorSMARatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:4, ])),</span></span>
+<span id="cb581-49"><a href="writing-files-to-file.html#cb581-49"></a> <span class="co">#                 CD8_AnyEPRatio.WSI=(WSIvals[1,  ]/colSums(WSIvals[2:3, ])),</span></span>
+<span id="cb581-50"><a href="writing-files-to-file.html#cb581-50"></a> <span class="co">#                 CD8_EPRatio.WSI=(WSIvals[1,  ]/(WSIvals[2, ])),</span></span>
+<span id="cb581-51"><a href="writing-files-to-file.html#cb581-51"></a> <span class="co">#                 CD8normTumSize=(WSIvals[1,  ]/df.Spatial))</span></span>
+<span id="cb581-52"><a href="writing-files-to-file.html#cb581-52"></a> <span class="co"># #                )</span></span></code></pre></div>
 <p>Below is the session info</p>
-<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="writing-files-to-file.html#cb530-1"></a><span class="kw">sessionInfo</span>()</span>
-<span id="cb530-2"><a href="writing-files-to-file.html#cb530-2"></a><span class="co">## R version 4.0.2 (2020-06-22)</span></span>
-<span id="cb530-3"><a href="writing-files-to-file.html#cb530-3"></a><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
-<span id="cb530-4"><a href="writing-files-to-file.html#cb530-4"></a><span class="co">## Running under: macOS Catalina 10.15.7</span></span>
-<span id="cb530-5"><a href="writing-files-to-file.html#cb530-5"></a><span class="co">## </span></span>
-<span id="cb530-6"><a href="writing-files-to-file.html#cb530-6"></a><span class="co">## Matrix products: default</span></span>
-<span id="cb530-7"><a href="writing-files-to-file.html#cb530-7"></a><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span></span>
-<span id="cb530-8"><a href="writing-files-to-file.html#cb530-8"></a><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span></span>
-<span id="cb530-9"><a href="writing-files-to-file.html#cb530-9"></a><span class="co">## </span></span>
-<span id="cb530-10"><a href="writing-files-to-file.html#cb530-10"></a><span class="co">## locale:</span></span>
-<span id="cb530-11"><a href="writing-files-to-file.html#cb530-11"></a><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
-<span id="cb530-12"><a href="writing-files-to-file.html#cb530-12"></a><span class="co">## </span></span>
-<span id="cb530-13"><a href="writing-files-to-file.html#cb530-13"></a><span class="co">## attached base packages:</span></span>
-<span id="cb530-14"><a href="writing-files-to-file.html#cb530-14"></a><span class="co">##  [1] grid      stats4    parallel  stats     graphics  grDevices utils    </span></span>
-<span id="cb530-15"><a href="writing-files-to-file.html#cb530-15"></a><span class="co">##  [8] datasets  methods   base     </span></span>
-<span id="cb530-16"><a href="writing-files-to-file.html#cb530-16"></a><span class="co">## </span></span>
-<span id="cb530-17"><a href="writing-files-to-file.html#cb530-17"></a><span class="co">## other attached packages:</span></span>
-<span id="cb530-18"><a href="writing-files-to-file.html#cb530-18"></a><span class="co">##  [1] ggrepel_0.8.2               rmarkdown_2.6              </span></span>
-<span id="cb530-19"><a href="writing-files-to-file.html#cb530-19"></a><span class="co">##  [3] org.Hs.eg.db_3.11.4         pander_0.6.3               </span></span>
-<span id="cb530-20"><a href="writing-files-to-file.html#cb530-20"></a><span class="co">##  [5] knitr_1.31                  forestplot_1.10.1          </span></span>
-<span id="cb530-21"><a href="writing-files-to-file.html#cb530-21"></a><span class="co">##  [7] checkmate_2.0.0             magrittr_1.5               </span></span>
-<span id="cb530-22"><a href="writing-files-to-file.html#cb530-22"></a><span class="co">##  [9] writexl_1.3.1               xlsx_0.6.4.2               </span></span>
-<span id="cb530-23"><a href="writing-files-to-file.html#cb530-23"></a><span class="co">## [11] vcfR_1.12.0                 tcR_2.3.2                  </span></span>
-<span id="cb530-24"><a href="writing-files-to-file.html#cb530-24"></a><span class="co">## [13] igraph_1.2.6                gridExtra_2.3              </span></span>
-<span id="cb530-25"><a href="writing-files-to-file.html#cb530-25"></a><span class="co">## [15] spatstat_1.64-1             rpart_4.1-15               </span></span>
-<span id="cb530-26"><a href="writing-files-to-file.html#cb530-26"></a><span class="co">## [17] nlme_3.1-149                spatstat.data_1.4-3        </span></span>
-<span id="cb530-27"><a href="writing-files-to-file.html#cb530-27"></a><span class="co">## [19] scales_1.1.1                RColorBrewer_1.1-2         </span></span>
-<span id="cb530-28"><a href="writing-files-to-file.html#cb530-28"></a><span class="co">## [21] reshape2_1.4.4              pamr_1.56.1                </span></span>
-<span id="cb530-29"><a href="writing-files-to-file.html#cb530-29"></a><span class="co">## [23] survival_3.2-7              cluster_2.1.0              </span></span>
-<span id="cb530-30"><a href="writing-files-to-file.html#cb530-30"></a><span class="co">## [25] limma_3.44.3                kableExtra_1.2.1           </span></span>
-<span id="cb530-31"><a href="writing-files-to-file.html#cb530-31"></a><span class="co">## [27] HTSanalyzeR2_0.99.19        heatmap.plus_1.3           </span></span>
-<span id="cb530-32"><a href="writing-files-to-file.html#cb530-32"></a><span class="co">## [29] GSVA_1.36.3                 GSEABase_1.50.1            </span></span>
-<span id="cb530-33"><a href="writing-files-to-file.html#cb530-33"></a><span class="co">## [31] graph_1.66.0                annotate_1.66.0            </span></span>
-<span id="cb530-34"><a href="writing-files-to-file.html#cb530-34"></a><span class="co">## [33] XML_3.99-0.5                gplots_3.1.0               </span></span>
-<span id="cb530-35"><a href="writing-files-to-file.html#cb530-35"></a><span class="co">## [35] ggplot2_3.3.2               GenVisR_1.20.0             </span></span>
-<span id="cb530-36"><a href="writing-files-to-file.html#cb530-36"></a><span class="co">## [37] EnsDb.Hsapiens.v86_2.99.0   ensembldb_2.12.1           </span></span>
-<span id="cb530-37"><a href="writing-files-to-file.html#cb530-37"></a><span class="co">## [39] AnnotationFilter_1.12.0     GenomicFeatures_1.40.1     </span></span>
-<span id="cb530-38"><a href="writing-files-to-file.html#cb530-38"></a><span class="co">## [41] AnnotationDbi_1.50.3        DT_0.17                    </span></span>
-<span id="cb530-39"><a href="writing-files-to-file.html#cb530-39"></a><span class="co">## [43] dplyr_1.0.2                 DESeq2_1.28.1              </span></span>
-<span id="cb530-40"><a href="writing-files-to-file.html#cb530-40"></a><span class="co">## [45] SummarizedExperiment_1.18.2 DelayedArray_0.14.1        </span></span>
-<span id="cb530-41"><a href="writing-files-to-file.html#cb530-41"></a><span class="co">## [47] matrixStats_0.57.0          Biobase_2.48.0             </span></span>
-<span id="cb530-42"><a href="writing-files-to-file.html#cb530-42"></a><span class="co">## [49] GenomicRanges_1.40.0        GenomeInfoDb_1.24.2        </span></span>
-<span id="cb530-43"><a href="writing-files-to-file.html#cb530-43"></a><span class="co">## [51] colorspace_1.4-1            Biostrings_2.56.0          </span></span>
-<span id="cb530-44"><a href="writing-files-to-file.html#cb530-44"></a><span class="co">## [53] XVector_0.28.0              IRanges_2.22.2             </span></span>
-<span id="cb530-45"><a href="writing-files-to-file.html#cb530-45"></a><span class="co">## [55] S4Vectors_0.26.1            biomaRt_2.44.4             </span></span>
-<span id="cb530-46"><a href="writing-files-to-file.html#cb530-46"></a><span class="co">## [57] beeswarm_0.2.3              AnnotationHub_2.20.2       </span></span>
-<span id="cb530-47"><a href="writing-files-to-file.html#cb530-47"></a><span class="co">## [59] BiocFileCache_1.12.1        dbplyr_1.4.4               </span></span>
-<span id="cb530-48"><a href="writing-files-to-file.html#cb530-48"></a><span class="co">## [61] BiocGenerics_0.34.0        </span></span>
-<span id="cb530-49"><a href="writing-files-to-file.html#cb530-49"></a><span class="co">## </span></span>
-<span id="cb530-50"><a href="writing-files-to-file.html#cb530-50"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span id="cb530-51"><a href="writing-files-to-file.html#cb530-51"></a><span class="co">##   [1] shinydashboard_0.7.1          tidyselect_1.1.0             </span></span>
-<span id="cb530-52"><a href="writing-files-to-file.html#cb530-52"></a><span class="co">##   [3] RSQLite_2.2.1                 htmlwidgets_1.5.2            </span></span>
-<span id="cb530-53"><a href="writing-files-to-file.html#cb530-53"></a><span class="co">##   [5] BiocParallel_1.22.0           gmp_0.6-1                    </span></span>
-<span id="cb530-54"><a href="writing-files-to-file.html#cb530-54"></a><span class="co">##   [7] munsell_0.5.0                 codetools_0.2-16             </span></span>
-<span id="cb530-55"><a href="writing-files-to-file.html#cb530-55"></a><span class="co">##   [9] preprocessCore_1.50.0         miniUI_0.1.1.1               </span></span>
-<span id="cb530-56"><a href="writing-files-to-file.html#cb530-56"></a><span class="co">##  [11] withr_2.3.0                   Category_2.54.0              </span></span>
-<span id="cb530-57"><a href="writing-files-to-file.html#cb530-57"></a><span class="co">##  [13] highr_0.8                     rstudioapi_0.11              </span></span>
-<span id="cb530-58"><a href="writing-files-to-file.html#cb530-58"></a><span class="co">##  [15] robustbase_0.93-6             splots_1.54.0                </span></span>
-<span id="cb530-59"><a href="writing-files-to-file.html#cb530-59"></a><span class="co">##  [17] tensor_1.5                    rJava_0.9-13                 </span></span>
-<span id="cb530-60"><a href="writing-files-to-file.html#cb530-60"></a><span class="co">##  [19] labeling_0.4.2                GenomeInfoDbData_1.2.3       </span></span>
-<span id="cb530-61"><a href="writing-files-to-file.html#cb530-61"></a><span class="co">##  [21] polyclip_1.10-0               hwriter_1.3.2                </span></span>
-<span id="cb530-62"><a href="writing-files-to-file.html#cb530-62"></a><span class="co">##  [23] farver_2.0.3                  bit64_4.0.5                  </span></span>
-<span id="cb530-63"><a href="writing-files-to-file.html#cb530-63"></a><span class="co">##  [25] vctrs_0.3.4                   generics_0.0.2               </span></span>
-<span id="cb530-64"><a href="writing-files-to-file.html#cb530-64"></a><span class="co">##  [27] xfun_0.21                     R6_2.4.1                     </span></span>
-<span id="cb530-65"><a href="writing-files-to-file.html#cb530-65"></a><span class="co">##  [29] locfit_1.5-9.4                msigdbr_7.2.1                </span></span>
-<span id="cb530-66"><a href="writing-files-to-file.html#cb530-66"></a><span class="co">##  [31] bitops_1.0-6                  spatstat.utils_1.17-0        </span></span>
-<span id="cb530-67"><a href="writing-files-to-file.html#cb530-67"></a><span class="co">##  [33] fgsea_1.14.0                  assertthat_0.2.1             </span></span>
-<span id="cb530-68"><a href="writing-files-to-file.html#cb530-68"></a><span class="co">##  [35] promises_1.1.1                pinfsc50_1.2.0               </span></span>
-<span id="cb530-69"><a href="writing-files-to-file.html#cb530-69"></a><span class="co">##  [37] gtable_0.3.0                  affy_1.66.0                  </span></span>
-<span id="cb530-70"><a href="writing-files-to-file.html#cb530-70"></a><span class="co">##  [39] goftest_1.2-2                 cellHTS2_2.52.0              </span></span>
-<span id="cb530-71"><a href="writing-files-to-file.html#cb530-71"></a><span class="co">##  [41] rlang_0.4.8                   genefilter_1.70.0            </span></span>
-<span id="cb530-72"><a href="writing-files-to-file.html#cb530-72"></a><span class="co">##  [43] splines_4.0.2                 rtracklayer_1.48.0           </span></span>
-<span id="cb530-73"><a href="writing-files-to-file.html#cb530-73"></a><span class="co">##  [45] lazyeval_0.2.2                abind_1.4-5                  </span></span>
-<span id="cb530-74"><a href="writing-files-to-file.html#cb530-74"></a><span class="co">##  [47] BiocManager_1.30.10           yaml_2.2.1                   </span></span>
-<span id="cb530-75"><a href="writing-files-to-file.html#cb530-75"></a><span class="co">##  [49] crosstalk_1.1.0.1             backports_1.1.10             </span></span>
-<span id="cb530-76"><a href="writing-files-to-file.html#cb530-76"></a><span class="co">##  [51] httpuv_1.5.4                  RBGL_1.64.0                  </span></span>
-<span id="cb530-77"><a href="writing-files-to-file.html#cb530-77"></a><span class="co">##  [53] tools_4.0.2                   bookdown_0.21                </span></span>
-<span id="cb530-78"><a href="writing-files-to-file.html#cb530-78"></a><span class="co">##  [55] affyio_1.58.0                 ellipsis_0.3.1               </span></span>
-<span id="cb530-79"><a href="writing-files-to-file.html#cb530-79"></a><span class="co">##  [57] Rcpp_1.0.5                    plyr_1.8.6                   </span></span>
-<span id="cb530-80"><a href="writing-files-to-file.html#cb530-80"></a><span class="co">##  [59] progress_1.2.2                zlibbioc_1.34.0              </span></span>
-<span id="cb530-81"><a href="writing-files-to-file.html#cb530-81"></a><span class="co">##  [61] purrr_0.3.4                   RCurl_1.98-1.2               </span></span>
-<span id="cb530-82"><a href="writing-files-to-file.html#cb530-82"></a><span class="co">##  [63] prettyunits_1.1.1             deldir_0.1-29                </span></span>
-<span id="cb530-83"><a href="writing-files-to-file.html#cb530-83"></a><span class="co">##  [65] openssl_1.4.3                 viridis_0.5.1                </span></span>
-<span id="cb530-84"><a href="writing-files-to-file.html#cb530-84"></a><span class="co">##  [67] data.table_1.13.2             colourpicker_1.1.0           </span></span>
-<span id="cb530-85"><a href="writing-files-to-file.html#cb530-85"></a><span class="co">##  [69] mvtnorm_1.1-1                 ProtGenerics_1.20.0          </span></span>
-<span id="cb530-86"><a href="writing-files-to-file.html#cb530-86"></a><span class="co">##  [71] xlsxjars_0.6.1                hms_0.5.3                    </span></span>
-<span id="cb530-87"><a href="writing-files-to-file.html#cb530-87"></a><span class="co">##  [73] mime_0.9                      evaluate_0.14                </span></span>
-<span id="cb530-88"><a href="writing-files-to-file.html#cb530-88"></a><span class="co">##  [75] xtable_1.8-4                  compiler_4.0.2               </span></span>
-<span id="cb530-89"><a href="writing-files-to-file.html#cb530-89"></a><span class="co">##  [77] tibble_3.0.4                  KernSmooth_2.23-17           </span></span>
-<span id="cb530-90"><a href="writing-files-to-file.html#cb530-90"></a><span class="co">##  [79] crayon_1.3.4                  htmltools_0.5.0              </span></span>
-<span id="cb530-91"><a href="writing-files-to-file.html#cb530-91"></a><span class="co">##  [81] mgcv_1.8-33                   pcaPP_1.9-73                 </span></span>
-<span id="cb530-92"><a href="writing-files-to-file.html#cb530-92"></a><span class="co">##  [83] later_1.1.0.1                 geneplotter_1.66.0           </span></span>
-<span id="cb530-93"><a href="writing-files-to-file.html#cb530-93"></a><span class="co">##  [85] rrcov_1.5-5                   DBI_1.1.0                    </span></span>
-<span id="cb530-94"><a href="writing-files-to-file.html#cb530-94"></a><span class="co">##  [87] MASS_7.3-53                   rappdirs_0.3.1               </span></span>
-<span id="cb530-95"><a href="writing-files-to-file.html#cb530-95"></a><span class="co">##  [89] Matrix_1.2-18                 permute_0.9-5                </span></span>
-<span id="cb530-96"><a href="writing-files-to-file.html#cb530-96"></a><span class="co">##  [91] vsn_3.56.0                    RankProd_3.14.0              </span></span>
-<span id="cb530-97"><a href="writing-files-to-file.html#cb530-97"></a><span class="co">##  [93] pkgconfig_2.0.3               GenomicAlignments_1.24.0     </span></span>
-<span id="cb530-98"><a href="writing-files-to-file.html#cb530-98"></a><span class="co">##  [95] xml2_1.3.2                    foreach_1.5.1                </span></span>
-<span id="cb530-99"><a href="writing-files-to-file.html#cb530-99"></a><span class="co">##  [97] prada_1.63.0                  stringdist_0.9.6.3           </span></span>
-<span id="cb530-100"><a href="writing-files-to-file.html#cb530-100"></a><span class="co">##  [99] webshot_0.5.2                 rvest_0.3.6                  </span></span>
-<span id="cb530-101"><a href="writing-files-to-file.html#cb530-101"></a><span class="co">## [101] BioNet_1.47.0                 stringr_1.4.0                </span></span>
-<span id="cb530-102"><a href="writing-files-to-file.html#cb530-102"></a><span class="co">## [103] VariantAnnotation_1.34.0      digest_0.6.26                </span></span>
-<span id="cb530-103"><a href="writing-files-to-file.html#cb530-103"></a><span class="co">## [105] vegan_2.5-6                   fastmatch_1.1-0              </span></span>
-<span id="cb530-104"><a href="writing-files-to-file.html#cb530-104"></a><span class="co">## [107] curl_4.3                      shiny_1.5.0                  </span></span>
-<span id="cb530-105"><a href="writing-files-to-file.html#cb530-105"></a><span class="co">## [109] Rsamtools_2.4.0               gtools_3.8.2                 </span></span>
-<span id="cb530-106"><a href="writing-files-to-file.html#cb530-106"></a><span class="co">## [111] FField_0.1.0                  jsonlite_1.7.1               </span></span>
-<span id="cb530-107"><a href="writing-files-to-file.html#cb530-107"></a><span class="co">## [113] lifecycle_0.2.0               viridisLite_0.3.0            </span></span>
-<span id="cb530-108"><a href="writing-files-to-file.html#cb530-108"></a><span class="co">## [115] askpass_1.1                   BSgenome_1.56.0              </span></span>
-<span id="cb530-109"><a href="writing-files-to-file.html#cb530-109"></a><span class="co">## [117] pillar_1.4.6                  lattice_0.20-41              </span></span>
-<span id="cb530-110"><a href="writing-files-to-file.html#cb530-110"></a><span class="co">## [119] KEGGREST_1.28.0               fastmap_1.0.1                </span></span>
-<span id="cb530-111"><a href="writing-files-to-file.html#cb530-111"></a><span class="co">## [121] httr_1.4.2                    DEoptimR_1.0-8               </span></span>
-<span id="cb530-112"><a href="writing-files-to-file.html#cb530-112"></a><span class="co">## [123] GO.db_3.11.4                  interactiveDisplayBase_1.26.3</span></span>
-<span id="cb530-113"><a href="writing-files-to-file.html#cb530-113"></a><span class="co">## [125] glue_1.4.2                    png_0.1-7                    </span></span>
-<span id="cb530-114"><a href="writing-files-to-file.html#cb530-114"></a><span class="co">## [127] shinythemes_1.1.2             iterators_1.0.13             </span></span>
-<span id="cb530-115"><a href="writing-files-to-file.html#cb530-115"></a><span class="co">## [129] BiocVersion_3.11.1            bit_4.0.4                    </span></span>
-<span id="cb530-116"><a href="writing-files-to-file.html#cb530-116"></a><span class="co">## [131] stringi_1.5.3                 blob_1.2.1                   </span></span>
-<span id="cb530-117"><a href="writing-files-to-file.html#cb530-117"></a><span class="co">## [133] caTools_1.18.0                memoise_1.1.0                </span></span>
-<span id="cb530-118"><a href="writing-files-to-file.html#cb530-118"></a><span class="co">## [135] Rmpfr_0.8-1                   ape_5.4-1</span></span></code></pre></div>
+<div class="sourceCode" id="cb582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb582-1"><a href="writing-files-to-file.html#cb582-1"></a><span class="kw">sessionInfo</span>()</span>
+<span id="cb582-2"><a href="writing-files-to-file.html#cb582-2"></a><span class="co">## R version 4.0.2 (2020-06-22)</span></span>
+<span id="cb582-3"><a href="writing-files-to-file.html#cb582-3"></a><span class="co">## Platform: x86_64-apple-darwin17.0 (64-bit)</span></span>
+<span id="cb582-4"><a href="writing-files-to-file.html#cb582-4"></a><span class="co">## Running under: macOS  10.16</span></span>
+<span id="cb582-5"><a href="writing-files-to-file.html#cb582-5"></a><span class="co">## </span></span>
+<span id="cb582-6"><a href="writing-files-to-file.html#cb582-6"></a><span class="co">## Matrix products: default</span></span>
+<span id="cb582-7"><a href="writing-files-to-file.html#cb582-7"></a><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib</span></span>
+<span id="cb582-8"><a href="writing-files-to-file.html#cb582-8"></a><span class="co">## </span></span>
+<span id="cb582-9"><a href="writing-files-to-file.html#cb582-9"></a><span class="co">## locale:</span></span>
+<span id="cb582-10"><a href="writing-files-to-file.html#cb582-10"></a><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span id="cb582-11"><a href="writing-files-to-file.html#cb582-11"></a><span class="co">## </span></span>
+<span id="cb582-12"><a href="writing-files-to-file.html#cb582-12"></a><span class="co">## attached base packages:</span></span>
+<span id="cb582-13"><a href="writing-files-to-file.html#cb582-13"></a><span class="co">##  [1] grid      stats4    parallel  stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb582-14"><a href="writing-files-to-file.html#cb582-14"></a><span class="co">## </span></span>
+<span id="cb582-15"><a href="writing-files-to-file.html#cb582-15"></a><span class="co">## other attached packages:</span></span>
+<span id="cb582-16"><a href="writing-files-to-file.html#cb582-16"></a><span class="co">##  [1] org.Hs.eg.db_3.11.4         pander_0.6.3                writexl_1.3.1               xlsx_0.6.4.2               </span></span>
+<span id="cb582-17"><a href="writing-files-to-file.html#cb582-17"></a><span class="co">##  [5] tcR_2.3.2                   igraph_1.2.6                gridExtra_2.3               spatstat_1.64-1            </span></span>
+<span id="cb582-18"><a href="writing-files-to-file.html#cb582-18"></a><span class="co">##  [9] rpart_4.1-15                nlme_3.1-149                spatstat.data_1.4-3         scales_1.1.1               </span></span>
+<span id="cb582-19"><a href="writing-files-to-file.html#cb582-19"></a><span class="co">## [13] RColorBrewer_1.1-2          rmarkdown_2.6               reshape2_1.4.4              pamr_1.56.1                </span></span>
+<span id="cb582-20"><a href="writing-files-to-file.html#cb582-20"></a><span class="co">## [17] survival_3.2-7              cluster_2.1.0               limma_3.44.3                knitr_1.31                 </span></span>
+<span id="cb582-21"><a href="writing-files-to-file.html#cb582-21"></a><span class="co">## [21] kableExtra_1.2.1            heatmap.plus_1.3            GSVA_1.36.3                 gplots_3.1.0               </span></span>
+<span id="cb582-22"><a href="writing-files-to-file.html#cb582-22"></a><span class="co">## [25] ggrepel_0.8.2               ggplot2_3.3.2               GenVisR_1.20.0              forestplot_1.10.1          </span></span>
+<span id="cb582-23"><a href="writing-files-to-file.html#cb582-23"></a><span class="co">## [29] checkmate_2.0.0             magrittr_1.5                EnsDb.Hsapiens.v86_2.99.0   DT_0.17                    </span></span>
+<span id="cb582-24"><a href="writing-files-to-file.html#cb582-24"></a><span class="co">## [33] dplyr_1.0.2                 DESeq2_1.28.1               SummarizedExperiment_1.18.2 DelayedArray_0.14.1        </span></span>
+<span id="cb582-25"><a href="writing-files-to-file.html#cb582-25"></a><span class="co">## [37] matrixStats_0.57.0          colorspace_1.4-1            Biostrings_2.56.0           XVector_0.28.0             </span></span>
+<span id="cb582-26"><a href="writing-files-to-file.html#cb582-26"></a><span class="co">## [41] biomaRt_2.44.4              beeswarm_0.2.3              AnnotationHub_2.20.2        BiocFileCache_1.12.1       </span></span>
+<span id="cb582-27"><a href="writing-files-to-file.html#cb582-27"></a><span class="co">## [45] dbplyr_1.4.4                ensembldb_2.12.1            AnnotationFilter_1.12.0     GenomicFeatures_1.40.1     </span></span>
+<span id="cb582-28"><a href="writing-files-to-file.html#cb582-28"></a><span class="co">## [49] GenomicRanges_1.40.0        GenomeInfoDb_1.24.2         HTSanalyzeR2_0.99.19        vcfR_1.12.0                </span></span>
+<span id="cb582-29"><a href="writing-files-to-file.html#cb582-29"></a><span class="co">## [53] GSEABase_1.50.1             graph_1.66.0                annotate_1.66.0             XML_3.99-0.5               </span></span>
+<span id="cb582-30"><a href="writing-files-to-file.html#cb582-30"></a><span class="co">## [57] AnnotationDbi_1.50.3        IRanges_2.22.2              S4Vectors_0.26.1            Biobase_2.48.0             </span></span>
+<span id="cb582-31"><a href="writing-files-to-file.html#cb582-31"></a><span class="co">## [61] BiocGenerics_0.34.0        </span></span>
+<span id="cb582-32"><a href="writing-files-to-file.html#cb582-32"></a><span class="co">## </span></span>
+<span id="cb582-33"><a href="writing-files-to-file.html#cb582-33"></a><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span id="cb582-34"><a href="writing-files-to-file.html#cb582-34"></a><span class="co">##   [1] rappdirs_0.3.1                rtracklayer_1.48.0            FField_0.1.0                 </span></span>
+<span id="cb582-35"><a href="writing-files-to-file.html#cb582-35"></a><span class="co">##   [4] bit64_4.0.5                   data.table_1.13.2             hwriter_1.3.2                </span></span>
+<span id="cb582-36"><a href="writing-files-to-file.html#cb582-36"></a><span class="co">##   [7] KEGGREST_1.28.0               RCurl_1.98-1.2                generics_0.0.2               </span></span>
+<span id="cb582-37"><a href="writing-files-to-file.html#cb582-37"></a><span class="co">##  [10] preprocessCore_1.50.0         RSQLite_2.2.1                 bit_4.0.4                    </span></span>
+<span id="cb582-38"><a href="writing-files-to-file.html#cb582-38"></a><span class="co">##  [13] webshot_0.5.2                 xml2_1.3.2                    httpuv_1.5.4                 </span></span>
+<span id="cb582-39"><a href="writing-files-to-file.html#cb582-39"></a><span class="co">##  [16] assertthat_0.2.1              viridis_0.5.1                 xfun_0.21                    </span></span>
+<span id="cb582-40"><a href="writing-files-to-file.html#cb582-40"></a><span class="co">##  [19] hms_0.5.3                     rJava_0.9-13                  evaluate_0.14                </span></span>
+<span id="cb582-41"><a href="writing-files-to-file.html#cb582-41"></a><span class="co">##  [22] promises_1.1.1                DEoptimR_1.0-8                fansi_0.4.1                  </span></span>
+<span id="cb582-42"><a href="writing-files-to-file.html#cb582-42"></a><span class="co">##  [25] progress_1.2.2                caTools_1.18.0                readxl_1.3.1                 </span></span>
+<span id="cb582-43"><a href="writing-files-to-file.html#cb582-43"></a><span class="co">##  [28] DBI_1.1.0                     geneplotter_1.66.0            htmlwidgets_1.5.2            </span></span>
+<span id="cb582-44"><a href="writing-files-to-file.html#cb582-44"></a><span class="co">##  [31] stringdist_0.9.6.3            Rmpfr_0.8-1                   purrr_0.3.4                  </span></span>
+<span id="cb582-45"><a href="writing-files-to-file.html#cb582-45"></a><span class="co">##  [34] ellipsis_0.3.1                crosstalk_1.1.0.1             backports_1.1.10             </span></span>
+<span id="cb582-46"><a href="writing-files-to-file.html#cb582-46"></a><span class="co">##  [37] cellHTS2_2.52.0               bookdown_0.21                 permute_0.9-5                </span></span>
+<span id="cb582-47"><a href="writing-files-to-file.html#cb582-47"></a><span class="co">##  [40] deldir_0.1-29                 vctrs_0.3.4                   RankProd_3.14.0              </span></span>
+<span id="cb582-48"><a href="writing-files-to-file.html#cb582-48"></a><span class="co">##  [43] abind_1.4-5                   withr_2.3.0                   splots_1.54.0                </span></span>
+<span id="cb582-49"><a href="writing-files-to-file.html#cb582-49"></a><span class="co">##  [46] BSgenome_1.56.0               robustbase_0.93-6             vegan_2.5-6                  </span></span>
+<span id="cb582-50"><a href="writing-files-to-file.html#cb582-50"></a><span class="co">##  [49] GenomicAlignments_1.24.0      prettyunits_1.1.1             goftest_1.2-2                </span></span>
+<span id="cb582-51"><a href="writing-files-to-file.html#cb582-51"></a><span class="co">##  [52] ape_5.4-1                     lazyeval_0.2.2                crayon_1.3.4                 </span></span>
+<span id="cb582-52"><a href="writing-files-to-file.html#cb582-52"></a><span class="co">##  [55] genefilter_1.70.0             pkgconfig_2.0.3               labeling_0.4.2               </span></span>
+<span id="cb582-53"><a href="writing-files-to-file.html#cb582-53"></a><span class="co">##  [58] ProtGenerics_1.20.0           rlang_0.4.8                   lifecycle_0.2.0              </span></span>
+<span id="cb582-54"><a href="writing-files-to-file.html#cb582-54"></a><span class="co">##  [61] miniUI_0.1.1.1                prada_1.63.0                  colourpicker_1.1.0           </span></span>
+<span id="cb582-55"><a href="writing-files-to-file.html#cb582-55"></a><span class="co">##  [64] affyio_1.58.0                 cellranger_1.1.0              polyclip_1.10-0              </span></span>
+<span id="cb582-56"><a href="writing-files-to-file.html#cb582-56"></a><span class="co">##  [67] Matrix_1.2-18                 memuse_4.1-0                  png_0.1-7                    </span></span>
+<span id="cb582-57"><a href="writing-files-to-file.html#cb582-57"></a><span class="co">##  [70] viridisLite_0.3.0             bitops_1.0-6                  shinydashboard_0.7.1         </span></span>
+<span id="cb582-58"><a href="writing-files-to-file.html#cb582-58"></a><span class="co">##  [73] KernSmooth_2.23-17            blob_1.2.1                    stringr_1.4.0                </span></span>
+<span id="cb582-59"><a href="writing-files-to-file.html#cb582-59"></a><span class="co">##  [76] memoise_1.1.0                 plyr_1.8.6                    zlibbioc_1.34.0              </span></span>
+<span id="cb582-60"><a href="writing-files-to-file.html#cb582-60"></a><span class="co">##  [79] compiler_4.0.2                rrcov_1.5-5                   Rsamtools_2.4.0              </span></span>
+<span id="cb582-61"><a href="writing-files-to-file.html#cb582-61"></a><span class="co">##  [82] cli_2.1.0                     affy_1.66.0                   Category_2.54.0              </span></span>
+<span id="cb582-62"><a href="writing-files-to-file.html#cb582-62"></a><span class="co">##  [85] MASS_7.3-53                   mgcv_1.8-33                   tidyselect_1.1.0             </span></span>
+<span id="cb582-63"><a href="writing-files-to-file.html#cb582-63"></a><span class="co">##  [88] vsn_3.56.0                    stringi_1.5.3                 highr_0.8                    </span></span>
+<span id="cb582-64"><a href="writing-files-to-file.html#cb582-64"></a><span class="co">##  [91] yaml_2.2.1                    askpass_1.1                   locfit_1.5-9.4               </span></span>
+<span id="cb582-65"><a href="writing-files-to-file.html#cb582-65"></a><span class="co">##  [94] VariantAnnotation_1.34.0      fastmatch_1.1-0               tools_4.0.2                  </span></span>
+<span id="cb582-66"><a href="writing-files-to-file.html#cb582-66"></a><span class="co">##  [97] rstudioapi_0.11               foreach_1.5.1                 farver_2.0.3                 </span></span>
+<span id="cb582-67"><a href="writing-files-to-file.html#cb582-67"></a><span class="co">## [100] digest_0.6.26                 BiocManager_1.30.10           shiny_1.5.0                  </span></span>
+<span id="cb582-68"><a href="writing-files-to-file.html#cb582-68"></a><span class="co">## [103] Rcpp_1.0.5                    BiocVersion_3.11.1            later_1.1.0.1                </span></span>
+<span id="cb582-69"><a href="writing-files-to-file.html#cb582-69"></a><span class="co">## [106] httr_1.4.2                    rvest_0.3.6                   tensor_1.5                   </span></span>
+<span id="cb582-70"><a href="writing-files-to-file.html#cb582-70"></a><span class="co">## [109] splines_4.0.2                 RBGL_1.64.0                   spatstat.utils_1.17-0        </span></span>
+<span id="cb582-71"><a href="writing-files-to-file.html#cb582-71"></a><span class="co">## [112] xlsxjars_0.6.1                shinythemes_1.1.2             xtable_1.8-4                 </span></span>
+<span id="cb582-72"><a href="writing-files-to-file.html#cb582-72"></a><span class="co">## [115] gmp_0.6-1                     jsonlite_1.7.1                R6_2.4.1                     </span></span>
+<span id="cb582-73"><a href="writing-files-to-file.html#cb582-73"></a><span class="co">## [118] pillar_1.4.6                  htmltools_0.5.0               mime_0.9                     </span></span>
+<span id="cb582-74"><a href="writing-files-to-file.html#cb582-74"></a><span class="co">## [121] glue_1.4.2                    fastmap_1.0.1                 pinfsc50_1.2.0               </span></span>
+<span id="cb582-75"><a href="writing-files-to-file.html#cb582-75"></a><span class="co">## [124] BiocParallel_1.22.0           interactiveDisplayBase_1.26.3 codetools_0.2-16             </span></span>
+<span id="cb582-76"><a href="writing-files-to-file.html#cb582-76"></a><span class="co">## [127] fgsea_1.14.0                  pcaPP_1.9-73                  mvtnorm_1.1-1                </span></span>
+<span id="cb582-77"><a href="writing-files-to-file.html#cb582-77"></a><span class="co">## [130] lattice_0.20-41               tibble_3.0.4                  curl_4.3                     </span></span>
+<span id="cb582-78"><a href="writing-files-to-file.html#cb582-78"></a><span class="co">## [133] gtools_3.8.2                  GO.db_3.11.4                  openssl_1.4.3                </span></span>
+<span id="cb582-79"><a href="writing-files-to-file.html#cb582-79"></a><span class="co">## [136] munsell_0.5.0                 BioNet_1.47.0                 GenomeInfoDbData_1.2.3       </span></span>
+<span id="cb582-80"><a href="writing-files-to-file.html#cb582-80"></a><span class="co">## [139] iterators_1.0.13              gtable_0.3.0                  msigdbr_7.2.1</span></span></code></pre></div>
 
 </div>
 

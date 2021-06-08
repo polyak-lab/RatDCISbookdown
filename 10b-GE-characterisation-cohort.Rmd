@@ -18,7 +18,7 @@ Below is a summary of the number of differential genes, using p value cut off of
 infoTableFinal$TumSize=Cdata$Tumor.diameter.sac.mm[match(infoTableFinal$TumorID, Cdata$TumorID)]
 infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>7, "big", "small")))
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$SizeCat))])
-CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
+CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(TumSize)) ## change class
 
 a1x=rowSums(counts(CD45ddsChar))
 a1b=apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))
@@ -44,11 +44,12 @@ First, have a look at the samples in a PCA plot: do they separate based on size:
 
 vst1=vst(CD45ddsChar)
 
-ax1=plotPCA(vst1, "SizeCat")+theme_bw()+geom_text(aes(label=colnames(vst1)))+ggtitle("CD45 cells")+scale_color_manual(values=ColSize)
+ax1=plotPCA(vst1, "TumSize")+theme_bw()+geom_text(aes(label=colnames(vst1)))+ggtitle("CD45 cells")+scale_color_manual(values=ColSize)
 
 # nclude the control CD45 sample
 vst1=vsd[, which(infoTableFinal$Fraction=="CD45" & infoTableFinal$Cohort!="Progression")]
 vst1$SizeCat=infoTableFinal$SizeCat[match(colnames(vst1), infoTableFinal$SampleID)]
+
 
 ax1=heatmap.2(cor((assay(vst1))), col=RdBu[11:1], trace="none", ColSideColors = ColSize[(vst1$SizeCat)])
 
@@ -76,12 +77,17 @@ Below are volcano plots of the differentially expressed genes with abs(log2chang
 
 The first plot lists all differentially expressed genes, the second only lists those which are known to be immune related.
 
+
 ```{r cd450deg0char}
 print('significant differential genes')
-CD45res=results(CD45ddsChar, contrast=c("SizeCat", "big", "small"))
-CD45res2=CD45res[which(CD45res$padj<0.05 & abs(CD45res$log2FoldChange)>1.5 &
-                             CD45res$baseMean>100), ]
+# comment this back in if we want to change to big vs small
+#CD45res=results(CD45ddsChar, contrast=c("SizeCat", "big", "small"))
+# CD45res2=CD45res[which(CD45res$padj<0.05 & abs(CD45res$log2FoldChange)>1.5 &
+#                             CD45res$baseMean>100), ]
 
+# for continuous variable
+CD45res=results(CD45ddsChar)
+CD45res2=CD45res[which(CD45res$padj<0.05 & CD45res$baseMean>80 & abs(CD45res$log2FoldChange)>0.2), ]
 #pdf("~/Desktop/DESeq-small-vs-largeCD45-characterisation.pdf", height=6, width=6)
 namId=which(rownames(vsd)%in%RatAllImm & rownames(vsd)%in%rownames(CD45res2))
 namIdN=rownames(vsd)[namId]
@@ -111,7 +117,7 @@ colSide=CD45ddsChar$SizeCat
 
 t2=assay(vsd)[namId, match(colnames(CD45ddsChar), colnames(vsd))]
 
-colnames(t2)=infoTableFinal$TumorIDnew[match(colnames(t2), rownames(t2))]
+colnames(t2)=infoTableFinal$TumorIDnew[match(colnames(t2), rownames(infoTableFinal))]
 
 heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="immune genes DEG")
 
@@ -147,7 +153,7 @@ names(fcTab)=cd45GenesConv
                            exponent=1), 
                            doGSOA = F)
 
-A1=summarize(gscacd)  
+A1=HTSanalyzeR2::summarize(gscacd)  
 
 PNresults=gscacd@result$GSEA.results$ProcessNetworks
 
@@ -166,14 +172,16 @@ TestGrp=c("NInflammation", "NCell adhesion", "NImmune response", "NTranscription
 
 #pdf("~/Desktop/2E-process-networks-significant-pathways.pdf", width=6, height=6)
 
-par(mfrow=c(2,2), oma=c(0, 3, 0, 0))
+# par(mfrow=c(2,2), oma=c(0, 2, 0, 0))
+# 
+# for (i in TestGrp){
+#         x1=which(Lx1$Group==i)
+#         barplot(Lx1$Observed.score[x1], names.arg = Lx1$Process[x1], horiz = T, las=2,
+#                 main=i)
+# }
 
-for (i in TestGrp){
-        x1=which(Lx1$Group==i)
-        barplot(Lx1$Observed.score[x1], names.arg = Lx1$Process[x1], horiz = T, las=2,
-                main=i)
-}
-
+par(oma=c(0, 10, 0, 0))
+barplot(Lx1$Observed.score, names.arg = ifelse(is.na(Lx1$Process), Lx1$Group, Lx1$Process), horiz = T, las=2)
 #dev.off()
 
 write.csv(gscacd@result$GSEA.results$ProcessNetworks, file="nature-tables/Supp_3_cd45_big_small.csv")
@@ -202,7 +210,7 @@ infoTableFinal$TumSize=Cdata$Tumor.diameter.sac.mm[match(infoTableFinal$TumorID,
 #infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
 
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$SizeCat))])
-EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
+EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(TumSize)) ## change class
 
 a1x=rowSums(counts(EpddsChar))
 a1b=apply(counts(EpddsChar), 1, function(c) sum(c!=0))
@@ -242,9 +250,9 @@ write.csv(cor((assay(vst1))), file="nature-tables/Ext1g.csv")
 Here is a volcano plot the significant differential genes showing the difference between big and small tumors in the Ep fraction:
 
 ```{r 1g, fig.cap="Ep DEG big-small"}
-Epres=results(EpddsChar, contrast=c("SizeCat", "big", "small"))
-Epres2=Epres[which(Epres$padj<0.05 & abs(Epres$log2FoldChange)>1.5 &
-                             Epres$baseMean>100), ]
+Epres=results(EpddsChar)#, contrast=c("SizeCat", "big", "small"))
+Epres2=Epres[which(Epres$padj<0.05 & abs(Epres$log2FoldChange)>0.25 &
+                             Epres$baseMean>80), ]
 
 plot(Epres$log2FoldChange, -log10(Epres$padj), pch=20, col="black",
      main="small (-ve) vs large (+ve)")
@@ -295,7 +303,7 @@ names(fcTab)=EpGenesConv
                            exponent=1), 
                            doGSOA = F)
 
-A1=summarize(gscaep)  
+A1=HTSanalyzeR2::summarize(gscaep)  
 
 save(gscaep, file="figure-outputs/1h.Rdata")
 TermsA=sapply(strsplit(rownames(gscaep@result$GSEA.results$ProcessNetworks), "_"), function(x) x[2])
@@ -326,7 +334,7 @@ Lx1$Group[which(Lx1$Group=="NImmune response")]="NInflammation"
 
 # plot for inflammation, immune response, cell adhesion, transcription?
 
-TestGrp=c("NCell adhesion", "NDevelopment", "NTranscription", "NInflammation")
+TestGrp=c("NCell adhesion","NCell cycle","NDNA damage", "NDevelopment", "NTranscription", "NInflammation")
 
 #pdf("~/Desktop/1E-process-networks-significant-pathways_ep.pdf", width=6, height=6)
 
@@ -341,9 +349,6 @@ for (i in TestGrp){
 #dev.off()
 
 write.csv(Lx1, file="nature-tables/1h.csv")
-
-
-load("../anntotations/Metacore_extracted_Process_networks_nov2020.RData")
 
 
 # match the genes in the Tgfb pathway

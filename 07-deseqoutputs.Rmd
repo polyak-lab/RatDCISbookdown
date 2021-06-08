@@ -190,18 +190,19 @@ Here, we look at the 3 different fractions in greater depth and look at volcano 
 
 ### DN fraction
 
-```{r}
-
+```{r dn-growth, cache=T}
 #pdf(sprintf("rslt/DESeq/volcano_plots_differences_stable_vs_growing_%s.pdf", Sys.Date()), height=7, width=8)
 
-DNa1=DNComp4$stable_vs_growing
-DNa=DNComp4$stable_vs_growing[ which(DNComp4$stable_vs_growing$padj<0.1 & DNComp4$stable_vs_growing$baseMean>50 & abs(DNComp4$stable_vs_growing$log2FoldChange)>1.5), ]
-with(DNa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: DN Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(DNa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
+DNa1=results(DNddsGrowth, name="GrowthRate") #DNComp4$stable_vs_growing
+DNa1$Gene=rownames(DNa1)
+DNa=DNa1[ which(DNa1$padj<0.05 & DNa1$baseMean>80 & abs(DNa1$log2FoldChange)>0.15), ]
+with(DNa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: DN growing (+) vs stable (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>80), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>80), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
+vstDN$GRcutoff=cut(vstDN$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2") )
 
-
-heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstDN$Growth)), col=RdBu[11:1], main="DN genes")
+colnames(vstDN)=vstDN$TumorIDnew
+heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors =brewer.pal(4, "Greens")[ (as.numeric(factor(vstDN$GRcutoff)))], col=RdBu[11:1], main="DN genes")
 
 DT::datatable(as.data.frame(DNa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'),scrollX=T))
@@ -215,11 +216,15 @@ Volcano plot
 ```{r 4g, fig.cap="volcano plot of DEG stable vs growing CD45"}
 
 #pdf("~/Desktop/Figure4G_CD_stable_growing.pdf", height=12, width=12)
-CDa1=CDComp4$stable_vs_growing
-CDa=CDComp4$stable_vs_growing[ which(CDComp4$stable_vs_growing$padj<0.05 & CDComp4$stable_vs_growing$baseMean>100 & abs(CDComp4$stable_vs_growing$log2FoldChange)>2), ]
-with(CDa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (+) vs Growing (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(CDa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
+CDa1=results(CDddsGrowth, name="GrowthRate")
+CDa1$Gene=rownames(CDa1)
+#CDa1=CDComp4$stable_vs_growing
+CDa=CDa1[ which(CDa1$padj<0.05 & CDa1$baseMean>50 & abs(CDa1$log2FoldChange)>0.15), ]
+lx2=which(CDa$Gene%in%RatAllImm)
+
+with(CDa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (-) vs Growing (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>50 ), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>50 ), text(log2FoldChange+0.02, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
 
 #write.csv(CDa1, file="nature-tables/4g.csv")
 
@@ -231,7 +236,12 @@ DT::datatable(as.data.frame(CDa1), rownames=T, class='cell-border stripe',
 Here are a bunch of heatmaps, which are then separated by wehther genes are downregulated (growing specific) or upregulated (stable specific)
 
 ```{r }
-heatmap.2(assay(vstCD)[ CDa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstCD$Growth)), col=RdBu[11:1], main="CD genes")
+vstCD$GRcutoff=cut(vstCD$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2") )
+
+colnames(vstCD)=vstCD$TumorIDnew
+
+heatmap.2(assay(vstCD)[ CDa$Gene[lx2], ], scale="row", trace="none", ColSideColors =brewer.pal(4, "Greens")[ (as.numeric(factor(vstCD$GRcutoff)))], col=RdBu[11:1], main="CD genes")
+
 
 ## growing specific
 CDg=CDa$Gene[which(CDa$log2FoldChange<0)]
@@ -247,13 +257,22 @@ heatmap.2(assay(vstCD)[CDs, ], scale="row", trace="none", ColSideColors = as.cha
 ### Ep Fraction
 
 ```{r}
-Epa1=EpComp4$stable_vs_growing
-Epa=EpComp4$stable_vs_growing[ which(EpComp4$stable_vs_growing$padj<0.1 & EpComp4$stable_vs_growing$baseMean>50 & abs(EpComp4$stable_vs_growing$log2FoldChange)>1.5), ]
-with(Epa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Ep Stable vs Growing", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(Epa1, padj<0.1 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(Epa1, padj<0.1 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.1, Gene, pch=20, col="red", cex=0.75))
+#Epa1=EpComp4$stable_vs_growing
+Epa1=results(EpddsGrowth, name="GrowthRate")
+Epa1$Gene=rownames(Epa1)
 
-heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = as.character(as.numeric(vstEp$Growth)), col=RdBu[11:1], main="Ep genes")
+Epa=Epa1[ which(Epa1$padj<0.02 & Epa1$baseMean>80 & abs(Epa1$log2FoldChange)>0.25), ]
+with(Epa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Ep Stable (-) vs Growing (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
+with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>0.25), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>0.25), text(log2FoldChange+0.05, -log10(padj)+0.1, Gene, pch=20, col="red", cex=0.75))
+
+vstEp$GRcutoff=cut(vstEp$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2") )
+
+colnames(vstEp)=vstEp$TumorIDnew
+
+#EpaB=Epa[order(1/abs(Epa$log2FoldChange), Epa$padj), ]
+
+heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = brewer.pal(4, "Greens")[ (as.numeric(factor(vstEp$GRcutoff)))], col=RdBu[11:1], main="Ep genes")
 
 #write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 
