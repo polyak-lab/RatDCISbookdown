@@ -116,6 +116,13 @@ DT::datatable(df.Spatial[ ,c("Trichrome", "Growth", "Treatment", "trichrome_pc")
 
 ```
 
+Trichrome encapsulation
+
+```{r}
+df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="lots")]=1
+wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
+```
+
 ## Association with hyperinflammatory status
 
 We can also do a boxplot for trichrome status and whether it associates with hyperinflammation in our rat samples

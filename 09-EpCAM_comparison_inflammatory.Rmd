@@ -463,6 +463,11 @@ vsdLumvst=vst(vstLumOnly)
 write.csv(vstLumRes, file="nature-tables/5j_lumonly_ep_growing_vs_stable.csv")
 genes2=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
 
+GlistGrowing=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
+Glistnon=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & (vstLumRes$log2FoldChange)<(-1.5) & vstLumRes$baseMean>100)]
+write.csv(GlistGrowing,file="figure-outputs/lumsig_posFC.csv" )
+write.csv(Glistnon,file="figure-outputs/lumsig_negFC.csv" )
+
 ColSideCols=ColSizeb[vstLumOnly$Growth]
 #pdf("figure-outputs/Figure5_XX_heatmap_lumonly_growing_vs_stable.pdf", height=9, width=5)
 

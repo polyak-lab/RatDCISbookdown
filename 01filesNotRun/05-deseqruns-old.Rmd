@@ -1,0 +1,1335 @@
+# DESeq analysis
+
+This document sets up DESeq runs to compare:
+
+* DN vs Ep samples
+* growing vs stable samples (all 3 fractions)
+* treatments (all 3 fractions)
+* spatial patterns (all 3 fractions)
+
+The outputs of these analyses will be used for Gene Set Enrichment Analysis,
+using MSigDB databases (c2, c5, hallmark), alongside pathways from Metacore (Process Networks, Pathway Maps)
+
+## DN vs Ep
+
+In section 6.2, we have noticed that some DN samples had expression of epithelial markers. Here, we perform a differential gene expression analysis to find genes which are different between these two fractions. 
+
+Below is a summary of the number of differential genes, using p value cut off of 0.05 and log2 fold change of 1.5 and base expression of 100+.
+
+```{r ep-v-dn, cache=T}
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction!="CD45")])
+DNEpdds=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~Fraction) ## 
+DNEpdds=DESeq(DNEpdds)
+resDNep=results(DNEpdds, contrast=c("Fraction", "DN", "Ep"))
+summary(resDNep)
+
+vsdDNep=vst(DNEpdds)
+
+print('significant differential genes')
+
+resDNeprslt2=resDNep[which(resDNep$padj<0.05 & abs(resDNep$log2FoldChange)>1.5 &
+                             resDNep$baseMean>100), ]
+resDNeprslt2$CellMarker=ifelse(rownames(resDNeprslt2)%in%unlist(GeneListRat), 1, 0)
+resDNeprslt2=resDNeprslt2[order(resDNeprslt2$CellMarker, abs(resDNeprslt2$log2FoldChange), decreasing = T), ]
+
+
+scroll_box(kable(resDNeprslt2, format="html"),
+         height="300px", width="100%")
+
+HighExprGenes=rownames(resDNeprslt2)[which(resDNeprslt2$baseMean>100 & resDNeprslt2$log2FoldChange<0) ]
+
+colSide=factor(infoTableFinal$Fraction[ which(infoTableFinal$Fraction!="CD45" & infoTableFinal$Cohort=="Progression")])
+colSide2=factor(infoTableFinal$Growth[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")])
+colSide3=factor(infoTableFinal$Treatment[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")])
+colSide4=cut(infoTableFinal$CD8Frac[ which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")], c(-1, 0.025, 0.05, 0.1, 1), brewer.pal(4, "Greens"))
+colSide5=cut(infoTableFinal$IFEpCAM[which(infoTableFinal$Fraction!="CD45"& infoTableFinal$Cohort=="Progression")], c(-1, 0.05, 0.1, 0.15, 1), brewer.pal(4, "Greens"))
+
+TableCols=rbind(palette()[colSide], palette()[colSide2], palette()[colSide3], as.character(colSide4), as.character(colSide5))
+rownames(TableCols)=c("Fraction", "growth", "treatment", "cd8 fraction", "cd8 int. fraction")
+colnames(TableCols)=colnames(assay(vsdDNep))
+
+#pdf(sprintf("rslt/DESeq/difference_between_DN_ep_samples_%s.pdf", Sys.Date()), height=7, width=8)
+
+t1=assay(vsdDNep)[rownames(vsdDNep)%in%unlist(GeneListRat), ]
+
+heatmap.2(t1, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="cell type specific markers")
+
+t2=assay(vsdDNep)[which(rownames(vsdDNep)%in%RatCosmic & rownames(vsdDNep)%in%rownames(resDNeprslt2)), ]
+heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="DEG cosmic genes")
+
+t2=assay(vsdDNep)[which( rownames(vsdDNep)%in%HighExprGenes), ]
+a1=heatmap.2(t2, trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide], scale="row", main="Enriched in Ep genes")
+#heatmap.2(t2[ ,-grep("CD45", colnames(t2))], trace="none", col=RdBu[11:1], ColSideColors = palette()[colSide2], scale="row", main="Enriched in Ep genes")
+
+TableCols2=TableCols[ ,a1$colInd]
+
+colOutput=melt(TableCols2)
+colOutput$Var2=factor(colOutput$Var2, levels=unique(colOutput$Var2))
+
+heatmap.plus::heatmap.plus(t2, trace="none", col=RdBu[11:1], ColSideColors = t(TableCols), scale="row", main="Enriched in Ep genes")
+
+write.csv(resDNeprslt2, file=sprintf("outputs/DESeq/difference_between_DN_Ep(ref)_samples_%s.csv", Sys.Date()))
+```
+
+Note that there seems to be two main groups of Ep cells:
+
+The first one is enriched for canonical tumour progression pathways: eg. expression of wnt, fox1a etc.
+The second one doesn't seem to have as high expression of these genes, but have high immune related signalling pathways.
+
+We can append this information into the overall data file and determine whether there is an association with growth or treatment
+
+```{r}
+a2=heatmap.2(t2[ ,grep("Ep", colnames(t2))], trace="none", col=RdBu[11:1], scale="row", main="Enriched in Ep genes", ColSideColors = TableCols[2, grep("Ep", colnames(t2))])
+ac=as.hclust(a2$colDendrogram)
+ad=cutree(ac, 3)
+#table(ad)
+head(ad)
+
+infoTableFinal$EpCAMsubtype=NA
+infoTableFinal$EpCAMsubtype[match(names(ad), rownames(infoTableFinal))]=ad
+
+table(infoTableFinal$EpCAMsubtype, infoTableFinal$Growth)
+table(infoTableFinal$EpCAMsubtype, infoTableFinal$Treatment)
+table(infoTableFinal$EpCAMsubtype, infoTableFinal$SpatialManual)
+
+```
+
+## No. samples in comparisons
+
+Separate out the tables into CD45, DN and Ep fractions. Compare
+
+1. Differences based on treatment (and treatment vs control)
+2. Specific treatments vs control
+3. Growing vs stable (overall)
+4. Growing vs stable (in each subgroup)
+
+Below, we check the number of samples in each subgroup:
+
+```{r, fig.height=5}
+infoTableFinal$Treatment=factor(infoTableFinal$Treatment)#[which(is.na(infoTableFinal$Treatment))]="PDL1"
+infoTableFinal$SpatialManual=factor(infoTableFinal$SpatialManual)
+infoTableFinal$treatA=factor(ifelse(infoTableFinal$Treatment=="Vehicle", "control", "imm"))
+infoTableFinal$Comp4=factor(paste(infoTableFinal$Growth, infoTableFinal$treatA, sep=""))
+infoTableFinal$MHcut=factor(ifelse(infoTableFinal$MHEpCAM>=median(infoTableFinal$MHEpCAM, na.rm = T), "inf", "res"))
+infoTableFinal$IFcut=factor(ifelse(infoTableFinal$IFEpCAM>=median(infoTableFinal$IFEpCAM, na.rm = T), "inf", "res"))
+infoTableFinal$knncut=factor(ifelse(infoTableFinal$knnEpCAM<=median(infoTableFinal$knnEpCAM, na.rm = T), "inf", "res"))
+infoTableFinal$CD8FracCut=factor(ifelse(infoTableFinal$CD8Frac>=median(infoTableFinal$CD8Frac, na.rm = T), "high", "low"))
+# infoTableFinal$MHcutComp4=factor(paste(infoTableFinal$MHcut, infoTableFinal$treatA, sep=""))
+# infoTableFinal$IFcutComp4=factor(paste(infoTableFinal$IFcut, infoTableFinal$treatA, sep=""))
+infoTableFinal$Growth=factor(infoTableFinal$Growth)
+
+# print('number of samples for each treatment and growth rate')
+# table(infoTableFinal$Fraction, infoTableFinal$Treatment, infoTableFinal$Growth)
+
+a1=table(infoTableFinal$Fraction, infoTableFinal$Treatment, infoTableFinal$Growth)
+par(mfrow=c(2,2))
+ContTable(t(a1[ , , 1]), "growing", F, ylabL="fraction", xlabL="treatment")
+ContTable(t(a1[ , , 2]), "stable", F, ylabL="fraction", xlabL="treatment")
+
+a1=table(infoTableFinal$Fraction, infoTableFinal$Treatment, infoTableFinal$MHcut)
+ContTable(t(a1[ , , 1]), "infiltrating (MH)", F, ylabL="fraction", xlabL="treatment")
+ContTable(t(a1[ , , 2]), "restricted (MH)", F, ylabL="fraction", xlabL="treatment")
+
+a1
+```
+
+Note that based on the above tables, there some comparisons which are slightly imbalanced:
+
+* There are few "stable" samples for comparisons
+* LY samples are overwhelmingly "infiltrating"
+
+
+## Set-up cell-type specifoc the comparisons
+
+Setup the following comparisons for each cell type:
+
+expression ~ growing + treatment + batch (exclude 1)  (start with vehicle vs some treatment)
+
+4 categories only: immunotherapy vs non-immuno
+
+Separate out the tables into CD45, DN and Ep fractions. Compare:
+
+1. Treatment (EpddsTreat)
+2. Comp4: Growth + any immunotherapy treatment (Epdds)
+3. Comp8: Growth + immunotherapy (EpddsTreatG)
+4. Growth alone: (EpddsGrowth)
+5. MH index: (EpddsStrMH)
+6. Interacting Fraction (EpddsStrIF) 
+7. knn values (EpddsStrknn)
+8. CD8 content (EpddsCD8)
+9. Manual scoring spatial (EpddsSpatMan)
+10. MH index + CD8 frac (Epddscd8MH)
+
+We remove genes which have 0 counts in more than half the samples, and genes which have a row sum less than $10^{(log10(mean(rowsums))-log10(sd(rowsums)))}$.
+
+
+```{r deseq-assoc-runs, cache=T}
+# find epithelial samples
+infoTableFinal$Treatment2=ifelse(infoTableFinal$Treatment=="Vehicle", "none", "imm")
+
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$Growth))])
+Epdds=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~Comp4+factor(Batch)) ## change class
+a1x=rowSums(counts(Epdds))
+a1b=apply(counts(Epdds), 1, function(c) sum(c!=0))
+ # par(mfrow=c(1,2))
+ # hist(log10(a1x+1), main="log10 total counts")
+ # hist((a1b+1), main="Non-zero entries")
+sd1vals=mean(log10(a1x+1))-sd(log10(a1x+1))
+keep=which(rowSums(counts(Epdds))>10^sd1vals)
+keep2=which(apply(counts(Epdds), 1, function(c) sum(c!=0))> (ncol(Epdds)/2))
+Epdds=Epdds[intersect(keep, keep2), ]
+Epdds=DESeq(Epdds)
+
+EpddsTreat=Epdds
+design(EpddsTreat)=~Treatment+factor(Batch)
+EpddsTreat=DESeq(EpddsTreat)
+
+EpddsTreatG=Epdds
+EpddsTreatG$Comp8=factor(paste(EpddsTreatG$Growth, EpddsTreatG$Treatment, sep="."))
+design(EpddsTreatG)=~Comp8+factor(Batch)
+EpddsTreatG=DESeq(EpddsTreatG)
+
+EpddsGrowth=Epdds
+design(EpddsGrowth)=~Growth+factor(Batch)  ## error is here!
+EpddsGrowth=DESeq(EpddsGrowth)
+
+EpddsStrMH=Epdds[ ,which(!is.na(Epdds$MHcut))]
+design(EpddsStrMH)=~MHcut+factor(Batch)
+EpddsStrMH=DESeq(EpddsStrMH)
+
+EpddsStrIF=Epdds[ ,which(!is.na(Epdds$IFcut))]
+design(EpddsStrIF)=~IFcut+factor(Batch)
+EpddsStrIF=DESeq(EpddsStrIF)
+
+EpddsStrknn=Epdds[ ,which(!is.na(Epdds$knncut))]
+design(EpddsStrknn)=~knncut+factor(Batch)
+EpddsStrknn=DESeq(EpddsStrknn)
+
+Epddscd8=Epdds[ ,which(!is.na(Epdds$CD8FracCut))]
+design(Epddscd8)=~CD8FracCut+factor(Batch)
+Epddscd8=DESeq(Epddscd8)
+
+# EpddsStrMHComp4=Epdds[ ,which(!is.na(Epdds$MHcut))]
+# EpddsStrMHComp4$MHcutComp4<-droplevels(EpddsStrMHComp4$MHcutComp4)
+# design(EpddsStrMHComp4)=~MHcutComp4+factor(Batch)
+# EpddsStrMHComp4=DESeq(EpddsStrMHComp4)
+# 
+# EpddsStrIFComp4=Epdds[ ,which(!is.na(Epdds$IFcut))]
+# EpddsStrIFComp4$IFcutComp4<-droplevels(EpddsStrIFComp4$IFcutComp4)
+# design(EpddsStrIFComp4)=~IFcutComp4+factor(Batch)
+# EpddsStrIFComp4=DESeq(EpddsStrIFComp4)
+
+EpddsSpatMan=Epdds[ , which(!is.na(Epdds$SpatialManual))]
+design(EpddsSpatMan)=~SpatialManual+factor(Batch)
+EpddsSpatMan=DESeq(EpddsSpatMan)
+
+
+Epddscd8MH=Epdds[ ,which(!is.na(Epdds$MHcut))]
+Epddscd8MH$cd8MH=factor(paste(Epddscd8MH$CD8FracCut, Epddscd8MH$MHcut, sep="."))
+design(Epddscd8MH)=~cd8MH+factor(Batch)
+Epddscd8MH=DESeq(Epddscd8MH)
+
+#R1=results(EpddsTreatG, contrast = list(c("Treatment_LY_vs_Vehicle", "Growthgrowing")))
+## CD45 samples
+
+cdidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$Growth))])
+CDdds=DESeqDataSetFromMatrix(allstarFinal[ ,cdidx], infoTableFinal[cdidx, ], design=~Treatment2+factor(Batch)) ## change class
+a1x=rowSums(counts(CDdds))
+a1b=apply(counts(CDdds), 1, function(c) sum(c!=0))
+# par(mfrow=c(1,2))
+# hist(log10(a1x+1), main="log10 total counts")
+# hist((a1b+1), main="Non-zero entries")
+sd1vals=mean(log10(a1x+1))-sd(log10(a1x+1))
+keep=which(rowSums(counts(CDdds))>10^sd1vals)
+keep2=which(apply(counts(CDdds), 1, function(c) sum(c!=0))> (ncol(CDdds)/2))
+CDdds=CDdds[intersect(keep, keep2), ]
+CDdds=DESeq(CDdds)
+
+CDddsTreat=CDdds
+design(CDddsTreat)=~Treatment+factor(Batch)
+CDddsTreat=DESeq(CDddsTreat)
+
+CDddsTreatG=CDdds
+CDddsTreatG$Comp8=factor(paste(CDddsTreatG$Growth, CDddsTreatG$Treatment, sep="."))
+design(CDddsTreatG)=~Comp8+factor(Batch)
+CDddsTreatG=DESeq(CDddsTreatG)
+
+CDddsGrowth=CDdds
+design(CDddsGrowth)=~Growth+factor(Batch)
+CDddsGrowth=DESeq(CDddsGrowth)
+
+CDddsStrMH=CDdds[ ,which(!is.na(CDdds$MHcut))]
+design(CDddsStrMH)=~MHcut+factor(Batch)
+CDddsStrMH=DESeq(CDddsStrMH)
+
+CDddsSpatMan=CDdds[ , which(!is.na(CDdds$SpatialManual))]
+design(CDddsSpatMan)=~SpatialManual+factor(Batch)
+CDddsSpatMan=DESeq(CDddsSpatMan)
+
+CDddsStrIF=CDdds[ ,which(!is.na(CDdds$IFcut))]
+design(CDddsStrIF)=~IFcut+factor(Batch)
+CDddsStrIF=DESeq(CDddsStrIF)
+
+CDddsStrknn=CDdds[ ,which(!is.na(CDdds$knncut))]
+design(CDddsStrknn)=~knncut+factor(Batch)
+CDddsStrknn=DESeq(CDddsStrknn)
+
+CDddscd8=CDdds[ ,which(!is.na(CDdds$CD8FracCut))]
+design(CDddscd8)=~CD8FracCut+factor(Batch)
+CDddscd8=DESeq(CDddscd8)
+
+CDddscd8MH=CDdds[ ,which(!is.na(CDdds$MHcut))]
+CDddscd8MH$cd8MH=factor(paste(CDddscd8MH$CD8FracCut, CDddscd8MH$MHcut, sep="."))
+design(CDddscd8MH)=~cd8MH+factor(Batch)
+CDddscd8MH=DESeq(CDddscd8MH)
+## DN samples
+
+DNidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction=="DN" & !is.na(infoTableFinal$Growth))])
+DNdds=DESeqDataSetFromMatrix(allstarFinal[ ,DNidx], infoTableFinal[DNidx, ], design=~Comp4+factor(Batch)) ## change class
+a1x=rowSums(counts(DNdds))
+a1b=apply(counts(DNdds), 1, function(c) sum(c!=0))
+# par(mfrow=c(1,2))
+# hist(log10(a1x+1), main="log10 total counts")
+# hist((a1b+1), main="Non-zero entries")
+sd1vals=median(log10(a1x+1))-sd(log10(a1x+1))
+keep=which(rowSums(counts(DNdds))>10^sd1vals)
+keep2=which(apply(counts(DNdds), 1, function(c) sum(c!=0))> (ncol(DNdds)/2))
+keep=which(rowSums(counts(DNdds))>(ncol(DNdds)))
+keep2=which(apply(counts(DNdds), 1, function(c) sum(c!=0))> (ncol(DNdds)/2))
+DNdds=DNdds[intersect(keep, keep2), ]
+DNdds=DESeq(DNdds)
+
+DNddsTreat=DNdds
+design(DNddsTreat)=~Treatment+factor(Batch)
+DNddsTreat=DESeq(DNddsTreat)
+
+DNddsTreatG=DNdds
+DNddsTreatG$Comp8=factor(paste(DNddsTreatG$Growth, DNddsTreatG$Treatment, sep="."))
+design(DNddsTreatG)=~Comp8+factor(Batch)
+DNddsTreatG=DESeq(DNddsTreatG)
+
+DNddsGrowth=DNdds
+design(DNddsGrowth)=~Growth+factor(Batch)
+DNddsGrowth=DESeq(DNddsGrowth)
+
+DNddsStrMH=DNdds[ ,which(!is.na(DNdds$MHcut))]
+design(DNddsStrMH)=~MHcut+factor(Batch)
+DNddsStrMH=DESeq(DNddsStrMH)
+
+# DNddsStrMHComp4=DNdds[ ,which(!is.na(DNdds$MHcut))]
+# DNddsStrMHComp4$MHcutComp4=droplevels(DNddsStrMHComp4$MHcutComp4)
+# 
+# design(DNddsStrMHComp4)=~MHcutComp4+factor(Batch)
+# DNddsStrMHComp4=DESeq(DNddsStrMHComp4)
+
+DNddsStrIF=DNdds[ ,which(!is.na(DNdds$IFcut))]
+design(DNddsStrIF)=~IFcut+factor(Batch)
+DNddsStrIF=DESeq(DNddsStrIF)
+
+# DNddsStrIFComp4=DNdds[ ,which(!is.na(DNdds$IFcut))]
+# DNddsStrIFComp4$IFcutComp4=droplevels(DNddsStrIFComp4$IFcutComp4)
+# design(DNddsStrIFComp4)=~IFcutComp4+factor(Batch)
+# DNddsStrIFComp4=DESeq(DNddsStrIFComp4)
+
+DNddsSpatMan=DNdds[ , which(!is.na(DNdds$SpatialManual))]
+design(DNddsSpatMan)=~SpatialManual+factor(Batch)
+DNddsSpatMan=DESeq(DNddsSpatMan)
+
+DNddsStrknn=DNdds[ ,which(!is.na(DNdds$knncut))]
+design(DNddsStrknn)=~knncut+factor(Batch)
+DNddsStrknn=DESeq(DNddsStrknn)
+
+DNddscd8=DNdds[ ,which(!is.na(DNdds$CD8FracCut))]
+design(DNddscd8)=~CD8FracCut+factor(Batch)
+DNddscd8=DESeq(DNddscd8)
+
+
+DNddscd8MH=DNdds[ ,which(!is.na(DNdds$MHcut))]
+DNddscd8MH$cd8MH=factor(paste(DNddscd8MH$CD8FracCut, DNddscd8MH$MHcut, sep="."))
+design(DNddscd8MH)=~cd8MH+factor(Batch)
+DNddscd8MH=DESeq(DNddscd8MH)
+
+save(Epdds, EpddsTreat,CDdds, CDddsTreat, DNdds, DNddsTreat,
+     EpddsTreatG, CDddsTreatG, DNddsTreatG, EpddsGrowth, CDddsGrowth, DNddsGrowth, 
+     DNddsStrknn, DNddsStrIF, DNddscd8, DNddscd8MH, DNddsStrMH,
+     CDddsStrknn, CDddsStrIF, CDddscd8, CDddscd8MH, CDddsStrMH,
+     EpddsStrknn, EpddsStrIF, Epddscd8, Epddscd8MH, EpddsStrMH,
+     EpddsSpatMan, CDddsSpatMan, DNddsSpatMan,
+     file=sprintf("outputs/subfraction_analysis_%s.RData", Sys.Date()))
+
+# Alist=results(EpddsSpatMan, c("SpatialManual", "Infiltrating", "restricted"))
+# Clist=results(CDddsSpatMan, c("SpatialManual", "Infiltrating", "restricted"))
+# Dlist=results(DNddsSpatMan, c("SpatialManual", "Infiltrating", "restricted"))
+
+#load("rslt/DESeq/subfraction_analysis_2020-09-29.RData")
+#write.csv(a2, sprintf("rslt/DESeq/Spatial_Manual_comparison_%s.csv", Sys.Date()))
+```
+
+These comparisons are saved in the temporary outputfile `r sprintf("outputs/subfraction_analysis_%s.RData", Sys.Date())`. In each comparison, there are 
+`r nrow(Epdds); nrow(CDdds); nrow(DNdds)` genes compared.
+
+
+```{r deseq-spatManual, cache=T, eval=F}
+FractionTest="CD45"
+# infoTableFinal$MHEpCAMcut=cut(infoTableFinal$MHEpCAM, c(-1, median(infoTableFinal$MHEpCAM, na.rm = T), 1.1), c("low", "high"))
+ infoTableFinal$knnEpCAMcut=cut(infoTableFinal$knnEpCAM, c(-1, median(infoTableFinal$knnEpCAM, na.rm = T), 1E7), c("low", "high"))
+# infoTableFinal$IFEpCAMcut=cut(infoTableFinal$IFEpCAM, c(-1, median(infoTableFinal$IFEpCAM, na.rm = T), 1.1), c("low", "high"))
+ infoTableFinal$CD8FracCut=cut(infoTableFinal$CD8Frac, c(-1, median(infoTableFinal$CD8Frac, na.rm = T), 1.1), c("low", "high"))
+
+EpSpatialddsList=list()
+
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction==FractionTest & !is.na(infoTableFinal$MHcut))])
+EpddsMH=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~MHcut) ## change class
+EpSpatialddsList[[1]]=DESeq(EpddsMH)
+EpddsIF=EpddsMH
+design(EpddsIF)=~IFcut
+EpSpatialddsList[[2]]=DESeq(EpddsIF)
+Epddsknn=EpddsMH
+design(Epddsknn)=~knnEpCAMcut
+EpSpatialddsList[[3]]=DESeq(Epddsknn)
+Epddscd8=EpddsMH
+design(Epddscd8)=~CD8FracCut
+EpSpatialddsList[[4]]=DESeq(Epddscd8)
+epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort=="Progression" & infoTableFinal$Fraction==FractionTest & !is.na(infoTableFinal$SpatialManual))])
+EpddsSM=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~SpatialManual) ## change class
+EpSpatialddsList[[5]]=DESeq(EpddsSM)
+
+
+#run the summaries?
+Rlist=lapply(EpSpatialddsList, results)
+RlistSum=lapply(Rlist, summary)
+DiffGenes1=lapply(Rlist, function(x) x$log2FoldChange[which(x$padj<0.1 & abs(x$log2FoldChange)>1.5 & x$baseMean>50)])
+DiffGenes2=lapply(Rlist, function(x) rownames(x)[which(x$padj<0.1 & abs(x$log2FoldChange)>1.5 & x$baseMean>50)])
+DiffGenes1[[5]]=DiffGenes1[[5]]*(-1)
+DiffGenes1[[3]]=DiffGenes1[[3]]*(-1)
+
+#DiffGenes2=lapply(1:length(Rlist), function(x) {names(DiffGenes[[x]])<-rownames(Rlist[[x]])[which(Rlist[[x]]$padj<0.05 & abs(Rlist[[x]]$log2FoldChange)>1.5 & Rlist[[x]]$baseMean>50)]; DiffGenes[[x]]})
+names(DiffGenes1)=c("MH", "IF", "knn", "CD8", "SpatMan")
+names(DiffGenes2)=c("MH", "IF", "knn", "CD8", "SpatMan")
+lxa=melt(DiffGenes1)
+lxb=melt(DiffGenes2)
+lx=cbind(lxa, lxb)
+lx=lx[ ,-4]
+colnames(lx)=c("value", "L1", "Gene")
+lxTable=acast(lx, Gene~L1)
+lxTable[which(is.na(lxTable), arr.ind = T)]=0
+
+lxTableRS=rowSums(abs(sign(lxTable)))
+idx=which(lxTableRS>0)
+
+#pdf(sprintf("rslt/DESeq/Spatial_DEG_common_%s_%s.pdf", FractionTest, Sys.Date()), width = 14, height=6)
+heatmap.2(t(lxTable[idx, ]), trace="none",scale="none", col=RdBu[11:1], main=sprintf("diffGenes fold change: %s Blue:low/rest, Red:high/infil ", FractionTest))
+par(mfrow=c(1,2))
+venn(DiffGenes2[1:3])
+venn(DiffGenes2[c(1, 4:5)])
+intersect(DiffGenes1[[1]], DiffGenes1[[2]])
+intersect(intersect(DiffGenes2[[1]], DiffGenes2[[4]]), DiffGenes2[[5]])
+#dev.off()
+
+genelist1=rownames(Rlist[[1]])
+midx=lapply(Rlist, function(x) match(rownames(x), genelist1))
+
+df.All.save=cbind(Rlist[[1]][midx[[1]], c(1,2, 5:6) ], Rlist[[2]][midx[[2]], c(2, 5:6)], 
+                  Rlist[[3]][midx[[3]], c(2, 5:6)],Rlist[[4]][midx[[4]], c(2, 5:6)],
+                  Rlist[[5]][midx[[5]], c(2, 5:6)])
+colnames(df.All.save)[2:ncol(df.All.save)]=paste(rep(names(DiffGenes1), each=3), colnames(df.All.save)[2:ncol(df.All.save)])
+
+write.csv(df.All.save, file=sprintf("outputs/DESeq/DEG_spatial_manual_%s_%s.csv", FractionTest, Sys.Date()))
+
+TestInput=read.csv(sprintf("outputs/DESeq/DEG_spatial_manual_%s_%s.csv", FractionTest, Sys.Date()), row.names = 1)
+a1=match(lm22rat$Gene.symbol, rownames(TestInput))
+TestInput$LM22gene=""
+TestInput$LM22gene[na.omit(a1)]=1
+write.csv(TestInput, "outputs/DEG_spatial_manual_Ep_2020-10-14_annot_Imm_genes.csv")
+```
+
+## PCA plots
+
+Below, we look at PCA plots with information on treatment, growth, spatial patterns overlaid. 
+
+These are separated based on cell type
+
+### EpCAM
+
+```{r}
+#pdf(sprintf("rslt/DESeq/Sample_specific_PCA_%s.pdf", Sys.Date()), height=9, width=9)
+Epdds$cd8MH=paste(Epdds$CD8FracCut, Epdds$MHcut)
+
+vstEp=vst(Epdds, blind=F)
+vstEp$Treatment2=ifelse(vstEp$Treatment=="Vehicle", "no", "yes")
+
+
+vsdLimmaEp=vstEp
+assay(vsdLimmaEp)<- limma::removeBatchEffect(assay(vsdLimmaEp),vsdLimmaEp$Batch)
+plotPCA(vsdLimmaEp, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth Ep")
+plotPCA(vsdLimmaEp, c("Treatment"))+theme_bw()+ggtitle("Treatment Ep")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
+plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
+plotPCA(vstEp, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment")
+plotPCA(vstEp, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: treatment + growth")
+plotPCA(vstEp, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep treatment (immune vs control) + growth")
+plotPCA(vstEp, intgroup=c("MHcut"))+geom_text(aes(label=Epdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: MH ep to stroma index")
+plotPCA(vstEp, intgroup=c("IFcut"))+geom_text(aes(label=Epdds$IFEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: IF ep to stroma index")
+plotPCA(vstEp, intgroup=c("cd8MH"))+geom_text(aes(label=Epdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
+
+pdf("~/Desktop/FigS1-ep-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstEp, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstEp)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstEp))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstEp$Growth], trace="none")
+
+dev.off()
+```
+
+### CD45
+
+Note there is a strong batch effect: need to apply limma remove Batch Effect prior to creating PCA plots
+
+```{r}
+CDdds$cd8MH=paste(CDdds$CD8FracCut, CDdds$MHcut)
+
+vstCD=vst(CDdds, blind=F)
+plotPCA(vstCD, "Batch")
+vsdLimmaCD=vstCD
+
+assay(vsdLimmaCD)<- limma::removeBatchEffect(assay(vsdLimmaCD),vstCD$Batch)
+# library(cluster)
+# PAMx=pam(t(assay(vsdLimmaCD)), 2)
+# autoplot(PAMx )
+# 
+# 
+ax1=plotPCA(vsdLimmaCD, c("Batch"), returnData=T)
+plotPCA(vsdLimmaCD, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth CD45")
+plotPCA(vsdLimmaCD, c("Treatment"))+theme_bw()+ggtitle("Treatment CD45")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
+plotPCA(vstCD, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment")
+plotPCA(vstCD, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: treatment + growth")
+plotPCA(vstCD, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 treatment (immune vs control) + growth")
+plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=CDdds$TumSize),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: growth: kinetics vs final tum size")
+plotPCA(vstCD, intgroup=c("MHcut"))+geom_text(aes(label=CDdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("CD45 treatment MH value")
+plotPCA(vstCD, intgroup=c("IFcut"))+geom_text(aes(label=CDdds$IFEpCAM),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: IF value")
+plotPCA(vstCD, intgroup=c("cd8MH"))+geom_text(aes(label=CDdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
+
+
+pdf("~/Desktop/FigS2-cd45-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstCD, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstCD)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstCD))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstCD$Growth], trace="none")
+
+dev.off()
+```
+
+### DN
+
+```{r}
+DNdds$cd8MH=paste(DNdds$CD8FracCut, DNdds$MHcut)
+
+vstDN=vst(DNdds, blind=T)
+vstDN$Treatment2=ifelse(vstDN$Treatment=="Vehicle", "no", "imm")
+
+vsdLimmaDN=vstDN
+
+assay(vsdLimmaDN)<- limma::removeBatchEffect(assay(vsdLimmaDN),vstDN$Batch)
+# library(cluster)
+# PAMx=pam(t(assay(vsdLimmaCD)), 2)
+# autoplot(PAMx )
+# 
+# 
+ax1=plotPCA(vsdLimmaDN, c("Batch"), returnData=T)
+plotPCA(vsdLimmaDN, c("Growth"))+scale_color_manual(values=c("orange", "#31A354"))+theme_bw()+ggtitle("Growth CDN")
+plotPCA(vsdLimmaDN, c("Treatment"))+theme_bw()+ggtitle("Treatment DN")+scale_color_manual(values=c(brewer.pal(3, "Oranges"), "#5D5D5D"))
+
+
+
+
+plotPCA(vstDN, intgroup=c("Treatment"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment ")
+plotPCA(vstDN, intgroup=c("Treatment", "Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: treatment + growth")
+plotPCA(vstDN, intgroup=c("Comp4"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN treatment (immune vs control) + growth")
+plotPCA(vstDN, intgroup=c("Growth"))+geom_text(aes(label=DNdds$TumSize),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN population: growth: kinetics vs final tum size")
+plotPCA(vstDN, intgroup=c("MHcut"))+geom_text(aes(label=DNdds$MHEpCAM),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("DN treatment (immune vs control) + growth")
+plotPCA(vstDN, intgroup=c("IFcut"))+geom_text(aes(label=DNdds$IFEpCAM),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("DN population: growth: kinetics vs final tum size")
+plotPCA(vstDN, intgroup=c("cd8MH"))+geom_text(aes(label=DNdds$cd8MH),vjust=2,check_overlap = TRUE,size = 4)+ggtitle("CD45 population: cd8 + MH")
+#dev.off()
+
+
+pdf("~/Desktop/FigS3-dn-pca-cor-plot.pdf", height=6, width = 6)
+
+plotPCA(vstDN, intgroup=c("Growth"))+geom_text(aes(label=colnames(vstDN)),vjust=1,check_overlap = TRUE,size = 4)+ggtitle("Ep population: growth: kinetics vs final tum size")+scale_color_manual(values=c(ColSize[2:1], "black"))+theme_bw()
+
+Xa1=cor(assay(vstDN))
+heatmap.2(Xa1, col=RdBu[11:1], ColSideColors = ColSizeb[vstDN$Growth], trace="none")
+
+dev.off()
+
+```
+
+## Output: relate this to treatment
+
+```{r}
+EpddsTreatB=EpddsTreat
+design(EpddsTreatB)=~treatA+factor(Batch)
+EpddsTreatB=DESeq(EpddsTreatB)
+
+epr=results(EpddsTreatB)
+Xa1=epr[which(epr$padj<0.05 & epr$baseMean>60), ]
+
+epvsd=vst(EpddsTreatB)
+assay(epvsd)<- limma::removeBatchEffect(assay(epvsd),factor(epvsd$Batch))
+
+
+
+Mat2=epvsd[match(rownames(Xa1), rownames(epvsd)), ]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+```
+
+DN
+
+List of markers from xcell:
+
+```{r}
+xcellgenes=readxl::read_xlsx("../anntotations/xcell_genes.xlsx", sheet=1)
+AllGenes=as.vector(xcellgenes[ ,-c(1:2)])
+AllGenes=firstup(tolower(unique(as.character(unlist(AllGenes)))))
+
+```
+
+```{r}
+
+#rm list
+rmList=c("15L_B_DN", "6R_B_DN", "10L_C_DN", "6R_D_DN")
+
+DNddsTreatB=DNddsTreat#[, -match(rmList, colnames(DNddsTreat))]
+design(DNddsTreatB)=~treatA+factor(Batch)
+DNddsTreatB=DESeq(DNddsTreatB)
+
+DNr=results(DNddsTreatB)
+Xa1=DNr[which(DNr$padj<0.05 & DNr$baseMean>100 & abs(DNr$log2FoldChange)>1.5), ]
+
+# DNvsd=vst(DNddsTreatB)
+# assay(DNvsd)<- limma::removeBatchEffect(assay(DNvsd),factor(DNvsd$Batch))
+AllG2=rownames(Xa1)[which(rownames(Xa1)%in%c(AllGenes, "Il6"))]
+
+Mat2=vsdLimmaDN[match(AllG2, rownames(vsdLimmaDN)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+
+
+### don't use this?
+
+ax1=results(DNddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(DNddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(DNddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+
+AllG=unique(c(G1, G2, G3))
+
+#AllG2=AllG[which(AllG%in%RatAllImm)]
+
+Mat2=vsdLimmaDN[match(G3, rownames(vsdLimmaDN)),  ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-3), Cdata$TumorID)]
+
+Mat2=Mat2[ ,which(Mat2$Treatment%in%c("PDL1+LY", "Vehicle"))]
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+colSCol2=ColSizeb[Mat2$Growth]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+Agenes2=unlist(GeneListRat[-c(3, 6)])
+
+Mat3=vsdLimmaDN[na.omit(match(Agenes2, rownames(vsdLimmaDN))), which(vsdLimmaDN$Treatment%in%c("PDL1+LY", "Vehicle")) ]
+heatmap.2(assay(Mat3), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+```
+
+CD45
+
+```{r}
+CDddsTreatB=CDddsTreat
+design(CDddsTreatB)=~treatA
+CDddsTreatB=DESeq(CDddsTreatB)
+
+CDr=results(CDddsTreatB)
+Xa1=CDr[which(CDr$padj<0.05 & CDr$baseMean>100 & abs(CDr$log2FoldChange)>1.5), ]
+
+AllG2=rownames(Xa1)[which(rownames(Xa1)%in%RatAllImm)]
+
+Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
+
+#assay(CDvsd)<- limma::removeBatchEffect(assay(CDvsd))
+
+#Mat2=CDvsd[match(rownames(Xa1), rownames(CDvsd)), ]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+
+## ALSO LOOK AT the pairwise comparisons and pull out those genes
+ax1=results(CDddsTreat, c("Treatment", "LY", "Vehicle"))
+bx1=results(CDddsTreat, c("Treatment", "PDL1", "Vehicle"))
+cx1=results(CDddsTreat, c("Treatment", "PDL1+LY", "Vehicle"))
+
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
+
+AllG=unique(c(G1, G2, G3))
+
+AllG2=AllG[which(AllG%in%RatAllImm)]
+
+Mat2=vsdLimmaCD[match(AllG2, rownames(vsdLimmaCD)), ]
+colnames(Mat2)=Cdata$NewID[match(substr(colnames(Mat2),1 , nchar(colnames(Mat2))-5), Cdata$TumorID)]
+
+colSCols=c(brewer.pal(3, "Oranges"),"#5D5D5D" )[Mat2$Treatment]
+colSCol2=ColSizeb[Mat2$Growth]
+
+heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
+
+```
+
+## Collating results and running GSEA
+
+In this section, we combine all the comparisons together for downstream analysis, including
+
+* number of differential genes per comparisons
+* number of samples per comparison
+* write the output to file (outputs/DESeq/Ep_growth_treat.xlsx)
+
+For GSEA we
+
+* convert rat to human symbols
+* run overlap analysis if there are more than 3 hits (outputs/DESeq/HyperGeo_Ep_growth_treat.xlsx)
+* run gene set enrichment analysis on all samples (outputs/DESeq/GSEA_Ep_growth_treat.xlsx)
+* all outputs saved to outputs/all_differential_comparisons.RData)
+
+```{r}
+#load("rslt/DESeq/Epithelial_fraction.RData")
+
+table(Epdds$Comp4)
+
+xsearch=c("stablecontrol","growingimm",  "stableimm", "stableimm")
+ysearch=c("growingcontrol","growingcontrol",  "stablecontrol", "growingimm")
+
+## for treatment control: big differences here which are not replicated
+
+EpComp4=list()
+EpCompSig=list()
+UpDn1=matrix(NA, nrow=2, ncol=21)
+
+for (i in 1:4){
+Eres1=results(Epdds, contrast=c("Comp4", xsearch[i], ysearch[i]))
+EpComp4[[i]]=as.data.frame(cbind(Gene=rownames(Eres1), Eres1))
+EpCompSig[[i]]=sort(rownames(Eres1)[which(Eres1$padj<0.1)])
+UpDn1[ ,i]=c(length(which(Eres1$padj<0.1 & Eres1$log2FoldChange<0)),
+             length(which(Eres1$padj<0.1 & Eres1$log2FoldChange>0)))
+}
+# for control
+
+cList=c("PDL1+LY", "LY", "PDL1")
+for (i in 1:3){
+Eres5=results(EpddsTreat, contrast=c("Treatment", cList[i], "Vehicle"))
+EpComp4[[i+4]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[i+4]]=g1
+UpDn1[ ,i+4]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+xsearchA=c("stable.Vehicle","stable.LY",  "stable.PDL1+LY", "stable.PDL1")
+ysearchB=c("growing.Vehicle","growing.LY",  "growing.PDL1+LY", "growing.PDL1")
+
+
+for (i in 1:4){
+Eres5=results(EpddsTreatG, contrast=c("Comp8", xsearchA[i], ysearchB[i]))
+EpComp4[[i+7]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[i+7]]=g1
+UpDn1[ ,i+7]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+
+Eres5=results(EpddsGrowth, contrast=c("Growth", "stable", "growing"))
+EpComp4[[12]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[12]]=g1
+UpDn1[ ,12]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+
+
+Eres5=results(EpddsStrMH, contrast=c("MHcut", "res", "inf"))
+EpComp4[[13]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[13]]=g1
+UpDn1[ ,13]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(EpddsStrIF, contrast=c("IFcut", "res", "inf"))
+EpComp4[[14]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[14]]=g1
+UpDn1[ ,14]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(EpddsStrknn, contrast=c("knncut", "res", "inf"))
+EpComp4[[15]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[15]]=g1
+UpDn1[ ,15]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(Epddscd8, contrast=c("CD8FracCut", "low", "high"))
+EpComp4[[16]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[16]]=g1
+UpDn1[ ,16]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(EpddsSpatMan, contrast=c("SpatialManual", "Infiltrating", "restricted"))
+EpComp4[[17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[17]]=g1
+UpDn1[ ,17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+xsearchC=c("low.inf","high.inf",  "low.inf", "low.res")
+ysearchD=c("low.res","high.res", "high.inf", "high.res")
+
+for (i in 1:4){
+Eres5=results(Epddscd8MH, contrast=c("cd8MH", xsearchC[i], ysearchD[i]))
+EpComp4[[i+17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+EpCompSig[[i+17]]=g1
+UpDn1[ ,i+17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+#boxplot(assay(Epdds)["Snca", ]~Epdds$treatA+Epdds$Growth)
+
+rownames(UpDn1)=c("down", "up")
+colnames(UpDn1)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+names(EpComp4)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+names(EpCompSig)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+
+## write to a xls
+write_xlsx(EpComp4, path=sprintf("outputs/DESeq/Ep_growth_treat.xlsx"))
+```
+
+
+```{r run-gsea, cache=T}
+#load("anntotations/Rat_biomart_gene_annotations.RData")
+
+epGenes=rownames(Epdds)
+cdGenes=rownames(CDdds)
+dnGenes=rownames(DNdds)
+
+l1=SymHum2Rat$HGNC.symbol[match(epGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(epGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(epGenes, Mouse2Hum$MGI.symbol)]
+epGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, epGenes)))
+
+l1=SymHum2Rat$HGNC.symbol[match(cdGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(cdGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(cdGenes, Mouse2Hum$MGI.symbol)]
+cdGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, cdGenes)))
+
+l1=SymHum2Rat$HGNC.symbol[match(dnGenes, SymHum2Rat$RGD.symbol)]
+l2=Rat2Hum$HGNC.symbol[match(dnGenes, Rat2Hum$RGD.symbol)]
+l3=Mouse2Hum$HGNC.symbol[match(dnGenes, Mouse2Hum$MGI.symbol)]
+dnGenesConv=ifelse(is.na(l1)==F, l1, ifelse(is.na(l2)==F, l2, ifelse(is.na(l3)==F, l3, dnGenes)))
+
+```
+
+
+```{r}
+load("../anntotations/ListofGeneSets2.RData")
+```
+
+```{r ep-samples-gsea, cache=T, results='hide', warning=F, message=F}
+#save(ListGSC, file="anntotations/ListofGeneSets2.RData")
+OutputMatrix=lapply( ListGSC, function(x) matrix(NA, ncol=length(EpComp4)*2, nrow=length(x)))
+ismr3 <- lapply(1:length(OutputMatrix), function(x){ row.names(OutputMatrix[[x]])<-names(ListGSC[[x]]); OutputMatrix[[x]]})
+ismrB<-ismr3 
+
+for (i in 1:length(EpComp4)){
+
+hits=EpCompSig[[i]]
+hits=epGenesConv[match(hits, rownames(Epdds))]
+fcTab=EpComp4[[i]]$log2FoldChange
+names(fcTab)=epGenesConv
+
+
+if (length(hits)>2){
+  gsca=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+  gsca1 <- preprocess(gsca, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+}else{
+  gsca=GSCA(listOfGeneSetCollections=ListGSC, geneList=fcTab)
+  gsca1 <- preprocess(gsca, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+}
+
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$GSEA.results[[j]]
+  mx1=match(rownames(x1), rownames(ismr3[[j]]))
+  ismr3[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(1, 3)])
+}
+
+if (length(hits)>2){
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$HyperGeo.results[[j]]
+  mx1=match(rownames(x1), rownames(ismrB[[j]]))
+  ismrB[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(6, 7)])
+}}
+
+
+}
+
+Epismr3 <- lapply(ismr3, function(x){ colnames(x)<- paste(rep(names(EpComp4), each=2), c("NES", "padj")); x})
+names(Epismr3)=names(ListGSC)
+Epismr3<-lapply(Epismr3, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(Epismr3, path=sprintf("outputs/DESeq/GSEA_Ep_growth_treat_%s.xlsx", Sys.Date()))
+
+EpismrHG <- lapply( ismrB, function(x){ colnames(x)<- paste(rep(names(EpComp4), each=2), c("pval", "padj")); x})
+names(EpismrHG)=names(ListGSC)
+EpismrHG<-lapply(EpismrHG, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(EpismrHG, path=sprintf("outputs/DESeq/HyperGeo_Ep_growth_treat_%s.xlsx", Sys.Date()))
+```
+
+
+```{r cd45-samples-gsea, results='hide', warning=F, message=F, cache=T}
+#load("rslt/DESeq/Epithelial_fraction.RData")
+
+table(CDdds$Comp4)
+
+xsearch=c("stablecontrol","growingimm",  "stableimm", "stableimm")
+ysearch=c("growingcontrol","growingcontrol",  "stablecontrol", "growingimm")
+
+## for treatment control: big differences here which are not replicated
+
+CDComp4=list()
+CDCompSig=list()
+CDUpDn1=matrix(NA, nrow=2, ncol=21)
+
+for (i in 1:4){
+Eres1=results(CDdds, contrast=c("Comp4", xsearch[i], ysearch[i]))
+CDComp4[[i]]=as.data.frame(cbind(Gene=rownames(Eres1), Eres1))
+CDCompSig[[i]]=sort(rownames(Eres1)[which(Eres1$padj<0.1)])
+CDUpDn1[ ,i]=c(length(which(Eres1$padj<0.1 & Eres1$log2FoldChange<0)),
+             length(which(Eres1$padj<0.1 & Eres1$log2FoldChange>0)))
+}
+# for control
+
+cList=c("PDL1+LY", "LY", "PDL1")
+for (i in 1:3){
+Eres5=results(CDddsTreat, contrast=c("Treatment", cList[i], "Vehicle"))
+CDComp4[[i+4]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[i+4]]=g1
+CDUpDn1[ ,i+4]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+xsearchA=c("stable.Vehicle","stable.LY",  "stable.PDL1+LY", "stable.PDL1")
+ysearchB=c("growing.Vehicle","growing.LY",  "growing.PDL1+LY", "growing.PDL1")
+
+
+for (i in 1:4){
+Eres5=results(CDddsTreatG, contrast=c("Comp8", xsearchA[i], ysearchB[i]))
+CDComp4[[i+7]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[i+7]]=g1
+CDUpDn1[ ,i+7]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+#boxplot(assay(CDdds)["Snca", ]~CDdds$treatA+CDdds$Growth)
+
+Eres5=results(CDddsGrowth, contrast=c("Growth", "stable", "growing"))
+CDComp4[[12]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[12]]=g1
+CDUpDn1[ ,12]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+
+Eres5=results(CDddsStrMH, contrast=c("MHcut", "res", "inf"))
+CDComp4[[13]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[13]]=g1
+CDUpDn1[ ,13]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+
+Eres5=results(CDddsStrIF, contrast=c("IFcut", "res", "inf"))
+CDComp4[[14]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[14]]=g1
+CDUpDn1[ ,14]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(CDddsStrknn, contrast=c("knncut", "res", "inf"))
+CDComp4[[15]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[15]]=g1
+CDUpDn1[ ,15]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(CDddscd8, contrast=c("CD8FracCut", "low", "high"))
+CDComp4[[16]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[16]]=g1
+CDUpDn1[ ,16]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(CDddsSpatMan, contrast=c("SpatialManual", "Infiltrating", "restricted"))
+CDComp4[[17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[17]]=g1
+CDUpDn1[ ,17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+xsearchC=c("low.inf","high.inf",  "low.inf", "low.res")
+ysearchD=c("low.res","high.res", "high.inf", "high.res")
+
+for (i in 1:4){
+Eres5=results(CDddscd8MH, contrast=c("cd8MH", xsearchC[i], ysearchD[i]))
+CDComp4[[i+17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+CDCompSig[[i+17]]=g1
+CDUpDn1[ ,i+17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+
+rownames(CDUpDn1)=c("down", "up")
+colnames(CDUpDn1)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+names(CDComp4)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+names(CDCompSig)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+
+## write to a xls
+write_xlsx(CDComp4, path=sprintf("outputs/DESeq/CD_growth_treat_%s.xlsx", Sys.Date()))
+
+OutputMatrix=lapply( ListGSC, function(x) matrix(NA, ncol=length(CDComp4)*2, nrow=length(x)))
+CDismr3 <- lapply(1:length(OutputMatrix), function(x){ row.names(OutputMatrix[[x]])<-names(ListGSC[[x]]); OutputMatrix[[x]]})
+CDismrB=CDismr3
+for (i in 1:length(CDComp4)){
+
+hits=CDCompSig[[i]]
+hits=cdGenesConv[match(hits, rownames(CDdds))]
+fcTab=CDComp4[[i]]$log2FoldChange
+names(fcTab)=cdGenesConv
+
+
+if (length(hits)>3){
+  gsca=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+gsca1 <- preprocess(gsca, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+}else{
+  gsca=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab)
+gsca1 <- preprocess(gsca, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+}
+
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$GSEA.results[[j]]
+  mx1=match(rownames(x1), rownames(CDismr3[[j]]))
+  CDismr3[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(1, 3)])
+}
+
+if (length(hits)>3){
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$HyperGeo.results[[j]]
+  mx1=match(rownames(x1), rownames(CDismrB[[j]]))
+  CDismrB[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(6, 7)])
+}}
+
+}
+
+CDismr3 <- lapply(CDismr3, function(x){ colnames(x)<- paste(rep(names(CDComp4), each=2), c("NES", "padj")); x})
+names(CDismr3)=names(ListGSC)
+CDismr3<-lapply(CDismr3, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(CDismr3, path=sprintf("outputs/DESeq/GSEA_CD_growth_treat.xlsx"))
+
+
+CDismrB <- lapply(CDismrB, function(x){ colnames(x)<- paste(rep(names(CDComp4), each=2), c("pval", "padj")); x})
+names(CDismrB)=names(ListGSC)
+CDismrB<-lapply(CDismrB, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(CDismrB, path=sprintf("outputs/DESeq/HyperGeom_CD_growth_treat.xlsx"))
+```
+
+
+```{r dn-samples-gsea, cache=T, results='hide', warning=F, message=F}
+#load("rslt/DESeq/Epithelial_fraction.RData")
+
+table(DNdds$Comp4)
+
+xsearch=c("stablecontrol","growingimm",  "stableimm", "stableimm")
+ysearch=c("growingcontrol","growingcontrol",  "stablecontrol", "growingimm")
+
+## for treatment control: big differences here which are not replicated
+
+DNComp4=list()
+DNCompSig=list()
+DNUpDn1=matrix(NA, nrow=2, ncol=21)
+
+for (i in 1:4){
+Eres1=results(DNdds, contrast=c("Comp4", xsearch[i], ysearch[i]))
+DNComp4[[i]]=as.data.frame(cbind(Gene=rownames(Eres1), Eres1))
+DNCompSig[[i]]=sort(rownames(Eres1)[which(Eres1$padj<0.1)])
+DNUpDn1[ ,i]=c(length(which(Eres1$padj<0.1 & Eres1$log2FoldChange<0)),
+             length(which(Eres1$padj<0.1 & Eres1$log2FoldChange>0)))
+}
+# for control
+
+cList=c("PDL1+LY", "LY", "PDL1")
+for (i in 1:3){
+Eres5=results(DNddsTreat, contrast=c("Treatment", cList[i], "Vehicle"))
+DNComp4[[i+4]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[i+4]]=g1
+DNUpDn1[ ,i+4]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+xsearchA=c("stable.Vehicle","stable.LY",  "stable.PDL1+LY", "stable.PDL1")
+ysearchB=c("growing.Vehicle","growing.LY",  "growing.PDL1+LY", "growing.PDL1")
+
+
+for (i in 1:4){
+Eres5=results(DNddsTreatG, contrast=c("Comp8", xsearchA[i], ysearchB[i]))
+DNComp4[[i+7]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[i+7]]=g1
+DNUpDn1[ ,i+7]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+boxplot(assay(DNdds)["Snca", ]~DNdds$treatA+DNdds$Growth)
+
+Eres5=results(DNddsGrowth, contrast=c("Growth", "stable", "growing"))
+DNComp4[[12]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[12]]=g1
+DNUpDn1[ ,12]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+
+Eres5=results(DNddsStrMH, contrast=c("MHcut", "res", "inf"))
+DNComp4[[13]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[13]]=g1
+DNUpDn1[ ,13]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+
+Eres5=results(DNddsStrIF, contrast=c("IFcut", "res", "inf"))
+DNComp4[[14]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[14]]=g1
+DNUpDn1[ ,14]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(DNddsStrknn, contrast=c("knncut", "res", "inf"))
+DNComp4[[15]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[15]]=g1
+DNUpDn1[ ,15]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(DNddscd8, contrast=c("CD8FracCut", "low", "high"))
+DNComp4[[16]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[16]]=g1
+DNUpDn1[ ,16]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+Eres5=results(DNddsSpatMan, contrast=c("SpatialManual", "Infiltrating", "restricted"))
+DNComp4[[17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[17]]=g1
+DNUpDn1[ ,17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+
+xsearchC=c("low.inf","high.inf",  "low.inf", "low.res")
+ysearchD=c("low.res","high.res", "high.inf", "high.res")
+
+for (i in 1:4){
+Eres5=results(DNddscd8MH, contrast=c("cd8MH", xsearchC[i], ysearchD[i]))
+DNComp4[[i+17]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
+g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
+DNCompSig[[i+17]]=g1
+DNUpDn1[ ,i+17]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
+             length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
+}
+
+rownames(DNUpDn1)=c("down", "up")
+colnames(DNUpDn1)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+
+  #c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"),"stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF")
+
+
+names(DNComp4)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+
+  #c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"),"stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF")
+names(DNCompSig)=c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"), "stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF", "res_vs_inf.knn", "lo_vs_hi_cd8", "inf_vs_res.SpatMan", "low.inf_vs_low.res.cd8.mh",  "hi.inf_vs_hi.res.cd8.mh",  "low.inf_vs_hi.inf.cd8.mh",  "low.res_vs_hi.res.cd8.mh")
+
+#c(paste(xsearch, "vs", ysearch, sep="_"), paste(cList, "_vs_Vehicle", sep=""), paste(xsearchA, "vs", ysearchB, sep="_"),"stable_vs_growing", "res_vs_inf.MH", "res_vs_inf.IF")
+
+## write to a xls
+write_xlsx(DNComp4, path=sprintf("outputs/DN_growth_treat.xlsx"))
+
+OutputMatrix=lapply( ListGSC, function(x) matrix(NA, ncol=length(DNComp4)*2, nrow=length(x)))
+DNismr3 <- lapply(1:length(OutputMatrix), function(x){ row.names(OutputMatrix[[x]])<-names(ListGSC[[x]]); OutputMatrix[[x]]})
+DNismrB=DNismr3
+
+for (i in 1:length(DNComp4)){
+
+hits=DNCompSig[[i]]
+hits=dnGenesConv[match(hits, rownames(DNdds))]
+fcTab=DNComp4[[i]]$log2FoldChange
+names(fcTab)=dnGenesConv
+
+gsca=GSCA(listOfGeneSetCollections=ListGSC,geneList=fcTab, hits = hits)
+gsca1 <- preprocess(gsca, species="Hs", initialIDs="SYMBOL",
+                    keepMultipleMappings=TRUE, duplicateRemoverMethod="max",
+                    orderAbsValue=FALSE)
+if (length(hits)>0){
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = T)
+}else{
+  gsca2 <- analyze(gsca1, 
+                 para=list(pValueCutoff=0.05, pAdjustMethod="BH",
+                           nPermutations=100, minGeneSetSize=5,
+                           exponent=1), 
+                           doGSOA = F)
+}
+
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$GSEA.results[[j]]
+  mx1=match(rownames(x1), rownames(DNismr3[[j]]))
+  DNismr3[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(1, 3)])
+}
+
+
+if (length(hits)>2){
+for (j in 1:length(ListGSC)){
+  x1=gsca2@result$HyperGeo.results[[j]]
+  mx1=match(rownames(x1), rownames(DNismrB[[j]]))
+  DNismrB[[j]][ mx1,(2*i-1):(2*i)]=data.matrix(x1[, c(6, 7)])
+}}
+
+
+}
+
+DNismr3 <- lapply(DNismr3, function(x){ colnames(x)<- paste(rep(names(DNComp4), each=2), c("NES", "padj")); x})
+names(DNismr3)=names(ListGSC)
+DNismr3<-lapply(DNismr3, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(DNismr3, path=sprintf("outputs/GSEA_DN_growth_treat.xlsx"))
+
+DNismrB <- lapply(DNismrB, function(x){ colnames(x)<- paste(rep(names(DNComp4), each=2), c("pval", "padj")); x})
+names(DNismrB)=names(ListGSC)
+DNismrB<-lapply(DNismrB, function(x) as.data.frame(cbind(GeneSet=rownames(x), x)))
+write_xlsx(DNismrB, path=sprintf("outputs/DESeq/HyperGeom_DN_growth_treat.xlsx"))
+
+
+save(DNComp4, EpComp4, CDComp4, DNismr3,Epismr3, CDismr3,DNismrB, EpismrHG, CDismrB,
+     DNCompSig, EpCompSig, CDCompSig, UpDn1, CDUpDn1, DNUpDn1, file="outputs/all_differential_comparisons.RData")
+```
+
+
+Do a quick plot of specific pathways:
+
+
+```{r}
+dneg1=as.numeric(DNismr3$ProcessNetworks$`PDL1+LY_vs_Vehicle NES`[which(DNismr3$ProcessNetworks$`PDL1+LY_vs_Vehicle padj`<0.05)])
+names(dneg1)=rownames(DNismr3$ProcessNetworks)[which(DNismr3$ProcessNetworks$`PDL1+LY_vs_Vehicle padj`<0.05)]
+
+par(oma=c(5,2, 1, 1))
+barplot(sort(dneg1), las=2)
+
+xx2=sapply(c("Cell adhesion", "Proteolysis", "Autophagy", "Inflammation",
+             "Development"), function(x) grep(x, names(dneg1)))
+
+barplot(sort(dneg1[unlist(xx2)]), las=2)
+```
+
+
+```{r, eval=F}
+
+load("anntotations/Rat_biomart_gene_annotations.RData")
+
+PathInH=getGmt(con="anntotations/h.all.v7.1.symbols.gmt", geneIdType=SymbolIdentifier(),
+                collectionType=BroadCollection(category="h"))
+
+HallmarkNames=unique(unlist(geneIds(PathInH)))
+
+## change the HallmarkNames to rat
+
+RatHallmark=SymHum2Rat$RGD.symbol[match(HallmarkNames, SymHum2Rat$HGNC.symbol)]
+RatHallmark2=Rat2Hum$RGD.symbol[match(HallmarkNames, Rat2Hum$HGNC.symbol)]
+
+RatUn=na.omit(unique(c(RatHallmark, RatHallmark2)))
+
+midx=sapply(EpCompSig, function(x) intersect(x, RatUn))
+
+mUnique2=unique(unlist(midx))
+
+ColsideCols=DiffCols[EpddsTreatG$Comp8_v2]
+ColsideColsB=hue_pal()(4)[EpddsTreatG$Treatment]
+ColsideColsC=hue_pal()(2)[EpddsTreatG$Growth]
+
+colTable=rbind(ColsideCols, ColsideColsB, ColsideColsC)
+rownames(colTable)=c("Treat+growth", "Treatment", "growth")
+
+x1=match(c("2N__Ep", "NMU12_RL_Ep", "10L_D_Ep", "3N_B_Ep"), colnames(vstEp))
+
+heatmap.plus(assay(vstEp)[mUnique2, ], trace="none", scale="none", col=RdBu[11:1], ColSideColors = t(colTable), main=sprintf("Hallmark genes %s", SampleFrac))
+
+
+```

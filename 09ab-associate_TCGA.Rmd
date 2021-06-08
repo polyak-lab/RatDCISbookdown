@@ -368,14 +368,15 @@ Here, use the signature which was applied before to see the difference between t
 
 
 ```{r, results='hide'}
-GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
-Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+#GlistGrowing=rownames(vstLumRes)[which(vstLumRes$log2FoldChange>1.5 & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
+#Glistnon=rownames(vstLumRes)[which(vstLumRes$log2FoldChange<(-1.5) & vstLumRes$baseMean>100 & vstLumRes$padj<0.05 )]
 
 HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
 HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
 
 TCGAssgsea=gsva((TCGArsem2), list(grow=na.omit(HumGeneList2), 
-                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)]), method="ssgsea", ssgsea.norm=F)
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)],
+                                  Onco=Oncoprint[[1]], Mamma=Oncoprint[[2]]), method="ssgsea", ssgsea.norm=F)
 
 TCGAssgsea=t(scale(t(TCGAssgsea)))
 
@@ -514,6 +515,10 @@ lx2=match(BrClin$Patient.ID[l1], colnames(TCGAssgsea))
 lx3=match(BrClin$Patient.ID[l1], ThorssData$TCGA.Participant.Barcode)
 
 newinfoTab=data.frame(pat=BrClin$Patient.ID[l1], TCGAval=TCGAssgsea[2, lx2],
+                      TCGAstab=TCGAssgsea[1, lx2],
+                      TCGAcomb=TCGAssgsea[1, lx2]-TCGAssgsea[2, lx2],
+                      Onco=TCGAssgsea[3, lx2],
+                      Mamma=TCGAssgsea[4, lx2],
                       leuk=as.numeric(ThorssData$Leukocyte.Fraction[lx3]),
                       str=as.numeric(ThorssData$Stromal.Fraction[lx3]),
                       TCRshann=as.numeric(ThorssData$TCR.Shannon[lx3]),
@@ -545,6 +550,99 @@ As well as whether it associates with any of the previously identified immune su
 ggplot(newinfoTab, aes(x=immSub, y=TCGAval))+geom_boxplot()+geom_point()+theme_bw()
 write.csv(newinfoTab, file="nature-tables/5h_lum_growing_vs_stable.csv")
 ```
+
+## Comparison to oncotype and mammaprint 
+
+Finally, see how these compare to oncotype or mammaprint.
+
+We can do this two ways:
+
+### Overall survival
+
+1. Run survival ~ Oncotype/Mamma/Growing + PAM50 + Stage
+
+```{r}
+SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
+SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
+model1=coxph(SurvOS~TCGAgrow+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAgrow+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAgrow+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAgrow+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+2. Also try the growing signature:
+
+```{r}
+model1=coxph(SurvOS~TCGAstab+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAstab+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAstab+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAstab+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+3. Combine the signatures such that it is Growing - Stable
+
+```{r}
+model1=coxph(SurvOS~TCGAcomb+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvOS~TCGAcomb+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvOS~TCGAcomb+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvOS~TCGAcomb+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+### DFS survival
+
+1. Run survival ~ Oncotype/Mamma/Growing + PAM50 + Stage
+
+```{r}
+#SurvOS=Surv(newinfoTab$OSM, ifelse(newinfoTab$OSS=="LIVING", 0, 1))
+SurvDFS=Surv(newinfoTab$DFM, ifelse(newinfoTab$DFS=="DiseaseFree", 0,ifelse(newinfoTab$DFS=="Recurred/Progressed", 1, NA) ))
+model1=coxph(SurvDFS~TCGAgrow+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAgrow+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAgrow+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAgrow+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+2. Also try the growing signature:
+
+```{r}
+model1=coxph(SurvDFS~TCGAstab+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAstab+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAstab+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAstab+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
+3. Combine the signatures such that it is Growing - Stable
+
+```{r}
+model1=coxph(SurvDFS~TCGAcomb+Stage, data=newinfoTab)
+summary(model1)
+model2=coxph(SurvDFS~TCGAcomb+Onco+Stage, data=newinfoTab)
+summary(model2)
+model3=coxph(SurvDFS~TCGAcomb+Mamma+Stage, data=newinfoTab)
+summary(model3)
+model3=coxph(SurvDFS~TCGAcomb+Mamma+Onco+Stage, data=newinfoTab)
+summary(model3)
+```
+
 
 ### TCGA: LumA high vs low signatures
 
