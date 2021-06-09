@@ -2666,7 +2666,7 @@ design(EpddsTreat)=~Treatment+factor(Batch)
 EpddsTreat=DESeq(EpddsTreat)
 # 3. ep
 EpddsGrowth=Epdds
-design(EpddsGrowth)=~GrowthRate+factor(Batch)  ## error is here!
+design(EpddsGrowth)=~Growth+factor(Batch)  ## error is here!
 EpddsGrowth=DESeq(EpddsGrowth)
 # 4. ep
 EpddsStrMH=Epdds[ ,which(!is.na(Epdds$MHcut))]
@@ -2697,7 +2697,7 @@ CDddsTreat=DESeq(CDddsTreat)
 
 # 3. Cd45
 CDddsGrowth=CDdds
-design(CDddsGrowth)=~GrowthRate+factor(Batch)
+design(CDddsGrowth)=~Growth+factor(Batch)
 CDddsGrowth=DESeq(CDddsGrowth)
 #4
 CDddsStrMH=CDdds[ ,which(!is.na(CDdds$MHcut))]
@@ -2730,7 +2730,7 @@ design(DNddsTreat)=~Treatment+factor(Batch)
 DNddsTreat=DESeq(DNddsTreat)
 
 DNddsGrowth=DNdds
-design(DNddsGrowth)=~(GrowthRate)+factor(Batch)
+design(DNddsGrowth)=~(Growth)+factor(Batch)
 DNddsGrowth=DESeq(DNddsGrowth)
 
 DNddsStrMH=DNdds[ ,which(!is.na(DNdds$MHcut))]
@@ -2930,7 +2930,7 @@ UpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
              length(which(Eres5$padj<0.1 & Eres5$log2FoldChange>0)))
 }
 
-Eres5=results(EpddsGrowth, name="GrowthRate")
+Eres5=results(EpddsGrowth, contrast=c("Growth", "stable", "growing"))
 EpComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 EpCompSig[[5]]=g1
@@ -3084,7 +3084,7 @@ CDUpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
 }
 
 
-Eres5=results(CDddsGrowth, name="GrowthRate")
+Eres5=results(CDddsGrowth, contrast=c("Growth", "stable", "growing"))
 CDComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 CDCompSig[[5]]=g1
@@ -3206,7 +3206,7 @@ DNUpDn1[ ,i+1]=c(length(which(Eres5$padj<0.1 & Eres5$log2FoldChange<0)),
 
 
 #
-Eres5=results(DNddsGrowth, name="GrowthRate")
+Eres5=results(DNddsGrowth, contrast=c("Growth", "stable", "growing"))
 DNComp4[[5]]=as.data.frame(cbind(Gene=rownames(Eres5), Eres5))
 g1=sort(rownames(Eres5)[which(Eres5$padj<0.1)])
 DNCompSig[[5]]=g1
@@ -3749,9 +3749,9 @@ xa=rownames(ax1)
 xb=rownames(bx1)
 xc=rownames(cx1)
 
-G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>2)]
-G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>2)]
-G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>2)]
+G1=rownames(ax1)[which(ax1$baseMean>100 & ax1$padj<0.05 & abs(ax1$log2FoldChange)>1.5)]
+G2=rownames(bx1)[which(bx1$baseMean>100 & bx1$padj<0.05 & abs(bx1$log2FoldChange)>1.5)]
+G3=rownames(cx1)[which(cx1$baseMean>100 & cx1$padj<0.05 & abs(cx1$log2FoldChange)>1.5)]
 
 AllG=unique(c(G1, G2, G3))
 
@@ -3786,12 +3786,12 @@ Here, we look at the 3 different fractions in greater depth and look at volcano 
 ```{r dn-growth, cache=T}
 #pdf(sprintf("rslt/DESeq/volcano_plots_differences_stable_vs_growing_%s.pdf", Sys.Date()), height=7, width=8)
 
-DNa1=results(DNddsGrowth, name="GrowthRate") #DNComp4$stable_vs_growing
+DNa1=results(DNddsGrowth, name="Growth") #DNComp4$stable_vs_growing
 DNa1$Gene=rownames(DNa1)
-DNa=DNa1[ which(DNa1$padj<0.05 & DNa1$baseMean>80 & abs(DNa1$log2FoldChange)>0.15), ]
+DNa=DNa1[ which(DNa1$padj<0.05 & DNa1$baseMean>100 & abs(DNa1$log2FoldChange)>1.5), ]
 with(DNa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: DN growing (+) vs stable (-)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>80), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>80), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
+with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(DNa1, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100), text(log2FoldChange+0.05, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
 vstDN$GRcutoff=cut(vstDN$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2") )
 
 colnames(vstDN)=vstDN$TumorIDnew
@@ -3809,15 +3809,15 @@ Volcano plot
 ```{r 4g, fig.cap="volcano plot of DEG stable vs growing CD45"}
 
 #pdf("~/Desktop/Figure4G_CD_stable_growing.pdf", height=12, width=12)
-CDa1=results(CDddsGrowth, name="GrowthRate")
+CDa1=results(CDddsGrowth, name="Growth")
 CDa1$Gene=rownames(CDa1)
 #CDa1=CDComp4$stable_vs_growing
-CDa=CDa1[ which(CDa1$padj<0.05 & CDa1$baseMean>50 & abs(CDa1$log2FoldChange)>0.15), ]
+CDa=CDa1[ which(CDa1$padj<0.05 & CDa1$baseMean>100 & abs(CDa1$log2FoldChange)>1.5), ]
 lx2=which(CDa$Gene%in%RatAllImm)
 
 with(CDa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: CD Stable (-) vs Growing (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>50 ), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>0.15 & baseMean>50 ), text(log2FoldChange+0.02, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
+with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100 ), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100 ), text(log2FoldChange+0.02, -log10(padj)+0.05, Gene, pch=20, col="red", cex=0.75))
 
 #write.csv(CDa1, file="nature-tables/4g.csv")
 
@@ -3851,19 +3851,20 @@ heatmap.2(assay(vstCD)[CDs, ], scale="row", trace="none", ColSideColors = as.cha
 
 ```{r}
 #Epa1=EpComp4$stable_vs_growing
-Epa1=results(EpddsGrowth, name="GrowthRate")
+Epa1=results(EpddsGrowth, name="Growth")
 Epa1$Gene=rownames(Epa1)
 
-Epa=Epa1[ which(Epa1$padj<0.02 & Epa1$baseMean>80 & abs(Epa1$log2FoldChange)>0.25), ]
+Epa=Epa1[ which(Epa1$padj<0.05 & Epa1$baseMean>100 & abs(Epa1$log2FoldChange)>1.5), ]
 with(Epa1, plot(log2FoldChange, -log10(padj), pch=20, main="Volcano plot: Ep Stable (-) vs Growing (+)", cex=1.0, xlab=bquote(~Log[2]~fold~change), ylab=bquote(~-log[10]~Q~value)))
-with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>0.25), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
-with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>0.25), text(log2FoldChange+0.05, -log10(padj)+0.1, Gene, pch=20, col="red", cex=0.75))
+with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>1.5), points(log2FoldChange, -log10(padj), pch=20, col="red", cex=0.5))
+with(subset(Epa1, padj<0.05 & abs(log2FoldChange)>1.5), text(log2FoldChange+0.05, -log10(padj)+0.1, Gene, pch=20, col="red", cex=0.75))
 
 vstEp$GRcutoff=cut(vstEp$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2") )
 
 colnames(vstEp)=vstEp$TumorIDnew
 
 #EpaB=Epa[order(1/abs(Epa$log2FoldChange), Epa$padj), ]
+a1=dim(EEpa)
 
 heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = brewer.pal(4, "Greens")[ (as.numeric(factor(vstEp$GRcutoff)))], col=RdBu[11:1], main="Ep genes")
 
@@ -4526,11 +4527,11 @@ Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep") #,"2N__Ep", "
 
 EpddsInflam=EpddsGrowth
 EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
-design(EpddsInflam)=~GrowthRate
+design(EpddsInflam)=~Growth
 EpddsInflam=DESeq(EpddsInflam)
 
-ResA=results(EpddsInflam, name="GrowthRate") #contrast = c("Growth", "stable", "growing"))
-ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>0.25 & ResA$baseMean>80), ]
+ResA=results(EpddsInflam, name="Growth") #contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>100), ]
 
 
 #pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
@@ -4550,8 +4551,6 @@ vst2=vst(EpddsInflam)
 
 heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
           ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
-
-#write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
 ```
 
 ### GSEA
@@ -4633,7 +4632,7 @@ We removed all the basal samples and did the same comparison:
 ```{r EpddsLum, fig.cap="DEG non-inflamm Lum only"}
 Epdds$HR=Cdata$HR_status[match(substr(colnames(Epdds), 1, nchar(colnames(Epdds))-3), Cdata$TumorID)]
 vstLumOnly=Epdds[, which(Epdds$HR=="Lum")]
-design(vstLumOnly)=~GrowthRate
+design(vstLumOnly)=~Growth
 vstLumOnly=DESeq(vstLumOnly)
 colnames(Epdds)
 
@@ -6193,7 +6192,7 @@ Below is a summary of the number of differential genes, using p value cut off of
 infoTableFinal$TumSize=Cdata$Tumor.diameter.sac.mm[match(infoTableFinal$TumorID, Cdata$TumorID)]
 infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>7, "big", "small")))
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="CD45" & !is.na(infoTableFinal$SizeCat))])
-CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(TumSize)) ## change class
+CD45ddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
 
 a1x=rowSums(counts(CD45ddsChar))
 a1b=apply(counts(CD45ddsChar), 1, function(c) sum(c!=0))
@@ -6385,7 +6384,7 @@ infoTableFinal$TumSize=Cdata$Tumor.diameter.sac.mm[match(infoTableFinal$TumorID,
 #infoTableFinal$SizeCat=factor(ifelse(infoTableFinal$Cohort=="Progression", ifelse(infoTableFinal$TumSize>X2a, "big", "small"), ifelse(infoTableFinal$TumSize>X1a, "big", "small")))
 
 epidx=as.character(infoTableFinal$SampleID[which(infoTableFinal$Cohort!="Progression" & infoTableFinal$Fraction=="Ep" & !is.na(infoTableFinal$SizeCat))])
-EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(TumSize)) ## change class
+EpddsChar=DESeqDataSetFromMatrix(allstarFinal[ ,epidx], infoTableFinal[epidx, ], design=~(SizeCat)) ## change class
 
 a1x=rowSums(counts(EpddsChar))
 a1b=apply(counts(EpddsChar), 1, function(c) sum(c!=0))
@@ -9202,7 +9201,7 @@ save(allHfilesP,allCodingHaploP, allCodingHaploP,  file=sprintf("outputs/Haploty
 MallCodingHaploP=melt(allCodingHaploP,  measure.var="POS")
 MallCodingHaploP$mutPos=paste(MallCodingHaploP$GENE, MallCodingHaploP$value)
 
-VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained")
+VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained", "splice")
 n2=unique(unlist(sapply(VarTypes, function(x) grep(x, MallCodingHaploP$ANNOTATION))))
 MallCodingHaploFuncP=MallCodingHaploP[ n2, ]
 ## Look at epithealial samples
@@ -9253,8 +9252,21 @@ mtext("no locations with overlapping variants in 2+ samples")
 
 ## Look at the common mutations (cosmic ones)
 
+color coding:
+1. splice
+2. frameshift
+3. missense
+4. stop-gained
+
+Look for genes which we reported to be common in this cohort previously, as well as the breast-cancer specific ones
+
 ```{r}
-MallCodingHaploFuncPC=MallCodingHaploFuncP[which(MallCodingHaploFuncP$GENE%in%topCOSMIC), ]
+GeneList=c("Atm", "Tert", "Ncor2", "Epha3", "Arid1a", "Tp53", "Pten", "Pik3ca", "Pik3r1", "Esr1", "Ctcf", "Brca1", "Brca2", "Notch1", "Kmt2d", "Foxa1", "Gata3", "Mdm4", "Ccne1")
+
+
+MallCodingHaploFuncPC=MallCodingHaploFuncP[which(MallCodingHaploFuncP$GENE%in%c(topCOSMIC, GeneList)), ]
+
+MallCodingHaploFuncPC=MallCodingHaploFuncPC[which(MallCodingHaploFuncPC$FILTER=="PASS"), ]
 
 xab=unique(MallCodingHaploFuncPC$ANNOTATION)
 
@@ -9262,7 +9274,7 @@ MallCodingHaploFuncPC$ANNOTATION[grep("frameshift_variant",MallCodingHaploFuncPC
 
 MallCodingHaploFuncPC$ANNOTATION[grep("missense_variant",MallCodingHaploFuncPC$ANNOTATION )]="missense_variant"
 
-MallCodingHaploFuncPC$ANNOTATION=as.numeric(factor(MallCodingHaploFuncPC$ANNOTATION))
+MallCodingHaploFuncPC$ANNOTATION=as.numeric(factor(MallCodingHaploFuncPC$ANNOTATION, levels=c("splice_region_variant&synonymous_variant", "frameshift_variant", "missense_variant", "stop_gained")))
 
 AcastTab=acast(MallCodingHaploFuncPC[ ,c("L1", "GENE", "ANNOTATION")], 
                L1~GENE, fun.aggregate = max)
@@ -9288,31 +9300,88 @@ axis(2, at=seq(0, 1, length=ncol(AcastTab)), colnames(AcastTab), las=2)
 
 View the above using only the Epcam samples:
 
-```{r}
+```{r summary-mutations-rna-Ep}
 Acast2=AcastTab2[grep("Ep", rownames(AcastTab)), ]
 rS=colSums(Acast2)
 Acast2=Acast2[ ,-which(rS==0)]
 
-image(Acast2, xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
-axis(1, at=seq(0, 1, length=nrow(Acast2)), rownames(Acast2), las=2)
-axis(2, at=seq(0, 1, length=ncol(Acast2)), colnames(Acast2), las=2)
+#pdf("~/Desktop/FigureS3_common_mutations_again.pdf", height=12, width=12)
+# also group this according to growing vs stable
+m2=melt(Acast2)
+head(m2)
+m2$growth=Cdata$Tumor.Growth[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$Treatment=Cdata$Treatment[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m2$newid=Cdata$NewID[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+Candidates=c("Polg", "Foxa1", "Ncor2", "Atm")
+pvals=rep(NA, length(Candidates))
+for (i in 1:length(Candidates)){
+  xa=table(m2$value[which(m2$Var2==Candidates[i])], m2$growth[which(m2$Var2==Candidates[i])])
+   pvals[i]=fisher.test(xa)$p.value
+}
 
 ```
 
+Repeat in the DN samples
 
-## Also look at the top RNA-mutations with are Ep specific
+```{r summary-mutations-rna-DN}
+Acast2=AcastTab2[grep("DN", rownames(AcastTab)), ]
+rS=colSums(Acast2)
+Acast2=Acast2[ ,-which(rS==0)]
 
-Look at the following set of genes which have been reported to be mutated in the epithelial samples based on RNAsequencing
+#pdf("~/Desktop/FigureS3_common_mutations_again.pdf", height=12, width=12)
+# also group this according to growing vs stable
+m3=melt(Acast2)
+head(m3)
+m3$growth=Cdata$Tumor.Growth[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
+m3$Treatment=Cdata$Treatment[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
+m3$newid=Cdata$NewID[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
+
+ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+
+
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
+pvals=rep(NA, length(Candidates))
+x1=table(m3$growth[which(m3$Var2==Candidates[1])])
+for (i in 1:length(Candidates)){
+  xa=prop.test(c(
+    length(which(m3$value[which(m3$growth=="growing" & m3$Var2==Candidates[i])]>0)), 
+    length(which(m3$value[which(m3$growth=="stable" & m3$Var2==Candidates[i])]>0))), x1)
+   pvals[i]=xa$p.value
+}
+
+pvals
+
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
+pvals=rep(NA, length(Candidates))
+for (i in 1:length(Candidates)){
+  xa=table(m3$value[which(m3$Var2==Candidates[i])], m3$growth[which(m3$Var2==Candidates[i])])
+   pvals[i]=fisher.test(xa)$p.value
+}
+
+```
+
+Also compare here if there is a difference in frequency between DN and Ep samples:
 
 ```{r}
-GeneList=c("Atm", "Tert", "Ncor2", "Epha3", "Arid1a", "Tp53", "Pten", "Pik3ca", "Pik3r1", "Esr1", "Ctcf", "Brca1", "Brca2", "Notch1", "Kmt2d", "Foxa1", "Gata3", "Mdm4", "Ccne1")
 
-ax1=match(GeneList, colnames(Acast2))
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2", "Bcl9l","Atm" )
+pvals=rep(NA, length(Candidates))
+x1=c(length(which(m2$Var2==Candidates[1])), length(which(m3$Var2==Candidates[1])))
+for (i in 1:length(Candidates)){
+   xa=prop.test(c(
+    length(which(m2$value[which(  m2$Var2==Candidates[i])]>0)), 
+    length(which(m3$value[which( m3$Var2==Candidates[i])]>0))), x1)
+   pvals[i]=xa$p.value
+}
 
-image(Acast2[ ,ax1], xaxt="none", yaxt="none", col=c("white", "red", "blue", "forestgreen"))
-axis(1, at=seq(0, 1, length=nrow(Acast2)), rownames(Acast2), las=2)
-axis(2, at=seq(0, 1, length=ncol(Acast2)), colnames(Acast2), las=2)
-
+pvals
 
 ```
 
@@ -9440,6 +9509,7 @@ Trichrome encapsulation
 
 ```{r}
 df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="lots")]=1
+df.Spatial$trichrome_pc[which(df.Spatial$trichrome_pc=="0% ignore")]=NA
 df.Spatial$trichrome_pc
 #wilcox.test(factor(as.numeric(df.Spatial$trichrome_pc))~df.Spatial$Growth)
 ```

@@ -347,11 +347,11 @@ Inflamm=c("11N_D_Ep", "6R_B_Ep", "8L_D_Ep", "10L_D_Ep", "3N_B_Ep") #,"2N__Ep", "
 
 EpddsInflam=EpddsGrowth
 EpddsInflam=EpddsInflam[, -match(Inflamm, colnames(EpddsInflam))]
-design(EpddsInflam)=~GrowthRate
+design(EpddsInflam)=~Growth
 EpddsInflam=DESeq(EpddsInflam)
 
-ResA=results(EpddsInflam, name="GrowthRate") #contrast = c("Growth", "stable", "growing"))
-ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>0.25 & ResA$baseMean>80), ]
+ResA=results(EpddsInflam, name="Growth") #contrast = c("Growth", "stable", "growing"))
+ResAb=ResA[which(ResA$padj<0.05 & abs(ResA$log2FoldChange)>1.5 & ResA$baseMean>100), ]
 
 
 #pdf("~/Desktop/5C-heatmap-inflamm-vs-non-inflamm-lowexpressing-included.pdf", width=8, height=12)
@@ -371,8 +371,6 @@ vst2=vst(EpddsInflam)
 
 heatmap.2(assay(vst2)[match(rownames(ResAb), rownames(vst2)), ], col=RdBu[11:1], 
           ColSideColors = ColSizeb[vst2$Growth], trace="none", scale="row")
-
-#write.csv(ResAb, file="~/Desktop/5C-growing-stable-in-non-inflammatory-Ep-lowexpressing-included.csv")
 ```
 
 ### GSEA
@@ -454,7 +452,7 @@ We removed all the basal samples and did the same comparison:
 ```{r EpddsLum, fig.cap="DEG non-inflamm Lum only"}
 Epdds$HR=Cdata$HR_status[match(substr(colnames(Epdds), 1, nchar(colnames(Epdds))-3), Cdata$TumorID)]
 vstLumOnly=Epdds[, which(Epdds$HR=="Lum")]
-design(vstLumOnly)=~GrowthRate
+design(vstLumOnly)=~Growth
 vstLumOnly=DESeq(vstLumOnly)
 colnames(Epdds)
 

@@ -148,7 +148,7 @@ design(EpddsTreat)=~Treatment+factor(Batch)
 EpddsTreat=DESeq(EpddsTreat)
 # 3. ep
 EpddsGrowth=Epdds
-design(EpddsGrowth)=~GrowthRate+factor(Batch)  ## error is here!
+design(EpddsGrowth)=~Growth+factor(Batch)  ## error is here!
 EpddsGrowth=DESeq(EpddsGrowth)
 # 4. ep
 EpddsStrMH=Epdds[ ,which(!is.na(Epdds$MHcut))]
@@ -179,7 +179,7 @@ CDddsTreat=DESeq(CDddsTreat)
 
 # 3. Cd45
 CDddsGrowth=CDdds
-design(CDddsGrowth)=~GrowthRate+factor(Batch)
+design(CDddsGrowth)=~Growth+factor(Batch)
 CDddsGrowth=DESeq(CDddsGrowth)
 #4
 CDddsStrMH=CDdds[ ,which(!is.na(CDdds$MHcut))]
@@ -212,7 +212,7 @@ design(DNddsTreat)=~Treatment+factor(Batch)
 DNddsTreat=DESeq(DNddsTreat)
 
 DNddsGrowth=DNdds
-design(DNddsGrowth)=~(GrowthRate)+factor(Batch)
+design(DNddsGrowth)=~(Growth)+factor(Batch)
 DNddsGrowth=DESeq(DNddsGrowth)
 
 DNddsStrMH=DNdds[ ,which(!is.na(DNdds$MHcut))]

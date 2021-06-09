@@ -194,24 +194,24 @@ Acast2=Acast2[ ,-which(rS==0)]
 
 #pdf("~/Desktop/FigureS3_common_mutations_again.pdf", height=12, width=12)
 # also group this according to growing vs stable
-m2=melt(Acast2)
-head(m2)
-m2$growth=Cdata$Tumor.Growth[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
-m2$Treatment=Cdata$Treatment[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
-m2$newid=Cdata$NewID[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), Cdata$TumorID)]
+m3=melt(Acast2)
+head(m3)
+m3$growth=Cdata$Tumor.Growth[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
+m3$Treatment=Cdata$Treatment[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
+m3$newid=Cdata$NewID[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), Cdata$TumorID)]
 
-ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
 
-ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
 
 
 Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
 pvals=rep(NA, length(Candidates))
-x1=table(m2$growth[which(m2$Var2==Candidates[1])])
+x1=table(m3$growth[which(m3$Var2==Candidates[1])])
 for (i in 1:length(Candidates)){
   xa=prop.test(c(
-    length(which(m2$value[which(m2$growth=="growing" & m2$Var2==Candidates[i])]>0)), 
-    length(which(m2$value[which(m2$growth=="stable" & m2$Var2==Candidates[i])]>0))), x1)
+    length(which(m3$value[which(m3$growth=="growing" & m3$Var2==Candidates[i])]>0)), 
+    length(which(m3$value[which(m3$growth=="stable" & m3$Var2==Candidates[i])]>0))), x1)
    pvals[i]=xa$p.value
 }
 
@@ -220,8 +220,26 @@ pvals
 Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
 pvals=rep(NA, length(Candidates))
 for (i in 1:length(Candidates)){
-  xa=table(m2$value[which(m2$Var2==Candidates[i])], m2$growth[which(m2$Var2==Candidates[i])])
+  xa=table(m3$value[which(m3$Var2==Candidates[i])], m3$growth[which(m3$Var2==Candidates[i])])
    pvals[i]=fisher.test(xa)$p.value
 }
+
+```
+
+Also compare here if there is a difference in frequency between DN and Ep samples:
+
+```{r}
+
+Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2", "Bcl9l","Atm" )
+pvals=rep(NA, length(Candidates))
+x1=c(length(which(m2$Var2==Candidates[1])), length(which(m3$Var2==Candidates[1])))
+for (i in 1:length(Candidates)){
+   xa=prop.test(c(
+    length(which(m2$value[which(  m2$Var2==Candidates[i])]>0)), 
+    length(which(m3$value[which( m3$Var2==Candidates[i])]>0))), x1)
+   pvals[i]=xa$p.value
+}
+
+pvals
 
 ```
