@@ -39,7 +39,7 @@ First look at the epithelial fraction:
 # EpddsTreatB=DESeq(EpddsTreatB)
 
 epr=results(Epdds)
-Xa1=epr[which(epr$padj<0.05 & epr$baseMean>60), ]
+Xa1=epr[which(epr$padj<0.05 & epr$baseMean>100), ]
 
 epvsd=vst(Epdds)
 assay(epvsd)<- limma::removeBatchEffect(assay(epvsd),factor(epvsd$Batch))
@@ -51,7 +51,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1], hclustfun = hclust.ave)
 
-DT::datatable(as.data.frame(epr), rownames=T, class='cell-border stripe',
+DT::datatable(as.data.frame(Xa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ## all pairwise comparisons:
@@ -91,7 +91,7 @@ colSCols=ColMerge[ ,1][Mat2$Treatment]
 
 heatmap.2(assay(Mat2), ColSideColors = colSCols, trace="none", scale="row", col=RdBu[11:1])
 
-DT::datatable(as.data.frame(DNr), rownames=T, class='cell-border stripe',
+DT::datatable(as.data.frame(Xa1), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 #write.csv(DNr, file="nature-tables/Supp2_DN_io_vs_non_io.csv")
@@ -204,7 +204,7 @@ vstDN$GRcutoff=cut(vstDN$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2
 colnames(vstDN)=vstDN$TumorIDnew
 heatmap.2(assay(vstDN)[ DNa$Gene, ], scale="row", trace="none", ColSideColors =brewer.pal(4, "Greens")[ (as.numeric(factor(vstDN$GRcutoff)))], col=RdBu[11:1], main="DN genes")
 
-DT::datatable(as.data.frame(DNa1), rownames=T, class='cell-border stripe',
+DT::datatable(as.data.frame(DNa), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'),scrollX=T))
 
 #write.csv(DNa1, file="nature-tables/Supp_2_DEG_DN_growing_stable.csv")
@@ -228,7 +228,7 @@ with(subset(CDa1, padj<0.05 & abs(log2FoldChange)>1.5 & baseMean>100 ), text(log
 
 #write.csv(CDa1, file="nature-tables/4g.csv")
 
-DT::datatable(as.data.frame(CDa1), rownames=T, class='cell-border stripe',
+DT::datatable(as.data.frame(CDa), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
@@ -271,13 +271,13 @@ vstEp$GRcutoff=cut(vstEp$GrowthRate, c(-1, 2, 5, 10, 20), c("L", "M1", "O1", "O2
 colnames(vstEp)=vstEp$TumorIDnew
 
 #EpaB=Epa[order(1/abs(Epa$log2FoldChange), Epa$padj), ]
-a1=dim(EEpa)
+a1=dim(Epa)
 
 heatmap.2(assay(vstEp)[ Epa$Gene, ], scale="row", trace="none", ColSideColors = brewer.pal(4, "Greens")[ (as.numeric(factor(vstEp$GRcutoff)))], col=RdBu[11:1], main="Ep genes")
 
 #write.csv(Epa1, file="nature-tables/Supp_2_DEG_Ep_growing_stable.csv")
 
-DT::datatable(as.data.frame(Epa1), rownames=T, class='cell-border stripe',
+DT::datatable(as.data.frame(Epa), rownames=T, class='cell-border stripe',
           extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```

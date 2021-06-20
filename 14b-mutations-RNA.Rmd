@@ -152,7 +152,7 @@ AC=2;AF=1.00;AN=2;BaseQRankSum=1.593;ClippingRankSum=0.000;DP=9;ExcessHet=3.0103
 
 ## Load files
 
-```{r, cache=T}
+```{r load-haplo, cache=T}
 hfiles=dir("../data/haplotypeCaller/output_HaplotypeCaller_May/characterisation/",
            pattern=".txt", full.names = T)
 

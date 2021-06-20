@@ -1,6 +1,6 @@
 # Mutations in progression cohort
 
-```{r, cache=T}
+```{r load-haplo-prog, cache=T}
 hfiles=dir("../data/haplotypeCaller/output_HaplotypeCaller_May/progression/",
            pattern=".txt", full.names = T)
 
@@ -174,7 +174,9 @@ m2$newid=Cdata$NewID[match(substr(m2$Var1, 1, nchar(as.character(m2$Var1))-3), C
 
 ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
 
-ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+pdf("~/Desktop/FigureS3_common_mutations_ep_again.pdf", height=12, width=12)
+ggplot(m2, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment+growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+dev.off()
 
 Candidates=c("Polg", "Foxa1", "Ncor2", "Atm")
 pvals=rep(NA, length(Candidates))
@@ -202,8 +204,9 @@ m3$newid=Cdata$NewID[match(substr(m3$Var1, 1, nchar(as.character(m3$Var1))-3), C
 
 ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
 
-ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
-
+pdf("~/Desktop/FigureS3_common_mutations_dn_again.pdf", height=12, width=12)
+ggplot(m3, aes(x=newid, y=Var2, fill=factor(value)))+geom_tile()+facet_grid(~Treatment+growth, scale="free_x", space="free")+theme(axis.text.x=element_text(angle=90))+scale_fill_manual(values=c("white","red", "forestgreen", "orange"))
+dev.off()
 
 Candidates=c("Casp3", "Hras", "Fat1", "Setd2", "Ranbp2", "Pold1", "Pms2")
 pvals=rep(NA, length(Candidates))

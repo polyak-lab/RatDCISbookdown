@@ -93,8 +93,8 @@ dev.off()
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 write.csv(Ntab, file="nature-tables/4h.csv")
 
-DT::datatable(Ntab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+ #         extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
@@ -148,7 +148,7 @@ TermType[which(TermType=="Proliferation")]="Transcription"
 TermType[which(TermType=="Translation")]="Transcription"
 testType=c("Inflammation", "Immune response", "Transcription", "Transport")
 
-pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-EP.pdf", height=8, width=8)
+#pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-EP.pdf", height=8, width=8)
 #par(oma=c(2, 3, 0,0), mfrow=c(2,2))
 #for (i in testType){
 #  barplot(as.numeric(termA[which(TermType==i), 1]), names.arg = sigTerms[which(TermType==i)], horiz = T, las=2,
@@ -157,12 +157,12 @@ pdf("~/Desktop/4H-growing(-ve)-vs-stable(+ve)-EP.pdf", height=8, width=8)
 
 a1=order(termA[ ,1])
 barplot(as.numeric(termA[a1, 1]), names.arg = sigTerms[a1], horiz = T, las=2, xlab="NES", main="GSEA rslt grow-stable", col=factor(sign(as.numeric(termA[a1, 1]))))
-dev.off()
+#dev.off()
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 write.csv(Ntab, file="nature-tables/4hEP.csv")
 
-DT::datatable(Ntab, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
+#DT::datatable(Ntab, rownames=F, class='cell-border stripe',
+#          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel')))
 
 ```
 
@@ -184,10 +184,10 @@ sigTerms=TermsA
 TermType=substr(sapply(strsplit(rownames(termA), "_"), function(x) x[1]), 2, 40)
 
 ## check whether this runs:
-pdf("figure-outputs/Ext3h.pdf", height=7, width=7)
+#pdf("figure-outputs/Ext3h.pdf", height=7, width=7)
 barplot(as.numeric(termA[, 1]), names.arg = sigTerms, horiz = T, las=2,
          xlab="NES", main=testType, col=factor(sign(as.numeric(termA[, 1]))))
-dev.off()
+#dev.off()
 Ntab=data.frame(TermType=TermType, sigTerm=sigTerms, termA)
 
 #write.csv(Ntab, file="nature-tables/Ext3h.csv")

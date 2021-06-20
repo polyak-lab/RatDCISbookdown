@@ -30,8 +30,8 @@ CD45ddsChar=CD45ddsChar[intersect(keep, keep2), ]
 CD45ddsChar=DESeq(CD45ddsChar)
 
 A1=results(CD45ddsChar)
-DT::datatable(as.data.frame(A1), rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
+#DT::datatable(as.data.frame(A1), rownames=F, class='cell-border stripe',
+#          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), #scrollX=T))
 
 ```
 
@@ -66,8 +66,8 @@ heatmap.2(t1, Colv = t1r, Rowv = t1r, trace="none", col=RdBu[11:1])
 rownames(t1)=infoTableFinal$TumorIDnew[match(rownames(t1), rownames(infoTableFinal))]
 colnames(t1)=rownames(t1)
 #write.csv(t1, file="nature-tables/Ext2d.csv")
-DT::datatable(t1, rownames=F, class='cell-border stripe',
-          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
+#DT::datatable(t1, rownames=F, class='cell-border stripe',
+#          extensions="Buttons", options=list(dom="Bfrtip", buttons=c('csv', 'excel'), scrollX=T))
 
 ```
 

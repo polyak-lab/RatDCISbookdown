@@ -1,0 +1,556 @@
+# Read in ER i/o data
+
+Read in data from cohort of samples which have ER
+
+```{r read-Tol, cache=T}
+ERTPM=read.delim("../data/Tolaney/rnaseq_tpm_counts.txt", sep="\t", skip=1)
+rownames(ERTPM)=ERTPM[ ,1]
+
+ERcounts=read.delim("../data/Tolaney/raw_rnaseq_counts.txt", sep="\t")
+ERcounts=ERcounts[-25800, ]
+rownames(ERcounts)=ERcounts[ ,1]
+
+ERClin=read.delim("../data/Tolaney/clin_data.txt", sep="\t", skip=1)
+
+ERcibersort=read.csv("../data/Tolaney/CIBERSORT.csv", skip=1)
+ERcytokines=read.csv("../data/Tolaney/cytokines.csv", skip=1)
+
+## Append data where necessary:
+ERClin$CD8_Tcell=ERcibersort$T.cells.CD8[match(paste("Patient", ERClin$Subject.ID, sep=""), ERcibersort$Patient)]
+ERClin$DCs=ERcibersort$Dendritic.cells.activated[match(paste("Patient", ERClin$Subject.ID, sep=""), ERcibersort$Patient)]
+ERClin$MICB=ERcytokines$MICB[match(ERClin$Subject.ID, ERcytokines$Subject.ID)]
+ERClin$MICA=ERcytokines$MICA[match(ERClin$Subject.ID, ERcytokines$Subject.ID)]
+
+```
+
+There are 30 patients in this cohort
+
+
+## Signature: Lum cases non-inflammatory: growing vs stable
+
+Here, use the signature which was applied before to see the difference between the non-inflammatory growing vs stable samples. We compare this to the oncotypedx list of genes and mammaprint
+
+```{r, eval=F}
+#GlistGrowing=read.csv("figure-outputs/lumsig_posFC.csv")
+#GlistGrowing=GlistGrowing$x
+#Glistnon=read.csv("figure-outputs/lumsig_negFC.csv")
+#Glistnon=Glistnon$x
+```
+
+
+```{r, results='hide'}
+
+HumGeneList=SymHum2Rat$HGNC.symbol[match(GlistGrowing, SymHum2Rat$RGD.symbol)]
+HumGeneList2=Rat2Hum$HGNC.symbol[match(GlistGrowing, Rat2Hum$RGD.symbol)]
+
+TCGAssgsea=gsva(data.matrix(ERTPM[ ,-1]), list(grow=na.omit(HumGeneList2),  stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)],Onco=Oncoprint[[1]], Mamma=Oncoprint[[2]]), method="ssgsea", ssgsea.norm=F)
+
+TCGAssgsea=t(scale(t(TCGAssgsea)))
+
+par(mfrow=c(1,2))
+hist(TCGAssgsea[1, ], main="growing")
+hist(TCGAssgsea[2, ], main="stable")
+plot(TCGAssgsea[1, ], TCGAssgsea[2, ], ylab="stable", xlab="growing")
+
+## also compare with onco or mamma print
+
+plot(TCGAssgsea[1, ], TCGAssgsea[3, ], xlab="growing", ylab="oncotype")
+plot(TCGAssgsea[1, ], TCGAssgsea[4, ], xlab="growing", ylab="mammaprint")
+
+## double check the 
+
+plot(TCGAssgsea[1, ], ERTPM["ADAMTS10" ,-1], xlab="growing sig", ylab="ADAMST10")
+```
+
+The Growing signature genes (positive coefficient) are `r GlistGrowing` and stable (negative coefficient) are `r Glistnon`.
+
+Below are the survival curves for the growing signature:
+
+We can compare high and low, as well as with treatment 
+
+```{r, fig.height=8}
+ax1=match(colnames(TCGAssgsea), paste("Patient", ERClin$Subject.ID, sep=""))
+ax3=which(!is.na(ax1))
+ssPS=Surv( ERClin$PFS.Months[na.omit(ax1)], ERClin$Progression[na.omit(ax1)])
+ssOS=Surv(ERClin$OS.Months[na.omit(ax1)], ERClin$Death[na.omit(ax1)] )
+
+
+newtab=data.frame(PFSMo=ERClin$PFS.Months[na.omit(ax1)],
+                  PFS=ERClin$Progression[na.omit(ax1)],
+                  OSMo=ERClin$OS.Months[na.omit(ax1)], 
+                  OS=ERClin$Death[na.omit(ax1)],
+                  Response=ERClin$Response[na.omit(ax1)],
+                  grow=TCGAssgsea[1,ax3 ],
+                  stab=TCGAssgsea[2,ax3 ],
+                  Arm=ERClin$Arm[na.omit(ax1)],
+                  PDL1=ERClin$PD.L1[na.omit(ax1)],
+                  ClinBen=ERClin$Clinical.Benefit[na.omit(ax1)],
+                  TMB=ERClin$TMB[na.omit(ax1)],
+                  Site=ERClin$Biopsy[na.omit(ax1)],
+                  CD8=ERClin$CD8_Tcell[na.omit(ax1)],
+                  DC=ERClin$DCs[na.omit(ax1)],
+                  MICB=ERClin$MICB[na.omit(ax1)],
+                  MICA=ERClin$MICA[na.omit(ax1)],
+                  Purity=ERClin$Purity[na.omit(ax1)]
+                  )
+
+TCGAvalCut=cut(newtab$stab, quantile(newtab$stab, c(0, 0.5, 1)), c("L", "P"))
+
+
+dfs1=coxph(ssPS~TCGAvalCut+Arm, data=newtab)
+summary(dfs1)
+adfs=summary(dfs1)
+os1=coxph(ssOS~TCGAvalCut+Arm, data=newtab)
+summary(os1)
+aos=summary(os1)
+
+ns=table(TCGAvalCut)
+par(mfrow=c(1,2))
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS~TCGAvalCut), main=paste("stab sig: all"), col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PFS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))              
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+      
+vals=round(c(aos$conf.int[ 1,c(1, 3:4)], aos$logtest[3]), 2)
+ax2=plot(survfit(ssOS~TCGAvalCut), main=paste("stab sig: all"), col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+## survival outcome: cts variable
+dfs1=coxph(ssPS~stab+Arm, data=newtab)
+summary(dfs1)
+os1=coxph(ssOS~stab+Arm, data=newtab)
+summary(os1)
+
+```
+
+
+```{r os-growing-tol}
+
+par(mfrow=c(1,2))
+
+TCGAvalCut=cut(newtab$grow, quantile(newtab$grow, c(0, 0.5, 1)), c("L","P"))
+
+dfs1=coxph(ssPS~TCGAvalCut+Arm, data=newtab)
+summary(dfs1)
+adfs=summary(dfs1)
+os1=coxph(ssOS~TCGAvalCut+Arm, data=newtab)
+summary(os1)
+aos=summary(os1)
+
+ns=table(TCGAvalCut)
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS~TCGAvalCut), main=paste("growing sig"), col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PFS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))                    
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(aos$conf.int[ 1,c(1, 3:4)], aos$logtest[3]), 2)
+ax2=plot(survfit(ssOS~TCGAvalCut), main=paste("growing sig"), col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+dfs1=coxph(ssPS~grow+Arm, data=newtab)
+summary(dfs1)
+os1=coxph(ssOS~grow+Arm, data=newtab)
+summary(os1)
+```
+
+Check what happens when you have treament arm:
+
+```{r stable-arm}
+TCGAvalCut=cut(newtab$stab, quantile(newtab$stab, c(0, 0.5, 1)), c("L", "P"))
+
+tx=newtab$Arm
+par(mfrow=c(1,2))
+# ax2=plot(survfit(ssPS~TCGAvalCut+ERClin$Arm[na.omit(ax1)]), main=paste(i, "lum growing"), col=brewer.pal(4, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+dfs1=coxph(ssPS[newtab$Arm=="A"]~TCGAvalCut[newtab$Arm=="A"])
+summary(dfs1)
+adfs=summary(dfs1)
+dfs1=coxph(ssPS[newtab$Arm=="B"]~TCGAvalCut[newtab$Arm=="B"])
+summary(dfs1)
+bdfs=summary(dfs1)
+
+par(mfrow=c(2,2))
+## plot separately the different arms
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ns=table(TCGAvalCut[newtab$Arm=="A"])
+ax2=plot(survfit(ssPS[tx=="A"]~TCGAvalCut[tx=="A"]), main="stable ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T, xlim=c(0,12))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4])) 
+text(10, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ns=table(TCGAvalCut[newtab$Arm=="B"])
+ax2=plot(survfit(ssPS[tx=="B"]~TCGAvalCut[tx=="B"]), main="stable ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T, xlim=c(0, 12))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))  
+text(10, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+## plot the OS result
+# OS based on arm: stable
+
+dfs1=coxph(ssOS[newtab$Arm=="A"]~TCGAvalCut[newtab$Arm=="A"])
+summary(dfs1)
+adfs=summary(dfs1)
+dfs1=coxph(ssOS[newtab$Arm=="B"]~TCGAvalCut[newtab$Arm=="B"])
+summary(dfs1)
+bdfs=summary(dfs1)
+
+## plot separately the different arms
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ns=table(TCGAvalCut[newtab$Arm=="A"])
+ax2=plot(survfit(ssOS[tx=="A"]~TCGAvalCut[tx=="A"]), main="stable ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T, xlim=c(0, 35))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4])) 
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ns=table(TCGAvalCut[newtab$Arm=="B"])
+ax2=plot(survfit(ssOS[tx=="B"]~TCGAvalCut[tx=="B"]), main="stable ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T, xlim=c(0, 35))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))  
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+```
+
+
+```{r growing-arms}
+TCGAvalCut=cut(newtab$grow, c(-10, median(newtab$grow), 10), c("L", "P"))
+
+# ax2=plot(survfit(ssPS~TCGAvalCut+ERClin$Arm[na.omit(ax1)]), main=paste(i, "lum growing"), col=brewer.pal(4, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+dfs1=coxph(ssPS[newtab$Arm=="A"]~TCGAvalCut[newtab$Arm=="A"])
+summary(dfs1)
+adfs=summary(dfs1)
+dfs1=coxph(ssPS[newtab$Arm=="B"]~TCGAvalCut[newtab$Arm=="B"])
+summary(dfs1)
+bdfs=summary(dfs1)
+
+par(mfrow=c(2,2))
+## plot separately the different arms
+ns=table(TCGAvalCut[newtab$Arm=="A"])
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS[tx=="A"]~TCGAvalCut[tx=="A"]), main="grow ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+ns=table(TCGAvalCut[newtab$Arm=="B"])
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS[tx=="B"]~TCGAvalCut[tx=="B"]), main="grow ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+
+## plot the OS result
+# OS based on arm: stable
+
+dfs1=coxph(ssOS[newtab$Arm=="A"]~TCGAvalCut[newtab$Arm=="A"])
+summary(dfs1)
+adfs=summary(dfs1)
+dfs1=coxph(ssOS[newtab$Arm=="B"]~TCGAvalCut[newtab$Arm=="B"])
+summary(dfs1)
+bdfs=summary(dfs1)
+
+## plot separately the different arms
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ns=table(TCGAvalCut[newtab$Arm=="A"])
+ax2=plot(survfit(ssOS[tx=="A"]~TCGAvalCut[tx=="A"]), main="grow ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+ns=table(TCGAvalCut[newtab$Arm=="B"])
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ax2=plot(survfit(ssOS[tx=="B"]~TCGAvalCut[tx=="B"]), main="grow ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+```
+
+Note that the ams are imbalanced, do this again after splitting accord to median in both groups
+
+```{r tol-growing-sig, eval=F}
+
+tx=which(newtab$Arm=="A")
+TCGAvalCut=cut(newtab$grow[tx], c(-10, median(newtab$grow[tx]), 10), c("L", "P"))
+
+# ax2=plot(survfit(ssPS~TCGAvalCut+ERClin$Arm[na.omit(ax1)]), main=paste(i, "lum growing"), col=brewer.pal(4, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+dfs1=coxph(ssPS[tx]~TCGAvalCut)
+summary(dfs1)
+adfs=summary(dfs1)
+
+dfs1=coxph(ssOS[tx]~TCGAvalCut)
+summary(dfs1)
+aos=summary(dfs1)
+
+par(mfrow=c(2,2))
+## plot separately the different arms
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ns=table(TCGAvalCut)
+
+ax2=plot(survfit(ssPS[tx]~TCGAvalCut), main="grow ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(aos$conf.int[ 1,c(1, 3:4)], aos$logtest[3]), 2)
+ax2=plot(survfit(ssOS[tx]~TCGAvalCut), main="grow ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(15, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+## plot the OS result
+# OS based on arm: stable
+
+tx=which(newtab$Arm=="B")
+TCGAvalCut=cut(newtab$grow[tx], c(-10, median(newtab$grow[tx]), 10), c("L", "P"))
+
+
+dfs1=coxph(ssOS[newtab$Arm=="B"]~TCGAvalCut)
+summary(dfs1)
+bos=summary(dfs1)
+dfs1=coxph(ssPS[newtab$Arm=="B"]~TCGAvalCut)
+summary(dfs1)
+bdfs=summary(dfs1)
+ns=table(TCGAvalCut)
+## plot separately the different arms
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS[tx]~TCGAvalCut), main="grow ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T, xlim=c(0, 12))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(bos$conf.int[ 1,c(1, 3:4)], bos$logtest[3]), 2)
+ax2=plot(survfit(ssOS[tx]~TCGAvalCut), main="grow ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T, xlim=c(0, 35))
+text(15, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+```
+
+
+```{r tol-stab-sig, eval=F}
+
+tx=which(newtab$Arm=="A")
+TCGAvalCut=cut(newtab$stab[tx], c(-10, median(newtab$stab[tx]), 10), c("L", "P"))
+
+# ax2=plot(survfit(ssPS~TCGAvalCut+ERClin$Arm[na.omit(ax1)]), main=paste(i, "lum growing"), col=brewer.pal(4, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+dfs1=coxph(ssPS[tx]~TCGAvalCut)
+summary(dfs1)
+adfs=summary(dfs1)
+
+dfs1=coxph(ssOS[tx]~TCGAvalCut)
+summary(dfs1)
+aos=summary(dfs1)
+
+par(mfrow=c(2,2))
+## plot separately the different arms
+vals=round(c(adfs$conf.int[ 1,c(1, 3:4)], adfs$logtest[3]), 2)
+ns=table(TCGAvalCut)
+
+ax2=plot(survfit(ssPS[tx]~TCGAvalCut), main="stab ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(aos$conf.int[ 1,c(1, 3:4)], aos$logtest[3]), 2)
+ax2=plot(survfit(ssOS[tx]~TCGAvalCut), main="stab ArmA", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+text(15, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+## plot the OS result
+# OS based on arm: stable
+
+tx=which(newtab$Arm=="B")
+TCGAvalCut=cut(newtab$stab[tx], c(-10, median(newtab$stab[tx]), 10), c("L", "P"))
+
+
+dfs1=coxph(ssOS[newtab$Arm=="B"]~TCGAvalCut)
+summary(dfs1)
+bos=summary(dfs1)
+dfs1=coxph(ssPS[newtab$Arm=="B"]~TCGAvalCut)
+summary(dfs1)
+bdfs=summary(dfs1)
+ns=table(TCGAvalCut)
+## plot separately the different arms
+vals=round(c(bdfs$conf.int[ 1,c(1, 3:4)], bdfs$logtest[3]), 2)
+ax2=plot(survfit(ssPS[tx]~TCGAvalCut), main="stab ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="PS", mark.time=T, xlim=c(0, 12))
+text(4, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(12, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+vals=round(c(bos$conf.int[ 1,c(1, 3:4)], bos$logtest[3]), 2)
+ax2=plot(survfit(ssOS[tx]~TCGAvalCut), main="stab ArmB", col=brewer.pal(3, "Blues")[2:3],lwd=2, xlab="Time (months)", ylab="OS", mark.time=T, xlim=c(0, 35))
+text(15, 0.1, sprintf("HR =%s (%s-%s), log-rank=%s",vals[1], vals[2], vals[3], vals[4]))   
+text(30, 0.8, sprintf("L=%s, H=%s",ns[1], ns[2]))
+
+```
+
+
+## Do associative study with other features?
+
+```{r tol-assoc-features}
+# growing signature
+TCGAvalCut=cut(newtab$grow, c(-10, median(newtab$grow), 10), c("L", "H"))
+
+table(TCGAvalCut, newtab$PDL1)
+m1=matrix(c(6, 8, 11, 4), ncol=2)
+chisq.test(m1)
+
+table(TCGAvalCut, newtab$Arm)
+chisq.test(table(TCGAvalCut, newtab$Arm))
+
+table(TCGAvalCut,newtab$ClinBen)
+chisq.test(table(TCGAvalCut,newtab$ClinBen))
+
+table(TCGAvalCut,newtab$Response)
+
+chisq.test(table(TCGAvalCut,newtab$Response))
+```
+
+boxplot the growing scores with other covariates:
+
+```{r}
+par(mfrow=c(2,3))
+plot(newtab$grow, newtab$Purity, ylab="Purity", xlab="signature")
+plot(newtab$grow, newtab$CD8, ylab="CIBERSORT CD8", xlab="signature")
+plot(newtab$grow, newtab$DC, ylab="CIBERSORT DC", xlab="signature")
+plot(newtab$grow,newtab$TMB, ylab="TMB", xlab="signature")
+boxplot(newtab$grow[newtab$Arm=="A"] ~ newtab$Response[newtab$Arm=="A"], main="Arm A", ylab="signature")
+boxplot(newtab$grow[newtab$Arm=="B"] ~ newtab$Response[newtab$Arm=="B"], main="Arm B", ylab="signature")
+
+#plot(newtab$grow, newtab$MICB)
+#plot(newtab$grow, newtab$MICA, xlab="Signature", ylab="MICA", pch=19)
+boxplot(newtab$TMB~TCGAvalCut)
+```
+
+Check the association between expression of the growing signatrue and the cytokines profiled
+
+```{r}
+ERcyt2=ERcytokines[which(ERcytokines$Time=="Pre"), ]
+ERcyt2$grow=newtab$grow[match(paste("Patient", ERcyt2$Subject.ID, sep=""), rownames(newtab))]
+ERcyt3=ERcytokines[which(ERcytokines$Time=="Post"), ]
+ERcyt2$MICA_post=ERcyt3$MICA[match(ERcyt2$Subject.ID, ERcyt3$Subject.ID)]
+ERcyt2$MICB_post=ERcyt3$MICB[match(ERcyt2$Subject.ID, ERcyt3$Subject.ID)]
+
+CorVals=sapply(c(6:19, 21:22), function(x) cor(ERcyt2[ ,x], ERcyt2$grow, use="complete", method="spearman" ))
+PVals=sapply(c(6:19, 21:22), function(x) cor.test(ERcyt2[ ,x], ERcyt2$grow, use="complete",method="spearman" )$p.value)
+
+names(CorVals)=colnames(ERcyt2)[c(6:19, 21:22)]
+names(PVals)=colnames(ERcyt2)[c(6:19, 21:22)]
+
+par(mfrow=c(2,2))
+plot(ERcyt2$grow, ERcyt2$MICA, xlab="Signature", ylab="MICA pre", pch=19, ylim=c(0,300))
+text(1,250, sprintf("cor=%s, p=%s", round(CorVals[9],2), round(PVals[9],3) ))
+plot(ERcyt2$grow, (ERcyt2$MICA_post), xlab="Signature", ylab="MICA post", pch=19, ylim=c(0, 300))
+text(1,250, sprintf("cor=%s, p=%s", round(CorVals[15],2), round(PVals[15],3) ))
+plot(ERcyt2$grow, ERcyt2$MICB, xlab="Signature", ylab="MICB pre", pch=19, ylim=c(0, 300))
+text(1,250, sprintf("cor=%s, p=%s", round(CorVals[10],2), round(PVals[10],3) ))
+plot(ERcyt2$grow, (ERcyt2$MICB_post), xlab="Signature", ylab="MICB post", pch=19, ylim=c(0, 300))
+text(1,250, sprintf("cor=%s, p=%s", round(CorVals[16],2), round(PVals[16],3) ))
+
+#text(1,250, sprintf("cor=%s, p=%s", round(CorVals[9],2), round(PVals[9],3) ))
+
+par(mfrow=c(1,2))
+plot(ERcyt2$grow, (ERcyt2$MICB+ERcyt2$MICA), xlab="Signature", ylab="MICA+MICB_pre", pch=19,
+     ylim=c(0, 400))
+plot(ERcyt2$grow, (ERcyt2$MICB_post+ERcyt2$MICA_post), xlab="Signature", ylab="MICA+MICB_post", pch=19,
+     ylim=c(0, 400))
+text(1,250, sprintf("cor=%s, p=%s", round(CorVals[10],2), round(PVals[10],3) ))
+
+#text(1,250, sprintf("cor=%s, p=%s", round(CorVals[9],2), round(PVals[9],3) ))
+
+
+## check for changes over time according to whether they are high or low?
+```
+
+
+## Use raw counts and perform a batch correction if necessary
+
+Note there are 4 samples whose profiles are out of the ordinary:
+
+```{r tol-rawcounts}
+ax1=match(colnames(ERcounts)[-1], paste("Patient", ERClin$Subject.ID, sep=""))
+
+colDat=ERClin[ax1, ]
+colDat$Sample=paste("Patient", colDat$Subject.ID, sep="")
+ddER=DESeqDataSetFromMatrix(countData=round(ERcounts[ ,-1]), colDat=colDat, design=~Arm)
+ddER=DESeq(ddER)
+
+ddERvst=vst(ddER)
+plotPCA(ddERvst,"Arm")+geom_label(aes(label = name))
+
+## Do a batch correction based on these 4 patients:
+
+ddERvst$Batch=1
+ddERvst$Batch[which(ddERvst$Subject.ID%in%c(6, 82, 41, 38))]=2
+#ddERvst$Batch=factor(ddERvst$Batch)
+
+assay(ddERvst)=limma::removeBatchEffect(assay(ddERvst),ddERvst$Batch)
+
+plotPCA(ddERvst,"Arm")+geom_label(aes(label = name))
+```
+
+After correction, can we use these values in a ssGSEA 
+
+```{r, results='hide'}
+ERssgsea=GSVA::gsva(assay(ddERvst), list(grow=na.omit(HumGeneList2), 
+                                                stab=Rat2Hum$HGNC.symbol[match(Glistnon, Rat2Hum$RGD.symbol)],Onco=Oncoprint[[1]], Mamma=Oncoprint[[2]]), method="ssgsea", ssgsea.norm=F)
+```
+
+
+```{r, fig.height=8}
+ax1=match(colnames(ERssgsea), paste("Patient", ERClin$Subject.ID, sep=""))
+ax3=which(!is.na(ax1))
+ssPS=Surv(ERClin$PFS.Months[na.omit(ax1)], ERClin$Progression[na.omit(ax1)])
+ssOS=Surv(ERClin$OS.Months[na.omit(ax1)], ERClin$Death[na.omit(ax1)] )
+ArmInfo=ERClin$Arm[na.omit(ax1)]
+PDL1info=ERClin$PD.L1[na.omit(ax1)]
+Purity=ERClin$Purity[na.omit(ax1)]
+plot(ERssgsea[2, ax3]~Purity)
+
+TCGAvalCut=cut(ERssgsea[1,ax3 ], quantile(ERssgsea[1,ax3], c(0, 0.33,0.67, 1)), c("L","M", "P"))
+
+ax2=plot(survfit(ssPS~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+ax2=plot(survfit(ssOS~TCGAvalCut), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+
+
+
+TCGAvalCut=cut(ERssgsea[2,ax3 ], quantile(ERssgsea[2,ax3], c(0, 0.33,0.67, 1)), c("L","M", "P"))
+
+ax2=plot(survfit(ssPS~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+ax2=plot(survfit(ssOS~TCGAvalCut), main=paste(i, "lum stable"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+```
+
+Run the above with Arm Stratification
+
+```{r}
+aarm=which(ArmInfo=="A")
+barm=which(ArmInfo=="B")
+par(mfrow=c(1,2))
+ax2=plot(survfit(ssPS[aarm]~TCGAvalCut[aarm]), main=paste(i, "lum growing Arm A"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+ax2=plot(survfit(ssPS[barm]~TCGAvalCut[barm]), main=paste(i, "lum growing Arm B"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="PS", mark.time=T)
+
+ax2=plot(survfit(ssOS[aarm]~TCGAvalCut[aarm]), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+ax2=plot(survfit(ssOS[barm]~TCGAvalCut[barm]), main=paste(i, "lum growing"), col=brewer.pal(3, "Blues"),lwd=2, xlab="Time (months)", ylab="OS", mark.time=T)
+
+
+```
+
+
+Also run the above as a continuous variable
+
+```{r}
+## stable signature
+ssPS=Surv( colDat$PFS.Months, colDat$Progression)
+ssOS=Surv(colDat$OS.Months, colDat$Death )
+
+
+dfs1=coxph(ssPS~ ERssgsea[1, ax3])
+summary(dfs1)
+dfs1=coxph(ssOS~ ERssgsea[1, ax3])
+summary(dfs1)
+
+## growing signature
+dfs1=coxph(ssPS~ ERssgsea[2, ax3])
+summary(dfs1)
+dfs1=coxph(ssOS~ ERssgsea[2, ax3])
+summary(dfs1)
+
+## combined signature
+dfs1=coxph(ssPS~(ERssgsea[2, ax3]-ERssgsea[1, ax3] ))
+summary(dfs1)
+dfs1=coxph(ssOS~ (ERssgsea[2, ax3]-ERssgsea[1, ax3] ))
+summary(dfs1)
+
+```
