@@ -42,8 +42,8 @@ fig:adamst10-forestplot
 fig:Ext5e-osAD
 fig:Ext5e-dfsAD
 fig:Ext5f
-fig:unnamed-chunk-92-1
-fig:unnamed-chunk-92-2
+fig:unnamed-chunk-93-1
+fig:unnamed-chunk-93-2
 fig:5i-1
 fig:5i-2
 fig:Ext5i-growing
@@ -229,6 +229,8 @@ diversity-metrics
 compare-the-characterisation-cohort
 associate-with-clinicopathological-data-progression
 associate-with-signature-scores
+tcr-clonotype-analysis
+progression-cohort-2
 whole-genome-sequencing-mutations
 data
 extract-mutation-signatures
@@ -248,6 +250,7 @@ identifying-polymorphisms-compare-frequencies-in-cd45-and-ep-data
 find-coding-mutations-which-are-specific-to-ep-cells
 filtering-wgs-data-based-on-cd45-data
 mutations-in-progression-cohort
+mutational-burden
 summary-of-common-mutations
 look-at-the-common-mutations-cosmic-ones
 trichrome-staining

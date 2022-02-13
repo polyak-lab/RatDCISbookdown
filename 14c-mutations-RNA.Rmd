@@ -54,13 +54,36 @@ allCosmicHaploP=allCosmicHaploP[-idx2rm]
 save(allHfilesP,allCodingHaploP, allCodingHaploP,  file=sprintf("outputs/HaplotypeVariants_progression_all_%s.Rdata", Sys.Date()))
 ```
 
+## Mutational burden
+
+```{r}
+VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained", "splice")
+# match the annotation file with Epcam samples and their outcome:
+HaploEpcam=allCodingHaploP[grep("Ep", names(allCodingHaploP))]
+HaploEpcamB=lapply(HaploEpcam, function(x) x[which(x$ID=="" & x$FILTER=="PASS"), ]) # remove all snps
+nx=names(HaploEpcamB)
+treat=Cdata$Treatment[match(unlist(strsplit(nx, "_Ep")), Cdata$TumorID)]
+growth=Cdata$Tumor.Growth[match(unlist(strsplit(nx, "_Ep")), Cdata$TumorID)]
+
+Ncount=sapply(HaploEpcamB,function(x) sapply(VarTypes, function(y) grep(y, x$ANNOTATION)))
+NcountB=sapply(1:ncol(Ncount), function(x) length(unique(unlist(Ncount[ ,x]))))
+
+
+Bxy=data.frame(sample=nx, treat=treat, growth=growth, tmb=NcountB/43.42)
+# calculate p values compared to the 
+
+ggplot(Bxy, aes(x=treat,y=tmb))+geom_boxplot()+geom_point(position=position_jitterdodge(jitter.width=0.5, dodge.width = 0), pch=21, aes(fill=factor(growth)), show.legend = T)+theme_bw()+scale_fill_manual(values=c(ColSizeb, "grey"))
+
+ggplot(Bxy, aes(x=growth,y=tmb))+geom_boxplot()+geom_point(position=position_jitterdodge(jitter.width=0.5, dodge.width = 0), pch=21, aes(fill=factor(treat)), show.legend = T)+theme_bw()+scale_fill_manual(values=ColMerge[ ,1])
+```
+
+
 ## Summary of common mutations:
 
 ```{r}
 MallCodingHaploP=melt(allCodingHaploP,  measure.var="POS")
 MallCodingHaploP$mutPos=paste(MallCodingHaploP$GENE, MallCodingHaploP$value)
 
-VarTypes=c("frameshift", "missense", "start_lost", "stop_gained", "nonsense", "stop_retained", "splice")
 n2=unique(unlist(sapply(VarTypes, function(x) grep(x, MallCodingHaploP$ANNOTATION))))
 MallCodingHaploFuncP=MallCodingHaploP[ n2, ]
 ## Look at epithealial samples

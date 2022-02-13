@@ -521,3 +521,27 @@ viewEnrichMap(gscaepNI_lum, gscs=c("ProcessNetworks"),
 
 write.csv(gscaepNI_lum@result$GSEA.results$ProcessNetworks, file="nature-tables/5g_lum_gsea.csv")
 ```
+
+Repeat the above analysis performing leave one out 
+
+```{r}
+SigList=list()
+
+for (i in 1:10){
+vstLumOnly2=DESeq(vstLumOnly[ ,-i])
+vstLumRes=results(vstLumOnly2)
+genes3=rownames(vstLumRes)[which(vstLumRes$padj<0.05 & abs(vstLumRes$log2FoldChange)>1.5 & vstLumRes$baseMean>100)]
+SigList[[i]]=genes3
+}
+
+## Collapse the results together and see how frequently each gene appears
+
+N2=table(unlist(SigList))
+
+Bx=names(N2)%in%c(GlistGrowing, Glistnon)
+N2tab=data.frame(gene=names(N2), LOODEG=N2, InOrigList=Bx)
+
+write.csv(N2tab, file="figure-outputs/5j_lumonly_ep_growing_vs_stable_LOO_analysis.csv")
+
+```
+
